@@ -1,0 +1,691 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
+		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
+		4568E2A41BF90797009A6164 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4568E2921BF90797009A6164 /* LaunchScreen.storyboard */; };
+		4568E2A51BF90797009A6164 /* NewsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4568E2941BF90797009A6164 /* NewsViewController.storyboard */; };
+		4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* iPrices.xcdatamodeld */; };
+		4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E29B1BF90797009A6164 /* NewsViewController.swift */; };
+		4568E2AC1BF907B7009A6164 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4568E2AB1BF907B7009A6164 /* LaunchScreen.xib */; };
+		4568E2F21BF92057009A6164 /* iPricesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2EE1BF92053009A6164 /* iPricesTests.swift */; };
+		4568E2F31BF9205A009A6164 /* iPricesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F11BF92053009A6164 /* iPricesUITests.swift */; };
+		4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* BaseViewControllers.swift */; };
+		4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2FB1BF938C9009A6164 /* FileManager.swift */; };
+		BF7F47BFB7A80BBAA5F5483F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CAAAE43A9CFA52737E15A8 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		45E7CE231BF8C05F00FAB7D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45E7CE031BF8C05F00FAB7D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45E7CE0A1BF8C05F00FAB7D6;
+			remoteInfo = iPrices;
+		};
+		45E7CE2E1BF8C05F00FAB7D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45E7CE031BF8C05F00FAB7D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45E7CE0A1BF8C05F00FAB7D6;
+			remoteInfo = iPrices;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		07366AF0A57023FAF6EDEF95 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4568E2931BF90797009A6164 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4568E2951BF90797009A6164 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/NewsViewController.storyboard; sourceTree = "<group>"; };
+		4568E2981BF90797009A6164 /* iPrices.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iPrices.xcdatamodel; sourceTree = "<group>"; };
+		4568E29B1BF90797009A6164 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		4568E29D1BF90797009A6164 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4568E2AB1BF907B7009A6164 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		4568E2ED1BF92053009A6164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4568E2EE1BF92053009A6164 /* iPricesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPricesTests.swift; sourceTree = "<group>"; };
+		4568E2F01BF92053009A6164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4568E2F11BF92053009A6164 /* iPricesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPricesUITests.swift; sourceTree = "<group>"; };
+		4568E2F51BF92182009A6164 /* BaseViewControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewControllers.swift; sourceTree = "<group>"; };
+		4568E2F71BF922B7009A6164 /* iPrices-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPrices-Bridging-Header.h"; sourceTree = "<group>"; };
+		4568E2FB1BF938C9009A6164 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPrices.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		45E7CE221BF8C05F00FAB7D6 /* iPricesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPricesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		45E7CE2D1BF8C05F00FAB7D6 /* iPricesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPricesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7458EDDD88FC6BECB47245DE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		97CAAAE43A9CFA52737E15A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		45E7CE081BF8C05F00FAB7D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF7F47BFB7A80BBAA5F5483F /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45E7CE1F1BF8C05F00FAB7D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45E7CE2A1BF8C05F00FAB7D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4568E28E1BF90797009A6164 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4568E28F1BF90797009A6164 /* Assets.xcassets */,
+				4568E2AB1BF907B7009A6164 /* LaunchScreen.xib */,
+			);
+			name = Resources;
+			path = iPrices/Resources;
+			sourceTree = "<group>";
+		};
+		4568E2901BF90797009A6164 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2911BF90797009A6164 /* AppDelegate.swift */,
+				4568E2921BF90797009A6164 /* LaunchScreen.storyboard */,
+				4568E2961BF90797009A6164 /* CoreData */,
+				4568E2991BF90797009A6164 /* Modules */,
+				4568E2AD1BF91FD4009A6164 /* Network */,
+				4568E2AE1BF91FD4009A6164 /* Utilities */,
+			);
+			name = Sources;
+			path = iPrices/Sources;
+			sourceTree = "<group>";
+		};
+		4568E2961BF90797009A6164 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2971BF90797009A6164 /* iPrices.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		4568E2991BF90797009A6164 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2F41BF92171009A6164 /* Common */,
+				4568E29A1BF90797009A6164 /* News */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		4568E29A1BF90797009A6164 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2941BF90797009A6164 /* NewsViewController.storyboard */,
+				4568E29B1BF90797009A6164 /* NewsViewController.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		4568E29C1BF90797009A6164 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4568E29D1BF90797009A6164 /* Info.plist */,
+				4568E2F71BF922B7009A6164 /* iPrices-Bridging-Header.h */,
+			);
+			name = "Supporting Files";
+			path = "iPrices/Supporting Files";
+			sourceTree = "<group>";
+		};
+		4568E2AD1BF91FD4009A6164 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		4568E2AE1BF91FD4009A6164 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		4568E2EC1BF92053009A6164 /* iPricesTests */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2ED1BF92053009A6164 /* Info.plist */,
+				4568E2EE1BF92053009A6164 /* iPricesTests.swift */,
+			);
+			path = iPricesTests;
+			sourceTree = "<group>";
+		};
+		4568E2EF1BF92053009A6164 /* iPricesUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2F01BF92053009A6164 /* Info.plist */,
+				4568E2F11BF92053009A6164 /* iPricesUITests.swift */,
+			);
+			path = iPricesUITests;
+			sourceTree = "<group>";
+		};
+		4568E2F41BF92171009A6164 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2F51BF92182009A6164 /* BaseViewControllers.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		45E7CE021BF8C05F00FAB7D6 = {
+			isa = PBXGroup;
+			children = (
+				4568E28E1BF90797009A6164 /* Resources */,
+				4568E2901BF90797009A6164 /* Sources */,
+				4568E29C1BF90797009A6164 /* Supporting Files */,
+				45E7CE0C1BF8C05F00FAB7D6 /* Products */,
+				4568E2EC1BF92053009A6164 /* iPricesTests */,
+				4568E2EF1BF92053009A6164 /* iPricesUITests */,
+				9D105B54E51AA7203AC88C1D /* Pods */,
+				7D6D7E1DE178B710CB3184C9 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		45E7CE0C1BF8C05F00FAB7D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */,
+				45E7CE221BF8C05F00FAB7D6 /* iPricesTests.xctest */,
+				45E7CE2D1BF8C05F00FAB7D6 /* iPricesUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7D6D7E1DE178B710CB3184C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				97CAAAE43A9CFA52737E15A8 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D105B54E51AA7203AC88C1D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				07366AF0A57023FAF6EDEF95 /* Pods.debug.xcconfig */,
+				7458EDDD88FC6BECB47245DE /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		45E7CE0A1BF8C05F00FAB7D6 /* iPrices */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPrices" */;
+			buildPhases = (
+				EF63E7239B26381139289D4D /* Check Pods Manifest.lock */,
+				45E7CE071BF8C05F00FAB7D6 /* Sources */,
+				45E7CE081BF8C05F00FAB7D6 /* Frameworks */,
+				45E7CE091BF8C05F00FAB7D6 /* Resources */,
+				ADB037464555006649303388 /* Embed Pods Frameworks */,
+				64F38153BB338306A7FF94EB /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iPrices;
+			productName = iPrices;
+			productReference = 45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */;
+			productType = "com.apple.product-type.application";
+		};
+		45E7CE211BF8C05F00FAB7D6 /* iPricesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45E7CE391BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesTests" */;
+			buildPhases = (
+				45E7CE1E1BF8C05F00FAB7D6 /* Sources */,
+				45E7CE1F1BF8C05F00FAB7D6 /* Frameworks */,
+				45E7CE201BF8C05F00FAB7D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				45E7CE241BF8C05F00FAB7D6 /* PBXTargetDependency */,
+			);
+			name = iPricesTests;
+			productName = iPricesTests;
+			productReference = 45E7CE221BF8C05F00FAB7D6 /* iPricesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		45E7CE2C1BF8C05F00FAB7D6 /* iPricesUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45E7CE3C1BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesUITests" */;
+			buildPhases = (
+				45E7CE291BF8C05F00FAB7D6 /* Sources */,
+				45E7CE2A1BF8C05F00FAB7D6 /* Frameworks */,
+				45E7CE2B1BF8C05F00FAB7D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				45E7CE2F1BF8C05F00FAB7D6 /* PBXTargetDependency */,
+			);
+			name = iPricesUITests;
+			productName = iPricesUITests;
+			productReference = 45E7CE2D1BF8C05F00FAB7D6 /* iPricesUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		45E7CE031BF8C05F00FAB7D6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = iPrices;
+				TargetAttributes = {
+					45E7CE0A1BF8C05F00FAB7D6 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+					45E7CE211BF8C05F00FAB7D6 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = 45E7CE0A1BF8C05F00FAB7D6;
+					};
+					45E7CE2C1BF8C05F00FAB7D6 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = 45E7CE0A1BF8C05F00FAB7D6;
+					};
+				};
+			};
+			buildConfigurationList = 45E7CE061BF8C05F00FAB7D6 /* Build configuration list for PBXProject "iPrices" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 45E7CE021BF8C05F00FAB7D6;
+			productRefGroup = 45E7CE0C1BF8C05F00FAB7D6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				45E7CE0A1BF8C05F00FAB7D6 /* iPrices */,
+				45E7CE211BF8C05F00FAB7D6 /* iPricesTests */,
+				45E7CE2C1BF8C05F00FAB7D6 /* iPricesUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		45E7CE091BF8C05F00FAB7D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4568E2A51BF90797009A6164 /* NewsViewController.storyboard in Resources */,
+				4568E2AC1BF907B7009A6164 /* LaunchScreen.xib in Resources */,
+				4568E2A41BF90797009A6164 /* LaunchScreen.storyboard in Resources */,
+				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45E7CE201BF8C05F00FAB7D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45E7CE2B1BF8C05F00FAB7D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		64F38153BB338306A7FF94EB /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ADB037464555006649303388 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF63E7239B26381139289D4D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		45E7CE071BF8C05F00FAB7D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */,
+				4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */,
+				4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */,
+				4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */,
+				4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45E7CE1E1BF8C05F00FAB7D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4568E2F21BF92057009A6164 /* iPricesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45E7CE291BF8C05F00FAB7D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4568E2F31BF9205A009A6164 /* iPricesUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		45E7CE241BF8C05F00FAB7D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45E7CE0A1BF8C05F00FAB7D6 /* iPrices */;
+			targetProxy = 45E7CE231BF8C05F00FAB7D6 /* PBXContainerItemProxy */;
+		};
+		45E7CE2F1BF8C05F00FAB7D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45E7CE0A1BF8C05F00FAB7D6 /* iPrices */;
+			targetProxy = 45E7CE2E1BF8C05F00FAB7D6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4568E2921BF90797009A6164 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4568E2931BF90797009A6164 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4568E2941BF90797009A6164 /* NewsViewController.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4568E2951BF90797009A6164 /* Base */,
+			);
+			name = NewsViewController.storyboard;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		45E7CE341BF8C05F00FAB7D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		45E7CE351BF8C05F00FAB7D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		45E7CE371BF8C05F00FAB7D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07366AF0A57023FAF6EDEF95 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "iPrices/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPrices;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iPrices/Supporting Files/iPrices-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		45E7CE381BF8C05F00FAB7D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7458EDDD88FC6BECB47245DE /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "iPrices/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPrices;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iPrices/Supporting Files/iPrices-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		45E7CE3A1BF8C05F00FAB7D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = iPricesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iPrices.app/iPrices";
+			};
+			name = Debug;
+		};
+		45E7CE3B1BF8C05F00FAB7D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = iPricesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iPrices.app/iPrices";
+			};
+			name = Release;
+		};
+		45E7CE3D1BF8C05F00FAB7D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = iPricesUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = iPrices;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		45E7CE3E1BF8C05F00FAB7D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = iPricesUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = iPrices;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		45E7CE061BF8C05F00FAB7D6 /* Build configuration list for PBXProject "iPrices" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45E7CE341BF8C05F00FAB7D6 /* Debug */,
+				45E7CE351BF8C05F00FAB7D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPrices" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45E7CE371BF8C05F00FAB7D6 /* Debug */,
+				45E7CE381BF8C05F00FAB7D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		45E7CE391BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45E7CE3A1BF8C05F00FAB7D6 /* Debug */,
+				45E7CE3B1BF8C05F00FAB7D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		45E7CE3C1BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45E7CE3D1BF8C05F00FAB7D6 /* Debug */,
+				45E7CE3E1BF8C05F00FAB7D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4568E2971BF90797009A6164 /* iPrices.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4568E2981BF90797009A6164 /* iPrices.xcdatamodel */,
+			);
+			currentVersion = 4568E2981BF90797009A6164 /* iPrices.xcdatamodel */;
+			path = iPrices.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 45E7CE031BF8C05F00FAB7D6 /* Project object */;
+}
