@@ -16,6 +16,9 @@
 		4568E2F31BF9205A009A6164 /* iPricesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F11BF92053009A6164 /* iPricesUITests.swift */; };
 		4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* BaseViewControllers.swift */; };
 		4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2FB1BF938C9009A6164 /* FileManager.swift */; };
+		457D1EB81BFBDE9700D451D0 /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* ServerManager.swift */; };
+		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
+		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
 		45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */; };
 		BF7F47BFB7A80BBAA5F5483F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CAAAE43A9CFA52737E15A8 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -52,6 +55,9 @@
 		4568E2F51BF92182009A6164 /* BaseViewControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewControllers.swift; sourceTree = "<group>"; };
 		4568E2F71BF922B7009A6164 /* iPrices-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPrices-Bridging-Header.h"; sourceTree = "<group>"; };
 		4568E2FB1BF938C9009A6164 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		457D1EB71BFBDE9700D451D0 /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
+		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
+		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPrices.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45E7CE221BF8C05F00FAB7D6 /* iPricesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPricesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +154,8 @@
 		4568E2AD1BF91FD4009A6164 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				457D1EB71BFBDE9700D451D0 /* ServerManager.swift */,
+				457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -156,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
+				457D1EBB1BFBE0BB00D451D0 /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -413,7 +422,10 @@
 				4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */,
 				4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */,
 				4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */,
+				457D1EB81BFBDE9700D451D0 /* ServerManager.swift in Sources */,
+				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
 				4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */,
+				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
