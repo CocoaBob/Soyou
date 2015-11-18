@@ -7,6 +7,7 @@
 
 #import <ActionSheetPicker-3.0/ActionSheetPicker.h>
 #import <AFNetworking/AFNetworking.h>
+#import <EAIntroView/EAIntroView.h>
 #import <FCUUID/FCUUID.h>
 #import <MagicalRecord/MagicalRecord.h>
 #import <MJRefresh/MJRefresh.h>

@@ -10,6 +10,9 @@ class NewsViewController: BaseTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.tableFooterView = UIView()
+        
         setupRefreshControls()
     }
     
@@ -36,10 +39,18 @@ extension NewsViewController {
         header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing", comment: ""), forState: .Refreshing)
         header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
         header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
+            if date == nil {
+                return String(format:
+                    NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""),
+                    NSLocalizedString("pull_to_refresh_header_never", comment: ""))
+            }
+            
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "MM/dd HH:mm"
             let dateString = dateFormatter.stringFromDate(date)
-            return String(format: NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""), dateString)
+            return String(format:
+                NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""),
+                dateString)
         }
         header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
             
@@ -80,7 +91,7 @@ extension NewsViewController {
                     return
                 }
                 
-                let allNews = responseObject["data"]
+                let allNews = responseObject["Data"]
                 if let allNews = allNews as? [NSDictionary] {
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         for newsData in allNews {

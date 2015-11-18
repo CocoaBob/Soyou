@@ -100,11 +100,29 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     // MARK: Activity Indicator
     
     private func showLoader() {
-        
+        let hideClosure = {
+            MBProgressHUD.showHUDAddedTo(UIApplication.sharedApplication().delegate?.window!, animated: true)
+        }
+        if NSThread.isMainThread() {
+            hideClosure()
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                hideClosure()
+            })
+        }
     }
     
     private func hideLoader() {
-        
+        let hideClosure = {
+            MBProgressHUD.hideAllHUDsForView(UIApplication.sharedApplication().delegate?.window!, animated: true)
+        }
+        if NSThread.isMainThread() {
+            hideClosure()
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                hideClosure()
+            })
+        }
     }
 }
 

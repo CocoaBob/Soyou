@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Setup Database
         MagicalRecord.setLoggingLevel(.Error)
@@ -36,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
         
+        // Show Introduction view
+        self.showIntroView()
+        
         return true
     }
 
@@ -43,5 +45,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.cleanUp()
     }
 
+}
+
+extension AppDelegate: EAIntroDelegate {
+    
+    func showIntroView() {
+        let lastIntroVersion = NSUserDefaults.standardUserDefaults().objectForKey(kIntroVersion) as? String
+        let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
+        if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
+            if lastIntroVersion == currentAppVersion {
+                return
+            }
+        }
+        
+        var introPages = [EAIntroPage]()
+        for i in 1...4 {
+            let introPage = EAIntroPage()
+            introPage.title = "Introduction Page \(i)"
+            introPage.desc = "Introduction descriptions for Page \(i)"
+            introPage.bgImage = UIImage(named: "bg\(i)")
+            introPage.titleIconView = UIImageView(image: UIImage(named: "title\(i)"))
+            introPages.append(introPage)
+        }
+        let introView = EAIntroView(frame: self.window!.bounds, andPages: introPages)
+        introView.delegate = self
+        
+        introView.showInView(self.window!, animateDuration: 0.3)
+    }
+    
+    func introDidFinish(introView: EAIntroView!) {
+        
+    }
 }
 

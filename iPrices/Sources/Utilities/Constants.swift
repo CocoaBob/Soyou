@@ -19,3 +19,5 @@ let kAPIKeyValue: String = "48548598-f079-4c57-bb39-d9ca8344abd7"
 
 let kAPI: String = "api"
 let kAPINews: String = "News"
+
+let kIntroVersion: String = "kIntroVersion" // The last app version that displayed the introduction view
