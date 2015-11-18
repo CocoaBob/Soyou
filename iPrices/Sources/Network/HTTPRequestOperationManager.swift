@@ -6,10 +6,10 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
+typealias DataClosure = (AnyObject?)->()
+typealias ErrorClosure = (NSError?)->()
+
 class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
-    
-    typealias DataClosure = ()->(AnyObject)
-    typealias ErrorClosure = ()->(NSError)
     
     override init(baseURL url: NSURL?) {
         super.init(baseURL: url)
@@ -22,33 +22,99 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func request(
-        method: String,
-        parameters: Dictionary<String,String>,
-        path: String,
-        isSynchronous: Bool,
-        userInfo: Dictionary<String,AnyObject>,
-        onSuccess: DataClosure,
-        onFailure: ErrorClosure) {
-            
-            let queryPath = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-            
-            let success: (AFHTTPRequestOperation, AnyObject) -> () = {
-                (operation, responseObject) -> () in
-                self.handleSuccess(responseObject, path, onSuccess, onFailure)
+    private func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+            if let onFailure = onFailure { onFailure(nil) }
+            return
+        }
+        modeUI ? self.showLoader() : ()
+        
+        // Handlers of success and failure
+        let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
+            modeUI ? self.hideLoader() : ()
+            self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
+        }
+        
+        let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
+            modeUI ? self.hideLoader() : ()
+            self.handleFailure(operation, error, onFailure)
+        }
+        
+        // Build the URL
+        guard let urlString = NSURL(string: path, relativeToURL: self.baseURL)?.absoluteString else {
+            if let onFailure = onFailure { onFailure(nil) }
+            return
+        }
+        
+        // Setup request
+        let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
+        request.addValue(kAPIKeyValue, forHTTPHeaderField: kAPIKey);
+        if let headers = headers {
+            for (key, value) in headers {
+                request.addValue(value, forHTTPHeaderField: key)
             }
-            
-            let failure: (AFHTTPRequestOperation, NSError) -> () = {
-                (operation, error) -> () in
-                self.handleFailure(operation, error, onFailure)
+        }
+        
+        // Setup operation
+        let operation: AFHTTPRequestOperation = self.HTTPRequestOperationWithRequest(request, success: nil, failure: nil)
+        if let userInfo = userInfo { operation.userInfo = userInfo }
+        operation.securityPolicy.allowInvalidCertificates = true
+        if isSynchronous {
+            operation.start()
+            operation.waitUntilFinished()
+            if !operation.cancelled {
+                modeUI ? self.hideLoader() : ()
+            } else {
+                if operation.error == nil {
+                    success(operation, operation.responseObject)
+                } else {
+                    failure(operation, operation.error!)
+                }
             }
+        } else {
+            operation.setCompletionBlockWithSuccess(success, failure: failure)
+            self.operationQueue.addOperation(operation)
+        }
     }
     
-    func handleSuccess(responseObject: AnyObject, _ path: String, _ onSuccess: DataClosure, _ onFailure: ErrorClosure) {
+    private func handleSuccess(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        var isAccepted = false
+        if let headers: Dictionary = operation.response?.allHeaderFields {
+            if let serverVersion = headers["Current-Version"] as? NSString as? String {
+                if serverVersion == kServerVersion {
+                    isAccepted = true
+                }
+            }
+        }
+        if !isAccepted {
+            if let onFailure = onFailure { onFailure(nil) }
+            return
+        }
+        if let onSuccess = onSuccess { onSuccess(responseObject) }
+    }
+    
+    private func handleFailure(operation: AFHTTPRequestOperation, _ error: NSError?, _ onFailure: ErrorClosure?) {
+        if let onFailure = onFailure { onFailure(error) }
+    }
+    
+    // MARK: Activity Indicator
+    
+    private func showLoader() {
         
     }
     
-    func handleFailure(operation: AFHTTPRequestOperation, _ error: NSError, _ onFailure: ErrorClosure) {
+    private func hideLoader() {
         
+    }
+}
+
+// MARK: Helpers
+extension HTTPRequestOperationManager {
+    func getRequest(path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        self.request("GET", path, modeUI, isSynchronous, headers, parameters, userInfo, onSuccess, onFailure)
+    }
+    
+    func postRequest(path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        self.request("POST", path, modeUI, isSynchronous, headers, parameters, userInfo, onSuccess, onFailure)
     }
 }

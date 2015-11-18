@@ -21,6 +21,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
         MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreNamed("iPrices.sqlite")
         
+        // Setup view controllers
+        var viewControllers: Array = [UIViewController]()
+        if let newsViewController = UIStoryboard(name: "NewsViewController", bundle: nil).instantiateInitialViewController() {
+            viewControllers.append(UINavigationController(rootViewController: newsViewController))
+        }
+        
+        // Setup the tab bar controller
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = viewControllers
+        
+        // Setup the window
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = tabBarController
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
 

@@ -18,15 +18,15 @@ class BaseTableViewController: UITableViewController, NSFetchedResultsController
         return nil
     }
     
-    var fetchedResultsController: NSFetchedResultsController? {
+    var fetchedResultsController: NSFetchedResultsController {
         get {
-            if (_fetchedResultsController == nil) {
+            if _fetchedResultsController == nil {
                 _fetchedResultsController = createFetchedResultsController()
                 if let controller = _fetchedResultsController {
                     controller.delegate = self
                 }
             }
-            return _fetchedResultsController
+            return _fetchedResultsController!
         }
     }
     
