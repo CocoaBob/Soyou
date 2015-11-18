@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  iPrices
+
+  Created by CocoaBob on 18/11/15.
+  Copyright © 2015 iPrices. All rights reserved.
+*/
+
+/* Pull to refresh controls */
+"pull_to_refresh_header_idle"="Pull down to refresh";
+"pull_to_refresh_header_pulling"="Release to refresh";
+"pull_to_refresh_header_refreshing"="Loading…";
+"pull_to_refresh_header_last_updated"="Last Updated: %@";
+"pull_to_refresh_footer_idle"="Drag up to load more";
+"pull_to_refresh_footer_pulling"="Release to load more";
+"pull_to_refresh_footer_refreshing"="Loading more…";
+"pull_to_refresh_no_more_data"="No more data";

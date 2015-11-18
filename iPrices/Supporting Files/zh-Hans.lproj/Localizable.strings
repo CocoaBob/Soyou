@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  iPrices
+
+  Created by CocoaBob on 18/11/15.
+  Copyright © 2015 iPrices. All rights reserved.
+*/
+
+/* Pull to refresh controls */
+"pull_to_refresh_header_idle"="下拉可以刷新";
+"pull_to_refresh_header_pulling"="松开立即刷新";
+"pull_to_refresh_header_refreshing"="正在刷新数据…";
+"pull_to_refresh_header_last_updated"="最后更新: %@";
+"pull_to_refresh_footer_idle"="上拉可以加载更多";
+"pull_to_refresh_footer_pulling"="松开立即加载更多";
+"pull_to_refresh_footer_refreshing"="正在加载更多数据…";
+"pull_to_refresh_no_more_data"="没有更多数据";

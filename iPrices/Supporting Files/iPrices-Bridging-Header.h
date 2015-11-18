@@ -9,6 +9,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <FCUUID/FCUUID.h>
 #import <MagicalRecord/MagicalRecord.h>
+#import <MJRefresh/MJRefresh.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <MWPhotoBrowser/MWPhotoBrowser.h>
 #import <UIColor-HexString/UIColor+HexString.h>

@@ -10,6 +10,7 @@ class NewsViewController: BaseTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupRefreshControls()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -23,11 +24,58 @@ class NewsViewController: BaseTableViewController {
     
 }
 
+// MARK: Refreshing
+extension NewsViewController {
+    
+    func setupRefreshControls() {
+        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+            self.beginRefreshing()
+        });
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle", comment: ""), forState: .Idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling", comment: ""), forState: .Pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing", comment: ""), forState: .Refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
+        header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "MM/dd HH:mm"
+            let dateString = dateFormatter.stringFromDate(date)
+            return String(format: NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""), dateString)
+        }
+        header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
+            
+        self.tableView.mj_header = header
+        
+        let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+            self.beginRefreshing()
+        });
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle", comment: ""), forState: .Idle)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling", comment: ""), forState: .Pulling)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing", comment: ""), forState: .Refreshing)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
+        self.tableView.mj_footer = footer
+    }
+    
+    func beginRefreshing() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        self.updateNews()
+    }
+    
+    func endRefreshing() {
+        self.tableView.mj_header.endRefreshing()
+        self.tableView.mj_footer.endRefreshing()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+}
+
 // MARK: Query data
 extension NewsViewController {
+    
     func updateNews() {
         ServerManager.shared.getNewsList(5, 0, true,
             { (responseObject: AnyObject?) -> () in
+                self.endRefreshing()
+                
                 guard let responseObject = responseObject as? Dictionary<String, AnyObject> else {
                     return
                 }
@@ -42,10 +90,13 @@ extension NewsViewController {
                 }
             },
             { (error: NSError?) -> () in
+                self.endRefreshing()
+                
                 print("\(error)")
             }
         );
     }
+    
 }
 
 // MARK: UITableViewDataSource/UITableViewDelegate
