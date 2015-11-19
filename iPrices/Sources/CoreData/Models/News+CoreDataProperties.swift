@@ -18,6 +18,8 @@ extension News {
     @NSManaged var author: String?
     @NSManaged var title: String?
     @NSManaged var image: String?
+    @NSManaged var isLoadMore: NSNumber?
+    @NSManaged var dateModified: NSDate?
     @NSManaged var datePublication: NSDate?
     @NSManaged var version: String?
     @NSManaged var content: String?

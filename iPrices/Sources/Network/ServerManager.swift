@@ -9,16 +9,20 @@
 
 class ServerManager {
     
-    let requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: kBaseURL))
+    let requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: Cons.Svr.baseURL))
     
     static let shared = ServerManager()
     
-    func getNewsList(count: UInt, _ index: UInt, _ isNewer: Bool, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.getRequest("/api/news/\(count)/\(index)", false, false, [kAPI:kAPINews], nil, nil, onSuccess, onFailure)
+    func getLatestNews(count: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        requestOperationManager.getRequest("/api/news/latest/\(count)", false, false, ["api":Cons.Svr.reqAPINews], nil, nil, onSuccess, onFailure)
+    }
+    
+    func getOlderNews(count: Int, _ newsID: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        requestOperationManager.getRequest("/api/news/previous/\(count)/\(newsID)", false, false, ["api":Cons.Svr.reqAPINews], nil, nil, onSuccess, onFailure)
     }
     
     func getNews(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.getRequest("/api/news/\(id)", false, false, [kAPI:kAPINews], nil, nil, onSuccess, onFailure)
+        requestOperationManager.getRequest("/api/news/\(id)", false, false, ["api":Cons.Svr.reqAPINews], nil, nil, onSuccess, onFailure)
     }
     
 }

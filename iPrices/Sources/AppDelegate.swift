@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: EAIntroDelegate {
     
     func showIntroView() {
-        let lastIntroVersion = NSUserDefaults.standardUserDefaults().objectForKey(kIntroVersion) as? String
+        let lastIntroVersion = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastVerIntro) as? String
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
         if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
             if lastIntroVersion == currentAppVersion {

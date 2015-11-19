@@ -27,14 +27,14 @@ class News: NSManagedObject {
             return nil
         }
         
-        var news: News? = News.MR_findFirstByAttribute("id", withValue: id, inContext: context)
+        var news: News? = News.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
         if news == nil {
             news = News.MR_createEntityInContext(context)
         }
         
         if let news = news {
             news.id = NSNumber(int: id.intValue)
-            if let datePublication = data["datePublication"] as? String {
+            if let datePublication = data["date"] as? String {
                 news.datePublication = News.dateFormatter.dateFromString(datePublication)
             }
             if let author = data["author"] as? String {

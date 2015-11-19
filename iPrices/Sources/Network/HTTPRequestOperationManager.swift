@@ -24,7 +24,8 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     private func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
-            if let onFailure = onFailure { onFailure(nil) }
+            let error = FmtError(0, "Failed to encode URL")
+            if let onFailure = onFailure { onFailure(error) }
             return
         }
         modeUI ? self.showLoader() : ()
@@ -42,13 +43,14 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         // Build the URL
         guard let urlString = NSURL(string: path, relativeToURL: self.baseURL)?.absoluteString else {
-            if let onFailure = onFailure { onFailure(nil) }
+            let error = FmtError(0, "Failed to build URL")
+            if let onFailure = onFailure { onFailure(error) }
             return
         }
         
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
-        request.addValue(kAPIKeyValue, forHTTPHeaderField: kAPIKey);
+        request.addValue(Cons.Svr.reqAPIKeyValue, forHTTPHeaderField: Cons.Svr.reqAPIKey);
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -79,15 +81,18 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     private func handleSuccess(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         var isAccepted = false
+        var verServer: String? = nil
         if let headers: Dictionary = operation.response?.allHeaderFields {
-            if let serverVersion = headers["Current-Version"] as? NSString as? String {
-                if serverVersion == kServerVersion {
+            if let serverVersion = headers["Server-Version"] as? NSString as? String {
+                verServer = serverVersion
+                if serverVersion == Cons.Svr.minVer {
                     isAccepted = true
                 }
             }
         }
         if !isAccepted {
-            if let onFailure = onFailure { onFailure(nil) }
+            let error = FmtError(0, "Accepted Server Version: %@ Server Version: %@", Cons.Svr.minVer, (verServer != nil ? verServer! : ""))
+            if let onFailure = onFailure { onFailure(error) }
             return
         }
         if let onSuccess = onSuccess { onSuccess(responseObject) }
