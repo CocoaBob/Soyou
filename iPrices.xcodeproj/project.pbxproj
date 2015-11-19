@@ -11,8 +11,6 @@
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* iPrices.xcdatamodeld */; };
 		4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E29B1BF90797009A6164 /* NewsViewController.swift */; };
-		4568E2F21BF92057009A6164 /* iPricesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2EE1BF92053009A6164 /* iPricesTests.swift */; };
-		4568E2F31BF9205A009A6164 /* iPricesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F11BF92053009A6164 /* iPricesUITests.swift */; };
 		4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* BaseViewControllers.swift */; };
 		4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2FB1BF938C9009A6164 /* FileManager.swift */; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
@@ -26,23 +24,6 @@
 		BF7F47BFB7A80BBAA5F5483F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CAAAE43A9CFA52737E15A8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		45E7CE231BF8C05F00FAB7D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 45E7CE031BF8C05F00FAB7D6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 45E7CE0A1BF8C05F00FAB7D6;
-			remoteInfo = iPrices;
-		};
-		45E7CE2E1BF8C05F00FAB7D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 45E7CE031BF8C05F00FAB7D6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 45E7CE0A1BF8C05F00FAB7D6;
-			remoteInfo = iPrices;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		07366AF0A57023FAF6EDEF95 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,10 +31,6 @@
 		4568E2981BF90797009A6164 /* iPrices.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iPrices.xcdatamodel; sourceTree = "<group>"; };
 		4568E29B1BF90797009A6164 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		4568E29D1BF90797009A6164 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4568E2ED1BF92053009A6164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4568E2EE1BF92053009A6164 /* iPricesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPricesTests.swift; sourceTree = "<group>"; };
-		4568E2F01BF92053009A6164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4568E2F11BF92053009A6164 /* iPricesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPricesUITests.swift; sourceTree = "<group>"; };
 		4568E2F51BF92182009A6164 /* BaseViewControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewControllers.swift; sourceTree = "<group>"; };
 		4568E2F71BF922B7009A6164 /* iPrices-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPrices-Bridging-Header.h"; sourceTree = "<group>"; };
 		4568E2FB1BF938C9009A6164 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
@@ -67,8 +44,6 @@
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPrices.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		45E7CE221BF8C05F00FAB7D6 /* iPricesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPricesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		45E7CE2D1BF8C05F00FAB7D6 /* iPricesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPricesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7458EDDD88FC6BECB47245DE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		97CAAAE43A9CFA52737E15A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -79,20 +54,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF7F47BFB7A80BBAA5F5483F /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45E7CE1F1BF8C05F00FAB7D6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45E7CE2A1BF8C05F00FAB7D6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,28 +134,10 @@
 			isa = PBXGroup;
 			children = (
 				457777921BFCE97D00805D79 /* CustomUI */,
-				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
 				457D1EBB1BFBE0BB00D451D0 /* Constants.swift */,
+				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		4568E2EC1BF92053009A6164 /* iPricesTests */ = {
-			isa = PBXGroup;
-			children = (
-				4568E2ED1BF92053009A6164 /* Info.plist */,
-				4568E2EE1BF92053009A6164 /* iPricesTests.swift */,
-			);
-			path = iPricesTests;
-			sourceTree = "<group>";
-		};
-		4568E2EF1BF92053009A6164 /* iPricesUITests */ = {
-			isa = PBXGroup;
-			children = (
-				4568E2F01BF92053009A6164 /* Info.plist */,
-				4568E2F11BF92053009A6164 /* iPricesUITests.swift */,
-			);
-			path = iPricesUITests;
 			sourceTree = "<group>";
 		};
 		4568E2F41BF92171009A6164 /* Common */ = {
@@ -228,8 +171,6 @@
 				4568E2901BF90797009A6164 /* Sources */,
 				4568E29C1BF90797009A6164 /* Supporting Files */,
 				45E7CE0C1BF8C05F00FAB7D6 /* Products */,
-				4568E2EC1BF92053009A6164 /* iPricesTests */,
-				4568E2EF1BF92053009A6164 /* iPricesUITests */,
 				9D105B54E51AA7203AC88C1D /* Pods */,
 				7D6D7E1DE178B710CB3184C9 /* Frameworks */,
 			);
@@ -239,8 +180,6 @@
 			isa = PBXGroup;
 			children = (
 				45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */,
-				45E7CE221BF8C05F00FAB7D6 /* iPricesTests.xctest */,
-				45E7CE2D1BF8C05F00FAB7D6 /* iPricesUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -285,42 +224,6 @@
 			productReference = 45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */;
 			productType = "com.apple.product-type.application";
 		};
-		45E7CE211BF8C05F00FAB7D6 /* iPricesTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 45E7CE391BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesTests" */;
-			buildPhases = (
-				45E7CE1E1BF8C05F00FAB7D6 /* Sources */,
-				45E7CE1F1BF8C05F00FAB7D6 /* Frameworks */,
-				45E7CE201BF8C05F00FAB7D6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				45E7CE241BF8C05F00FAB7D6 /* PBXTargetDependency */,
-			);
-			name = iPricesTests;
-			productName = iPricesTests;
-			productReference = 45E7CE221BF8C05F00FAB7D6 /* iPricesTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		45E7CE2C1BF8C05F00FAB7D6 /* iPricesUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 45E7CE3C1BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesUITests" */;
-			buildPhases = (
-				45E7CE291BF8C05F00FAB7D6 /* Sources */,
-				45E7CE2A1BF8C05F00FAB7D6 /* Frameworks */,
-				45E7CE2B1BF8C05F00FAB7D6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				45E7CE2F1BF8C05F00FAB7D6 /* PBXTargetDependency */,
-			);
-			name = iPricesUITests;
-			productName = iPricesUITests;
-			productReference = 45E7CE2D1BF8C05F00FAB7D6 /* iPricesUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -333,14 +236,6 @@
 				TargetAttributes = {
 					45E7CE0A1BF8C05F00FAB7D6 = {
 						CreatedOnToolsVersion = 7.1.1;
-					};
-					45E7CE211BF8C05F00FAB7D6 = {
-						CreatedOnToolsVersion = 7.1.1;
-						TestTargetID = 45E7CE0A1BF8C05F00FAB7D6;
-					};
-					45E7CE2C1BF8C05F00FAB7D6 = {
-						CreatedOnToolsVersion = 7.1.1;
-						TestTargetID = 45E7CE0A1BF8C05F00FAB7D6;
 					};
 				};
 			};
@@ -358,8 +253,6 @@
 			projectRoot = "";
 			targets = (
 				45E7CE0A1BF8C05F00FAB7D6 /* iPrices */,
-				45E7CE211BF8C05F00FAB7D6 /* iPricesTests */,
-				45E7CE2C1BF8C05F00FAB7D6 /* iPricesUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -373,20 +266,6 @@
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45E7CE201BF8C05F00FAB7D6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45E7CE2B1BF8C05F00FAB7D6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,36 +337,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		45E7CE1E1BF8C05F00FAB7D6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4568E2F21BF92057009A6164 /* iPricesTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45E7CE291BF8C05F00FAB7D6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4568E2F31BF9205A009A6164 /* iPricesUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		45E7CE241BF8C05F00FAB7D6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 45E7CE0A1BF8C05F00FAB7D6 /* iPrices */;
-			targetProxy = 45E7CE231BF8C05F00FAB7D6 /* PBXContainerItemProxy */;
-		};
-		45E7CE2F1BF8C05F00FAB7D6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 45E7CE0A1BF8C05F00FAB7D6 /* iPrices */;
-			targetProxy = 45E7CE2E1BF8C05F00FAB7D6 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4577778A1BFCE15700805D79 /* Localizable.strings */ = {
@@ -615,54 +465,6 @@
 			};
 			name = Release;
 		};
-		45E7CE3A1BF8C05F00FAB7D6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = iPricesTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iPrices.app/iPrices";
-			};
-			name = Debug;
-		};
-		45E7CE3B1BF8C05F00FAB7D6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = iPricesTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iPrices.app/iPrices";
-			};
-			name = Release;
-		};
-		45E7CE3D1BF8C05F00FAB7D6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = iPricesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = iPrices;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		45E7CE3E1BF8C05F00FAB7D6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = iPricesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = iPrices.iPricesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = iPrices;
-				USES_XCTRUNNER = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -680,24 +482,6 @@
 			buildConfigurations = (
 				45E7CE371BF8C05F00FAB7D6 /* Debug */,
 				45E7CE381BF8C05F00FAB7D6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		45E7CE391BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				45E7CE3A1BF8C05F00FAB7D6 /* Debug */,
-				45E7CE3B1BF8C05F00FAB7D6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		45E7CE3C1BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPricesUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				45E7CE3D1BF8C05F00FAB7D6 /* Debug */,
-				45E7CE3E1BF8C05F00FAB7D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -34,8 +34,11 @@ class News: NSManagedObject {
         
         if let news = news {
             news.id = NSNumber(int: id.intValue)
-            if let datePublication = data["date"] as? String {
+            if let datePublication = data["datePublication"] as? String {
                 news.datePublication = News.dateFormatter.dateFromString(datePublication)
+            }
+            if let dateModification = data["dateModification"] as? String {
+                news.dateModification = News.dateFormatter.dateFromString(dateModification)
             }
             if let author = data["author"] as? String {
                 news.author = author
@@ -51,6 +54,15 @@ class News: NSManagedObject {
             }
             if let content = data["content"] as? String {
                 news.content = content
+            }
+            if let author = data["author"] as? String {
+                news.author = author
+            }
+            if let isOnline = data["isOnline"] as? String {
+                news.isOnline = Int(isOnline)
+            }
+            if let url = data["url"] as? String {
+                news.url = url
             }
         }
         
