@@ -42,6 +42,40 @@
                                 </tableViewCellContentView>
                                 <animations/>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsTableViewCellMore" id="g49-2a-hRn" customClass="NewsTableViewCellMore" customModule="iPrices" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g49-2a-hRn" id="1mT-7e-4tK">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_load_more" translatesAutoresizingMaskIntoConstraints="NO" id="PX2-sd-rH7">
+                                            <rect key="frame" x="286" y="19" width="28" height="6"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="28" id="RPa-jR-cmR"/>
+                                                <constraint firstAttribute="height" constant="6" id="dE1-eP-49S"/>
+                                            </constraints>
+                                        </imageView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="aoX-ej-kup">
+                                            <rect key="frame" x="290" y="12" width="20" height="20"/>
+                                            <animations/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstItem="PX2-sd-rH7" firstAttribute="centerY" secondItem="1mT-7e-4tK" secondAttribute="centerY" id="70Q-eZ-j3O"/>
+                                        <constraint firstItem="aoX-ej-kup" firstAttribute="centerY" secondItem="1mT-7e-4tK" secondAttribute="centerY" id="8Wj-d4-CIH"/>
+                                        <constraint firstItem="PX2-sd-rH7" firstAttribute="centerX" secondItem="1mT-7e-4tK" secondAttribute="centerX" id="LMK-IN-ho3"/>
+                                        <constraint firstItem="aoX-ej-kup" firstAttribute="centerX" secondItem="1mT-7e-4tK" secondAttribute="centerX" id="TJt-DT-gkJ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <connections>
+                                    <outlet property="indicator" destination="aoX-ej-kup" id="0pD-Wl-ajK"/>
+                                    <outlet property="moreImage" destination="PX2-sd-rH7" id="cL4-Jg-5bv"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="tnV-YJ-21F" id="fr8-Zc-Xxr"/>
@@ -54,4 +88,7 @@
             <point key="canvasLocation" x="626" y="53"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="img_load_more" width="28" height="6"/>
+    </resources>
 </document>

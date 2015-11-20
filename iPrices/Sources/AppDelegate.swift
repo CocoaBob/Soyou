@@ -58,6 +58,9 @@ extension AppDelegate: EAIntroDelegate {
             }
         }
         
+        NSUserDefaults.standardUserDefaults().setObject(currentAppVersion, forKey: Cons.App.lastVerIntro)
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
         var introPages = [EAIntroPage]()
         for i in 1...4 {
             let introPage = EAIntroPage()

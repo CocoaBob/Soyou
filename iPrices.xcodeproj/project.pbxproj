@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* iPrices.xcdatamodeld */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		07366AF0A57023FAF6EDEF95 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Additions.swift"; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4568E2981BF90797009A6164 /* iPrices.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iPrices.xcdatamodel; sourceTree = "<group>"; };
@@ -62,6 +64,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4526D5981BFF5BEE00DBFA4B /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
 		4568E28E1BF90797009A6164 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +146,7 @@
 		4568E2AE1BF91FD4009A6164 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				4526D5981BFF5BEE00DBFA4B /* Additions */,
 				457777921BFCE97D00805D79 /* CustomUI */,
 				457D1EBB1BFBE0BB00D451D0 /* Constants.swift */,
 				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
@@ -341,6 +352,7 @@
 				4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */,
 				4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
+				4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* ServerManager.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
 				4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */,

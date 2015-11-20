@@ -13,16 +13,17 @@ class ServerManager {
     
     static let shared = ServerManager()
     
-    func getLatestNews(count: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.getRequest("/api/news/latest/\(count)", false, false, ["api":Cons.Svr.reqAPINews], nil, nil, onSuccess, onFailure)
+    func requestAsync(path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        requestOperationManager.getRequest(path, false, false, ["api":Cons.Svr.reqAPINews], nil, nil, onSuccess, onFailure)
     }
     
-    func getOlderNews(count: Int, _ newsID: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.getRequest("/api/news/previous/\(count)/\(newsID)", false, false, ["api":Cons.Svr.reqAPINews], nil, nil, onSuccess, onFailure)
+    func requestNewsList(count: Int, _ relativeNewsID: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let path = (relativeNewsID != nil) ? "/api/news/previous/\(count)/\(relativeNewsID!)" : "/api/news/latest/\(count)"
+        requestAsync(path, onSuccess, onFailure)
     }
     
-    func getNews(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.getRequest("/api/news/\(id)", false, false, ["api":Cons.Svr.reqAPINews], nil, nil, onSuccess, onFailure)
+    func requestNews(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        requestAsync("/api/news/\(id)", onSuccess, onFailure)
     }
     
 }
