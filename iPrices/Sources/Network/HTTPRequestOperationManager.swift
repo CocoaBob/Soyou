@@ -37,6 +37,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     }
     
     private func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        print("--> \(path)")
         guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             let error = FmtError(0, "Failed to encode URL")
             if let onFailure = onFailure { onFailure(error) }

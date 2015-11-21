@@ -9,10 +9,6 @@
 import Foundation
 import CoreData
 
-enum NewsIsMore: Int {
-    case False = 0, True, Loading
-}
-
 class News: NSManagedObject {
     
     static let dateFormatter: NSDateFormatter = {
@@ -30,7 +26,7 @@ class News: NSManagedObject {
             return nil
         }
         
-        var news: News? = News.MR_findFirstWithPredicate(FmtPredicate("id == %@ && (isMore == nil || isMore == %@)", id, NSNumber(integer: NewsIsMore.False.rawValue)), inContext: context)
+        var news: News? = News.MR_findFirstWithPredicate(FmtPredicate("id == %@ && (isMore == nil || isMore == false)", id), inContext: context)
         if news == nil {
             news = News.MR_createEntityInContext(context)
         }
@@ -72,67 +68,67 @@ class News: NSManagedObject {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?) {
+    class func importDatas(datas: [NSDictionary]?, _ relativeID: NSNumber?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 // Prepare data
-                let lastMoreItem = News.MR_findFirstWithPredicate(FmtPredicate("isMore != nil && isMore != %@", NSNumber(integer: NewsIsMore.False.rawValue)), inContext: localContext);
-                var firstNewsOlderThanMore: News? = nil;
-                if let lastMoreItem = lastMoreItem {
-                    firstNewsOlderThanMore = News.MR_findFirstWithPredicate(FmtPredicate("datePublication < %@", lastMoreItem.datePublication!), sortedBy: "datePublication", ascending: false, inContext: localContext)
+                let newestNews = News.MR_findFirstOrderedByAttribute("datePublication", ascending: false, inContext: localContext)
+                let moreItems = News.MR_findAllSortedBy("datePublication", ascending: false, withPredicate: FmtPredicate("isMore == true"), inContext: localContext)
+                
+                
+                // Prepare sections
+                var allSections = [NSDate]()
+                if let newestNews = newestNews {
+                    var lastBeginDate = newestNews.datePublication!
+                    for i in 0..<moreItems.count {
+                        let moreItem = moreItems[i] as! News
+                        allSections += [lastBeginDate]
+                        
+                        // Find the news after the more button
+                        if let newsAfterMoreItem = News.MR_findFirstWithPredicate(
+                            FmtPredicate("datePublication < %@ && (isMore == nil || isMore == false)", moreItem.datePublication!),
+                            sortedBy: "datePublication",
+                            ascending: false,
+                            inContext: localContext)
+                        {
+                            lastBeginDate = newsAfterMoreItem.datePublication!;
+                        }
+                        
+                        // Check if we should remove the more button
+                        if relativeID == moreItem.id {
+                            moreItem.MR_deleteEntityInContext(localContext)
+                        }
+                    }
+                    allSections += [lastBeginDate]
                 }
-                let lastNewestNews = News.MR_findFirstOrderedByAttribute("datePublication", ascending: false, inContext: localContext)
                 
                 // Import new datas
                 var oldestNewNews: News? = nil
-                var newestNewNews: News? = nil
                 
                 for data in datas {
                     let news = News.importData(data, localContext)
-                    
+                    print("<-- \(news?.id)")
                     // The 1st and last new news
                     if let news = news {
                         if oldestNewNews == nil || news.datePublication! < oldestNewNews!.datePublication! {
                             oldestNewNews = news;
                         }
-                        if newestNewNews == nil || news.datePublication! > newestNewNews!.datePublication! {
-                            newestNewNews = news;
-                        }
                     }
                 }
                 
                 // Update the more item
-                if let oldestNewNews = oldestNewNews, let newestNewNews = newestNewNews, let lastNewestNews = lastNewestNews {
-                    // [Old][New]
-                    // [Old[New]Old]
-                    // Change nothing
-                    
-                    // [New[]Old]
-                    if let lastMoreItem = lastMoreItem {
-                        if (oldestNewNews.datePublication! < lastMoreItem.datePublication! &&
-                            newestNewNews.datePublication! > lastMoreItem.datePublication!) {
-                                lastMoreItem.MR_deleteEntityInContext(localContext)
-                                return
-                        }
-                    }
-                    
-                    let createMoreItem: (News)->() = {(news: News) in
-                        let newMoreItem = News.MR_createEntityInContext(localContext)
-                        newMoreItem.id = news.id
-                        newMoreItem.datePublication = NSDate(timeIntervalSince1970: (news.datePublication!.timeIntervalSince1970-1.0))
-                        newMoreItem.isMore = NSNumber(integer: NewsIsMore.True.rawValue)
-                    }
-                    
-                    // [New][More][Old]
-                    if (oldestNewNews.datePublication! > lastNewestNews.datePublication!) {
-                        createMoreItem(oldestNewNews)
-                    }
-                    // [Old][New][More][Old]
-                    if let firstNewsAfterMore = firstNewsOlderThanMore {
-                        if (oldestNewNews.datePublication! > firstNewsAfterMore.datePublication!) {
-                            if lastMoreItem.id != oldestNewNews.id {
-                                lastMoreItem.MR_deleteEntityInContext(localContext)
-                                createMoreItem(oldestNewNews)
+                if let oldestNewNews = oldestNewNews {
+                    for i in 0..<allSections.count {
+                        let sectionDate = allSections[i]
+                        // [New]?[Old]
+                        if (oldestNewNews.datePublication! > sectionDate) {
+                            // Check if a more button already exists
+                            guard let _ = News.MR_findFirstWithPredicate(FmtPredicate("isMore == true && id == %@",oldestNewNews.id!), inContext: localContext) else {
+                                let newMoreItem = News.MR_createEntityInContext(localContext)
+                                newMoreItem.id = oldestNewNews.id
+                                newMoreItem.datePublication = oldestNewNews.datePublication
+                                newMoreItem.isMore = NSNumber(bool: true)
+                                continue
                             }
                         }
                     }

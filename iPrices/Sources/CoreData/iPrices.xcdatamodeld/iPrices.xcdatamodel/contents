@@ -7,7 +7,7 @@
         <attribute name="datePublication" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isMore" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="isMore" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isOnline" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>

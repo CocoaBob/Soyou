@@ -17,7 +17,7 @@ public struct Cons {
 //#endif
         
         // Count of News to load for each request
-        static let reqCnt           = 5
+        static let reqCnt           = 2
         
         static let reqAPIKey        = "apiKey"
         static let reqAPIKeyValue   = "48548598-f079-4c57-bb39-d9ca8344abd7"

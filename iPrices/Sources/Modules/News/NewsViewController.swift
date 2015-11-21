@@ -7,6 +7,8 @@
 //
 
 class NewsViewController: BaseTableViewController {
+    
+    var moreButtonCell: NewsTableViewCellMore?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,19 +17,7 @@ class NewsViewController: BaseTableViewController {
         
         setupRefreshControls()
         
-//        requestNewsList(nil)
-        
-        ////////
-        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-            for news in News.MR_findAllInContext(localContext) {
-                news.MR_deleteEntityInContext(localContext)
-            }
-        }
-        ServerManager.shared.requestNewsList(1, 4,
-            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject) },
-            { (error: NSError?) -> () in self.handleError(error) }
-        );
-        ////////
+        requestNewsList(nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -35,7 +25,7 @@ class NewsViewController: BaseTableViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication", ascending: false)
+        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,isMore:true", ascending: false)
     }
     
 }
@@ -43,22 +33,33 @@ class NewsViewController: BaseTableViewController {
 // MARK: Data
 extension NewsViewController {
     
-    private func handleSuccess(responseObject: AnyObject?) {
+    private func resetMoreButtonCell() {
+        if let cell = self.moreButtonCell {
+            cell.indicator?.hidden = true
+            cell.moreImage?.hidden = false
+        }
+    }
+    
+    private func handleSuccess(responseObject: AnyObject?, _ relativeID: NSNumber?) {
         self.endRefreshing()
+        resetMoreButtonCell()
+        
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
         let allNews = responseObject["data"] as? [NSDictionary]
-        News.importDatas(allNews)
+        News.importDatas(allNews, relativeID)
     }
     
     private func handleError(error: NSError?) {
         self.endRefreshing()
+        resetMoreButtonCell()
+        
         print("\(error)")
     }
     
-    func requestNewsList(relativeNewsID: NSNumber?) {
+    func requestNewsList(relativeID: NSNumber?) {
         /////// Cons.Svr.reqCnt
-        ServerManager.shared.requestNewsList(1, relativeNewsID,
-            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject) },
+        ServerManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
+            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, relativeID) },
             { (error: NSError?) -> () in self.handleError(error) }
         );
     }
@@ -78,21 +79,15 @@ extension NewsViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
-        if news.isMore != nil && news.isMore!.integerValue != NewsIsMore.False.rawValue {
+        if news.isMore != nil && news.isMore!.boolValue {
             let cell: NewsTableViewCellMore = tableView.dequeueReusableCellWithIdentifier("NewsTableViewCellMore", forIndexPath: indexPath) as! NewsTableViewCellMore
-            if news.isMore!.integerValue == NewsIsMore.True.rawValue {
-                cell.indicator?.hidden = true
-                cell.moreImage?.hidden = false
-            } else if news.isMore!.integerValue == NewsIsMore.Loading.rawValue {
-                cell.indicator?.hidden = false
-                cell.indicator?.startAnimating()
-                cell.moreImage?.hidden = true
-            }
+            cell.indicator?.hidden = true
+            cell.moreImage?.hidden = false
             return cell
         } else {
             let cell: NewsTableViewCell = tableView.dequeueReusableCellWithIdentifier("NewsTableViewCell", forIndexPath: indexPath) as! NewsTableViewCell
             cell.textLabel?.text = news.title
-            cell.detailTextLabel?.text = news.author
+            cell.detailTextLabel?.text = FmtString("[%@] \t[%@]", NSDateFormatter.localizedStringFromDate(news.datePublication!, dateStyle: .ShortStyle, timeStyle: .ShortStyle), news.id!)
             return cell
         }
     }
@@ -102,7 +97,12 @@ extension NewsViewController {
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             let localNews = news.MR_inContext(localContext)
             if localNews.isMore != nil && localNews.isMore!.boolValue {
-                localNews.isMore = NSNumber(integer: NewsIsMore.Loading.rawValue)
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? NewsTableViewCellMore {
+                    cell.indicator?.startAnimating()
+                    cell.indicator?.hidden = false
+                    cell.moreImage?.hidden = true
+                    self.moreButtonCell = cell
+                }
                 self.requestNewsList(localNews.id)
             }
         }
@@ -133,7 +133,6 @@ extension NewsViewController {
             return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""), dateString)
         }
         header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
-        
         self.tableView.mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
