@@ -30,6 +30,10 @@ class NewsViewController: BaseTableViewController {
         ////////
     }
     
+    override func viewWillAppear(animated: Bool) {
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+    }
+    
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication", ascending: false)
     }

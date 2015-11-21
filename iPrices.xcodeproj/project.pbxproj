@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */; };
+		4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4555BBAB1BFFEEB500A01B41 /* server.cer */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* iPrices.xcdatamodeld */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		07366AF0A57023FAF6EDEF95 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Additions.swift"; sourceTree = "<group>"; };
+		4555BBAB1BFFEEB500A01B41 /* server.cer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.cer; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4568E2981BF90797009A6164 /* iPrices.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iPrices.xcdatamodel; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			children = (
 				4568E28F1BF90797009A6164 /* Assets.xcassets */,
 				45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */,
+				4555BBAB1BFFEEB500A01B41 /* server.cer */,
 			);
 			name = Resources;
 			path = iPrices/Resources;
@@ -287,6 +290,7 @@
 				457777911BFCE4AC00805D79 /* NewsViewController.storyboard in Resources */,
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
+				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

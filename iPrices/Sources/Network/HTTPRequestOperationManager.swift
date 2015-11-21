@@ -16,6 +16,20 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         requestSerializer = AFJSONRequestSerializer()
         responseSerializer = AFJSONResponseSerializer()
+        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+        self.securityPolicy.validatesDomainName = false
+        self.securityPolicy.allowInvalidCertificates = true
+        
+        // Use self-signed certificates in X.509 DER format, now we have 1 certificate
+        var data: [NSData] = [NSData]()
+        for name: String in ["server"] {
+            let path: String? = NSBundle.mainBundle().pathForResource(name, ofType: "cer")
+            if let path = path {
+                let keyData: NSData = NSData(contentsOfFile: path)!
+                data.append(keyData)
+            }
+        }
+        self.securityPolicy.pinnedCertificates = data
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,7 +74,6 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         // Setup operation
         let operation: AFHTTPRequestOperation = self.HTTPRequestOperationWithRequest(request, success: nil, failure: nil)
         if let userInfo = userInfo { operation.userInfo = userInfo }
-        operation.securityPolicy.allowInvalidCertificates = true
         if isSynchronous {
             operation.start()
             operation.waitUntilFinished()
