@@ -8,6 +8,7 @@ use_frameworks!
 
 pod 'ActionSheetPicker-3.0'
 pod 'AFNetworking', '~> 2.6'
+pod 'CHTCollectionViewWaterfallLayout'
 pod 'EAIntroView', '~> 2.7'
 pod 'FCUUID', '~> 1.1'
 pod 'MagicalRecord', '~> 2.3'
