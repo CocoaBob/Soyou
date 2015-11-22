@@ -24,7 +24,7 @@
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
 		45BC003B1BFE865E0058F91C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BC003A1BFE865E0058F91C /* SettingsViewController.swift */; };
 		45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */; };
-		BF7F47BFB7A80BBAA5F5483F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CAAAE43A9CFA52737E15A8 /* libPods.a */; };
+		5E03F2F527D7FE43021665B8 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7718A3E5C95753364344DC22 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,7 +51,7 @@
 		45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPrices.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7458EDDD88FC6BECB47245DE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		97CAAAE43A9CFA52737E15A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7718A3E5C95753364344DC22 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF7F47BFB7A80BBAA5F5483F /* libPods.a in Frameworks */,
+				5E03F2F527D7FE43021665B8 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +212,7 @@
 		7D6D7E1DE178B710CB3184C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				97CAAAE43A9CFA52737E15A8 /* libPods.a */,
+				7718A3E5C95753364344DC22 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

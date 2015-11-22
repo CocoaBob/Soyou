@@ -5,15 +5,15 @@
 @import Foundation;
 @import UIKit;
 
-#import <ActionSheetPicker-3.0/ActionSheetPicker.h>
-#import <AFNetworking/AFNetworking.h>
-#import <EAIntroView/EAIntroView.h>
-#import <FCUUID/FCUUID.h>
-#import <MagicalRecord/MagicalRecord.h>
-#import <MJRefresh/MJRefresh.h>
-#import <MBProgressHUD/MBProgressHUD.h>
-#import <MWPhotoBrowser/MWPhotoBrowser.h>
-#import <SDWebImage/UIImageView+WebCache.h>
-#import <UIColor-HexString/UIColor+HexString.h>
-#import <UIImage-ResizeMagick/UIImage+ResizeMagick.h>
-#import <WYPopoverController/WYPopoverController.h>
+@import ActionSheetPicker_3_0;
+@import AFNetworking;
+@import EAIntroView;
+@import FCUUID;
+@import MagicalRecord;
+@import MJRefresh;
+@import MBProgressHUD;
+@import MWPhotoBrowser;
+@import SDWebImage;
+@import UIColor_HexString;
+@import UIImage_ResizeMagick;
+@import WYPopoverController;

@@ -4,6 +4,7 @@ platform :ios, '8.0'
 xcodeproj "iPrices"
 
 inhibit_all_warnings!
+use_frameworks!
 
 pod 'ActionSheetPicker-3.0'
 pod 'AFNetworking', '~> 2.6'

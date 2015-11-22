@@ -6,10 +6,165 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-class BaseTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
+    
+    var fetchedResultsChangesInsert: [NSIndexPath]?
+    var fetchedResultsChangesDelete: [NSIndexPath]?
+    var fetchedResultsChangesUpdate: [NSIndexPath]?
+    var fetchedResultsChangesMove: [(NSIndexPath,NSIndexPath)]?
     
     // MARK: NSFetchedResultsController
     
+    private var _fetchedResultsController : NSFetchedResultsController? = nil
+    
+    // Should be overridden by sub-class
+    func createFetchedResultsController() -> NSFetchedResultsController? {
+        assert(false);
+        return nil
+    }
+    
+    var fetchedResultsController: NSFetchedResultsController {
+        get {
+            if _fetchedResultsController == nil {
+                _fetchedResultsController = createFetchedResultsController()
+                if let controller = _fetchedResultsController {
+                    controller.delegate = self
+                }
+            }
+            return _fetchedResultsController!
+        }
+    }
+    
+    // MARK: UITableView or UICollectionView ?
+    func tableView() -> UITableView? {
+        assert(false, "Should be overridden. \(__FILE__)[\(__LINE__)]: \(__FUNCTION__)");
+        return nil
+    }
+    
+    func collectionView() -> UICollectionView? {
+        assert(false, "Should be overridden. \(__FILE__)[\(__LINE__)]: \(__FUNCTION__)");
+        return nil
+    }
+    
+    // MARK: Routines
+    
+    func reloadData() {
+        _fetchedResultsController = nil
+        if let tableView = self.tableView() {
+            tableView.reloadData()
+        } else if let collectionView = self.collectionView() {
+            collectionView.reloadData()
+        }
+    }
+    
+    // MARK: NSFetchedResultsControllerDelegate
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        if let tableView = self.tableView() {
+            tableView.beginUpdates()
+        } else if let _ = self.collectionView() {
+            fetchedResultsChangesInsert = [NSIndexPath]()
+            fetchedResultsChangesDelete = [NSIndexPath]()
+            fetchedResultsChangesUpdate = [NSIndexPath]()
+            fetchedResultsChangesMove = [(NSIndexPath,NSIndexPath)]()
+        }
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+        if let tableView = self.tableView() {
+            switch(type) {
+            case .Insert:
+                if let newIndexPath = newIndexPath {
+                    tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation:.Fade)
+                }
+            case .Delete:
+                if let indexPath = indexPath {
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                }
+            case .Move:
+                if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                    tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
+                }
+            case .Update:
+                if let indexPath = indexPath {
+                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade);
+                }
+            }
+        } else if let _ = self.collectionView() {
+            switch(type) {
+            case .Insert:
+                if let newIndexPath = newIndexPath {
+                    fetchedResultsChangesInsert?.append(newIndexPath)
+                }
+            case .Delete:
+                if let indexPath = indexPath {
+                    fetchedResultsChangesDelete?.append(indexPath)
+                }
+            case .Move:
+                if let indexPath = indexPath, newIndexPath = newIndexPath {
+                    fetchedResultsChangesMove?.append((indexPath, newIndexPath))
+                }
+            case .Update:
+                if let indexPath = indexPath {
+                    fetchedResultsChangesUpdate?.append(indexPath)
+                }
+            }
+        }
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        if let tableView = self.tableView() {
+            switch(type) {
+            case .Insert:
+                tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            case .Delete:
+                tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            default:
+                break
+            }
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        if let tableView = self.tableView() {
+            tableView.endUpdates()
+        } else if let collectionView = self.collectionView() {
+            collectionView.performBatchUpdates(
+                { () -> Void in
+                    if let fetchedResultsChangesInsert = self.fetchedResultsChangesInsert {
+                        collectionView.insertItemsAtIndexPaths(fetchedResultsChangesInsert)
+                    }
+                    if let fetchedResultsChangesDelete = self.fetchedResultsChangesDelete {
+                        collectionView.deleteItemsAtIndexPaths(fetchedResultsChangesDelete)
+                    }
+                    if let fetchedResultsChangesUpdate = self.fetchedResultsChangesUpdate {
+                        collectionView.reloadItemsAtIndexPaths(fetchedResultsChangesUpdate)
+                    }
+                    if let fetchedResultsChangesMove = self.fetchedResultsChangesMove {
+                        for (oldIndexPath, newIndexPath) in fetchedResultsChangesMove {
+                            collectionView.moveItemAtIndexPath(oldIndexPath, toIndexPath: newIndexPath)
+                        }
+                    }
+                },
+                completion:
+                { (finished: Bool) -> Void in
+                    self.fetchedResultsChangesInsert = nil
+                    self.fetchedResultsChangesDelete = nil
+                    self.fetchedResultsChangesUpdate = nil
+                    self.fetchedResultsChangesMove = nil
+                }
+            )
+        }
+    }
+    
+}
+
+class BaseTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    // MARK: NSFetchedResultsController
+
     private var _fetchedResultsController : NSFetchedResultsController? = nil
     
     // Should be overridden by sub-class
@@ -45,40 +200,32 @@ class BaseTableViewController: UITableViewController, NSFetchedResultsController
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         switch(type) {
-            
         case .Insert:
             if let newIndexPath = newIndexPath {
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation:.Fade)
             }
-            
         case .Delete:
             if let indexPath = indexPath {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             }
-            
         case .Update:
             if let indexPath = indexPath {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade);
             }
         case .Move:
-            if let indexPath = indexPath {
-                if let newIndexPath = newIndexPath {
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                    tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
-                }
+            if let indexPath = indexPath, newIndexPath = newIndexPath {
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Fade)
             }
         }
     }
     
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         switch(type) {
-            
         case .Insert:
             tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            
         case .Delete:
             tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            
         default:
             break
         }
