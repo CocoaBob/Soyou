@@ -14,36 +14,49 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsTableViewCell" textLabel="jZO-5g-tAW" detailTextLabel="IXt-a2-p8X" style="IBUITableViewCellStyleSubtitle" id="UMY-ns-NDx" customClass="NewsTableViewCell" customModule="iPrices" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsTableViewCell" rowHeight="200" id="UMY-ns-NDx" customClass="NewsTableViewCell" customModule="iPrices" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="600" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UMY-ns-NDx" id="xMP-MJ-48h">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="199.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jZO-5g-tAW">
-                                            <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dmp-uS-yHU">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="199.5"/>
                                             <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IXt-a2-p8X">
-                                            <rect key="frame" x="15" y="25.5" width="40.5" height="13.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="200" id="RMj-WG-C0K"/>
+                                            </constraints>
+                                        </imageView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="HBV-cd-8DE">
+                                            <rect key="frame" x="0.0" y="150" width="600" height="49.5"/>
                                             <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
                                     </subviews>
                                     <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="Dmp-uS-yHU" secondAttribute="bottom" id="DUm-VV-R3D"/>
+                                        <constraint firstAttribute="trailing" secondItem="HBV-cd-8DE" secondAttribute="trailing" id="Qkh-TF-Znc"/>
+                                        <constraint firstItem="Dmp-uS-yHU" firstAttribute="leading" secondItem="xMP-MJ-48h" secondAttribute="leading" id="TlX-Ln-5Bv"/>
+                                        <constraint firstItem="HBV-cd-8DE" firstAttribute="leading" secondItem="xMP-MJ-48h" secondAttribute="leading" id="UH4-NX-tsq"/>
+                                        <constraint firstItem="Dmp-uS-yHU" firstAttribute="top" secondItem="xMP-MJ-48h" secondAttribute="top" id="nC1-nE-32j"/>
+                                        <constraint firstAttribute="trailing" secondItem="Dmp-uS-yHU" secondAttribute="trailing" id="woe-6N-Vqa"/>
+                                        <constraint firstAttribute="bottom" secondItem="HBV-cd-8DE" secondAttribute="bottom" id="yFg-66-v1z"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
+                                <connections>
+                                    <outlet property="bgImageView" destination="Dmp-uS-yHU" id="yQu-ed-ldl"/>
+                                    <outlet property="tltTextView" destination="HBV-cd-8DE" id="I4y-tL-EdU"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsTableViewCellMore" id="g49-2a-hRn" customClass="NewsTableViewCellMore" customModule="iPrices" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="228" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g49-2a-hRn" id="1mT-7e-4tK">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -85,7 +98,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTP-Q3-YJH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="626" y="53"/>
+            <point key="canvasLocation" x="702" y="70"/>
         </scene>
     </scenes>
     <resources>

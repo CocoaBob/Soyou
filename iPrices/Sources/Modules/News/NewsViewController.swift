@@ -13,7 +13,10 @@ class NewsViewController: BaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.estimatedRowHeight = 44.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.tableFooterView = UIView()
+        self.tableView.separatorColor = UIColor.clearColor();
         
         setupRefreshControls()
         
@@ -86,8 +89,12 @@ extension NewsViewController {
             return cell
         } else {
             let cell: NewsTableViewCell = tableView.dequeueReusableCellWithIdentifier("NewsTableViewCell", forIndexPath: indexPath) as! NewsTableViewCell
-            cell.textLabel?.text = news.title
-            cell.detailTextLabel?.text = FmtString("[%@] \t[%@]", NSDateFormatter.localizedStringFromDate(news.datePublication!, dateStyle: .ShortStyle, timeStyle: .ShortStyle), news.id!)
+            cell.tltTextView?.text = news.title
+            if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                cell.bgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                    cell.bgImageView?.hidden = false
+                })
+            }
             return cell
         }
     }
@@ -159,7 +166,13 @@ extension NewsViewController {
 }
 
 class NewsTableViewCell: UITableViewCell {
+    @IBOutlet var tltTextView: UITextView?
+    @IBOutlet var bgImageView: UIImageView?
     
+    override func prepareForReuse() {
+        tltTextView?.text = ""
+        bgImageView?.hidden = true
+    }
 }
 
 class NewsTableViewCellMore: UITableViewCell {

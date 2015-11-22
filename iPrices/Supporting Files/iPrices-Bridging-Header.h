@@ -13,6 +13,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <MWPhotoBrowser/MWPhotoBrowser.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #import <UIColor-HexString/UIColor+HexString.h>
 #import <UIImage-ResizeMagick/UIImage+ResizeMagick.h>
 #import <WYPopoverController/WYPopoverController.h>

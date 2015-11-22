@@ -68,7 +68,7 @@ class News: NSManagedObject {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ relativeID: NSNumber?) {
+    class func importDatas(datas: [NSDictionary]?, _ triggeredMoreItemID: NSNumber?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 // Prepare data
@@ -95,7 +95,7 @@ class News: NSManagedObject {
                         }
                         
                         // Check if we should remove the more button
-                        if relativeID == moreItem.id {
+                        if triggeredMoreItemID == moreItem.id {
                             moreItem.MR_deleteEntityInContext(localContext)
                         }
                     }
