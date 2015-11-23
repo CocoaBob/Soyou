@@ -18,7 +18,19 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
         setupCollectionView()
         setupRefreshControls()
         
-        requestNewsList(nil)
+//        requestNewsList(nil)
+        
+        ////////
+        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
+            for news in News.MR_findAllInContext(localContext) {
+                news.MR_deleteEntityInContext(localContext)
+            }
+        }
+        ServerManager.shared.requestNewsList(1, 4,
+            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, 4) },
+            { (error: NSError?) -> () in self.handleError(error) }
+        );
+        ////////
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -82,15 +94,21 @@ extension NewsViewController {
         
         if news.isMore != nil && news.isMore!.boolValue {
             let cell: NewsCollectionViewCellMore = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
+            cell.bgImageView?.image = UIImage(named: "img_cell_bg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(5, 5, 5, 5))
+            cell.layer.cornerRadius = 5
+            
             cell.indicator?.hidden = true
             cell.moreImage?.hidden = false
             return cell
         } else {
             let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
+            cell.bgImageView?.image = UIImage(named: "img_cell_bg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(5, 5, 5, 5))
+            cell.layer.cornerRadius = 5
+            
             cell.tltTextView?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                cell.bgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                    cell.bgImageView?.hidden = false
+                cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "iTunesArtwork"), completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                    collectionView.reloadItemsAtIndexPaths([indexPath])
                 })
             }
             return cell
@@ -122,9 +140,9 @@ extension NewsViewController {
         let layout = CHTCollectionViewWaterfallLayout()
         
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 1.0
-        layout.minimumInteritemSpacing = 1.0
-        
+        layout.itemRenderDirection = .LeftToRight
+        layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
+
         // Collection view attributes
         self.collectionView()!.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         self.collectionView()!.alwaysBounceVertical = true
@@ -145,13 +163,17 @@ extension NewsViewController {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        
         let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
-        let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
-        if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
-            return image.size
+        
+        if news.isMore == nil || !news.isMore!.boolValue {
+            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
+            if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
+                return image.size
+            } else {
+                return CGSizeMake(256, 256)
+            }
         } else {
-            return CGSizeZero
+            return CGSizeMake(256, 32)
         }
     }
 }
@@ -190,6 +212,8 @@ extension NewsViewController {
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling", comment: ""), forState: .Pulling)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing", comment: ""), forState: .Refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
+        footer.automaticallyHidden = false
+//        footer.ignoredScrollViewContentInsetBottom = 
         self.collectionView()!.mj_footer = footer
     }
     
@@ -205,16 +229,17 @@ extension NewsViewController {
 }
 
 class NewsCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var tltTextView: UITextView?
     @IBOutlet var bgImageView: UIImageView?
+    @IBOutlet var fgImageView: UIImageView?
+    @IBOutlet var tltTextView: UITextView?
     
     override func prepareForReuse() {
         tltTextView?.text = ""
-        bgImageView?.hidden = true
     }
 }
 
 class NewsCollectionViewCellMore: UICollectionViewCell {
+    @IBOutlet var bgImageView: UIImageView?
     @IBOutlet var indicator: UIActivityIndicatorView?
     @IBOutlet var moreImage: UIImageView?
 }
