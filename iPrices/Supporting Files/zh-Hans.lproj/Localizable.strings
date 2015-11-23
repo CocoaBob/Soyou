@@ -16,3 +16,13 @@
 "pull_to_refresh_footer_pulling"="松开立即加载更多";
 "pull_to_refresh_footer_refreshing"="正在加载更多数据…";
 "pull_to_refresh_no_more_data"="没有更多数据";
+
+
+/* News View Controller */
+"news_view_controller_tab_title"="资讯";
+
+/* Brands View Controller */
+"brands_view_controller_tab_title"="品牌";
+
+/* Account View Controller */
+"account_view_controller_tab_title"="账户";

@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  iPrices
+
+  Created by CocoaBob on 23/11/15.
+  Copyright © 2015 iPrices. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "iPrices";
+"CFBundleName" = "iPrices";

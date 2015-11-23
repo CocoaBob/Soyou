@@ -7,7 +7,7 @@
         <!--News View Controller-->
         <scene sceneID="6Uw-D4-79y">
             <objects>
-                <viewController id="6DD-Tl-30h" customClass="NewsViewController" customModule="iPrices" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewsViewController" id="6DD-Tl-30h" customClass="NewsViewController" customModule="iPrices" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="g8p-zH-nEq"/>
                         <viewControllerLayoutGuide type="bottom" id="5TD-tT-dBV"/>

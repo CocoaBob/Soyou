@@ -10,14 +10,10 @@ public struct Cons {
     struct Svr {
         static let minVer           = "0.0.2"
         
-//#if DEBUG
         static let baseURL          = "https://baodating-api.woniu.io:5000"
-//#else
-//        static let baseURL: String  = "http://baodating-api.woniu.io"
-//#endif
         
         // Count of News to load for each request
-        static let reqCnt           = 1
+        static let reqCnt           = 2
         
         static let reqAPIKey        = "apiKey"
         static let reqAPIKeyValue   = "48548598-f079-4c57-bb39-d9ca8344abd7"

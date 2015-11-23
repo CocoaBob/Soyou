@@ -13,6 +13,6 @@
 @import MJRefresh;
 @import MBProgressHUD;
 @import SDWebImage;
-@import UIColor_HexString;
 @import UIImage_ResizeMagick;
+@import UIColor_Hex_Swift;
 @import CHTCollectionViewWaterfallLayout;

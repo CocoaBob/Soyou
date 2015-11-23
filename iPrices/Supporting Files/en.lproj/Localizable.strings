@@ -16,3 +16,13 @@
 "pull_to_refresh_footer_pulling"="Release to load more";
 "pull_to_refresh_footer_refreshing"="Loading more…";
 "pull_to_refresh_no_more_data"="No more data";
+
+
+/* News View Controller */
+"news_view_controller_tab_title"="News";
+
+/* Brands View Controller */
+"brands_view_controller_tab_title"="Brands";
+
+/* Account View Controller */
+"account_view_controller_tab_title"="Account";

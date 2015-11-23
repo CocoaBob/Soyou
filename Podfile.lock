@@ -34,7 +34,7 @@ PODS:
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - UICKeyChainStore (1.0.5)
-  - UIColor-HexString (1.1.0)
+  - UIColor_Hex_Swift (1.5)
   - UIImage-ResizeMagick (0.0.1)
   - VTAcknowledgementsViewController (0.16)
 
@@ -49,7 +49,7 @@ DEPENDENCIES:
   - MJRefresh (~> 3.0)
   - SDWebImage (~> 3.7)
   - UICKeyChainStore (~> 1.0)
-  - UIColor-HexString (~> 1.1)
+  - UIColor_Hex_Swift (~> 1.5)
   - UIImage-ResizeMagick (~> 0.0)
   - VTAcknowledgementsViewController
 
@@ -65,7 +65,7 @@ SPEC CHECKSUMS:
   MJRefresh: c95f0d541606ef584dab3fbeda28f4f32b4aca6e
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
-  UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
+  UIColor_Hex_Swift: 09997d02e9ba2833569fd048663fddbe90cf2c52
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
   VTAcknowledgementsViewController: 0202015ebc678f75d83092b204267a0aec48163d
 

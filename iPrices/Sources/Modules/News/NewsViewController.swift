@@ -11,25 +11,36 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     @IBOutlet var _collectionView: UICollectionView?
     
     var currentMoreButtonCell: NewsCollectionViewCellMore?
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("news_view_controller_tab_title", comment: ""), image: UIImage(named: "img_tab_home"), selectedImage: UIImage(named: "img_tab_home_selected"))
+        self.tabBarController?.tabBar.translucent = false
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.edgesForExtendedLayout = UIRectEdge.Top
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.automaticallyAdjustsScrollViewInsets = true
+        
         setupCollectionView()
         setupRefreshControls()
         
-//        requestNewsList(nil)
+        requestNewsList(nil)
         
         ////////
-        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-            for news in News.MR_findAllInContext(localContext) {
-                news.MR_deleteEntityInContext(localContext)
-            }
-        }
-        ServerManager.shared.requestNewsList(1, 4,
-            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, 4) },
-            { (error: NSError?) -> () in self.handleError(error) }
-        );
+//        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
+//            for news in News.MR_findAllInContext(localContext) {
+//                news.MR_deleteEntityInContext(localContext)
+//            }
+//        }
+//        ServerManager.shared.requestNewsList(1, 4,
+//            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, 4) },
+//            { (error: NSError?) -> () in self.handleError(error) }
+//        );
         ////////
     }
     
@@ -213,7 +224,7 @@ extension NewsViewController {
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing", comment: ""), forState: .Refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
         footer.automaticallyHidden = false
-//        footer.ignoredScrollViewContentInsetBottom = 
+//        footer.ignoredScrollViewContentInsetBottom = -100
         self.collectionView()!.mj_footer = footer
     }
     
