@@ -6,18 +6,16 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-class NewsViewController: BaseTableViewController {
+class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
-    var moreButtonCell: NewsTableViewCellMore?
+    @IBOutlet var _collectionView: UICollectionView?
+    
+    var currentMoreButtonCell: NewsCollectionViewCellMore?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.estimatedRowHeight = 44.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.tableFooterView = UIView()
-        self.tableView.separatorColor = UIColor.clearColor();
-        
+        setupCollectionView()
         setupRefreshControls()
         
         requestNewsList(nil)
@@ -31,13 +29,16 @@ class NewsViewController: BaseTableViewController {
         return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,isMore:true", ascending: false)
     }
     
+    override func collectionView() -> UICollectionView? {
+        return _collectionView
+    }
 }
 
 // MARK: Data
 extension NewsViewController {
     
     private func resetMoreButtonCell() {
-        if let cell = self.moreButtonCell {
+        if let cell = self.currentMoreButtonCell {
             cell.indicator?.hidden = true
             cell.moreImage?.hidden = false
         }
@@ -69,26 +70,23 @@ extension NewsViewController {
     
 }
 
-// MARK: UITableViewDataSource/UITableViewDelegate
+// MARK: - CollectionView Delegate Methods
 extension NewsViewController {
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = self.fetchedResultsController.sections {
-            return sections[section].numberOfObjects
-        }
-        return 0
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.fetchedResultsController.sections![section].numberOfObjects
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
         if news.isMore != nil && news.isMore!.boolValue {
-            let cell: NewsTableViewCellMore = tableView.dequeueReusableCellWithIdentifier("NewsTableViewCellMore", forIndexPath: indexPath) as! NewsTableViewCellMore
+            let cell: NewsCollectionViewCellMore = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
             cell.indicator?.hidden = true
             cell.moreImage?.hidden = false
             return cell
         } else {
-            let cell: NewsTableViewCell = tableView.dequeueReusableCellWithIdentifier("NewsTableViewCell", forIndexPath: indexPath) as! NewsTableViewCell
+            let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
             cell.tltTextView?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 cell.bgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
@@ -99,25 +97,66 @@ extension NewsViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             let localNews = news.MR_inContext(localContext)
             if localNews.isMore != nil && localNews.isMore!.boolValue {
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? NewsTableViewCellMore {
+                if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? NewsCollectionViewCellMore {
                     cell.indicator?.startAnimating()
                     cell.indicator?.hidden = false
                     cell.moreImage?.hidden = true
-                    self.moreButtonCell = cell
+                    self.currentMoreButtonCell = cell
                 }
                 self.requestNewsList(localNews.id)
             }
         }
     }
-    
 }
 
-// MARK: Refreshing
+//MARK: - CollectionView Waterfall Layout
+extension NewsViewController {
+    
+    func setupCollectionView() {
+        // Create a waterfall layout
+        let layout = CHTCollectionViewWaterfallLayout()
+        
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 1.0
+        layout.minimumInteritemSpacing = 1.0
+        
+        // Collection view attributes
+        self.collectionView()!.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.collectionView()!.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.collectionView()!.collectionViewLayout = layout
+        
+        updateColumnCount(Int(floor(self.view.frame.size.width / 240)))
+    }
+    
+    func updateColumnCount(count: Int) {
+        (self.collectionView()!.collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = count
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        updateColumnCount(Int(floor(size.width / 240)))
+    }
+    
+    //** Size for the cells in the Waterfall Layout */
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+        
+        let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+        let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
+        if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
+            return image.size
+        } else {
+            return CGSizeZero
+        }
+    }
+}
+
+// MARK: - Refreshing
 extension NewsViewController {
     
     func setupRefreshControls() {
@@ -140,7 +179,7 @@ extension NewsViewController {
             return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""), dateString)
         }
         header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
-        self.tableView.mj_header = header
+        self.collectionView()!.mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
             let lastNews = self.fetchedResultsController.fetchedObjects?.last as? News
@@ -151,7 +190,7 @@ extension NewsViewController {
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling", comment: ""), forState: .Pulling)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing", comment: ""), forState: .Refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
-        self.tableView.mj_footer = footer
+        self.collectionView()!.mj_footer = footer
     }
     
     func beginRefreshing() {
@@ -159,13 +198,13 @@ extension NewsViewController {
     }
     
     func endRefreshing() {
-        self.tableView.mj_header.endRefreshing()
-        self.tableView.mj_footer.endRefreshing()
+        self.collectionView()!.mj_header.endRefreshing()
+        self.collectionView()!.mj_footer.endRefreshing()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 
-class NewsTableViewCell: UITableViewCell {
+class NewsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var tltTextView: UITextView?
     @IBOutlet var bgImageView: UIImageView?
     
@@ -175,7 +214,7 @@ class NewsTableViewCell: UITableViewCell {
     }
 }
 
-class NewsTableViewCellMore: UITableViewCell {
+class NewsCollectionViewCellMore: UICollectionViewCell {
     @IBOutlet var indicator: UIActivityIndicatorView?
     @IBOutlet var moreImage: UIImageView?
 }

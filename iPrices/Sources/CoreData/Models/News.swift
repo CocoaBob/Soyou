@@ -107,7 +107,6 @@ class News: NSManagedObject {
                 
                 for data in datas {
                     let news = News.importData(data, localContext)
-                    print("<-- \(news?.id)")
                     // The 1st and last new news
                     if let news = news {
                         if oldestNewNews == nil || news.datePublication! < oldestNewNews!.datePublication! {

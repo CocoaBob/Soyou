@@ -15,3 +15,4 @@
 @import SDWebImage;
 @import UIColor_HexString;
 @import UIImage_ResizeMagick;
+@import CHTCollectionViewWaterfallLayout;

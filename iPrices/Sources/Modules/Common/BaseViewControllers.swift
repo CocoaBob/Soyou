@@ -37,12 +37,10 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     // MARK: UITableView or UICollectionView ?
     func tableView() -> UITableView? {
-        assert(false, "Should be overridden. \(__FILE__)[\(__LINE__)]: \(__FUNCTION__)");
         return nil
     }
     
     func collectionView() -> UICollectionView? {
-        assert(false, "Should be overridden. \(__FILE__)[\(__LINE__)]: \(__FUNCTION__)");
         return nil
     }
     
