@@ -22,19 +22,14 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - CHTCollectionViewWaterfallLayout (0.9.2)
-  - DACircularProgress (2.3.1)
   - EAIntroView (2.7.4):
     - EARestrictedScrollView (~> 0.2.0)
   - EARestrictedScrollView (0.2.0)
-  - FCUUID (1.1.4):
+  - FCUUID (1.1.5):
     - UICKeyChainStore (~> 1.0.5)
   - MagicalRecord (2.3.0)
   - MBProgressHUD (0.9.1)
   - MJRefresh (3.0.4)
-  - MWPhotoBrowser (2.1.1):
-    - DACircularProgress (~> 2.3)
-    - MBProgressHUD (~> 0.9)
-    - SDWebImage (!= 3.7.2, ~> 3.7)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -42,7 +37,6 @@ PODS:
   - UIColor-HexString (1.1.0)
   - UIImage-ResizeMagick (0.0.1)
   - VTAcknowledgementsViewController (0.16)
-  - WYPopoverController (0.3.8)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0
@@ -53,31 +47,26 @@ DEPENDENCIES:
   - MagicalRecord (~> 2.3)
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0)
-  - MWPhotoBrowser (~> 2.1)
   - SDWebImage (~> 3.7)
   - UICKeyChainStore (~> 1.0)
   - UIColor-HexString (~> 1.1)
   - UIImage-ResizeMagick (~> 0.0)
   - VTAcknowledgementsViewController
-  - WYPopoverController (~> 0.3)
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 11f2053085d3088dc1ef9d38a9f11c18b528dd9e
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
-  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   EAIntroView: 50b85eedf414260e61330070ffe5947e72493a62
   EARestrictedScrollView: f86d61e16c61d3e93c84f8e96e83122a2a3b7631
-  FCUUID: 178c3d7907b1399137f1093f9c04ce4825755292
+  FCUUID: a9108673d64a4585a4bb89ea5d4c69b002edadb3
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: c95f0d541606ef584dab3fbeda28f4f32b4aca6e
-  MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
   VTAcknowledgementsViewController: 0202015ebc678f75d83092b204267a0aec48163d
-  WYPopoverController: dda54780e1bef186464ae5a10ab9b4998c279e89
 
 COCOAPODS: 0.39.0

@@ -46,7 +46,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="img_launch_bg" width="512" height="512"/>
+        <image name="img_launch_bg" width="1024" height="1024"/>
         <image name="img_launch_logo" width="1024" height="1024"/>
     </resources>
 </document>
