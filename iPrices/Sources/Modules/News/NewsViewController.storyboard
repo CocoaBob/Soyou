@@ -34,10 +34,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="295" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zsy-6D-lxX" userLabel="Background Image View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="295" height="50"/>
-                                                    <animations/>
-                                                </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_load_more" translatesAutoresizingMaskIntoConstraints="NO" id="YJt-Uj-IFv">
                                                     <rect key="frame" x="133" y="22" width="28" height="6"/>
                                                     <animations/>
@@ -55,19 +51,15 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="zsy-6D-lxX" secondAttribute="trailing" id="3cn-by-Ffu"/>
                                             <constraint firstItem="YJt-Uj-IFv" firstAttribute="centerY" secondItem="R14-0G-zWA" secondAttribute="centerY" id="5fx-rr-YUv"/>
-                                            <constraint firstAttribute="bottom" secondItem="zsy-6D-lxX" secondAttribute="bottom" id="RBU-zS-DWQ"/>
-                                            <constraint firstItem="zsy-6D-lxX" firstAttribute="top" secondItem="R14-0G-zWA" secondAttribute="top" id="SpQ-pO-XoV"/>
                                             <constraint firstItem="YJt-Uj-IFv" firstAttribute="centerX" secondItem="R14-0G-zWA" secondAttribute="centerX" id="TUe-rd-3fR"/>
-                                            <constraint firstItem="zsy-6D-lxX" firstAttribute="leading" secondItem="R14-0G-zWA" secondAttribute="leading" id="UP1-rc-AIU"/>
                                             <constraint firstItem="8Aj-jT-OJg" firstAttribute="centerY" secondItem="R14-0G-zWA" secondAttribute="centerY" id="saY-li-uha"/>
                                             <constraint firstItem="8Aj-jT-OJg" firstAttribute="centerX" secondItem="R14-0G-zWA" secondAttribute="centerX" id="ykO-Gs-1Hi"/>
                                         </constraints>
                                         <size key="customSize" width="295" height="50"/>
                                         <connections>
-                                            <outlet property="bgImageView" destination="zsy-6D-lxX" id="ZEh-Xg-ve4"/>
                                             <outlet property="indicator" destination="8Aj-jT-OJg" id="Ija-Vf-QHj"/>
                                             <outlet property="moreImage" destination="YJt-Uj-IFv" id="riB-5v-06b"/>
                                         </connections>
@@ -79,21 +71,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="295" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qfn-OO-vGq" userLabel="Background Image View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="295" height="250"/>
-                                                    <animations/>
-                                                </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jsm-0J-WRm" userLabel="Foreground Image View">
                                                     <rect key="frame" x="0.0" y="0.0" width="295" height="250"/>
                                                     <animations/>
                                                 </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="p8Y-WW-D1Y">
-                                                    <rect key="frame" x="0.0" y="167" width="295" height="83"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="p8Y-WW-D1Y">
+                                                    <rect key="frame" x="0.0" y="162" width="295" height="88"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                             </subviews>
@@ -101,22 +89,18 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="p8Y-WW-D1Y" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="1BZ-az-3zF"/>
-                                            <constraint firstItem="qfn-OO-vGq" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="2xP-bf-ehs"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="4mj-Pd-K5z"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="5ll-rl-s5S"/>
                                             <constraint firstAttribute="trailing" secondItem="p8Y-WW-D1Y" secondAttribute="trailing" id="EqF-jZ-488"/>
                                             <constraint firstAttribute="bottom" secondItem="p8Y-WW-D1Y" secondAttribute="bottom" id="RRq-AQ-XRE"/>
                                             <constraint firstAttribute="bottom" secondItem="Jsm-0J-WRm" secondAttribute="bottom" id="T1n-QD-sn7"/>
                                             <constraint firstAttribute="trailing" secondItem="Jsm-0J-WRm" secondAttribute="trailing" id="VD9-6a-gvK"/>
-                                            <constraint firstAttribute="bottom" secondItem="qfn-OO-vGq" secondAttribute="bottom" id="gk7-sc-iSm"/>
-                                            <constraint firstAttribute="trailing" secondItem="qfn-OO-vGq" secondAttribute="trailing" id="wDe-Qs-TuD"/>
-                                            <constraint firstItem="qfn-OO-vGq" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="y8c-bj-jKu"/>
                                         </constraints>
                                         <size key="customSize" width="295" height="250"/>
                                         <connections>
-                                            <outlet property="bgImageView" destination="qfn-OO-vGq" id="GJC-1h-KHG"/>
                                             <outlet property="fgImageView" destination="Jsm-0J-WRm" id="7eQ-HG-EX3"/>
                                             <outlet property="tltTextView" destination="p8Y-WW-D1Y" id="1EB-zf-4op"/>
                                         </connections>

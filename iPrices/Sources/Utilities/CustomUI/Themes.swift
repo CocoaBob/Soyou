@@ -9,11 +9,18 @@
 class Themes {
     
     class func setupAppearances() {
-        // MARK: Tint colors
-//        UINavigationBar.appearance().tintColor = UIColor(rgba: "#F3DE9C")
+        // UIWindow
 //        UIWindow.appearance().tintColor = UIColor(rgba: "#F3DE9C")
         
-        // MARK: Background
-//        UINavigationBar.appearance().barTintColor = UIColor(rgba: "#C59E6D")
+        // UINavigationBar
+        UINavigationBar.appearance().translucent = false
+        UINavigationBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
+        UINavigationBar.appearance().barTintColor = UIColor(rgba: "#444") // Bar color
+        
+        // UITabBar
+        UITabBar.appearance().translucent = false
+        UITabBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
+//        UITabBar.appearance().barTintColor = UIColor(rgba: "#C59E6D") // Bar color
+        
     }
 }

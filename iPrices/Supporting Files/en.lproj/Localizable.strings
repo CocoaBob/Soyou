@@ -19,10 +19,13 @@
 
 
 /* News View Controller */
+"news_view_controller_title"="News";
 "news_view_controller_tab_title"="News";
 
 /* Brands View Controller */
+"brands_view_controller_title"="Brands";
 "brands_view_controller_tab_title"="Brands";
 
 /* Account View Controller */
+"account_view_controller_title"="Account";
 "account_view_controller_tab_title"="Account";

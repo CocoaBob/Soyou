@@ -19,10 +19,13 @@
 
 
 /* News View Controller */
+"news_view_controller_title"="资讯";
 "news_view_controller_tab_title"="资讯";
 
 /* Brands View Controller */
+"brands_view_controller_title"="品牌";
 "brands_view_controller_tab_title"="品牌";
 
 /* Account View Controller */
-"account_view_controller_tab_title"="账户";
+"account_view_controller_title"="用户";
+"account_view_controller_tab_title"="用户";

@@ -13,7 +13,16 @@ class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICo
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("brands_view_controller_tab_title", comment: ""), image: UIImage(named: "img_tab_price"), selectedImage: UIImage(named: "img_tab_price_selected"))
+        // UIViewController
+        self.title = NSLocalizedString("brands_view_controller_title", comment: "")
+        
+        self.edgesForExtendedLayout = UIRectEdge.Top
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.automaticallyAdjustsScrollViewInsets = true
+        
+        // UITabBarItem
+        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_price"), selectedImage: UIImage(named: "img_tab_price_selected"))
+        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         self.tabBarController?.tabBar.translucent = false
     }
     

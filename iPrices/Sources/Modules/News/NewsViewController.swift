@@ -14,17 +14,22 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        // UIViewController
+        updateTitleViewImage(nil)
+        
+        self.edgesForExtendedLayout = UIRectEdge.Top
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.automaticallyAdjustsScrollViewInsets = true
 
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("news_view_controller_tab_title", comment: ""), image: UIImage(named: "img_tab_home"), selectedImage: UIImage(named: "img_tab_home_selected"))
+        // UITabBarItem
+        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_home"), selectedImage: UIImage(named: "img_tab_home_selected"))
+        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         self.tabBarController?.tabBar.translucent = false
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.edgesForExtendedLayout = UIRectEdge.Top
-        self.extendedLayoutIncludesOpaqueBars = false
-        self.automaticallyAdjustsScrollViewInsets = true
         
         setupCollectionView()
         setupRefreshControls()
@@ -45,7 +50,7 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     }
     
     override func viewWillAppear(animated: Bool) {
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+//        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -54,6 +59,24 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     
     override func collectionView() -> UICollectionView? {
         return _collectionView
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        updateColumnCount(Int(floor(size.width / 240)))
+    }
+    
+    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animateAlongsideTransition({ (context) -> Void in
+            self.updateTitleViewImage(newCollection.verticalSizeClass)
+            }, completion: nil)
+    }
+    
+    func updateTitleViewImage(newSizeClass: UIUserInterfaceSizeClass?) {
+        if let newSizeClass = newSizeClass {
+            self.navigationItem.titleView = UIImageView(image: UIImage(named: newSizeClass == .Regular ? "img_logo_nav_bar" : "img_logo_nav_bar_compact"))
+        } else {
+            self.navigationItem.titleView = UIImageView(image: UIImage(named: self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.Regular ? "img_logo_nav_bar" : "img_logo_nav_bar_compact"))
+        }
     }
 }
 
@@ -105,16 +128,12 @@ extension NewsViewController {
         
         if news.isMore != nil && news.isMore!.boolValue {
             let cell: NewsCollectionViewCellMore = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
-            cell.bgImageView?.image = UIImage(named: "img_cell_bg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(5, 5, 5, 5))
-            cell.layer.cornerRadius = 5
             
             cell.indicator?.hidden = true
             cell.moreImage?.hidden = false
             return cell
         } else {
             let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
-            cell.bgImageView?.image = UIImage(named: "img_cell_bg")?.resizableImageWithCapInsets(UIEdgeInsetsMake(5, 5, 5, 5))
-            cell.layer.cornerRadius = 5
             
             cell.tltTextView?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
@@ -152,7 +171,8 @@ extension NewsViewController {
         
         // Change individual layout attributes for the spacing between cells
         layout.itemRenderDirection = .LeftToRight
-        layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
+        layout.minimumColumnSpacing = 4
+        layout.minimumInteritemSpacing = 4
 
         // Collection view attributes
         self.collectionView()!.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
@@ -165,11 +185,17 @@ extension NewsViewController {
     }
     
     func updateColumnCount(count: Int) {
+        // Update column count
         (self.collectionView()!.collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = count
-    }
-    
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        updateColumnCount(Int(floor(size.width / 240)))
+        
+        // Update margins
+        if let layout = self.collectionView()?.collectionViewLayout as? CHTCollectionViewWaterfallLayout {
+            if count > 1 {
+                layout.sectionInset = UIEdgeInsetsMake(4, 4, 4, 4)
+            } else {
+                layout.sectionInset = UIEdgeInsetsMake(4, 0, 4, 0)
+            }
+        }
     }
     
     //** Size for the cells in the Waterfall Layout */
@@ -224,7 +250,6 @@ extension NewsViewController {
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing", comment: ""), forState: .Refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
         footer.automaticallyHidden = false
-//        footer.ignoredScrollViewContentInsetBottom = -100
         self.collectionView()!.mj_footer = footer
     }
     
@@ -240,7 +265,6 @@ extension NewsViewController {
 }
 
 class NewsCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var bgImageView: UIImageView?
     @IBOutlet var fgImageView: UIImageView?
     @IBOutlet var tltTextView: UITextView?
     
@@ -250,7 +274,6 @@ class NewsCollectionViewCell: UICollectionViewCell {
 }
 
 class NewsCollectionViewCellMore: UICollectionViewCell {
-    @IBOutlet var bgImageView: UIImageView?
     @IBOutlet var indicator: UIActivityIndicatorView?
     @IBOutlet var moreImage: UIImageView?
 }
