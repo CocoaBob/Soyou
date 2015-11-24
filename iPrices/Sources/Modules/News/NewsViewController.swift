@@ -11,6 +11,7 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     @IBOutlet var _collectionView: UICollectionView?
     
     var currentMoreButtonCell: NewsCollectionViewCellMore?
+    var currentNewsViewCell: NewsCollectionViewCell?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -149,14 +150,21 @@ extension NewsViewController {
         let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             let localNews = news.MR_inContext(localContext)
+            let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
             if localNews.isMore != nil && localNews.isMore!.boolValue {
-                if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? NewsCollectionViewCellMore {
+                if let cell = cell as? NewsCollectionViewCellMore {
                     cell.indicator?.startAnimating()
                     cell.indicator?.hidden = false
                     cell.moreImage?.hidden = true
                     self.currentMoreButtonCell = cell
+                    self.requestNewsList(localNews.id)
                 }
-                self.requestNewsList(localNews.id)
+            } else {
+                if let cell = cell as? NewsCollectionViewCell,
+                    detailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NewsDetailViewController") {
+                    self.navigationController?.pushViewController(detailViewController, animated: true)
+                    self.currentNewsViewCell = cell
+                }
             }
         }
     }
@@ -212,6 +220,46 @@ extension NewsViewController {
         } else {
             return CGSizeMake(256, 32)
         }
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension NewsViewController: UINavigationControllerDelegate {
+    
+    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let cell = self.currentNewsViewCell {
+            let type: ZOTransitionType = (fromVC == self) ? .Presenting : .Dismissing
+            let zoomTransition: ZOZolaZoomTransition = ZOZolaZoomTransition(fromView: cell.fgImageView, type: type, duration: 0.5, delegate: self)
+            zoomTransition.fadeColor = self.collectionView()?.backgroundColor
+        }
+        return nil
+    }
+}
+
+extension NewsViewController: ZOZolaZoomTransitionDelegate {
+    
+    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, startingFrameForView targetView: UIView!, relativeToView relativeView: UIView!, fromViewController: UIViewController!, toViewController: UIViewController!) -> CGRect {
+//        if fromViewController == self {
+//            if let cell = self.currentNewsViewCell, imageView = cell.fgImageView {
+//                return imageView.convertRect(imageView.bounds, toView: relativeView)
+//            }
+//        } else if fromViewController is NewsDetailViewController {
+//            let detailController = fromViewController as! NewsDetailViewController
+//            return detailController.imageView.convertRect
+//        }
+        return CGRectZero
+    }
+    
+    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, finishingFrameForView targetView: UIView!, relativeToView relativeView: UIView!, fromViewController fromViewComtroller: UIViewController!, toViewController: UIViewController!) -> CGRect {
+        return CGRectZero
+    }
+    
+    func supplementaryViewsForZolaZoomTransition(zoomTransition: ZOZolaZoomTransition!) -> [AnyObject]! {
+        return nil
+    }
+    
+    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, frameForSupplementaryView supplementaryView: UIView!, relativeToView relativeView: UIView!) -> CGRect {
+        return CGRectZero
     }
 }
 
