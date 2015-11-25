@@ -32,9 +32,14 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // UIViewController
+        self.navigationController?.delegate = self;
+        
+        // Setups
         setupCollectionView()
         setupRefreshControls()
         
+        // Data
         requestNewsList(nil)
         
         ////////
@@ -160,10 +165,12 @@ extension NewsViewController {
                     self.requestNewsList(localNews.id)
                 }
             } else {
-                if let cell = cell as? NewsCollectionViewCell,
-                    detailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NewsDetailViewController") {
-                    self.navigationController?.pushViewController(detailViewController, animated: true)
+                if let cell = cell as? NewsCollectionViewCell {
                     self.currentNewsViewCell = cell
+                    
+                    let newsDetailViewController = NewsDetailViewController(news: localNews)
+                    
+                    self.navigationController?.pushViewController(newsDetailViewController, animated: true)
                 }
             }
         }
@@ -230,36 +237,56 @@ extension NewsViewController: UINavigationControllerDelegate {
         if let cell = self.currentNewsViewCell {
             let type: ZOTransitionType = (fromVC == self) ? .Presenting : .Dismissing
             let zoomTransition: ZOZolaZoomTransition = ZOZolaZoomTransition(fromView: cell.fgImageView, type: type, duration: 0.5, delegate: self)
-            zoomTransition.fadeColor = self.collectionView()?.backgroundColor
+            zoomTransition.fadeColor = UIColor.whiteColor()
+            return zoomTransition
         }
         return nil
     }
 }
 
+// MARK: - ZOZolaZoomTransitionDelegate
 extension NewsViewController: ZOZolaZoomTransitionDelegate {
     
     func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, startingFrameForView targetView: UIView!, relativeToView relativeView: UIView!, fromViewController: UIViewController!, toViewController: UIViewController!) -> CGRect {
-//        if fromViewController == self {
-//            if let cell = self.currentNewsViewCell, imageView = cell.fgImageView {
-//                return imageView.convertRect(imageView.bounds, toView: relativeView)
-//            }
-//        } else if fromViewController is NewsDetailViewController {
-//            let detailController = fromViewController as! NewsDetailViewController
-//            return detailController.imageView.convertRect
-//        }
+        if let cell = self.currentNewsViewCell, imageView = cell.fgImageView {
+            if fromViewController == self {
+                return imageView.convertRect(imageView.bounds, toView: relativeView)
+            } else if fromViewController is NewsDetailViewController {
+                let detailController = fromViewController as! NewsDetailViewController
+                return detailController.view.convertRect(imageView.bounds, toView:relativeView)
+            }
+        }
         return CGRectZero
     }
     
-    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, finishingFrameForView targetView: UIView!, relativeToView relativeView: UIView!, fromViewController fromViewComtroller: UIViewController!, toViewController: UIViewController!) -> CGRect {
+    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, finishingFrameForView targetView: UIView!, relativeToView relativeView: UIView!, fromViewController: UIViewController!, toViewController: UIViewController!) -> CGRect {
+        
+        if let cell = self.currentNewsViewCell, imageView = cell.fgImageView {
+            if fromViewController == self {
+                let detailController = toViewController as! NewsDetailViewController
+                return detailController.view.convertRect(imageView.bounds, toView:relativeView)
+            } else if fromViewController is NewsDetailViewController {
+                return imageView.convertRect(imageView.bounds, toView: relativeView)
+            }
+        }
         return CGRectZero
     }
     
     func supplementaryViewsForZolaZoomTransition(zoomTransition: ZOZolaZoomTransition!) -> [AnyObject]! {
-        return nil
+        var clippedCells = [UICollectionViewCell]()
+        if let collectionView = self.collectionView() {
+            for visibleCell in collectionView.visibleCells() {
+                let convertedRect = visibleCell.convertRect(visibleCell.bounds, toView: self.view)
+                if CGRectContainsRect(self.view.frame, convertedRect) {
+                    clippedCells.append(visibleCell)
+                }
+            }
+        }
+        return clippedCells
     }
     
     func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, frameForSupplementaryView supplementaryView: UIView!, relativeToView relativeView: UIView!) -> CGRect {
-        return CGRectZero
+        return supplementaryView.convertRect(supplementaryView.bounds, toView: relativeView)
     }
 }
 

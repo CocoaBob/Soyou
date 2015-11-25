@@ -9,6 +9,7 @@
 @import ActionSheetPicker_3_0;
 @import AFNetworking;
 @import CHTCollectionViewWaterfallLayout;
+@import CHTwitterCover;
 @import DGElasticPullToRefresh;
 @import EAIntroView;
 @import FCUUID;
