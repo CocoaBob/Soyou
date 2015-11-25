@@ -16,9 +16,9 @@
 @import MagicalRecord;
 @import MBProgressHUD;
 @import MJRefresh;
+@import RMPZoomTransitionAnimator;
 @import SDWebImage;
 @import SpringIndicator;
 @import UICKeyChainStore;
 @import UIImage_ResizeMagick;
 @import UIColor_Hex_Swift;
-@import ZOZolaZoomTransition;

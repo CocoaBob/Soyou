@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
         MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreNamed("iPrices.sqlite")
         
+        // Setup Push notification
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil))
+        application.registerForRemoteNotifications()
+        
         // Setup themes
         Themes.setupAppearances()
         
@@ -56,6 +60,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: Notifications
+extension AppDelegate {
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        print("token==\(deviceToken)")
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        let alert = UIAlertView(title: "", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "OK")
+        
+        alert.show()
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        print("userInfo=\(userInfo)")
+    }
+
+}
+
+// MARK:
 extension AppDelegate: EAIntroDelegate {
     
     func showIntroView() {

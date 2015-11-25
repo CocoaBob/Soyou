@@ -33,6 +33,7 @@ PODS:
   - MagicalRecord (2.3.0)
   - MBProgressHUD (0.9.1)
   - MJRefresh (3.0.5)
+  - RMPZoomTransitionAnimator (1.0.1)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -40,26 +41,34 @@ PODS:
   - UICKeyChainStore (1.0.5)
   - UIColor_Hex_Swift (1.5)
   - UIImage-ResizeMagick (0.0.1)
-  - ZOZolaZoomTransition (1.0.0)
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.6)
   - ActionSheetPicker-3.0 (~> 2.0)
   - AFNetworking (~> 2.6)
   - CHTCollectionViewWaterfallLayout (~> 0.9)
-  - CHTwitterCover (~> 0.1)
+  - CHTwitterCover (from `git://github.com/CocoaBob/TwitterCover`)
   - DGElasticPullToRefresh (~> 1.0)
   - EAIntroView (~> 2.7)
   - FCUUID (~> 1.1)
   - MagicalRecord (~> 2.3)
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0)
+  - RMPZoomTransitionAnimator (~> 1.0)
   - SDWebImage (~> 3.7)
   - SpringIndicator (~> 1.2)
   - UICKeyChainStore (~> 1.0)
   - UIColor_Hex_Swift (~> 1.5)
   - UIImage-ResizeMagick (~> 0.0)
-  - ZOZolaZoomTransition (~> 1.0)
+
+EXTERNAL SOURCES:
+  CHTwitterCover:
+    :git: git://github.com/CocoaBob/TwitterCover
+
+CHECKOUT OPTIONS:
+  CHTwitterCover:
+    :commit: e3b4bc32783157fe98336997ba869bd65b127526
+    :git: git://github.com/CocoaBob/TwitterCover
 
 SPEC CHECKSUMS:
   1PasswordExtension: 9f471645d378283cb88c6d4bf502e4381a42c0ad
@@ -74,11 +83,11 @@ SPEC CHECKSUMS:
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: 809ed03f2014275056c3d65e2812aef1ba5b0f98
+  RMPZoomTransitionAnimator: 0782863eab1acc50511dbd146cd7df3afc142b54
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SpringIndicator: 2e66169e2595c00cc3ab34329d6bdbeab90680f0
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
   UIColor_Hex_Swift: 09997d02e9ba2833569fd048663fddbe90cf2c52
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
-  ZOZolaZoomTransition: 650b873204e4fe601334a99b49628d19c8e54cdd
 
 COCOAPODS: 0.39.0

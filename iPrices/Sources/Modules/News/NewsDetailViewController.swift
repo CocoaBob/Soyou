@@ -7,7 +7,7 @@
 //
 
 class NewsDetailViewController: UIViewController {
-    var webView: WKWebView?
+    var webView: UIWebView?
     var news: News?
     var scrollView: UIScrollView? {
         return self.webView?.scrollView
@@ -36,13 +36,13 @@ class NewsDetailViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        self.webView = WKWebView(frame: self.view.bounds)
+        self.webView = UIWebView(frame: self.view.bounds)
         self.view = self.webView!
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestNews()
+        loadNews()
     }
 
 }
@@ -56,9 +56,10 @@ extension NewsDetailViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             News.importData(newsData, localContext)
             
-            let localNews = self.news?.MR_inContext(localContext)
-            if let contentHTML = localNews?.content {
-                self.webView?.loadHTMLString(contentHTML, baseURL: nil)
+            if let localNews = self.news?.MR_inContext(localContext) {
+                if localNews.content != nil {
+                    self.loadPageContent(localNews)
+                }
             }
         })
     }
@@ -67,12 +68,12 @@ extension NewsDetailViewController {
         print("\(error)")
     }
     
-    func requestNews() {
+    func loadNews() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 
-                if let contentHTML = localNews.content {
-                    self.webView?.loadHTMLString(contentHTML, baseURL: nil)
+                if localNews.content != nil {
+                    self.loadPageContent(localNews)
                 } else {
                     if let newsID = localNews.id {
                         ServerManager.shared.requestNews("\(newsID)",
@@ -85,4 +86,44 @@ extension NewsDetailViewController {
         })
     }
     
+    func loadPageContent(news: News) {
+        // Load HTML
+        if let contentHTML = news.content {
+            self.webView?.loadHTMLString(contentHTML, baseURL: nil)
+        }
+        
+        // Load header image
+        let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
+        if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
+            self.webView?.scrollView.addTwitterCoverWithImage(image, withImageSize: CGSizeMake(image.size.width, min(image.size.height, 200)))
+        }
+    }
+    
+}
+
+// MARK: - RMPZoomTransitionAnimating
+extension NewsDetailViewController: RMPZoomTransitionAnimating {
+
+    func transitionSourceImageView() -> UIImageView! {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.userInteractionEnabled = false
+        if let fgImageView = self.webView?.scrollView.twitterCoverView {
+            imageView.frame = fgImageView.convertRect(fgImageView.frame, toView: self.view)
+            imageView.image = fgImageView.image
+            imageView.contentMode = fgImageView.contentMode
+        }
+        return imageView
+    }
+    
+    func transitionSourceBackgroundColor() -> UIColor! {
+        return UIColor.whiteColor()
+    }
+    
+    func transitionDestinationImageViewFrame() -> CGRect {
+        if let fgImageView = self.webView?.scrollView.twitterCoverView {
+            return fgImageView.convertRect(fgImageView.frame, toView: self.view)
+        }
+        return CGRectZero
+    }
 }

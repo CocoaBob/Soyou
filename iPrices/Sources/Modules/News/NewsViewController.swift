@@ -6,12 +6,12 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
+class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet var _collectionView: UICollectionView?
     
-    var currentMoreButtonCell: NewsCollectionViewCellMore?
-    var currentNewsViewCell: NewsCollectionViewCell?
+    var selectedMoreButtonCell: NewsCollectionViewCellMore?
+    var selectedNewsViewCell: NewsCollectionViewCell?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -90,7 +90,7 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
 extension NewsViewController {
     
     private func resetMoreButtonCell() {
-        if let cell = self.currentMoreButtonCell {
+        if let cell = self.selectedMoreButtonCell {
             cell.indicator?.hidden = true
             cell.moreImage?.hidden = false
         }
@@ -161,12 +161,12 @@ extension NewsViewController {
                     cell.indicator?.startAnimating()
                     cell.indicator?.hidden = false
                     cell.moreImage?.hidden = true
-                    self.currentMoreButtonCell = cell
+                    self.selectedMoreButtonCell = cell
                     self.requestNewsList(localNews.id)
                 }
             } else {
                 if let cell = cell as? NewsCollectionViewCell {
-                    self.currentNewsViewCell = cell
+                    self.selectedNewsViewCell = cell
                     
                     let newsDetailViewController = NewsDetailViewController(news: localNews)
                     
@@ -178,7 +178,7 @@ extension NewsViewController {
 }
 
 //MARK: - CollectionView Waterfall Layout
-extension NewsViewController {
+extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
         // Create a waterfall layout
@@ -234,59 +234,38 @@ extension NewsViewController {
 extension NewsViewController: UINavigationControllerDelegate {
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if let cell = self.currentNewsViewCell {
-            let type: ZOTransitionType = (fromVC == self) ? .Presenting : .Dismissing
-            let zoomTransition: ZOZolaZoomTransition = ZOZolaZoomTransition(fromView: cell.fgImageView, type: type, duration: 0.5, delegate: self)
-            zoomTransition.fadeColor = UIColor.whiteColor()
-            return zoomTransition
-        }
-        return nil
+        let animator = RMPZoomTransitionAnimator()
+        animator.goingForward = (operation == .Push)
+        animator.sourceTransition = fromVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
+        animator.destinationTransition = toVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
+        return animator
     }
 }
 
-// MARK: - ZOZolaZoomTransitionDelegate
-extension NewsViewController: ZOZolaZoomTransitionDelegate {
+// MARK: - RMPZoomTransitionAnimating
+extension NewsViewController: RMPZoomTransitionAnimating {
     
-    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, startingFrameForView targetView: UIView!, relativeToView relativeView: UIView!, fromViewController: UIViewController!, toViewController: UIViewController!) -> CGRect {
-        if let cell = self.currentNewsViewCell, imageView = cell.fgImageView {
-            if fromViewController == self {
-                return imageView.convertRect(imageView.bounds, toView: relativeView)
-            } else if fromViewController is NewsDetailViewController {
-                let detailController = fromViewController as! NewsDetailViewController
-                return detailController.view.convertRect(imageView.bounds, toView:relativeView)
-            }
+    func transitionSourceImageView() -> UIImageView! {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.userInteractionEnabled = false
+        if let fgImageView = self.selectedNewsViewCell?.fgImageView {
+            imageView.frame = fgImageView.convertRect(fgImageView.frame, toView: self.view)
+            imageView.image = fgImageView.image
+            imageView.contentMode = fgImageView.contentMode
+        }
+        return imageView
+    }
+    
+    func transitionSourceBackgroundColor() -> UIColor! {
+        return UIColor.whiteColor()
+    }
+    
+    func transitionDestinationImageViewFrame() -> CGRect {
+        if let fgImageView = self.selectedNewsViewCell?.fgImageView {
+            return fgImageView.convertRect(fgImageView.frame, toView: self.view)
         }
         return CGRectZero
-    }
-    
-    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, finishingFrameForView targetView: UIView!, relativeToView relativeView: UIView!, fromViewController: UIViewController!, toViewController: UIViewController!) -> CGRect {
-        
-        if let cell = self.currentNewsViewCell, imageView = cell.fgImageView {
-            if fromViewController == self {
-                let detailController = toViewController as! NewsDetailViewController
-                return detailController.view.convertRect(imageView.bounds, toView:relativeView)
-            } else if fromViewController is NewsDetailViewController {
-                return imageView.convertRect(imageView.bounds, toView: relativeView)
-            }
-        }
-        return CGRectZero
-    }
-    
-    func supplementaryViewsForZolaZoomTransition(zoomTransition: ZOZolaZoomTransition!) -> [AnyObject]! {
-        var clippedCells = [UICollectionViewCell]()
-        if let collectionView = self.collectionView() {
-            for visibleCell in collectionView.visibleCells() {
-                let convertedRect = visibleCell.convertRect(visibleCell.bounds, toView: self.view)
-                if CGRectContainsRect(self.view.frame, convertedRect) {
-                    clippedCells.append(visibleCell)
-                }
-            }
-        }
-        return clippedCells
-    }
-    
-    func zolaZoomTransition(zoomTransition: ZOZolaZoomTransition!, frameForSupplementaryView supplementaryView: UIView!, relativeToView relativeView: UIView!) -> CGRect {
-        return supplementaryView.convertRect(supplementaryView.bounds, toView: relativeView)
     }
 }
 
