@@ -206,9 +206,9 @@ extension NewsViewController {
         // Update margins
         if let layout = self.collectionView()?.collectionViewLayout as? CHTCollectionViewWaterfallLayout {
             if count > 1 {
-                layout.sectionInset = UIEdgeInsetsMake(4, 4, 4, 4)
+                layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
             } else {
-                layout.sectionInset = UIEdgeInsetsMake(4, 0, 4, 0)
+                layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
             }
         }
     }

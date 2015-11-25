@@ -20,6 +20,11 @@ public struct Cons {
         static let reqAPINews       = "News"
     }
     
+    struct Usr {
+        static let uuid             = "uuid"
+        static let token            = "token"
+    }
+    
     struct App {
         static let lastVerIntro     = "lastVerIntro" // The last app version that displayed the introduction view
     }
