@@ -12,6 +12,7 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     
     var selectedMoreButtonCell: NewsCollectionViewCellMore?
     var selectedNewsViewCell: NewsCollectionViewCell?
+    var selectedIndexPath: NSIndexPath?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -162,13 +163,15 @@ extension NewsViewController {
                     cell.indicator?.hidden = false
                     cell.moreImage?.hidden = true
                     self.selectedMoreButtonCell = cell
+                    self.selectedIndexPath = indexPath
                     self.requestNewsList(localNews.id)
                 }
             } else {
                 if let cell = cell as? NewsCollectionViewCell {
                     self.selectedNewsViewCell = cell
+                    self.selectedIndexPath = indexPath
                     
-                    let newsDetailViewController = NewsDetailViewController(news: localNews)
+                    let newsDetailViewController = NewsDetailViewController(news: localNews, image: cell.fgImageView?.image)
                     
                     self.navigationController?.pushViewController(newsDetailViewController, animated: true)
                 }
@@ -196,12 +199,12 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         // Add the waterfall layout to your collection view
         self.collectionView()!.collectionViewLayout = layout
         
-        updateColumnCount(Int(floor(self.view.frame.size.width / 240)))
+        updateColumnCount(Int(floor(self.view.frame.size.width / 568)))
     }
     
     func updateColumnCount(count: Int) {
         // Update column count
-        (self.collectionView()!.collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = count
+        (self.collectionView()!.collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = max(count, 1)
         
         // Update margins
         if let layout = self.collectionView()?.collectionViewLayout as? CHTCollectionViewWaterfallLayout {
@@ -246,18 +249,27 @@ extension NewsViewController: UINavigationControllerDelegate {
     }
 }
 
-// MARK: - RMPZoomTransitionAnimating
-extension NewsViewController: RMPZoomTransitionAnimating {
+// MARK: - RMPZoomTransitionAnimating/RMPZoomTransitionDelegate
+extension NewsViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
+    
+    func imageViewFrame() -> CGRect {
+        if let collectionView = self.collectionView(),
+            let indexPath = self.selectedIndexPath,
+            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell,
+            let imageView = cell.fgImageView {
+                let frame = imageView.convertRect(imageView.frame, toView: self.view.window)
+                return frame
+        }
+        return CGRectZero
+    }
     
     func transitionSourceImageView() -> UIImageView! {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.userInteractionEnabled = false
-        if let fgImageView = self.selectedNewsViewCell?.fgImageView {
-            imageView.frame = fgImageView.convertRect(fgImageView.frame, toView: self.view)
-            imageView.image = fgImageView.image
-            imageView.contentMode = fgImageView.contentMode
-        }
+        imageView.contentMode = .ScaleAspectFill
+        imageView.frame = imageViewFrame()
+        imageView.image = self.selectedNewsViewCell?.fgImageView!.image
         return imageView
     }
     
@@ -266,14 +278,8 @@ extension NewsViewController: RMPZoomTransitionAnimating {
     }
     
     func transitionDestinationImageViewFrame() -> CGRect {
-        if let fgImageView = self.selectedNewsViewCell?.fgImageView {
-            return fgImageView.convertRect(fgImageView.frame, toView: self.view)
-        }
-        return CGRectZero
+        return imageViewFrame()
     }
-}
-
-extension NewsViewController: RMPZoomTransitionDelegate {
     
     func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
         

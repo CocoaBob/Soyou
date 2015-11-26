@@ -7,18 +7,21 @@
 //
 
 class NewsDetailViewController: UIViewController {
-    var webView: UIWebView?
     var news: News?
+    var image: UIImage?
+    
+    var webView: UIWebView?
     var scrollView: UIScrollView? {
         return self.webView?.scrollView
     }
     
     convenience init() {
-        self.init(news: nil)
+        self.init(news: nil, image: nil)
     }
     
-    init(news: News?) {
+    init(news: News?, image: UIImage?) {
         self.news = news
+        self.image = image
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -26,8 +29,6 @@ class NewsDetailViewController: UIViewController {
         super.init(coder: aDecoder)
         
         // UIViewController
-//        updateTitleViewImage(nil)
-        
         self.edgesForExtendedLayout = UIRectEdge.None
         self.extendedLayoutIncludesOpaqueBars = false
         self.automaticallyAdjustsScrollViewInsets = true
@@ -38,6 +39,10 @@ class NewsDetailViewController: UIViewController {
         
         self.webView = UIWebView(frame: self.view.bounds)
         self.view = self.webView!
+        
+        if let image = self.image {
+            self.webView?.scrollView.addTwitterCoverWithImage(image, withImageSize: CGSizeMake(image.size.width, min(image.size.height, 200)))
+        }
     }
     
     override func viewDidLoad() {
@@ -91,28 +96,27 @@ extension NewsDetailViewController {
         if let contentHTML = news.content {
             self.webView?.loadHTMLString(contentHTML, baseURL: nil)
         }
-        
-        // Load header image
-        let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
-        if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
-            self.webView?.scrollView.addTwitterCoverWithImage(image, withImageSize: CGSizeMake(image.size.width, min(image.size.height, 200)))
-        }
     }
     
 }
 
-// MARK: - RMPZoomTransitionAnimating
-extension NewsDetailViewController: RMPZoomTransitionAnimating {
-
+// MARK: - RMPZoomTransitionAnimating/RMPZoomTransitionDelegate
+extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
+    
+    func imageViewFrame() -> CGRect {
+        if let fgImageView = self.webView?.scrollView.twitterCoverView {
+            return fgImageView.convertRect(fgImageView.frame, toView: self.view)
+        }
+        return CGRectZero
+    }
+    
     func transitionSourceImageView() -> UIImageView! {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.userInteractionEnabled = false
-        if let fgImageView = self.webView?.scrollView.twitterCoverView {
-            imageView.frame = fgImageView.convertRect(fgImageView.frame, toView: self.view)
-            imageView.image = fgImageView.image
-            imageView.contentMode = fgImageView.contentMode
-        }
+        imageView.contentMode = .ScaleAspectFill
+        imageView.frame = imageViewFrame()
+        imageView.image = self.webView?.scrollView.twitterCoverView!.image
         return imageView
     }
     
@@ -121,14 +125,8 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating {
     }
     
     func transitionDestinationImageViewFrame() -> CGRect {
-        if let fgImageView = self.webView?.scrollView.twitterCoverView {
-            return fgImageView.convertRect(fgImageView.frame, toView: self.view)
-        }
-        return CGRectZero
+        return imageViewFrame()
     }
-}
-
-extension NewsDetailViewController: RMPZoomTransitionDelegate {
     
     func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
         
