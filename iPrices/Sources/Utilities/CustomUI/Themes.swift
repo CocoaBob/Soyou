@@ -13,9 +13,10 @@ class Themes {
 //        UIWindow.appearance().tintColor = UIColor(rgba: "#F3DE9C")
         
         // UINavigationBar
-        UINavigationBar.appearance().translucent = false
+        UINavigationBar.appearance().translucent = true
+        UINavigationBar.appearance().barStyle = .Black
         UINavigationBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
-        UINavigationBar.appearance().barTintColor = UIColor(rgba: "#444") // Bar color
+//        UINavigationBar.appearance().barTintColor = UIColor(rgba: "#444") // Bar color
         
         // UITabBar
         UITabBar.appearance().translucent = false

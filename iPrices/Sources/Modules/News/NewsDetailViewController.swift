@@ -15,21 +15,21 @@ class NewsDetailViewController: UIViewController {
         return self.webView?.scrollView
     }
     
-    convenience init() {
-        self.init(news: nil, image: nil)
-    }
-    
     init(news: News?, image: UIImage?) {
         self.news = news
         self.image = image
         super.init(nibName: nil, bundle: nil)
     }
-
+    
+    convenience init() {
+        self.init(news: nil, image: nil)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         // UIViewController
-        self.edgesForExtendedLayout = UIRectEdge.None
+        self.edgesForExtendedLayout = UIRectEdge.Top
         self.extendedLayoutIncludesOpaqueBars = false
         self.automaticallyAdjustsScrollViewInsets = true
     }
@@ -41,13 +41,20 @@ class NewsDetailViewController: UIViewController {
         self.view = self.webView!
         
         if let image = self.image {
-            self.webView?.scrollView.addTwitterCoverWithImage(image, withImageSize: CGSizeMake(image.size.width, min(image.size.height, 200)))
+            self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: 200)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadNews()
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animateAlongsideTransition({ (context) -> Void in
+            self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
+            }, completion: nil);
     }
 
 }
@@ -93,8 +100,8 @@ extension NewsDetailViewController {
     
     func loadPageContent(news: News) {
         // Load HTML
-        if let contentHTML = news.content {
-            self.webView?.loadHTMLString(contentHTML, baseURL: nil)
+        if let webView = self.webView, contentHTML = news.content {
+            webView.loadHTMLString(contentHTML, baseURL: nil)
         }
     }
     
