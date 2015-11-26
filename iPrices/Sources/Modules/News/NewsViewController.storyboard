@@ -75,14 +75,31 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="295" height="250"/>
                                                     <animations/>
                                                 </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="p8Y-WW-D1Y">
+                                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CYK-Z3-cg3">
                                                     <rect key="frame" x="0.0" y="210" width="295" height="40"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Nhn-dx-Nay">
+                                                        <rect key="frame" x="0.0" y="0.0" width="295" height="40"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="p8Y-WW-D1Y">
+                                                                <rect key="frame" x="0.0" y="0.0" width="295" height="40"/>
+                                                                <animations/>
+                                                                <color key="textColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            </textView>
+                                                        </subviews>
+                                                        <animations/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="p8Y-WW-D1Y" secondAttribute="bottom" id="IQ1-rf-uWz"/>
+                                                            <constraint firstAttribute="trailing" secondItem="p8Y-WW-D1Y" secondAttribute="trailing" id="Vbi-eY-xLa"/>
+                                                            <constraint firstItem="p8Y-WW-D1Y" firstAttribute="leading" secondItem="Nhn-dx-Nay" secondAttribute="leading" id="WC4-Nu-acf"/>
+                                                            <constraint firstItem="p8Y-WW-D1Y" firstAttribute="top" secondItem="Nhn-dx-Nay" secondAttribute="top" id="v2e-Q3-i2H"/>
+                                                        </constraints>
+                                                    </view>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
+                                                    <blurEffect style="dark"/>
+                                                </visualEffectView>
                                             </subviews>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -90,13 +107,13 @@
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="p8Y-WW-D1Y" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="1BZ-az-3zF"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="4mj-Pd-K5z"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="5ll-rl-s5S"/>
-                                            <constraint firstAttribute="trailing" secondItem="p8Y-WW-D1Y" secondAttribute="trailing" id="EqF-jZ-488"/>
-                                            <constraint firstAttribute="bottom" secondItem="p8Y-WW-D1Y" secondAttribute="bottom" id="RRq-AQ-XRE"/>
+                                            <constraint firstAttribute="bottom" secondItem="CYK-Z3-cg3" secondAttribute="bottom" id="QBv-v6-JcX"/>
                                             <constraint firstAttribute="bottom" secondItem="Jsm-0J-WRm" secondAttribute="bottom" id="T1n-QD-sn7"/>
+                                            <constraint firstItem="CYK-Z3-cg3" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="UvT-x3-GU4"/>
                                             <constraint firstAttribute="trailing" secondItem="Jsm-0J-WRm" secondAttribute="trailing" id="VD9-6a-gvK"/>
+                                            <constraint firstAttribute="trailing" secondItem="CYK-Z3-cg3" secondAttribute="trailing" id="tBh-j1-wp6"/>
                                         </constraints>
                                         <size key="customSize" width="295" height="250"/>
                                         <connections>
