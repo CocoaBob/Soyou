@@ -6,13 +6,14 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class NewsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
     
     var selectedMoreButtonCell: NewsCollectionViewCellMore?
     var selectedNewsViewCell: NewsCollectionViewCell?
     var selectedIndexPath: NSIndexPath?
+    var isEdgeSwiping: Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -20,22 +21,22 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
         // UIViewController
         updateTitleViewImage(nil)
         
-        self.edgesForExtendedLayout = UIRectEdge.Top
-        self.extendedLayoutIncludesOpaqueBars = false
+        self.edgesForExtendedLayout = UIRectEdge.All
+        self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = true
 
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_home"), selectedImage: UIImage(named: "img_tab_home_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarController?.tabBar.translucent = false
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // UIViewController
+        // UINavigationController delegate
         self.navigationController?.delegate = self;
-        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
+
         // Setups
         setupCollectionView()
         setupRefreshControls()
@@ -57,15 +58,24 @@ class NewsViewController: BaseViewController, UICollectionViewDelegate, UICollec
     }
     
     override func viewWillAppear(animated: Bool) {
-//        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        super.viewWillAppear(animated)
+        if let tabBar = self.tabBarController?.tabBar {
+            var frame = tabBar.frame
+            frame.origin.y = CGRectGetMaxY(self.view.frame) - CGRectGetHeight(frame)
+            if frame != tabBar.frame {
+                UIView.animateWithDuration(0.25) { () -> Void in
+                    tabBar.frame = frame
+                }
+            }
+        }
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,isMore:true", ascending: false)
     }
     
-    override func collectionView() -> UICollectionView? {
-        return _collectionView
+    override func collectionView() -> UICollectionView {
+        return _collectionView!
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -124,7 +134,7 @@ extension NewsViewController {
 }
 
 // MARK: - CollectionView Delegate Methods
-extension NewsViewController {
+extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.fetchedResultsController.sections![section].numberOfObjects
@@ -178,6 +188,10 @@ extension NewsViewController {
             }
         }
     }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.isEdgeSwiping = false
+    }
 }
 
 //MARK: - CollectionView Waterfall Layout
@@ -193,21 +207,21 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         layout.minimumInteritemSpacing = 4
 
         // Collection view attributes
-        self.collectionView()!.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
-        self.collectionView()!.alwaysBounceVertical = true
+        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.collectionView().alwaysBounceVertical = true
         
         // Add the waterfall layout to your collection view
-        self.collectionView()!.collectionViewLayout = layout
+        self.collectionView().collectionViewLayout = layout
         
         updateColumnCount(Int(floor(self.view.frame.size.width / 568)))
     }
     
     func updateColumnCount(count: Int) {
         // Update column count
-        (self.collectionView()!.collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = max(count, 1)
+        (self.collectionView().collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = max(count, 1)
         
         // Update margins
-        if let layout = self.collectionView()?.collectionViewLayout as? CHTCollectionViewWaterfallLayout {
+        if let layout = self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout {
             if count > 1 {
                 layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
             } else {
@@ -237,6 +251,11 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
 extension NewsViewController: UINavigationControllerDelegate {
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if self.isEdgeSwiping {
+            self.isEdgeSwiping = false
+            return nil
+        }
+        
         if fromVC is RMPZoomTransitionAnimating && toVC is RMPZoomTransitionAnimating {
             let animator = RMPZoomTransitionAnimator()
             animator.goingForward = (operation == .Push)
@@ -249,13 +268,21 @@ extension NewsViewController: UINavigationControllerDelegate {
     }
 }
 
+// MARK: UIGestureRecognizerDelegate
+extension NewsViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        self.isEdgeSwiping = true
+        return true
+    }
+}
+
 // MARK: - RMPZoomTransitionAnimating/RMPZoomTransitionDelegate
 extension NewsViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func imageViewFrame() -> CGRect {
-        if let collectionView = self.collectionView(),
-            let indexPath = self.selectedIndexPath,
-            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell,
+        if let indexPath = self.selectedIndexPath,
+            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell,
             let imageView = cell.fgImageView {
                 let frame = imageView.convertRect(imageView.frame, toView: self.view.window)
                 return frame
@@ -309,7 +336,7 @@ extension NewsViewController {
             return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""), dateString)
         }
         header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
-        self.collectionView()!.mj_header = header
+        self.collectionView().mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
             let lastNews = self.fetchedResultsController.fetchedObjects?.last as? News
@@ -321,7 +348,7 @@ extension NewsViewController {
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing", comment: ""), forState: .Refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
         footer.automaticallyHidden = false
-        self.collectionView()!.mj_footer = footer
+        self.collectionView().mj_footer = footer
     }
     
     func beginRefreshing() {
@@ -329,8 +356,8 @@ extension NewsViewController {
     }
     
     func endRefreshing() {
-        self.collectionView()!.mj_header.endRefreshing()
-        self.collectionView()!.mj_footer.endRefreshing()
+        self.collectionView().mj_header.endRefreshing()
+        self.collectionView().mj_footer.endRefreshing()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }

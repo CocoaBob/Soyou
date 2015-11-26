@@ -29,8 +29,8 @@ class NewsDetailViewController: UIViewController {
         super.init(coder: aDecoder)
         
         // UIViewController
-        self.edgesForExtendedLayout = UIRectEdge.Top
-        self.extendedLayoutIncludesOpaqueBars = false
+        self.edgesForExtendedLayout = UIRectEdge.All
+        self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = true
     }
     
@@ -49,6 +49,19 @@ class NewsDetailViewController: UIViewController {
         super.viewDidLoad()
         
         loadNews()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let tabBar = self.tabBarController?.tabBar {
+            var frame = tabBar.frame
+            frame.origin.y = CGRectGetMaxY(self.view.frame)
+            if frame != tabBar.frame {
+                UIView.animateWithDuration(0.25) { () -> Void in
+                    tabBar.frame = frame
+                }
+            }
+        }
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

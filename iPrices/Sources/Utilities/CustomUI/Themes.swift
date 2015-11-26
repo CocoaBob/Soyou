@@ -20,6 +20,7 @@ class Themes {
         
         // UITabBar
         UITabBar.appearance().translucent = false
+//        UITabBar.appearance().barStyle = .Black
         UITabBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
 //        UITabBar.appearance().barTintColor = UIColor(rgba: "#C59E6D") // Bar color
         
