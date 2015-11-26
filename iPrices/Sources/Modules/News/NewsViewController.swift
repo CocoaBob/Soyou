@@ -234,11 +234,15 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
 extension NewsViewController: UINavigationControllerDelegate {
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let animator = RMPZoomTransitionAnimator()
-        animator.goingForward = (operation == .Push)
-        animator.sourceTransition = fromVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-        animator.destinationTransition = toVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-        return animator
+        if fromVC is RMPZoomTransitionAnimating && toVC is RMPZoomTransitionAnimating {
+            let animator = RMPZoomTransitionAnimator()
+            animator.goingForward = (operation == .Push)
+            animator.sourceTransition = fromVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
+            animator.destinationTransition = toVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
+            return animator
+        } else {
+            return nil
+        }
     }
 }
 
@@ -266,6 +270,13 @@ extension NewsViewController: RMPZoomTransitionAnimating {
             return fgImageView.convertRect(fgImageView.frame, toView: self.view)
         }
         return CGRectZero
+    }
+}
+
+extension NewsViewController: RMPZoomTransitionDelegate {
+    
+    func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
+        
     }
 }
 

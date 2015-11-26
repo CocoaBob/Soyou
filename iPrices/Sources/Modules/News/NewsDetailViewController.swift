@@ -127,3 +127,10 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating {
         return CGRectZero
     }
 }
+
+extension NewsDetailViewController: RMPZoomTransitionDelegate {
+    
+    func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
+        
+    }
+}
