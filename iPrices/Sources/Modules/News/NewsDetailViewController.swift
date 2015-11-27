@@ -113,8 +113,21 @@ extension NewsDetailViewController {
     
     func loadPageContent(news: News) {
         // Load HTML
-        if let webView = self.webView, contentHTML = news.content {
-            webView.loadHTMLString(contentHTML, baseURL: nil)
+        if let webView = self.webView, newsContent = news.content, newsTitle = news.title {
+            var cssContent: String?
+            var htmlContent: String?
+            do {
+                cssContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("news", ofType: "css")!)
+                htmlContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("news", ofType: "html")!)
+            } catch {
+                
+            }
+            if let cssContent = cssContent, var htmlContent = htmlContent {
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__TITLE__", withString: newsTitle)
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CONTENT__", withString: newsContent)
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
+                webView.loadHTMLString(htmlContent, baseURL: nil)
+            }
         }
     }
     

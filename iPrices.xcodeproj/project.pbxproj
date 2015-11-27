@@ -29,6 +29,8 @@
 		457D1EB81BFBDE9700D451D0 /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* ServerManager.swift */; };
 		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
+		45A4D8321C08CD200000309C /* news.css in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8301C08CD200000309C /* news.css */; };
+		45A4D8331C08CD200000309C /* news.html in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8311C08CD200000309C /* news.html */; };
 		45B77F0A1C05A77B002E3385 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77F091C05A77B002E3385 /* AccountManager.swift */; };
 		45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */; };
 		45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */; };
@@ -63,6 +65,8 @@
 		457D1EB71BFBDE9700D451D0 /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		45A4D8301C08CD200000309C /* news.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = news.css; sourceTree = "<group>"; };
+		45A4D8311C08CD200000309C /* news.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = news.html; sourceTree = "<group>"; };
 		45B77F091C05A77B002E3385 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +121,8 @@
 				4568E28F1BF90797009A6164 /* Assets.xcassets */,
 				45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */,
 				4555BBAB1BFFEEB500A01B41 /* server.cer */,
+				45A4D8301C08CD200000309C /* news.css */,
+				45A4D8311C08CD200000309C /* news.html */,
 			);
 			name = Resources;
 			path = iPrices/Resources;
@@ -326,7 +332,9 @@
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
 				455D06C11C03991200D81ABF /* BrandsViewController.storyboard in Resources */,
+				45A4D8321C08CD200000309C /* news.css in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
+				45A4D8331C08CD200000309C /* news.html in Resources */,
 				455D06B81C03955900D81ABF /* AccountViewController.storyboard in Resources */,
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
 			);
