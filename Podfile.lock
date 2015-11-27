@@ -67,7 +67,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   CHTwitterCover:
-    :commit: ac9ea6d1fd9158e09ff8c00b340405fa0abd829f
+    :commit: 61c89bcff6cc47e46c92e24670dabc8674f9ba45
     :git: git://github.com/CocoaBob/TwitterCover
 
 SPEC CHECKSUMS:
