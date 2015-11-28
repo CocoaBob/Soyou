@@ -48,9 +48,6 @@ class News: NSManagedObject {
             if let image = data["image"] as? String {
                 news.image = image
             }
-            if let version = data["version"] as? String {
-                news.version = version
-            }
             if let content = data["content"] as? String {
                 news.content = content
             }

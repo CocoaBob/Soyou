@@ -23,7 +23,6 @@ extension News {
     @NSManaged var isOnline: NSNumber?
     @NSManaged var title: String?
     @NSManaged var url: String?
-    @NSManaged var version: String?
     @NSManaged var isMore: NSNumber?
 
 }

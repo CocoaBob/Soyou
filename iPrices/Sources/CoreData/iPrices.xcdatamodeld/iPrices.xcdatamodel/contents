@@ -11,9 +11,8 @@
         <attribute name="isOnline" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="version" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="News" positionX="-63" positionY="-18" width="128" height="210"/>
+        <element name="News" positionX="-63" positionY="-18" width="128" height="195"/>
     </elements>
 </model>
