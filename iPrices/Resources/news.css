@@ -217,11 +217,7 @@ ol {
 .content img {
   max-width: 100%;
   display: block;
-  margin: 10px 0;
-}
-.content img[src*="zhihu.com/equation"] {
-  display: inline-block;
-  margin: 0 3px;
+  margin: 10px auto;
 }
 .content a {
   color: #259;
@@ -244,7 +240,7 @@ ol {
 }
 .question {
   overflow: hidden;
-  padding: 0 20px!important;
+  padding: 0 15px!important;
 }
 .question + .question {
   border-top: 5px solid #f6f6f6;
