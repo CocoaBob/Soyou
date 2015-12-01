@@ -40,7 +40,7 @@ class NewsDetailViewController: UIViewController {
         self.webView = UIWebView(frame: self.view.bounds)
         self.view = self.webView!
         
-        let tapGR = UITapGestureRecognizer()
+        let tapGR = UITapGestureRecognizer(target: self, action: "tapHandler:")
         tapGR.numberOfTapsRequired = 1
         tapGR.numberOfTouchesRequired = 1
         tapGR.delegate = self
@@ -80,52 +80,61 @@ class NewsDetailViewController: UIViewController {
 
 extension NewsDetailViewController: UIGestureRecognizerDelegate {
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    func tapHandler(tapGR: UITapGestureRecognizer) {
         guard let webView = self.webView else {
-            return true
+            return
         }
         
-        var touchPoint = touch.locationInView(webView)
+        var touchPoint = tapGR.locationInView(self.webView)
         var offset = CGPointZero
         if let xOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageXOffset"),
             yOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageYOffset") {
-            offset.x = CGFloat((xOffset as NSString).doubleValue)
-            offset.y = CGFloat((yOffset as NSString).doubleValue)
+                offset.x = CGFloat((xOffset as NSString).doubleValue)
+                offset.y = CGFloat((yOffset as NSString).doubleValue)
         }
         var windowSize = CGSizeZero
         if let width = webView.stringByEvaluatingJavaScriptFromString("window.innerWidth"),
             height = webView.stringByEvaluatingJavaScriptFromString("window.innerHeight") {
-            windowSize.width = CGFloat((width as NSString).doubleValue)
-            windowSize.height = CGFloat((height as NSString).doubleValue)
+                windowSize.width = CGFloat((width as NSString).doubleValue)
+                windowSize.height = CGFloat((height as NSString).doubleValue)
         }
         
         let factor = windowSize.width / CGRectGetWidth(webView.frame)
         touchPoint.x *= factor
         touchPoint.y = (touchPoint.y - webView.scrollView.contentInset.top) * factor
         
-//        let imagePath = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src")
         guard let tagName = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).tagName") else {
-            return true
+            return
         }
         
         if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
             if let imageDataBase64: String = webView.stringByEvaluatingJavaScriptFromString(
-                    "var img = document.elementFromPoint(\(touchPoint.x), \(touchPoint.y));" +
-                    "var canvas = document.createElement('canvas'); " +
-                    "var context = canvas.getContext('2d');" +
-                    "canvas.width = img.naturalWidth;" +
-                    "canvas.height = img.naturalHeight;" +
-                    "context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);" +
-                    "canvas.toDataURL('image/png');"
-                ),
-                imageData = imageDataBase64.substringFromIndex(imageDataBase64.startIndex.advancedBy(22)).base64DecodedData(), // // strip the string "data:image/png:base64,"
+                "var img = document.elementFromPoint(\(touchPoint.x), \(touchPoint.y));" +
+                "var canvas = document.createElement('canvas'); " +
+                "var context = canvas.getContext('2d');" +
+                "canvas.width = img.naturalWidth;" +
+                "canvas.height = img.naturalHeight;" +
+                "context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);" +
+                "canvas.toDataURL('image/png');"),
+                imageData = imageDataBase64.substringFromIndex(imageDataBase64.startIndex.advancedBy(22)).base64DecodedData(),
                 image = UIImage(data: imageData)
             {
-                let photoBrowser = IDMPhotoBrowser(photos: [image])
+                let photoBrowser = IDMPhotoBrowser(photos: [IDMPhoto(image:image)])
+                photoBrowser.displayActionButton = false
+                photoBrowser.displayArrowButton = false
+                photoBrowser.displayCounterLabel = false
+                photoBrowser.displayDoneButton = false
+                photoBrowser.displayToolbar = false
+                photoBrowser.usePopAnimation = false
+                photoBrowser.useWhiteBackgroundColor = false
+                photoBrowser.disableVerticalSwipe = false
+                photoBrowser.forceHideStatusBar = true
                 self.presentViewController(photoBrowser, animated: true, completion: nil)
             }
         }
-        
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
