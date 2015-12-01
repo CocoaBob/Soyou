@@ -40,6 +40,12 @@ class NewsDetailViewController: UIViewController {
         self.webView = UIWebView(frame: self.view.bounds)
         self.view = self.webView!
         
+        let tapGR = UITapGestureRecognizer()
+        tapGR.numberOfTapsRequired = 1
+        tapGR.numberOfTouchesRequired = 1
+        tapGR.delegate = self
+        self.webView?.addGestureRecognizer(tapGR)
+        
         if let image = self.image {
             self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: 200, noBlur: true)
         }
@@ -70,6 +76,58 @@ class NewsDetailViewController: UIViewController {
             }, completion: nil);
     }
 
+}
+
+extension NewsDetailViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        guard let webView = self.webView else {
+            return true
+        }
+        
+        var touchPoint = touch.locationInView(webView)
+        var offset = CGPointZero
+        if let xOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageXOffset"),
+            yOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageYOffset") {
+            offset.x = CGFloat((xOffset as NSString).doubleValue)
+            offset.y = CGFloat((yOffset as NSString).doubleValue)
+        }
+        var windowSize = CGSizeZero
+        if let width = webView.stringByEvaluatingJavaScriptFromString("window.innerWidth"),
+            height = webView.stringByEvaluatingJavaScriptFromString("window.innerHeight") {
+            windowSize.width = CGFloat((width as NSString).doubleValue)
+            windowSize.height = CGFloat((height as NSString).doubleValue)
+        }
+        
+        let factor = windowSize.width / CGRectGetWidth(webView.frame)
+        touchPoint.x *= factor
+        touchPoint.y = (touchPoint.y - webView.scrollView.contentInset.top) * factor
+        
+//        let imagePath = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src")
+        guard let tagName = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).tagName") else {
+            return true
+        }
+        
+        if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
+            if let imageDataBase64: String = webView.stringByEvaluatingJavaScriptFromString(
+                    "var img = document.elementFromPoint(\(touchPoint.x), \(touchPoint.y));" +
+                    "var canvas = document.createElement('canvas'); " +
+                    "var context = canvas.getContext('2d');" +
+                    "canvas.width = img.naturalWidth;" +
+                    "canvas.height = img.naturalHeight;" +
+                    "context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);" +
+                    "canvas.toDataURL('image/png');"
+                ),
+                imageData = imageDataBase64.substringFromIndex(imageDataBase64.startIndex.advancedBy(22)).base64DecodedData(), // // strip the string "data:image/png:base64,"
+                image = UIImage(data: imageData)
+            {
+                let photoBrowser = IDMPhotoBrowser(photos: [image])
+                self.presentViewController(photoBrowser, animated: true, completion: nil)
+            }
+        }
+        
+        return true
+    }
 }
 
 // MARK: Data
