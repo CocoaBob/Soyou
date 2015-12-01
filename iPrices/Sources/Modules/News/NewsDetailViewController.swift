@@ -138,7 +138,7 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
     
     func imageViewFrame() -> CGRect {
         if let fgImageView = self.webView?.scrollView.twitterCoverView {
-            return fgImageView.convertRect(fgImageView.frame, toView: self.view)
+            return fgImageView.convertRect(fgImageView.bounds, toView: self.view.window)
         }
         return CGRectZero
     }
@@ -154,7 +154,7 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
     }
     
     func transitionSourceBackgroundColor() -> UIColor! {
-        return UIColor.whiteColor()
+        return self.view.backgroundColor
     }
     
     func transitionDestinationImageViewFrame() -> CGRect {

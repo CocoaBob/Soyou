@@ -257,18 +257,27 @@ extension NewsViewController: UINavigationControllerDelegate {
         }
         
         if fromVC is RMPZoomTransitionAnimating && toVC is RMPZoomTransitionAnimating {
+            let src = fromVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
+            let dest = toVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
+            
+            // If one of the frames is invisible
+            if (operation == .Pop &&
+                src.transitionDestinationImageViewFrame().size.height == 0) {
+                    return nil
+            }
+            
             let animator = RMPZoomTransitionAnimator()
             animator.goingForward = (operation == .Push)
-            animator.sourceTransition = fromVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            animator.destinationTransition = toVC as? protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
+            animator.sourceTransition = src
+            animator.destinationTransition = dest
             return animator
-        } else {
-            return nil
         }
+        
+        return nil
     }
 }
 
-// MARK: UIGestureRecognizerDelegate
+// MARK: UIGestureRecognizerDelegate (interactivePopGestureRecognizer.delegate)
 extension NewsViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -301,7 +310,7 @@ extension NewsViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDeleg
     }
     
     func transitionSourceBackgroundColor() -> UIColor! {
-        return UIColor.whiteColor()
+        return self.view.backgroundColor
     }
     
     func transitionDestinationImageViewFrame() -> CGRect {
