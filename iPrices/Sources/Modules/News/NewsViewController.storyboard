@@ -76,10 +76,9 @@
                                                     <animations/>
                                                 </imageView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="p8Y-WW-D1Y">
-                                                    <rect key="frame" x="0.0" y="210" width="295" height="40"/>
+                                                    <rect key="frame" x="0.0" y="200" width="295" height="40"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.67000000000000004" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                    <color key="textColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
@@ -93,7 +92,7 @@
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="4mj-Pd-K5z"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="5ll-rl-s5S"/>
                                             <constraint firstAttribute="trailing" secondItem="p8Y-WW-D1Y" secondAttribute="trailing" id="LUR-Fb-8gY"/>
-                                            <constraint firstAttribute="bottom" secondItem="p8Y-WW-D1Y" secondAttribute="bottom" id="OOW-Jc-uy8"/>
+                                            <constraint firstAttribute="bottom" secondItem="p8Y-WW-D1Y" secondAttribute="bottom" constant="10" id="OOW-Jc-uy8"/>
                                             <constraint firstAttribute="bottom" secondItem="Jsm-0J-WRm" secondAttribute="bottom" id="T1n-QD-sn7"/>
                                             <constraint firstAttribute="trailing" secondItem="Jsm-0J-WRm" secondAttribute="trailing" id="VD9-6a-gvK"/>
                                             <constraint firstItem="p8Y-WW-D1Y" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="oEQ-yP-vb3"/>

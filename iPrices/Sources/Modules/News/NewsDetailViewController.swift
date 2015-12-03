@@ -120,6 +120,7 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
                 image = UIImage(data: imageData)
             {
                 let photoBrowser = IDMPhotoBrowser(photos: [IDMPhoto(image:image)])
+                photoBrowser.backgroundAlphaMax = 0.5
                 photoBrowser.displayActionButton = false
                 photoBrowser.displayArrowButton = false
                 photoBrowser.displayCounterLabel = false
@@ -130,6 +131,11 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
                 photoBrowser.disableVerticalSwipe = false
                 photoBrowser.forceHideStatusBar = true
                 self.presentViewController(photoBrowser, animated: true, completion: nil)
+                
+                let tapGR = UITapGestureRecognizer(target: photoBrowser, action: "doneButtonPressed:")
+                tapGR.numberOfTapsRequired = 1
+                tapGR.numberOfTouchesRequired = 1
+                photoBrowser.view.addGestureRecognizer(tapGR)
             }
         }
     }

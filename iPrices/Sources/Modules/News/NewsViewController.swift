@@ -152,7 +152,12 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         } else {
             let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
             
+            cell.tltTextView?.clipsToBounds = false
             cell.tltTextView?.text = news.title
+            cell.tltTextView?.layer.shadowRadius = 3
+            cell.tltTextView?.layer.shadowColor = UIColor(white: 0, alpha: 0.67).CGColor
+            cell.tltTextView?.layer.shadowOpacity = 1
+            cell.tltTextView?.layer.shadowOffset = CGSizeZero
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "iTunesArtwork"), completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                     collectionView.reloadItemsAtIndexPaths([indexPath])

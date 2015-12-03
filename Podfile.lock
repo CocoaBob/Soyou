@@ -51,7 +51,7 @@ DEPENDENCIES:
   - CHTwitterCover (from `git://github.com/CocoaBob/TwitterCover`)
   - EAIntroView (~> 2.7)
   - FCUUID (~> 1.1)
-  - IDMPhotoBrowser (~> 1.7)
+  - IDMPhotoBrowser (from `git://github.com/CocoaBob/IDMPhotoBrowser`)
   - MagicalRecord (~> 2.3)
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0)
@@ -63,11 +63,16 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   CHTwitterCover:
     :git: git://github.com/CocoaBob/TwitterCover
+  IDMPhotoBrowser:
+    :git: git://github.com/CocoaBob/IDMPhotoBrowser
 
 CHECKOUT OPTIONS:
   CHTwitterCover:
     :commit: 1ea0f0b8830d0af68dbd3e2a8f800d9f456edc88
     :git: git://github.com/CocoaBob/TwitterCover
+  IDMPhotoBrowser:
+    :commit: 470209d27aba4883da67d825e89571f734fb9088
+    :git: git://github.com/CocoaBob/IDMPhotoBrowser
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
