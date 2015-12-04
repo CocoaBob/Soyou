@@ -36,7 +36,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: AnyObject?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         print("--> \(path)")
         guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             let error = FmtError(0, "Failed to encode URL")
@@ -69,7 +69,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
-        request.addValue(Cons.Svr.reqAPIKeyValue, forHTTPHeaderField: Cons.Svr.reqAPIKey);
+        request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey");
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -146,16 +146,5 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                 hideClosure()
             })
         }
-    }
-}
-
-// MARK: Helpers
-extension HTTPRequestOperationManager {
-    func getRequest(path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        self.request("GET", path, modeUI, isSynchronous, headers, parameters, userInfo, onSuccess, onFailure)
-    }
-    
-    func postRequest(path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Dictionary<String,String>?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        self.request("POST", path, modeUI, isSynchronous, headers, parameters, userInfo, onSuccess, onFailure)
     }
 }
