@@ -22,7 +22,11 @@ class ServerManager {
     
     var token: String {
         get {
-            return UICKeyChainStore.stringForKey(Cons.Svr.reqAuthorizationKey)
+            if let token = UICKeyChainStore.stringForKey(Cons.Svr.reqAuthorizationKey) {
+                return token
+            } else {
+                return ""
+            }
         }
         set {
             UICKeyChainStore.setString(token, forKey: Cons.Svr.reqAuthorizationKey)
