@@ -75,8 +75,15 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="295" height="250"/>
                                                     <animations/>
                                                 </imageView>
+                                                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HgJ-nL-cwv">
+                                                    <rect key="frame" x="0.0" y="154" width="295" height="96"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="96" id="MCx-0E-fkJ"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="p8Y-WW-D1Y">
-                                                    <rect key="frame" x="0.0" y="200" width="295" height="40"/>
+                                                    <rect key="frame" x="0.0" y="210" width="295" height="40"/>
                                                     <animations/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -91,15 +98,20 @@
                                         <constraints>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="4mj-Pd-K5z"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="5ll-rl-s5S"/>
+                                            <constraint firstItem="HgJ-nL-cwv" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="9E7-Xf-MQH"/>
+                                            <constraint firstItem="p8Y-WW-D1Y" firstAttribute="bottom" secondItem="KCi-WD-60i" secondAttribute="bottom" id="Bm0-aD-Dul"/>
                                             <constraint firstAttribute="trailing" secondItem="p8Y-WW-D1Y" secondAttribute="trailing" id="LUR-Fb-8gY"/>
-                                            <constraint firstAttribute="bottom" secondItem="p8Y-WW-D1Y" secondAttribute="bottom" constant="10" id="OOW-Jc-uy8"/>
+                                            <constraint firstAttribute="bottom" secondItem="HgJ-nL-cwv" secondAttribute="bottom" id="O2E-7t-erO"/>
                                             <constraint firstAttribute="bottom" secondItem="Jsm-0J-WRm" secondAttribute="bottom" id="T1n-QD-sn7"/>
                                             <constraint firstAttribute="trailing" secondItem="Jsm-0J-WRm" secondAttribute="trailing" id="VD9-6a-gvK"/>
+                                            <constraint firstAttribute="trailing" secondItem="HgJ-nL-cwv" secondAttribute="trailing" id="o8Z-6u-aXA"/>
                                             <constraint firstItem="p8Y-WW-D1Y" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="oEQ-yP-vb3"/>
+                                            <constraint firstItem="HgJ-nL-cwv" firstAttribute="top" relation="greaterThanOrEqual" secondItem="KCi-WD-60i" secondAttribute="top" id="zSQ-AF-GFu"/>
                                         </constraints>
                                         <size key="customSize" width="295" height="250"/>
                                         <connections>
                                             <outlet property="fgImageView" destination="Jsm-0J-WRm" id="7eQ-HG-EX3"/>
+                                            <outlet property="tltImageView" destination="HgJ-nL-cwv" id="u34-eZ-kx8"/>
                                             <outlet property="tltTextView" destination="p8Y-WW-D1Y" id="1EB-zf-4op"/>
                                         </connections>
                                     </collectionViewCell>

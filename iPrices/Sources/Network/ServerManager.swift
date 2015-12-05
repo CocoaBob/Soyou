@@ -6,14 +6,6 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-//"Auth"
-//"News"
-//"Products"
-//"FavoriteProducts"
-//"FavoriteNews"
-//"Notification"
-
-
 class ServerManager {
     
     let requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: Cons.Svr.baseURL))

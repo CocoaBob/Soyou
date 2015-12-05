@@ -120,7 +120,7 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
                 image = UIImage(data: imageData)
             {
                 let photoBrowser = IDMPhotoBrowser(photos: [IDMPhoto(image:image)])
-                photoBrowser.backgroundAlphaMax = 0.5
+                photoBrowser.backgroundAlphaMax = 0.7
                 photoBrowser.displayActionButton = false
                 photoBrowser.displayArrowButton = false
                 photoBrowser.displayCounterLabel = false
