@@ -130,6 +130,10 @@ class ServerManager {
     // MARK: Notification
     //////////////////////////////////////
     
+    func registerForMonitoring(deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
+        postAsync("/api/notification/register-monitor", "Notifications", ["deviceToken": deviceToken],onSuccess, onFailure)
+    }
+    
     func registerForNotification(uuid: String, _ deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
         postAsync("/api/notification/register", "Notifications", ["uuid": uuid, "deviceToken": deviceToken],onSuccess, onFailure)
     }
