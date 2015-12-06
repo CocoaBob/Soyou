@@ -152,7 +152,11 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         } else {
             let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
             
-            cell.tltTextView?.clipsToBounds = false
+            cell.tltTextView?.clipsToBounds = true
+            cell.tltTextView?.layer.shadowRadius = 1
+            cell.tltTextView?.layer.shadowColor = UIColor.blackColor().CGColor
+            cell.tltTextView?.layer.shadowOpacity = 1
+            cell.tltTextView?.layer.shadowOffset = CGSizeZero
             cell.tltTextView?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "iTunesArtwork"), completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
@@ -374,13 +378,11 @@ extension NewsViewController {
 
 class NewsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView?
-    @IBOutlet var tltImageView: UIImageView?
     @IBOutlet var tltTextView: UITextView?
     
     override func prepareForReuse() {
         tltTextView?.text = nil
         tltTextView?.attributedText = nil
-        tltImageView?.image = UIImage(named: "img_bg_text")
     }
 }
 
