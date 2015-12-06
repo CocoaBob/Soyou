@@ -9,13 +9,7 @@
 import Foundation
 import CoreData
 
-class News: NSManagedObject {
-    
-    static let dateFormatter: NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        return dateFormatter
-    } ()
+class News: BaseModel {
 
     class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (News?) {
         guard let data = data else {
@@ -32,33 +26,33 @@ class News: NSManagedObject {
         }
         
         if let news = news {
-            news.id = NSNumber(int: id.intValue)
-            if let datePublication = data["datePublication"] as? String {
-                news.datePublication = News.dateFormatter.dateFromString(datePublication)
+            news.id = id
+            if let value = data["datePublication"] as? String {
+                news.datePublication = self.dateFormatter.dateFromString(value)
             }
-            if let dateModification = data["dateModification"] as? String {
-                news.dateModification = News.dateFormatter.dateFromString(dateModification)
+            if let value = data["dateModification"] as? String {
+                news.dateModification = self.dateFormatter.dateFromString(value)
             }
-            if let author = data["author"] as? String {
-                news.author = author
+            if let value = data["author"] as? String {
+                news.author = value
             }
-            if let title = data["title"] as? String {
-                news.title = title
+            if let value = data["title"] as? String {
+                news.title = value
             }
-            if let image = data["image"] as? String {
-                news.image = image
+            if let value = data["image"] as? String {
+                news.image = value
             }
-            if let content = data["content"] as? String {
-                news.content = content
+            if let value = data["content"] as? String {
+                news.content = value
             }
-            if let author = data["author"] as? String {
-                news.author = author
+            if let value = data["author"] as? String {
+                news.author = value
             }
-            if let isOnline = data["isOnline"] as? String {
-                news.isOnline = Int(isOnline)
+            if let value = data["isOnline"] as? NSNumber {
+                news.isOnline = value
             }
-            if let url = data["url"] as? String {
-                news.url = url
+            if let value = data["url"] as? String {
+                news.url = value
             }
         }
         
