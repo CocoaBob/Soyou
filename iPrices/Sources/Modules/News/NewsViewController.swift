@@ -88,6 +88,11 @@ class NewsViewController: BaseViewController {
             }, completion: nil)
     }
     
+}
+
+// MARK: Routines
+extension NewsViewController {
+    
     func updateTitleViewImage(newSizeClass: UIUserInterfaceSizeClass?) {
         if let newSizeClass = newSizeClass {
             self.navigationItem.titleView = UIImageView(image: UIImage(named: newSizeClass == .Regular ? "img_logo_nav_bar" : "img_logo_nav_bar_compact"))
@@ -95,6 +100,7 @@ class NewsViewController: BaseViewController {
             self.navigationItem.titleView = UIImageView(image: UIImage(named: self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.Regular ? "img_logo_nav_bar" : "img_logo_nav_bar_compact"))
         }
     }
+    
 }
 
 // MARK: Data

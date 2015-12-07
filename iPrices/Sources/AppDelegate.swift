@@ -28,15 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Themes.setupAppearances()
         
         // Setup view controllers
-        var viewControllers: Array = [UIViewController]()
-        if let viewController = UIStoryboard(name: "NewsViewController", bundle: nil).instantiateInitialViewController() {
-            viewControllers.append(UINavigationController(rootViewController: viewController))
-        }
-        if let viewController = UIStoryboard(name: "BrandsViewController", bundle: nil).instantiateInitialViewController() {
-            viewControllers.append(UINavigationController(rootViewController: viewController))
-        }
-        if let viewController = UIStoryboard(name: "AccountViewController", bundle: nil).instantiateInitialViewController() {
-            viewControllers.append(UINavigationController(rootViewController: viewController))
+        let storyboardNames = ["NewsViewController", "BrandsViewController", "AccountViewController"]
+        let viewControllers = storyboardNames.map { (storyboardName) -> UINavigationController in
+            let viewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController()!
+            let navigationController = UINavigationController(rootViewController: viewController)
+            return navigationController
         }
         
         // Setup the tab bar controller

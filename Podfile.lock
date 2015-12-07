@@ -42,14 +42,14 @@ PODS:
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - UICKeyChainStore (1.0.5)
-  - UIColor_Hex_Swift (1.6)
+  - UIColor_Hex_Swift (1.7)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6)
   - Base64nl
   - CHTCollectionViewWaterfallLayout (~> 0.9)
   - CHTwitterCover (from `git://github.com/CocoaBob/TwitterCover`)
-  - EAIntroView (~> 2.7)
+  - EAIntroView (= 2.7.4)
   - FCUUID (~> 1.1)
   - IDMPhotoBrowser (from `git://github.com/CocoaBob/IDMPhotoBrowser`)
   - MagicalRecord (~> 2.3)
@@ -91,6 +91,6 @@ SPEC CHECKSUMS:
   RMPZoomTransitionAnimator: 0782863eab1acc50511dbd146cd7df3afc142b54
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
-  UIColor_Hex_Swift: c4147b9bdc5b799ec2dfe384672445fd08dca07e
+  UIColor_Hex_Swift: 8cccb305710017caede4bbc871fe782267c2f0e2
 
 COCOAPODS: 0.39.0
