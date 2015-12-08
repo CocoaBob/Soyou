@@ -26,7 +26,7 @@ class Themes {
 //        UINavigationBar.appearance().barTintColor = UIColor(rgba: "#444") // Bar color
         
         // UITabBar
-        UITabBar.appearance().translucent = false
+        UITabBar.appearance().translucent = true
 //        UITabBar.appearance().barStyle = .Black
         UITabBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
 //        UITabBar.appearance().barTintColor = UIColor(rgba: "#C59E6D") // Bar color

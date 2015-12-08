@@ -149,12 +149,13 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
+        var returnValue: UICollectionViewCell?
         if news.isMore != nil && news.isMore!.boolValue {
             let cell: NewsCollectionViewCellMore = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
             
             cell.indicator?.hidden = true
             cell.moreImage?.hidden = false
-            return cell
+            returnValue = cell
         } else {
             let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
             
@@ -169,8 +170,16 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     collectionView.reloadItemsAtIndexPaths([indexPath])
                 })
             }
-            return cell
+            returnValue = cell
         }
+        
+        if indexPath.row < (self.fetchedResultsController.sections![indexPath.section].numberOfObjects - 1) {
+            (returnValue as? NewsCollectionViewCellBase)?.bottomImageView?.image = UIImage(named: "img_news_cell_bottom")?.resizableImageWithCapInsets(UIEdgeInsetsMake(2, 1, 0, 1))
+        } else {
+            (returnValue as? NewsCollectionViewCellBase)?.bottomImageView?.image = nil
+        }
+        
+        return returnValue!
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -214,8 +223,8 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         
         // Change individual layout attributes for the spacing between cells
         layout.itemRenderDirection = .LeftToRight
-        layout.minimumColumnSpacing = 4
-        layout.minimumInteritemSpacing = 4
+        layout.minimumColumnSpacing = 0
+        layout.minimumInteritemSpacing = 0
 
         // Collection view attributes
         self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
@@ -382,7 +391,12 @@ extension NewsViewController {
     }
 }
 
-class NewsCollectionViewCell: UICollectionViewCell {
+class NewsCollectionViewCellBase: UICollectionViewCell {
+    @IBOutlet var bottomImageView: UIImageView?
+    
+}
+
+class NewsCollectionViewCell: NewsCollectionViewCellBase {
     @IBOutlet var fgImageView: UIImageView?
     @IBOutlet var tltTextView: UITextView?
     
@@ -392,7 +406,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     }
 }
 
-class NewsCollectionViewCellMore: UICollectionViewCell {
+class NewsCollectionViewCellMore: NewsCollectionViewCellBase {
     @IBOutlet var indicator: UIActivityIndicatorView?
     @IBOutlet var moreImage: UIImageView?
 }

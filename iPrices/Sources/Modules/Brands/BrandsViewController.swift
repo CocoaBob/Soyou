@@ -16,8 +16,8 @@ class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICo
         // UIViewController
         self.title = NSLocalizedString("brands_view_controller_title", comment: "")
         
-        self.edgesForExtendedLayout = UIRectEdge.Top
-        self.extendedLayoutIncludesOpaqueBars = false
+        self.edgesForExtendedLayout = UIRectEdge.All
+        self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = true
         
         // UITabBarItem

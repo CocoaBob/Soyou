@@ -16,8 +16,8 @@ class AccountViewController: BaseViewController/*, UICollectionViewDelegate, UIC
         // UIViewController
         self.title = NSLocalizedString("account_view_controller_title", comment: "")
         
-        self.edgesForExtendedLayout = UIRectEdge.Top
-        self.extendedLayoutIncludesOpaqueBars = false
+        self.edgesForExtendedLayout = UIRectEdge.All
+        self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = true
         
         // UITabBarItem
