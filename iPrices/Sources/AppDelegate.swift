@@ -30,9 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup view controllers
         let storyboardNames = ["NewsViewController", "BrandsViewController", "AccountViewController"]
         let viewControllers = storyboardNames.map { (storyboardName) -> UINavigationController in
-            let viewController = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController()!
-            let navigationController = UINavigationController(rootViewController: viewController)
-            return navigationController
+            return UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as! UINavigationController
         }
         
         // Setup the tab bar controller
