@@ -61,12 +61,23 @@ class NewsDetailViewController: UIViewController {
         // Toolbar
         self.toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(barButtonSystemItem: .Bookmarks, target: nil, action: ""),
+            UIBarButtonItem(barButtonSystemItem: .Bookmarks, target: self, action: "like:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
             UIBarButtonItem(barButtonSystemItem: .Organize, target: nil, action: ""),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
             UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: ""),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")]
+    }
+    
+    func like(sender: UIBarButtonItem) {
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localNews = self.news?.MR_inContext(localContext) {
+                ServerManager.shared.likeNews(localNews.id!, { (responseObject: AnyObject?) -> () in
+                    // TODO update toolbar number
+                    print("OK") },
+                    { (error: NSError?) -> () in self.handleError(error) })
+            }
+        })
     }
     
     override func viewWillAppear(animated: Bool) {
