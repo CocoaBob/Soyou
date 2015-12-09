@@ -31,5 +31,8 @@ class Themes {
         UITabBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
 //        UITabBar.appearance().barTintColor = UIColor(rgba: "#C59E6D") // Bar color
         
+        // UIToolbar
+        UIToolbar.appearance().translucent = true
+        UIToolbar.appearance().tintColor = UIColor(rgba: "#FFB751")
     }
 }

@@ -30,20 +30,15 @@ class NewsViewController: BaseViewController {
         super.viewDidLoad()
         
         // Fix scroll view insets
-        self.edgesForExtendedLayout = UIRectEdge.All
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = false
-        let topInset = UIApplication.sharedApplication().statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
-        self.collectionView().contentInset = UIEdgeInsetsMake(topInset, 0, 0, 0)
-        self.collectionView().scrollIndicatorInsets = self.collectionView().contentInset
+        self.updateScrollViewInset(self.collectionView(), toolbarIsVisible: false)
+        
+        // Setups
+        setupCollectionView()
+        setupRefreshControls()
         
         // UINavigationController delegate
         self.navigationController?.delegate = self;
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-
-        // Setups
-        setupCollectionView()
-        setupRefreshControls()
         
         // Data
         requestNewsList(nil)

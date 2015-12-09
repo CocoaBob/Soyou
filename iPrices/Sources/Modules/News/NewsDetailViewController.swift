@@ -50,13 +50,7 @@ class NewsDetailViewController: UIViewController {
         super.viewDidLoad()
         
         // Fix scroll view insets
-        self.edgesForExtendedLayout = UIRectEdge.All
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = false
-        let topInset = UIApplication.sharedApplication().statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
-        let bottomInset = self.navigationController!.toolbar.frame.size.height
-        self.webView?.scrollView.contentInset = UIEdgeInsetsMake(topInset, 0, bottomInset, 0)
-        self.webView?.scrollView.scrollIndicatorInsets = (self.webView?.scrollView.contentInset)!
+        self.updateScrollViewInset(self.webView!.scrollView, toolbarIsVisible: true)
         
         // Load content
         loadNews()
@@ -74,7 +68,7 @@ class NewsDetailViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.showToolbar(false)
+        self.showToolbar()
         self.hideTabBar(true)
     }
     
