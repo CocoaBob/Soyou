@@ -61,23 +61,12 @@ class NewsDetailViewController: UIViewController {
         // Toolbar
         self.toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(barButtonSystemItem: .Bookmarks, target: self, action: "like:"),
+            UIBarButtonItem(image: UIImage(named:"img_toolbar_share"), style: .Plain, target: self, action: "share:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(barButtonSystemItem: .Organize, target: nil, action: ""),
+            UIBarButtonItem(image: UIImage(named:"img_toolbar_thumb"), style: .Plain, target: self, action: "like:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: ""),
+            UIBarButtonItem(image: UIImage(named:"img_toolbar_star"), style: .Plain, target: self, action: "star:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")]
-    }
-    
-    func like(sender: UIBarButtonItem) {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
-                ServerManager.shared.likeNews(localNews.id!, { (responseObject: AnyObject?) -> () in
-                    // TODO update toolbar number
-                    print("OK") },
-                    { (error: NSError?) -> () in self.handleError(error) })
-            }
-        })
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -252,4 +241,29 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
     func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
         
     }
+}
+
+// MARK: Actions
+extension NewsDetailViewController {
+    
+    func share(sender: UIBarButtonItem) {
+        print("\(__FUNCTION__)")
+    }
+    
+    func like(sender: UIBarButtonItem) {
+        print("\(__FUNCTION__)")
+//        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+//            if let localNews = self.news?.MR_inContext(localContext) {
+//                ServerManager.shared.likeNews(localNews.id!, { (responseObject: AnyObject?) -> () in
+//                    // TODO update toolbar number
+//                    print("OK") },
+//                    { (error: NSError?) -> () in self.handleError(error) })
+//            }
+//        })
+    }
+    
+    func star(sender: UIBarButtonItem) {
+        print("\(__FUNCTION__)")
+    }
+
 }
