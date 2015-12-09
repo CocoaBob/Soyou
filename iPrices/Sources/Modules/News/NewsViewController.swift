@@ -54,6 +54,7 @@ class NewsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.hideToolbar(false);
+        prefetchImages()
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -73,7 +74,15 @@ class NewsViewController: BaseViewController {
 // MARK: Routines
 extension NewsViewController {
     
-    
+    func prefetchImages() {
+        let imageURLs = self.fetchedResultsController.sections![0].objects?.flatMap({ (news) -> NSURL? in
+            if let imageURLString = (news as! News).image, let imageURL = NSURL(string: imageURLString) {
+                return imageURL
+            }
+            return nil
+        })
+        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(imageURLs)
+    }
 }
 
 // MARK: Data
@@ -111,8 +120,25 @@ extension NewsViewController {
     
 }
 
+// MARK: NSFetchedResultsControllerDelegate
+extension NewsViewController {
+    
+    override func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        super.controllerDidChangeContent(controller)
+        prefetchImages()
+    }
+}
+
 // MARK: - CollectionView Delegate Methods
 extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        if let sections = self.fetchedResultsController.sections {
+            return sections.count
+        } else {
+            return 0
+        }
+    }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.fetchedResultsController.sections![section].numberOfObjects
@@ -365,6 +391,7 @@ extension NewsViewController {
     }
 }
 
+// MARK: - Custom cells
 class NewsCollectionViewCellBase: UICollectionViewCell {
     @IBOutlet var bottomImageView: UIImageView?
     @IBOutlet var bottomImageViewHeight: NSLayoutConstraint?
