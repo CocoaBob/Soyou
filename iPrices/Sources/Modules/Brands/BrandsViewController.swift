@@ -16,10 +16,6 @@ class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICo
         // UIViewController
         self.title = NSLocalizedString("brands_view_controller_title", comment: "")
         
-        self.edgesForExtendedLayout = UIRectEdge.All
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = true
-        
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_price"), selectedImage: UIImage(named: "img_tab_price_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)

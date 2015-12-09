@@ -27,11 +27,6 @@ class NewsDetailViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        // UIViewController
-        self.edgesForExtendedLayout = UIRectEdge.All
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = true
     }
     
     override func loadView() {
@@ -54,20 +49,33 @@ class NewsDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Fix scroll view insets
+        self.edgesForExtendedLayout = UIRectEdge.All
+        self.extendedLayoutIncludesOpaqueBars = true
+        self.automaticallyAdjustsScrollViewInsets = false
+        let topInset = UIApplication.sharedApplication().statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
+        let bottomInset = self.navigationController!.toolbar.frame.size.height
+        self.webView?.scrollView.contentInset = UIEdgeInsetsMake(topInset, 0, bottomInset, 0)
+        self.webView?.scrollView.scrollIndicatorInsets = (self.webView?.scrollView.contentInset)!
+        
+        // Load content
         loadNews()
+        
+        // Toolbar
+        self.toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
+            UIBarButtonItem(barButtonSystemItem: .Bookmarks, target: nil, action: ""),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
+            UIBarButtonItem(barButtonSystemItem: .Organize, target: nil, action: ""),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
+            UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: ""),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")]
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let tabBar = self.tabBarController?.tabBar {
-            var frame = tabBar.frame
-            frame.origin.y = CGRectGetMaxY(self.view.frame)
-            if frame != tabBar.frame {
-                UIView.animateWithDuration(0.25) { () -> Void in
-                    tabBar.frame = frame
-                }
-            }
-        }
+        self.showToolbar(false)
+        self.hideTabBar(true)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

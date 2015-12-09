@@ -20,10 +20,6 @@ class NewsViewController: BaseViewController {
         
         // UIViewController
         updateTitleViewImage(nil)
-        
-        self.edgesForExtendedLayout = UIRectEdge.All
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = true
 
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_home"), selectedImage: UIImage(named: "img_tab_home_selected"))
@@ -32,6 +28,14 @@ class NewsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Fix scroll view insets
+        self.edgesForExtendedLayout = UIRectEdge.All
+        self.extendedLayoutIncludesOpaqueBars = true
+        self.automaticallyAdjustsScrollViewInsets = false
+        let topInset = UIApplication.sharedApplication().statusBarFrame.size.height + self.navigationController!.navigationBar.frame.size.height
+        self.collectionView().contentInset = UIEdgeInsetsMake(topInset, 0, 0, 0)
+        self.collectionView().scrollIndicatorInsets = self.collectionView().contentInset
         
         // UINavigationController delegate
         self.navigationController?.delegate = self;
@@ -43,31 +47,12 @@ class NewsViewController: BaseViewController {
         
         // Data
         requestNewsList(nil)
-        
-        ////////
-//        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-//            for news in News.MR_findAllInContext(localContext) {
-//                news.MR_deleteEntityInContext(localContext)
-//            }
-//        }
-//        ServerManager.shared.requestNewsList(1, 4,
-//            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, 4) },
-//            { (error: NSError?) -> () in self.handleError(error) }
-//        );
-        ////////
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let tabBar = self.tabBarController?.tabBar {
-            var frame = tabBar.frame
-            frame.origin.y = CGRectGetMaxY(self.view.frame) - CGRectGetHeight(frame)
-            if frame != tabBar.frame {
-                UIView.animateWithDuration(0.25) { () -> Void in
-                    tabBar.frame = frame
-                }
-            }
-        }
+        self.hideToolbar(false);
+        self.showTabBar(true);
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -130,7 +115,6 @@ extension NewsViewController {
     }
     
     func requestNewsList(relativeID: NSNumber?) {
-        /////// Cons.Svr.reqCnt
         ServerManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
             { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, relativeID) },
             { (error: NSError?) -> () in self.handleError(error) }
@@ -174,8 +158,10 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         if indexPath.row < (self.fetchedResultsController.sections![indexPath.section].numberOfObjects - 1) {
+            (returnValue as? NewsCollectionViewCellBase)?.bottomImageViewHeight?.constant = 4
             (returnValue as? NewsCollectionViewCellBase)?.bottomImageView?.image = UIImage(named: "img_news_cell_bottom")?.resizableImageWithCapInsets(UIEdgeInsetsMake(2, 1, 0, 1))
         } else {
+            (returnValue as? NewsCollectionViewCellBase)?.bottomImageViewHeight?.constant = 0
             (returnValue as? NewsCollectionViewCellBase)?.bottomImageView?.image = nil
         }
         
@@ -393,7 +379,7 @@ extension NewsViewController {
 
 class NewsCollectionViewCellBase: UICollectionViewCell {
     @IBOutlet var bottomImageView: UIImageView?
-    
+    @IBOutlet var bottomImageViewHeight: NSLayoutConstraint?
 }
 
 class NewsCollectionViewCell: NewsCollectionViewCellBase {

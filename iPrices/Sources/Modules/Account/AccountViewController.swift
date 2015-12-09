@@ -16,10 +16,6 @@ class AccountViewController: BaseViewController/*, UICollectionViewDelegate, UIC
         // UIViewController
         self.title = NSLocalizedString("account_view_controller_title", comment: "")
         
-        self.edgesForExtendedLayout = UIRectEdge.All
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = true
-        
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
