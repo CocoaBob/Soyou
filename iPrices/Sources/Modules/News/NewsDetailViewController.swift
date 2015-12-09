@@ -19,6 +19,9 @@ class NewsDetailViewController: UIViewController {
         self.news = news
         self.image = image
         super.init(nibName: nil, bundle: nil)
+        
+        // Hide tabs
+        self.hidesBottomBarWhenPushed = true
     }
     
     convenience init() {
@@ -69,7 +72,6 @@ class NewsDetailViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.showToolbar()
-        self.hideTabBar(true)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

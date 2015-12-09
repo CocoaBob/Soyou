@@ -19,11 +19,14 @@ class NewsViewController: BaseViewController {
         super.init(coder: aDecoder)
         
         // UIViewController
-        updateTitleViewImage(nil)
+        self.navigationItem.titleView = UIImageView(image: UIImage(named: "img_logo_nav_bar"))
 
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_home"), selectedImage: UIImage(named: "img_tab_home_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        
+        // Bars
+        self.hidesBottomBarWhenPushed = false
     }
 
     override func viewDidLoad() {
@@ -46,8 +49,11 @@ class NewsViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.hideToolbar(false);
-        self.showTabBar(true);
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -62,24 +68,11 @@ class NewsViewController: BaseViewController {
         updateColumnCount(Int(floor(size.width / 240)))
     }
     
-    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition({ (context) -> Void in
-            self.updateTitleViewImage(newCollection.verticalSizeClass)
-            }, completion: nil)
-    }
-    
 }
 
 // MARK: Routines
 extension NewsViewController {
     
-    func updateTitleViewImage(newSizeClass: UIUserInterfaceSizeClass?) {
-        if let newSizeClass = newSizeClass {
-            self.navigationItem.titleView = UIImageView(image: UIImage(named: newSizeClass == .Regular ? "img_logo_nav_bar" : "img_logo_nav_bar_compact"))
-        } else {
-            self.navigationItem.titleView = UIImageView(image: UIImage(named: self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.Regular ? "img_logo_nav_bar" : "img_logo_nav_bar_compact"))
-        }
-    }
     
 }
 

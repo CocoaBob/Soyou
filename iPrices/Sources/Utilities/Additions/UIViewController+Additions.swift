@@ -8,66 +8,38 @@
 
 extension UIViewController {
     
-    func hideTabBar(animated: Bool) {
-        if let tabBar = self.tabBarController?.tabBar {
-            var frame = tabBar.frame
-            frame.origin.y = CGRectGetMaxY(self.view.frame)
-            if frame != tabBar.frame {
-                UIView.animateWithDuration(0.25) { () -> Void in
-                    tabBar.frame = frame
-                }
-            }
-        }
-    }
-    
-    func showTabBar(animated: Bool) {
-        if let tabBar = self.tabBarController?.tabBar {
-            var frame = tabBar.frame
-            frame.origin.y = CGRectGetMaxY(self.view.frame) - CGRectGetHeight(frame)
-            if frame != tabBar.frame {
-                if animated {
-                    UIView.animateWithDuration(0.25) { () -> Void in
-                        tabBar.frame = frame
-                    }
-                } else {
-                    tabBar.frame = frame
-                }
-            }
-        }
-    }
-    
     func hideToolbar(animated: Bool) {
-        let viewFrame = self.view.frame
-        var barFrame = self.navigationController!.toolbar.frame
-        barFrame = CGRectMake(0, CGRectGetHeight(viewFrame), CGRectGetWidth(viewFrame), CGRectGetHeight(barFrame))
-        
-        if (animated) {
-            UIView.animateWithDuration(0.25,
-                animations: { () -> Void in
-                self.navigationController?.toolbar.frame = barFrame
-                },
-                completion: { (finished) -> Void in
-                    self.navigationController?.setToolbarHidden(true, animated: false)
-            })
-        } else {
-            UIView.setAnimationsEnabled(false)
-            self.navigationController?.toolbar.frame = barFrame
-            UIView.setAnimationsEnabled(true)
+//        let viewFrame = self.view.frame
+//        var barFrame = self.navigationController!.toolbar.frame
+//        barFrame = CGRectMake(0, CGRectGetHeight(viewFrame), CGRectGetWidth(viewFrame), CGRectGetHeight(barFrame))
+//        
+//        if (animated) {
+//            UIView.animateWithDuration(0.25,
+//                animations: { () -> Void in
+//                self.navigationController?.toolbar.frame = barFrame
+//                },
+//                completion: { (finished) -> Void in
+//                    self.navigationController?.setToolbarHidden(true, animated: false)
+//            })
+//        } else {
+//            UIView.setAnimationsEnabled(false)
+//            self.navigationController?.toolbar.frame = barFrame
+//            UIView.setAnimationsEnabled(true)
             self.navigationController?.setToolbarHidden(true, animated: false)
-        }
+//        }
     }
     
     func showToolbar() {
-        UIView.setAnimationsEnabled(false)
-        
+//        UIView.setAnimationsEnabled(false)
+//        
         self.navigationController?.setToolbarHidden(false, animated: false)
+//
+//        let viewFrame = self.view.frame
+//        var barFrame = self.navigationController!.toolbar.frame
+//        barFrame = CGRectMake(0, CGRectGetHeight(viewFrame) - CGRectGetHeight(barFrame), CGRectGetWidth(viewFrame), CGRectGetHeight(barFrame))
+//        self.navigationController?.toolbar.frame = barFrame
         
-        let viewFrame = self.view.frame
-        var barFrame = self.navigationController!.toolbar.frame
-        barFrame = CGRectMake(0, CGRectGetHeight(viewFrame) - CGRectGetHeight(barFrame), CGRectGetWidth(viewFrame), CGRectGetHeight(barFrame))
-        self.navigationController?.toolbar.frame = barFrame
-        
-        UIView.setAnimationsEnabled(true)
+//        UIView.setAnimationsEnabled(true)
     }
     
     func topInset() -> CGFloat {
@@ -90,11 +62,13 @@ extension UIViewController {
                 bottomInset += navigationController.toolbar.frame.size.height
             }
         }
-//        if let tabBarController = self.tabBarController {
-//            let tabBarFrame = tabBarController.tabBar.frame
-//            let viewFrame = self.view.frame
-//            bottomInset += (viewFrame.size.height - tabBarFrame.origin.y)
-//        }
+        if let tabBarController = self.tabBarController {
+            if !self.hidesBottomBarWhenPushed {
+                let tabBarFrame = tabBarController.tabBar.frame
+                let viewFrame = self.view.frame
+                bottomInset += (viewFrame.size.height - tabBarFrame.origin.y)
+            }
+        }
         return bottomInset
     }
     

@@ -19,7 +19,6 @@ class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICo
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_price"), selectedImage: UIImage(named: "img_tab_price_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarController?.tabBar.translucent = false
     }
     
     override func viewDidLoad() {

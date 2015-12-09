@@ -19,7 +19,6 @@ class AccountViewController: BaseViewController/*, UICollectionViewDelegate, UIC
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarController?.tabBar.translucent = false
     }
     
     override func viewDidLoad() {
