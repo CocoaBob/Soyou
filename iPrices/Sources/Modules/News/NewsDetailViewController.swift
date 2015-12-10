@@ -46,7 +46,6 @@ class NewsDetailViewController: UIViewController {
         
         if let image = self.image {
             self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: 200, noBlur: true)
-            self.webView?.scrollView.twitterCoverView.changeAlpha = true
         }
     }
     
