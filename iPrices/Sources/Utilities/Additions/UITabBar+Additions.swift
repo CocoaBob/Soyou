@@ -15,9 +15,9 @@ extension UITabBar {
             transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             transition.type = kCATransitionPush
             
-            if layer.position.x < 0 {
+            if layer.position.x < 0 || layer.position.x >= layer.bounds.size.width {
                 transition.subtype = kCATransitionFromTop
-            } else if layer.position.x > 0 && layer.position.y > layer.bounds.size.height {
+            } else if layer.position.y > layer.bounds.size.height {
                 transition.subtype = kCATransitionFromBottom
             } else {
                 return nil;

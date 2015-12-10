@@ -49,11 +49,11 @@ class NewsViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.hideToolbar(false);
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.hideToolbar(false);
         prefetchImages()
     }
     
