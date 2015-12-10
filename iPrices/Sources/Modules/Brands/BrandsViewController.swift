@@ -17,7 +17,7 @@ class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICo
         self.title = NSLocalizedString("brands_view_controller_title", comment: "")
         
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_price_tag"), selectedImage: UIImage(named: "img_price_tag_selected"))
+        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_price_tag"), selectedImage: UIImage(named: "img_tab_price_tag_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
     }
     

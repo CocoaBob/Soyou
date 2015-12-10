@@ -45,13 +45,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_star" highlightedImage="img_star_selected" translatesAutoresizingMaskIntoConstraints="NO" id="CY9-64-Hfe">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CY9-64-Hfe">
                                                     <rect key="frame" x="12" y="3" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="CY9-64-Hfe" secondAttribute="height" multiplier="1:1" id="FAr-6e-TCN"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ti3-Tz-lFY">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ti3-Tz-lFY">
                                                     <rect key="frame" x="56" y="11" width="503" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -115,11 +115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pyf-3X-w1C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="315" y="363"/>
+            <point key="canvasLocation" x="-13" y="371"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="img_star" width="22" height="21"/>
-        <image name="img_star_selected" width="22" height="21"/>
-    </resources>
 </document>
