@@ -14,6 +14,7 @@ class NewsViewController: BaseViewController {
     var selectedNewsViewCell: NewsCollectionViewCell?
     var selectedIndexPath: NSIndexPath?
     var isEdgeSwiping: Bool = false
+    var lastLastCell: NewsCollectionViewCellBase?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -124,7 +125,20 @@ extension NewsViewController {
 extension NewsViewController {
     
     override func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        // Remember the index path of the last last cell
+        var indexPath: NSIndexPath?
+        if let lastLastCell = self.lastLastCell {
+            indexPath = self.collectionView().indexPathForCell(lastLastCell)
+        }
+        
+        // Insert/Delete/Update/Move content
         super.controllerDidChangeContent(controller)
+        
+        // Reload last last cell, to update its bottom separator
+        if indexPath != nil {
+            self.collectionView().reloadItemsAtIndexPaths([indexPath!])
+        }
+        
         prefetchImages()
     }
 }
@@ -145,7 +159,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+        let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
         var returnValue: UICollectionViewCell?
         if news.isMore != nil && news.isMore!.boolValue {
@@ -164,8 +178,12 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.tltTextView?.layer.shadowOffset = CGSizeZero
             cell.tltTextView?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "iTunesArtwork"), completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                    collectionView.reloadItemsAtIndexPaths([indexPath])
+                cell.fgImageView?.backgroundColor = UIColor(rgba: "#EEE")
+                cell.fgImageView?.sd_setImageWithURL(imageURL,
+                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                        UIView.animateWithDuration(0.25, animations: { () -> Void in
+                            collectionView.collectionViewLayout.invalidateLayout()
+                        })
                 })
             }
             returnValue = cell
@@ -177,13 +195,14 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         } else {
             (returnValue as? NewsCollectionViewCellBase)?.bottomImageViewHeight?.constant = 0
             (returnValue as? NewsCollectionViewCellBase)?.bottomImageView?.image = nil
+            self.lastLastCell = returnValue as? NewsCollectionViewCellBase
         }
         
         return returnValue!
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+        let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             let localNews = news.MR_inContext(localContext)
             let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
@@ -252,14 +271,14 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        let news: News = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+        let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
         if news.isMore == nil || !news.isMore!.boolValue {
             let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
             if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
                 return image.size
             } else {
-                return CGSizeMake(256, 256)
+                return CGSizeMake(256, 192)
             }
         } else {
             return CGSizeMake(256, 32)
