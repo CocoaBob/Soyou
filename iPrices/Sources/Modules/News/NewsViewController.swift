@@ -22,7 +22,7 @@ class NewsViewController: BaseViewController {
         self.navigationItem.titleView = UIImageView(image: UIImage(named: "img_logo_nav_bar"))
 
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_home"), selectedImage: UIImage(named: "img_tab_home_selected"))
+        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_home"), selectedImage: UIImage(named: "img_home_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         
         // Bars

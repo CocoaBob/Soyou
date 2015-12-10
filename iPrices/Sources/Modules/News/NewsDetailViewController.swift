@@ -61,11 +61,11 @@ class NewsDetailViewController: UIViewController {
         // Toolbar
         self.toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(image: UIImage(named:"img_toolbar_share"), style: .Plain, target: self, action: "share:"),
+            UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(image: UIImage(named:"img_toolbar_thumb"), style: .Plain, target: self, action: "like:"),
+            UIBarButtonItem(image: UIImage(named:"img_thumb"), style: .Plain, target: self, action: "like:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(image: UIImage(named:"img_toolbar_star"), style: .Plain, target: self, action: "star:"),
+            UIBarButtonItem(image: UIImage(named:"img_heart"), style: .Plain, target: self, action: "star:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")]
     }
     
