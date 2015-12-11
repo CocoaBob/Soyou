@@ -83,12 +83,12 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         let brand = self.brands[indexPath.row]
         
-        cell.tltTextView?.clipsToBounds = true
-        cell.tltTextView?.layer.shadowRadius = 1
-        cell.tltTextView?.layer.shadowColor = UIColor.blackColor().CGColor
-        cell.tltTextView?.layer.shadowOpacity = 1
-        cell.tltTextView?.layer.shadowOffset = CGSizeZero
-        cell.tltTextView?.text = brand["label"] as! String
+        cell.lblTitle?.clipsToBounds = true
+        cell.lblTitle?.layer.shadowRadius = 1
+        cell.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
+        cell.lblTitle?.layer.shadowOpacity = 1
+        cell.lblTitle?.layer.shadowOffset = CGSizeZero
+        cell.lblTitle?.text = brand["label"] as? String
 
         if let imageURLString = brand["imageUrl"], let imageURL = NSURL(string: imageURLString as! String) {
             cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "iTunesArtwork"), completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
@@ -121,14 +121,14 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
         layout.minimumInteritemSpacing = 1
         layout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1)
         
-        // Collection view attributes
-        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
-        self.collectionView().alwaysBounceVertical = true
-        
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
         
         (self.collectionView().collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = 2
+        
+        // Collection view attributes
+        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.collectionView().alwaysBounceVertical = true
     }
     
     //** Size for the cells in the Waterfall Layout */
@@ -179,10 +179,10 @@ extension BrandsViewController: UINavigationControllerDelegate {
 // MARK: - Custom cells
 class BrandCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView!
-    @IBOutlet var tltTextView: UITextView!
+    @IBOutlet var lblTitle: UILabel?
     
     override func prepareForReuse() {
-        tltTextView?.text = nil
-        tltTextView?.attributedText = nil
+        lblTitle?.text = nil
+        lblTitle?.attributedText = nil
     }
 }

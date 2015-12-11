@@ -171,12 +171,12 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         } else {
             let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
             
-            cell.tltTextView?.clipsToBounds = true
-            cell.tltTextView?.layer.shadowRadius = 1
-            cell.tltTextView?.layer.shadowColor = UIColor.blackColor().CGColor
-            cell.tltTextView?.layer.shadowOpacity = 1
-            cell.tltTextView?.layer.shadowOffset = CGSizeZero
-            cell.tltTextView?.text = news.title
+            cell.lblTitle?.clipsToBounds = true
+            cell.lblTitle?.layer.shadowRadius = 1
+            cell.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
+            cell.lblTitle?.layer.shadowOpacity = 1
+            cell.lblTitle?.layer.shadowOffset = CGSizeZero
+            cell.lblTitle?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 cell.fgImageView?.backgroundColor = UIColor(rgba: "#EEE")
                 cell.fgImageView?.sd_setImageWithURL(imageURL,
@@ -244,15 +244,15 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         layout.itemRenderDirection = .LeftToRight
         layout.minimumColumnSpacing = 0
         layout.minimumInteritemSpacing = 0
-
-        // Collection view attributes
-        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
-        self.collectionView().alwaysBounceVertical = true
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
         
         updateColumnCount(Int(floor(self.view.frame.size.width / 568)))
+        
+        // Collection view attributes
+        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.collectionView().alwaysBounceVertical = true
     }
     
     func updateColumnCount(count: Int) {
@@ -418,11 +418,11 @@ class NewsCollectionViewCellBase: UICollectionViewCell {
 
 class NewsCollectionViewCell: NewsCollectionViewCellBase {
     @IBOutlet var fgImageView: UIImageView?
-    @IBOutlet var tltTextView: UITextView?
+    @IBOutlet var lblTitle: UILabel?
     
     override func prepareForReuse() {
-        tltTextView?.text = nil
-        tltTextView?.attributedText = nil
+        lblTitle?.text = nil
+        lblTitle?.attributedText = nil
     }
 }
 

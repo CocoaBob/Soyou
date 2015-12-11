@@ -80,14 +80,17 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .Account:
             let rowCell = cell as! IconTitleTableViewCell
             rowCell.imgView?.image = UIImage(named: "img_user")
+            rowCell.imgView?.highlightedImage = UIImage(named: "img_user_selected")
             rowCell.lblTitle?.text = "Account name"
         case .Favorites:
             let rowCell = cell as! IconTitleTableViewCell
             rowCell.imgView?.image = UIImage(named: "img_heart")
+            rowCell.imgView?.highlightedImage = UIImage(named: "img_heart_selected")
             rowCell.lblTitle?.text = "Favorites"
         case .Settings:
             let rowCell = cell as! IconTitleTableViewCell
             rowCell.imgView?.image = UIImage(named: "img_gear")
+            rowCell.imgView?.highlightedImage = UIImage(named: "img_gear_selected")
             rowCell.lblTitle?.text = "Settings"
         }
         return cell
