@@ -100,7 +100,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
+        print("\(indexPath.row)")
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
