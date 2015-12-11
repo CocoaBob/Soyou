@@ -6,13 +6,17 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout*/ {
+class BrandsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
-    var isEdgeSwiping: Bool = false
     
-    // TODO to be replaced
-    var brands = [["id": 1,"label": "BURBERRY","imageUrl": "http://www.geocities.ws/iprice/imgs/o-burberry.jpg","extra": "","type": "brand"], ["id": 2,"label": "BALENCIAGA","imageUrl": "http://www.geocities.ws/iprice/imgs/o-balenciaga.jpg","extra": "","type": "brand"]]
+    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    
+    // TODO: To be replaced
+    var brands = [
+        ["id": 1,"label": "BURBERRY","imageUrl": "http://www.geocities.ws/iprice/imgs/o-burberry.jpg","extra": "","type": "brand"],
+        ["id": 2,"label": "BALENCIAGA","imageUrl": "http://www.geocities.ws/iprice/imgs/o-balenciaga.jpg","extra": "","type": "brand"]
+    ]
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -21,12 +25,18 @@ class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICo
         self.title = NSLocalizedString("brands_view_controller_title", comment: "")
         
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_price_tag"), selectedImage: UIImage(named: "img_tab_price_tag_selected"))
+        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_tag"), selectedImage: UIImage(named: "img_tab_tag_selected"))
         self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.collectionView(), toolbarIsVisible: false)
+        
+        // Setups
+        setupCollectionView()
 
         // UINavigationController delegate
         self.navigationController?.delegate = self;
@@ -34,6 +44,10 @@ class BrandsViewController: BaseViewController/*, UICollectionViewDelegate, UICo
         
         // Data
         requestBrandsList(nil)
+    }
+    
+    override func collectionView() -> UICollectionView {
+        return _collectionView!
     }
 }
 
@@ -91,6 +105,35 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         self.isEdgeSwiping = false
+    }
+}
+
+//MARK: - CollectionView Waterfall Layout
+extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
+    
+    func setupCollectionView() {
+        // Create a waterfall layout
+        let layout = CHTCollectionViewWaterfallLayout()
+        
+        // Change individual layout attributes for the spacing between cells
+        layout.itemRenderDirection = .LeftToRight
+        layout.minimumColumnSpacing = 1
+        layout.minimumInteritemSpacing = 1
+        layout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1)
+        
+        // Collection view attributes
+        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.collectionView().alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.collectionView().collectionViewLayout = layout
+        
+        (self.collectionView().collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = 2
+    }
+    
+    //** Size for the cells in the Waterfall Layout */
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+        return CGSizeMake(3, 2)
     }
 }
 

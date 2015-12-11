@@ -13,7 +13,7 @@ class NewsViewController: BaseViewController {
     var selectedMoreButtonCell: NewsCollectionViewCellMore?
     var selectedNewsViewCell: NewsCollectionViewCell?
     var selectedIndexPath: NSIndexPath?
-    var isEdgeSwiping: Bool = false
+    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     var lastLastCell: NewsCollectionViewCellBase?
     
     required init?(coder aDecoder: NSCoder) {
