@@ -143,7 +143,7 @@ class ServerManager {
     //////////////////////////////////////
     
     func requestBrands(onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
-        getAsync("/api/auxiliary", "Brands", onSuccess, onFailure)
+        getAsync("/api/brands", "Brands", onSuccess, onFailure)
     }
     
     //////////////////////////////////////

@@ -38,9 +38,6 @@ class Brand: BaseModel {
             if let value = data["extra"] as? String {
                 brand.extra = value
             }
-            if let value = data["type"] as? String {
-                brand.type = value
-            }
         }
         
         return brand
