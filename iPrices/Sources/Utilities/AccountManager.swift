@@ -22,4 +22,17 @@ class AccountManager {
             UICKeyChainStore.setString(uuid, forKey: Cons.Usr.uuid)
         }
     }
+    
+    class var deviceToken: String {
+        get {
+            if let strDeviceToken = UICKeyChainStore.stringForKey(Cons.App.deviceToken) {
+                return strDeviceToken
+            } else {
+                return ""
+            }
+        }
+        set {
+            UICKeyChainStore.setString(deviceToken, forKey: Cons.App.deviceToken)
+        }
+    }
 }

@@ -135,7 +135,7 @@ class ServerManager {
     }
     
     func registerForNotification(uuid: String, _ deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
-        postAsync("/api/notification/register", "Notifications", ["uuid": uuid, "deviceToken": deviceToken],onSuccess, onFailure)
+        postAsync("/api/notifications/register", "Notifications", ["uuid": uuid, "deviceToken": deviceToken],onSuccess, onFailure)
     }
     
     //////////////////////////////////////

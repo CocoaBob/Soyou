@@ -57,7 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: Notifications
 extension AppDelegate {
     
-    private func handleSuccess(responseObject: AnyObject?) {
+    private func handleSuccess(responseObject: AnyObject?, deviceTokenString: String) {
+        AccountManager.deviceToken = deviceTokenString
         print("Push register success")
     }
     
@@ -66,13 +67,15 @@ extension AppDelegate {
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        // TODO deviceToken remove '<' and '>'
-        // TODO generate uuid
-        ServerManager.shared.registerForNotification("afawefawefawef", "\(deviceToken)",
-            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject) },
+        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        let deviceTokenString: String = ( deviceToken.description as NSString )
+            .stringByTrimmingCharactersInSet( characterSet )
+            .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+        
+        ServerManager.shared.registerForNotification(AccountManager.uuid, deviceTokenString,
+            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, deviceTokenString: deviceTokenString) },
             { (error: NSError?) -> () in self.handleError(error) }
         );
-        //print("token==\(deviceToken)")
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

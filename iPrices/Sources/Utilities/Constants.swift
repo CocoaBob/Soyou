@@ -26,6 +26,7 @@ public struct Cons {
     }
     
     struct App {
+        static let deviceToken      = "deviceToken"
         static let lastVerIntro     = "lastVerIntro" // The last app version that displayed the introduction view
     }
 }
