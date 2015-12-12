@@ -39,6 +39,8 @@
 		45B77F0A1C05A77B002E3385 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77F091C05A77B002E3385 /* AccountManager.swift */; };
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
 		45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */; };
+		45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */; };
+		45D418AD1C1B935200685DFC /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D418AB1C1B935200685DFC /* Brand.swift */; };
 		45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */; };
 		45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */; };
 		5E03F2F527D7FE43021665B8 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7718A3E5C95753364344DC22 /* Pods.framework */; };
@@ -82,6 +84,8 @@
 		45B77F091C05A77B002E3385 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
 		45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIToolbar+Additions.swift"; sourceTree = "<group>"; };
+		45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Brand+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		45D418AB1C1B935200685DFC /* Brand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPrices.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,6 +237,8 @@
 			isa = PBXGroup;
 			children = (
 				45016E591C14F043004034BC /* BaseModel.swift */,
+				45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */,
+				45D418AB1C1B935200685DFC /* Brand.swift */,
 				457777801BFCB60100805D79 /* News+CoreDataProperties.swift */,
 				457777811BFCB60100805D79 /* News.swift */,
 				45016E551C14EC25004034BC /* Product+CoreDataProperties.swift */,
@@ -425,6 +431,7 @@
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
 				4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */,
+				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* ServerManager.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
@@ -436,6 +443,7 @@
 				455D06B41C03950300D81ABF /* AccountViewController.swift in Sources */,
 				45016E5A1C14F043004034BC /* BaseModel.swift in Sources */,
 				4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */,
+				45D418AD1C1B935200685DFC /* Brand.swift in Sources */,
 				457777831BFCB60100805D79 /* News.swift in Sources */,
 				45B77F0A1C05A77B002E3385 /* AccountManager.swift in Sources */,
 				455D06C21C03991200D81ABF /* BrandsViewController.swift in Sources */,

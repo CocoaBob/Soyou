@@ -139,6 +139,14 @@ class ServerManager {
     }
     
     //////////////////////////////////////
+    // MARK: Brands
+    //////////////////////////////////////
+    
+    func requestBrands(onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
+        getAsync("/api/auxiliary", "Brands", onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
     // MARK: Products
     //////////////////////////////////////
     

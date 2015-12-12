@@ -12,12 +12,6 @@ class BrandsViewController: BaseViewController {
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
-    // TODO: To be replaced
-    var brands = [
-        ["id": 1,"label": "BURBERRY","imageUrl": "http://www.geocities.ws/iprice/imgs/o-burberry.jpg","extra": "","type": "brand"],
-        ["id": 2,"label": "BALENCIAGA","imageUrl": "http://www.geocities.ws/iprice/imgs/o-balenciaga.jpg","extra": "","type": "brand"]
-    ]
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -46,15 +40,48 @@ class BrandsViewController: BaseViewController {
         requestBrandsList(nil)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.hideToolbar(false);
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        prefetchImages()
+    }
+    
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "label", ascending: true)
+    }
+    
     override func collectionView() -> UICollectionView {
         return _collectionView!
     }
 }
 
+// MARK: Routines
+extension BrandsViewController {
+    
+    func prefetchImages() {
+        let imageURLs = self.fetchedResultsController.sections![0].objects?.flatMap({ (brand) -> NSURL? in
+            if let imageURLString = (brand as! Brand).imageUrl, let imageURL = NSURL(string: imageURLString) {
+                return imageURL
+            }
+            return nil
+        })
+        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(imageURLs)
+    }
+}
+
 // MARK: Data
 extension BrandsViewController {
+    
     private func handleSuccess(responseObject: AnyObject?, _ relativeID: NSNumber?) {
+        self.endRefreshing()
         
+        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+        let allBrands = responseObject["data"] as? [NSDictionary]
+        Brand.importDatas(allBrands, true)
     }
     
     private func handleError(error: NSError?) {
@@ -62,36 +89,44 @@ extension BrandsViewController {
     }
     
     func requestBrandsList(relativeID: NSNumber?) {
-        
+        ServerManager.shared.requestBrands(
+            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, relativeID) },
+            { (error: NSError?) -> () in self.handleError(error) }
+        );
     }
 }
 
 // MARK: - CollectionView Delegate Methods
 extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
-
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
+        if let sections = self.fetchedResultsController.sections {
+            return sections.count
+        } else {
+            return 0
+        }
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.brands.count
+        return self.fetchedResultsController.sections![section].numberOfObjects
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: BrandCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandCollectionViewCell", forIndexPath: indexPath) as! BrandCollectionViewCell
         
-        let brand = self.brands[indexPath.row]
+        let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
         
         cell.lblTitle?.clipsToBounds = true
         cell.lblTitle?.layer.shadowRadius = 1
         cell.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
         cell.lblTitle?.layer.shadowOpacity = 1
         cell.lblTitle?.layer.shadowOffset = CGSizeZero
-        cell.lblTitle?.text = brand["label"] as? String
+        if let label = brand.label {
+            cell.lblTitle?.text = label
+        }
 
-        if let imageURLString = brand["imageUrl"], let imageURL = NSURL(string: imageURLString as! String) {
-            cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "iTunesArtwork"), completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+        if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
+            cell.fgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                 collectionView.reloadItemsAtIndexPaths([indexPath])
             })
         }
@@ -173,6 +208,18 @@ extension BrandsViewController: UINavigationControllerDelegate {
         }
         
         return nil
+    }
+}
+
+// MARK: - Refreshing
+extension BrandsViewController {
+    
+    func beginRefreshing() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func endRefreshing() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 
