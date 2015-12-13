@@ -18,6 +18,4 @@ extension Brand {
     @NSManaged var label: String?
     @NSManaged var imageUrl: String?
     @NSManaged var extra: String?
-    @NSManaged var type: String?
-
 }
