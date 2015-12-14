@@ -1,0 +1,27 @@
+//
+//  WeChatMomentsActivity.swift
+//  iPrices
+//
+//  Created by chenglian on 15/12/13.
+//  Copyright © 2015年 iPrices. All rights reserved.
+//
+
+import UIKit
+
+class WeChatMomentsActivity: WeChatActivityGeneral {
+    override class func activityCategory() -> UIActivityCategory{
+        return UIActivityCategory.Share
+    }
+    override func activityType() -> String? {
+        return NSBundle.mainBundle().bundleIdentifier! + ".WeChatMomentsActivity"
+    }
+    
+    override func activityTitle() -> String? {
+        isSessionScene = false
+        return NSLocalizedString("wechat_moments", comment: "")
+    }
+    
+    override func activityImage() -> UIImage? {
+        return UIImage(named: "wechat_moments")
+    }
+}

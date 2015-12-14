@@ -17,6 +17,9 @@
 "pull_to_refresh_footer_refreshing"="Loading more…";
 "pull_to_refresh_no_more_data"="No more data";
 
+/* WeChat */
+"wechat_session" = "WeChat";
+"wechat_moments" = "Moments";
 
 /* News View Controller */
 "news_view_controller_title"="News";

@@ -12,6 +12,8 @@ public struct Cons {
         
         static let baseURL                  = "https://baodating-api.woniu.io:5000"
         
+        static let shareBaseURL             = "http://baodating-contents.woniu.io:8080/#"
+        
         // Count of News to load for each request
         static let reqCnt                   = 2
         

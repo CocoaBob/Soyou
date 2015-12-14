@@ -9,6 +9,9 @@
 class NewsDetailViewController: UIViewController {
     var news: News?
     var image: UIImage?
+    var newsTitle: String!
+    var newsId: Int!
+    var btnLike: UIButton?
     
     var webView: UIWebView?
     var scrollView: UIScrollView? {
@@ -18,6 +21,10 @@ class NewsDetailViewController: UIViewController {
     init(news: News?, image: UIImage?) {
         self.news = news
         self.image = image
+
+        self.newsTitle = self.news?.title
+        self.newsId = self.news?.id as! Int
+            
         super.init(nibName: nil, bundle: nil)
         
         // Hide tabs
@@ -55,18 +62,27 @@ class NewsDetailViewController: UIViewController {
         // Fix scroll view insets
         self.updateScrollViewInset(self.webView!.scrollView, toolbarIsVisible: true)
         
-        // Load content
-        loadNews()
-        
         // Toolbar
+        self.btnLike = UIButton(type: .System)
         self.toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
             UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(image: UIImage(named:"img_thumb"), style: .Plain, target: self, action: "like:"),
+            UIBarButtonItem(customView: self.btnLike!),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
             UIBarButtonItem(image: UIImage(named:"img_heart"), style: .Plain, target: self, action: "star:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")]
+        
+        self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
+        //self.btnLike?.setTitle("", forState: .Normal)
+        self.btnLike?.backgroundColor = UIColor.clearColor()
+        self.btnLike?.frame = CGRectMake(0, 0, 64, 32)
+        self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
+        self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
+        self.btnLike?.addTarget(self, action: "like:", forControlEvents: .TouchUpInside)
+        
+        // Load content
+        loadNews()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -161,6 +177,9 @@ extension NewsDetailViewController {
             if let localNews = self.news?.MR_inContext(localContext) {
                 if localNews.content != nil {
                     self.loadPageContent(localNews)
+                    if localNews.likeNumber != nil && localNews.likeNumber?.integerValue > 0 {
+                        self.btnLike?.setTitle("\(localNews.likeNumber!)", forState: .Normal)
+                    }
                 }
             }
         })
@@ -176,6 +195,9 @@ extension NewsDetailViewController {
                 
                 if localNews.content != nil {
                     self.loadPageContent(localNews)
+                    if localNews.likeNumber != nil && localNews.likeNumber?.integerValue > 0 {
+                        self.btnLike?.setTitle("\(localNews.likeNumber!)", forState: .Normal)
+                    }
                 } else {
                     if let newsID = localNews.id {
                         ServerManager.shared.requestNews("\(newsID)",
@@ -247,19 +269,36 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
 extension NewsDetailViewController {
     
     func share(sender: UIBarButtonItem) {
-        print("\(__FUNCTION__)")
+        let activityView = UIActivityViewController(
+            activityItems: [self.image!, self.newsTitle!, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(self.newsId)")!],
+            applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+        self.presentViewController(activityView,
+            animated: true,
+            completion: nil)
+    }
+    
+    private func likeSuccessHandler(responseObject: AnyObject?) {
+        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+        let likeNumber = responseObject["data"] as? Int
+        
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localNews = self.news?.MR_inContext(localContext) {
+                if likeNumber != nil && likeNumber > 0 {
+                    self.btnLike?.setTitle("\(likeNumber!)", forState: .Normal)
+                    News.importData(["id": localNews.id!, "likeNumber": localNews.likeNumber!], localContext)
+                }
+            }
+        })
     }
     
     func like(sender: UIBarButtonItem) {
-        print("\(__FUNCTION__)")
-//        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-//            if let localNews = self.news?.MR_inContext(localContext) {
-//                ServerManager.shared.likeNews(localNews.id!, { (responseObject: AnyObject?) -> () in
-//                    // TODO update toolbar number
-//                    print("OK") },
-//                    { (error: NSError?) -> () in self.handleError(error) })
-//            }
-//        })
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localNews = self.news?.MR_inContext(localContext) {
+                ServerManager.shared.likeNews(localNews.id!,
+                    { (responseObject: AnyObject?) -> () in self.likeSuccessHandler(responseObject) },
+                    { (error: NSError?) -> () in self.handleError(error) })
+            }
+        })
     }
     
     func star(sender: UIBarButtonItem) {
