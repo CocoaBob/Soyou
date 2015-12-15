@@ -20,6 +20,7 @@ extension News {
     @NSManaged var datePublication: NSDate?
     @NSManaged var id: NSNumber?
     @NSManaged var image: String?
+    @NSManaged var isLiked: NSNumber?
     @NSManaged var isOnline: NSNumber?
     @NSManaged var title: String?
     @NSManaged var url: String?
