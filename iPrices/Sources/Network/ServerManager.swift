@@ -113,8 +113,8 @@ class ServerManager {
     // MARK: News
     //////////////////////////////////////
     
-    func likeNews(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/news/\(id)/like", "News", nil, onSuccess, onFailure)
+    func likeNews(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/news/\(id)/like", "News", ["operation": operation], onSuccess, onFailure)
     }
     
     func requestNewsList(count: Int, _ relativeNewsID: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {

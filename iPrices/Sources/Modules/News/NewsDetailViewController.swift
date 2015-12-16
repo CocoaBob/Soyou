@@ -303,17 +303,21 @@ extension NewsDetailViewController {
     func like(sender: UIBarButtonItem) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
-                if localNews.isLiked == nil || localNews.isLiked!.boolValue {
+                if localNews.isLiked != nil && localNews.isLiked!.boolValue {
                     localNews.isLiked = NSNumber(bool: false)
                     self.loadNewsData(["id": localNews.id!, "likeNumber": localNews.likeNumber!.integerValue - 1], inContext: nil)
                     
-                    // TODO: Send request to -1
+                    // Send request to -1
+                    ServerManager.shared.likeNews(localNews.id!, operation: "-",
+                        { (responseObject: AnyObject?) -> () in self.likeSuccessHandler(responseObject) },
+                        { (error: NSError?) -> () in self.handleRequestNewsError(error) })
+                    
                 } else {
                     localNews.isLiked = NSNumber(bool: true)
                     self.loadNewsData(["id": localNews.id!, "likeNumber": localNews.likeNumber!.integerValue + 1], inContext: nil)
                     
                     // Send request to +1
-                    ServerManager.shared.likeNews(localNews.id!,
+                    ServerManager.shared.likeNews(localNews.id!, operation: "+",
                         { (responseObject: AnyObject?) -> () in self.likeSuccessHandler(responseObject) },
                         { (error: NSError?) -> () in self.handleRequestNewsError(error) })
                 }
