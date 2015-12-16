@@ -46,6 +46,11 @@ class ServerManager {
     //////////////////////////////////////
     
     // Not tested yet
+    func checkToken(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/auth/login", "AuthCheck", [], onSuccess, onFailure)
+    }
+    
+    // Not tested yet
     func login(email: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/auth/login", "Auth", ["email": email, "password": password], onSuccess, onFailure)
     }
@@ -68,6 +73,14 @@ class ServerManager {
     // Not tested yet
     func resetPassword(verifyCode: String, password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/auth/password", "Auth", ["verifyCode": verifyCode, "password": password], onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
+    // MARK: Brands
+    //////////////////////////////////////
+    
+    func requestAllBrands(onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
+        getAsync("/api/brands", "Brands", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -136,14 +149,6 @@ class ServerManager {
     
     func registerForNotification(uuid: String, _ deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
         postAsync("/api/notifications/register", "Notifications", ["uuid": uuid, "deviceToken": deviceToken],onSuccess, onFailure)
-    }
-    
-    //////////////////////////////////////
-    // MARK: Brands
-    //////////////////////////////////////
-    
-    func requestBrands(onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
-        getAsync("/api/brands", "Brands", onSuccess, onFailure)
     }
     
     //////////////////////////////////////

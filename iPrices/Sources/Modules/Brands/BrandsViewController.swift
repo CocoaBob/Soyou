@@ -89,7 +89,7 @@ extension BrandsViewController {
     }
     
     func requestBrandsList(relativeID: NSNumber?) {
-        ServerManager.shared.requestBrands(
+        ServerManager.shared.requestAllBrands(
             { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, relativeID) },
             { (error: NSError?) -> () in self.handleError(error) }
         );
