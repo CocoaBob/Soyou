@@ -98,7 +98,15 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        print("\(__FUNCTION__)")
+        
+        let row = sections[indexPath.section].rows[indexPath.row]
+        if row.type == .Account {
+            if let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") {
+                let navigationController = UINavigationController(rootViewController: loginViewController)
+                self.presentViewController(navigationController, animated: true, completion: nil)
+            }
+        }
+        
     }
 }
 

@@ -25,35 +25,91 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @IBOutlet var tfEmail: UITextField?
-    @IBOutlet var tfPassword: UITextField?
-    @IBOutlet var tfPasswordConfirm: UITextField?
-    @IBOutlet var tfVerificationCode: UITextField?
+    @IBOutlet var tfEmail: NextResponderTextField?
+    @IBOutlet var tfPassword: NextResponderTextField?
+    @IBOutlet var tfPasswordConfirm: NextResponderTextField?
+    @IBOutlet var tfVerificationCode: NextResponderTextField?
+    @IBOutlet var btnAction: UIButton?
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.keyboardControlInstall()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.keyboardControlUninstall()
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        self.keyboardControlRotateWithTransitionCoordinator(coordinator)
+    }
 }
 
 // MARK: UITextFieldDelegate
-extension LoginViewController: UITextFieldDelegate{
+extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if let nextFirstResponder = (textField as? NextResponderTextField)!.nextFirstResponder {
+            nextFirstResponder.becomeFirstResponder()
+        }
         
+        switch self.type {
+        case .Login:
+            if textField == tfPassword {
+                self.login(nil)
+            }
+        case .Register:
+            break
+        case .ForgetPassword:
+            break
+        case .ResetPassword:
+            break
+        }
         return true
     }
     
 }
 
+// MARK: Routines
+extension LoginViewController {
+    
+    func validateActionButton() {
+        
+        switch self.type {
+        case .Login:
+            if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
+                self.btnAction?.enabled = (strEmail.isEmail() && !strPassword.isEmpty)
+            } else {
+                self.btnAction?.enabled = false
+            }
+        case .Register:
+            break
+        case .ForgetPassword:
+            break
+        case .ResetPassword:
+            break
+        }
+    }
+}
+
 // MARK: Actions
 extension LoginViewController {
     
-    @IBAction func login(sender: UIButton) {
+    @IBAction func textFieldDidChange(textField: UITextField?) {
+        validateActionButton()
+    }
+    
+    @IBAction func login(sender: UIButton?) {
         
     }
     
-    @IBAction func register(sender: UIButton) {
+    @IBAction func register(sender: UIButton?) {
         
     }
     
-    @IBAction func forgetPassword(sender: UIButton) {
+    @IBAction func forgetPassword(sender: UIButton?) {
         
     }
     
