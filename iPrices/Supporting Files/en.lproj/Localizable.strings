@@ -22,13 +22,19 @@
 "wechat_moments" = "Moments";
 
 /* News View Controller */
-"news_view_controller_title"="News";
-"news_view_controller_tab_title"="News";
+"news_vc_title"="News";
+"news_vc_tab_title"="News";
 
 /* Brands View Controller */
-"brands_view_controller_title"="Brands";
-"brands_view_controller_tab_title"="Brands";
+"brands_vc_title"="Brands";
+"brands_vc_tab_title"="Brands";
 
 /* Account View Controller */
-"account_view_controller_title"="Account";
-"account_view_controller_tab_title"="Account";
+"account_vc_title"="Account";
+"account_vc_tab_title"="Account";
+
+/* Login View Controller */
+"login_vc_login_title"="Login";
+"login_vc_register_title"="Sign Up";
+"login_vc_forget_password_title"="Forget Password";
+"login_vc_reset_password_title"="Reset Password";

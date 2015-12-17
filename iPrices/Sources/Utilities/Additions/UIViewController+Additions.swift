@@ -6,40 +6,15 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
+// MARK: Top/Bottom bars and scroll view insets
 extension UIViewController {
     
     func hideToolbar(animated: Bool) {
-//        let viewFrame = self.view.frame
-//        var barFrame = self.navigationController!.toolbar.frame
-//        barFrame = CGRectMake(0, CGRectGetHeight(viewFrame), CGRectGetWidth(viewFrame), CGRectGetHeight(barFrame))
-//        
-//        if (animated) {
-//            UIView.animateWithDuration(0.25,
-//                animations: { () -> Void in
-//                self.navigationController?.toolbar.frame = barFrame
-//                },
-//                completion: { (finished) -> Void in
-//                    self.navigationController?.setToolbarHidden(true, animated: false)
-//            })
-//        } else {
-//            UIView.setAnimationsEnabled(false)
-//            self.navigationController?.toolbar.frame = barFrame
-//            UIView.setAnimationsEnabled(true)
-            self.navigationController?.setToolbarHidden(true, animated: false)
-//        }
+        self.navigationController?.setToolbarHidden(true, animated: false)
     }
     
     func showToolbar() {
-//        UIView.setAnimationsEnabled(false)
-//        
         self.navigationController?.setToolbarHidden(false, animated: false)
-//
-//        let viewFrame = self.view.frame
-//        var barFrame = self.navigationController!.toolbar.frame
-//        barFrame = CGRectMake(0, CGRectGetHeight(viewFrame) - CGRectGetHeight(barFrame), CGRectGetWidth(viewFrame), CGRectGetHeight(barFrame))
-//        self.navigationController?.toolbar.frame = barFrame
-        
-//        UIView.setAnimationsEnabled(true)
     }
     
     func topInset() -> CGFloat {
@@ -187,5 +162,13 @@ extension UIViewController {
         } else {
             updateFrameClosure()
         }
+    }
+}
+
+// MARK: Routines
+extension UIViewController {
+
+    func dismissSelf() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

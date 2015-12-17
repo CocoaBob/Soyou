@@ -24,7 +24,8 @@ class NewsViewController: BaseViewController {
 
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_house"), selectedImage: UIImage(named: "img_tab_house_selected"))
-        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+//        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        self.tabBarItem.title = NSLocalizedString("news_vc_tab_title", comment: "")
         
         // Bars
         self.hidesBottomBarWhenPushed = false
