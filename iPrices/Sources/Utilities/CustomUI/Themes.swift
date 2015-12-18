@@ -23,6 +23,6 @@ class Themes {
         
         // UIToolbar
         UIToolbar.appearance().translucent = true
-        UIToolbar.appearance().tintColor = UIColor(rgba: "#FFB751")
+        UIToolbar.appearance().tintColor = UIColor(rgba: "#a0a0a0")
     }
 }

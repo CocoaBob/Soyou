@@ -7,6 +7,15 @@
 //
 
 class NewsDetailViewController: UIViewController {
+    let btnActiveColor = UIColor(rgba:"#10ABFE")
+    let btnInactiveColor = UIToolbar.appearance().tintColor
+    let coverHeight:CGFloat = 210.0
+    var isStatusBarOverlpingCoverImage = true
+    
+    let statusBar = UIView(frame:
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
+    )
+    
     var news: News?
     var image: UIImage?
     var newsTitle: String!
@@ -39,10 +48,16 @@ class NewsDetailViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
+    }
+    
     override func loadView() {
         super.loadView()
         
-        self.webView = UIWebView(frame: self.view.bounds)
+        let webViewFrame = CGRect(origin: CGPoint(x:0, y:0), size: self.view.bounds.size)
+        self.webView = UIWebView(frame: webViewFrame)
+        
         self.view = self.webView!
         
         let tapGR = UITapGestureRecognizer(target: self, action: "tapHandler:")
@@ -52,19 +67,28 @@ class NewsDetailViewController: UIViewController {
         self.webView?.addGestureRecognizer(tapGR)
         
         if let image = self.image {
-            self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: 200, noBlur: true)
+            self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
         }
+        
+        // Set status bar background color
+        statusBar.backgroundColor = UIColor.whiteColor()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set WebView scroll delegate
+        self.webView?.scrollView.delegate = self
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
         // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, toolbarIsVisible: true)
+        self.updateScrollViewInset(self.webView!.scrollView, toolbarIsVisible: false)
         
         // Toolbar
         self.btnLike = UIButton(type: .System)
         self.toolbarItems = [
+            UIBarButtonItem(image: UIImage(named:"navigation_arrow"), style: .Plain, target: self, action: "back:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
             UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
@@ -73,6 +97,7 @@ class NewsDetailViewController: UIViewController {
             UIBarButtonItem(image: UIImage(named:"img_heart"), style: .Plain, target: self, action: "star:"),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")]
         
+        self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
         self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
         self.btnLike?.backgroundColor = UIColor.clearColor()
         self.btnLike?.frame = CGRectMake(0, 0, 64, 32)
@@ -94,7 +119,30 @@ class NewsDetailViewController: UIViewController {
             self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
             }, completion: nil);
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        statusBar.removeFromSuperview()
+    }
 
+}
+
+extension NewsDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if isStatusBarOverlpingCoverImage && scrollView.contentOffset.y >= (coverHeight - UIApplication.sharedApplication().statusBarFrame.height) {
+            
+            isStatusBarOverlpingCoverImage = false
+            self.tabBarController?.view.addSubview(statusBar)
+            
+        } else if !isStatusBarOverlpingCoverImage && scrollView.contentOffset.y < (coverHeight - UIApplication.sharedApplication().statusBarFrame.height){
+            
+            isStatusBarOverlpingCoverImage = true
+            statusBar.removeFromSuperview()
+            
+        }
+        
+    }
 }
 
 extension NewsDetailViewController: UIGestureRecognizerDelegate {
@@ -191,6 +239,20 @@ extension NewsDetailViewController {
         // Load HTML
         self.loadPageContent(news)
         
+        // Update like button status
+        setLikeBtnStatus(news)
+    }
+    
+    
+    private func setLikeBtnStatus(news:News){
+        
+        // Set tint color
+        if news.isLiked != nil && news.isLiked!.boolValue {
+            self.btnLike?.tintColor = btnActiveColor
+        } else {
+            self.btnLike?.tintColor = btnInactiveColor
+        }
+        
         // Update like number
         if let likeNumber = news.likeNumber {
             self.btnLike?.setTitle((likeNumber.integerValue > 0) ? "\(likeNumber)" : "", forState: .Normal)
@@ -241,7 +303,6 @@ extension NewsDetailViewController {
             }
         })
     }
-    
 }
 
 // MARK: - RMPZoomTransitionAnimating/RMPZoomTransitionDelegate
@@ -279,6 +340,10 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
 
 // MARK: Actions
 extension NewsDetailViewController {
+    
+    func back(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     
     func share(sender: UIBarButtonItem) {
         let activityView = UIActivityViewController(
