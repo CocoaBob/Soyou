@@ -25,6 +25,5 @@ extension News {
     @NSManaged var title: String?
     @NSManaged var url: String?
     @NSManaged var isMore: NSNumber?
-    @NSManaged var likeNumber: NSNumber?
 
 }

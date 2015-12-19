@@ -54,9 +54,6 @@ class News: BaseModel {
             if let value = data["url"] as? String {
                 news.url = value
             }
-            if let value = data["likeNumber"] as? NSNumber {
-                news.likeNumber = value
-            }
         }
         
         return news

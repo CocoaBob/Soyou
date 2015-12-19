@@ -10,9 +10,9 @@ class NewsDetailViewController: UIViewController {
     let btnActiveColor = UIColor(rgba:"#10ABFE")
     let btnInactiveColor = UIToolbar.appearance().tintColor
     let coverHeight:CGFloat = 200.0
-    var isStatusBarOverlpingCoverImage = true
+    var isStatusBarOverlyingCoverImage = true
     
-    let statusBar = UIView(frame:
+    let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
     
@@ -49,7 +49,7 @@ class NewsDetailViewController: UIViewController {
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return isStatusBarOverlpingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
+        return isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
     }
     
     override func loadView() {
@@ -73,7 +73,7 @@ class NewsDetailViewController: UIViewController {
         }
         
         // Set status bar background color
-        statusBar.backgroundColor = UIColor.whiteColor()
+        statusBarCover.backgroundColor = UIColor.whiteColor()
     }
     
     override func viewDidLoad() {
@@ -86,13 +86,10 @@ class NewsDetailViewController: UIViewController {
         self.btnLike = UIButton(type: .System)
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
         let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: "back:")
-        back.width = 64
         let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
-        share.width = 64
         let like = UIBarButtonItem(customView: self.btnLike!)
-        like.width = 64
         let fav = UIBarButtonItem(image: UIImage(named:"img_heart"), style: .Plain, target: self, action: "star:")
-        fav.width = 64
+        (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
         self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
         
         self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
@@ -105,59 +102,38 @@ class NewsDetailViewController: UIViewController {
         
         // Load content
         loadNews()
+        
+        // Hide navigation bar
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.webView!.scrollView, true, false)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         self.showToolbar()
-        
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, toolbarIsVisible: false)
+        self.updateStatusBarCover()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        statusBar.removeFromSuperview()
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.removeStatusBarCover()
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition(
-            { (context) -> Void in
-                self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
-            }, completion: nil);
+        coordinator.animateAlongsideTransition( { (context) -> Void in
+            self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
+        }, completion: nil);
     }
 
 }
 
 extension NewsDetailViewController: UIScrollViewDelegate {
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if isStatusBarOverlpingCoverImage && scrollView.contentOffset.y >= (coverHeight - UIApplication.sharedApplication().statusBarFrame.height) {
-            
-            isStatusBarOverlpingCoverImage = false
-            self.tabBarController?.view.addSubview(self.statusBar)
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.setNeedsStatusBarAppearanceUpdate()
-                self.statusBar.alpha = 1
-            })
-            
-        } else if !isStatusBarOverlpingCoverImage && scrollView.contentOffset.y < (coverHeight - UIApplication.sharedApplication().statusBarFrame.height){
-            
-            isStatusBarOverlpingCoverImage = true
-            UIView.animateWithDuration(0.25, animations:
-                { () -> Void in
-                    self.setNeedsStatusBarAppearanceUpdate()
-                    self.statusBar.alpha = 0
-                }, completion:
-                { (finished) -> Void in
-                    self.statusBar.removeFromSuperview()
-                }
-            )
-            
-        }
-        
+        self.updateStatusBarCover()
     }
 }
 
@@ -228,6 +204,94 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
     }
 }
 
+// Status Bar Cover
+extension NewsDetailViewController {
+    
+    private func updateStatusBarCover() {
+        guard let scrollView = self.webView?.scrollView else { return }
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+        if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= (coverHeight - statusBarHeight) {
+            isStatusBarOverlyingCoverImage = false
+            self.addStatusBarCover()
+            
+        } else if !isStatusBarOverlyingCoverImage && scrollView.contentOffset.y < (coverHeight - statusBarHeight){
+            isStatusBarOverlyingCoverImage = true
+            self.removeStatusBarCover()
+        }
+    }
+    
+    private func addStatusBarCover() {
+        self.tabBarController?.view.addSubview(self.statusBarCover)
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.statusBarCover.alpha = 1
+        })
+    }
+    
+    private func removeStatusBarCover() {
+        UIView.animateWithDuration(0.25, animations:
+            { () -> Void in
+                self.setNeedsStatusBarAppearanceUpdate()
+                self.statusBarCover.alpha = 0
+            }, completion:
+            { (finished) -> Void in
+                self.statusBarCover.removeFromSuperview()
+            }
+        )
+    }
+}
+
+// MARK: Like button
+extension NewsDetailViewController {
+    
+    private func handleRequestNewsInfoSuccess(responseObject: AnyObject?) {
+        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+        if let data = responseObject["data"] as? NSDictionary {
+            if let likeNumber = data["likeNumber"] as? NSNumber {
+                self.likeBtnNumber = likeNumber.integerValue
+            }
+        }
+    }
+    
+    private func updateLikeBtnNumber() {
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localNews = self.news?.MR_inContext(localContext) {
+                if let newsID = localNews.id {
+                    ServerManager.shared.requestNewsInfo("\(newsID)",
+                        { (responseObject: AnyObject?) -> () in self.handleRequestNewsInfoSuccess(responseObject) },
+                        { (error: NSError?) -> () in self.handleRequestError(error) }
+                    );
+                }
+            }
+        })
+    }
+    
+    private func updateLikeBtnColor(news: News) {
+        if news.isLiked != nil && news.isLiked!.boolValue {
+            self.btnLike?.tintColor = btnActiveColor
+        } else {
+            self.btnLike?.tintColor = btnInactiveColor
+        }
+    }
+    
+    private var likeBtnNumber: Int? {
+        set(newValue) {
+            if let number = newValue {
+                self.btnLike?.setTitle("\(max(number, 0))", forState: .Normal)
+            } else {
+                self.btnLike?.setTitle("", forState: .Normal)
+            }
+        }
+        get {
+            if let title = self.btnLike?.titleForState(.Normal) {
+                return Int(title)
+            } else {
+                return 0
+            }
+        }
+    }
+}
+
 // MARK: Data
 extension NewsDetailViewController {
     
@@ -255,51 +319,26 @@ extension NewsDetailViewController {
         // Load HTML
         self.loadPageContent(news)
         
-        // Update like button status
-        setLikeBtnStatus(news)
+        updateLikeBtnColor(news)
+        updateLikeBtnNumber()
     }
     
-    
-    private func setLikeBtnStatus(news:News){
-        
-        // Set tint color
-        if news.isLiked != nil && news.isLiked!.boolValue {
-            self.btnLike?.tintColor = btnActiveColor
-        } else {
-            self.btnLike?.tintColor = btnInactiveColor
-        }
-        
-        // Update like number
-        if let likeNumber = news.likeNumber {
-            self.btnLike?.setTitle((likeNumber.integerValue > 0) ? "\(likeNumber)" : "", forState: .Normal)
-        }
-    }
-    
-    private func loadNewsData(newsData: NSDictionary?, inContext context: NSManagedObjectContext?) {
-        guard let newsData = newsData else { return }
-        
-        let loadNewsDataClosure: (NSDictionary, NSManagedObjectContext) -> () = { (newsData, context) -> () in
-            if let news = News.importData(newsData, context) {
+    private func loadNewsData(data: NSDictionary?) {
+        guard let data = data else { return }
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let news = News.importData(data, localContext) {
                 self.loadNews(news);
             }
-        }
-        
-        if let context = context {
-            loadNewsDataClosure(newsData, context)
-        } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                loadNewsDataClosure(newsData, localContext)
-            })
-        }
+        })
     }
     
     private func handleRequestNewsSuccess(responseObject: AnyObject?) {
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        let newsData = responseObject["data"] as? NSDictionary
-        self.loadNewsData(newsData, inContext: nil)
+        let data = responseObject["data"] as? NSDictionary
+        self.loadNewsData(data)
     }
     
-    private func handleRequestNewsError(error: NSError?) {
+    private func handleRequestError(error: NSError?) {
         print("\(error)")
     }
     
@@ -312,7 +351,7 @@ extension NewsDetailViewController {
                     if let newsID = localNews.id {
                         ServerManager.shared.requestNews("\(newsID)",
                             { (responseObject: AnyObject?) -> () in self.handleRequestNewsSuccess(responseObject) },
-                            { (error: NSError?) -> () in self.handleRequestNewsError(error) }
+                            { (error: NSError?) -> () in self.handleRequestError(error) }
                         );
                     }
                 }
@@ -326,7 +365,6 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
     
     func imageViewFrame() -> CGRect {
         if let fgImageView = self.webView?.scrollView.twitterCoverView {
-            print("\(self.view.convertRect(fgImageView.frame, toView: self.view.window))")
             return self.view.convertRect(fgImageView.frame, toView: self.view.window)
         }
         return CGRectZero
@@ -371,38 +409,16 @@ extension NewsDetailViewController {
             completion: nil)
     }
     
-    private func likeSuccessHandler(responseObject: AnyObject?) {
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        if let likeNumber = responseObject["data"] as? Int {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                if let localNews = self.news?.MR_inContext(localContext) {
-                    self.loadNewsData(["id": localNews.id!, "likeNumber": likeNumber], inContext: nil)
-                }
-            })
-        }
-    }
-    
     func like(sender: UIBarButtonItem) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
-                if localNews.isLiked != nil && localNews.isLiked!.boolValue {
-                    localNews.isLiked = NSNumber(bool: false)
-                    self.loadNewsData(["id": localNews.id!, "likeNumber": localNews.likeNumber!.integerValue - 1], inContext: nil)
-                    
-                    // Send request to -1
-                    ServerManager.shared.likeNews(localNews.id!, operation: "-",
-                        { (responseObject: AnyObject?) -> () in self.likeSuccessHandler(responseObject) },
-                        { (error: NSError?) -> () in self.handleRequestNewsError(error) })
-                    
-                } else {
-                    localNews.isLiked = NSNumber(bool: true)
-                    self.loadNewsData(["id": localNews.id!, "likeNumber": localNews.likeNumber!.integerValue + 1], inContext: nil)
-                    
-                    // Send request to +1
-                    ServerManager.shared.likeNews(localNews.id!, operation: "+",
-                        { (responseObject: AnyObject?) -> () in self.likeSuccessHandler(responseObject) },
-                        { (error: NSError?) -> () in self.handleRequestNewsError(error) })
-                }
+                let isLiked = !(localNews.isLiked != nil && localNews.isLiked!.boolValue)
+                localNews.isLiked = NSNumber(bool: isLiked)
+                self.updateLikeBtnColor(localNews)
+                self.likeBtnNumber = self.likeBtnNumber! + (isLiked ? 1 : -1)
+                ServerManager.shared.likeNews(localNews.id!, operation: isLiked ? "+" : "-",
+                    { (responseObject: AnyObject?) -> () in self.updateLikeBtnNumber() },
+                    { (error: NSError?) -> () in self.handleRequestError(error) })
             }
         })
     }

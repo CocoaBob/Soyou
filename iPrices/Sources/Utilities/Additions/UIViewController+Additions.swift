@@ -17,9 +17,9 @@ extension UIViewController {
         self.navigationController?.setToolbarHidden(false, animated: false)
     }
     
-    func topInset() -> CGFloat {
+    func topInset(includeStatusBar: Bool) -> CGFloat {
         var topInset: CGFloat = 0
-        if !UIApplication.sharedApplication().statusBarHidden {
+        if includeStatusBar && !UIApplication.sharedApplication().statusBarHidden {
             topInset += UIApplication.sharedApplication().statusBarFrame.size.height
         }
         if let navigationController = self.navigationController {
@@ -47,11 +47,11 @@ extension UIViewController {
         return bottomInset
     }
     
-    func updateScrollViewInset(scrollView: UIScrollView, toolbarIsVisible: Bool) {
+    func updateScrollViewInset(scrollView: UIScrollView, _ coverStatusBar: Bool, _ toolbarIsVisible: Bool) {
         self.edgesForExtendedLayout = UIRectEdge.All
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
-        scrollView.contentInset = UIEdgeInsetsMake(self.topInset(), 0, self.bottomInset(toolbarIsVisible), 0)
+        scrollView.contentInset = UIEdgeInsetsMake(self.topInset(!coverStatusBar), 0, self.bottomInset(toolbarIsVisible), 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, -scrollView.contentInset.top)
     }

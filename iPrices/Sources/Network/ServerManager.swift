@@ -139,6 +139,10 @@ class ServerManager {
         getAsync("/api/news/\(id)", "News", onSuccess, onFailure)
     }
     
+    func requestNewsInfo(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/news/\(id)/extra", "News", onSuccess, onFailure)
+    }
+    
     //////////////////////////////////////
     // MARK: Notification
     //////////////////////////////////////

@@ -35,7 +35,7 @@ class NewsViewController: BaseViewController {
         super.viewDidLoad()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.collectionView(), toolbarIsVisible: false)
+        self.updateScrollViewInset(self.collectionView(), false, false)
         
         // Setups
         setupCollectionView()
@@ -140,6 +140,7 @@ extension NewsViewController {
             self.collectionView().reloadItemsAtIndexPaths([indexPath!])
         }
         
+        // Prefetch images for new fetched results
         prefetchImages()
     }
 }
