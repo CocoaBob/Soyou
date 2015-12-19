@@ -15,6 +15,7 @@
 		0D1DF0891C1DD18F00574D98 /* WeChatActivityGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DF0881C1DD18F00574D98 /* WeChatActivityGeneral.swift */; };
 		0D1DF08B1C1DD21600574D98 /* WeChatMomentsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DF08A1C1DD21600574D98 /* WeChatMomentsActivity.swift */; };
 		0D1DF08D1C1DD27100574D98 /* WeChatSessionActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DF08C1C1DD27100574D98 /* WeChatSessionActivity.swift */; };
+		0D7675B71C25BB740090385C /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7675B61C25BB740090385C /* SharingProvider.swift */; };
 		45016E571C14EC25004034BC /* Product+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E551C14EC25004034BC /* Product+CoreDataProperties.swift */; };
 		45016E581C14EC25004034BC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E561C14EC25004034BC /* Product.swift */; };
 		45016E5A1C14F043004034BC /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E591C14F043004034BC /* BaseModel.swift */; };
@@ -69,6 +70,7 @@
 		0D1DF0881C1DD18F00574D98 /* WeChatActivityGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatActivityGeneral.swift; sourceTree = "<group>"; };
 		0D1DF08A1C1DD21600574D98 /* WeChatMomentsActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatMomentsActivity.swift; sourceTree = "<group>"; };
 		0D1DF08C1C1DD27100574D98 /* WeChatSessionActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatSessionActivity.swift; sourceTree = "<group>"; };
+		0D7675B61C25BB740090385C /* SharingProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingProvider.swift; sourceTree = "<group>"; };
 		45016E551C14EC25004034BC /* Product+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		45016E561C14EC25004034BC /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		45016E591C14F043004034BC /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 		0D1DF06E1C1DC52600574D98 /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
+				0D7675B61C25BB740090385C /* SharingProvider.swift */,
 				0D1DF06F1C1DC52600574D98 /* WeChat */,
 			);
 			path = Sharing;
@@ -514,6 +517,7 @@
 				455D06C21C03991200D81ABF /* BrandsViewController.swift in Sources */,
 				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,
+				0D7675B71C25BB740090385C /* SharingProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

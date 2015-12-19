@@ -16,6 +16,8 @@ class NewsDetailViewController: UIViewController {
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
     
+    var activityView: UIActivityViewController?
+    
     var news: News?
     var image: UIImage?
     var newsTitle: String!
@@ -38,6 +40,13 @@ class NewsDetailViewController: UIViewController {
         
         // Hide tabs
         self.hidesBottomBarWhenPushed = true
+        
+        // Init Share items
+        self.activityView = UIActivityViewController(
+            activityItems: [self.image!, self.newsTitle!, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(self.newsId)")!],
+            applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+        
+        self.activityView?.excludedActivityTypes = SharingProvider.excludedActivityTypes
     }
     
     convenience init() {
@@ -403,10 +412,7 @@ extension NewsDetailViewController {
     }
     
     func share(sender: UIBarButtonItem) {
-        let activityView = UIActivityViewController(
-            activityItems: [self.image!, self.newsTitle!, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(self.newsId)")!],
-            applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-        self.presentViewController(activityView,
+        self.presentViewController(self.activityView!,
             animated: true,
             completion: nil)
     }
