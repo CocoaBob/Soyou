@@ -351,7 +351,7 @@ ol {
   margin-right: 0;
 }
 .headline .img-place-holder {
-  height: 200px;
+  height: __COVER_HEIGHT__px;
 }
 .from-column {
   width: 280px;

@@ -9,7 +9,7 @@
 class NewsDetailViewController: UIViewController {
     let btnActiveColor = UIColor(rgba:"#10ABFE")
     let btnInactiveColor = UIToolbar.appearance().tintColor
-    let coverHeight:CGFloat = 200.0
+    var coverHeight:CGFloat = 200.0
     var isStatusBarOverlyingCoverImage = true
     
     let statusBarCover = UIView(frame:
@@ -68,6 +68,7 @@ class NewsDetailViewController: UIViewController {
         self.webView?.addGestureRecognizer(tapGR)
         
         if let image = self.image {
+            coverHeight = self.view.bounds.size.width * image.size.height / image.size.width
             self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
             self.webView?.scrollView.twitterCoverView.noContentInset = true
         }
@@ -306,7 +307,8 @@ extension NewsDetailViewController {
             } catch {
                 
             }
-            if let cssContent = cssContent, var htmlContent = htmlContent {
+            if var cssContent = cssContent, var htmlContent = htmlContent {
+                cssContent = cssContent.stringByReplacingOccurrencesOfString("__COVER_HEIGHT__", withString: "\(coverHeight)")
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__TITLE__", withString: newsTitle)
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CONTENT__", withString: newsContent)
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
