@@ -19,5 +19,6 @@ class SharingProvider {
         UIActivityTypeOpenInIBooks,
         UIActivityTypeCopyToPasteboard,
         UIActivityTypeAddToReadingList,
-        UIActivityTypeAirDrop]
+        UIActivityTypeAirDrop
+    ]
 }

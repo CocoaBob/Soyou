@@ -11,6 +11,8 @@ class NewsDetailViewController: UIViewController {
     let btnInactiveColor = UIToolbar.appearance().tintColor
     var coverHeight:CGFloat = 200.0
     var isStatusBarOverlyingCoverImage = true
+    // Used only when no internet connection
+    var likeBtnToggle: Bool = false;
     
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
@@ -276,18 +278,20 @@ extension NewsDetailViewController {
         })
     }
     
-    private func updateLikeBtnColor(news: News) {
-        if news.isLiked != nil && news.isLiked!.boolValue {
+    private func updateLikeBtnColor(isLiked: Bool?) {
+        if isLiked != nil && isLiked!.boolValue {
             self.btnLike?.tintColor = btnActiveColor
         } else {
             self.btnLike?.tintColor = btnInactiveColor
         }
+        
+        self.likeBtnToggle = !likeBtnToggle
     }
     
     private var likeBtnNumber: Int? {
         set(newValue) {
-            if let number = newValue {
-                self.btnLike?.setTitle("\(max(number, 0))", forState: .Normal)
+            if newValue != nil && newValue! > 0 {
+                self.btnLike?.setTitle("\(newValue!)", forState: .Normal)
             } else {
                 self.btnLike?.setTitle("", forState: .Normal)
             }
@@ -330,7 +334,11 @@ extension NewsDetailViewController {
         // Load HTML
         self.loadPageContent(news)
         
-        updateLikeBtnColor(news)
+        if let isLiked = news.isLiked {
+            self.likeBtnToggle = !isLiked.boolValue
+            updateLikeBtnColor(isLiked.boolValue)
+        }
+        
         updateLikeBtnNumber()
     }
     
@@ -420,19 +428,33 @@ extension NewsDetailViewController {
     func like(sender: UIBarButtonItem) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
-                let isLiked = !(localNews.isLiked != nil && localNews.isLiked!.boolValue)
-                localNews.isLiked = NSNumber(bool: isLiked)
-                self.updateLikeBtnColor(localNews)
-                self.likeBtnNumber = self.likeBtnNumber! + (isLiked ? 1 : -1)
-                ServerManager.shared.likeNews(localNews.id!, operation: isLiked ? "+" : "-",
-                    { (responseObject: AnyObject?) -> () in self.updateLikeBtnNumber() },
-                    { (error: NSError?) -> () in self.handleRequestError(error) })
+                let isLiked = localNews.isLiked != nil && localNews.isLiked!.boolValue
+                
+                ServerManager.shared.likeNews(localNews.id!, operation: isLiked ? "-" : "+",
+                    { (responseObject: AnyObject?) -> () in self.handleLikeNewsSuccess(responseObject, isLiked: isLiked) },
+                    { (error: NSError?) -> () in
+                        self.updateLikeBtnColor(!self.likeBtnToggle)
+                        self.handleRequestError(error) })
             }
         })
     }
     
     func star(sender: UIBarButtonItem) {
         print("\(__FUNCTION__)")
+    }
+    
+    private func handleLikeNewsSuccess(responseObject: AnyObject?, isLiked: Bool) {
+        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+        if let likeNumber = responseObject["data"] as? NSNumber {
+                self.likeBtnNumber = likeNumber.integerValue
+        }
+        
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localNews = self.news?.MR_inContext(localContext) {
+                localNews.isLiked = NSNumber(bool: !isLiked)
+            }
+        })
+        self.updateLikeBtnColor(!isLiked)
     }
 
 }
