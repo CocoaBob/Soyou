@@ -84,15 +84,16 @@ class NewsDetailViewController: UIViewController {
         
         // Toolbar
         self.btnLike = UIButton(type: .System)
-        self.toolbarItems = [
-            UIBarButtonItem(image: UIImage(named:"navigation_arrow"), style: .Plain, target: self, action: "back:"),
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:"),
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(customView: self.btnLike!),
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: ""),
-            UIBarButtonItem(image: UIImage(named:"img_heart"), style: .Plain, target: self, action: "star:"),
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")]
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
+        let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: "back:")
+        back.width = 64
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
+        share.width = 64
+        let like = UIBarButtonItem(customView: self.btnLike!)
+        like.width = 64
+        let fav = UIBarButtonItem(image: UIImage(named:"img_heart"), style: .Plain, target: self, action: "star:")
+        fav.width = 64
+        self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
         
         self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
         self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
