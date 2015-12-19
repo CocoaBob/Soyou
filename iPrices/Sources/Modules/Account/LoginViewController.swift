@@ -37,6 +37,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @IBOutlet var scrollView: UIScrollView?
     @IBOutlet var tfEmail: NextResponderTextField?
     @IBOutlet var tfPassword: NextResponderTextField?
     @IBOutlet var tfPasswordConfirm: NextResponderTextField?
@@ -53,6 +54,7 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.keyboardControlInstall()
+        self.updateScrollViewInset(self.scrollView!, false, false)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -272,5 +274,14 @@ extension LoginViewController {
         self.stopIndicator()
         
         print("\(error)")
+    }
+}
+
+// MARK: KeyboardControl
+extension LoginViewController {
+    
+    override func adjustViewsForKeyboardFrame(keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: NSTimeInterval, _ options: UIViewAnimationOptions) {
+        super.adjustViewsForKeyboardFrame(keyboardFrame, isAnimated, duration, options)
+        self.updateScrollViewInset(self.scrollView!, false, false)
     }
 }

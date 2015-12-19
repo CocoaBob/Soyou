@@ -41,14 +41,6 @@ class AccountViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        // UIViewController
-        self.title = NSLocalizedString("account_vc_title", comment: "")
-        
-        // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
-//        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarItem.title = NSLocalizedString("account_vc_tab_title", comment: "")
     }
     
     override func viewDidLoad() {

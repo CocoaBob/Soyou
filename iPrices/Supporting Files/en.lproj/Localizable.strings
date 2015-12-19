@@ -29,9 +29,9 @@
 "brands_vc_title"="Brands";
 "brands_vc_tab_title"="Brands";
 
-/* Account View Controller */
-"account_vc_title"="Account";
-"account_vc_tab_title"="Account";
+/* User View Controller */
+"user_vc_title"="User";
+"user_vc_tab_title"="User";
 
 /* Login View Controller */
 "login_vc_login_title"="Login";

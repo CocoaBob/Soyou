@@ -30,8 +30,8 @@
 "brands_vc_tab_title"="品牌";
 
 /* Account View Controller */
-"account_vc_title"="用户";
-"account_vc_tab_title"="用户";
+"user_vc_title"="用户";
+"user_vc_tab_title"="用户";
 
 /* Login View Controller */
 "login_vc_login_title"="登录";

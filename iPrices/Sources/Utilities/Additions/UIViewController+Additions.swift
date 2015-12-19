@@ -32,8 +32,8 @@ extension UIViewController {
     
     func bottomInset(toolbarIsVisible: Bool) -> CGFloat {
         var bottomInset: CGFloat = 0
-        if let navigationController = self.navigationController {
-            if toolbarIsVisible {
+        if toolbarIsVisible {
+            if let navigationController = self.navigationController {
                 bottomInset += navigationController.toolbar.frame.size.height
             }
         }
@@ -41,7 +41,7 @@ extension UIViewController {
             if !self.hidesBottomBarWhenPushed {
                 let tabBarFrame = tabBarController.tabBar.frame
                 let viewFrame = self.view.frame
-                bottomInset += (viewFrame.size.height - tabBarFrame.origin.y)
+                bottomInset += max(0, (viewFrame.size.height - tabBarFrame.origin.y))
             }
         }
         return bottomInset
@@ -51,7 +51,9 @@ extension UIViewController {
         self.edgesForExtendedLayout = UIRectEdge.All
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
-        scrollView.contentInset = UIEdgeInsetsMake(self.topInset(!coverStatusBar), 0, self.bottomInset(toolbarIsVisible), 0)
+        let topInset = self.topInset(!coverStatusBar)
+        let bottomInset = self.bottomInset(toolbarIsVisible)
+        scrollView.contentInset = UIEdgeInsetsMake(topInset, 0, bottomInset, 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, -scrollView.contentInset.top)
     }

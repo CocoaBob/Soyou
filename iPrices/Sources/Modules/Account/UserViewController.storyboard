@@ -15,12 +15,45 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="faQ-QK-LP7" kind="relationship" relationship="rootViewController" id="M4g-eO-buM"/>
+                        <segue destination="aAK-5e-dNq" kind="relationship" relationship="rootViewController" id="gPP-DN-0qb"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Kc-3x-NUS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-680" y="371"/>
+            <point key="canvasLocation" x="-682" y="286"/>
+        </scene>
+        <!--User View Controller-->
+        <scene sceneID="Su7-Xu-yEo">
+            <objects>
+                <viewController id="aAK-5e-dNq" customClass="UserViewController" customModule="iPrices" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zhk-9B-ALe"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qcw-Rl-a1y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xbb-ND-ptn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Syv-aU-dHA">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <connections>
+                                    <segue destination="Mvh-Ey-2u4" kind="embed" id="TZp-mp-cLJ"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Syv-aU-dHA" firstAttribute="leading" secondItem="Xbb-ND-ptn" secondAttribute="leading" id="0hn-XM-cd0"/>
+                            <constraint firstAttribute="trailing" secondItem="Syv-aU-dHA" secondAttribute="trailing" id="Y0P-da-OcZ"/>
+                            <constraint firstItem="Qcw-Rl-a1y" firstAttribute="top" secondItem="Syv-aU-dHA" secondAttribute="bottom" id="alq-a3-NDW"/>
+                            <constraint firstItem="Syv-aU-dHA" firstAttribute="top" secondItem="Xbb-ND-ptn" secondAttribute="top" id="eku-YL-AwI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="xzt-MH-3Sh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yaj-FD-txm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="43" y="286"/>
         </scene>
         <!--Account View Controller-->
         <scene sceneID="aH5-iu-hYE">
@@ -115,7 +148,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pyf-3X-w1C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="371"/>
+            <point key="canvasLocation" x="-680" y="1042"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="fIg-h5-rcs">
@@ -141,7 +174,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gVH-ka-vgE" customClass="NextResponderTextField" customModule="iPrices" customModuleProvider="target">
                                                 <rect key="frame" x="10" y="45" width="300" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                 <connections>
                                                     <action selector="textFieldDidChange:" destination="Mvh-Ey-2u4" eventType="editingChanged" id="UHR-I2-w48"/>
                                                     <outlet property="delegate" destination="Mvh-Ey-2u4" id="hxd-jM-hBE"/>
@@ -289,13 +322,14 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnAction" destination="h5t-jV-w5t" id="Zx6-eW-2SG"/>
+                        <outlet property="scrollView" destination="Ab4-DJ-dbQ" id="fbe-Ox-TBC"/>
                         <outlet property="tfEmail" destination="gVH-ka-vgE" id="Vvp-LT-F7y"/>
                         <outlet property="tfPassword" destination="fDF-4h-Sum" id="XRA-9g-ZuA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wk4-4g-cM8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="1042"/>
+            <point key="canvasLocation" x="45" y="1042"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="ViB-g1-P8w">
@@ -321,7 +355,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MwG-go-Gwk" customClass="NextResponderTextField" customModule="iPrices" customModuleProvider="target">
                                                 <rect key="frame" x="10" y="45" width="300" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                 <connections>
                                                     <action selector="textFieldDidChange:" destination="TuX-cp-8md" eventType="editingChanged" id="vhq-xg-Asm"/>
                                                     <outlet property="delegate" destination="TuX-cp-8md" id="hl2-UD-0ai"/>
@@ -440,6 +474,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnAction" destination="ZgD-Oa-nPQ" id="0lN-HZ-zpw"/>
+                        <outlet property="scrollView" destination="BAX-i5-rAm" id="Nck-UU-hpp"/>
                         <outlet property="tfEmail" destination="MwG-go-Gwk" id="p4w-hC-u6D"/>
                         <outlet property="tfPassword" destination="lqh-7w-Vr0" id="Tue-og-z8N"/>
                         <outlet property="tfPasswordConfirm" destination="BRy-68-STM" id="iJC-mk-dsI"/>
@@ -447,7 +482,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lZ1-jn-2Ec" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="659" y="371"/>
+            <point key="canvasLocation" x="779" y="286"/>
         </scene>
         <!--Forget Password View Controller-->
         <scene sceneID="pPF-qY-KXS">
@@ -473,7 +508,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="HdM-JR-lKD" customClass="NextResponderTextField" customModule="iPrices" customModuleProvider="target">
                                                 <rect key="frame" x="10" y="45" width="300" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="send"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="send"/>
                                                 <connections>
                                                     <action selector="textFieldDidChange:" destination="utq-sS-Sy7" eventType="editingChanged" id="tQN-aL-LYT"/>
                                                     <outlet property="delegate" destination="utq-sS-Sy7" id="6kB-tj-qtm"/>
@@ -567,12 +602,13 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnAction" destination="6gr-NP-vib" id="qRt-zj-tVc"/>
+                        <outlet property="scrollView" destination="YJY-RG-0gX" id="w3A-YC-cZN"/>
                         <outlet property="tfEmail" destination="HdM-JR-lKD" id="rRp-Qc-P8a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VYF-Sm-XRr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="659" y="1042"/>
+            <point key="canvasLocation" x="781" y="1042"/>
         </scene>
         <!--Reset Password View Controller-->
         <scene sceneID="b10-jk-zio">
@@ -598,7 +634,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Verification Code" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="9YC-wt-wLH" customClass="NextResponderTextField" customModule="iPrices" customModuleProvider="target">
                                                 <rect key="frame" x="10" y="45" width="300" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                 <connections>
                                                     <action selector="textFieldDidChange:" destination="4CS-cP-Jra" eventType="editingChanged" id="CHA-Nc-fi7"/>
                                                     <outlet property="delegate" destination="4CS-cP-Jra" id="btM-Jr-9ak"/>
@@ -717,6 +753,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnAction" destination="g9L-eZ-anM" id="9ru-Fm-hO3"/>
+                        <outlet property="scrollView" destination="Iaq-sw-ZJP" id="y0M-V0-swW"/>
                         <outlet property="tfPassword" destination="5Qg-eY-A9c" id="c4c-q3-IXP"/>
                         <outlet property="tfPasswordConfirm" destination="WnG-iR-Lns" id="h9O-H8-dnx"/>
                         <outlet property="tfVerificationCode" destination="9YC-wt-wLH" id="182-8n-auc"/>
@@ -724,7 +761,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9m-RV-5vI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1328" y="1042"/>
+            <point key="canvasLocation" x="1495" y="1042"/>
         </scene>
     </scenes>
     <resources>
