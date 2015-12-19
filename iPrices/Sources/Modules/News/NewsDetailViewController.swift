@@ -9,7 +9,7 @@
 class NewsDetailViewController: UIViewController {
     let btnActiveColor = UIColor(rgba:"#10ABFE")
     let btnInactiveColor = UIToolbar.appearance().tintColor
-    let coverHeight:CGFloat = 210.0
+    let coverHeight:CGFloat = 200.0
     var isStatusBarOverlpingCoverImage = true
     
     let statusBar = UIView(frame:
@@ -49,7 +49,7 @@ class NewsDetailViewController: UIViewController {
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default
+        return isStatusBarOverlpingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
     }
     
     override func loadView() {
@@ -57,6 +57,7 @@ class NewsDetailViewController: UIViewController {
         
         let webViewFrame = CGRect(origin: CGPoint(x:0, y:0), size: self.view.bounds.size)
         self.webView = UIWebView(frame: webViewFrame)
+        self.webView?.backgroundColor = UIColor(rgba: "#f9f9f9")
         
         self.view = self.webView!
         
@@ -68,6 +69,7 @@ class NewsDetailViewController: UIViewController {
         
         if let image = self.image {
             self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
+            self.webView?.scrollView.twitterCoverView.noContentInset = true
         }
         
         // Set status bar background color
@@ -79,11 +81,6 @@ class NewsDetailViewController: UIViewController {
         
         // Set WebView scroll delegate
         self.webView?.scrollView.delegate = self
-        
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, toolbarIsVisible: false)
         
         // Toolbar
         self.btnLike = UIButton(type: .System)
@@ -111,18 +108,24 @@ class NewsDetailViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.showToolbar()
-    }
-    
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition({ (context) -> Void in
-            self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
-            }, completion: nil);
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.webView!.scrollView, toolbarIsVisible: false)
     }
     
     override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         statusBar.removeFromSuperview()
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animateAlongsideTransition(
+            { (context) -> Void in
+                self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
+            }, completion: nil);
     }
 
 }
@@ -133,12 +136,24 @@ extension NewsDetailViewController: UIScrollViewDelegate {
         if isStatusBarOverlpingCoverImage && scrollView.contentOffset.y >= (coverHeight - UIApplication.sharedApplication().statusBarFrame.height) {
             
             isStatusBarOverlpingCoverImage = false
-            self.tabBarController?.view.addSubview(statusBar)
+            self.tabBarController?.view.addSubview(self.statusBar)
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.setNeedsStatusBarAppearanceUpdate()
+                self.statusBar.alpha = 1
+            })
             
         } else if !isStatusBarOverlpingCoverImage && scrollView.contentOffset.y < (coverHeight - UIApplication.sharedApplication().statusBarFrame.height){
             
             isStatusBarOverlpingCoverImage = true
-            statusBar.removeFromSuperview()
+            UIView.animateWithDuration(0.25, animations:
+                { () -> Void in
+                    self.setNeedsStatusBarAppearanceUpdate()
+                    self.statusBar.alpha = 0
+                }, completion:
+                { (finished) -> Void in
+                    self.statusBar.removeFromSuperview()
+                }
+            )
             
         }
         
@@ -310,7 +325,8 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
     
     func imageViewFrame() -> CGRect {
         if let fgImageView = self.webView?.scrollView.twitterCoverView {
-            return fgImageView.convertRect(fgImageView.bounds, toView: self.view.window)
+            print("\(self.view.convertRect(fgImageView.frame, toView: self.view.window))")
+            return self.view.convertRect(fgImageView.frame, toView: self.view.window)
         }
         return CGRectZero
     }
