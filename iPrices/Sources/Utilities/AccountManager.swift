@@ -7,8 +7,9 @@
 //
 
 class AccountManager {
+    static let shared = AccountManager()
     
-    class var uuid: String {
+    var uuid: String {
         get {
             if let strUUID = UICKeyChainStore.stringForKey(Cons.Usr.uuid) {
                 return strUUID
@@ -23,7 +24,7 @@ class AccountManager {
         }
     }
     
-    class var deviceToken: String? {
+    var deviceToken: String? {
         get {
             return UICKeyChainStore.stringForKey(Cons.App.deviceToken)
         }
@@ -31,4 +32,7 @@ class AccountManager {
             UICKeyChainStore.setString(deviceToken, forKey: Cons.App.deviceToken)
         }
     }
+    
+    var currentUser = User()
+    
 }

@@ -25,6 +25,8 @@ public struct Cons {
         static let uuid                     = "uuid"
         static let token                    = "token"
         static let deviceToken              = "deviceToken"
+        static let roleCode                 = "roleCode"
+        static let roleLabel                = "roleLabel"
     }
     
     struct App {

@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     
     private func handleSuccess(responseObject: AnyObject?, deviceTokenString: String) {
-        AccountManager.deviceToken = deviceTokenString
+        AccountManager.shared.deviceToken = deviceTokenString
         print("Push register success")
     }
     
@@ -76,7 +76,7 @@ extension AppDelegate {
             .stringByTrimmingCharactersInSet( characterSet )
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         
-        ServerManager.shared.registerForNotification(AccountManager.uuid, deviceTokenString,
+        ServerManager.shared.registerForNotification(AccountManager.shared.uuid, deviceTokenString,
             { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, deviceTokenString: deviceTokenString) },
             { (error: NSError?) -> () in self.handleError(error) }
         );

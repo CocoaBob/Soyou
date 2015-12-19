@@ -12,7 +12,7 @@ class ServerManager {
     
     static let shared = ServerManager()
     
-    var token: String {
+    var apiKey: String {
         get {
             if let token = UICKeyChainStore.stringForKey(Cons.Svr.reqAuthorizationKey) {
                 return token
@@ -21,7 +21,7 @@ class ServerManager {
             }
         }
         set {
-            UICKeyChainStore.setString(token, forKey: Cons.Svr.reqAuthorizationKey)
+            UICKeyChainStore.setString(apiKey, forKey: Cons.Svr.reqAuthorizationKey)
         }
     }
     
@@ -30,15 +30,15 @@ class ServerManager {
     //////////////////////////////////////
     
     func getAsync(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.request("GET", path, false, false, ["api": api, "authorization": self.token], nil, nil, onSuccess, onFailure)
+        requestOperationManager.request("GET", path, false, false, ["api": api, "authorization": self.apiKey, "token": AccountManager.shared.currentUser.token], nil, nil, onSuccess, onFailure)
     }
     
     func postAsync(path: String, _ api: String, _ params: AnyObject?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.request("POST", path, false, false, ["api": api, "authorization": self.token], params, nil, onSuccess, onFailure)
+        requestOperationManager.request("POST", path, false, false, ["api": api, "authorization": self.apiKey, "token": AccountManager.shared.currentUser.token], params, nil, onSuccess, onFailure)
     }
     
     func deleteAsync(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.request("DELETE", path, false, false, ["api": api, "authorization": self.token], nil, nil, onSuccess, onFailure)
+        requestOperationManager.request("DELETE", path, false, false, ["api": api, "authorization": self.apiKey, "token": AccountManager.shared.currentUser.token], nil, nil, onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -47,7 +47,7 @@ class ServerManager {
     
     // Not tested yet
     func checkToken(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/auth/login", "AuthCheck", [], onSuccess, onFailure)
+        getAsync("/api/secure/auth/check", "AuthCheck", onSuccess, onFailure)
     }
     
     // Not tested yet
