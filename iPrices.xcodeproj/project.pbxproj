@@ -26,12 +26,12 @@
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
+		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
 		4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4555BBAB1BFFEEB500A01B41 /* server.cer */; };
 		455D06A61C0388C700D81ABF /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06A51C0388C700D81ABF /* Themes.swift */; };
 		455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455D06AB1C0391A600D81ABF /* InfoPlist.strings */; };
 		455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06AE1C0394E200D81ABF /* SettingsViewController.swift */; };
 		455D06B41C03950300D81ABF /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06B31C03950300D81ABF /* AccountViewController.swift */; };
-		455D06B81C03955900D81ABF /* AccountViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 455D06B71C03955900D81ABF /* AccountViewController.storyboard */; };
 		455D06C11C03991200D81ABF /* BrandsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 455D06BF1C03991200D81ABF /* BrandsViewController.storyboard */; };
 		455D06C21C03991200D81ABF /* BrandsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06C01C03991200D81ABF /* BrandsViewController.swift */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
@@ -81,13 +81,13 @@
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
 		4555BBAB1BFFEEB500A01B41 /* server.cer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.cer; sourceTree = "<group>"; };
 		455D06A51C0388C700D81ABF /* Themes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		455D06AA1C0391A600D81ABF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		455D06AC1C0391A700D81ABF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		455D06AE1C0394E200D81ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		455D06B31C03950300D81ABF /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		455D06B71C03955900D81ABF /* AccountViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AccountViewController.storyboard; sourceTree = "<group>"; };
 		455D06BF1C03991200D81ABF /* BrandsViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BrandsViewController.storyboard; sourceTree = "<group>"; };
 		455D06C01C03991200D81ABF /* BrandsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandsViewController.swift; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -169,15 +169,15 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
-		455D06AD1C0394E200D81ABF /* Account */ = {
+		455D06AD1C0394E200D81ABF /* User */ = {
 			isa = PBXGroup;
 			children = (
-				455D06B71C03955900D81ABF /* AccountViewController.storyboard */,
+				4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */,
 				455D06B31C03950300D81ABF /* AccountViewController.swift */,
 				4506ED701C221797003B5018 /* LoginViewController.swift */,
 				455D06AE1C0394E200D81ABF /* SettingsViewController.swift */,
 			);
-			name = Account;
+			name = User;
 			path = iPrices/Sources/Modules/Account;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -232,7 +232,7 @@
 				4568E2F41BF92171009A6164 /* Common */,
 				4568E29A1BF90797009A6164 /* News */,
 				455D06BE1C03991200D81ABF /* Brands */,
-				455D06AD1C0394E200D81ABF /* Account */,
+				455D06AD1C0394E200D81ABF /* User */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -424,7 +424,7 @@
 				45A4D8321C08CD200000309C /* news.css in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,
-				455D06B81C03955900D81ABF /* AccountViewController.storyboard in Resources */,
+				4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */,
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

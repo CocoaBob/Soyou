@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Themes.setupAppearances()
         
         // Setup view controllers
-        let storyboardNames = ["NewsViewController", "BrandsViewController", "AccountViewController"]
+        let storyboardNames = ["NewsViewController", "BrandsViewController", "UserViewController"]
         let viewControllers = storyboardNames.map { (storyboardName) -> UINavigationController in
             return UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as! UINavigationController
         }
