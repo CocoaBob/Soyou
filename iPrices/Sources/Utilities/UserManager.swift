@@ -15,62 +15,62 @@ class UserManager {
             return UICKeyChainStore.stringForKey(Cons.App.deviceToken)
         }
         set {
-            UICKeyChainStore.setString(deviceToken, forKey: Cons.App.deviceToken)
+            UICKeyChainStore.setString(newValue, forKey: Cons.App.deviceToken)
         }
     }
     
     // User info
     var uuid: String {
         get {
-            if let strUUID = UICKeyChainStore.stringForKey(Cons.Usr.uuid) {
-                return strUUID
+            if let value = UICKeyChainStore.stringForKey(Cons.Usr.uuid) {
+                return value
             } else {
-                let strUUID = FCUUID.uuid()
-                UICKeyChainStore.setString(strUUID, forKey: Cons.Usr.uuid)
-                return strUUID
+                let value = FCUUID.uuid()
+                UICKeyChainStore.setString(value, forKey: Cons.Usr.uuid)
+                return value
             }
         }
         set {
-            UICKeyChainStore.setString(uuid, forKey: Cons.Usr.uuid)
+            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.uuid)
         }
     }
     
     var token: String {
         get {
-            if let token = UICKeyChainStore.stringForKey(Cons.Usr.token) {
-                return token
+            if let value = UICKeyChainStore.stringForKey(Cons.Usr.token) {
+                return value
             } else {
                 return ""
             }
         }
         set {
-            UICKeyChainStore.setString(token, forKey: Cons.Usr.token)
+            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.token)
         }
     }
     
     var roleCode: String {
         get {
-            if let token = UICKeyChainStore.stringForKey(Cons.Usr.roleCode) {
-                return token
+            if let value = UICKeyChainStore.stringForKey(Cons.Usr.roleCode) {
+                return value
             } else {
                 return ""
             }
         }
         set {
-            UICKeyChainStore.setString(token, forKey: Cons.Usr.roleCode)
+            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleCode)
         }
     }
     
     var roleLabel: String {
         get {
-            if let token = UICKeyChainStore.stringForKey(Cons.Usr.roleLabel) {
-                return token
+            if let value = UICKeyChainStore.stringForKey(Cons.Usr.roleLabel) {
+                return value
             } else {
                 return ""
             }
         }
         set {
-            UICKeyChainStore.setString(token, forKey: Cons.Usr.roleLabel)
+            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleLabel)
         }
     }
     
@@ -86,7 +86,7 @@ extension UserManager {
     }
     
     func isAuthenticated() -> Bool {
-        return token != ""
+        return self.token != ""
     }
     
     func checkTokenValidity(validCompletion: () -> Void, failCompletion: () -> Void){

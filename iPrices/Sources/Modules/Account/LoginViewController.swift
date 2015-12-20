@@ -131,6 +131,8 @@ extension LoginViewController {
 extension LoginViewController {
     
     @IBAction func login(sender: UIButton?) {
+        self.dismissKeyboard()
+        
         if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.showLoader()
@@ -155,7 +157,6 @@ extension LoginViewController {
         let userInfo = responseObject["data"] as! Dictionary<String, String>
         
         UserManager.shared.setUser(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
-
     }
     
     private func handleLoginError(error: NSError?) {
@@ -170,6 +171,8 @@ extension LoginViewController {
 extension LoginViewController {
     
     @IBAction func register(sender: UIButton?) {
+        self.dismissKeyboard()
+        
         if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.showLoader()
@@ -208,6 +211,8 @@ extension LoginViewController {
 extension LoginViewController {
     
     @IBAction func forgetPassword(sender: UIButton?) {
+        self.dismissKeyboard()
+        
         if let strEmail = tfEmail?.text {
             // Strat indicator
             MBProgressHUD.showLoader()
@@ -243,6 +248,8 @@ extension LoginViewController {
 extension LoginViewController {
     
     @IBAction func resetPassword(sender: UIButton?) {
+        self.dismissKeyboard()
+        
         if let strVerificationCode = tfVerificationCode?.text, let strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.showLoader()

@@ -180,6 +180,26 @@ extension UIViewController {
     }
 }
 
+// MARK: Child View Controller
+extension UIViewController {
+
+    func showChildViewController(newChildViewController: UIViewController) {
+        let childViewControllers = self.childViewControllers
+        
+        self.addChildViewController(newChildViewController)
+        newChildViewController.view.frame = self.view.bounds
+        newChildViewController.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.view.addSubview(newChildViewController.view)
+        newChildViewController.didMoveToParentViewController(self)
+        
+        for childViewController in childViewControllers {
+            childViewController.willMoveToParentViewController(nil)
+            childViewController.view.removeFromSuperview()
+            childViewController.removeFromParentViewController()
+        }
+    }
+}
+
 // MARK: Routines
 extension UIViewController {
 

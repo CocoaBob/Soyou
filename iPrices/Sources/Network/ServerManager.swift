@@ -21,7 +21,7 @@ class ServerManager {
             }
         }
         set {
-            UICKeyChainStore.setString(apiKey, forKey: Cons.Svr.reqAuthorizationKey)
+            UICKeyChainStore.setString(newValue, forKey: Cons.Svr.reqAuthorizationKey)
         }
     }
     

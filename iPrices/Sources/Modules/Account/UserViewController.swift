@@ -38,6 +38,9 @@ class UserViewController: UIViewController {
             self.isKeyboardVisible = false
             self.updateNavBarButtonItems()
         }
+        
+        // Update Child View Controller
+        updateChildViewController()
     }
 }
 
@@ -48,24 +51,44 @@ extension UserViewController {
         var leftBarButtonItem: UIBarButtonItem? = nil
         var rightBarButtonItem: UIBarButtonItem? = nil
         if UserManager.shared.isAuthenticated() {
-            leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_user"), style: .Plain, target: self, action: "showSettings:")
+            leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_user"), style: .Plain, target: self, action: "showAccountViewController:")
         }
         if self.isKeyboardVisible {
             rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .Plain, target: self, action: "dismissKeyboard")
         } else {
-            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: .Plain, target: self, action: "showSettings:")
+            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: .Plain, target: self, action: "showSettingsViewController:")
         }
         UIView.setAnimationsEnabled(false)
         self.navigationItem.setLeftBarButtonItem(leftBarButtonItem, animated: false)
         self.navigationItem.setRightBarButtonItem(rightBarButtonItem, animated: false)
         UIView.setAnimationsEnabled(true)
     }
+    
+    func updateChildViewController() {
+        if UserManager.shared.isAuthenticated() {
+            if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") {
+                self.showChildViewController(viewController)
+            }
+        } else {
+            if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") {
+                self.showChildViewController(viewController)
+            }
+        }
+    }
 }
 
 // MARK: Actions
 extension UserViewController {
     
-    func showSettings(sender: UIBarButtonItem) {
-        print("\(__FUNCTION__)")
+    func showAccountViewController(sender: UIBarButtonItem) {
+        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("AccountViewController") {
+            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
+        }
+    }
+    
+    func showSettingsViewController(sender: UIBarButtonItem) {
+        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController") {
+            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
+        }
     }
 }
