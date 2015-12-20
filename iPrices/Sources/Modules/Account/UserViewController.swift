@@ -51,7 +51,7 @@ extension UserViewController {
             leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_user"), style: .Plain, target: self, action: "showSettings:")
         }
         if self.isKeyboardVisible {
-            rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissKeyboard")
+            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .Plain, target: self, action: "dismissKeyboard")
         } else {
             rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: .Plain, target: self, action: "showSettings:")
         }

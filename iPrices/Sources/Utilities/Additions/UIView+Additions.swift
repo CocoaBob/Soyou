@@ -6,14 +6,6 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-extension UIView {
-    
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        self.window?.endEditing(true)
-    }
-}
-
 // MARK: Expose CALayer properties to Interface Builder
 extension UIView {
     

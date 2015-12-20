@@ -59,9 +59,10 @@ extension UIViewController {
     }
 }
 
-private var rotationAnimationDuration: NSTimeInterval = 0
-private var rotationAnimationOptions: UIViewAnimationOptions = .TransitionNone
-private var isRotationAnimation: Bool = false
+private var __rotationAnimationDuration: NSTimeInterval = 0
+private var __rotationAnimationOptions: UIViewAnimationOptions = .TransitionNone
+private var __isRotationAnimation: Bool = false
+private var __isDismissingKeyboard: Bool = false
 
 // MARK: Keyboard Control
 extension UIViewController {
@@ -85,14 +86,14 @@ extension UIViewController {
         coordinator.animateAlongsideTransition(
             { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
                 // called on step: #2
-                rotationAnimationDuration = context.transitionDuration()
+                __rotationAnimationDuration = context.transitionDuration()
                 var option = context.completionCurve()
                 option = UIViewAnimationCurve(rawValue: option.rawValue | (option.rawValue << 16))!
-                rotationAnimationOptions = UIViewAnimationOptions(rawValue: UInt(option.rawValue))
-                isRotationAnimation = true
+                __rotationAnimationOptions = UIViewAnimationOptions(rawValue: UInt(option.rawValue))
+                __isRotationAnimation = true
             }, completion:
             { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
-                isRotationAnimation = false
+                __isRotationAnimation = false
             }
         )
     }
@@ -109,7 +110,7 @@ extension UIViewController {
         // factors applied to the window’s contents as a result of interface orientation changes.
         finalKeyboardFrame = self.view.convertRect(finalKeyboardFrame, fromView: self.view.window)
         
-        if (!isRotationAnimation) {
+        if (!__isRotationAnimation) {
             // Get the animation curve and duration frp, keyboard notification info
             guard let animationCurve = userInfo[UIKeyboardAnimationCurveUserInfoKey] else { return }
             guard var option = UIViewAnimationCurve(rawValue: animationCurve.integerValue) else { return }
@@ -128,7 +129,7 @@ extension UIViewController {
                 self.adjustViewsForKeyboardFrame(finalKeyboardFrame, false, 0, UIViewAnimationOptions(rawValue: 0))
             } else {
                 UIView.setAnimationsEnabled(true)
-                self.adjustViewsForKeyboardFrame(finalKeyboardFrame, true, rotationAnimationDuration, rotationAnimationOptions)
+                self.adjustViewsForKeyboardFrame(finalKeyboardFrame, true, __rotationAnimationDuration, __rotationAnimationOptions)
                 UIView.setAnimationsEnabled(false)
             }
         }
@@ -165,6 +166,18 @@ extension UIViewController {
             updateFrameClosure()
         }
     }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        return !__isDismissingKeyboard
+    }
+    
+    func dismissKeyboard() {
+        __isDismissingKeyboard = true
+        self.view.endEditing(true)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            __isDismissingKeyboard = false
+        }
+    }
 }
 
 // MARK: Routines
@@ -172,9 +185,5 @@ extension UIViewController {
 
     func dismissSelf() {
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func dismissKeyboard() {
-        self.view.endEditing(true)
     }
 }
