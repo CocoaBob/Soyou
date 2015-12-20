@@ -1,17 +1,41 @@
 //
-//  User.swift
+//  UserManager.swift
 //  iPrices
 //
-//  Created by chenglian on 15/12/19.
-//  Copyright © 2015年 iPrices. All rights reserved.
+//  Created by CocoaBob on 25/11/15.
+//  Copyright © 2015 iPrices. All rights reserved.
 //
 
-import Foundation
-
-class User {
+class UserManager {
+    static let shared = UserManager()
     
-    // user basic info
-    var token: String{
+    // Device Info
+    var deviceToken: String? {
+        get {
+            return UICKeyChainStore.stringForKey(Cons.App.deviceToken)
+        }
+        set {
+            UICKeyChainStore.setString(deviceToken, forKey: Cons.App.deviceToken)
+        }
+    }
+    
+    // User info
+    var uuid: String {
+        get {
+            if let strUUID = UICKeyChainStore.stringForKey(Cons.Usr.uuid) {
+                return strUUID
+            } else {
+                let strUUID = FCUUID.uuid()
+                UICKeyChainStore.setString(strUUID, forKey: Cons.Usr.uuid)
+                return strUUID
+            }
+        }
+        set {
+            UICKeyChainStore.setString(uuid, forKey: Cons.Usr.uuid)
+        }
+    }
+    
+    var token: String {
         get {
             if let token = UICKeyChainStore.stringForKey(Cons.Usr.token) {
                 return token
@@ -24,7 +48,7 @@ class User {
         }
     }
     
-    var roleCode: String{
+    var roleCode: String {
         get {
             if let token = UICKeyChainStore.stringForKey(Cons.Usr.roleCode) {
                 return token
@@ -50,13 +74,18 @@ class User {
         }
     }
     
+}
+
+// Routines
+extension UserManager {
+    
     func setUser(token: String, roleCode: String, roleLabel: String) {
         self.token = token
         self.roleCode = roleCode
         self.roleLabel = roleLabel
     }
     
-    func isAuthenticated() () -> Bool {
+    func isAuthenticated() -> Bool {
         return token != ""
     }
     

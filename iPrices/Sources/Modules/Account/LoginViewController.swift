@@ -165,7 +165,7 @@ extension LoginViewController {
         
         let userInfo = responseObject["data"] as! Dictionary<String, String>
         
-        AccountManager.shared.currentUser.setUser(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
+        UserManager.shared.setUser(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
 
     }
     
@@ -204,7 +204,7 @@ extension LoginViewController {
         
         let userInfo = responseObject["data"] as! Dictionary<String, String>
         
-        AccountManager.shared.currentUser.setUser(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
+        UserManager.shared.setUser(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
     }
     
     private func handleRegisterError(error: NSError?) {
@@ -239,6 +239,7 @@ extension LoginViewController {
         // Handle data
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
         
+        print("\(responseObject)")
     }
     
     private func handleForgetPasswordError(error: NSError?) {
@@ -273,6 +274,8 @@ extension LoginViewController {
         
         // Handle data
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+        
+        print("\(responseObject)")
         
     }
     
