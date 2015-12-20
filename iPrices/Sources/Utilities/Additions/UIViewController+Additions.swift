@@ -173,4 +173,8 @@ extension UIViewController {
     func dismissSelf() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
 }

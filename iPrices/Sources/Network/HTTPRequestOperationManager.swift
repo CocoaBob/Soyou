@@ -43,11 +43,11 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             if let onFailure = onFailure { onFailure(error) }
             return
         }
-        modeUI ? self.showLoader() : ()
+        modeUI ? MBProgressHUD.showLoader() : ()
         
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
-            modeUI ? self.hideLoader() : ()
+            modeUI ? MBProgressHUD.hideLoader() : ()
             if let data = responseObject!["data"], count = data!.count {
                 print("<-- [\(count)]")
             }
@@ -55,7 +55,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
-            modeUI ? self.hideLoader() : ()
+            modeUI ? MBProgressHUD.hideLoader() : ()
             print("<-- [x]\n\(error)")
             self.handleFailure(operation, error, onFailure)
         }
@@ -83,7 +83,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             operation.start()
             operation.waitUntilFinished()
             if !operation.cancelled {
-                modeUI ? self.hideLoader() : ()
+                modeUI ? MBProgressHUD.hideLoader() : ()
             } else {
                 if operation.error == nil {
                     success(operation, operation.responseObject)
@@ -118,33 +118,5 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     private func handleFailure(operation: AFHTTPRequestOperation, _ error: NSError?, _ onFailure: ErrorClosure?) {
         if let onFailure = onFailure { onFailure(error) }
-    }
-    
-    // MARK: Activity Indicator
-    
-    private func showLoader() {
-        let hideClosure = {
-            MBProgressHUD.showHUDAddedTo(UIApplication.sharedApplication().delegate?.window!, animated: true)
-        }
-        if NSThread.isMainThread() {
-            hideClosure()
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                hideClosure()
-            })
-        }
-    }
-    
-    private func hideLoader() {
-        let hideClosure = {
-            MBProgressHUD.hideAllHUDsForView(UIApplication.sharedApplication().delegate?.window!, animated: true)
-        }
-        if NSThread.isMainThread() {
-            hideClosure()
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                hideClosure()
-            })
-        }
     }
 }

@@ -46,9 +46,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Navigation bar
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -128,14 +125,6 @@ extension LoginViewController {
     @IBAction func textFieldDidChange(textField: UITextField?) {
         validateActionButton()
     }
-    
-    private func startIndicator() {
-        
-    }
-    
-    private func stopIndicator() {
-        
-    }
 }
 
 // MARK: Login
@@ -144,7 +133,7 @@ extension LoginViewController {
     @IBAction func login(sender: UIButton?) {
         if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
             // Strat indicator
-            self.startIndicator()
+            MBProgressHUD.showLoader()
             
             // Request
             ServerManager.shared.login(
@@ -158,7 +147,7 @@ extension LoginViewController {
     
     private func handleLoginSuccess(responseObject: AnyObject?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         // Handle data
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
@@ -171,7 +160,7 @@ extension LoginViewController {
     
     private func handleLoginError(error: NSError?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         print("\(error)")
     }
@@ -183,7 +172,7 @@ extension LoginViewController {
     @IBAction func register(sender: UIButton?) {
         if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
             // Strat indicator
-            self.startIndicator()
+            MBProgressHUD.showLoader()
             
             // Request
             ServerManager.shared.register(
@@ -197,7 +186,7 @@ extension LoginViewController {
     
     private func handleRegisterSuccess(responseObject: AnyObject?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         // Handle data
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
@@ -209,7 +198,7 @@ extension LoginViewController {
     
     private func handleRegisterError(error: NSError?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         print("\(error)")
     }
@@ -221,7 +210,7 @@ extension LoginViewController {
     @IBAction func forgetPassword(sender: UIButton?) {
         if let strEmail = tfEmail?.text {
             // Strat indicator
-            self.startIndicator()
+            MBProgressHUD.showLoader()
             
             // Request
             ServerManager.shared.requestVerifyCode(
@@ -234,7 +223,7 @@ extension LoginViewController {
     
     private func handleForgetPasswordSuccess(responseObject: AnyObject?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         // Handle data
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
@@ -244,7 +233,7 @@ extension LoginViewController {
     
     private func handleForgetPasswordError(error: NSError?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         print("\(error)")
     }
@@ -256,7 +245,7 @@ extension LoginViewController {
     @IBAction func resetPassword(sender: UIButton?) {
         if let strVerificationCode = tfVerificationCode?.text, let strPassword = tfPassword?.text {
             // Strat indicator
-            self.startIndicator()
+            MBProgressHUD.showLoader()
             
             // Request
             ServerManager.shared.resetPassword(
@@ -270,7 +259,7 @@ extension LoginViewController {
     
     private func handleResetPasswordSuccess(responseObject: AnyObject?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         // Handle data
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
@@ -281,7 +270,7 @@ extension LoginViewController {
     
     private func handleResetPasswordError(error: NSError?) {
         // Stop indicator
-        self.stopIndicator()
+        MBProgressHUD.hideLoader()
         
         print("\(error)")
     }

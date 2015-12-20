@@ -9,6 +9,7 @@
 class UserViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView?
+    var isKeyboardVisible: Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -24,7 +25,40 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: .Plain, target: self, action: "showSettings:")
+        // Nav bar button items
+        self.updateNavBarButtonItems()
+        
+        // Register Keyboard notifications
+        let defaultCenter = NSNotificationCenter.defaultCenter()
+        defaultCenter.addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { (n) -> Void in
+            self.isKeyboardVisible = true
+            self.updateNavBarButtonItems()
+        }
+        defaultCenter.addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { (n) -> Void in
+            self.isKeyboardVisible = false
+            self.updateNavBarButtonItems()
+        }
+    }
+}
+
+// MARK: Routines
+extension UserViewController {
+    
+    func updateNavBarButtonItems() {
+        var leftBarButtonItem: UIBarButtonItem? = nil
+        var rightBarButtonItem: UIBarButtonItem? = nil
+        if UserManager.shared.isAuthenticated() {
+            leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_user"), style: .Plain, target: self, action: "showSettings:")
+        }
+        if self.isKeyboardVisible {
+            rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissKeyboard")
+        } else {
+            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: .Plain, target: self, action: "showSettings:")
+        }
+        UIView.setAnimationsEnabled(false)
+        self.navigationItem.setLeftBarButtonItem(leftBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButtonItem(rightBarButtonItem, animated: false)
+        UIView.setAnimationsEnabled(true)
     }
 }
 
