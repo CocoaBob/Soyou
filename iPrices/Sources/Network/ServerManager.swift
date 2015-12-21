@@ -50,7 +50,6 @@ class ServerManager {
         getAsync("/api/secure/auth/check", "AuthCheck", onSuccess, onFailure)
     }
     
-    // Not tested yet
     func login(email: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/auth/login", "Auth", ["email": email, "password": password], onSuccess, onFailure)
     }
@@ -60,12 +59,10 @@ class ServerManager {
         postAsync("/api/auth/logout", "Auth", nil, onSuccess, onFailure)
     }
     
-    // Not tested yet
     func register(email: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/auth/register", "Auth", ["email": email, "password": password], onSuccess, onFailure)
     }
     
-    // Not tested yet
     func requestVerifyCode(email: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/auth/verify-code", "Auth", ["email": email], onSuccess, onFailure)
     }

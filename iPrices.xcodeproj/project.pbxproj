@@ -50,6 +50,7 @@
 		457D1EB81BFBDE9700D451D0 /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* ServerManager.swift */; };
 		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
+		459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */; };
 		45A4D8321C08CD200000309C /* news.css in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8301C08CD200000309C /* news.css */; };
 		45A4D8331C08CD200000309C /* news.html in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8311C08CD200000309C /* news.html */; };
 		45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77F091C05A77B002E3385 /* UserManager.swift */; };
@@ -112,6 +113,7 @@
 		457D1EB71BFBDE9700D451D0 /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AFNetworking+Additions.swift"; sourceTree = "<group>"; };
 		45A4D8301C08CD200000309C /* news.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = news.css; sourceTree = "<group>"; };
 		45A4D8311C08CD200000309C /* news.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = news.html; sourceTree = "<group>"; };
 		45B77F091C05A77B002E3385 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 		4526D5981BFF5BEE00DBFA4B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */,
 				454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */,
 				4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */,
 				4534D54C1C230EC600F4DDA5 /* String+Additions.swift */,
@@ -515,6 +518,7 @@
 				455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */,
 				4506ED711C221797003B5018 /* LoginViewController.swift in Sources */,
 				0D1DF08B1C1DD21600574D98 /* WeChatMomentsActivity.swift in Sources */,
+				459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */,
 				4549F3E41C25DEF600EAA1DB /* UserViewController.swift in Sources */,
 				4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,

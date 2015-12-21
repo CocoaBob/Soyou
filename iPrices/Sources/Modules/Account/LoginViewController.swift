@@ -172,11 +172,9 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        if let error = error,
-            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
-            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
-                print("\(response.statusCode)")
-        }
+        // Show error
+        let responseObject = AFNetworkingGetResponseObjectFromError(error)
+        print("\(responseObject)")
     }
 }
 
@@ -216,11 +214,9 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        if let error = error,
-            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
-            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
-                print("\(response.statusCode)")
-        }
+        // Show error
+        let responseObject = AFNetworkingGetResponseObjectFromError(error)
+        print("\(responseObject)")
     }
 }
 
@@ -257,11 +253,9 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        if let error = error,
-            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
-            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
-            print("\(response.statusCode)")
-        }
+        // Show error
+        let responseObject = AFNetworkingGetResponseObjectFromError(error)
+        print("\(responseObject)")
     }
 }
 
@@ -299,11 +293,9 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        if let error = error,
-            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
-            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
-                print("\(response.statusCode)")
-        }
+        // Show error
+        let responseObject = AFNetworkingGetResponseObjectFromError(error)
+        print("\(responseObject)")
     }
 }
 
