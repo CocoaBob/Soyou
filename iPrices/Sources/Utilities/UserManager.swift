@@ -66,19 +66,6 @@ class UserManager {
         }
     }
     
-    var roleLabel: String? {
-        get {
-            return UICKeyChainStore.stringForKey(Cons.Usr.roleLabel)
-        }
-        set {
-            if newValue != nil {
-                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleLabel)
-            } else {
-                UICKeyChainStore.removeItemForKey(Cons.Usr.roleLabel)
-            }
-        }
-    }
-    
     var isLoggedIn: Bool {
         return self.token != nil
     }
@@ -88,16 +75,14 @@ class UserManager {
 // Routines
 extension UserManager {
     
-    func logIn(token: String, roleCode: String, roleLabel: String) {
+    func logIn(token: String, roleCode: String) {
         self.token = token
         self.roleCode = roleCode
-        self.roleLabel = roleLabel
     }
     
     func logOut() {
         self.token = nil
         self.roleCode = nil
-        self.roleLabel = nil
     }
     
     func checkTokenValidity(validCompletion validCompletion: () -> Void, failCompletion: () -> Void){

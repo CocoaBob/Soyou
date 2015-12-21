@@ -165,7 +165,7 @@ extension LoginViewController {
         
         let userInfo = responseObject["data"] as! Dictionary<String, String>
         
-        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
+        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
     }
     
     private func handleLoginError(error: NSError?) {
@@ -202,12 +202,14 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        // Handle data
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
         
-        let userInfo = responseObject["data"] as! Dictionary<String, String>
         
-        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
+//        // Handle data
+//        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+//        
+//        let userInfo = responseObject["data"] as! Dictionary<String, String>
+//        
+//        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
     }
     
     private func handleRegisterError(error: NSError?) {
@@ -285,8 +287,10 @@ extension LoginViewController {
         
         // Handle data
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        
-        print("\(responseObject)")
+
+        let userInfo = responseObject["data"] as! Dictionary<String, String>
+
+        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
     }
     
     private func handleResetPasswordError(error: NSError?) {
