@@ -581,7 +581,6 @@
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="forgetPassword:" destination="utq-sS-Sy7" eventType="touchUpInside" id="dgb-G2-LMX"/>
-                                                    <segue destination="4CS-cP-Jra" kind="show" id="DNF-fp-2wC"/>
                                                 </connections>
                                             </button>
                                         </subviews>

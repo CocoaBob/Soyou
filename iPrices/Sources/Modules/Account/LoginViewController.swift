@@ -46,7 +46,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.updateScrollViewInset(self.scrollView!, false, false)
+        if let scrollView = self.scrollView {
+            self.updateScrollViewInset(scrollView, false, false)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -61,7 +63,9 @@ class LoginViewController: UIViewController {
     
     override func willMoveToParentViewController(parent: UIViewController?) {
         super.willMoveToParentViewController(parent)
-        self.updateScrollViewInset(self.scrollView!, false, false)
+        if let scrollView = self.scrollView {
+            self.updateScrollViewInset(scrollView, false, false)
+        }
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -168,7 +172,11 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        print("\(error)")
+        if let error = error,
+            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
+            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
+                print("\(response.statusCode)")
+        }
     }
 }
 
@@ -208,7 +216,11 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        print("\(error)")
+        if let error = error,
+            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
+            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
+                print("\(response.statusCode)")
+        }
     }
 }
 
@@ -235,17 +247,21 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        // Handle data
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        
-        print("\(responseObject)")
+        // Show reset password view controller
+        if let resetPasswordViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ResetPasswordViewController") {
+            self.navigationController?.pushViewController(resetPasswordViewController, animated: true)
+        }
     }
     
     private func handleForgetPasswordError(error: NSError?) {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        print("\(error)")
+        if let error = error,
+            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
+            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
+            print("\(response.statusCode)")
+        }
     }
 }
 
@@ -277,14 +293,17 @@ extension LoginViewController {
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
         
         print("\(responseObject)")
-        
     }
     
     private func handleResetPasswordError(error: NSError?) {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        print("\(error)")
+        if let error = error,
+            userInfo = error.userInfo as? Dictionary<String, AnyObject>,
+            response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] {
+                print("\(response.statusCode)")
+        }
     }
 }
 
@@ -293,6 +312,8 @@ extension LoginViewController {
     
     override func adjustViewsForKeyboardFrame(keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: NSTimeInterval, _ options: UIViewAnimationOptions) {
         super.adjustViewsForKeyboardFrame(keyboardFrame, isAnimated, duration, options)
-        self.updateScrollViewInset(self.scrollView!, false, false)
+        if let scrollView = self.scrollView {
+            self.updateScrollViewInset(scrollView, false, false)
+        }
     }
 }

@@ -48,7 +48,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
             modeUI ? MBProgressHUD.hideLoader() : ()
-            if let data = responseObject!["data"], count = data!.count {
+            if let responseObject = responseObject as? Dictionary<String, AnyObject> , data = responseObject["data"], count = data.count {
                 print("<-- [\(count)]")
             }
             self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
@@ -56,7 +56,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
             modeUI ? MBProgressHUD.hideLoader() : ()
-            print("<-- [x]\n\(error)")
+            print("<-- [x]")
             self.handleFailure(operation, error, onFailure)
         }
         

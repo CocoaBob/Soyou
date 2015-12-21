@@ -56,8 +56,10 @@ extension UserViewController {
     }
     
     func updateChildViewController(animated: Bool) {
+        // If it was register/forget/reset view controllers, we need to pop to root
+        self.navigationController?.popToRootViewControllerAnimated(false)
+        // Show favorites view controller
         guard let newChildViewController = self.storyboard?.instantiateViewControllerWithIdentifier(UserManager.shared.isLoggedIn ? "FavoritesViewController" : "LoginViewController") else { return }
-        
         self.showChildViewController(newChildViewController, animated, !UserManager.shared.isLoggedIn) { () -> Void in
             
         }
