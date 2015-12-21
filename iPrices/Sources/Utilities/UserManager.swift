@@ -15,7 +15,11 @@ class UserManager {
             return UICKeyChainStore.stringForKey(Cons.App.deviceToken)
         }
         set {
-            UICKeyChainStore.setString(newValue, forKey: Cons.App.deviceToken)
+            if newValue != nil {
+                UICKeyChainStore.setString(newValue, forKey: Cons.App.deviceToken)
+            } else {
+                UICKeyChainStore.removeItemForKey(Cons.App.deviceToken)
+            }
         }
     }
     
@@ -40,8 +44,12 @@ class UserManager {
             return UICKeyChainStore.stringForKey(Cons.Usr.token)
         }
         set {
-            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.token)
-            NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.IsLoggedInDidChangeNotification, object: nil)
+            if newValue != nil {
+                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.token)
+            } else {
+                UICKeyChainStore.removeItemForKey(Cons.Usr.token)
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.IsLoggedInDidChangeNotification, object: self)
         }
     }
     
@@ -50,7 +58,11 @@ class UserManager {
             return UICKeyChainStore.stringForKey(Cons.Usr.roleCode)
         }
         set {
-            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleCode)
+            if newValue != nil {
+                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleCode)
+            } else {
+                UICKeyChainStore.removeItemForKey(Cons.Usr.roleCode)
+            }
         }
     }
     
@@ -59,7 +71,11 @@ class UserManager {
             return UICKeyChainStore.stringForKey(Cons.Usr.roleLabel)
         }
         set {
-            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleLabel)
+            if newValue != nil {
+                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleLabel)
+            } else {
+                UICKeyChainStore.removeItemForKey(Cons.Usr.roleLabel)
+            }
         }
     }
     
@@ -72,18 +88,22 @@ class UserManager {
 // Routines
 extension UserManager {
     
-    func setUser(token: String, roleCode: String, roleLabel: String) {
+    func logIn(token: String, roleCode: String, roleLabel: String) {
         self.token = token
         self.roleCode = roleCode
         self.roleLabel = roleLabel
     }
     
-    func checkTokenValidity(validCompletion: () -> Void, failCompletion: () -> Void){
+    func logOut() {
+        self.token = nil
+        self.roleCode = nil
+        self.roleLabel = nil
+    }
+    
+    func checkTokenValidity(validCompletion validCompletion: () -> Void, failCompletion: () -> Void){
         ServerManager.shared.checkToken({(responseObject: AnyObject?) -> () in validCompletion() },
             { (error: NSError?) -> () in
-                self.token = nil
-                self.roleCode = nil
-                self.roleLabel = nil
+                self.logOut()
                 failCompletion()
             }
         )

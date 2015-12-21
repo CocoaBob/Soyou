@@ -239,19 +239,63 @@ extension UIViewController {
 // MARK: Child View Controller
 extension UIViewController {
 
-    func showChildViewController(newChildViewController: UIViewController) {
-        let oldChildViewControllers = self.childViewControllers
+    func showChildViewController(newChildViewController: UIViewController, _ animated: Bool, _ isInverted: Bool, _ completion: () -> Void) {
+        let completionClosure: ((UIViewController) -> ()) = { newChildViewController in
+            for childViewController in self.childViewControllers {
+                if childViewController == newChildViewController {
+                    continue
+                }
+                childViewController.willMoveToParentViewController(nil)
+                childViewController.view.removeFromSuperview()
+                childViewController.removeFromParentViewController()
+            }
+        }
         
-        self.addChildViewController(newChildViewController)
-        newChildViewController.view.frame = self.view.bounds
         newChildViewController.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        self.view.addSubview(newChildViewController.view)
-        newChildViewController.didMoveToParentViewController(self)
         
-        for childViewController in oldChildViewControllers {
-            childViewController.willMoveToParentViewController(nil)
-            childViewController.view.removeFromSuperview()
-            childViewController.removeFromParentViewController()
+        if let oldChildViewController = self.childViewControllers.last {
+            // Prepare ChildViewController hierarchy
+            oldChildViewController.willMoveToParentViewController(nil)
+            self.addChildViewController(newChildViewController)
+            
+            // Prepare frames
+            let oldViewFrameStart = oldChildViewController.view.frame
+            var oldViewFrameEnd = oldViewFrameStart
+            oldViewFrameEnd.origin.x = isInverted ? -oldViewFrameEnd.size.width : oldViewFrameEnd.size.width
+            
+            var newViewFrameStart = oldViewFrameStart
+            newViewFrameStart.origin.x = isInverted ? newViewFrameStart.size.width : -newViewFrameStart.size.width
+            let newViewFrameEnd = oldViewFrameStart
+            
+            // Before Animation
+            UIView.setAnimationsEnabled(false)
+            oldChildViewController.view.frame = oldViewFrameStart
+            newChildViewController.view.frame = newViewFrameStart
+            newChildViewController.view.layoutIfNeeded()
+            UIView.setAnimationsEnabled(true)
+            
+            // Animation
+            self.transitionFromViewController(oldChildViewController,
+                toViewController: newChildViewController,
+                duration: 0.25,
+                options: .CurveEaseInOut,
+                animations: { () -> Void in
+                    oldChildViewController.view.frame = oldViewFrameEnd
+                    newChildViewController.view.frame = newViewFrameEnd
+                },
+                completion: { (finished) -> Void in
+                    oldChildViewController.removeFromParentViewController()
+                    newChildViewController.didMoveToParentViewController(self)
+                    
+                    completionClosure(newChildViewController)
+                }
+            )
+        } else {
+            self.addChildViewController(newChildViewController)
+            newChildViewController.view.frame = self.view.bounds
+            self.view.addSubview(newChildViewController.view)
+            newChildViewController.didMoveToParentViewController(self)
+            completionClosure(newChildViewController)
         }
     }
 }

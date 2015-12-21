@@ -46,17 +46,22 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.updateScrollViewInset(self.scrollView!, false, false)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.keyboardControlInstall()
-        self.updateScrollViewInset(self.scrollView!, false, false)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.keyboardControlUninstall()
+    }
+    
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        super.willMoveToParentViewController(parent)
+        self.updateScrollViewInset(self.scrollView!, false, false)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -156,7 +161,7 @@ extension LoginViewController {
         
         let userInfo = responseObject["data"] as! Dictionary<String, String>
         
-        UserManager.shared.setUser(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
+        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
     }
     
     private func handleLoginError(error: NSError?) {
@@ -196,7 +201,7 @@ extension LoginViewController {
         
         let userInfo = responseObject["data"] as! Dictionary<String, String>
         
-        UserManager.shared.setUser(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
+        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!, roleLabel: userInfo["roleLabel"]!)
     }
     
     private func handleRegisterError(error: NSError?) {

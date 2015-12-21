@@ -19,6 +19,12 @@ class UserViewController: UIViewController {
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
         self.tabBarItem.title = NSLocalizedString("user_vc_tab_title", comment: "")
+        
+        // Notifications of isLoggedIn
+        NSNotificationCenter.defaultCenter().addObserverForName(Cons.Usr.IsLoggedInDidChangeNotification, object: nil, queue: nil) { (n) -> Void in
+            self.updateNavBarButtonItems()
+            self.updateChildViewController(true)
+        }
     }
     
     deinit {
@@ -28,16 +34,8 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Nav bar button items
         self.updateNavBarButtonItems()
-        
-        // Notifications of isLoggedIn
-        NSNotificationCenter.defaultCenter().addObserverForName(Cons.Usr.IsLoggedInDidChangeNotification, object: UserManager.shared, queue: nil) { (n) -> Void in
-            self.updateChildViewController(true)
-        }
-        
-        // Update Child View Controller
-        updateChildViewController(false)
+        self.updateChildViewController(false)
     }
 }
 
@@ -58,14 +56,10 @@ extension UserViewController {
     }
     
     func updateChildViewController(animated: Bool) {
-        if UserManager.shared.isLoggedIn {
-            if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") {
-                self.showChildViewController(viewController)
-            }
-        } else {
-            if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") {
-                self.showChildViewController(viewController)
-            }
+        guard let newChildViewController = self.storyboard?.instantiateViewControllerWithIdentifier(UserManager.shared.isLoggedIn ? "FavoritesViewController" : "LoginViewController") else { return }
+        
+        self.showChildViewController(newChildViewController, animated, !UserManager.shared.isLoggedIn) { () -> Void in
+            
         }
     }
 }
@@ -74,9 +68,10 @@ extension UserViewController {
 extension UserViewController {
     
     func showAccountViewController(sender: UIBarButtonItem) {
-        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("AccountViewController") {
-            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
-        }
+        UserManager.shared.logOut()
+//        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("AccountViewController") {
+//            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
+//        }
     }
     
     func showSettingsViewController(sender: UIBarButtonItem) {
