@@ -9,7 +9,6 @@
 class UserViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView?
-    var isKeyboardVisible: Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -22,25 +21,23 @@ class UserViewController: UIViewController {
         self.tabBarItem.title = NSLocalizedString("user_vc_tab_title", comment: "")
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Nav bar button items
         self.updateNavBarButtonItems()
         
-        // Register Keyboard notifications
-        let defaultCenter = NSNotificationCenter.defaultCenter()
-        defaultCenter.addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: nil) { (n) -> Void in
-            self.isKeyboardVisible = true
-            self.updateNavBarButtonItems()
-        }
-        defaultCenter.addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: nil) { (n) -> Void in
-            self.isKeyboardVisible = false
-            self.updateNavBarButtonItems()
+        // Notifications of isLoggedIn
+        NSNotificationCenter.defaultCenter().addObserverForName(Cons.Usr.IsLoggedInDidChangeNotification, object: UserManager.shared, queue: nil) { (n) -> Void in
+            self.updateChildViewController(true)
         }
         
         // Update Child View Controller
-        updateChildViewController()
+        updateChildViewController(false)
     }
 }
 
@@ -50,22 +47,18 @@ extension UserViewController {
     func updateNavBarButtonItems() {
         var leftBarButtonItem: UIBarButtonItem? = nil
         var rightBarButtonItem: UIBarButtonItem? = nil
-        if UserManager.shared.isAuthenticated() {
+        if UserManager.shared.isLoggedIn {
             leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_user"), style: .Plain, target: self, action: "showAccountViewController:")
         }
-        if self.isKeyboardVisible {
-            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .Plain, target: self, action: "dismissKeyboard")
-        } else {
-            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: .Plain, target: self, action: "showSettingsViewController:")
-        }
+        rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: .Plain, target: self, action: "showSettingsViewController:")
         UIView.setAnimationsEnabled(false)
         self.navigationItem.setLeftBarButtonItem(leftBarButtonItem, animated: false)
         self.navigationItem.setRightBarButtonItem(rightBarButtonItem, animated: false)
         UIView.setAnimationsEnabled(true)
     }
     
-    func updateChildViewController() {
-        if UserManager.shared.isAuthenticated() {
+    func updateChildViewController(animated: Bool) {
+        if UserManager.shared.isLoggedIn {
             if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") {
                 self.showChildViewController(viewController)
             }

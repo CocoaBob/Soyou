@@ -30,15 +30,15 @@ class ServerManager {
     //////////////////////////////////////
     
     func getAsync(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.request("GET", path, false, false, ["api": api, "authorization": self.apiKey, "token": UserManager.shared.token], nil, nil, onSuccess, onFailure)
+        requestOperationManager.request("GET", path, false, false, ["api": api, "authorization": self.apiKey, "token": UserManager.shared.token ?? ""], nil, nil, onSuccess, onFailure)
     }
     
     func postAsync(path: String, _ api: String, _ params: AnyObject?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.request("POST", path, false, false, ["api": api, "authorization": self.apiKey, "token": UserManager.shared.token], params, nil, onSuccess, onFailure)
+        requestOperationManager.request("POST", path, false, false, ["api": api, "authorization": self.apiKey, "token": UserManager.shared.token ?? ""], params, nil, onSuccess, onFailure)
     }
     
     func deleteAsync(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.request("DELETE", path, false, false, ["api": api, "authorization": self.apiKey, "token": UserManager.shared.token], nil, nil, onSuccess, onFailure)
+        requestOperationManager.request("DELETE", path, false, false, ["api": api, "authorization": self.apiKey, "token": UserManager.shared.token ?? ""], nil, nil, onSuccess, onFailure)
     }
     
     //////////////////////////////////////

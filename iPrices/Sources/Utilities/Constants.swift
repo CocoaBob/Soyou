@@ -8,30 +8,31 @@
 
 public struct Cons {
     struct Svr {
-        static let minVer                   = "0.0.2"
+        static let minVer                               = "0.0.2"
         
-        static let baseURL                  = "https://baodating-api.woniu.io:5000"
+        static let baseURL                              = "https://baodating-api.woniu.io:5000"
         
-        static let shareBaseURL             = "http://baodating-contents.woniu.io:8080/#"
+        static let shareBaseURL                         = "http://baodating-contents.woniu.io:8080/#"
         
         // Count of News to load for each request
-        static let reqCnt                   = 2
+        static let reqCnt                               = 2
         
-        static let reqAPIKey                = "48548598-f079-4c57-bb39-d9ca8344abd7"
-        static let reqAuthorizationKey      = "reqAuthorizationKey"
+        static let reqAPIKey                            = "48548598-f079-4c57-bb39-d9ca8344abd7"
+        static let reqAuthorizationKey                  = "reqAuthorizationKey"
     }
     
     struct Usr {
-        static let uuid                     = "uuid"
-        static let token                    = "token"
-        static let deviceToken              = "deviceToken"
-        static let roleCode                 = "roleCode"
-        static let roleLabel                = "roleLabel"
+        static let uuid                                 = "uuid"
+        static let token                                = "token"
+        static let deviceToken                          = "deviceToken"
+        static let roleCode                             = "roleCode"
+        static let roleLabel                            = "roleLabel"
+        static let IsLoggedInDidChangeNotification      = "IsLoggedInDidChangeNotification"
     }
     
     struct App {
-        static let deviceToken      = "deviceToken"
-        static let lastVerIntro     = "lastVerIntro" // The last app version that displayed the introduction view
+        static let deviceToken                          = "deviceToken"
+        static let lastVerIntro                         = "lastVerIntro" // The last app version that displayed the introduction view
     }
 }
 

@@ -35,43 +35,36 @@ class UserManager {
         }
     }
     
-    var token: String {
+    var token: String? {
         get {
-            if let value = UICKeyChainStore.stringForKey(Cons.Usr.token) {
-                return value
-            } else {
-                return ""
-            }
+            return UICKeyChainStore.stringForKey(Cons.Usr.token)
         }
         set {
             UICKeyChainStore.setString(newValue, forKey: Cons.Usr.token)
+            NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.IsLoggedInDidChangeNotification, object: nil)
         }
     }
     
-    var roleCode: String {
+    var roleCode: String? {
         get {
-            if let value = UICKeyChainStore.stringForKey(Cons.Usr.roleCode) {
-                return value
-            } else {
-                return ""
-            }
+            return UICKeyChainStore.stringForKey(Cons.Usr.roleCode)
         }
         set {
             UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleCode)
         }
     }
     
-    var roleLabel: String {
+    var roleLabel: String? {
         get {
-            if let value = UICKeyChainStore.stringForKey(Cons.Usr.roleLabel) {
-                return value
-            } else {
-                return ""
-            }
+            return UICKeyChainStore.stringForKey(Cons.Usr.roleLabel)
         }
         set {
             UICKeyChainStore.setString(newValue, forKey: Cons.Usr.roleLabel)
         }
+    }
+    
+    var isLoggedIn: Bool {
+        return self.token != nil
     }
     
 }
@@ -85,16 +78,14 @@ extension UserManager {
         self.roleLabel = roleLabel
     }
     
-    func isAuthenticated() -> Bool {
-        return self.token != ""
-    }
-    
     func checkTokenValidity(validCompletion: () -> Void, failCompletion: () -> Void){
         ServerManager.shared.checkToken({(responseObject: AnyObject?) -> () in validCompletion() },
             { (error: NSError?) -> () in
-                self.token = ""
-                self.roleCode = ""
-                self.roleLabel = ""
-                failCompletion()})
+                self.token = nil
+                self.roleCode = nil
+                self.roleLabel = nil
+                failCompletion()
+            }
+        )
     }
 }

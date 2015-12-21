@@ -59,10 +59,16 @@ extension UIViewController {
     }
 }
 
+import ObjectiveC
+
 private var __rotationAnimationDuration: NSTimeInterval = 0
 private var __rotationAnimationOptions: UIViewAnimationOptions = .TransitionNone
 private var __isRotationAnimation: Bool = false
 private var __isDismissingKeyboard: Bool = false
+private var __isKeyboardVisible: Bool = false
+private var __originalRightBarButtonItemKey: UInt8 = 0
+private var __originalRightBarButtonItemsKey: UInt8 = 0
+private var __dismissKeyboardBarButtonItemTag: Int = 1001
 
 // MARK: Keyboard Control
 extension UIViewController {
@@ -71,12 +77,16 @@ extension UIViewController {
     func keyboardControlInstall() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillChangeFrame:", name: UIKeyboardWillChangeFrameNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidChangeFrame:", name: UIKeyboardDidChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     // Should be called in viewDidDisappear:
     func keyboardControlUninstall() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillChangeFrameNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
     
     // Called on step: #1
@@ -146,6 +156,52 @@ extension UIViewController {
         self.adjustViewsForKeyboardFrame(finalKeyboardFrame, false, 0, UIViewAnimationOptions(rawValue: 0))
     }
     
+    func keyboardWillShow(notification: NSNotification) {
+        var navigationItem: UINavigationItem?
+        if self.parentViewController != nil && self.parentViewController != self.navigationController {
+            navigationItem = self.parentViewController?.navigationItem
+        } else {
+            navigationItem = self.navigationItem
+        }
+        
+        if __isKeyboardVisible || navigationItem?.rightBarButtonItem?.tag == __dismissKeyboardBarButtonItemTag {
+            return
+        }
+        
+        __isKeyboardVisible = true
+        
+        if let navigationItem = navigationItem {
+            objc_setAssociatedObject(self, &__originalRightBarButtonItemKey, navigationItem.rightBarButtonItem, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &__originalRightBarButtonItemsKey, navigationItem.rightBarButtonItems, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            UIView.setAnimationsEnabled(false)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .Plain, target: self, action: "dismissKeyboard")
+            navigationItem.rightBarButtonItem?.tag = __dismissKeyboardBarButtonItemTag
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        var navigationItem: UINavigationItem?
+        if self.parentViewController != nil && self.parentViewController != self.navigationController {
+            navigationItem = self.parentViewController?.navigationItem
+        } else {
+            navigationItem = self.navigationItem
+        }
+        
+        if !__isKeyboardVisible && navigationItem?.rightBarButtonItem?.tag != __dismissKeyboardBarButtonItemTag {
+            return
+        }
+        
+        __isKeyboardVisible = false
+        
+        if let navigationItem = navigationItem {
+            UIView.setAnimationsEnabled(false)
+            navigationItem.rightBarButtonItem = objc_getAssociatedObject(self, &__originalRightBarButtonItemKey) as? UIBarButtonItem
+            navigationItem.rightBarButtonItems = objc_getAssociatedObject(self, &__originalRightBarButtonItemsKey) as? [UIBarButtonItem]
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
     func adjustViewsForKeyboardFrame(keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: NSTimeInterval, _ options: UIViewAnimationOptions) {
         let updateFrameClosure: () -> () = { () -> () in
             var frame = self.view.frame
@@ -184,7 +240,7 @@ extension UIViewController {
 extension UIViewController {
 
     func showChildViewController(newChildViewController: UIViewController) {
-        let childViewControllers = self.childViewControllers
+        let oldChildViewControllers = self.childViewControllers
         
         self.addChildViewController(newChildViewController)
         newChildViewController.view.frame = self.view.bounds
@@ -192,7 +248,7 @@ extension UIViewController {
         self.view.addSubview(newChildViewController.view)
         newChildViewController.didMoveToParentViewController(self)
         
-        for childViewController in childViewControllers {
+        for childViewController in oldChildViewControllers {
             childViewController.willMoveToParentViewController(nil)
             childViewController.view.removeFromSuperview()
             childViewController.removeFromParentViewController()
