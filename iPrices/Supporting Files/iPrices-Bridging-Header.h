@@ -19,6 +19,7 @@
 @import MBProgressHUD;
 @import MJRefresh;
 @import RMPZoomTransitionAnimator;
+@import SCLAlertView;
 @import SDWebImage;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;

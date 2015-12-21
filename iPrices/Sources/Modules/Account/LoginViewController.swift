@@ -134,6 +134,16 @@ extension LoginViewController {
     @IBAction func textFieldDidChange(textField: UITextField?) {
         validateActionButton()
     }
+    
+    func showErrorAlert(error: NSError?) {
+        // Show error
+        if let responseObject = AFNetworkingGetResponseObjectFromError(error) as? Dictionary<String, AnyObject>,
+            data = responseObject["data"] as? [Dictionary<String, AnyObject>],
+            message = data[0]["message"] as? String
+        {
+            SCLAlertView().showError("Failed", subTitle: message)
+        }
+    }
 }
 
 // MARK: Login
@@ -171,10 +181,8 @@ extension LoginViewController {
     private func handleLoginError(error: NSError?) {
         // Stop indicator
         MBProgressHUD.hideLoader()
-        
-        // Show error
-        let responseObject = AFNetworkingGetResponseObjectFromError(error)
-        print("\(responseObject)")
+        // Show alert
+        self.showErrorAlert(error)
     }
 }
 
@@ -215,10 +223,8 @@ extension LoginViewController {
     private func handleRegisterError(error: NSError?) {
         // Stop indicator
         MBProgressHUD.hideLoader()
-        
-        // Show error
-        let responseObject = AFNetworkingGetResponseObjectFromError(error)
-        print("\(responseObject)")
+        // Show alert
+        self.showErrorAlert(error)
     }
 }
 
@@ -254,10 +260,8 @@ extension LoginViewController {
     private func handleForgetPasswordError(error: NSError?) {
         // Stop indicator
         MBProgressHUD.hideLoader()
-        
-        // Show error
-        let responseObject = AFNetworkingGetResponseObjectFromError(error)
-        print("\(responseObject)")
+        // Show alert
+        self.showErrorAlert(error)
     }
 }
 
@@ -296,10 +300,8 @@ extension LoginViewController {
     private func handleResetPasswordError(error: NSError?) {
         // Stop indicator
         MBProgressHUD.hideLoader()
-        
-        // Show error
-        let responseObject = AFNetworkingGetResponseObjectFromError(error)
-        print("\(responseObject)")
+        // Show alert
+        self.showErrorAlert(error)
     }
 }
 
