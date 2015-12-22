@@ -13,17 +13,18 @@ import Foundation
 import CoreData
 
 extension News {
-
+    
+    @NSManaged var appIsLiked: NSNumber?
+    @NSManaged var appIsMore: NSNumber?
+    @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var author: String?
     @NSManaged var content: String?
     @NSManaged var dateModification: NSDate?
     @NSManaged var datePublication: NSDate?
     @NSManaged var id: NSNumber?
     @NSManaged var image: String?
-    @NSManaged var isLiked: NSNumber?
     @NSManaged var isOnline: NSNumber?
     @NSManaged var title: String?
     @NSManaged var url: String?
-    @NSManaged var isMore: NSNumber?
 
 }

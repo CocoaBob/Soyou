@@ -278,8 +278,8 @@ extension NewsDetailViewController {
         })
     }
     
-    private func updateLikeBtnColor(isLiked: Bool?) {
-        if isLiked != nil && isLiked!.boolValue {
+    private func updateLikeBtnColor(appIsLiked: Bool?) {
+        if appIsLiked != nil && appIsLiked!.boolValue {
             self.btnLike?.tintColor = btnActiveColor
         } else {
             self.btnLike?.tintColor = btnInactiveColor
@@ -334,9 +334,9 @@ extension NewsDetailViewController {
         // Load HTML
         self.loadPageContent(news)
         
-        if let isLiked = news.isLiked {
-            self.likeBtnToggle = !isLiked.boolValue
-            updateLikeBtnColor(isLiked.boolValue)
+        if let appIsLiked = news.appIsLiked {
+            self.likeBtnToggle = !appIsLiked.boolValue
+            updateLikeBtnColor(appIsLiked.boolValue)
         }
         
         updateLikeBtnNumber()
@@ -344,11 +344,14 @@ extension NewsDetailViewController {
     
     private func loadNewsData(data: NSDictionary?) {
         guard let data = data else { return }
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let news = News.importData(data, localContext) {
-                self.loadNews(news);
-            }
-        })
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                if let news = News.importData(data, true, localContext) {
+                    self.loadNews(news);
+                }
+            })
+        }
     }
     
     private func handleRequestNewsSuccess(responseObject: AnyObject?) {
@@ -428,10 +431,10 @@ extension NewsDetailViewController {
     func like(sender: UIBarButtonItem) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
-                let isLiked = localNews.isLiked != nil && localNews.isLiked!.boolValue
+                let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
                 
-                ServerManager.shared.likeNews(localNews.id!, operation: isLiked ? "-" : "+",
-                    { (responseObject: AnyObject?) -> () in self.handleLikeNewsSuccess(responseObject, isLiked: isLiked) },
+                ServerManager.shared.likeNews(localNews.id!, operation: appIsLiked ? "-" : "+",
+                    { (responseObject: AnyObject?) -> () in self.handleLikeNewsSuccess(responseObject, appIsLiked: appIsLiked) },
                     { (error: NSError?) -> () in
                         self.updateLikeBtnColor(!self.likeBtnToggle)
                         self.handleRequestError(error) })
@@ -443,7 +446,7 @@ extension NewsDetailViewController {
         print("\(__FUNCTION__)")
     }
     
-    private func handleLikeNewsSuccess(responseObject: AnyObject?, isLiked: Bool) {
+    private func handleLikeNewsSuccess(responseObject: AnyObject?, appIsLiked: Bool) {
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
         if let likeNumber = responseObject["data"] as? NSNumber {
                 self.likeBtnNumber = likeNumber.integerValue
@@ -451,10 +454,10 @@ extension NewsDetailViewController {
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
-                localNews.isLiked = NSNumber(bool: !isLiked)
+                localNews.appIsLiked = NSNumber(bool: !appIsLiked)
             }
         })
-        self.updateLikeBtnColor(!isLiked)
+        self.updateLikeBtnColor(!appIsLiked)
     }
 
 }

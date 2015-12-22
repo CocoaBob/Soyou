@@ -38,7 +38,7 @@ class BrandsViewController: BaseViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
         
         // Data
-        requestBrandsList(nil)
+        loadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -77,23 +77,40 @@ extension BrandsViewController {
 // MARK: Data
 extension BrandsViewController {
     
-    private func handleSuccess(responseObject: AnyObject?, _ relativeID: NSNumber?) {
+    private func handleAllBrandsSuccess(responseObject: AnyObject?) {
         self.endRefreshing()
         
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        let allBrands = responseObject["data"] as? [NSDictionary]
-        Brand.importDatas(allBrands, true)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+            let allBrands = responseObject["data"] as? [NSDictionary]
+            Brand.importDatas(allBrands, true)
+        }
+    }
+    
+    private func handleAllProductsSuccess(responseObject: AnyObject?) {
+        self.endRefreshing()
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+            let allBrands = responseObject["data"] as? [NSDictionary]
+            Product.importDatas(allBrands, false, true)
+        }
     }
     
     private func handleError(error: NSError?) {
         print("\(error)")
     }
     
-    func requestBrandsList(relativeID: NSNumber?) {
+    func loadData() {
         ServerManager.shared.requestAllBrands(
-            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, relativeID) },
+            { (responseObject: AnyObject?) -> () in self.handleAllBrandsSuccess(responseObject) },
             { (error: NSError?) -> () in self.handleError(error) }
         );
+        
+        ServerManager.shared.requestAllProductIDs(
+            { (responseObject: AnyObject?) -> () in self.handleAllProductsSuccess(responseObject) },
+            { (error: NSError?) -> () in self.handleError(error) }
+        )
     }
 }
 
@@ -128,7 +145,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
         if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                collectionView.reloadItemsAtIndexPaths([indexPath])
+//                collectionView.reloadItemsAtIndexPaths([indexPath])
             })
         }
 

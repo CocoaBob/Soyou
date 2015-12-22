@@ -13,7 +13,8 @@ import Foundation
 import CoreData
 
 extension Product {
-
+    
+    @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var brandId: NSNumber?
     @NSManaged var brandLabel: String?
     @NSManaged var collectionId: NSNumber?

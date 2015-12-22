@@ -11,7 +11,7 @@ import CoreData
 
 class News: BaseModel {
 
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (News?) {
+    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext) -> (News?) {
         guard let data = data else {
             return nil
         }
@@ -20,7 +20,7 @@ class News: BaseModel {
             return nil
         }
         
-        var news: News? = News.MR_findFirstWithPredicate(FmtPredicate("id == %@ && (isMore == nil || isMore == false)", id), inContext: context)
+        var news: News? = News.MR_findFirstWithPredicate(FmtPredicate("id == %@ && (appIsMore == nil || appIsMore == false)", id), inContext: context)
         if news == nil {
             news = News.MR_createEntityInContext(context)
         }
@@ -31,7 +31,15 @@ class News: BaseModel {
                 news.datePublication = self.dateFormatter.dateFromString(value)
             }
             if let value = data["dateModification"] as? String {
-                news.dateModification = self.dateFormatter.dateFromString(value)
+                let newDateModification = self.dateFormatter.dateFromString(value)
+                if isComplete {
+                    news.appIsUpdated = NSNumber(bool: true)
+                } else {
+                    if newDateModification != news.dateModification {
+                        news.appIsUpdated = NSNumber(bool: false) // Needs to be updated
+                    }
+                }
+                news.dateModification = newDateModification
             }
             if let value = data["author"] as? String {
                 news.author = value
@@ -59,12 +67,12 @@ class News: BaseModel {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ triggeredMoreItemID: NSNumber?) {
+    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 // Prepare data
                 let newestNews = News.MR_findFirstOrderedByAttribute("datePublication", ascending: false, inContext: localContext)
-                let moreItems = News.MR_findAllSortedBy("datePublication", ascending: false, withPredicate: FmtPredicate("isMore == true"), inContext: localContext)
+                let moreItems = News.MR_findAllSortedBy("datePublication", ascending: false, withPredicate: FmtPredicate("appIsMore == true"), inContext: localContext)
                 
                 
                 // Prepare sections
@@ -77,7 +85,7 @@ class News: BaseModel {
                         
                         // Find the news after the more button
                         if let newsAfterMoreItem = News.MR_findFirstWithPredicate(
-                            FmtPredicate("datePublication < %@ && (isMore == nil || isMore == false)", moreItem.datePublication!),
+                            FmtPredicate("datePublication < %@ && (appIsMore == nil || appIsMore == false)", moreItem.datePublication!),
                             sortedBy: "datePublication",
                             ascending: false,
                             inContext: localContext)
@@ -97,7 +105,7 @@ class News: BaseModel {
                 var oldestNewNews: News? = nil
                 
                 for data in datas {
-                    let news = News.importData(data, localContext)
+                    let news = News.importData(data, isComplete, localContext)
                     // The 1st and last new news
                     if let news = news {
                         if oldestNewNews == nil || news.datePublication! < oldestNewNews!.datePublication! {
@@ -113,11 +121,11 @@ class News: BaseModel {
                         // [New]?[Old]
                         if (oldestNewNews.datePublication! > sectionDate) {
                             // Check if a more button already exists
-                            guard let _ = News.MR_findFirstWithPredicate(FmtPredicate("isMore == true && id == %@",oldestNewNews.id!), inContext: localContext) else {
+                            guard let _ = News.MR_findFirstWithPredicate(FmtPredicate("appIsMore == true && id == %@",oldestNewNews.id!), inContext: localContext) else {
                                 let newMoreItem = News.MR_createEntityInContext(localContext)
                                 newMoreItem.id = oldestNewNews.id
                                 newMoreItem.datePublication = oldestNewNews.datePublication
-                                newMoreItem.isMore = NSNumber(bool: true)
+                                newMoreItem.appIsMore = NSNumber(bool: true)
                                 continue
                             }
                         }

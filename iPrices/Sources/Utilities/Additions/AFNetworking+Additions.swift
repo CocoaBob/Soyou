@@ -10,13 +10,17 @@ func AFNetworkingGetResponseObjectFromError(error: NSError?) -> AnyObject? {
     
     if let error = error,
         userInfo = error.userInfo as? Dictionary<String, AnyObject>,
-        response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? NSURLResponse,
+//        response = userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? NSURLResponse,
         responseData = userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? NSData
     {
-        let jsonResponseSerializer = AFJSONResponseSerializer()
-        var error: NSError?
-        return jsonResponseSerializer.responseObjectForResponse(response, data: responseData, error: &error)
+        return AFNetworkingGetObjectFromJSONData(responseData)
     } else {
         return nil
     }
+}
+
+let _jsonResponseSerializer = AFJSONResponseSerializer()
+
+func AFNetworkingGetObjectFromJSONData(data: NSData) -> AnyObject? {
+    return _jsonResponseSerializer.responseObjectForResponse(nil, data: data, error: nil)
 }

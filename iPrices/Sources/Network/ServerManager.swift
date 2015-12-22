@@ -172,7 +172,7 @@ class ServerManager {
     }
     
     // Not tested yet
-    func requestAllProducts(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestAllProductIDs(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/products", "Products", onSuccess, onFailure)
     }
     

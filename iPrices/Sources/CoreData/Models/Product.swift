@@ -12,7 +12,7 @@ import CoreData
 
 class Product: BaseModel {
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (Product?) {
+    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext) -> (Product?) {
         guard let data = data else {
             return nil
         }
@@ -28,8 +28,16 @@ class Product: BaseModel {
         
         if let product = product {
             product.id = id
-            if let dateModification = data["dateModification"] as? String {
-                product.dateModification = self.dateFormatter.dateFromString(dateModification)
+            if let value = data["dateModification"] as? String {
+                let newDateModification = self.dateFormatter.dateFromString(value)
+                if isComplete {
+                    product.appIsUpdated = NSNumber(bool: true)
+                } else {
+                    if newDateModification != product.dateModification {
+                        product.appIsUpdated = NSNumber(bool: false) // Needs to be updated
+                    }
+                }
+                product.dateModification = newDateModification
             }
             if let value = data["brandId"] as? NSNumber {
                 product.brandId = value
@@ -77,11 +85,11 @@ class Product: BaseModel {
         return product
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ triggeredMoreItemID: NSNumber?) {
+    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {
-                    Product.importData(data, localContext)
+                    Product.importData(data, isComplete, localContext)
                 }
             })
         }

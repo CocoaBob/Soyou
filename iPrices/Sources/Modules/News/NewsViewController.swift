@@ -60,7 +60,7 @@ class NewsViewController: BaseViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,isMore:true", ascending: false)
+        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
     }
     
     override func collectionView() -> UICollectionView {
@@ -101,9 +101,11 @@ extension NewsViewController {
         self.endRefreshing()
         resetMoreButtonCell()
         
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        let allNews = responseObject["data"] as? [NSDictionary]
-        News.importDatas(allNews, relativeID)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+            let allNews = responseObject["data"] as? [NSDictionary]
+            News.importDatas(allNews, false, relativeID)
+        }
     }
     
     private func handleError(error: NSError?) {
@@ -164,7 +166,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
         var returnValue: UICollectionViewCell?
-        if news.isMore != nil && news.isMore!.boolValue {
+        if news.appIsMore != nil && news.appIsMore!.boolValue {
             let cell: NewsCollectionViewCellMore = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
             
             cell.indicator?.hidden = true
@@ -208,7 +210,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             let localNews = news.MR_inContext(localContext)
             let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-            if localNews.isMore != nil && localNews.isMore!.boolValue {
+            if localNews.appIsMore != nil && localNews.appIsMore!.boolValue {
                 if let cell = cell as? NewsCollectionViewCellMore {
                     cell.indicator?.startAnimating()
                     cell.indicator?.hidden = false
@@ -275,7 +277,7 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
-        if news.isMore == nil || !news.isMore!.boolValue {
+        if news.appIsMore == nil || !news.appIsMore!.boolValue {
             let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
             if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
                 return image.size
