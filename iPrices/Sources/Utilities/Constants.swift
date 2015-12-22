@@ -52,5 +52,5 @@ func FmtError(code: Int, _ msg: String?, _ args: CVarArgType...) -> NSError {
 }
 
 func NSLocalizedString(key: String) -> String {
-    return NSLocalizedString(key)
+    return NSLocalizedString(key, comment: "")
 }
