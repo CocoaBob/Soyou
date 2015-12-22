@@ -25,7 +25,7 @@ class NewsViewController: BaseViewController {
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_house"), selectedImage: UIImage(named: "img_tab_house_selected"))
 //        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarItem.title = NSLocalizedString("news_vc_tab_title", comment: "")
+        self.tabBarItem.title = NSLocalizedString("news_vc_tab_title")
         
         // Bars
         self.hidesBottomBarWhenPushed = false
@@ -371,19 +371,19 @@ extension NewsViewController {
             self.requestNewsList(nil)
             self.beginRefreshing()
         });
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle", comment: ""), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling", comment: ""), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing", comment: ""), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
         header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
             if date == nil {
-                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""), NSLocalizedString("pull_to_refresh_header_never", comment: ""))
+                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), NSLocalizedString("pull_to_refresh_header_never"))
             }
             
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "MM/dd HH:mm"
             let dateString = dateFormatter.stringFromDate(date)
-            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated", comment: ""), dateString)
+            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
         }
         header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
         self.collectionView().mj_header = header
@@ -393,10 +393,10 @@ extension NewsViewController {
             self.requestNewsList(lastNews?.id)
             self.beginRefreshing()
         });
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle", comment: ""), forState: .Idle)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling", comment: ""), forState: .Pulling)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing", comment: ""), forState: .Refreshing)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data", comment: ""), forState: .NoMoreData)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
         footer.automaticallyHidden = false
         self.collectionView().mj_footer = footer
     }

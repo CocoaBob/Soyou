@@ -50,3 +50,7 @@ func FmtString(fmt: String, _ args: [CVarArgType]) -> String {
 func FmtError(code: Int, _ msg: String?, _ args: CVarArgType...) -> NSError {
     return NSError(domain: "iPricesError", code: code, userInfo: ((msg != nil) ? [NSLocalizedDescriptionKey:FmtString(msg!, args)] : nil))
 }
+
+func NSLocalizedString(key: String) -> String {
+    return NSLocalizedString(key)
+}

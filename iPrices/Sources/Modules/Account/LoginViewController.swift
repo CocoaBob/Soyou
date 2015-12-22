@@ -26,13 +26,13 @@ class LoginViewController: UIViewController {
             // Update title
             switch self.type {
             case .Login:
-                self.title = NSLocalizedString("login_vc_login_title", comment: "")
+                self.title = NSLocalizedString("login_vc_login_title")
             case .Register:
-                self.title = NSLocalizedString("login_vc_register_title", comment: "")
+                self.title = NSLocalizedString("login_vc_register_title")
             case .ForgetPassword:
-                self.title = NSLocalizedString("login_vc_forget_password_title", comment: "")
+                self.title = NSLocalizedString("login_vc_forget_password_title")
             case .ResetPassword:
-                self.title = NSLocalizedString("login_vc_reset_password_title", comment: "")
+                self.title = NSLocalizedString("login_vc_reset_password_title")
             }
         }
     }
@@ -136,12 +136,14 @@ extension LoginViewController {
     }
     
     func showErrorAlert(error: NSError?) {
+        let responseObject = AFNetworkingGetResponseObjectFromError(error)
+        print("\(responseObject)")
         // Show error
-        if let responseObject = AFNetworkingGetResponseObjectFromError(error) as? Dictionary<String, AnyObject>,
+        if let responseObject = responseObject as? Dictionary<String, AnyObject>,
             data = responseObject["data"] as? [Dictionary<String, AnyObject>],
             message = data[0]["message"] as? String
         {
-            SCLAlertView().showError("Failed", subTitle: message)
+            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: message)
         }
     }
 }
@@ -210,14 +212,13 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        
-        
-//        // Handle data
-//        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-//        
-//        let userInfo = responseObject["data"] as! Dictionary<String, String>
-//        
-//        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
+        // Alert
+        let alertView = SCLAlertView()
+        alertView.addButton(NSLocalizedString("login_vc_register_alert_button")) { () -> Void in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        alertView.showCloseButton = false
+        alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_button"))
     }
     
     private func handleRegisterError(error: NSError?) {
@@ -251,10 +252,16 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        // Show reset password view controller
-        if let resetPasswordViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ResetPasswordViewController") {
-            self.navigationController?.pushViewController(resetPasswordViewController, animated: true)
+        // Alert
+        let alertView = SCLAlertView()
+        alertView.addButton(NSLocalizedString("login_vc_forget_password_alert_button")) { () -> Void in
+            // Show reset password view controller
+            if let resetPasswordViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ResetPasswordViewController") {
+                self.navigationController?.pushViewController(resetPasswordViewController, animated: true)
+            }
         }
+        alertView.showCloseButton = false
+        alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_forget_password_alert_message"))
     }
     
     private func handleForgetPasswordError(error: NSError?) {
@@ -289,12 +296,16 @@ extension LoginViewController {
         // Stop indicator
         MBProgressHUD.hideLoader()
         
-        // Handle data
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-
-        let userInfo = responseObject["data"] as! Dictionary<String, String>
-
-        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
+        // Alert
+        let alertView = SCLAlertView()
+        alertView.addButton(NSLocalizedString("alert_button_done")) { () -> Void in
+            // Handle data
+            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+            let userInfo = responseObject["data"] as! Dictionary<String, String>
+            UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
+        }
+        alertView.showCloseButton = false
+        alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_reset_password_alert_message"))
     }
     
     private func handleResetPasswordError(error: NSError?) {

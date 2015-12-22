@@ -16,12 +16,12 @@ class BrandsViewController: BaseViewController {
         super.init(coder: aDecoder)
         
         // UIViewController
-        self.title = NSLocalizedString("brands_vc_title", comment: "")
+        self.title = NSLocalizedString("brands_vc_title")
         
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_tag"), selectedImage: UIImage(named: "img_tab_tag_selected"))
 //        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarItem.title = NSLocalizedString("brands_vc_tab_title", comment: "")
+        self.tabBarItem.title = NSLocalizedString("brands_vc_tab_title")
     }
     
     override func viewDidLoad() {

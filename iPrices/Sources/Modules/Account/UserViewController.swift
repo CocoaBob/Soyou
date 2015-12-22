@@ -14,11 +14,11 @@ class UserViewController: UIViewController {
         super.init(coder: aDecoder)
         
         // UIViewController
-        self.title = NSLocalizedString("user_vc_title", comment: "")
+        self.title = NSLocalizedString("user_vc_title")
         
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
-        self.tabBarItem.title = NSLocalizedString("user_vc_tab_title", comment: "")
+        self.tabBarItem.title = NSLocalizedString("user_vc_tab_title")
         
         // Notifications of isLoggedIn
         NSNotificationCenter.defaultCenter().addObserverForName(Cons.Usr.IsLoggedInDidChangeNotification, object: nil, queue: nil) { (n) -> Void in
