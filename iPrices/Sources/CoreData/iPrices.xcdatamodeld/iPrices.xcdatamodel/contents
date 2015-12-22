@@ -7,19 +7,21 @@
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="News" representedClassName=".News" syncable="YES">
+        <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appIsMore" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateModification" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="datePublication" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="isMore" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isOnline" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Product" representedClassName=".Product" syncable="YES">
+        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="brandId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="brandLabel" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="collectionId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -38,7 +40,7 @@
     </entity>
     <elements>
         <element name="Brand" positionX="-63" positionY="135" width="128" height="105"/>
-        <element name="News" positionX="-63" positionY="-18" width="128" height="210"/>
-        <element name="Product" positionX="-63" positionY="54" width="128" height="270"/>
+        <element name="News" positionX="-63" positionY="-18" width="128" height="225"/>
+        <element name="Product" positionX="-63" positionY="54" width="128" height="285"/>
     </elements>
 </model>

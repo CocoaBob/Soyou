@@ -38,6 +38,11 @@
 "login_vc_register_title"="注册";
 "login_vc_forget_password_title"="忘记密码";
 "login_vc_reset_password_title"="重设密码";
+"login_vc_register_alert_button"="我已激活";
+"login_vc_register_alert_message"="注册成功！请留意您的收件箱以激活您的账户。";
+"login_vc_forget_password_alert_button"="我已收到验证码";
+"login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
+"login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
 
 /* Common */
 "alert_title_failed"="失败";

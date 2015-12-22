@@ -9,6 +9,7 @@
 class BrandsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
+    var _requestsCount = 0
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
@@ -32,13 +33,16 @@ class BrandsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
+        setupRefreshControls()
 
         // UINavigationController delegate
         self.navigationController?.delegate = self;
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
         
         // Data
-        loadData()
+        if self.fetchedResultsController.fetchedObjects?.count == 0 {
+            loadData()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -102,6 +106,8 @@ extension BrandsViewController {
     }
     
     func loadData() {
+        self.beginRefreshing()
+        
         ServerManager.shared.requestAllBrands(
             { (responseObject: AnyObject?) -> () in self.handleAllBrandsSuccess(responseObject) },
             { (error: NSError?) -> () in self.handleError(error) }
@@ -232,12 +238,41 @@ extension BrandsViewController: UINavigationControllerDelegate {
 // MARK: - Refreshing
 extension BrandsViewController {
     
+    func setupRefreshControls() {
+        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+            self.loadData()
+        });
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
+        header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
+            if date == nil {
+                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), NSLocalizedString("pull_to_refresh_header_never"))
+            }
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "MM/dd HH:mm"
+            let dateString = dateFormatter.stringFromDate(date)
+            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
+        }
+        header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
+        self.collectionView().mj_header = header
+    }
+    
     func beginRefreshing() {
+        ++_requestsCount
+        MBProgressHUD.showLoader()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
     func endRefreshing() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        --_requestsCount
+        if _requestsCount <= 0 {
+            self.collectionView().mj_header.endRefreshing()
+            MBProgressHUD.hideLoader()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
     }
 }
 
