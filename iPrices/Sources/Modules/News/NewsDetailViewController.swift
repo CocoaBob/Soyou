@@ -269,7 +269,7 @@ extension NewsDetailViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
-                    ServerManager.shared.requestNewsInfo("\(newsID)",
+                    RequestManager.shared.requestNewsInfo("\(newsID)",
                         { (responseObject: AnyObject?) -> () in self.handleRequestNewsInfoSuccess(responseObject) },
                         { (error: NSError?) -> () in self.handleRequestError(error) }
                     );
@@ -371,7 +371,7 @@ extension NewsDetailViewController {
                     self.loadNews(localNews)
                 } else {
                     if let newsID = localNews.id {
-                        ServerManager.shared.requestNews("\(newsID)",
+                        RequestManager.shared.requestNews("\(newsID)",
                             { (responseObject: AnyObject?) -> () in self.handleRequestNewsSuccess(responseObject) },
                             { (error: NSError?) -> () in self.handleRequestError(error) }
                         );
@@ -433,7 +433,7 @@ extension NewsDetailViewController {
             if let localNews = self.news?.MR_inContext(localContext) {
                 let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
                 
-                ServerManager.shared.likeNews(localNews.id!, operation: appIsLiked ? "-" : "+",
+                RequestManager.shared.likeNews(localNews.id!, operation: appIsLiked ? "-" : "+",
                     { (responseObject: AnyObject?) -> () in self.handleLikeNewsSuccess(responseObject, appIsLiked: appIsLiked) },
                     { (error: NSError?) -> () in
                         self.updateLikeBtnColor(!self.likeBtnToggle)

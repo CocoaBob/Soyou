@@ -1,16 +1,16 @@
 //
-//  ServerManager.swift
+//  RequestManager.swift
 //  iPrices
 //
 //  Created by CocoaBob on 17/11/15.
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-class ServerManager {
+class RequestManager {
     
     let requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: Cons.Svr.baseURL))
     
-    static let shared = ServerManager()
+    static let shared = RequestManager()
     
     var apiKey: String {
         get {

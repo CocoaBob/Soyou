@@ -76,7 +76,7 @@ extension AppDelegate {
             .stringByTrimmingCharactersInSet( characterSet )
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         
-        ServerManager.shared.registerForNotification(UserManager.shared.uuid, deviceTokenString,
+        RequestManager.shared.registerForNotification(UserManager.shared.uuid, deviceTokenString,
             { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, deviceTokenString: deviceTokenString) },
             { (error: NSError?) -> () in self.handleError(error) }
         );

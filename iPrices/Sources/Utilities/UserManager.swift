@@ -86,7 +86,7 @@ extension UserManager {
     }
     
     func checkTokenValidity(validCompletion validCompletion: () -> Void, failCompletion: () -> Void){
-        ServerManager.shared.checkToken({(responseObject: AnyObject?) -> () in validCompletion() },
+        RequestManager.shared.checkToken({(responseObject: AnyObject?) -> () in validCompletion() },
             { (error: NSError?) -> () in
                 self.logOut()
                 failCompletion()

@@ -116,7 +116,7 @@ extension NewsViewController {
     }
     
     func requestNewsList(relativeID: NSNumber?) {
-        ServerManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
+        RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
             { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, relativeID) },
             { (error: NSError?) -> () in self.handleError(error) }
         );

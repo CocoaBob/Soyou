@@ -159,7 +159,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader()
             
             // Request
-            ServerManager.shared.login(
+            RequestManager.shared.login(
                 strEmail,
                 strPassword,
                 { (responseObject: AnyObject?) -> () in self.handleLoginSuccess(responseObject) },
@@ -199,7 +199,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader()
             
             // Request
-            ServerManager.shared.register(
+            RequestManager.shared.register(
                 strEmail,
                 strPassword,
                 { (responseObject: AnyObject?) -> () in self.handleRegisterSuccess(responseObject) },
@@ -240,7 +240,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader()
             
             // Request
-            ServerManager.shared.requestVerifyCode(
+            RequestManager.shared.requestVerifyCode(
                 strEmail,
                 { (responseObject: AnyObject?) -> () in self.handleForgetPasswordSuccess(responseObject) },
                 { (error: NSError?) -> () in self.handleForgetPasswordError(error) }
@@ -283,7 +283,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader()
             
             // Request
-            ServerManager.shared.resetPassword(
+            RequestManager.shared.resetPassword(
                 strVerificationCode,
                 strPassword,
                 { (responseObject: AnyObject?) -> () in self.handleResetPasswordSuccess(responseObject) },

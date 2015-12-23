@@ -108,12 +108,12 @@ extension BrandsViewController {
     func loadData() {
         self.beginRefreshing()
         
-        ServerManager.shared.requestAllBrands(
+        RequestManager.shared.requestAllBrands(
             { (responseObject: AnyObject?) -> () in self.handleAllBrandsSuccess(responseObject) },
             { (error: NSError?) -> () in self.handleError(error) }
         );
         
-        ServerManager.shared.requestAllProductIDs(
+        RequestManager.shared.requestAllProductIDs(
             { (responseObject: AnyObject?) -> () in self.handleAllProductsSuccess(responseObject) },
             { (error: NSError?) -> () in self.handleError(error) }
         )
