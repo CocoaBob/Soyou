@@ -63,11 +63,11 @@ extension AppDelegate {
     
     private func handleSuccess(responseObject: AnyObject?, deviceTokenString: String) {
         UserManager.shared.deviceToken = deviceTokenString
-        print("Push register success")
+        DLog("Push register success")
     }
     
     private func handleError(error: NSError?) {
-        print("\(error)")
+        DLog(error)
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -83,11 +83,11 @@ extension AppDelegate {
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        print("userInfo=\(error.localizedDescription)")
+        DLog("userInfo=\(error.localizedDescription)")
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        print("userInfo=\(userInfo)")
+        DLog("userInfo=\(userInfo)")
     }
 
 }

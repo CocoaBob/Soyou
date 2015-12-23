@@ -37,7 +37,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     }
     
     func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: AnyObject?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        print("--> \"\(path)\"")
+        DLog("--> \"\(path)\"")
         guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             let error = FmtError(0, "Failed to encode URL")
             if let onFailure = onFailure { onFailure(error) }
@@ -48,15 +48,13 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
             modeUI ? MBProgressHUD.hideLoader() : ()
-            if let responseObject = responseObject as? Dictionary<String, AnyObject> , data = responseObject["data"], count = data.count {
-                print("<-- [\(count)]")
-            }
+            DLog("<-- [\((responseObject?["data"])?.count)]")
             self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
         }
         
         let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
             modeUI ? MBProgressHUD.hideLoader() : ()
-            print("<-- [x]")
+            DLog("<-- [x]")
             self.handleFailure(operation, error, onFailure)
         }
         

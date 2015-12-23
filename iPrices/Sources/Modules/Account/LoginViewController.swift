@@ -137,7 +137,7 @@ extension LoginViewController {
     
     func showErrorAlert(error: NSError?) {
         let responseObject = AFNetworkingGetResponseObjectFromError(error)
-        print("\(responseObject)")
+        DLog(responseObject)
         // Show error
         if let responseObject = responseObject as? Dictionary<String, AnyObject>,
             data = responseObject["data"] as? [Dictionary<String, AnyObject>],

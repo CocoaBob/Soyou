@@ -361,7 +361,7 @@ extension NewsDetailViewController {
     }
     
     private func handleRequestError(error: NSError?) {
-        print("\(error)")
+        DLog(error)
     }
     
     func loadNews() {
@@ -443,7 +443,7 @@ extension NewsDetailViewController {
     }
     
     func star(sender: UIBarButtonItem) {
-        print("\(__FUNCTION__)")
+        DLog(__FUNCTION__)
     }
     
     private func handleLikeNewsSuccess(responseObject: AnyObject?, appIsLiked: Bool) {

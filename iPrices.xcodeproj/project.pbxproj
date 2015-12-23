@@ -57,6 +57,7 @@
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
 		45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */; };
 		45CFA5941C2AA7C2007D38F3 /* BrandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CFA5931C2AA7C2007D38F3 /* BrandViewController.swift */; };
+		45CFA5961C2AAA61007D38F3 /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CFA5951C2AAA61007D38F3 /* ServerManager.swift */; };
 		45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */; };
 		45D418AD1C1B935200685DFC /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D418AB1C1B935200685DFC /* Brand.swift */; };
 		45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */; };
@@ -121,6 +122,7 @@
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
 		45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIToolbar+Additions.swift"; sourceTree = "<group>"; };
 		45CFA5931C2AA7C2007D38F3 /* BrandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandViewController.swift; sourceTree = "<group>"; };
+		45CFA5951C2AAA61007D38F3 /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Brand+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		45D418AB1C1B935200685DFC /* Brand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -276,8 +278,9 @@
 		4568E2AD1BF91FD4009A6164 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				457D1EB71BFBDE9700D451D0 /* RequestManager.swift */,
 				457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */,
+				457D1EB71BFBDE9700D451D0 /* RequestManager.swift */,
+				45CFA5951C2AAA61007D38F3 /* ServerManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45CFA5961C2AAA61007D38F3 /* ServerManager.swift in Sources */,
 				45016E581C14EC25004034BC /* Product.swift in Sources */,
 				45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */,
 				4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */,
@@ -604,6 +608,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -642,6 +647,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

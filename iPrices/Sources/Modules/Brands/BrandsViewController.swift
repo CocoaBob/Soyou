@@ -50,31 +50,12 @@ class BrandsViewController: BaseViewController {
         self.hideToolbar(false);
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        prefetchImages()
-    }
-    
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "label", ascending: true)
     }
     
     override func collectionView() -> UICollectionView {
         return _collectionView!
-    }
-}
-
-// MARK: Routines
-extension BrandsViewController {
-    
-    func prefetchImages() {
-        let imageURLs = self.fetchedResultsController.sections![0].objects?.flatMap({ (brand) -> NSURL? in
-            if let imageURLString = (brand as! Brand).imageUrl, let imageURL = NSURL(string: imageURLString) {
-                return imageURL
-            }
-            return nil
-        })
-        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(imageURLs)
     }
 }
 
@@ -102,7 +83,7 @@ extension BrandsViewController {
     }
     
     private func handleError(error: NSError?) {
-        print("\(error)")
+        DLog(error)
     }
     
     func loadData() {
@@ -159,7 +140,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("\(indexPath.row)")
+        DLog(indexPath.row)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

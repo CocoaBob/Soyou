@@ -54,11 +54,6 @@ class NewsViewController: BaseViewController {
         self.hideToolbar(false);
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        prefetchImages()
-    }
-    
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
     }
@@ -71,20 +66,6 @@ class NewsViewController: BaseViewController {
         updateColumnCount(Int(floor(size.width / 240)))
     }
     
-}
-
-// MARK: Routines
-extension NewsViewController {
-    
-    func prefetchImages() {
-        let imageURLs = self.fetchedResultsController.sections![0].objects?.flatMap({ (news) -> NSURL? in
-            if let imageURLString = (news as! News).image, let imageURL = NSURL(string: imageURLString) {
-                return imageURL
-            }
-            return nil
-        })
-        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(imageURLs)
-    }
 }
 
 // MARK: Data
@@ -112,7 +93,7 @@ extension NewsViewController {
         self.endRefreshing()
         resetMoreButtonCell()
         
-        print("\(error)")
+        DLog(error)
     }
     
     func requestNewsList(relativeID: NSNumber?) {
@@ -141,9 +122,6 @@ extension NewsViewController {
         if indexPath != nil {
             self.collectionView().reloadItemsAtIndexPaths([indexPath!])
         }
-        
-        // Prefetch images for new fetched results
-        prefetchImages()
     }
 }
 
