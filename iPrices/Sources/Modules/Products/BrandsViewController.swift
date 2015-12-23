@@ -104,7 +104,16 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        DLog(indexPath.row)
+        let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
+        
+        if let brandViewController = self.storyboard?.instantiateViewControllerWithIdentifier("BrandViewController") as? BrandViewController {
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                let localBrand = brand.MR_inContext(localContext)
+                brandViewController.brandID = "\(localBrand.id)"
+                brandViewController.brandName = localBrand.label
+            })
+            self.navigationController?.pushViewController(brandViewController, animated: true)
+        }
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

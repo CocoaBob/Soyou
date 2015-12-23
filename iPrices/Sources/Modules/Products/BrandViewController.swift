@@ -31,18 +31,13 @@ class BrandViewController: BaseViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        // UIViewController
-        self.title = NSLocalizedString("brand_vc_title")
-        
-        // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_tag"), selectedImage: UIImage(named: "img_tab_tag_selected"))
-        //        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarItem.title = NSLocalizedString("brands_vc_tab_title")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // UIViewController
+        self.title = self.brandName
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.collectionView(), false, false)
@@ -67,7 +62,7 @@ class BrandViewController: BaseViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "label", ascending: true)
+        return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("brandId == %@", self.brandID ?? ""), sortedBy: nil, ascending: true)
     }
     
     override func collectionView() -> UICollectionView {
@@ -79,11 +74,11 @@ class BrandViewController: BaseViewController {
 extension BrandViewController {
     
     func loadData() {
-        self.beginRefreshing()
-        DataManager.shared.loadAllBrands { () -> () in
-            self.endRefreshing()
-        }
-        DataManager.shared.loadAllProductIDs(nil)
+//        self.beginRefreshing()
+//        DataManager.shared.loadAllBrands { () -> () in
+//            self.endRefreshing()
+//        }
+//        DataManager.shared.loadAllProductIDs(nil)
     }
 }
 
@@ -105,12 +100,13 @@ extension BrandViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: BrandCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandCollectionViewCell", forIndexPath: indexPath) as! BrandCollectionViewCell
         
-        let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
+        let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
         
-        if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
-            cell.fgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                //                collectionView.reloadItemsAtIndexPaths([indexPath])
-            })
+        if let imageURLs = product.images {
+            DLog(imageURLs)
+//            cell.fgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+//                //                collectionView.reloadItemsAtIndexPaths([indexPath])
+//            })
         }
         
         return cell
