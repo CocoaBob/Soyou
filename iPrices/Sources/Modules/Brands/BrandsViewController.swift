@@ -86,15 +86,10 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell: BrandCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandCollectionViewCell", forIndexPath: indexPath) as! BrandCollectionViewCell
+        let cell: BrandsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as! BrandsCollectionViewCell
         
         let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
         
-        cell.lblTitle?.clipsToBounds = true
-        cell.lblTitle?.layer.shadowRadius = 1
-        cell.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
-        cell.lblTitle?.layer.shadowOpacity = 1
-        cell.lblTitle?.layer.shadowOffset = CGSizeZero
         if let label = brand.label {
             cell.lblTitle?.text = label
         }
@@ -223,9 +218,19 @@ extension BrandsViewController {
 }
 
 // MARK: - Custom cells
-class BrandCollectionViewCell: UICollectionViewCell {
+class BrandsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView!
     @IBOutlet var lblTitle: UILabel?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.lblTitle?.clipsToBounds = true
+        self.lblTitle?.layer.shadowRadius = 1
+        self.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
+        self.lblTitle?.layer.shadowOpacity = 1
+        self.lblTitle?.layer.shadowOffset = CGSizeZero
+    }
     
     override func prepareForReuse() {
         lblTitle?.text = nil

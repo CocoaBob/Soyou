@@ -135,11 +135,6 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         } else {
             let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
             
-            cell.lblTitle?.clipsToBounds = true
-            cell.lblTitle?.layer.shadowRadius = 1
-            cell.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
-            cell.lblTitle?.layer.shadowOpacity = 1
-            cell.lblTitle?.layer.shadowOffset = CGSizeZero
             cell.lblTitle?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 cell.fgImageView?.backgroundColor = UIColor(rgba: "#EEE")
@@ -383,6 +378,16 @@ class NewsCollectionViewCellBase: UICollectionViewCell {
 class NewsCollectionViewCell: NewsCollectionViewCellBase {
     @IBOutlet var fgImageView: UIImageView?
     @IBOutlet var lblTitle: UILabel?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.lblTitle?.clipsToBounds = true
+        self.lblTitle?.layer.shadowRadius = 1
+        self.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
+        self.lblTitle?.layer.shadowOpacity = 1
+        self.lblTitle?.layer.shadowOffset = CGSizeZero
+    }
     
     override func prepareForReuse() {
         lblTitle?.text = nil
