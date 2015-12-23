@@ -35,6 +35,10 @@ public struct Cons {
     }
 }
 
+typealias DataClosure = (AnyObject?)->()
+typealias ErrorClosure = (NSError?)->()
+typealias CompletionClosure = ()->()
+
 func FmtPredicate(fmt: String, _ args: CVarArgType...) -> NSPredicate {
     return NSPredicate(format: fmt, arguments: getVaList(args))
 }

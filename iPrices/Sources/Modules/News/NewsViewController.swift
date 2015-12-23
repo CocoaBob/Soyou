@@ -78,29 +78,11 @@ extension NewsViewController {
         }
     }
     
-    private func handleSuccess(responseObject: AnyObject?, _ relativeID: NSNumber?) {
-        self.endRefreshing()
-        resetMoreButtonCell()
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-            let allNews = responseObject["data"] as? [NSDictionary]
-            News.importDatas(allNews, false, relativeID)
+    private func requestNewsList(relativeID: NSNumber?) {
+        DataManager.shared.loadNewsList(relativeID) { () -> () in
+            self.endRefreshing()
+            self.resetMoreButtonCell()
         }
-    }
-    
-    private func handleError(error: NSError?) {
-        self.endRefreshing()
-        resetMoreButtonCell()
-        
-        DLog(error)
-    }
-    
-    func requestNewsList(relativeID: NSNumber?) {
-        RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
-            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, relativeID) },
-            { (error: NSError?) -> () in self.handleError(error) }
-        );
     }
     
 }

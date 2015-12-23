@@ -6,9 +6,6 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-typealias DataClosure = (AnyObject?)->()
-typealias ErrorClosure = (NSError?)->()
-
 class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     override init(baseURL url: NSURL?) {

@@ -18,7 +18,16 @@ class NewsDetailViewController: UIViewController {
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
     
-    var activityView: UIActivityViewController?
+    var activityView: UIActivityViewController? {
+        if let image = self.image, newsTitle = self.newsTitle, newsID = self.newsId {
+            let _activityView = UIActivityViewController(
+                activityItems: [image, newsTitle, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)")!],
+                applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+            _activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
+            return _activityView
+        }
+        return nil
+    }
     
     var news: News?
     var image: UIImage?
@@ -42,13 +51,6 @@ class NewsDetailViewController: UIViewController {
         
         // Hide tabs
         self.hidesBottomBarWhenPushed = true
-        
-        // Init Share items
-        self.activityView = UIActivityViewController(
-            activityItems: [self.image!, self.newsTitle!, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(self.newsId)")!],
-            applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-        
-        self.activityView?.excludedActivityTypes = SharingProvider.excludedActivityTypes
     }
     
     convenience init() {
@@ -256,35 +258,22 @@ extension NewsDetailViewController {
 // MARK: Like button
 extension NewsDetailViewController {
     
-    private func handleRequestNewsInfoSuccess(responseObject: AnyObject?) {
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        if let data = responseObject["data"] as? NSDictionary {
-            if let likeNumber = data["likeNumber"] as? NSNumber {
-                self.likeBtnNumber = likeNumber.integerValue
-            }
-        }
-    }
-    
     private func updateLikeBtnNumber() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
-                    RequestManager.shared.requestNewsInfo("\(newsID)",
-                        { (responseObject: AnyObject?) -> () in self.handleRequestNewsInfoSuccess(responseObject) },
-                        { (error: NSError?) -> () in self.handleRequestError(error) }
-                    );
+                    DataManager.shared.loadNewsInfo("\(newsID)", { (data: AnyObject?) -> () in
+                        if let likeNumber = data as? NSNumber {
+                            self.likeBtnNumber = likeNumber.integerValue
+                        }
+                    })
                 }
             }
         })
     }
     
     private func updateLikeBtnColor(appIsLiked: Bool?) {
-        if appIsLiked != nil && appIsLiked!.boolValue {
-            self.btnLike?.tintColor = btnActiveColor
-        } else {
-            self.btnLike?.tintColor = btnInactiveColor
-        }
-        
+        self.btnLike?.tintColor = (appIsLiked != nil && appIsLiked!.boolValue) ? btnActiveColor : btnInactiveColor
         self.likeBtnToggle = !likeBtnToggle
     }
     
@@ -342,43 +331,34 @@ extension NewsDetailViewController {
         updateLikeBtnNumber()
     }
     
-    private func loadNewsData(data: NSDictionary?) {
-        guard let data = data else { return }
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                if let news = News.importData(data, true, localContext) {
-                    self.loadNews(news);
-                }
-            })
-        }
-    }
-    
-    private func handleRequestNewsSuccess(responseObject: AnyObject?) {
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        let data = responseObject["data"] as? NSDictionary
-        self.loadNewsData(data)
-    }
-    
-    private func handleRequestError(error: NSError?) {
-        DLog(error)
-    }
-    
     func loadNews() {
+        var newsID: NSNumber? = nil
+        var needToLoad: Bool = false
+        
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
-                if localNews.content != nil {
+                if localNews.appIsUpdated != nil && localNews.appIsUpdated!.boolValue == true {
                     self.loadNews(localNews)
                 } else {
-                    if let newsID = localNews.id {
-                        RequestManager.shared.requestNews("\(newsID)",
-                            { (responseObject: AnyObject?) -> () in self.handleRequestNewsSuccess(responseObject) },
-                            { (error: NSError?) -> () in self.handleRequestError(error) }
-                        );
-                    }
+                    newsID = localNews.id
+                    needToLoad = true
                 }
             }
         })
+        
+        if needToLoad {
+            if let newsID = newsID {
+                MBProgressHUD.showLoader()
+                DataManager.shared.loadNews("\(newsID)", { () -> () in
+                    MBProgressHUD.hideLoader()
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        if let localNews = self.news?.MR_inContext(localContext) {
+                            self.loadNews(localNews)
+                        }
+                    })
+                })
+            }
+        }
     }
 }
 
@@ -423,9 +403,9 @@ extension NewsDetailViewController {
     }
     
     func share(sender: UIBarButtonItem) {
-        self.presentViewController(self.activityView!,
-            animated: true,
-            completion: nil)
+        if let activityView = self.activityView {
+            self.presentViewController(activityView, animated: true, completion: nil)
+        }
     }
     
     func like(sender: UIBarButtonItem) {
@@ -433,31 +413,28 @@ extension NewsDetailViewController {
             if let localNews = self.news?.MR_inContext(localContext) {
                 let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
                 
-                RequestManager.shared.likeNews(localNews.id!, operation: appIsLiked ? "-" : "+",
-                    { (responseObject: AnyObject?) -> () in self.handleLikeNewsSuccess(responseObject, appIsLiked: appIsLiked) },
-                    { (error: NSError?) -> () in
-                        self.updateLikeBtnColor(!self.likeBtnToggle)
-                        self.handleRequestError(error) })
+                DataManager.shared.likeNews(localNews.id!, wasLiked: appIsLiked, { (data: AnyObject?) -> () in
+                    // Update like number
+                    if let likeNumber = data as? NSNumber {
+                        self.likeBtnNumber = likeNumber.integerValue
+                    }
+                    
+                    // Update like color
+                    self.updateLikeBtnColor(!appIsLiked)
+                    
+                    // Remember if it's liked or not
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        if let localNews = self.news?.MR_inContext(localContext) {
+                            localNews.appIsLiked = NSNumber(bool: !appIsLiked)
+                        }
+                    })
+                })
             }
         })
     }
     
     func star(sender: UIBarButtonItem) {
         DLog(__FUNCTION__)
-    }
-    
-    private func handleLikeNewsSuccess(responseObject: AnyObject?, appIsLiked: Bool) {
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        if let likeNumber = responseObject["data"] as? NSNumber {
-                self.likeBtnNumber = likeNumber.integerValue
-        }
-        
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
-                localNews.appIsLiked = NSNumber(bool: !appIsLiked)
-            }
-        })
-        self.updateLikeBtnColor(!appIsLiked)
     }
 
 }

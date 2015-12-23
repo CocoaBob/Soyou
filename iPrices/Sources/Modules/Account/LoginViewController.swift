@@ -158,33 +158,13 @@ extension LoginViewController {
             // Strat indicator
             MBProgressHUD.showLoader()
             
-            // Request
-            RequestManager.shared.login(
-                strEmail,
-                strPassword,
-                { (responseObject: AnyObject?) -> () in self.handleLoginSuccess(responseObject) },
-                { (error: NSError?) -> () in self.handleLoginError(error) }
-            )
+            DataManager.shared.login(strEmail, strPassword, completion: { (error: NSError?) -> () in
+                MBProgressHUD.hideLoader()
+                if let error = error {
+                    self.showErrorAlert(error)
+                }
+            })
         }
-    }
-    
-    private func handleLoginSuccess(responseObject: AnyObject?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        
-        // Handle data
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-        
-        let userInfo = responseObject["data"] as! Dictionary<String, String>
-        
-        UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
-    }
-    
-    private func handleLoginError(error: NSError?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        // Show alert
-        self.showErrorAlert(error)
     }
 }
 
@@ -199,33 +179,20 @@ extension LoginViewController {
             MBProgressHUD.showLoader()
             
             // Request
-            RequestManager.shared.register(
-                strEmail,
-                strPassword,
-                { (responseObject: AnyObject?) -> () in self.handleRegisterSuccess(responseObject) },
-                { (error: NSError?) -> () in self.handleRegisterError(error) }
-            )
+            DataManager.shared.register(strEmail, strPassword, completion: { (error: NSError?) -> () in
+                MBProgressHUD.hideLoader()
+                if let error = error {
+                    self.showErrorAlert(error)
+                } else {
+                    let alertView = SCLAlertView()
+                    alertView.addButton(NSLocalizedString("login_vc_register_alert_button")) { () -> Void in
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
+                    alertView.showCloseButton = false
+                    alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_button"))
+                }
+            })
         }
-    }
-    
-    private func handleRegisterSuccess(responseObject: AnyObject?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        
-        // Alert
-        let alertView = SCLAlertView()
-        alertView.addButton(NSLocalizedString("login_vc_register_alert_button")) { () -> Void in
-            self.navigationController?.popViewControllerAnimated(true)
-        }
-        alertView.showCloseButton = false
-        alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_button"))
-    }
-    
-    private func handleRegisterError(error: NSError?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        // Show alert
-        self.showErrorAlert(error)
     }
 }
 
@@ -240,35 +207,23 @@ extension LoginViewController {
             MBProgressHUD.showLoader()
             
             // Request
-            RequestManager.shared.requestVerifyCode(
-                strEmail,
-                { (responseObject: AnyObject?) -> () in self.handleForgetPasswordSuccess(responseObject) },
-                { (error: NSError?) -> () in self.handleForgetPasswordError(error) }
-            )
+            DataManager.shared.requestVerifyCode(strEmail, completion: { (error: NSError?) -> () in
+                MBProgressHUD.hideLoader()
+                if let error = error {
+                    self.showErrorAlert(error)
+                } else {
+                    let alertView = SCLAlertView()
+                    alertView.addButton(NSLocalizedString("login_vc_forget_password_alert_button")) { () -> Void in
+                        // Show reset password view controller
+                        if let resetPasswordViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ResetPasswordViewController") {
+                            self.navigationController?.pushViewController(resetPasswordViewController, animated: true)
+                        }
+                    }
+                    alertView.showCloseButton = false
+                    alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_forget_password_alert_message"))
+                }
+            })
         }
-    }
-    
-    private func handleForgetPasswordSuccess(responseObject: AnyObject?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        
-        // Alert
-        let alertView = SCLAlertView()
-        alertView.addButton(NSLocalizedString("login_vc_forget_password_alert_button")) { () -> Void in
-            // Show reset password view controller
-            if let resetPasswordViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ResetPasswordViewController") {
-                self.navigationController?.pushViewController(resetPasswordViewController, animated: true)
-            }
-        }
-        alertView.showCloseButton = false
-        alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_forget_password_alert_message"))
-    }
-    
-    private func handleForgetPasswordError(error: NSError?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        // Show alert
-        self.showErrorAlert(error)
     }
 }
 
@@ -283,36 +238,16 @@ extension LoginViewController {
             MBProgressHUD.showLoader()
             
             // Request
-            RequestManager.shared.resetPassword(
-                strVerificationCode,
-                strPassword,
-                { (responseObject: AnyObject?) -> () in self.handleResetPasswordSuccess(responseObject) },
-                { (error: NSError?) -> () in self.handleResetPasswordError(error) }
-            )
+            DataManager.shared.resetPassword(strVerificationCode, strPassword, completion: { (error: NSError?) -> () in
+                MBProgressHUD.hideLoader()
+                if let error = error {
+                    self.showErrorAlert(error)
+                } else {
+                    let alertView = SCLAlertView()
+                    alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_reset_password_alert_message"))
+                }
+            })
         }
-    }
-    
-    private func handleResetPasswordSuccess(responseObject: AnyObject?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        
-        // Alert
-        let alertView = SCLAlertView()
-        alertView.addButton(NSLocalizedString("alert_button_done")) { () -> Void in
-            // Handle data
-            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-            let userInfo = responseObject["data"] as! Dictionary<String, String>
-            UserManager.shared.logIn(userInfo["token"]!, roleCode: userInfo["roleCode"]!)
-        }
-        alertView.showCloseButton = false
-        alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_reset_password_alert_message"))
-    }
-    
-    private func handleResetPasswordError(error: NSError?) {
-        // Stop indicator
-        MBProgressHUD.hideLoader()
-        // Show alert
-        self.showErrorAlert(error)
     }
 }
 

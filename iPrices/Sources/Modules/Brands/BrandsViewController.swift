@@ -9,7 +9,6 @@
 class BrandsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
-    var _requestsCount = 0
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
@@ -62,42 +61,12 @@ class BrandsViewController: BaseViewController {
 // MARK: Data
 extension BrandsViewController {
     
-    private func handleAllBrandsSuccess(responseObject: AnyObject?) {
-        self.endRefreshing()
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-            let allBrands = responseObject["data"] as? [NSDictionary]
-            Brand.importDatas(allBrands, true)
-        }
-    }
-    
-    private func handleAllProductsSuccess(responseObject: AnyObject?) {
-        self.endRefreshing()
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
-            let allBrands = responseObject["data"] as? [NSDictionary]
-            Product.importDatas(allBrands, false, true)
-        }
-    }
-    
-    private func handleError(error: NSError?) {
-        DLog(error)
-    }
-    
     func loadData() {
         self.beginRefreshing()
-        
-        RequestManager.shared.requestAllBrands(
-            { (responseObject: AnyObject?) -> () in self.handleAllBrandsSuccess(responseObject) },
-            { (error: NSError?) -> () in self.handleError(error) }
-        );
-        
-        RequestManager.shared.requestAllProductIDs(
-            { (responseObject: AnyObject?) -> () in self.handleAllProductsSuccess(responseObject) },
-            { (error: NSError?) -> () in self.handleError(error) }
-        )
+        DataManager.shared.loadAllBrands { () -> () in
+            self.endRefreshing()
+        }
+        DataManager.shared.loadAllProductIDs(nil)
     }
 }
 
@@ -242,18 +211,14 @@ extension BrandsViewController {
     }
     
     func beginRefreshing() {
-        ++_requestsCount
         MBProgressHUD.showLoader()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
     func endRefreshing() {
-        --_requestsCount
-        if _requestsCount <= 0 {
-            self.collectionView().mj_header.endRefreshing()
-            MBProgressHUD.hideLoader()
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        }
+        self.collectionView().mj_header.endRefreshing()
+        MBProgressHUD.hideLoader()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 

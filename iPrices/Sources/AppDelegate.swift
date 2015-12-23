@@ -61,25 +61,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: Notifications
 extension AppDelegate {
     
-    private func handleSuccess(responseObject: AnyObject?, deviceTokenString: String) {
-        UserManager.shared.deviceToken = deviceTokenString
-        DLog("Push register success")
-    }
-    
-    private func handleError(error: NSError?) {
-        DLog(error)
-    }
-    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
         let deviceTokenString: String = ( deviceToken.description as NSString )
             .stringByTrimmingCharactersInSet( characterSet )
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         
-        RequestManager.shared.registerForNotification(UserManager.shared.uuid, deviceTokenString,
-            { (responseObject: AnyObject?) -> () in self.handleSuccess(responseObject, deviceTokenString: deviceTokenString) },
-            { (error: NSError?) -> () in self.handleError(error) }
-        );
+        DataManager.shared.registerForNotification(deviceTokenString)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
