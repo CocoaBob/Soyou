@@ -38,6 +38,7 @@ PODS:
   - MBProgressHUD (0.9.2)
   - MJRefresh (3.0.7)
   - pop (1.0.8)
+  - RandomColorSwift (0.1.0)
   - RMPZoomTransitionAnimator (1.0.1)
   - SCLAlertView (0.4.3)
   - SDWebImage (3.7.3):
@@ -58,6 +59,7 @@ DEPENDENCIES:
   - MagicalRecord (~> 2.3)
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0)
+  - RandomColorSwift
   - RMPZoomTransitionAnimator (~> 1.0)
   - SCLAlertView
   - SDWebImage (~> 3.7)
@@ -98,6 +100,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: f3e1228ec3d38c7ba5208d58032631a52f39f495
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
+  RandomColorSwift: b2e95d6d3670def6d2f907ec7b7041138b268ac9
   RMPZoomTransitionAnimator: 0782863eab1acc50511dbd146cd7df3afc142b54
   SCLAlertView: a5c726a80a938fd3127edd7dbc19da33fb936ca3
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84

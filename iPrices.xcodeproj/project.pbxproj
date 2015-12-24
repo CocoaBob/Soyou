@@ -51,6 +51,7 @@
 		459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */; };
 		45A4D8321C08CD200000309C /* news.css in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8301C08CD200000309C /* news.css */; };
 		45A4D8331C08CD200000309C /* news.html in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8311C08CD200000309C /* news.html */; };
+		45ACD5EA1C2C0F9000CF865F /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45ACD5E91C2C0F9000CF865F /* UIImage+Additions.swift */; };
 		45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77F091C05A77B002E3385 /* UserManager.swift */; };
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
 		45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */; };
@@ -116,6 +117,7 @@
 		459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AFNetworking+Additions.swift"; sourceTree = "<group>"; };
 		45A4D8301C08CD200000309C /* news.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = news.css; sourceTree = "<group>"; };
 		45A4D8311C08CD200000309C /* news.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = news.html; sourceTree = "<group>"; };
+		45ACD5E91C2C0F9000CF865F /* UIImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		45B77F091C05A77B002E3385 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
 		45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIToolbar+Additions.swift"; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				45CD72CA1C189894004583FC /* UITabBar+Additions.swift */,
 				45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */,
 				4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */,
+				45ACD5E91C2C0F9000CF865F /* UIImage+Additions.swift */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */,
 				4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */,
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
+				45ACD5EA1C2C0F9000CF865F /* UIImage+Additions.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,

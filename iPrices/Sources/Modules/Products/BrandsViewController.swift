@@ -95,9 +95,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
 
         if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
-            cell.fgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-//                collectionView.reloadItemsAtIndexPaths([indexPath])
-            })
+            cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage.imageWithRandomColor())
         }
 
         return cell
