@@ -95,7 +95,9 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
 
         if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
-            cell.fgImageView?.sd_setImageWithURL(imageURL, placeholderImage: UIImage.imageWithRandomColor())
+            cell.fgImageView?.sd_setImageWithURL(imageURL,
+                placeholderImage: UIImage.imageWithRandomColor(),
+                options: [.ProgressiveDownload, .ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority, .DelayPlaceholder])
         }
 
         return cell
