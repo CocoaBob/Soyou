@@ -47,29 +47,29 @@ class RequestManager {
     
     // Not tested yet
     func checkToken(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/secure/auth/check", "AuthCheck", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/auth/check", "AuthCheck", onSuccess, onFailure)
     }
     
     func login(email: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/auth/login", "Auth", ["email": email, "password": password], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/login", "Auth", ["email": email, "password": password], onSuccess, onFailure)
     }
     
     // Not tested yet
     func logout(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/auth/logout", "Auth", nil, onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/logout", "Auth", nil, onSuccess, onFailure)
     }
     
     func register(email: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/auth/register", "Auth", ["email": email, "password": password], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/register", "Auth", ["email": email, "password": password], onSuccess, onFailure)
     }
     
     func requestVerifyCode(email: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/auth/verify-code", "Auth", ["email": email], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/verify-code", "Auth", ["email": email], onSuccess, onFailure)
     }
     
     // Not tested yet
     func resetPassword(verifyCode: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/auth/password", "Auth", ["verifyCode": verifyCode, "password": password], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/password", "Auth", ["verifyCode": verifyCode, "password": password], onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -77,7 +77,7 @@ class RequestManager {
     //////////////////////////////////////
     
     func requestAllBrands(onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
-        getAsync("/api/brands", "Brands", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/brands", "Brands", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -86,17 +86,17 @@ class RequestManager {
     
     // Not tested yet
     func addNewsFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/secure/favorite/news/\(id)", "FavoriteNews", nil, onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", nil, onSuccess, onFailure)
     }
     
     // Not tested yet
     func deleteNewsFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        deleteAsync("/api/secure/favorite/news/\(id)", "FavoriteNews", onSuccess, onFailure)
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", onSuccess, onFailure)
     }
     
     // Not tested yet
     func requestNewsFavorites(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/secure/favorite/news", "FavoriteNews", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news", "FavoriteNews", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -105,17 +105,17 @@ class RequestManager {
     
     // Not tested yet
     func addProductFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/secure/favorite/products/\(id)", "FavoriteProducts", nil, onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", nil, onSuccess, onFailure)
     }
     
     // Not tested yet
     func deleteProductFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        deleteAsync("/api/secure/favorite/products/\(id)", "FavoriteProducts", onSuccess, onFailure)
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", onSuccess, onFailure)
     }
     
     // Not tested yet
     func requestProductFavorites(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/secure/favorite/products", "FavoriteProducts", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products", "FavoriteProducts", onSuccess, onFailure)
     }
     
     
@@ -124,20 +124,20 @@ class RequestManager {
     //////////////////////////////////////
     
     func likeNews(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/news/\(id)/like", "News", ["operation": operation], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/like", "News", ["operation": operation], onSuccess, onFailure)
     }
     
     func requestNewsList(count: Int, _ relativeNewsID: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        let path = (relativeNewsID != nil) ? "/api/news/previous/\(count)/\(relativeNewsID!)" : "/api/news/latest/\(count)"
+        let path = (relativeNewsID != nil) ? "/api/\(Cons.Svr.apiVersion)/news/previous/\(count)/\(relativeNewsID!)" : "/api/\(Cons.Svr.apiVersion)/news/latest/\(count)"
         getAsync(path, "News", onSuccess, onFailure)
     }
     
     func requestNews(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/news/\(id)", "News", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)", "News", onSuccess, onFailure)
     }
     
     func requestNewsInfo(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/news/\(id)/extra", "News", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/extra", "News", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -145,7 +145,7 @@ class RequestManager {
     //////////////////////////////////////
     
     func registerForMonitoring(deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
-        postAsync("/api/notification/register-monitor", "Notifications", ["deviceToken": deviceToken],onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/notification/register-monitor", "Notifications", ["deviceToken": deviceToken],onSuccess, onFailure)
     }
     
     func registerForNotification(uuid: String, _ deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
@@ -158,22 +158,22 @@ class RequestManager {
     
     // Not tested yet
     func likeProduct(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/products/\(id)/like", "Products", nil, onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/like", "Products", nil, onSuccess, onFailure)
     }
     
     // Not tested yet
     func requestProducts(ids: [String], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/products", "Products", ["id": ids], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", ["id": ids], onSuccess, onFailure)
     }
     
     // Not tested yet
     func requestProduct(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/products/\(id)", "Products", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)", "Products", onSuccess, onFailure)
     }
     
     // Not tested yet
     func requestAllProductIDs(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/products", "Products", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", onSuccess, onFailure)
     }
     
 }
