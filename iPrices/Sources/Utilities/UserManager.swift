@@ -39,6 +39,7 @@ class UserManager {
         }
     }
     
+    // User authenticated token
     var token: String? {
         get {
             return UICKeyChainStore.stringForKey(Cons.Usr.token)

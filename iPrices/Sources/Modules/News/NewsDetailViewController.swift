@@ -34,6 +34,7 @@ class NewsDetailViewController: UIViewController {
     var newsTitle: String!
     var newsId: Int!
     var btnLike: UIButton?
+    var btnFav: UIButton?
     
     var webView: UIWebView?
     var scrollView: UIScrollView? {
@@ -98,11 +99,12 @@ class NewsDetailViewController: UIViewController {
         
         // Toolbar
         self.btnLike = UIButton(type: .System)
+        self.btnFav = UIButton(type: .System)
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
         let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: "back:")
         let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
         let like = UIBarButtonItem(customView: self.btnLike!)
-        let fav = UIBarButtonItem(image: UIImage(named:"img_heart"), style: .Plain, target: self, action: "star:")
+        let fav = UIBarButtonItem(customView: self.btnFav!)
         (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
         self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
         
@@ -113,6 +115,12 @@ class NewsDetailViewController: UIViewController {
         self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
         self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnLike?.addTarget(self, action: "like:", forControlEvents: .TouchUpInside)
+        
+        self.btnFav?.backgroundColor = UIColor.clearColor()
+        self.btnFav?.frame = CGRectMake(0, 0, 64, 32)
+        self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+        self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
+        self.btnFav?.addTarget(self, action: "star:", forControlEvents: .TouchUpInside)
         
         // Load content
         loadNews()
@@ -258,13 +266,17 @@ extension NewsDetailViewController {
 // MARK: Like button
 extension NewsDetailViewController {
     
-    private func updateLikeBtnNumber() {
+    private func initLikeBtnNumberAndFavBtnStatus() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
                     DataManager.shared.loadNewsInfo("\(newsID)", { (data: AnyObject?) -> () in
-                        if let likeNumber = data as? NSNumber {
+                        if let likeNumber = data?["likeNumber"] as? NSNumber {
                             self.likeBtnNumber = likeNumber.integerValue
+                        }
+                        
+                        if let isFavorite = data?["isFavorite"] as? Bool {
+                            self.isFavorite = isFavorite
                         }
                     })
                 }
@@ -294,6 +306,28 @@ extension NewsDetailViewController {
         }
     }
 }
+
+// MARK: Fav button
+extension NewsDetailViewController {
+    
+    private func updateFavBtnColor(appIsLiked: Bool?) {
+        self.btnFav?.tintColor = (appIsLiked != nil && appIsLiked!.boolValue) ? btnActiveColor : btnInactiveColor
+    }
+    
+    private var isFavorite: Bool? {
+        set(newValue) {
+            if newValue != nil && newValue == true {
+                self.btnFav?.tintColor = btnActiveColor
+            } else {
+                self.btnFav?.tintColor = btnInactiveColor
+            }
+        }
+        get {
+            return self.btnFav?.tintColor == btnActiveColor
+        }
+    }
+}
+
 
 // MARK: Data
 extension NewsDetailViewController {
@@ -328,7 +362,7 @@ extension NewsDetailViewController {
             updateLikeBtnColor(appIsLiked.boolValue)
         }
         
-        updateLikeBtnNumber()
+        initLikeBtnNumberAndFavBtnStatus()
     }
     
     func loadNews() {

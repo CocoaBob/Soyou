@@ -179,7 +179,7 @@ class DataManager {
         RequestManager.shared.requestNewsInfo(id,
             { (responseObject: AnyObject?) -> () in
                 if let completion = completion {
-                    completion((responseObject?["data"])?["likeNumber"])
+                    completion((responseObject?["data"]))
                 }
             },
             { (error: NSError?) -> () in
