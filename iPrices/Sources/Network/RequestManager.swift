@@ -74,7 +74,7 @@ class RequestManager {
     // Not tested yet
     // Add (remove) news to (from) favorite
     func newsFavorite(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", ["operation": operation],onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", ["operation": operation], onSuccess, onFailure)
     }
     
     // Not tested yet
@@ -87,13 +87,8 @@ class RequestManager {
     //////////////////////////////////////
     
     // Not tested yet
-    func addProductFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", nil, onSuccess, onFailure)
-    }
-    
-    // Not tested yet
-    func deleteProductFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", onSuccess, onFailure)
+    func productFavorite(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", ["operation": operation], onSuccess, onFailure)
     }
     
     // Not tested yet
@@ -140,17 +135,17 @@ class RequestManager {
     //////////////////////////////////////
     
     // Not tested yet
-    func likeProduct(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/like", "Products", nil, onSuccess, onFailure)
+    func likeProduct(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/like", "Products", ["operation": operation], onSuccess, onFailure)
     }
     
     // Not tested yet
-    func requestProducts(ids: [String], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestProducts(ids: [NSNumber], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", ["id": ids], onSuccess, onFailure)
     }
     
     // Not tested yet
-    func requestProduct(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestProduct(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)", "Products", onSuccess, onFailure)
     }
     

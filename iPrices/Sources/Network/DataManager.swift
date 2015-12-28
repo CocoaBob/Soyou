@@ -118,16 +118,6 @@ class DataManager {
     // MARK: Favorites News
     //////////////////////////////////////
     
-    
-    //////////////////////////////////////
-    // MARK: Favorites Products
-    //////////////////////////////////////
-    
-    
-    //////////////////////////////////////
-    // MARK: News
-    //////////////////////////////////////
-    
     func newsFavorite(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
         RequestManager.shared.newsFavorite(id, operation: isFavorite ? "-" : "+",
             { (responseObject: AnyObject?) -> () in
@@ -140,6 +130,28 @@ class DataManager {
             }
         )
     }
+
+    
+    //////////////////////////////////////
+    // MARK: Favorites Products
+    //////////////////////////////////////
+    
+    func productFavorite(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
+        RequestManager.shared.productFavorite(id, operation: isFavorite ? "-" : "+",
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion {
+                    completion(responseObject?["data"])
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+            }
+        )
+    }
+    
+    //////////////////////////////////////
+    // MARK: News
+    //////////////////////////////////////
     
     func likeNews(id: NSNumber, wasLiked: Bool, _ completion: DataClosure?) {
         RequestManager.shared.likeNews(id, operation: wasLiked ? "-" : "+",
@@ -218,6 +230,19 @@ class DataManager {
     //////////////////////////////////////
     // MARK: Products
     //////////////////////////////////////
+    
+    func likeProduct(id: NSNumber, wasLiked: Bool, _ completion: DataClosure?) {
+        RequestManager.shared.likeProduct(id, operation: wasLiked ? "-" : "+",
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion {
+                    completion(responseObject?["data"])
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+            }
+        )
+    }
     
     func loadAllProductIDs(completion: CompletionClosure?){
         RequestManager.shared.requestAllProductIDs(
