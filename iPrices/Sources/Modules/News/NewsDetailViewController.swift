@@ -468,7 +468,22 @@ extension NewsDetailViewController {
     }
     
     func star(sender: UIBarButtonItem) {
-        DLog(__FUNCTION__)
-    }
+        guard let _ = UserManager.shared.token else {
+            // TODO show alert to ask user to login or show login screen
+            return
+        }
+        
+        if let isFavorite = self.isFavorite {
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                if let localNews = self.news?.MR_inContext(localContext) {
+                    DataManager.shared.newsFavorite(localNews.id!, isFavorite: isFavorite,
+                        { (data: AnyObject?) -> () in
+                        // Toggle the value of isFavorite
+                        self.isFavorite = !isFavorite
+                    })
+                }
+            })
 
+        }
+    }
 }

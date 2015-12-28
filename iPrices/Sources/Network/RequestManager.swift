@@ -72,13 +72,9 @@ class RequestManager {
     //////////////////////////////////////
     
     // Not tested yet
-    func addNewsFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", nil, onSuccess, onFailure)
-    }
-    
-    // Not tested yet
-    func deleteNewsFavorite(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", onSuccess, onFailure)
+    // Add (remove) news to (from) favorite
+    func newsFavorite(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", ["operation": operation],onSuccess, onFailure)
     }
     
     // Not tested yet

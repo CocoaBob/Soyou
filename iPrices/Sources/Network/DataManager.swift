@@ -128,6 +128,19 @@ class DataManager {
     // MARK: News
     //////////////////////////////////////
     
+    func newsFavorite(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
+        RequestManager.shared.newsFavorite(id, operation: isFavorite ? "-" : "+",
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion {
+                    completion(responseObject?["data"])
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+            }
+        )
+    }
+    
     func likeNews(id: NSNumber, wasLiked: Bool, _ completion: DataClosure?) {
         RequestManager.shared.likeNews(id, operation: wasLiked ? "-" : "+",
             { (responseObject: AnyObject?) -> () in
