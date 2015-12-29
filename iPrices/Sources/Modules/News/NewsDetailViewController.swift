@@ -318,8 +318,10 @@ extension NewsDetailViewController {
         set(newValue) {
             if newValue != nil && newValue == true {
                 self.btnFav?.tintColor = btnActiveColor
+                self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
             } else {
                 self.btnFav?.tintColor = btnInactiveColor
+                self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
             }
         }
         get {
