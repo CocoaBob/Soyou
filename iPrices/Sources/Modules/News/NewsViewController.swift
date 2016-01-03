@@ -51,6 +51,7 @@ class NewsViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.hideToolbar(false);
     }
     

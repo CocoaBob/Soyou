@@ -164,6 +164,7 @@ extension LoginViewController {
                 if let error = error {
                     self.showErrorAlert(error)
                 }
+                self.dismissSelf()
             })
         }
     }
@@ -185,12 +186,13 @@ extension LoginViewController {
                 if let error = error {
                     self.showErrorAlert(error)
                 } else {
+                    // Show alert
                     let alertView = SCLAlertView()
                     alertView.addButton(NSLocalizedString("login_vc_register_alert_button")) { () -> Void in
                         self.navigationController?.popViewControllerAnimated(true)
                     }
                     alertView.showCloseButton = false
-                    alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_button"))
+                    alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_message"))
                 }
             })
         }
@@ -244,8 +246,15 @@ extension LoginViewController {
                 if let error = error {
                     self.showErrorAlert(error)
                 } else {
-                    let alertView = SCLAlertView()
-                    alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_reset_password_alert_message"))
+                    self.dismissSelf()
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                        let alertView = SCLAlertView()
+                        alertView.showSuccess(
+                            NSLocalizedString("alert_title_success"),
+                            subTitle: NSLocalizedString("login_vc_reset_password_alert_message"),
+                            closeButtonTitle: NSLocalizedString("alert_button_ok"),
+                            duration: 3)
+                    }
                 }
             })
         }

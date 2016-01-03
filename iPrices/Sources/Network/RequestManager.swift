@@ -56,7 +56,7 @@ class RequestManager {
     
     // Not tested yet
     func resetPassword(verifyCode: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/auth/password", "Auth", ["verifyCode": verifyCode, "password": password], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/password", "Auth", ["verificationCode": verifyCode, "password": password], onSuccess, onFailure)
     }
     
     //////////////////////////////////////

@@ -140,7 +140,6 @@ class NewsDetailViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.removeStatusBarCover()
         MBProgressHUD.hideLoader(self.view)
     }
@@ -471,22 +470,26 @@ extension NewsDetailViewController {
     }
     
     func star(sender: UIBarButtonItem) {
-        guard let _ = UserManager.shared.token else {
-            // TODO show alert to ask user to login or show login screen
-            return
-        }
-        
-        if let isFavorite = self.isFavorite {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                if let localNews = self.news?.MR_inContext(localContext) {
-                    DataManager.shared.newsFavorite(localNews.id!, isFavorite: isFavorite,
-                        { (data: AnyObject?) -> () in
-                        // Toggle the value of isFavorite
-                        self.isFavorite = !isFavorite
-                    })
-                }
-            })
-
+        if UserManager.shared.isLoggedIn {
+            if let isFavorite = self.isFavorite {
+                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                    if let localNews = self.news?.MR_inContext(localContext) {
+                        DataManager.shared.newsFavorite(localNews.id!, isFavorite: isFavorite,
+                            { (data: AnyObject?) -> () in
+                                // Toggle the value of isFavorite
+                                self.isFavorite = !isFavorite
+                        })
+                    }
+                })
+            }
+        } else {
+            let loginViewController = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController")
+            loginViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .Done,
+                target:loginViewController,
+                action: "dismissSelf")
+            let navC = UINavigationController(rootViewController: loginViewController)
+            self.presentViewController(navC, animated: true, completion: nil)
         }
     }
 }
