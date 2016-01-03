@@ -38,6 +38,12 @@ class Brand: BaseModel {
             if let value = data["extra"] as? String {
                 brand.extra = value
             }
+            if let value = data["order"] as? NSNumber {
+                brand.order = value
+            }
+            if let value = data["categories"] as? NSArray {
+                brand.categories = value
+            }
         }
         
         return brand

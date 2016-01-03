@@ -141,7 +141,7 @@ class RequestManager {
     
     // Not tested yet
     func requestProducts(ids: [NSNumber], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", ["id": ids], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", ["ids": ids], onSuccess, onFailure)
     }
     
     // Not tested yet

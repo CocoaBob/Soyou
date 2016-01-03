@@ -29,6 +29,10 @@ class Product: BaseModel {
                 product.id = id
                 if let value = data["dateModification"] as? String {
                     let newDateModification = self.dateFormatter.dateFromString(value)
+                    if id.integerValue == 100 || id.integerValue == 200 || id.integerValue == 300 || id.integerValue == 400 || id.integerValue == 500
+                    {
+                        DLog(FmtString("%@ %@ -> %@ (%@)",id,product.dateModification!, newDateModification!,value))
+                    }
                     if isComplete {
                         product.appIsUpdated = NSNumber(bool: true)
                     } else {
@@ -78,6 +82,9 @@ class Product: BaseModel {
                 }
                 if let value = data["title"] as? String {
                     product.title = value
+                }
+                if let value = data["categories"] as? String {
+                    product.categories = value
                 }
             }
         }

@@ -55,7 +55,7 @@ class BrandsViewController: BaseViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "label", ascending: true)
+        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "order", ascending: true)
     }
     
     override func collectionView() -> UICollectionView {
@@ -71,7 +71,6 @@ extension BrandsViewController {
         DataManager.shared.loadAllBrands { () -> () in
             self.endRefreshing()
         }
-        DataManager.shared.loadAllProductIDs(nil)
     }
 }
 
@@ -116,6 +115,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 let localBrand = brand.MR_inContext(localContext)
                 brandViewController.brandID = "\(localBrand.id)"
                 brandViewController.brandName = localBrand.label
+                brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?
             })
             self.navigationController?.pushViewController(brandViewController, animated: true)
         }

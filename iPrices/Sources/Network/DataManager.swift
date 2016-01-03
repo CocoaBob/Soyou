@@ -244,7 +244,26 @@ class DataManager {
         )
     }
     
-    func loadAllProductIDs(completion: CompletionClosure?){
+    func loadProducts(ids: [NSNumber], _ completion: CompletionClosure?) {
+        RequestManager.shared.requestProducts(ids,
+            { (responseObject: AnyObject?) -> () in
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
+                        Product.importDatas(data, true)
+                    }
+                    // Complete
+                    if let completion = completion { completion() }
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+                // Complete
+                if let completion = completion { completion() }
+            }
+        )
+    }
+    
+    func loadAllProductIDs(completion: CompletionClosure?) {
         RequestManager.shared.requestAllProductIDs(
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -261,6 +280,33 @@ class DataManager {
                 if let completion = completion { completion() }
             }
         );
+    }
+    
+    // Helper method
+    func loadAllProducts() {
+        self.loadAllProductIDs { () -> () in
+            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                let allNotUpdatedProducts = Product.MR_findAllWithPredicate(
+                    FmtPredicate("appIsUpdated == %@", NSNumber(bool: false)),
+                    inContext: localContext)
+                let productIDs = allNotUpdatedProducts.map { (product) -> NSNumber in
+                    return (product as! Product).id!
+                }
+                
+                var index = 0
+                var size = 1024
+                while index < productIDs.count {
+                    if (index + size) > productIDs.count {
+                        size = productIDs.count - index
+                    }
+                    let range = productIDs[index..<(index+size)]
+                    if range.capacity > 0 {
+                        index += range.capacity
+                        self.loadProducts(Array(range), nil)
+                    }
+                }
+            })
+        }
     }
 
 }

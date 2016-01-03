@@ -14,10 +14,12 @@ class BrandViewController: BaseViewController {
     
     var brandID: String?
     var brandName: String?
+    var brandCategories: [NSDictionary]?
     
-    init(id: String?, name: String?) {
+    init(id: String?, name: String?, categories: [NSDictionary]?) {
         self.brandID = id
         self.brandName = name
+        self.brandCategories = categories
         
         super.init(nibName: nil, bundle: nil)
         
@@ -26,7 +28,7 @@ class BrandViewController: BaseViewController {
     }
     
     convenience init() {
-        self.init(id: nil, name: nil)
+        self.init(id: nil, name: nil, categories: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

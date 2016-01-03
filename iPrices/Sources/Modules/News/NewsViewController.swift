@@ -46,7 +46,7 @@ class NewsViewController: BaseViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
         
         // Data
-        requestNewsList(nil)
+        loadData(nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -78,7 +78,7 @@ extension NewsViewController {
         }
     }
     
-    private func requestNewsList(relativeID: NSNumber?) {
+    private func loadData(relativeID: NSNumber?) {
         DataManager.shared.loadNewsList(relativeID) { () -> () in
             self.endRefreshing()
             self.resetMoreButtonCell()
@@ -174,7 +174,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     cell.moreImage?.hidden = true
                     self.selectedMoreButtonCell = cell
                     self.selectedIndexPath = indexPath
-                    self.requestNewsList(localNews.id)
+                    self.loadData(localNews.id)
                 }
             } else {
                 if let cell = cell as? NewsCollectionViewCell {
@@ -327,7 +327,7 @@ extension NewsViewController {
     
     func setupRefreshControls() {
         let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            self.requestNewsList(nil)
+            self.loadData(nil)
             self.beginRefreshing()
         });
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
@@ -349,7 +349,7 @@ extension NewsViewController {
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
             let lastNews = self.fetchedResultsController.fetchedObjects?.last as? News
-            self.requestNewsList(lastNews?.id)
+            self.loadData(lastNews?.id)
             self.beginRefreshing()
         });
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
