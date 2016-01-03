@@ -49,15 +49,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
         WXApi.registerApp("wx0cb0066522588a9c", withDescription:"包打听")
         
-        // Preload data
-        DataManager.shared.loadAllBrands(nil)
-        DataManager.shared.loadAllProducts()
-        
         return true
     }
 
     func applicationWillTerminate(application: UIApplication) {
         MagicalRecord.cleanUp()
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+        var needsToUpdate = true
+        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
+            needsToUpdate = NSDate().timeIntervalSinceDate(lastUpdateDate) > 3600
+        }
+        
+        if needsToUpdate {
+            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            // Preload data
+            DataManager.shared.loadAllBrands(nil)
+            DataManager.shared.loadAllProducts()
+        }
     }
 
 }
