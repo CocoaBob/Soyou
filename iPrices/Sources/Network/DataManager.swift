@@ -92,7 +92,7 @@ class DataManager {
     }
     
     //////////////////////////////////////
-    // MARK: Brands
+    // MARK: Products
     //////////////////////////////////////
     
     func loadAllBrands(completion: CompletionClosure?){

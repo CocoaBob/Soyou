@@ -40,17 +40,17 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             if let onFailure = onFailure { onFailure(error) }
             return
         }
-        modeUI ? MBProgressHUD.showLoader() : ()
+        modeUI ? MBProgressHUD.showLoader(nil) : ()
         
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
-            modeUI ? MBProgressHUD.hideLoader() : ()
+            modeUI ? MBProgressHUD.hideLoader(nil) : ()
             DLog("<-- [\((responseObject?["data"])?.count)]")
             self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
         }
         
         let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
-            modeUI ? MBProgressHUD.hideLoader() : ()
+            modeUI ? MBProgressHUD.hideLoader(nil) : ()
             DLog("<-- [x]")
             self.handleFailure(operation, error, onFailure)
         }
@@ -64,7 +64,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
-        request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey");
+        request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -78,7 +78,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             operation.start()
             operation.waitUntilFinished()
             if !operation.cancelled {
-                modeUI ? MBProgressHUD.hideLoader() : ()
+                modeUI ? MBProgressHUD.hideLoader(nil) : ()
             } else {
                 if operation.error == nil {
                     success(operation, operation.responseObject)

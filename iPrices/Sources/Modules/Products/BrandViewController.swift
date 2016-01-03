@@ -47,8 +47,8 @@ class BrandViewController: BaseViewController {
         setupRefreshControls()
         
         // UINavigationController delegate
-        self.navigationController?.delegate = self;
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
+        self.navigationController?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         // Data
         if self.fetchedResultsController.fetchedObjects?.count == 0 {
@@ -58,7 +58,12 @@ class BrandViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.hideToolbar(false);
+        self.hideToolbar(false)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.endRefreshing()
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -195,7 +200,7 @@ extension BrandViewController {
     func setupRefreshControls() {
         let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             self.loadData()
-        });
+        })
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
@@ -215,13 +220,13 @@ extension BrandViewController {
     }
     
     func beginRefreshing() {
-        MBProgressHUD.showLoader()
+        MBProgressHUD.showLoader(self.view)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
     func endRefreshing() {
         self.collectionView().mj_header.endRefreshing()
-        MBProgressHUD.hideLoader()
+        MBProgressHUD.hideLoader(self.view)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }

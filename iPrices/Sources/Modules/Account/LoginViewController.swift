@@ -59,6 +59,7 @@ class LoginViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.keyboardControlUninstall()
+        MBProgressHUD.hideLoader(self.view)
     }
     
     override func willMoveToParentViewController(parent: UIViewController?) {
@@ -156,10 +157,10 @@ extension LoginViewController {
         
         if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
             // Strat indicator
-            MBProgressHUD.showLoader()
+            MBProgressHUD.showLoader(self.view)
             
             DataManager.shared.login(strEmail, strPassword, completion: { (error: NSError?) -> () in
-                MBProgressHUD.hideLoader()
+                MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     self.showErrorAlert(error)
                 }
@@ -176,11 +177,11 @@ extension LoginViewController {
         
         if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
             // Strat indicator
-            MBProgressHUD.showLoader()
+            MBProgressHUD.showLoader(self.view)
             
             // Request
             DataManager.shared.register(strEmail, strPassword, completion: { (error: NSError?) -> () in
-                MBProgressHUD.hideLoader()
+                MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     self.showErrorAlert(error)
                 } else {
@@ -204,11 +205,11 @@ extension LoginViewController {
         
         if let strEmail = tfEmail?.text {
             // Strat indicator
-            MBProgressHUD.showLoader()
+            MBProgressHUD.showLoader(self.view)
             
             // Request
             DataManager.shared.requestVerifyCode(strEmail, completion: { (error: NSError?) -> () in
-                MBProgressHUD.hideLoader()
+                MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     self.showErrorAlert(error)
                 } else {
@@ -235,11 +236,11 @@ extension LoginViewController {
         
         if let strVerificationCode = tfVerificationCode?.text, let strPassword = tfPassword?.text {
             // Strat indicator
-            MBProgressHUD.showLoader()
+            MBProgressHUD.showLoader(self.view)
             
             // Request
             DataManager.shared.resetPassword(strVerificationCode, strPassword, completion: { (error: NSError?) -> () in
-                MBProgressHUD.hideLoader()
+                MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     self.showErrorAlert(error)
                 } else {

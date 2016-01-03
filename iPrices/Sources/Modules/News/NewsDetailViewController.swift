@@ -12,7 +12,7 @@ class NewsDetailViewController: UIViewController {
     var coverHeight:CGFloat = 200.0
     var isStatusBarOverlyingCoverImage = true
     // Used only when no internet connection
-    var likeBtnToggle: Bool = false;
+    var likeBtnToggle: Bool = false
     
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
@@ -142,12 +142,13 @@ class NewsDetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.removeStatusBarCover()
+        MBProgressHUD.hideLoader(self.view)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animateAlongsideTransition( { (context) -> Void in
             self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
-        }, completion: nil);
+        }, completion: nil)
     }
 
 }
@@ -384,9 +385,9 @@ extension NewsDetailViewController {
         
         if needToLoad {
             if let newsID = newsID {
-                MBProgressHUD.showLoader()
+                MBProgressHUD.showLoader(self.view)
                 DataManager.shared.loadNews("\(newsID)", { () -> () in
-                    MBProgressHUD.hideLoader()
+                    MBProgressHUD.hideLoader(self.view)
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         if let localNews = self.news?.MR_inContext(localContext) {
                             self.loadNews(localNews)

@@ -21,7 +21,9 @@ class UserViewController: UIViewController {
         self.tabBarItem.title = NSLocalizedString("user_vc_tab_title")
         
         // Notifications of isLoggedIn
-        NSNotificationCenter.defaultCenter().addObserverForName(Cons.Usr.IsLoggedInDidChangeNotification, object: nil, queue: nil) { (n) -> Void in
+        NSNotificationCenter.defaultCenter().addObserverForName(Cons.Usr.IsLoggedInDidChangeNotification,
+            object: nil,
+            queue: NSOperationQueue.mainQueue()) { (n) -> Void in
             self.updateNavBarButtonItems()
             self.updateChildViewController(true)
         }

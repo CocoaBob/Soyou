@@ -9,9 +9,9 @@
 // Helpers
 extension MBProgressHUD {
     
-    class func showLoader() {
+    class func showLoader(view: UIView?) {
         let hideClosure = {
-            MBProgressHUD.showHUDAddedTo(UIApplication.sharedApplication().delegate?.window!, animated: true)
+            MBProgressHUD.showHUDAddedTo(view ?? UIApplication.sharedApplication().delegate?.window!, animated: true)
         }
         if NSThread.isMainThread() {
             hideClosure()
@@ -22,9 +22,9 @@ extension MBProgressHUD {
         }
     }
     
-    class func hideLoader() {
+    class func hideLoader(view: UIView?) {
         let hideClosure = {
-            MBProgressHUD.hideAllHUDsForView(UIApplication.sharedApplication().delegate?.window!, animated: true)
+            MBProgressHUD.hideAllHUDsForView(view ?? UIApplication.sharedApplication().delegate?.window!, animated: true)
         }
         if NSThread.isMainThread() {
             hideClosure()

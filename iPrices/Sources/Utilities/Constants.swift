@@ -10,7 +10,7 @@ public struct Cons {
     struct Svr {
         static let minVer                               = "0.0.2"
         
-        static let baseURL                              = "https://baodating-api.woniu.io:5000"
+        static let baseURL                              = "https://192.168.1.18:8443"
         
         static let apiVersion                           = "v1"
         
