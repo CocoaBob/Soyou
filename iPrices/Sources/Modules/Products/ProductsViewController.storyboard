@@ -129,47 +129,60 @@
                                             <rect key="frame" x="0.0" y="0.0" width="133" height="158"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hJi-XA-WI0" userLabel="Foreground Image View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="133" height="138"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hJi-XA-WI0" userLabel="Foreground Image View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="133" height="114"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWa-Ws-mpS">
-                                                    <rect key="frame" x="8" y="150" width="117" height="0.0"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brand" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmh-Jz-YrW">
+                                                    <rect key="frame" x="8" y="116" width="117" height="12"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="12" id="4cZ-Lu-Dm9"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmh-Jz-YrW">
-                                                    <rect key="frame" x="8" y="142" width="117" height="0.0"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROd-8g-lc4" userLabel="Lbl Title">
+                                                    <rect key="frame" x="8" y="130" width="117" height="12"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="12" id="8Mb-Yt-Enc"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROd-8g-lc4">
-                                                    <rect key="frame" x="8" y="146" width="117" height="0.0"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWa-Ws-mpS" userLabel="Lbl Price">
+                                                    <rect key="frame" x="8" y="144" width="117" height="12"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="12" id="Qgp-NG-bw3"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="1" green="0.72383683919906616" blue="0.29457113146781921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="Bmh-Jz-YrW" firstAttribute="trailing" secondItem="T5x-1o-buP" secondAttribute="trailingMargin" id="3R3-Na-uku"/>
-                                            <constraint firstItem="nWa-Ws-mpS" firstAttribute="top" secondItem="ROd-8g-lc4" secondAttribute="bottom" constant="4" id="5gi-3x-hmW"/>
-                                            <constraint firstItem="nWa-Ws-mpS" firstAttribute="bottom" secondItem="T5x-1o-buP" secondAttribute="bottomMargin" id="C3X-Qh-6T1"/>
+                                            <constraint firstItem="nWa-Ws-mpS" firstAttribute="top" secondItem="ROd-8g-lc4" secondAttribute="bottom" constant="2" id="5gi-3x-hmW"/>
+                                            <constraint firstItem="nWa-Ws-mpS" firstAttribute="bottom" secondItem="T5x-1o-buP" secondAttribute="bottom" constant="-2" id="C3X-Qh-6T1"/>
                                             <constraint firstItem="Bmh-Jz-YrW" firstAttribute="leading" secondItem="T5x-1o-buP" secondAttribute="leadingMargin" id="GyW-oZ-dI0"/>
                                             <constraint firstItem="hJi-XA-WI0" firstAttribute="leading" secondItem="T5x-1o-buP" secondAttribute="leading" id="Pzk-tZ-Ycj"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="nWa-Ws-mpS" secondAttribute="trailing" id="QrG-er-GsD"/>
-                                            <constraint firstItem="ROd-8g-lc4" firstAttribute="top" secondItem="Bmh-Jz-YrW" secondAttribute="bottom" constant="4" id="R90-3y-I8f"/>
+                                            <constraint firstItem="ROd-8g-lc4" firstAttribute="top" secondItem="Bmh-Jz-YrW" secondAttribute="bottom" constant="2" id="R90-3y-I8f"/>
                                             <constraint firstItem="ROd-8g-lc4" firstAttribute="leading" secondItem="T5x-1o-buP" secondAttribute="leadingMargin" id="SCM-pb-4Ms"/>
                                             <constraint firstAttribute="trailing" secondItem="hJi-XA-WI0" secondAttribute="trailing" id="U3K-3q-ZTo"/>
                                             <constraint firstItem="nWa-Ws-mpS" firstAttribute="leading" secondItem="T5x-1o-buP" secondAttribute="leadingMargin" id="c6V-zy-adC"/>
-                                            <constraint firstItem="Bmh-Jz-YrW" firstAttribute="top" secondItem="hJi-XA-WI0" secondAttribute="bottom" constant="4" id="odj-nV-c83"/>
+                                            <constraint firstItem="Bmh-Jz-YrW" firstAttribute="top" secondItem="hJi-XA-WI0" secondAttribute="bottom" constant="2" id="odj-nV-c83"/>
                                             <constraint firstItem="ROd-8g-lc4" firstAttribute="trailing" secondItem="T5x-1o-buP" secondAttribute="trailingMargin" id="qUJ-S1-gKb"/>
                                             <constraint firstItem="hJi-XA-WI0" firstAttribute="top" secondItem="T5x-1o-buP" secondAttribute="top" id="stP-yj-MGc"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="fgImageView" destination="hJi-XA-WI0" id="uUn-XT-tv9"/>
-                                            <outlet property="lblBrand" destination="Bmh-Jz-YrW" id="5f2-Tq-M3r"/>
-                                            <outlet property="lblPrice" destination="ROd-8g-lc4" id="3g9-Ih-HD2"/>
-                                            <outlet property="lblTitle" destination="nWa-Ws-mpS" id="cFn-ME-sXI"/>
+                                            <outlet property="lblBrand" destination="Bmh-Jz-YrW" id="3vK-AS-758"/>
+                                            <outlet property="lblPrice" destination="nWa-Ws-mpS" id="siK-lj-Ks7"/>
+                                            <outlet property="lblTitle" destination="ROd-8g-lc4" id="4kD-pL-WTq"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -244,11 +257,11 @@
                                         <rect key="frame" x="0.0" y="228" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q96-fh-kni" id="Eil-f2-Aec">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ykF-4B-oEX">
-                                                    <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

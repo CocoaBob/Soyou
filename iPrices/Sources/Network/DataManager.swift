@@ -309,4 +309,19 @@ class DataManager {
         }
     }
 
+    func prefetchData() {
+        var needsToLoad = true
+        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
+            needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 * 24
+        }
+        
+        if needsToLoad {
+            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            // Preload data
+            DataManager.shared.loadAllBrands(nil)
+            DataManager.shared.loadAllProducts()
+        }
+    }
 }

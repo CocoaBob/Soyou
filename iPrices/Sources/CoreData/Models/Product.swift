@@ -53,9 +53,8 @@ class Product: BaseModel {
                 if let value = data["descriptions"] as? String {
                     product.descriptions = value
                 }
-                if let value = data["images"] as? String {
-                    // TODO: Serialize array to data
-                    product.images = value.dataUsingEncoding(NSUTF8StringEncoding)
+                if let value = data["images"] as? NSArray {
+                    product.images = value
                 }
                 if let value = data["keywords"] as? String {
                     product.keywords = value
@@ -63,9 +62,8 @@ class Product: BaseModel {
                 if let value = data["likeNumber"] as? NSNumber {
                     product.likeNumber = value
                 }
-                if let value = data["prices"] as? String {
-                    // TODO: Serialize array to data
-                    product.prices = value.dataUsingEncoding(NSUTF8StringEncoding)
+                if let value = data["prices"] as? NSArray {
+                    product.prices = value
                 }
                 if let value = data["reference"] as? String {
                     product.reference = value

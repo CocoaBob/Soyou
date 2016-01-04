@@ -32,26 +32,15 @@ class BrandsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
-        setupRefreshControls()
 
         // UINavigationController delegate
         self.navigationController?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
-        // Data
-        if self.fetchedResultsController.fetchedObjects?.count == 0 {
-            loadData()
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        endRefreshing()
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -60,17 +49,6 @@ class BrandsViewController: BaseViewController {
     
     override func collectionView() -> UICollectionView {
         return _collectionView!
-    }
-}
-
-// MARK: Data
-extension BrandsViewController {
-    
-    func loadData() {
-        self.beginRefreshing()
-        DataManager.shared.loadAllBrands { () -> () in
-            self.endRefreshing()
-        }
     }
 }
 
@@ -101,7 +79,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
                 placeholderImage: UIImage.imageWithRandomColor(),
-                options: [.ProgressiveDownload, .ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority, .DelayPlaceholder])
+                options: [.ContinueInBackground, .AllowInvalidSSLCertificates])
         }
 
         return cell
@@ -191,43 +169,6 @@ extension BrandsViewController: UINavigationControllerDelegate {
         }
         
         return nil
-    }
-}
-
-// MARK: - Refreshing
-extension BrandsViewController {
-    
-    func setupRefreshControls() {
-        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            self.loadData()
-        })
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
-            if date == nil {
-                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), NSLocalizedString("pull_to_refresh_header_never"))
-            }
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "MM/dd HH:mm"
-            let dateString = dateFormatter.stringFromDate(date)
-            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
-        }
-        header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
-        self.collectionView().mj_header = header
-    }
-    
-    func beginRefreshing() {
-        MBProgressHUD.showLoader(self.view)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    }
-    
-    func endRefreshing() {
-        self.collectionView().mj_header.endRefreshing()
-        MBProgressHUD.hideLoader(self.view)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 

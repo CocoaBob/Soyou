@@ -31,26 +31,15 @@ class ProductsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
-        setupRefreshControls()
         
         // UINavigationController delegate
         self.navigationController?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
-        // Data
-        if self.fetchedResultsController.fetchedObjects?.count == 0 {
-            loadData()
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        endRefreshing()
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -63,17 +52,6 @@ class ProductsViewController: BaseViewController {
     
     override func collectionView() -> UICollectionView {
         return _collectionView!
-    }
-}
-
-// MARK: Data
-extension ProductsViewController {
-    
-    func loadData() {
-//        self.beginRefreshing()
-//        DataManager.shared.loadAllBrands { () -> () in
-//            self.endRefreshing()
-//        }
     }
 }
 
@@ -100,21 +78,25 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         if let title = product.title {
             cell.lblTitle?.text = title
         }
-        if let brandName = product.title {
+        if let brandName = product.brandLabel {
             cell.lblBrand?.text = brandName
         }
         if let prices = product.prices as? NSArray {
-            if let price = prices.firstObject as! NSDictionary? {
-                cell.lblBrand?.text = price["price"] as! String?
+            if let price = prices.firstObject as! NSDictionary?, priceNumber = price["price"] as? NSNumber {
+                cell.lblPrice?.text = FmtString("%@",priceNumber)
             }
         }
         
-        
-//        if let imageURLString = product.imageUrl, let imageURL = NSURL(string: imageURLString) {
-//            cell.fgImageView?.sd_setImageWithURL(imageURL,
-//                placeholderImage: UIImage.imageWithRandomColor(),
-//                options: [.ProgressiveDownload, .ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority, .DelayPlaceholder])
-//        }
+        if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
+            cell.fgImageView?.sd_setImageWithURL(imageURL,
+                placeholderImage: UIImage.imageWithRandomColor(),
+                options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                    UIView.animateWithDuration(0.25, animations: { () -> Void in
+                        collectionView.collectionViewLayout.invalidateLayout()
+                    })
+            })
+        }
         
         return cell
     }
@@ -145,9 +127,9 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         
         // Change individual layout attributes for the spacing between cells
         layout.itemRenderDirection = .LeftToRight
-        layout.minimumColumnSpacing = 1
-        layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1)
+        layout.minimumColumnSpacing = 4
+        layout.minimumInteritemSpacing = 4
+        layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
@@ -161,7 +143,15 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        return CGSizeMake(3, 2)
+        let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
+        
+        if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
+            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+            if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
+                return image.size
+            }
+        }
+        return CGSizeMake(1, 1)
     }
 }
 
@@ -204,43 +194,6 @@ extension ProductsViewController: UINavigationControllerDelegate {
     }
 }
 
-// MARK: - Refreshing
-extension ProductsViewController {
-    
-    func setupRefreshControls() {
-        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            self.loadData()
-        })
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
-            if date == nil {
-                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), NSLocalizedString("pull_to_refresh_header_never"))
-            }
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "MM/dd HH:mm"
-            let dateString = dateFormatter.stringFromDate(date)
-            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
-        }
-        header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
-        self.collectionView().mj_header = header
-    }
-    
-    func beginRefreshing() {
-        MBProgressHUD.showLoader(self.view)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    }
-    
-    func endRefreshing() {
-        self.collectionView().mj_header.endRefreshing()
-        MBProgressHUD.hideLoader(self.view)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-    }
-}
-
 // MARK: - Custom cells
 class ProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView!
@@ -250,16 +203,12 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.lblTitle?.clipsToBounds = true
-        self.lblTitle?.layer.shadowRadius = 1
-        self.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
-        self.lblTitle?.layer.shadowOpacity = 1
-        self.lblTitle?.layer.shadowOffset = CGSizeZero
     }
     
     override func prepareForReuse() {
+        lblBrand?.text = nil
         lblTitle?.text = nil
-        lblTitle?.attributedText = nil
+        lblPrice?.text = nil
+        fgImageView.image = UIImage.imageWithRandomColor()
     }
 }

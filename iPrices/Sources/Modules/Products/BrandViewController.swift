@@ -112,7 +112,6 @@ extension BrandViewController {
                     item.label = dict["label"] as! String
                     item.parent = parentItem
                     parentItem.children.append(item)
-                    DLog(categories.indexOf(dict))
                     categories.removeAtIndex(categories.indexOf(dict)!)
                 }
             }

@@ -57,19 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        var needsToUpdate = true
-        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
-            needsToUpdate = NSDate().timeIntervalSinceDate(lastUpdateDate) > 3600
-        }
-        
-        if needsToUpdate {
-            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            
-            // Preload data
-            DataManager.shared.loadAllBrands(nil)
-            DataManager.shared.loadAllProducts()
-        }
+        DataManager.shared.prefetchData()
     }
 
 }
