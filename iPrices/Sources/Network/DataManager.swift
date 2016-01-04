@@ -283,45 +283,68 @@ class DataManager {
     }
     
     // Helper method
-    func loadAllProducts() {
+    func loadBunchProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
+        if index >= productIDs.count {
+            return
+        }
+        let rangeSize = ((index + size) > productIDs.count) ? (productIDs.count - index) : size
+        DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", productIDs.count, index, size, rangeSize));
+        if rangeSize > 0 {
+            let range = productIDs[index..<(index+rangeSize)]
+            if index + rangeSize >= productIDs.count {
+                self.loadProducts(Array(range), completion)
+            } else {
+                self.loadProducts(Array(range), nil)
+                self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
+            }
+        }
+    }
+    
+    func loadAllProducts(completion: CompletionClosure?) {
         self.loadAllProductIDs { () -> () in
+            // Collect product ids
+            var productIDs = [NSNumber]()
             MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                 let allNotUpdatedProducts = Product.MR_findAllWithPredicate(
                     FmtPredicate("appIsUpdated == %@", NSNumber(bool: false)),
                     inContext: localContext)
-                let productIDs = allNotUpdatedProducts.map { (product) -> NSNumber in
+                productIDs = allNotUpdatedProducts.map { (product) -> NSNumber in
                     return (product as! Product).id!
                 }
-                
-                var index = 0
-                var size = 1024
-                while index < productIDs.count {
-                    if (index + size) > productIDs.count {
-                        size = productIDs.count - index
-                    }
-                    let range = productIDs[index..<(index+size)]
-                    if range.capacity > 0 {
-                        index += range.capacity
-                        self.loadProducts(Array(range), nil)
-                    }
-                }
             })
+            
+            // Load products
+            self.loadBunchProducts(productIDs, index: 0, size: 1024, completion: completion)
         }
     }
-
+    
+    private var isLoading = false
+    
     func prefetchData() {
         var needsToLoad = true
         if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
             needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 * 24
         }
         
-        if needsToLoad {
-            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
-            NSUserDefaults.standardUserDefaults().synchronize()
+        if needsToLoad && !isLoading {
+            self.isLoading = true
+            var count = 2
+            let completionClosure = {
+                --count
+                if count == 0 {
+                    self.isLoading = false
+                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                }
+            }
             
             // Preload data
-            DataManager.shared.loadAllBrands(nil)
-            DataManager.shared.loadAllProducts()
+            DataManager.shared.loadAllBrands({ () -> () in
+                completionClosure()
+            })
+            DataManager.shared.loadAllProducts({ () -> () in
+                completionClosure()
+            })
         }
     }
 }
