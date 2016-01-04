@@ -82,6 +82,9 @@ class Product: BaseModel {
                 if let value = data["categories"] as? String {
                     product.categories = value
                 }
+                if let value = data["order"] as? NSNumber {
+                    product.order = value
+                }
             }
         }
         

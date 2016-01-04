@@ -31,5 +31,7 @@ extension Product {
     @NSManaged var surname: String?
     @NSManaged var title: String?
     @NSManaged var categories: String?
+    @NSManaged var appIsLiked: NSNumber?
+    @NSManaged var order: NSNumber?
 
 }

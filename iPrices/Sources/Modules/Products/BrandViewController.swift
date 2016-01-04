@@ -6,9 +6,18 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
+private class CategoryItem: AnyObject {
+    var id: NSNumber = 0.0
+    var label: String = ""
+    var parent: CategoryItem?
+    var children: [CategoryItem] = [CategoryItem]()
+}
+
+private var _sections = [CategoryItem]()
+
 class BrandViewController: BaseViewController {
     
-    @IBOutlet var _collectionView: UICollectionView?
+    @IBOutlet var _tableView: UITableView?
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
@@ -42,20 +51,14 @@ class BrandViewController: BaseViewController {
         self.title = self.brandName
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.collectionView(), false, false)
-        
-        // Setups
-        setupCollectionView()
-        setupRefreshControls()
+        self.updateScrollViewInset(_tableView!, false, false)
         
         // UINavigationController delegate
         self.navigationController?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         // Data
-        if self.fetchedResultsController.fetchedObjects?.count == 0 {
-            loadData()
-        }
+        self.loadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,97 +66,95 @@ class BrandViewController: BaseViewController {
         self.hideToolbar(false)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.endRefreshing()
-    }
-    
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("brandId == %@", self.brandID ?? ""), sortedBy: nil, ascending: true)
     }
-    
-    override func collectionView() -> UICollectionView {
-        return _collectionView!
-    }
+
 }
 
 // MARK: Data
 extension BrandViewController {
     
-    func loadData() {
-//        self.beginRefreshing()
-//        DataManager.shared.loadAllBrands { () -> () in
-//            self.endRefreshing()
-//        }
-//        DataManager.shared.loadAllProductIDs(nil)
+    private func findCategoryItemWithID(items: [CategoryItem], searchingID: NSNumber) -> CategoryItem? {
+        for item in items {
+            if item.id == searchingID {
+                return item
+            } else if let returnValue = findCategoryItemWithID(item.children, searchingID: searchingID) {
+                return returnValue
+            }
+        }
+        return nil
+    }
+    
+    private func loadData() {
+        guard var categories = self.brandCategories else { return }
+        
+        // Prepare empty array
+        _sections = [CategoryItem]()
+        
+        // Add sections
+        for dict in categories {
+            if let parentID = dict["parentId"] where parentID is NSNull {
+                let item = CategoryItem()
+                item.id = dict["id"] as! NSNumber
+                item.label = dict["label"] as! String
+                _sections.append(item)
+                categories.removeAtIndex(categories.indexOf(dict)!)
+            }
+        }
+        
+        // Add children
+        while categories.count > 0 {
+            for dict in categories {
+                if let parentItem = findCategoryItemWithID(_sections, searchingID: dict["parentId"] as! NSNumber) {
+                    let item = CategoryItem()
+                    item.id = dict["id"] as! NSNumber
+                    item.label = dict["label"] as! String
+                    item.parent = parentItem
+                    parentItem.children.append(item)
+                    DLog(categories.indexOf(dict))
+                    categories.removeAtIndex(categories.indexOf(dict)!)
+                }
+            }
+        }
+        
+        // Reload table
+        _tableView?.reloadData()
     }
 }
 
-// MARK: - CollectionView Delegate Methods
-extension BrandViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
+
+// MARK: UITableViewDataSource, UITableViewDelegate
+extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let sections = self.fetchedResultsController.sections {
-            return sections.count
-        } else {
-            return 0
-        }
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return _sections.count
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.fetchedResultsController.sections![section].numberOfObjects
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return _sections[section].children.count + 1
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell: BrandCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandCollectionViewCell", forIndexPath: indexPath) as! BrandCollectionViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let item = (indexPath.row == 0) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
+        let cell = tableView.dequeueReusableCellWithIdentifier("BrandTableViewCell", forIndexPath: indexPath)
         
-        let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
-        
-        if let imageURLs = product.images {
-            DLog(imageURLs)
-//            cell.fgImageView?.sd_setImageWithURL(imageURL, completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-//                //                collectionView.reloadItemsAtIndexPaths([indexPath])
-//            })
-        }
+        cell.textLabel!.text = item.label
+        cell.textLabel?.font = (indexPath.row == 0) ? UIFont.boldSystemFontOfSize(13) : UIFont.systemFontOfSize(13)
         
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        DLog(indexPath.row)
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.isEdgeSwiping = false
-    }
-}
-
-//MARK: - CollectionView Waterfall Layout
-extension BrandViewController: CHTCollectionViewDelegateWaterfallLayout {
-    
-    func setupCollectionView() {
-        // Create a waterfall layout
-        let layout = CHTCollectionViewWaterfallLayout()
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        // Change individual layout attributes for the spacing between cells
-        layout.itemRenderDirection = .LeftToRight
-        layout.minimumColumnSpacing = 1
-        layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1)
-        
-        // Add the waterfall layout to your collection view
-        self.collectionView().collectionViewLayout = layout
-        
-        (self.collectionView().collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = 2
-        
-        // Collection view attributes
-        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
-        self.collectionView().alwaysBounceVertical = true
-    }
-    
-    //** Size for the cells in the Waterfall Layout */
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        return CGSizeMake(3, 2)
+        let item = (indexPath.row == 0) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
+        if let productsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController {
+            productsViewController.brandID = self.brandID
+            productsViewController.brandName = self.brandName
+            productsViewController.categoryID = item.id
+            self.navigationController?.pushViewController(productsViewController, animated: true)
+        }
     }
 }
 
@@ -193,56 +194,5 @@ extension BrandViewController: UINavigationControllerDelegate {
         }
         
         return nil
-    }
-}
-
-// MARK: - Refreshing
-extension BrandViewController {
-    
-    func setupRefreshControls() {
-        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            self.loadData()
-        })
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
-            if date == nil {
-                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), NSLocalizedString("pull_to_refresh_header_never"))
-            }
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "MM/dd HH:mm"
-            let dateString = dateFormatter.stringFromDate(date)
-            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
-        }
-        header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
-        self.collectionView().mj_header = header
-    }
-    
-    func beginRefreshing() {
-        MBProgressHUD.showLoader(self.view)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    }
-    
-    func endRefreshing() {
-        self.collectionView().mj_header.endRefreshing()
-        MBProgressHUD.hideLoader(self.view)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-    }
-}
-
-// MARK: - Custom cells
-class BrandCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var fgImageView: UIImageView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-    
-    override func prepareForReuse() {
-        
     }
 }
