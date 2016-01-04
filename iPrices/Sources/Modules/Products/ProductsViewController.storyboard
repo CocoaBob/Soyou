@@ -91,7 +91,9 @@
                             <constraint firstItem="ngI-u3-qiT" firstAttribute="leading" secondItem="VWh-J2-MYO" secondAttribute="leading" id="f9x-Xw-vxS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SMT-ZD-zUg"/>
+                    <navigationItem key="navigationItem" id="SMT-ZD-zUg">
+                        <barButtonItem key="backBarButtonItem" title=" " id="70r-6L-0qH"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="_collectionView" destination="ngI-u3-qiT" id="GVo-sX-QBa"/>
                     </connections>
@@ -200,7 +202,9 @@
                             <constraint firstAttribute="trailing" secondItem="LND-O0-Vpm" secondAttribute="trailing" id="aMQ-Lf-vz0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="uz4-Jr-Q0j"/>
+                    <navigationItem key="navigationItem" id="uz4-Jr-Q0j">
+                        <barButtonItem key="backBarButtonItem" title=" " id="ASq-Uc-Wq0"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="_collectionView" destination="LND-O0-Vpm" id="tax-Cd-fzf"/>
                     </connections>
@@ -242,26 +246,41 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jlu-hc-eFk">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="FvE-gs-pBI">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="HDZ-BK-UcR" userLabel="Header View">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.97758978605270386" green="0.73138892650604248" blue="0.2930731475353241" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="yee-4b-JgN">
-                                    <rect key="frame" x="0.0" y="272" width="600" height="200"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="yee-4b-JgN" userLabel="Footer View">
+                                    <rect key="frame" x="0.0" y="116" width="600" height="308"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <subviews>
+                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQL-1J-zNo">
+                                            <rect key="frame" x="8" y="8" width="584" height="292"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </mapView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="SQL-1J-zNo" firstAttribute="top" secondItem="yee-4b-JgN" secondAttribute="topMargin" id="1hi-Th-5EI"/>
+                                        <constraint firstItem="SQL-1J-zNo" firstAttribute="trailing" secondItem="yee-4b-JgN" secondAttribute="trailingMargin" id="eSs-Mc-efd"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="SQL-1J-zNo" secondAttribute="bottom" id="jJB-Vr-GHL"/>
+                                        <constraint firstItem="SQL-1J-zNo" firstAttribute="leading" secondItem="yee-4b-JgN" secondAttribute="leadingMargin" id="ukd-Oj-5i2"/>
+                                    </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BrandTableViewCell" textLabel="ykF-4B-oEX" style="IBUITableViewCellStyleDefault" id="q96-fh-kni">
-                                        <rect key="frame" x="0.0" y="228" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BrandTableViewCell" textLabel="ykF-4B-oEX" style="IBUITableViewCellStyleDefault" id="q96-fh-kni">
+                                        <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q96-fh-kni" id="Eil-f2-Aec">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ykF-4B-oEX">
-                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="550" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -285,8 +304,11 @@
                             <constraint firstItem="Jlu-hc-eFk" firstAttribute="leading" secondItem="Dmv-sY-Xkf" secondAttribute="leading" id="t8c-go-DKr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="q1F-1r-61G"/>
+                    <navigationItem key="navigationItem" id="q1F-1r-61G">
+                        <barButtonItem key="backBarButtonItem" title=" " id="nYm-JM-RXU"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="_mapView" destination="SQL-1J-zNo" id="29O-jo-5DE"/>
                         <outlet property="_tableView" destination="Jlu-hc-eFk" id="6O0-ui-I21"/>
                     </connections>
                 </viewController>

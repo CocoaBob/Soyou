@@ -89,12 +89,26 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
         
         if let brandViewController = self.storyboard?.instantiateViewControllerWithIdentifier("BrandViewController") as? BrandViewController {
+            // Prepare attributes
+            var imageURLString: String? = nil
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 let localBrand = brand.MR_inContext(localContext)
                 brandViewController.brandID = "\(localBrand.id)"
                 brandViewController.brandName = localBrand.label
                 brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?
+                imageURLString = localBrand.imageUrl
             })
+            // Load image
+            let _ = brandViewController.view // Load view
+            if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
+                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
+                    brandViewController.brandImage = image
+                } else {
+                    brandViewController.brandImageURL = imageURL
+                }
+            }
+            // Push view
             self.navigationController?.pushViewController(brandViewController, animated: true)
         }
     }

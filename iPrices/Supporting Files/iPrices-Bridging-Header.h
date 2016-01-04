@@ -4,6 +4,8 @@
 
 @import Foundation;
 @import UIKit;
+@import MapKit;
+@import CoreLocation;
 
 //@import OnePasswordExtension;
 //@import ActionSheetPicker_3_0;

@@ -30,7 +30,15 @@ class NewsDetailViewController: UIViewController {
     }
     
     var news: News?
-    var image: UIImage?
+    var image: UIImage? {
+        didSet {
+            if let image = image {
+                self.coverHeight = self.view.bounds.size.width * image.size.height / image.size.width
+                self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
+                self.webView?.scrollView.twitterCoverView.noContentInset = true
+            }
+        }
+    }
     var newsTitle: String!
     var newsId: Int!
     var btnLike: UIButton?
@@ -80,12 +88,6 @@ class NewsDetailViewController: UIViewController {
         tapGR.numberOfTouchesRequired = 1
         tapGR.delegate = self
         self.webView?.addGestureRecognizer(tapGR)
-        
-        if let image = self.image {
-            coverHeight = self.view.bounds.size.width * image.size.height / image.size.width
-            self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
-            self.webView?.scrollView.twitterCoverView.noContentInset = true
-        }
         
         // Set status bar background color
         statusBarCover.backgroundColor = UIColor.whiteColor()

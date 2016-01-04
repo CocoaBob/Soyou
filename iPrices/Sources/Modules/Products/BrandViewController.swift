@@ -13,17 +13,44 @@ private class CategoryItem: AnyObject {
     var children: [CategoryItem] = [CategoryItem]()
 }
 
-private var _sections = [CategoryItem]()
-
 class BrandViewController: BaseViewController {
     
     @IBOutlet var _tableView: UITableView?
+    @IBOutlet var _mapView: MKMapView?
+    var _locationManager = CLLocationManager()
+    
+    private var _sections = [CategoryItem]()
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     var brandID: String?
     var brandName: String?
     var brandCategories: [NSDictionary]?
+    var brandImageURL: NSURL? {
+        didSet {
+            SDWebImageManager.sharedManager().downloadImageWithURL(
+                brandImageURL,
+                options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
+                    
+                },
+                completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
+                    self.brandImage = image
+                }
+            )
+        }
+    }
+    var brandImage: UIImage? {
+        didSet {
+            if let image = brandImage {
+                let coverWidth = self.view.bounds.size.width
+                let coverHeight = coverWidth * image.size.height / image.size.width
+                _tableView!.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
+                _tableView!.tableHeaderView?.frame = CGRectMake(0, 0, coverWidth, coverHeight)
+                _tableView!.tableHeaderView = _tableView!.tableHeaderView // Reset header view to update the frame
+            }
+        }
+    }
     
     init(id: String?, name: String?, categories: [NSDictionary]?) {
         self.brandID = id
@@ -50,20 +77,47 @@ class BrandViewController: BaseViewController {
         // UIViewController
         self.title = self.brandName
         
-        // Fix scroll view insets
-        self.updateScrollViewInset(_tableView!, false, false)
-        
-        // UINavigationController delegate
-        self.navigationController?.delegate = self
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        // Update footer view size
+        if let footerView = _tableView?.tableFooterView {
+            let viewWidth = self.view.frame.size.width
+            footerView.layoutMargins = UIEdgeInsetsMake(15, 15, 15, 15)
+            let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
+            let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
+            footerView.frame = CGRectMake(0, 0, viewWidth, (viewWidth - marginH) * 0.5 + marginV)
+            _tableView?.tableFooterView = footerView // Reset footer view to update the frame
+        }
         
         // Data
         self.loadData()
+        
+        // Locations
+        _locationManager.delegate = self
+        _locationManager.requestWhenInUseAuthorization()
+        _locationManager.startUpdatingLocation()
+        _locationManager.requestLocation()
+        
+        // Prepare map view
+//        _mapView?.region = MKCoordinateRegionForMapRect(MKMapRectWorld)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
+        
+        if let navigationController = self.navigationController {
+            if navigationController.delegate == nil || navigationController.delegate! !== self {
+                // UINavigationController delegate
+                navigationController.delegate = self
+                navigationController.interactivePopGestureRecognizer?.delegate = self
+                
+                // Fix scroll view insets
+                self.updateScrollViewInset(_tableView!, false, false)
+            }
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -193,5 +247,19 @@ extension BrandViewController: UINavigationControllerDelegate {
         }
         
         return nil
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension BrandViewController: CLLocationManagerDelegate {
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locations.first?.coordinate {
+            _mapView?.setCenterCoordinate(coordinate, animated: false)
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        DLog(error)
     }
 }

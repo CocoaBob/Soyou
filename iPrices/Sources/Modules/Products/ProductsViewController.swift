@@ -94,7 +94,8 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                     UIView.animateWithDuration(0.25, animations: { () -> Void in
                         collectionView.collectionViewLayout.invalidateLayout()
-                    })
+                        }
+                    )
             })
         }
         
