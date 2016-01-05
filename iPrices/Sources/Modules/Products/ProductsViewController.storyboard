@@ -272,7 +272,7 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BrandTableViewCell" textLabel="ykF-4B-oEX" style="IBUITableViewCellStyleDefault" id="q96-fh-kni">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BrandTableViewCell" textLabel="ykF-4B-oEX" style="IBUITableViewCellStyleDefault" id="q96-fh-kni">
                                         <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q96-fh-kni" id="Eil-f2-Aec">

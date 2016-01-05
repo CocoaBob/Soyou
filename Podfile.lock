@@ -76,7 +76,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   CHTwitterCover:
-    :commit: 844d84cb132fe6bd36767b9ea017211b074436a3
+    :commit: c72c7ba6bebd5844a94c2e146599612e74dbd4e1
     :git: git://github.com/CocoaBob/TwitterCover
   IDMPhotoBrowser:
     :commit: 470209d27aba4883da67d825e89571f734fb9088

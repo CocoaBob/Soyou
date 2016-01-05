@@ -17,11 +17,10 @@ class BrandViewController: BaseViewController {
     
     @IBOutlet var _tableView: UITableView?
     @IBOutlet var _mapView: MKMapView?
-    var _locationManager = CLLocationManager()
     
+    private var _locationManager = CLLocationManager()
     private var _sections = [CategoryItem]()
-    
-    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    private var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     var brandID: String?
     var brandName: String?
@@ -42,13 +41,7 @@ class BrandViewController: BaseViewController {
     }
     var brandImage: UIImage? {
         didSet {
-            if let image = brandImage {
-                let coverWidth = self.view.bounds.size.width
-                let coverHeight = coverWidth * image.size.height / image.size.width
-                _tableView!.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
-                _tableView!.tableHeaderView?.frame = CGRectMake(0, 0, coverWidth, coverHeight)
-                _tableView!.tableHeaderView = _tableView!.tableHeaderView // Reset header view to update the frame
-            }
+            self.updateHeaderView()
         }
     }
     
@@ -78,25 +71,15 @@ class BrandViewController: BaseViewController {
         self.title = self.brandName
         
         // Update footer view size
-        if let footerView = _tableView?.tableFooterView {
-            let viewWidth = self.view.frame.size.width
-            footerView.layoutMargins = UIEdgeInsetsMake(15, 15, 15, 15)
-            let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
-            let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
-            footerView.frame = CGRectMake(0, 0, viewWidth, (viewWidth - marginH) * 0.5 + marginV)
-            _tableView?.tableFooterView = footerView // Reset footer view to update the frame
-        }
+        self.updateFooterView()
         
-        // Data
+        // Load data
         self.loadData()
         
-        // Locations
-        _locationManager.delegate = self
-        _locationManager.requestWhenInUseAuthorization()
-        _locationManager.startUpdatingLocation()
-        _locationManager.requestLocation()
+        // Update user locations
+        self.initLocationManager()
         
-        // Prepare map view
+        // MKMapView
 //        _mapView?.region = MKCoordinateRegionForMapRect(MKMapRectWorld)
     }
     
@@ -104,6 +87,8 @@ class BrandViewController: BaseViewController {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
         
+        // Make sure self.navigationController != nil
+        // In viewDidLoad, self.navigationController may be nil
         if let navigationController = self.navigationController {
             if navigationController.delegate == nil || navigationController.delegate! !== self {
                 // UINavigationController delegate
@@ -114,10 +99,6 @@ class BrandViewController: BaseViewController {
                 self.updateScrollViewInset(_tableView!, false, false)
             }
         }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -177,8 +158,27 @@ extension BrandViewController {
 }
 
 
-// MARK: UITableViewDataSource, UITableViewDelegate
+// MARK: Table View
 extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    private func updateHeaderView() {
+        guard let image = brandImage else { return }
+        let coverWidth = self.view.bounds.size.width
+        let coverHeight = coverWidth * image.size.height / image.size.width
+        _tableView!.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
+        _tableView!.tableHeaderView?.frame = CGRectMake(0, 0, coverWidth, coverHeight)
+        _tableView!.tableHeaderView = _tableView!.tableHeaderView // Reset header view to update the frame
+    }
+    
+    private func updateFooterView() {
+        guard let footerView = _tableView?.tableFooterView else { return }
+        let viewWidth = self.view.frame.size.width
+        footerView.layoutMargins = UIEdgeInsetsMake(15, 15, 15, 15)
+        let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
+        let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
+        footerView.frame = CGRectMake(0, 0, viewWidth, (viewWidth - marginH) * 0.5 + marginV)
+        _tableView?.tableFooterView = footerView // Reset footer view to update the frame
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return _sections.count
@@ -250,8 +250,15 @@ extension BrandViewController: UINavigationControllerDelegate {
     }
 }
 
-// MARK: - CLLocationManagerDelegate
+// MARK: CLLocationManager
 extension BrandViewController: CLLocationManagerDelegate {
+    
+    private func initLocationManager() {
+        _locationManager.delegate = self
+        _locationManager.requestWhenInUseAuthorization()
+        _locationManager.startUpdatingLocation()
+        _locationManager.requestLocation()
+    }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.first?.coordinate {

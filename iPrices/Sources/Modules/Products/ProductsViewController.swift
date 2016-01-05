@@ -31,15 +31,21 @@ class ProductsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
-        
-        // UINavigationController delegate
-        self.navigationController?.delegate = self
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
+        
+        // Make sure self.navigationController != nil
+        // In viewDidLoad, self.navigationController may be nil
+        if let navigationController = self.navigationController {
+            if navigationController.delegate == nil || navigationController.delegate! !== self {
+                // UINavigationController delegate
+                navigationController.delegate = self
+                navigationController.interactivePopGestureRecognizer?.delegate = self
+            }
+        }
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -130,7 +136,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         layout.itemRenderDirection = .LeftToRight
         layout.minimumColumnSpacing = 4
         layout.minimumInteritemSpacing = 4
-        layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
+        layout.sectionInset = UIEdgeInsetsMake(4, 4, 4, 4)
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout

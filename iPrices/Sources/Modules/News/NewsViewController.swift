@@ -41,10 +41,6 @@ class NewsViewController: BaseViewController {
         setupCollectionView()
         setupRefreshControls()
         
-        // UINavigationController delegate
-        self.navigationController?.delegate = self;
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self;
-        
         // Data
         loadData(nil)
     }
@@ -53,6 +49,16 @@ class NewsViewController: BaseViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.hideToolbar(false);
+        
+        // Make sure self.navigationController != nil
+        // In viewDidLoad, self.navigationController may be nil
+        if let navigationController = self.navigationController {
+            if navigationController.delegate == nil || navigationController.delegate! !== self {
+                // UINavigationController delegate
+                navigationController.delegate = self
+                navigationController.interactivePopGestureRecognizer?.delegate = self
+            }
+        }
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
