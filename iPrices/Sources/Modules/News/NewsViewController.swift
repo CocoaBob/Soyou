@@ -401,7 +401,6 @@ class NewsCollectionViewCell: NewsCollectionViewCellBase {
     
     override func prepareForReuse() {
         lblTitle?.text = nil
-        lblTitle?.attributedText = nil
     }
 }
 

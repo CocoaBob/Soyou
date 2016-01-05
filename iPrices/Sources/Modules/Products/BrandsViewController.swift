@@ -209,6 +209,5 @@ class BrandsCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         lblTitle?.text = nil
-        lblTitle?.attributedText = nil
     }
 }

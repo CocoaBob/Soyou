@@ -11,6 +11,7 @@ private class CategoryItem: AnyObject {
     var label: String = ""
     var parent: CategoryItem?
     var children: [CategoryItem] = [CategoryItem]()
+    var childrenIsVisible: Bool = false
 }
 
 class BrandViewController: BaseViewController {
@@ -20,6 +21,7 @@ class BrandViewController: BaseViewController {
     
     private var _locationManager = CLLocationManager()
     private var _sections = [CategoryItem]()
+    
     private var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     var brandID: String?
@@ -96,13 +98,17 @@ class BrandViewController: BaseViewController {
                 navigationController.interactivePopGestureRecognizer?.delegate = self
                 
                 // Fix scroll view insets
-                self.updateScrollViewInset(_tableView!, false, false)
+                self.updateScrollViewInset(self.tableView()!, false, false)
             }
         }
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("brandId == %@", self.brandID ?? ""), sortedBy: nil, ascending: true)
+    }
+    
+    override func tableView() -> UITableView? {
+        return _tableView
     }
 
 }
@@ -153,7 +159,7 @@ extension BrandViewController {
         }
         
         // Reload table
-        _tableView?.reloadData()
+        self.tableView()?.reloadData()
     }
 }
 
@@ -165,19 +171,27 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         guard let image = brandImage else { return }
         let coverWidth = self.view.bounds.size.width
         let coverHeight = coverWidth * image.size.height / image.size.width
-        _tableView!.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
-        _tableView!.tableHeaderView?.frame = CGRectMake(0, 0, coverWidth, coverHeight)
-        _tableView!.tableHeaderView = _tableView!.tableHeaderView // Reset header view to update the frame
+        if let tableView = self.tableView() {
+            tableView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
+            if let tableHeaderView = tableView.tableHeaderView {
+                tableHeaderView.frame = CGRectMake(0, 0, coverWidth, coverHeight)
+                tableView.tableHeaderView = tableHeaderView // Reset header view to update the frame
+            }
+        }
     }
     
     private func updateFooterView() {
-        guard let footerView = _tableView?.tableFooterView else { return }
+        guard let footerView = self.tableView()?.tableFooterView else { return }
         let viewWidth = self.view.frame.size.width
         footerView.layoutMargins = UIEdgeInsetsMake(15, 15, 15, 15)
         let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
         let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
         footerView.frame = CGRectMake(0, 0, viewWidth, (viewWidth - marginH) * 0.5 + marginV)
-        _tableView?.tableFooterView = footerView // Reset footer view to update the frame
+        self.tableView()?.tableFooterView = footerView // Reset footer view to update the frame
+    }
+    
+    private func itemForIndexPath(indexPath: NSIndexPath) -> CategoryItem {
+        return (indexPath.row == 0) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -185,23 +199,36 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _sections[section].children.count + 1
+        let item = _sections[section]
+        return 1 + (item.childrenIsVisible ? _sections[section].children.count : 0)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let item = (indexPath.row == 0) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
-        let cell = tableView.dequeueReusableCellWithIdentifier("BrandTableViewCell", forIndexPath: indexPath)
+        let item = itemForIndexPath(indexPath)
+        var cell: UITableViewCell?
         
-        cell.textLabel!.text = item.label
-        cell.textLabel?.font = (indexPath.row == 0) ? UIFont.boldSystemFontOfSize(13) : UIFont.systemFontOfSize(13)
+        if indexPath.row == 0 {
+            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewCellRootLevel", forIndexPath: indexPath) as! BrandViewCellRootLevel
+            
+            _cell.lblTitle!.text = item.label
+            
+            _cell.btnAccessory.setImage(UIImage(named: item.childrenIsVisible ? "img_cell_close" : "img_cell_open"), forState: .Normal)
+            
+            cell = _cell
+        } else {
+            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewCellSubLevel", forIndexPath: indexPath) as! BrandViewCellSubLevel
+            
+            _cell.lblTitle!.text = item.label
+            
+            cell = _cell
+        }
         
-        return cell
+        return cell!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        let item = (indexPath.row == 0) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
+        let item = itemForIndexPath(indexPath)
         if let productsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController {
             productsViewController.brandID = self.brandID
             productsViewController.brandName = self.brandName
@@ -250,6 +277,21 @@ extension BrandViewController: UINavigationControllerDelegate {
     }
 }
 
+// MARK: - Open/Close root level
+extension BrandViewController {
+    
+    @IBAction func didTapRootLevel(sender: UIButton) {
+        guard let tableView = self.tableView() else { return }
+        let position = sender.convertPoint(CGPointZero, toView: tableView)
+        guard let indexPath = tableView.indexPathForRowAtPoint(position) else { return }
+        let item = self.itemForIndexPath(indexPath)
+        item.childrenIsVisible = !item.childrenIsVisible
+        self.tableView()?.reloadSections(
+            NSIndexSet(index: indexPath.section),
+            withRowAnimation: UITableViewRowAnimation.Fade)
+    }
+}
+
 // MARK: CLLocationManager
 extension BrandViewController: CLLocationManagerDelegate {
     
@@ -268,5 +310,24 @@ extension BrandViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         DLog(error)
+    }
+}
+
+// MARK: - Custom cells
+class BrandViewCellRootLevel: UITableViewCell {
+    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var btnAccessory: UIButton!
+    
+    override func prepareForReuse() {
+        lblTitle.text = nil
+    }
+}
+
+class BrandViewCellSubLevel: UITableViewCell {
+    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var btnAccessory: UIButton!
+    
+    override func prepareForReuse() {
+        lblTitle.text = nil
     }
 }
