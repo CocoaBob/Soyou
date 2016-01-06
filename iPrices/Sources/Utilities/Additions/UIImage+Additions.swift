@@ -8,8 +8,8 @@
 
 public extension UIImage {
     
-    convenience init(color: UIColor, opaque: Bool) {
-        let rect = CGRectMake(0, 0, 1, 1)
+    convenience init(size: CGSize?, color: UIColor, opaque: Bool) {
+        let rect = (size != nil) ? CGRectMake(0, 0, size!.width, size!.height) : CGRectMake(0, 0, 1, 1)
         UIGraphicsBeginImageContextWithOptions(rect.size, opaque, 1)
         color.setFill()
         UIRectFill(rect)
@@ -18,7 +18,7 @@ public extension UIImage {
         self.init(CGImage: image.CGImage!)
     }
     
-    class func imageWithRandomColor() -> UIImage {
-        return UIImage(color: randomColor(hue: .Random, luminosity: .Light), opaque: true)
+    class func imageWithRandomColor(size: CGSize?) -> UIImage {
+        return UIImage(size: size, color: randomColor(hue: .Random, luminosity: .Light), opaque: true)
     }
 }

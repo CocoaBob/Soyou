@@ -117,7 +117,7 @@ class NewsDetailViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         // Work around to make sure the tool bar is visible after cancelling the interactivePopGestureRecognizer.
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
@@ -417,10 +417,10 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
     
     func imageViewFrame() -> CGRect {
         if let twitterCoverView = self.webView?.scrollView.twitterCoverView {
-            DLog(FmtString("%@ %@ %@",NSStringFromCGRect(twitterCoverView.frame), NSStringFromCGRect(self.webView!.scrollView.bounds), NSStringFromCGRect(self.webView!.bounds)))
-            return self.view.convertRect(twitterCoverView.frame, toView: self.view.window)
+            let frame = self.view.convertRect(twitterCoverView.frame, toView: self.view.window)
+            return frame
         }
-        return self.view.convertRect(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 2 / 3), toView: self.view.window)
+        return self.view.convertRect(CGRectMake(0, 0, self.view.frame.size.width, coverHeight), toView: self.view.window)
     }
     
     func transitionSourceImageView() -> UIImageView! {

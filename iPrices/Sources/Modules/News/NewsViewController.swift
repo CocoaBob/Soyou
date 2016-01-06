@@ -14,7 +14,6 @@ class NewsViewController: BaseViewController {
     var selectedNewsViewCell: NewsCollectionViewCell?
     var selectedIndexPath: NSIndexPath?
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
-    var lastLastCell: NewsCollectionViewCellBase?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -94,26 +93,6 @@ extension NewsViewController {
     
 }
 
-// MARK: NSFetchedResultsControllerDelegate
-extension NewsViewController {
-    
-    override func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        // Remember the index path of the last last cell
-        var indexPath: NSIndexPath?
-        if let lastLastCell = self.lastLastCell {
-            indexPath = self.collectionView().indexPathForCell(lastLastCell)
-        }
-        
-        // Insert/Delete/Update/Move content
-        super.controllerDidChangeContent(controller)
-        
-        // Reload last last cell, to update its bottom separator
-        if indexPath != nil {
-            self.collectionView().reloadItemsAtIndexPaths([indexPath!])
-        }
-    }
-}
-
 // MARK: - CollectionView Delegate Methods
 extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
     
@@ -145,7 +124,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.lblTitle?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 cell.fgImageView?.sd_setImageWithURL(imageURL,
-                    placeholderImage: UIImage.imageWithRandomColor(),
+                    placeholderImage: UIImage.imageWithRandomColor(CGSizeMake(3, 2)),
                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                     completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                         UIView.animateWithDuration(0.25, animations: { () -> Void in
@@ -155,15 +134,6 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 })
             }
             returnValue = cell
-        }
-        
-        if indexPath.row < (self.fetchedResultsController.sections![indexPath.section].numberOfObjects - 1) {
-            (returnValue as? NewsCollectionViewCellBase)?.bottomImageViewHeight?.constant = 4
-            (returnValue as? NewsCollectionViewCellBase)?.bottomImageView?.image = UIImage(named: "img_news_cell_bottom")?.resizableImageWithCapInsets(UIEdgeInsetsMake(2, 1, 0, 1))
-        } else {
-            (returnValue as? NewsCollectionViewCellBase)?.bottomImageViewHeight?.constant = 0
-            (returnValue as? NewsCollectionViewCellBase)?.bottomImageView?.image = nil
-            self.lastLastCell = returnValue as? NewsCollectionViewCellBase
         }
         
         return returnValue!
@@ -195,6 +165,10 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                         image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
                     }
                     
+                    if image == nil {
+                        image = cell.fgImageView?.image
+                    }
+                    
                     // Prepare view controller
                     let newsDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NewsDetailViewController") as! NewsDetailViewController
                     newsDetailViewController.news = localNews
@@ -221,8 +195,8 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         
         // Change individual layout attributes for the spacing between cells
         layout.itemRenderDirection = .LeftToRight
-        layout.minimumColumnSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.minimumColumnSpacing = 1
+        layout.minimumInteritemSpacing = 1
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
@@ -240,11 +214,11 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         
         // Update margins
         if let layout = self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout {
-            if count > 1 {
-                layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
-            } else {
-                layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
-            }
+//            if count > 1 {
+//                layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
+//            } else {
+                layout.sectionInset = UIEdgeInsetsZero
+//            }
         }
     }
     
@@ -394,12 +368,8 @@ extension NewsViewController {
 }
 
 // MARK: - Custom cells
-class NewsCollectionViewCellBase: UICollectionViewCell {
-    @IBOutlet var bottomImageView: UIImageView?
-    @IBOutlet var bottomImageViewHeight: NSLayoutConstraint?
-}
 
-class NewsCollectionViewCell: NewsCollectionViewCellBase {
+class NewsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView?
     @IBOutlet var lblTitle: UILabel?
     
@@ -418,7 +388,7 @@ class NewsCollectionViewCell: NewsCollectionViewCellBase {
     }
 }
 
-class NewsCollectionViewCellMore: NewsCollectionViewCellBase {
+class NewsCollectionViewCellMore: UICollectionViewCell {
     @IBOutlet var indicator: UIActivityIndicatorView?
     @IBOutlet var moreImage: UIImageView?
 }

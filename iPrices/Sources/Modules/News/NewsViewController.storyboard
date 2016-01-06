@@ -19,7 +19,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gxx-pE-VsR">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LK7-fR-sWd">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -28,10 +28,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewsCollectionViewCellMore" id="R14-0G-zWA" customClass="NewsCollectionViewCellMore" customModule="iPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="164" width="295" height="50"/>
+                                        <rect key="frame" x="0.0" y="164" width="295" height="46"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="295" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="295" height="46"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YXX-sQ-Ax1" userLabel="Container">
@@ -56,48 +56,31 @@
                                                         <constraint firstItem="YJt-Uj-IFv" firstAttribute="centerX" secondItem="YXX-sQ-Ax1" secondAttribute="centerX" id="uND-x5-u6j"/>
                                                     </constraints>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B8c-OM-Hdq" userLabel="Bottom Separator">
-                                                    <rect key="frame" x="0.0" y="46" width="295" height="4"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="4" id="Jp8-KI-R0a"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="B8c-OM-Hdq" firstAttribute="leading" secondItem="R14-0G-zWA" secondAttribute="leading" id="CJY-bl-09I"/>
                                             <constraint firstAttribute="trailing" secondItem="YXX-sQ-Ax1" secondAttribute="trailing" id="Mhc-Iv-xQx"/>
-                                            <constraint firstAttribute="trailing" secondItem="B8c-OM-Hdq" secondAttribute="trailing" id="QOy-Jl-LZO"/>
-                                            <constraint firstAttribute="bottom" secondItem="B8c-OM-Hdq" secondAttribute="bottom" id="U4L-GW-cTf"/>
                                             <constraint firstItem="YXX-sQ-Ax1" firstAttribute="leading" secondItem="R14-0G-zWA" secondAttribute="leading" id="eG0-rK-c27"/>
-                                            <constraint firstItem="B8c-OM-Hdq" firstAttribute="top" secondItem="YXX-sQ-Ax1" secondAttribute="bottom" id="k3W-6L-pHY"/>
+                                            <constraint firstAttribute="bottom" secondItem="YXX-sQ-Ax1" secondAttribute="bottom" id="mBY-hb-RLR"/>
                                             <constraint firstItem="YXX-sQ-Ax1" firstAttribute="top" secondItem="R14-0G-zWA" secondAttribute="top" id="ovG-tK-4nT"/>
                                         </constraints>
-                                        <size key="customSize" width="295" height="50"/>
+                                        <size key="customSize" width="295" height="46"/>
                                         <connections>
-                                            <outlet property="bottomImageView" destination="B8c-OM-Hdq" id="jAe-Yv-DZd"/>
-                                            <outlet property="bottomImageViewHeight" destination="Jp8-KI-R0a" id="BPM-E2-QQn"/>
                                             <outlet property="indicator" destination="8Aj-jT-OJg" id="Ija-Vf-QHj"/>
                                             <outlet property="moreImage" destination="YJt-Uj-IFv" id="riB-5v-06b"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewsCollectionViewCell" id="KCi-WD-60i" customClass="NewsCollectionViewCell" customModule="iPrices" customModuleProvider="target">
-                                        <rect key="frame" x="305" y="64" width="295" height="250"/>
+                                        <rect key="frame" x="305" y="64" width="295" height="246"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="295" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="295" height="246"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jsm-0J-WRm" userLabel="Foreground Image View">
                                                     <rect key="frame" x="0.0" y="0.0" width="295" height="246"/>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hE8-tr-RDh" userLabel="Bottom Separator">
-                                                    <rect key="frame" x="0.0" y="246" width="295" height="4"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="4" id="xQi-Qx-NxT"/>
-                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4T-zP-Cyz">
                                                     <rect key="frame" x="8" y="214" width="279" height="24"/>
@@ -110,22 +93,17 @@
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="hE8-tr-RDh" firstAttribute="top" secondItem="Jsm-0J-WRm" secondAttribute="bottom" id="1HH-6T-z5h"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="X4T-zP-Cyz" secondAttribute="bottom" constant="4" id="3wB-cy-RPg"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="X4T-zP-Cyz" secondAttribute="bottom" id="3wB-cy-RPg"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="4mj-Pd-K5z"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="5ll-rl-s5S"/>
-                                            <constraint firstAttribute="bottom" secondItem="hE8-tr-RDh" secondAttribute="bottom" id="9Lb-Gg-4mm"/>
-                                            <constraint firstAttribute="trailing" secondItem="hE8-tr-RDh" secondAttribute="trailing" id="Bcl-yQ-dMm"/>
                                             <constraint firstItem="X4T-zP-Cyz" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leadingMargin" id="I8o-bz-IUQ"/>
-                                            <constraint firstItem="hE8-tr-RDh" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="T3g-xq-drU"/>
                                             <constraint firstAttribute="trailing" secondItem="Jsm-0J-WRm" secondAttribute="trailing" id="VD9-6a-gvK"/>
                                             <constraint firstItem="X4T-zP-Cyz" firstAttribute="trailing" secondItem="KCi-WD-60i" secondAttribute="trailingMargin" id="W09-iE-ows"/>
                                             <constraint firstItem="X4T-zP-Cyz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="KCi-WD-60i" secondAttribute="topMargin" id="ZHA-tV-egA"/>
+                                            <constraint firstAttribute="bottom" secondItem="Jsm-0J-WRm" secondAttribute="bottom" id="uOa-f4-bHg"/>
                                         </constraints>
-                                        <size key="customSize" width="295" height="250"/>
+                                        <size key="customSize" width="295" height="246"/>
                                         <connections>
-                                            <outlet property="bottomImageView" destination="hE8-tr-RDh" id="4Pd-XR-bPj"/>
-                                            <outlet property="bottomImageViewHeight" destination="xQi-Qx-NxT" id="dBL-hA-7iq"/>
                                             <outlet property="fgImageView" destination="Jsm-0J-WRm" id="7eQ-HG-EX3"/>
                                             <outlet property="lblTitle" destination="X4T-zP-Cyz" id="FyK-dr-w9w"/>
                                         </connections>

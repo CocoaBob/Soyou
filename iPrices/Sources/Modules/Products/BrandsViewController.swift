@@ -84,7 +84,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
         if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
-                placeholderImage: UIImage.imageWithRandomColor(),
+                placeholderImage: UIImage.imageWithRandomColor(nil),
                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates])
         }
 
@@ -135,7 +135,7 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
         layout.itemRenderDirection = .LeftToRight
         layout.minimumColumnSpacing = 1
         layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1)
+        layout.sectionInset = UIEdgeInsetsZero
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout

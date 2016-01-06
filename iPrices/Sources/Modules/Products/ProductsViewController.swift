@@ -95,7 +95,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         
         if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
-                placeholderImage: UIImage.imageWithRandomColor(),
+                placeholderImage: UIImage.imageWithRandomColor(nil),
                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                     UIView.animateWithDuration(0.25, animations: { () -> Void in
@@ -216,6 +216,6 @@ class ProductsCollectionViewCell: UICollectionViewCell {
         lblBrand?.text = nil
         lblTitle?.text = nil
         lblPrice?.text = nil
-        fgImageView.image = UIImage.imageWithRandomColor()
+        fgImageView.image = UIImage.imageWithRandomColor(nil)
     }
 }
