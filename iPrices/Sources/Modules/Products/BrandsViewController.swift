@@ -157,6 +157,9 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
 extension BrandsViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if self.navigationController?.topViewController == self {
+            return false
+        }
         self.isEdgeSwiping = true
         return true
     }

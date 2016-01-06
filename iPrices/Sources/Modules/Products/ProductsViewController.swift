@@ -169,6 +169,9 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
 extension ProductsViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if self.navigationController?.topViewController == self {
+            return false
+        }
         self.isEdgeSwiping = true
         return true
     }
