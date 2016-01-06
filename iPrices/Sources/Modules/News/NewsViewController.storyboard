@@ -154,6 +154,23 @@
             </objects>
             <point key="canvasLocation" x="725" y="70"/>
         </scene>
+        <!--News Detail View Controller-->
+        <scene sceneID="ylV-RG-WTZ">
+            <objects>
+                <viewController storyboardIdentifier="NewsDetailViewController" id="mQM-eh-iat" customClass="NewsDetailViewController" customModule="iPrices" customModuleProvider="target" sceneMemberID="viewController">
+                    <webView key="view" contentMode="scaleToFill" id="4Lp-JS-AVM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.97718220949172974" green="0.97736459970474243" blue="0.97737902402877808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </webView>
+                    <connections>
+                        <outlet property="webView" destination="4Lp-JS-AVM" id="Tqs-Ak-Jrx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7ze-2R-NRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1431" y="70"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="fUT-lS-rpP">
             <objects>

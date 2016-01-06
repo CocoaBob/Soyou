@@ -29,7 +29,12 @@ class NewsDetailViewController: UIViewController {
         return nil
     }
     
-    var news: News?
+    var news: News? {
+        didSet {
+            self.newsTitle = self.news?.title ?? ""
+            self.newsId = self.news?.id as? Int ?? -1
+        }
+    }
     var image: UIImage? {
         didSet {
             if let image = image {
@@ -44,26 +49,9 @@ class NewsDetailViewController: UIViewController {
     var btnLike: UIButton?
     var btnFav: UIButton?
     
-    var webView: UIWebView?
+    @IBOutlet var webView: UIWebView?
     var scrollView: UIScrollView? {
         return self.webView?.scrollView
-    }
-    
-    init(news: News?, image: UIImage?) {
-        self.news = news
-        self.image = image
-
-        self.newsTitle = self.news?.title
-        self.newsId = self.news?.id as! Int
-            
-        super.init(nibName: nil, bundle: nil)
-        
-        // Hide tabs
-        self.hidesBottomBarWhenPushed = true
-    }
-    
-    convenience init() {
-        self.init(news: nil, image: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -74,41 +62,25 @@ class NewsDetailViewController: UIViewController {
         return isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
     }
     
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let webViewFrame = CGRect(origin: CGPoint(x:0, y:0), size: self.view.bounds.size)
-        self.webView = UIWebView(frame: webViewFrame)
-        self.webView?.backgroundColor = UIColor(rgba: "#f9f9f9")
-        
-        self.view = self.webView!
-        
+        // Tap gesture
         let tapGR = UITapGestureRecognizer(target: self, action: "tapHandler:")
         tapGR.numberOfTapsRequired = 1
         tapGR.numberOfTouchesRequired = 1
         tapGR.delegate = self
         self.webView?.addGestureRecognizer(tapGR)
         
-        // Set status bar background color
-        statusBarCover.backgroundColor = UIColor.whiteColor()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
         // Set WebView scroll delegate
         self.webView?.scrollView.delegate = self
+        
+        // Status bar
+        statusBarCover.backgroundColor = UIColor.whiteColor()
         
         // Toolbar
         self.btnLike = UIButton(type: .System)
         self.btnFav = UIButton(type: .System)
-        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
-        let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: "back:")
-        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
-        let like = UIBarButtonItem(customView: self.btnLike!)
-        let fav = UIBarButtonItem(customView: self.btnFav!)
-        (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
-        self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
         
         self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
         self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
@@ -124,13 +96,26 @@ class NewsDetailViewController: UIViewController {
         self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnFav?.addTarget(self, action: "star:", forControlEvents: .TouchUpInside)
         
-        // Load content
-        loadNews()
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
+        let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: "back:")
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
+        let like = UIBarButtonItem(customView: self.btnLike!)
+        let fav = UIBarButtonItem(customView: self.btnFav!)
+        (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
+        
+        self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
+        
+        // Hide tabs
+        self.hidesBottomBarWhenPushed = true
         
         // Hide navigation bar
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
         // Fix scroll view insets
         self.updateScrollViewInset(self.webView!.scrollView, true, false)
+        
+        // Load content
+        loadNews()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -361,12 +346,31 @@ extension NewsDetailViewController {
         // Load HTML
         self.loadPageContent(news)
         
+        // Like button
         if let appIsLiked = news.appIsLiked {
             self.likeBtnToggle = !appIsLiked.boolValue
             updateLikeBtnColor(appIsLiked.boolValue)
         }
-        
         initLikeBtnNumberAndFavBtnStatus()
+        
+        // Cover Image
+        if let twitterCoverView = self.webView?.scrollView.twitterCoverView {
+            if twitterCoverView.image == nil {
+                if let imageURLString = news.image,
+                    let imageURL = NSURL(string: imageURLString) {
+                        SDWebImageManager.sharedManager().downloadImageWithURL(
+                            imageURL,
+                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                            progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
+                                
+                            },
+                            completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
+                                twitterCoverView.image = image
+                            }
+                        )
+                }
+            }
+        }
     }
     
     func loadNews() {
@@ -404,10 +408,11 @@ extension NewsDetailViewController {
 extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func imageViewFrame() -> CGRect {
-        if let fgImageView = self.webView?.scrollView.twitterCoverView {
-            return self.view.convertRect(fgImageView.frame, toView: self.view.window)
+        if let twitterCoverView = self.webView?.scrollView.twitterCoverView {
+            DLog(FmtString("%@ %@ %@",NSStringFromCGRect(twitterCoverView.frame), NSStringFromCGRect(self.webView!.scrollView.bounds), NSStringFromCGRect(self.webView!.bounds)))
+            return self.view.convertRect(twitterCoverView.frame, toView: self.view.window)
         }
-        return CGRectZero
+        return self.view.convertRect(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 2 / 3), toView: self.view.window)
     }
     
     func transitionSourceImageView() -> UIImageView! {
@@ -416,7 +421,9 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
         imageView.userInteractionEnabled = false
         imageView.contentMode = .ScaleAspectFill
         imageView.frame = imageViewFrame()
-        imageView.image = self.webView?.scrollView.twitterCoverView!.image
+        if let twitterCoverView = self.webView?.scrollView.twitterCoverView {
+            imageView.image = twitterCoverView.image
+        }
         return imageView
     }
     

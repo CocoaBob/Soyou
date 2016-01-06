@@ -144,10 +144,9 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
             cell.lblTitle?.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                cell.fgImageView?.backgroundColor = UIColor(rgba: "#EEE")
                 cell.fgImageView?.sd_setImageWithURL(imageURL,
                     placeholderImage: UIImage.imageWithRandomColor(),
-                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                     completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                         UIView.animateWithDuration(0.25, animations: { () -> Void in
                             collectionView.collectionViewLayout.invalidateLayout()
@@ -189,8 +188,19 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     self.selectedNewsViewCell = cell
                     self.selectedIndexPath = indexPath
                     
-                    let newsDetailViewController = NewsDetailViewController(news: localNews, image: cell.fgImageView?.image)
+                    // Prepare cover image
+                    var image: UIImage?
+                    if let imageURLString = localNews.image, let imageURL = NSURL(string: imageURLString) {
+                        let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                        image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+                    }
                     
+                    // Prepare view controller
+                    let newsDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NewsDetailViewController") as! NewsDetailViewController
+                    newsDetailViewController.news = localNews
+                    newsDetailViewController.image = image
+                    
+                    // Push view controller
                     self.navigationController?.pushViewController(newsDetailViewController, animated: true)
                 }
             }
@@ -241,17 +251,21 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
-        
-        if news.appIsMore == nil || !news.appIsMore!.boolValue {
-            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(NSURL(string: news.image!))
-            if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
-                return image.size
+        var size = CGSizeMake(3, 2) // Default size for news
+        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
+            let localNews = news.MR_inContext(localContext)
+            if localNews.appIsMore == nil || !localNews.appIsMore!.boolValue {
+                if let imageURLString = localNews.image,
+                    let imageURL = NSURL(string: imageURLString),
+                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL),
+                    let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
+                        size = image.size
+                }
             } else {
-                return CGSizeMake(256, 192)
+                size = CGSizeMake(8, 1)
             }
-        } else {
-            return CGSizeMake(256, 32)
         }
+        return size
     }
 }
 

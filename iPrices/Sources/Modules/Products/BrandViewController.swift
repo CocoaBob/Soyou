@@ -47,23 +47,11 @@ class BrandViewController: BaseViewController {
         }
     }
     
-    init(id: String?, name: String?, categories: [NSDictionary]?) {
-        self.brandID = id
-        self.brandName = name
-        self.brandCategories = categories
-        
-        super.init(nibName: nil, bundle: nil)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         
         // Hide tabs
         self.hidesBottomBarWhenPushed = true
-    }
-    
-    convenience init() {
-        self.init(id: nil, name: nil, categories: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
     
     override func viewDidLoad() {
