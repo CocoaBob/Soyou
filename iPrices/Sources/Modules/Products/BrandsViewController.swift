@@ -162,7 +162,7 @@ extension BrandsViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: - RMPZoomTransition
+// MARK: - RMPZoomTransitionAnimator
 extension BrandsViewController: UINavigationControllerDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

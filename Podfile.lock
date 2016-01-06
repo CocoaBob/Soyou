@@ -62,7 +62,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0)
   - RandomColorSwift
-  - RMPZoomTransitionAnimator (~> 1.0)
+  - RMPZoomTransitionAnimator (from `git://github.com/CocoaBob/RMPZoomTransitionAnimator`)
   - SCLAlertView
   - SDWebImage (~> 3.7)
   - UICKeyChainStore (~> 1.0)
@@ -75,6 +75,8 @@ EXTERNAL SOURCES:
     :git: git://github.com/CocoaBob/IDMPhotoBrowser
   libWeChatSDK:
     :git: git://github.com/CocoaBob/libWeChatSDK
+  RMPZoomTransitionAnimator:
+    :git: git://github.com/CocoaBob/RMPZoomTransitionAnimator
 
 CHECKOUT OPTIONS:
   CHTwitterCover:
@@ -86,6 +88,9 @@ CHECKOUT OPTIONS:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
+  RMPZoomTransitionAnimator:
+    :commit: af1ccee3823803736c2de29772c52644244ef227
+    :git: git://github.com/CocoaBob/RMPZoomTransitionAnimator
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -104,7 +109,7 @@ SPEC CHECKSUMS:
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   RandomColorSwift: b2e95d6d3670def6d2f907ec7b7041138b268ac9
-  RMPZoomTransitionAnimator: 0782863eab1acc50511dbd146cd7df3afc142b54
+  RMPZoomTransitionAnimator: 1b73d2ff700af5d6e7f75db46ddadc738771e9e5
   SCLAlertView: a5c726a80a938fd3127edd7dbc19da33fb936ca3
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377

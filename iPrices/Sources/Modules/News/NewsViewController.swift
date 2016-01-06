@@ -248,7 +248,7 @@ extension NewsViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: - RMPZoomTransition
+// MARK: - RMPZoomTransitionAnimator
 extension NewsViewController: UINavigationControllerDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

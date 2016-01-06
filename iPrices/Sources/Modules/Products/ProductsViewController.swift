@@ -174,13 +174,12 @@ extension ProductsViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: - RMPZoomTransition
+// MARK: - RMPZoomTransitionAnimator
 extension ProductsViewController: UINavigationControllerDelegate {
     
     func takeOverDelegates() {
         if let navigationController = self.navigationController {
             if navigationController.delegate == nil || navigationController.delegate! !== self {
-                DLog(navigationController.delegate)
                 self.lastNavigationControllerDelegate = navigationController.delegate
                 self.lastInteractivePopGestureRecognizerDelegate = navigationController.interactivePopGestureRecognizer?.delegate
                 
@@ -191,7 +190,6 @@ extension ProductsViewController: UINavigationControllerDelegate {
     }
     
     func restoreDelegates() {
-        DLog(self.lastNavigationControllerDelegate)
         self.navigationController?.delegate = self.lastNavigationControllerDelegate
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self.lastInteractivePopGestureRecognizerDelegate
     }

@@ -219,7 +219,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: - RMPZoomTransition
+// MARK: - RMPZoomTransitionAnimator
 extension BrandViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func imageViewFrame() -> CGRect {

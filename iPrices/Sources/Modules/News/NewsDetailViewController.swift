@@ -421,7 +421,7 @@ extension NewsDetailViewController {
     }
 }
 
-// MARK: - RMPZoomTransition
+// MARK: - RMPZoomTransitionAnimator
 extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func imageViewFrame() -> CGRect {
