@@ -277,34 +277,47 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ou2-Iw-hmH">
-                                                    <rect key="frame" x="15" y="12" width="527" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ou2-Iw-hmH">
+                                                    <rect key="frame" x="15" y="12" width="514" height="20"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpE-3M-b7n">
-                                                    <rect key="frame" x="550" y="1" width="42" height="42"/>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpE-3M-b7n">
+                                                    <rect key="frame" x="556" y="14" width="36" height="17"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="42" id="460-ID-6A3"/>
-                                                        <constraint firstAttribute="width" constant="42" id="PGs-uN-VCj"/>
+                                                        <constraint firstAttribute="height" constant="17" id="460-ID-6A3"/>
                                                     </constraints>
-                                                    <state key="normal" image="img_cell_open"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="14" maxY="0.0"/>
+                                                    <state key="normal" title="All" backgroundImage="img_cell_disclosure">
+                                                        <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="didTapRootLevel:" destination="awE-AE-gSx" eventType="touchUpInside" id="GoE-0Y-9Ij"/>
                                                     </connections>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cell_open" translatesAutoresizingMaskIntoConstraints="NO" id="F4w-rg-1QY">
+                                                    <rect key="frame" x="537" y="19" width="11" height="6"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="11" id="dTr-bt-gOM"/>
+                                                        <constraint firstAttribute="height" constant="6" id="dwm-LG-Ivr"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="leading" secondItem="Ou2-Iw-hmH" secondAttribute="trailing" constant="8" id="Acm-oe-fYT"/>
+                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="leading" secondItem="F4w-rg-1QY" secondAttribute="trailing" constant="8" id="4FC-Zr-ukn"/>
                                                 <constraint firstItem="BpE-3M-b7n" firstAttribute="trailing" secondItem="Eil-f2-Aec" secondAttribute="trailingMargin" id="CsF-nr-B0S"/>
                                                 <constraint firstItem="Ou2-Iw-hmH" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="FGB-z5-pwj"/>
+                                                <constraint firstItem="F4w-rg-1QY" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="Q1g-xe-5JU"/>
                                                 <constraint firstItem="BpE-3M-b7n" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="ak5-mf-s7F"/>
                                                 <constraint firstItem="Ou2-Iw-hmH" firstAttribute="leading" secondItem="Eil-f2-Aec" secondAttribute="leading" constant="15" id="wDB-7n-5Re"/>
+                                                <constraint firstItem="F4w-rg-1QY" firstAttribute="leading" secondItem="Ou2-Iw-hmH" secondAttribute="trailing" constant="8" id="zVP-6m-YgB"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="btnAccessory" destination="BpE-3M-b7n" id="L9g-Hi-7yG"/>
+                                            <outlet property="imgView" destination="F4w-rg-1QY" id="Wwb-bW-92q"/>
                                             <outlet property="lblTitle" destination="Ou2-Iw-hmH" id="s1l-W3-lTG"/>
                                         </connections>
                                     </tableViewCell>
@@ -370,6 +383,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="img_cell_open" width="21" height="21"/>
+        <image name="img_cell_disclosure" width="10" height="17"/>
+        <image name="img_cell_open" width="11" height="6"/>
     </resources>
 </document>

@@ -2,7 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "img_cell_disclosure.pdf"
+      "filename" : "img_cell_disclosure.pdf",
+      "resizing" : {
+        "mode" : "3-part-horizontal",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1
+        },
+        "cap-insets" : {
+          "right" : 8,
+          "left" : 1
+        }
+      }
     }
   ],
   "info" : {

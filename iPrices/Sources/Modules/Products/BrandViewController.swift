@@ -193,7 +193,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
             
             _cell.lblTitle!.text = item.label
             
-            _cell.btnAccessory.setImage(UIImage(named: item.childrenIsVisible ? "img_cell_close" : "img_cell_open"), forState: .Normal)
+            _cell.imgView.image = UIImage(named: item.childrenIsVisible ? "img_cell_close" : "img_cell_open")
             
             cell = _cell
         } else {
@@ -209,13 +209,13 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
         let item = itemForIndexPath(indexPath)
-        if let productsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController {
-            productsViewController.brandID = self.brandID
-            productsViewController.brandName = self.brandName
-            productsViewController.categoryID = item.id
-            self.navigationController?.pushViewController(productsViewController, animated: true)
-        }
+        
+        item.childrenIsVisible = !item.childrenIsVisible
+        self.tableView()?.reloadSections(
+            NSIndexSet(index: indexPath.section),
+            withRowAnimation: UITableViewRowAnimation.Fade)
     }
 }
 
@@ -263,10 +263,13 @@ extension BrandViewController {
         let position = sender.convertPoint(CGPointZero, toView: tableView)
         guard let indexPath = tableView.indexPathForRowAtPoint(position) else { return }
         let item = self.itemForIndexPath(indexPath)
-        item.childrenIsVisible = !item.childrenIsVisible
-        self.tableView()?.reloadSections(
-            NSIndexSet(index: indexPath.section),
-            withRowAnimation: UITableViewRowAnimation.Fade)
+        
+        if let productsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController {
+            productsViewController.brandID = self.brandID
+            productsViewController.brandName = self.brandName
+            productsViewController.categoryID = item.id
+            self.navigationController?.pushViewController(productsViewController, animated: true)
+        }
     }
 }
 
@@ -294,7 +297,12 @@ extension BrandViewController: CLLocationManagerDelegate {
 // MARK: - Custom cells
 class BrandViewCellRootLevel: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var imgView: UIImageView!
     @IBOutlet var btnAccessory: UIButton!
+    
+    override func awakeFromNib() {
+        btnAccessory.setBackgroundImage(UIImage(named: "img_cell_disclosure"), forState: .Normal)
+    }
     
     override func prepareForReuse() {
         lblTitle.text = nil
