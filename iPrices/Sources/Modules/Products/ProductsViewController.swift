@@ -10,6 +10,9 @@ class ProductsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
     
+    var lastNavigationControllerDelegate: UINavigationControllerDelegate?
+    var lastInteractivePopGestureRecognizerDelegate: UIGestureRecognizerDelegate?
+    
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     var brandID: String?
@@ -31,21 +34,21 @@ class ProductsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
+        
+        self.takeOverDelegates()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
         
-        // Make sure self.navigationController != nil
-        // In viewDidLoad, self.navigationController may be nil
-        if let navigationController = self.navigationController {
-            if navigationController.delegate == nil || navigationController.delegate! !== self {
-                // UINavigationController delegate
-                navigationController.delegate = self
-                navigationController.interactivePopGestureRecognizer?.delegate = self
-            }
-        }
+        self.takeOverDelegates()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.restoreDelegates()
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -171,8 +174,27 @@ extension ProductsViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: - UINavigationControllerDelegate
+// MARK: - RMPZoomTransition
 extension ProductsViewController: UINavigationControllerDelegate {
+    
+    func takeOverDelegates() {
+        if let navigationController = self.navigationController {
+            if navigationController.delegate == nil || navigationController.delegate! !== self {
+                DLog(navigationController.delegate)
+                self.lastNavigationControllerDelegate = navigationController.delegate
+                self.lastInteractivePopGestureRecognizerDelegate = navigationController.interactivePopGestureRecognizer?.delegate
+                
+                navigationController.delegate = self
+                navigationController.interactivePopGestureRecognizer?.delegate = self
+            }
+        }
+    }
+    
+    func restoreDelegates() {
+        DLog(self.lastNavigationControllerDelegate)
+        self.navigationController?.delegate = self.lastNavigationControllerDelegate
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self.lastInteractivePopGestureRecognizerDelegate
+    }
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if self.isEdgeSwiping {

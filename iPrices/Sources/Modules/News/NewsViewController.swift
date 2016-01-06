@@ -42,22 +42,16 @@ class NewsViewController: BaseViewController {
         
         // Data
         loadData(nil)
+        
+        // UINavigationController delegate
+        self.navigationController?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.hideToolbar(false);
-        
-        // Make sure self.navigationController != nil
-        // In viewDidLoad, self.navigationController may be nil
-        if let navigationController = self.navigationController {
-            if navigationController.delegate == nil || navigationController.delegate! !== self {
-                // UINavigationController delegate
-                navigationController.delegate = self
-                navigationController.interactivePopGestureRecognizer?.delegate = self
-            }
-        }
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -140,43 +134,45 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.selectedIndexPath = indexPath
+        
         let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+        
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             let localNews = news.MR_inContext(localContext)
             let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
             if localNews.appIsMore != nil && localNews.appIsMore!.boolValue {
-                if let cell = cell as? NewsCollectionViewCellMore {
-                    cell.indicator?.startAnimating()
-                    cell.indicator?.hidden = false
-                    cell.moreImage?.hidden = true
-                    self.selectedMoreButtonCell = cell
-                    self.selectedIndexPath = indexPath
-                    self.loadData(localNews.id)
-                }
+                guard let cell = cell as? NewsCollectionViewCellMore else { return }
+                
+                self.selectedMoreButtonCell = cell
+                
+                cell.indicator?.startAnimating()
+                cell.indicator?.hidden = false
+                cell.moreImage?.hidden = true
+                self.loadData(localNews.id)
             } else {
-                if let cell = cell as? NewsCollectionViewCell {
-                    self.selectedNewsViewCell = cell
-                    self.selectedIndexPath = indexPath
-                    
-                    // Prepare cover image
-                    var image: UIImage?
-                    if let imageURLString = localNews.image, let imageURL = NSURL(string: imageURLString) {
-                        let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                        image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-                    }
-                    
-                    if image == nil {
-                        image = cell.fgImageView?.image
-                    }
-                    
-                    // Prepare view controller
-                    let newsDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NewsDetailViewController") as! NewsDetailViewController
-                    newsDetailViewController.news = localNews
-                    newsDetailViewController.image = image
-                    
-                    // Push view controller
-                    self.navigationController?.pushViewController(newsDetailViewController, animated: true)
+                guard let cell = cell as? NewsCollectionViewCell else { return }
+                
+                self.selectedNewsViewCell = cell
+                
+                // Prepare cover image
+                var image: UIImage?
+                if let imageURLString = localNews.image, let imageURL = NSURL(string: imageURLString) {
+                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                    image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
                 }
+                
+                if image == nil {
+                    image = cell.fgImageView?.image
+                }
+                
+                // Prepare view controller
+                let newsDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NewsDetailViewController") as! NewsDetailViewController
+                newsDetailViewController.news = localNews
+                newsDetailViewController.image = image
+                
+                // Push view controller
+                self.navigationController?.pushViewController(newsDetailViewController, animated: true)
             }
         }
     }
@@ -243,8 +239,17 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     }
 }
 
-// MARK: - UINavigationControllerDelegate
-extension NewsViewController: UINavigationControllerDelegate {
+// MARK: UIGestureRecognizerDelegate (interactivePopGestureRecognizer.delegate)
+extension NewsViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        self.isEdgeSwiping = true
+        return true
+    }
+}
+
+// MARK: - RMPZoomTransition
+extension NewsViewController: UINavigationControllerDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if self.isEdgeSwiping {
@@ -271,19 +276,6 @@ extension NewsViewController: UINavigationControllerDelegate {
         
         return nil
     }
-}
-
-// MARK: UIGestureRecognizerDelegate (interactivePopGestureRecognizer.delegate)
-extension NewsViewController: UIGestureRecognizerDelegate {
-    
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        self.isEdgeSwiping = true
-        return true
-    }
-}
-
-// MARK: - RMPZoomTransitionAnimating/RMPZoomTransitionDelegate
-extension NewsViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func imageViewFrame() -> CGRect {
         if let indexPath = self.selectedIndexPath,

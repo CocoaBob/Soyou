@@ -10,7 +10,7 @@
 extension UIViewController {
     
     func hideToolbar(animated: Bool) {
-        self.navigationController?.setToolbarHidden(true, animated: false)
+        self.navigationController?.setToolbarHidden(true, animated: animated)
     }
     
     func showToolbar() {

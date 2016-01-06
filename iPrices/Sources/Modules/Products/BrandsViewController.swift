@@ -10,6 +10,9 @@ class BrandsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
     
+    var selectedCell: BrandsCollectionViewCell?
+    var selectedIndexPath: NSIndexPath?
+    
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,21 +35,15 @@ class BrandsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
+        
+        // UINavigationController delegate
+        self.navigationController?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
-        
-        // Make sure self.navigationController != nil
-        // In viewDidLoad, self.navigationController may be nil
-        if let navigationController = self.navigationController {
-            if navigationController.delegate == nil || navigationController.delegate! !== self {
-                // UINavigationController delegate
-                navigationController.delegate = self
-                navigationController.interactivePopGestureRecognizer?.delegate = self
-            }
-        }
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -92,6 +89,8 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.selectedIndexPath = indexPath
+        
         let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
         
         if let brandViewController = self.storyboard?.instantiateViewControllerWithIdentifier("BrandViewController") as? BrandViewController {
@@ -105,15 +104,16 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 imageURLString = localBrand.imageUrl
             })
             // Load image
-            let _ = brandViewController.view // Load view
+            guard let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell else { return }
+            self.selectedCell = cell
+            
+            brandViewController.brandImage = cell.fgImageView.image
             if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
-                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
-                    brandViewController.brandImage = image
-                } else {
+                if !SDWebImageManager.sharedManager().cachedImageExistsForURL(imageURL) {
                     brandViewController.brandImageURL = imageURL
                 }
             }
+            
             // Push view
             self.navigationController?.pushViewController(brandViewController, animated: true)
         }
@@ -162,8 +162,8 @@ extension BrandsViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: - UINavigationControllerDelegate
-extension BrandsViewController: UINavigationControllerDelegate {
+// MARK: - RMPZoomTransition
+extension BrandsViewController: UINavigationControllerDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if self.isEdgeSwiping {
@@ -189,6 +189,38 @@ extension BrandsViewController: UINavigationControllerDelegate {
         }
         
         return nil
+    }
+    
+    func imageViewFrame() -> CGRect {
+        if let indexPath = self.selectedIndexPath,
+            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? BrandsCollectionViewCell,
+            let imageView = cell.fgImageView {
+                let frame = imageView.convertRect(imageView.frame, toView: self.view.window)
+                return frame
+        }
+        return CGRectZero
+    }
+    
+    func transitionSourceImageView() -> UIImageView! {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.userInteractionEnabled = false
+        imageView.contentMode = .ScaleAspectFill
+        imageView.frame = imageViewFrame()
+        imageView.image = self.selectedCell?.fgImageView!.image
+        return imageView
+    }
+    
+    func transitionSourceBackgroundColor() -> UIColor! {
+        return self.view.backgroundColor
+    }
+    
+    func transitionDestinationImageViewFrame() -> CGRect {
+        return imageViewFrame()
+    }
+    
+    func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
+        
     }
 }
 

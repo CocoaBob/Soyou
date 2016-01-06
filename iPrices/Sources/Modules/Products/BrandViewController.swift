@@ -22,7 +22,7 @@ class BrandViewController: BaseViewController {
     private var _locationManager = CLLocationManager()
     private var _sections = [CategoryItem]()
     
-    private var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    var coverHeight:CGFloat = 200.0
     
     var brandID: String?
     var brandName: String?
@@ -41,11 +41,7 @@ class BrandViewController: BaseViewController {
             )
         }
     }
-    var brandImage: UIImage? {
-        didSet {
-            self.updateHeaderView()
-        }
-    }
+    var brandImage: UIImage?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -57,8 +53,15 @@ class BrandViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Layout the subviews (otherwise the tableview will be 600x600 at the very beginning)
+        self.view.setNeedsLayout()
+        self.view.layoutIfNeeded()
+        
         // UIViewController
         self.title = self.brandName
+        
+        // Twitter cover view
+        self.updateTwitterCoverView()
         
         // Update footer view size
         self.updateFooterView()
@@ -71,24 +74,14 @@ class BrandViewController: BaseViewController {
         
         // MKMapView
 //        _mapView?.region = MKCoordinateRegionForMapRect(MKMapRectWorld)
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.tableView()!, false, false)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
-        
-        // Make sure self.navigationController != nil
-        // In viewDidLoad, self.navigationController may be nil
-        if let navigationController = self.navigationController {
-            if navigationController.delegate == nil || navigationController.delegate! !== self {
-                // UINavigationController delegate
-                navigationController.delegate = self
-                navigationController.interactivePopGestureRecognizer?.delegate = self
-                
-                // Fix scroll view insets
-                self.updateScrollViewInset(self.tableView()!, false, false)
-            }
-        }
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -155,10 +148,10 @@ extension BrandViewController {
 // MARK: Table View
 extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
-    private func updateHeaderView() {
+    private func updateTwitterCoverView() {
         guard let image = brandImage else { return }
         let coverWidth = self.view.bounds.size.width
-        let coverHeight = coverWidth * image.size.height / image.size.width
+        coverHeight = coverWidth * image.size.height / image.size.width
         if let tableView = self.tableView() {
             tableView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
             if let tableHeaderView = tableView.tableHeaderView {
@@ -226,42 +219,39 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: UIGestureRecognizerDelegate (interactivePopGestureRecognizer.delegate)
-extension BrandViewController: UIGestureRecognizerDelegate {
+// MARK: - RMPZoomTransition
+extension BrandViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        self.isEdgeSwiping = true
-        return true
+    func imageViewFrame() -> CGRect {
+        if let twitterCoverView = self.tableView()?.twitterCoverView {
+            let frame = self.tableView()!.convertRect(twitterCoverView.frame, toView: self.view.window)
+            return frame
+        }
+        return self.view.convertRect(CGRectMake(0, 0, self.view.frame.size.width, coverHeight), toView: self.view.window)
     }
-}
-
-// MARK: - UINavigationControllerDelegate
-extension BrandViewController: UINavigationControllerDelegate {
     
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if self.isEdgeSwiping {
-            self.isEdgeSwiping = false
-            return nil
+    func transitionSourceImageView() -> UIImageView! {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.userInteractionEnabled = false
+        imageView.contentMode = .ScaleAspectFill
+        imageView.frame = imageViewFrame()
+        if let twitterCoverView = self.tableView()?.twitterCoverView {
+            imageView.image = twitterCoverView.image
         }
+        return imageView
+    }
+    
+    func transitionSourceBackgroundColor() -> UIColor! {
+        return self.view.backgroundColor
+    }
+    
+    func transitionDestinationImageViewFrame() -> CGRect {
+        return imageViewFrame()
+    }
+    
+    func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
         
-        if fromVC is RMPZoomTransitionAnimating && toVC is RMPZoomTransitionAnimating {
-            let src = fromVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            let dest = toVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            
-            // If one of the frames is invisible
-            if (operation == .Pop &&
-                src.transitionDestinationImageViewFrame().size.height == 0) {
-                    return nil
-            }
-            
-            let animator = RMPZoomTransitionAnimator()
-            animator.goingForward = (operation == .Push)
-            animator.sourceTransition = src
-            animator.destinationTransition = dest
-            return animator
-        }
-        
-        return nil
     }
 }
 

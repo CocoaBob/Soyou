@@ -10,10 +10,11 @@ class NewsDetailViewController: UIViewController {
     let btnActiveColor = UIColor(rgba:"#10ABFE")
     let btnInactiveColor = UIToolbar.appearance().tintColor
     var coverHeight:CGFloat = 200.0
-    var isStatusBarOverlyingCoverImage = true
+    
     // Used only when no internet connection
     var likeBtnToggle: Bool = false
     
+    var isStatusBarOverlyingCoverImage = true
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
@@ -35,15 +36,7 @@ class NewsDetailViewController: UIViewController {
             self.newsId = self.news?.id as? Int ?? -1
         }
     }
-    var image: UIImage? {
-        didSet {
-            if let image = image {
-                self.coverHeight = self.view.bounds.size.width * image.size.height / image.size.width
-                self.webView?.scrollView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
-                self.webView?.scrollView.twitterCoverView.noContentInset = true
-            }
-        }
-    }
+    var image: UIImage?
     var newsTitle: String!
     var newsId: Int!
     var btnLike: UIButton?
@@ -61,10 +54,6 @@ class NewsDetailViewController: UIViewController {
         self.hidesBottomBarWhenPushed = true
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,7 +65,10 @@ class NewsDetailViewController: UIViewController {
         self.webView?.addGestureRecognizer(tapGR)
         
         // Set WebView scroll delegate
-        self.webView?.scrollView.delegate = self
+        self.scrollView?.delegate = self
+        
+        // Twitter cover view
+        self.updateTwitterCoverView()
         
         // Status bar
         statusBarCover.backgroundColor = UIColor.whiteColor()
@@ -108,21 +100,23 @@ class NewsDetailViewController: UIViewController {
         
         self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
         
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, true, false)
-        
         // Load content
         loadNews()
+        
+        // Hide navigation bar
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.webView!.scrollView, true, true)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        // Work around to make sure the tool bar is visible after cancelling the interactivePopGestureRecognizer.
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.showToolbar()
-        }
+        // Hide navigation bar if it's visible again
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        // Show tool bar if it's invisible again
+        self.showToolbar()
+        // Update statusbar cover
         self.updateStatusBarCover()
     }
     
@@ -134,19 +128,17 @@ class NewsDetailViewController: UIViewController {
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animateAlongsideTransition( { (context) -> Void in
-            self.webView?.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
+            self.scrollView?.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
         }, completion: nil)
     }
-
-}
-
-extension NewsDetailViewController: UIScrollViewDelegate {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.updateStatusBarCover()
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
     }
+
 }
 
+// MARK: Web image tap gesture handler
 extension NewsDetailViewController: UIGestureRecognizerDelegate {
     
     func tapHandler(tapGR: UITapGestureRecognizer) {
@@ -214,11 +206,15 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// Status Bar Cover
-extension NewsDetailViewController {
+// MARK: Status Bar Cover
+extension NewsDetailViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.updateStatusBarCover()
+    }
     
     private func updateStatusBarCover() {
-        guard let scrollView = self.webView?.scrollView else { return }
+        guard let scrollView = self.scrollView else { return }
         let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
         if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= (coverHeight - statusBarHeight) {
             isStatusBarOverlyingCoverImage = false
@@ -366,6 +362,7 @@ extension NewsDetailViewController {
                         },
                         completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
                             self.image = image
+                            self.updateTwitterCoverView()
                             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                                 if let localNews = self.news?.MR_inContext(localContext) {
                                     self.loadPageContent(localNews)
@@ -412,11 +409,23 @@ extension NewsDetailViewController {
     }
 }
 
-// MARK: - RMPZoomTransitionAnimating/RMPZoomTransitionDelegate
+// MARK: Twitter Cover View
+extension NewsDetailViewController {
+    
+    private func updateTwitterCoverView() {
+        if let image = self.image {
+            self.coverHeight = self.view.bounds.size.width * image.size.height / image.size.width
+            self.scrollView?.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
+            self.scrollView?.twitterCoverView.noContentInset = true
+        }
+    }
+}
+
+// MARK: - RMPZoomTransition
 extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
     
     func imageViewFrame() -> CGRect {
-        if let twitterCoverView = self.webView?.scrollView.twitterCoverView {
+        if let twitterCoverView = self.scrollView?.twitterCoverView {
             let frame = self.view.convertRect(twitterCoverView.frame, toView: self.view.window)
             return frame
         }
@@ -429,7 +438,7 @@ extension NewsDetailViewController: RMPZoomTransitionAnimating, RMPZoomTransitio
         imageView.userInteractionEnabled = false
         imageView.contentMode = .ScaleAspectFill
         imageView.frame = imageViewFrame()
-        if let twitterCoverView = self.webView?.scrollView.twitterCoverView {
+        if let twitterCoverView = self.scrollView?.twitterCoverView {
             imageView.image = twitterCoverView.image
         }
         return imageView

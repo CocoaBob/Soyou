@@ -5,14 +5,17 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Interactive Navigation Controller-->
         <scene sceneID="6KO-WQ-40d">
             <objects>
-                <navigationController id="YMb-yX-kGc" sceneMemberID="viewController">
+                <navigationController id="YMb-yX-kGc" customClass="KDInteractiveNavigationController" customModule="KDInteractiveNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="TbO-0j-kre">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="clearBackTitle" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="H9m-nj-Q4N" kind="relationship" relationship="rootViewController" id="h41-8m-bNh"/>
                     </connections>
@@ -91,9 +94,7 @@
                             <constraint firstItem="ngI-u3-qiT" firstAttribute="leading" secondItem="VWh-J2-MYO" secondAttribute="leading" id="f9x-Xw-vxS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SMT-ZD-zUg">
-                        <barButtonItem key="backBarButtonItem" title=" " id="70r-6L-0qH"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="SMT-ZD-zUg"/>
                     <connections>
                         <outlet property="_collectionView" destination="ngI-u3-qiT" id="GVo-sX-QBa"/>
                     </connections>
@@ -202,9 +203,7 @@
                             <constraint firstAttribute="trailing" secondItem="LND-O0-Vpm" secondAttribute="trailing" id="aMQ-Lf-vz0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="uz4-Jr-Q0j">
-                        <barButtonItem key="backBarButtonItem" title=" " id="ASq-Uc-Wq0"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="uz4-Jr-Q0j"/>
                     <connections>
                         <outlet property="_collectionView" destination="LND-O0-Vpm" id="tax-Cd-fzf"/>
                     </connections>
@@ -353,15 +352,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Jlu-hc-eFk" secondAttribute="trailing" id="4FI-iX-xA9"/>
-                            <constraint firstItem="18q-tM-q9W" firstAttribute="top" secondItem="Jlu-hc-eFk" secondAttribute="bottom" id="L3p-2p-au5"/>
-                            <constraint firstItem="Jlu-hc-eFk" firstAttribute="top" secondItem="Dmv-sY-Xkf" secondAttribute="top" id="oe0-2p-Asw"/>
-                            <constraint firstItem="Jlu-hc-eFk" firstAttribute="leading" secondItem="Dmv-sY-Xkf" secondAttribute="leading" id="t8c-go-DKr"/>
+                            <constraint firstItem="Jlu-hc-eFk" firstAttribute="top" secondItem="Dmv-sY-Xkf" secondAttribute="top" id="2cj-gr-vWg"/>
+                            <constraint firstItem="Jlu-hc-eFk" firstAttribute="leading" secondItem="Dmv-sY-Xkf" secondAttribute="leading" id="Ak6-vf-Sfm"/>
+                            <constraint firstAttribute="trailing" secondItem="Jlu-hc-eFk" secondAttribute="trailing" id="UeY-IE-PxF"/>
+                            <constraint firstItem="18q-tM-q9W" firstAttribute="top" secondItem="Jlu-hc-eFk" secondAttribute="bottom" id="ah7-5u-fDf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="q1F-1r-61G">
-                        <barButtonItem key="backBarButtonItem" title=" " id="nYm-JM-RXU"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="q1F-1r-61G"/>
                     <connections>
                         <outlet property="_mapView" destination="SQL-1J-zNo" id="29O-jo-5DE"/>
                         <outlet property="_tableView" destination="Jlu-hc-eFk" id="6O0-ui-I21"/>
