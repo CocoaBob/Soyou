@@ -56,6 +56,9 @@ class NewsDetailViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        // Hide tabs
+        self.hidesBottomBarWhenPushed = true
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -105,12 +108,6 @@ class NewsDetailViewController: UIViewController {
         
         self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
         
-        // Hide tabs
-        self.hidesBottomBarWhenPushed = true
-        
-        // Hide navigation bar
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
         // Fix scroll view insets
         self.updateScrollViewInset(self.webView!.scrollView, true, false)
         
@@ -121,7 +118,11 @@ class NewsDetailViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        self.showToolbar()
+        
+        // Work around to make sure the tool bar is visible after cancelling the interactivePopGestureRecognizer.
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.showToolbar()
+        }
         self.updateStatusBarCover()
     }
     
@@ -354,22 +355,25 @@ extension NewsDetailViewController {
         initLikeBtnNumberAndFavBtnStatus()
         
         // Cover Image
-        if let twitterCoverView = self.webView?.scrollView.twitterCoverView {
-            if twitterCoverView.image == nil {
-                if let imageURLString = news.image,
-                    let imageURL = NSURL(string: imageURLString) {
-                        SDWebImageManager.sharedManager().downloadImageWithURL(
-                            imageURL,
-                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                            progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
-                                
-                            },
-                            completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
-                                twitterCoverView.image = image
-                            }
-                        )
+        if let imageURLString = news.image,
+            let imageURL = NSURL(string: imageURLString) {
+                if !SDWebImageManager.sharedManager().cachedImageExistsForURL(imageURL) {
+                    SDWebImageManager.sharedManager().downloadImageWithURL(
+                        imageURL,
+                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                        progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
+                            
+                        },
+                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
+                            self.image = image
+                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                                if let localNews = self.news?.MR_inContext(localContext) {
+                                    self.loadPageContent(localNews)
+                                }
+                            })
+                        }
+                    )
                 }
-            }
         }
     }
     
@@ -379,9 +383,7 @@ extension NewsDetailViewController {
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
-                if localNews.appIsUpdated != nil && localNews.appIsUpdated!.boolValue == true {
-                    self.loadNews(localNews)
-                } else {
+                if localNews.appIsUpdated == nil || !localNews.appIsUpdated!.boolValue {
                     newsID = localNews.id
                     needToLoad = true
                 }
@@ -400,6 +402,12 @@ extension NewsDetailViewController {
                     })
                 })
             }
+        } else {
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                if let localNews = self.news?.MR_inContext(localContext) {
+                    self.loadNews(localNews)
+                }
+            })
         }
     }
 }
