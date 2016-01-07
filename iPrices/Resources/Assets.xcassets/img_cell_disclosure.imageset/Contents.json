@@ -4,14 +4,17 @@
       "idiom" : "universal",
       "filename" : "img_cell_disclosure.pdf",
       "resizing" : {
-        "mode" : "3-part-horizontal",
+        "mode" : "9-part",
         "center" : {
           "mode" : "tile",
-          "width" : 1
+          "width" : 1,
+          "height" : 1
         },
         "cap-insets" : {
+          "bottom" : 8,
+          "top" : 8,
           "right" : 8,
-          "left" : 1
+          "left" : 2
         }
       }
     }

@@ -270,7 +270,7 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BrandViewCellRootLevel" id="q96-fh-kni" customClass="BrandViewCellRootLevel" customModule="iPrices" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BrandViewHierarchyListRootCell" id="q96-fh-kni" customClass="BrandViewHierarchyListRootCell" customModule="iPrices" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q96-fh-kni" id="Eil-f2-Aec">
@@ -278,50 +278,48 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ou2-Iw-hmH">
-                                                    <rect key="frame" x="15" y="12" width="514" height="20"/>
+                                                    <rect key="frame" x="32" y="12" width="508" height="20"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpE-3M-b7n">
-                                                    <rect key="frame" x="556" y="14" width="36" height="17"/>
+                                                    <rect key="frame" x="548" y="14" width="36" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="460-ID-6A3"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="14" maxY="0.0"/>
-                                                    <state key="normal" title="All" backgroundImage="img_cell_disclosure">
-                                                        <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                    </state>
+                                                    <state key="normal" title="All" backgroundImage="img_cell_disclosure"/>
                                                     <connections>
-                                                        <action selector="didTapRootLevel:" destination="awE-AE-gSx" eventType="touchUpInside" id="GoE-0Y-9Ij"/>
+                                                        <action selector="didTapAccessoryButton:" destination="awE-AE-gSx" eventType="touchUpInside" id="Vx0-2r-Aax"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cell_open" translatesAutoresizingMaskIntoConstraints="NO" id="F4w-rg-1QY">
-                                                    <rect key="frame" x="537" y="19" width="11" height="6"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cell_closed" translatesAutoresizingMaskIntoConstraints="NO" id="iJ6-CO-Qe9">
+                                                    <rect key="frame" x="15" y="18" width="9" height="9"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="11" id="dTr-bt-gOM"/>
-                                                        <constraint firstAttribute="height" constant="6" id="dwm-LG-Ivr"/>
+                                                        <constraint firstAttribute="width" constant="9" id="Qf1-iP-lOe"/>
+                                                        <constraint firstAttribute="height" constant="9" id="lCh-82-jJK"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="leading" secondItem="F4w-rg-1QY" secondAttribute="trailing" constant="8" id="4FC-Zr-ukn"/>
-                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="trailing" secondItem="Eil-f2-Aec" secondAttribute="trailingMargin" id="CsF-nr-B0S"/>
+                                                <constraint firstItem="iJ6-CO-Qe9" firstAttribute="leading" secondItem="Eil-f2-Aec" secondAttribute="leading" constant="15" id="BIh-mE-UNa"/>
+                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="trailing" secondItem="Eil-f2-Aec" secondAttribute="trailingMargin" constant="-8" id="CsF-nr-B0S"/>
                                                 <constraint firstItem="Ou2-Iw-hmH" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="FGB-z5-pwj"/>
-                                                <constraint firstItem="F4w-rg-1QY" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="Q1g-xe-5JU"/>
+                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="leading" secondItem="Ou2-Iw-hmH" secondAttribute="trailing" constant="8" id="JfX-Is-Mv0"/>
+                                                <constraint firstItem="iJ6-CO-Qe9" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="MrT-rR-bod"/>
                                                 <constraint firstItem="BpE-3M-b7n" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="ak5-mf-s7F"/>
-                                                <constraint firstItem="Ou2-Iw-hmH" firstAttribute="leading" secondItem="Eil-f2-Aec" secondAttribute="leading" constant="15" id="wDB-7n-5Re"/>
-                                                <constraint firstItem="F4w-rg-1QY" firstAttribute="leading" secondItem="Ou2-Iw-hmH" secondAttribute="trailing" constant="8" id="zVP-6m-YgB"/>
+                                                <constraint firstItem="Ou2-Iw-hmH" firstAttribute="leading" secondItem="iJ6-CO-Qe9" secondAttribute="trailing" constant="8" id="qg9-26-gyp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="btnAccessory" destination="BpE-3M-b7n" id="L9g-Hi-7yG"/>
-                                            <outlet property="imgView" destination="F4w-rg-1QY" id="Wwb-bW-92q"/>
+                                            <outlet property="imgView" destination="iJ6-CO-Qe9" id="eeX-7W-oCD"/>
                                             <outlet property="lblTitle" destination="Ou2-Iw-hmH" id="s1l-W3-lTG"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BrandViewCellSubLevel" id="HbE-s3-azG" customClass="BrandViewCellSubLevel" customModule="iPrices" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BrandViewHierarchyListSubCell" id="HbE-s3-azG" customClass="BrandViewHierarchyListSubCell" customModule="iPrices" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="116" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HbE-s3-azG" id="xE1-sk-UTi">
@@ -329,7 +327,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1e-6K-WaM">
-                                                    <rect key="frame" x="30" y="12" width="512" height="20"/>
+                                                    <rect key="frame" x="47" y="12" width="495" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" white="0.33000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -345,7 +343,7 @@
                                             <constraints>
                                                 <constraint firstItem="U7d-ws-t9g" firstAttribute="leading" secondItem="A1e-6K-WaM" secondAttribute="trailing" constant="8" id="L0j-ge-0Rq"/>
                                                 <constraint firstItem="U7d-ws-t9g" firstAttribute="trailing" secondItem="xE1-sk-UTi" secondAttribute="trailingMargin" id="jjD-W3-DCV"/>
-                                                <constraint firstItem="A1e-6K-WaM" firstAttribute="leading" secondItem="xE1-sk-UTi" secondAttribute="leading" constant="30" id="tzY-9B-a52"/>
+                                                <constraint firstItem="A1e-6K-WaM" firstAttribute="leading" secondItem="xE1-sk-UTi" secondAttribute="leading" constant="47" id="tzY-9B-a52"/>
                                                 <constraint firstItem="U7d-ws-t9g" firstAttribute="centerY" secondItem="xE1-sk-UTi" secondAttribute="centerY" id="vpE-nn-31X"/>
                                                 <constraint firstItem="A1e-6K-WaM" firstAttribute="centerY" secondItem="xE1-sk-UTi" secondAttribute="centerY" id="zBw-5S-7Lf"/>
                                             </constraints>
@@ -383,7 +381,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="img_cell_disclosure" width="10" height="17"/>
-        <image name="img_cell_open" width="11" height="6"/>
+        <image name="img_cell_closed" width="8" height="9"/>
+        <image name="img_cell_disclosure" width="11" height="17"/>
     </resources>
 </document>

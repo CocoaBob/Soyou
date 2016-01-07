@@ -171,10 +171,6 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         self.tableView()?.tableFooterView = footerView // Reset footer view to update the frame
     }
     
-    private func itemForIndexPath(indexPath: NSIndexPath) -> CategoryItem {
-        return (indexPath.row == 0) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
-    }
-    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return _sections.count
     }
@@ -188,16 +184,16 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         let item = itemForIndexPath(indexPath)
         var cell: UITableViewCell?
         
-        if indexPath.row == 0 {
-            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewCellRootLevel", forIndexPath: indexPath) as! BrandViewCellRootLevel
+        if isRootItem(indexPath) {
+            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListRootCell", forIndexPath: indexPath) as! BrandViewHierarchyListRootCell
             
             _cell.lblTitle!.text = item.label
             
-            _cell.imgView.image = UIImage(named: item.childrenIsVisible ? "img_cell_close" : "img_cell_open")
+            _cell.imgView.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
             
             cell = _cell
         } else {
-            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewCellSubLevel", forIndexPath: indexPath) as! BrandViewCellSubLevel
+            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListSubCell", forIndexPath: indexPath) as! BrandViewHierarchyListSubCell
             
             _cell.lblTitle!.text = item.label
             
@@ -210,12 +206,11 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let item = itemForIndexPath(indexPath)
-        
-        item.childrenIsVisible = !item.childrenIsVisible
-        self.tableView()?.reloadSections(
-            NSIndexSet(index: indexPath.section),
-            withRowAnimation: UITableViewRowAnimation.Fade)
+        if isRootItem(indexPath) {
+            self.toggleHierarchyListRootItem(indexPath)
+        } else {
+            self.presentProductsViewController(indexPath)
+        }
     }
 }
 
@@ -255,13 +250,38 @@ extension BrandViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDele
     }
 }
 
-// MARK: - Open/Close root level
+// MARK: - Hierarchy List
 extension BrandViewController {
     
-    @IBAction func didTapRootLevel(sender: UIButton) {
-        guard let tableView = self.tableView() else { return }
-        let position = sender.convertPoint(CGPointZero, toView: tableView)
-        guard let indexPath = tableView.indexPathForRowAtPoint(position) else { return }
+    private func isRootItem(indexPath: NSIndexPath) -> Bool {
+        return indexPath.row == 0
+    }
+    
+    private func itemForIndexPath(indexPath: NSIndexPath) -> CategoryItem {
+        return isRootItem(indexPath) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
+    }
+    
+    private func toggleHierarchyListRootItem(indexPath: NSIndexPath) {
+        var lastOpenedSection: Int = NSNotFound
+        for (index, item) in _sections.enumerate() {
+            if index != indexPath.section && item.childrenIsVisible {
+                item.childrenIsVisible = false
+                lastOpenedSection = index
+            }
+        }
+        
+        let item = itemForIndexPath(indexPath)
+        item.childrenIsVisible = !item.childrenIsVisible
+        
+        let indexSet = NSMutableIndexSet(index: indexPath.section)
+        if lastOpenedSection != NSNotFound {
+            indexSet.addIndex(lastOpenedSection)
+        }
+        
+        self.tableView()?.reloadSections(indexSet, withRowAnimation: UITableViewRowAnimation.Fade)
+    }
+    
+    private func presentProductsViewController(indexPath: NSIndexPath) {
         let item = self.itemForIndexPath(indexPath)
         
         if let productsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController {
@@ -270,6 +290,13 @@ extension BrandViewController {
             productsViewController.categoryID = item.id
             self.navigationController?.pushViewController(productsViewController, animated: true)
         }
+    }
+    
+    @IBAction func didTapAccessoryButton(sender: UIButton) {
+        guard let tableView = self.tableView() else { return }
+        let position = sender.convertPoint(CGPointZero, toView: tableView)
+        guard let indexPath = tableView.indexPathForRowAtPoint(position) else { return }
+        self.presentProductsViewController(indexPath)
     }
 }
 
@@ -295,7 +322,7 @@ extension BrandViewController: CLLocationManagerDelegate {
 }
 
 // MARK: - Custom cells
-class BrandViewCellRootLevel: UITableViewCell {
+class BrandViewHierarchyListRootCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var btnAccessory: UIButton!
@@ -309,7 +336,7 @@ class BrandViewCellRootLevel: UITableViewCell {
     }
 }
 
-class BrandViewCellSubLevel: UITableViewCell {
+class BrandViewHierarchyListSubCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var btnAccessory: UIButton!
     
