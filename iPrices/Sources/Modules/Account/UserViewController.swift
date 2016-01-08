@@ -79,8 +79,12 @@ extension UserViewController {
     }
     
     func showSettingsViewController(sender: UIBarButtonItem) {
-        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController") {
-            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
+        if let acknowledgementsViewController = VTAcknowledgementsViewController.acknowledgementsViewController() {
+            acknowledgementsViewController.headerText = "We \u{2665}\u{fe0e} Open Source"
+            self.presentViewController(UINavigationController(rootViewController: acknowledgementsViewController), animated: true, completion: nil)
         }
+//        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController") {
+//            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
+//        }
     }
 }

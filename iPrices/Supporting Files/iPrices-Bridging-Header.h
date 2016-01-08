@@ -28,6 +28,7 @@
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
 //@import UIImage_ResizeMagick;
+@import VTAcknowledgementsViewController;
 
 #import <libWeChatSDK/WXApiObject.h>
 #import <libWeChatSDK/WXApi.h>

@@ -412,6 +412,7 @@
 				45E7CE091BF8C05F00FAB7D6 /* Resources */,
 				ADB037464555006649303388 /* Embed Pods Frameworks */,
 				64F38153BB338306A7FF94EB /* Copy Pods Resources */,
+				459E0ED51C3FCEF6005053DA /* Copy Acknowledgements */,
 			);
 			buildRules = (
 			);
@@ -476,6 +477,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		459E0ED51C3FCEF6005053DA /* Copy Acknowledgements */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Acknowledgements";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp \"${SRCROOT}/Pods/Target Support Files/Pods/Pods-acknowledgements.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Pods-acknowledgements.plist\"";
+		};
 		64F38153BB338306A7FF94EB /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
