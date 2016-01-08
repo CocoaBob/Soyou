@@ -261,9 +261,18 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </mapView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGM-a0-MjF">
+                                            <rect key="frame" x="8" y="8" width="584" height="292"/>
+                                            <state key="normal" image="img_map_button_icon" backgroundImage="img_map_button_shadow"/>
+                                            <state key="highlighted" image="img_map_button_icon" backgroundImage="img_map_button_shadow_selected"/>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="SQL-1J-zNo" firstAttribute="top" secondItem="yee-4b-JgN" secondAttribute="topMargin" id="1hi-Th-5EI"/>
+                                        <constraint firstItem="fGM-a0-MjF" firstAttribute="bottom" secondItem="SQL-1J-zNo" secondAttribute="bottom" id="6oy-Se-sDm"/>
+                                        <constraint firstItem="fGM-a0-MjF" firstAttribute="top" secondItem="SQL-1J-zNo" secondAttribute="top" id="ADk-iu-AwV"/>
+                                        <constraint firstItem="fGM-a0-MjF" firstAttribute="leading" secondItem="SQL-1J-zNo" secondAttribute="leading" id="IKR-fc-QZZ"/>
+                                        <constraint firstItem="fGM-a0-MjF" firstAttribute="trailing" secondItem="SQL-1J-zNo" secondAttribute="trailing" id="OUZ-Tu-se2"/>
                                         <constraint firstItem="SQL-1J-zNo" firstAttribute="trailing" secondItem="yee-4b-JgN" secondAttribute="trailingMargin" id="eSs-Mc-efd"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="SQL-1J-zNo" secondAttribute="bottom" id="jJB-Vr-GHL"/>
                                         <constraint firstItem="SQL-1J-zNo" firstAttribute="leading" secondItem="yee-4b-JgN" secondAttribute="leadingMargin" id="ukd-Oj-5i2"/>
@@ -383,5 +392,8 @@
     <resources>
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="11" height="17"/>
+        <image name="img_map_button_icon" width="48" height="48"/>
+        <image name="img_map_button_shadow" width="65" height="65"/>
+        <image name="img_map_button_shadow_selected" width="65" height="65"/>
     </resources>
 </document>

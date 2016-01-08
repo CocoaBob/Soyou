@@ -2,16 +2,19 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "img_cell_disclosure.pdf",
+      "filename" : "img_map_button_shadow_selected.pdf",
       "resizing" : {
-        "mode" : "3-part-horizontal",
+        "mode" : "9-part",
         "center" : {
           "mode" : "tile",
-          "width" : 1
+          "width" : 1,
+          "height" : 1
         },
         "cap-insets" : {
-          "right" : 8,
-          "left" : 2
+          "bottom" : 32,
+          "top" : 32,
+          "right" : 32,
+          "left" : 32
         }
       }
     }

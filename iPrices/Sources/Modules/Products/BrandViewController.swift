@@ -72,9 +72,6 @@ class BrandViewController: BaseViewController {
         // Update user locations
         self.initLocationManager()
         
-        // MKMapView
-//        _mapView?.region = MKCoordinateRegionForMapRect(MKMapRectWorld)
-        
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView()!, false, false)
     }
@@ -312,7 +309,7 @@ extension BrandViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.first?.coordinate {
-            _mapView?.setCenterCoordinate(coordinate, animated: false)
+            _mapView?.setRegion(MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.5, 0.5)), animated: false)
         }
     }
     
