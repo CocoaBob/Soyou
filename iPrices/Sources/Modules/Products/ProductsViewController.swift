@@ -10,10 +10,7 @@ class ProductsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
     
-    var lastNavigationControllerDelegate: UINavigationControllerDelegate?
-    var lastInteractivePopGestureRecognizerDelegate: UIGestureRecognizerDelegate?
-    
-    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    var selectedIndexPath: NSIndexPath?
     
     var brandID: String?
     var brandName: String?
@@ -34,21 +31,15 @@ class ProductsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
-        
-        self.takeOverDelegates()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.hideToolbar(false)
-        
-        self.takeOverDelegates()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        self.restoreDelegates()
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -112,6 +103,8 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.selectedIndexPath = indexPath
+        
         let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
         
         if let productViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController {
@@ -122,9 +115,18 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             self.navigationController?.pushViewController(productViewController, animated: true)
         }
     }
+}
+
+// MARK: ZoomInteractiveTransition
+extension ProductsViewController: ZoomTransitionProtocol {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.isEdgeSwiping = false
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
+        if let indexPath = self.selectedIndexPath,
+            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
+            let imageView = cell.fgImageView {
+                return imageView
+        }
+        return nil
     }
 }
 
@@ -162,65 +164,6 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
             }
         }
         return CGSizeMake(1, 1)
-    }
-}
-
-// MARK: UIGestureRecognizerDelegate (interactivePopGestureRecognizer.delegate)
-extension ProductsViewController: UIGestureRecognizerDelegate {
-    
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if self.navigationController?.topViewController == self {
-            return false
-        }
-        self.isEdgeSwiping = true
-        return true
-    }
-}
-
-// MARK: - RMPZoomTransitionAnimator
-extension ProductsViewController: UINavigationControllerDelegate {
-    
-    func takeOverDelegates() {
-        if let navigationController = self.navigationController {
-            if navigationController.delegate == nil || navigationController.delegate! !== self {
-                self.lastNavigationControllerDelegate = navigationController.delegate
-                self.lastInteractivePopGestureRecognizerDelegate = navigationController.interactivePopGestureRecognizer?.delegate
-                
-                navigationController.delegate = self
-                navigationController.interactivePopGestureRecognizer?.delegate = self
-            }
-        }
-    }
-    
-    func restoreDelegates() {
-        self.navigationController?.delegate = self.lastNavigationControllerDelegate
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self.lastInteractivePopGestureRecognizerDelegate
-    }
-    
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if self.isEdgeSwiping {
-            self.isEdgeSwiping = false
-            return nil
-        }
-        
-        if fromVC is RMPZoomTransitionAnimating && toVC is RMPZoomTransitionAnimating {
-            let src = fromVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            let dest = toVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            
-            // If one of the frames is invisible
-            if (operation == .Pop &&
-                src.transitionDestinationImageViewFrame().size.height == 0) {
-                    return nil
-            }
-            
-            let animator = RMPZoomTransitionAnimator()
-            animator.goingForward = (operation == .Push)
-            animator.sourceTransition = src
-            animator.destinationTransition = dest
-            return animator
-        }
-        
-        return nil
     }
 }
 

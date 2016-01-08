@@ -9,3 +9,11 @@
 class ProductViewController: UIViewController {
     
 }
+
+// MARK: ZoomInteractiveTransition
+extension ProductViewController: ZoomTransitionProtocol {
+    
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
+        return nil
+    }
+}

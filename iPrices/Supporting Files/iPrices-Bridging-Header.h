@@ -22,13 +22,14 @@
 @import MBProgressHUD;
 @import MJRefresh;
 @import RandomColorSwift;
-@import RMPZoomTransitionAnimator;
+//@import RMPZoomTransitionAnimator;
 @import SCLAlertView;
 @import SDWebImage;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
 //@import UIImage_ResizeMagick;
 @import VTAcknowledgementsViewController;
+@import ZoomInteractiveTransition;
 
 #import <libWeChatSDK/WXApiObject.h>
 #import <libWeChatSDK/WXApi.h>

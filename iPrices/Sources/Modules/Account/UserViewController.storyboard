@@ -6,17 +6,14 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Interactive Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="GY8-gf-2eR">
             <objects>
-                <navigationController id="HQg-y7-K0e" customClass="KDInteractiveNavigationController" customModule="KDInteractiveNavigationController" sceneMemberID="viewController">
+                <navigationController id="HQg-y7-K0e" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DcX-sY-jjd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="clearBackTitle" value="YES"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="aAK-5e-dNq" kind="relationship" relationship="rootViewController" id="gPP-DN-0qb"/>
                     </connections>

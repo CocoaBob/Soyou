@@ -10,10 +10,10 @@ class NewsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
     
+    var transition: ZoomInteractiveTransition?
+    
     var selectedMoreButtonCell: NewsCollectionViewCellMore?
-    var selectedNewsViewCell: NewsCollectionViewCell?
     var selectedIndexPath: NSIndexPath?
-    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -43,9 +43,9 @@ class NewsViewController: BaseViewController {
         // Data
         loadData(nil)
         
-        // UINavigationController delegate
-        self.navigationController?.delegate = self
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        // Transitions
+        self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
+        self.transition?.transitionDuration = 0.2
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -153,8 +153,6 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
             } else {
                 guard let cell = cell as? NewsCollectionViewCell else { return }
                 
-                self.selectedNewsViewCell = cell
-                
                 // Prepare cover image
                 var image: UIImage?
                 if let imageURLString = localNews.image, let imageURL = NSURL(string: imageURLString) {
@@ -175,10 +173,6 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 self.navigationController?.pushViewController(newsDetailViewController, animated: true)
             }
         }
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.isEdgeSwiping = false
     }
 }
 
@@ -239,77 +233,16 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     }
 }
 
-// MARK: UIGestureRecognizerDelegate (interactivePopGestureRecognizer.delegate)
-extension NewsViewController: UIGestureRecognizerDelegate {
+// MARK: ZoomInteractiveTransition
+extension NewsViewController: ZoomTransitionProtocol {
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if self.navigationController?.topViewController == self {
-            return false
-        }
-        self.isEdgeSwiping = true
-        return true
-    }
-}
-
-// MARK: - RMPZoomTransitionAnimator
-extension NewsViewController: UINavigationControllerDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
-    
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if self.isEdgeSwiping {
-            self.isEdgeSwiping = false
-            return nil
-        }
-        
-        if fromVC is RMPZoomTransitionAnimating && toVC is RMPZoomTransitionAnimating {
-            let src = fromVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            let dest = toVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            
-            // If one of the frames is invisible
-            if (operation == .Pop &&
-                src.transitionDestinationImageViewFrame().size.height == 0) {
-                    return nil
-            }
-            
-            let animator = RMPZoomTransitionAnimator()
-            animator.goingForward = (operation == .Push)
-            animator.sourceTransition = src
-            animator.destinationTransition = dest
-            return animator
-        }
-        
-        return nil
-    }
-    
-    func imageViewFrame() -> CGRect {
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
         if let indexPath = self.selectedIndexPath,
             let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell,
             let imageView = cell.fgImageView {
-                let frame = imageView.convertRect(imageView.frame, toView: self.view.window)
-                return frame
+                return imageView
         }
-        return CGRectZero
-    }
-    
-    func transitionSourceImageView() -> UIImageView! {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.userInteractionEnabled = false
-        imageView.contentMode = .ScaleAspectFill
-        imageView.frame = imageViewFrame()
-        imageView.image = self.selectedNewsViewCell?.fgImageView!.image
-        return imageView
-    }
-    
-    func transitionSourceBackgroundColor() -> UIColor! {
-        return self.view.backgroundColor
-    }
-    
-    func transitionDestinationImageViewFrame() -> CGRect {
-        return imageViewFrame()
-    }
-    
-    func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
-        
+        return nil
     }
 }
 

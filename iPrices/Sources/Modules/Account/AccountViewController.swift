@@ -98,8 +98,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         let row = sections[indexPath.section].rows[indexPath.row]
         if row.type == .Account {
             if let loginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") {
-                let navigationController = KDInteractiveNavigationController(rootViewController: loginViewController)
-                navigationController.clearBackTitle = true
+                let navigationController = UINavigationController(rootViewController: loginViewController)
                 self.presentViewController(navigationController, animated: true, completion: nil)
             }
         }

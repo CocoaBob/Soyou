@@ -149,17 +149,14 @@
             </objects>
             <point key="canvasLocation" x="1431" y="70"/>
         </scene>
-        <!--Interactive Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="fUT-lS-rpP">
             <objects>
-                <navigationController id="1pd-dP-1XJ" customClass="KDInteractiveNavigationController" customModule="KDInteractiveNavigationController" sceneMemberID="viewController">
+                <navigationController id="1pd-dP-1XJ" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cSv-do-a8f">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="clearBackTitle" value="YES"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="6DD-Tl-30h" kind="relationship" relationship="rootViewController" id="DGA-hj-Ljm"/>
                     </connections>

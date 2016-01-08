@@ -5,17 +5,14 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Interactive Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="6KO-WQ-40d">
             <objects>
-                <navigationController id="YMb-yX-kGc" customClass="KDInteractiveNavigationController" customModule="KDInteractiveNavigationController" sceneMemberID="viewController">
+                <navigationController id="YMb-yX-kGc" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="TbO-0j-kre">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="clearBackTitle" value="YES"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="H9m-nj-Q4N" kind="relationship" relationship="rootViewController" id="h41-8m-bNh"/>
                     </connections>
@@ -392,7 +389,7 @@
     <resources>
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="11" height="17"/>
-        <image name="img_map_button_icon" width="48" height="48"/>
+        <image name="img_map_button_icon" width="46" height="46"/>
         <image name="img_map_button_shadow" width="65" height="65"/>
         <image name="img_map_button_shadow_selected" width="65" height="65"/>
     </resources>

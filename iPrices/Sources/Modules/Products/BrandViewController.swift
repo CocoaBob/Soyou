@@ -211,39 +211,14 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: - RMPZoomTransitionAnimator
-extension BrandViewController: RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
+// MARK: ZoomInteractiveTransition
+extension BrandViewController: ZoomTransitionProtocol {
     
-    func imageViewFrame() -> CGRect {
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
         if let twitterCoverView = self.tableView()?.twitterCoverView {
-            let frame = self.tableView()!.convertRect(twitterCoverView.frame, toView: self.view.window)
-            return frame
+            return twitterCoverView
         }
-        return self.view.convertRect(CGRectMake(0, 0, self.view.frame.size.width, coverHeight), toView: self.view.window)
-    }
-    
-    func transitionSourceImageView() -> UIImageView! {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.userInteractionEnabled = false
-        imageView.contentMode = .ScaleAspectFill
-        imageView.frame = imageViewFrame()
-        if let twitterCoverView = self.tableView()?.twitterCoverView {
-            imageView.image = twitterCoverView.image
-        }
-        return imageView
-    }
-    
-    func transitionSourceBackgroundColor() -> UIColor! {
-        return self.view.backgroundColor
-    }
-    
-    func transitionDestinationImageViewFrame() -> CGRect {
-        return imageViewFrame()
-    }
-    
-    func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
-        
+        return nil
     }
 }
 

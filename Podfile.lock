@@ -40,14 +40,14 @@ PODS:
   - MJRefresh (3.1.0)
   - pop (1.0.8)
   - RandomColorSwift (0.1.0)
-  - RMPZoomTransitionAnimator (1.0.1)
   - SCLAlertView (0.4.3)
-  - SDWebImage (3.7.3):
-    - SDWebImage/Core (= 3.7.3)
-  - SDWebImage/Core (3.7.3)
+  - SDWebImage (3.7.4):
+    - SDWebImage/Core (= 3.7.4)
+  - SDWebImage/Core (3.7.4)
   - UICKeyChainStore (1.0.5)
   - UIColor_Hex_Swift (1.8)
   - VTAcknowledgementsViewController (0.17)
+  - ZoomInteractiveTransition (0.2.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6)
@@ -63,12 +63,12 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 3.0)
   - RandomColorSwift
-  - RMPZoomTransitionAnimator (from `git://github.com/CocoaBob/RMPZoomTransitionAnimator`)
   - SCLAlertView
   - SDWebImage (~> 3.7)
   - UICKeyChainStore (~> 1.0)
   - UIColor_Hex_Swift (~> 1.5)
   - VTAcknowledgementsViewController
+  - ZoomInteractiveTransition (from `git://github.com/CocoaBob/ZoomInteractiveTransition`)
 
 EXTERNAL SOURCES:
   CHTwitterCover:
@@ -77,8 +77,8 @@ EXTERNAL SOURCES:
     :git: git://github.com/CocoaBob/IDMPhotoBrowser
   libWeChatSDK:
     :git: git://github.com/CocoaBob/libWeChatSDK
-  RMPZoomTransitionAnimator:
-    :git: git://github.com/CocoaBob/RMPZoomTransitionAnimator
+  ZoomInteractiveTransition:
+    :git: git://github.com/CocoaBob/ZoomInteractiveTransition
 
 CHECKOUT OPTIONS:
   CHTwitterCover:
@@ -90,9 +90,9 @@ CHECKOUT OPTIONS:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
-  RMPZoomTransitionAnimator:
-    :commit: af1ccee3823803736c2de29772c52644244ef227
-    :git: git://github.com/CocoaBob/RMPZoomTransitionAnimator
+  ZoomInteractiveTransition:
+    :commit: eb518404a798a7d1f7f96f5ed2d530af221a289a
+    :git: git://github.com/CocoaBob/ZoomInteractiveTransition
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -111,11 +111,11 @@ SPEC CHECKSUMS:
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   RandomColorSwift: b2e95d6d3670def6d2f907ec7b7041138b268ac9
-  RMPZoomTransitionAnimator: 1b73d2ff700af5d6e7f75db46ddadc738771e9e5
   SCLAlertView: a5c726a80a938fd3127edd7dbc19da33fb936ca3
-  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SDWebImage: 247edd7dd80dd6124197b0d6a17846fe9d1df968
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
   UIColor_Hex_Swift: a66b9d5f6e8fddbd9fe32996504f0b7e9d20d680
   VTAcknowledgementsViewController: 6056f5f5e5ed995bbf0581bed6ddd29355ca9a80
+  ZoomInteractiveTransition: 1db26b560114ed9bbe0494c449af933d935765c6
 
 COCOAPODS: 0.39.0

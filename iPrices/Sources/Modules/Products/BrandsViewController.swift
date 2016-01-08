@@ -10,10 +10,9 @@ class BrandsViewController: BaseViewController {
     
     @IBOutlet var _collectionView: UICollectionView?
     
-    var selectedCell: BrandsCollectionViewCell?
-    var selectedIndexPath: NSIndexPath?
+    var transition: ZoomInteractiveTransition?
     
-    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    var selectedIndexPath: NSIndexPath?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -36,9 +35,9 @@ class BrandsViewController: BaseViewController {
         // Setups
         setupCollectionView()
         
-        // UINavigationController delegate
-        self.navigationController?.delegate = self
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        // Transitions
+        self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
+        self.transition?.transitionDuration = 0.2
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -104,23 +103,18 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 imageURLString = localBrand.imageUrl
             })
             // Load image
-            guard let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell else { return }
-            self.selectedCell = cell
-            
-            brandViewController.brandImage = cell.fgImageView.image
-            if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
-                if !SDWebImageManager.sharedManager().cachedImageExistsForURL(imageURL) {
-                    brandViewController.brandImageURL = imageURL
+            if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell {
+                brandViewController.brandImage = cell.fgImageView.image
+                if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
+                    if !SDWebImageManager.sharedManager().cachedImageExistsForURL(imageURL) {
+                        brandViewController.brandImageURL = imageURL
+                    }
                 }
             }
             
             // Push view
             self.navigationController?.pushViewController(brandViewController, animated: true)
         }
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.isEdgeSwiping = false
     }
 }
 
@@ -153,77 +147,16 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
     }
 }
 
-// MARK: UIGestureRecognizerDelegate (interactivePopGestureRecognizer.delegate)
-extension BrandsViewController: UIGestureRecognizerDelegate {
+// MARK: ZoomInteractiveTransition
+extension BrandsViewController: ZoomTransitionProtocol {
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if self.navigationController?.topViewController == self {
-            return false
-        }
-        self.isEdgeSwiping = true
-        return true
-    }
-}
-
-// MARK: - RMPZoomTransitionAnimator
-extension BrandsViewController: UINavigationControllerDelegate, RMPZoomTransitionAnimating, RMPZoomTransitionDelegate {
-    
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if self.isEdgeSwiping {
-            self.isEdgeSwiping = false
-            return nil
-        }
-        
-        if fromVC is RMPZoomTransitionAnimating && toVC is RMPZoomTransitionAnimating {
-            let src = fromVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            let dest = toVC as! protocol<RMPZoomTransitionAnimating, RMPZoomTransitionDelegate>
-            
-            // If one of the frames is invisible
-            if (operation == .Pop &&
-                src.transitionDestinationImageViewFrame().size.height == 0) {
-                    return nil
-            }
-            
-            let animator = RMPZoomTransitionAnimator()
-            animator.goingForward = (operation == .Push)
-            animator.sourceTransition = src
-            animator.destinationTransition = dest
-            return animator
-        }
-        
-        return nil
-    }
-    
-    func imageViewFrame() -> CGRect {
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
         if let indexPath = self.selectedIndexPath,
             let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? BrandsCollectionViewCell,
             let imageView = cell.fgImageView {
-                let frame = imageView.convertRect(imageView.frame, toView: self.view.window)
-                return frame
+                return imageView
         }
-        return CGRectZero
-    }
-    
-    func transitionSourceImageView() -> UIImageView! {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        imageView.userInteractionEnabled = false
-        imageView.contentMode = .ScaleAspectFill
-        imageView.frame = imageViewFrame()
-        imageView.image = self.selectedCell?.fgImageView!.image
-        return imageView
-    }
-    
-    func transitionSourceBackgroundColor() -> UIColor! {
-        return self.view.backgroundColor
-    }
-    
-    func transitionDestinationImageViewFrame() -> CGRect {
-        return imageViewFrame()
-    }
-    
-    func zoomTransitionAnimator(animator: RMPZoomTransitionAnimator!, didCompleteTransition didComplete: Bool, animatingSourceImageView imageView: UIImageView!) {
-        
+        return nil
     }
 }
 
