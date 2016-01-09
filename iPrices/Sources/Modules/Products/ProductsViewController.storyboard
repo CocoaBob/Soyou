@@ -91,7 +91,9 @@
                             <constraint firstItem="ngI-u3-qiT" firstAttribute="leading" secondItem="VWh-J2-MYO" secondAttribute="leading" id="f9x-Xw-vxS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SMT-ZD-zUg"/>
+                    <navigationItem key="navigationItem" id="SMT-ZD-zUg">
+                        <barButtonItem key="backBarButtonItem" title=" " id="m8P-2G-PfH"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="_collectionView" destination="ngI-u3-qiT" id="GVo-sX-QBa"/>
                     </connections>
@@ -200,7 +202,9 @@
                             <constraint firstAttribute="trailing" secondItem="LND-O0-Vpm" secondAttribute="trailing" id="aMQ-Lf-vz0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="uz4-Jr-Q0j"/>
+                    <navigationItem key="navigationItem" id="uz4-Jr-Q0j">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Q8f-D6-h1x"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="_collectionView" destination="LND-O0-Vpm" id="tax-Cd-fzf"/>
                     </connections>
@@ -261,7 +265,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGM-a0-MjF">
                                             <rect key="frame" x="8" y="8" width="584" height="292"/>
                                             <state key="normal" image="img_map_button_icon"/>
-                                            <state key="highlighted" image="img_map_button_icon" backgroundImage="img_map_button_shadow_selected"/>
+                                            <state key="highlighted" image="img_map_button_icon"/>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -375,7 +379,9 @@
                             <constraint firstItem="18q-tM-q9W" firstAttribute="top" secondItem="Jlu-hc-eFk" secondAttribute="bottom" id="ah7-5u-fDf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="q1F-1r-61G"/>
+                    <navigationItem key="navigationItem" id="q1F-1r-61G">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Gqp-DU-myz"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="_mapView" destination="SQL-1J-zNo" id="29O-jo-5DE"/>
                         <outlet property="_tableView" destination="Jlu-hc-eFk" id="6O0-ui-I21"/>
@@ -390,6 +396,5 @@
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="12" height="21"/>
         <image name="img_map_button_icon" width="46" height="46"/>
-        <image name="img_map_button_shadow_selected" width="65" height="65"/>
     </resources>
 </document>
