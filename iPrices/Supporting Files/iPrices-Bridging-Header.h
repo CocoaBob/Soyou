@@ -21,7 +21,6 @@
 @import MBProgressHUD;
 @import MJRefresh;
 @import RandomColorSwift;
-//@import RMPZoomTransitionAnimator;
 @import SCLAlertView;
 @import SDWebImage;
 @import UICKeyChainStore;
