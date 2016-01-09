@@ -45,7 +45,10 @@ class NewsViewController: BaseViewController {
         
         // Transitions
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
-        self.transition?.transitionDuration = 0.2
+        self.transition?.transitionDuration = 0.3
+        let animationOpts: UIViewAnimationOptions = .CurveEaseOut
+        let keyFrameOpts: UIViewKeyframeAnimationOptions = UIViewKeyframeAnimationOptions(rawValue: animationOpts.rawValue)
+        self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.CalculationModeCubic, keyFrameOpts]
     }
     
     override func viewWillAppear(animated: Bool) {

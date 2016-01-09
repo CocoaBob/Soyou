@@ -218,8 +218,17 @@ extension BrandViewController: ZoomTransitionProtocol {
         if let twitterCoverView = self.tableView()?.twitterCoverView {
             return twitterCoverView
         }
+        
         return nil
     }
+    
+    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        if operation == .Push && fromVC === self && toVC is ProductsViewController {
+            return false
+        }
+        return true
+    }
+    
 }
 
 // MARK: - Hierarchy List

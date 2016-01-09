@@ -126,7 +126,15 @@ extension ProductsViewController: ZoomTransitionProtocol {
             let imageView = cell.fgImageView {
                 return imageView
         }
+        
         return nil
+    }
+    
+    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        if operation == .Pop && fromVC === self && toVC is BrandViewController {
+            return false
+        }
+        return true
     }
 }
 

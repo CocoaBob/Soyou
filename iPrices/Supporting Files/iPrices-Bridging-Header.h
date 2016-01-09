@@ -17,7 +17,6 @@
 @import EAIntroView;
 @import FCUUID;
 @import IDMPhotoBrowser;
-@import KDInteractiveNavigationController;
 @import MagicalRecord;
 @import MBProgressHUD;
 @import MJRefresh;

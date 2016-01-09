@@ -14,6 +14,6 @@ class ProductViewController: UIViewController {
 extension ProductViewController: ZoomTransitionProtocol {
     
     func viewForZoomTransition(isSource: Bool) -> UIView? {
-        return nil
+        return self.view
     }
 }
