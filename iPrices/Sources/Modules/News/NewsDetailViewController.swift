@@ -300,12 +300,14 @@ extension NewsDetailViewController {
     
     private var isFavorite: Bool? {
         set(newValue) {
-            if newValue != nil && newValue == true {
-                self.btnFav?.tintColor = btnActiveColor
-                self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
-            } else {
-                self.btnFav?.tintColor = btnInactiveColor
-                self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                if newValue != nil && newValue == true {
+                    self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
+                    self.btnFav?.tintColor = self.btnActiveColor
+                } else {
+                    self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+                    self.btnFav?.tintColor = self.btnInactiveColor
+                }
             }
         }
         get {
