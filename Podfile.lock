@@ -89,7 +89,7 @@ CHECKOUT OPTIONS:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
   ZoomInteractiveTransition:
-    :commit: d3104cebb3979fb8f4a30562550f010ea14577e1
+    :commit: 24135501e8c60c0e11b56efbf5c114dc75cf4a39
     :git: git://github.com/CocoaBob/ZoomInteractiveTransition
 
 SPEC CHECKSUMS:
