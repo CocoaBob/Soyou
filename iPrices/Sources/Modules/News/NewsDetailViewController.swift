@@ -181,22 +181,16 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
                 image = UIImage(data: imageData)
             {
                 let photoBrowser = IDMPhotoBrowser(photos: [IDMPhoto(image:image)])
-                photoBrowser.backgroundAlphaMax = 0.7
-                photoBrowser.displayActionButton = false
-                photoBrowser.displayArrowButton = false
-                photoBrowser.displayCounterLabel = false
-                photoBrowser.displayDoneButton = false
-                photoBrowser.displayToolbar = false
+                photoBrowser.displayToolbar = true
+                photoBrowser.displayActionButton = true
+                photoBrowser.displayArrowButton = true
+                photoBrowser.displayCounterLabel = true
+                photoBrowser.displayDoneButton = true
                 photoBrowser.usePopAnimation = false
                 photoBrowser.useWhiteBackgroundColor = false
                 photoBrowser.disableVerticalSwipe = false
-                photoBrowser.forceHideStatusBar = true
+                photoBrowser.forceHideStatusBar = false
                 self.presentViewController(photoBrowser, animated: true, completion: nil)
-                
-                let tapGR = UITapGestureRecognizer(target: photoBrowser, action: "doneButtonPressed:")
-                tapGR.numberOfTapsRequired = 1
-                tapGR.numberOfTouchesRequired = 1
-                photoBrowser.view.addGestureRecognizer(tapGR)
             }
         }
     }
