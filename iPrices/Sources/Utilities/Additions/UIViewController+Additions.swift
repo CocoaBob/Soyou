@@ -307,3 +307,25 @@ extension UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
+
+// MARK: ZoomInteractiveTransition
+extension UIViewController {
+    
+    func animationBlockForZoomTransition() -> ZoomAnimationBlock! {
+        return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!) -> Void in
+            animatedSnapshot.transform = CGAffineTransformMakeScale(1.01, 1.01)
+        }
+    }
+    
+    func completionBlockForZoomTransition() -> ZoomCompletionBlock! {
+        return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!, completion: (() -> Void)?) -> Void in
+            UIView.animateWithDuration(0.1, animations: { () -> Void in
+                animatedSnapshot.transform = CGAffineTransformIdentity
+                }, completion: { (Bool) -> Void in
+                    if let completion = completion {
+                        completion()
+                    }
+            })
+        }
+    }
+}
