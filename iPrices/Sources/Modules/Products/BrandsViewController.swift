@@ -84,7 +84,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
                 placeholderImage: UIImage.imageWithRandomColor(nil),
-                options: [.ContinueInBackground, .AllowInvalidSSLCertificates])
+                options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .DelayPlaceholder])
         }
 
         return cell
@@ -105,15 +105,21 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?
                 imageURLString = localBrand.imageUrl
             })
-            // Load image
-            if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell {
-                brandViewController.brandImage = cell.fgImageView.image
-                if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
-                    if !SDWebImageManager.sharedManager().cachedImageExistsForURL(imageURL) {
-                        brandViewController.brandImageURL = imageURL
-                    }
+            
+            // Load brand image
+            var image: UIImage?
+            if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
+                brandViewController.brandImageURL = imageURL
+                
+                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+            }
+            if image == nil {
+                if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell {
+                    image = cell.fgImageView.image
                 }
             }
+            brandViewController.brandImage = image
             
             // Push view
             self.navigationController?.pushViewController(brandViewController, animated: true)
@@ -142,6 +148,9 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
         // Collection view attributes
         self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         self.collectionView().alwaysBounceVertical = true
+        
+        // Load data
+        self.collectionView().reloadData()
     }
     
     //** Size for the cells in the Waterfall Layout */
