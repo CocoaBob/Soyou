@@ -44,7 +44,7 @@
 		4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E29B1BF90797009A6164 /* NewsViewController.swift */; };
 		4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* BaseViewControllers.swift */; };
 		4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2FB1BF938C9009A6164 /* FileManager.swift */; };
-		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundle Resource For IDMPhotoBrowser */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundle Resource For IDMPhotoBrowser */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
 		457777831BFCB60100805D79 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777811BFCB60100805D79 /* News.swift */; };
 		457777881BFCE15700805D79 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4577778A1BFCE15700805D79 /* Localizable.strings */; };

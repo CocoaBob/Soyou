@@ -29,6 +29,9 @@
 "brands_vc_title"="品牌";
 "brands_vc_tab_title"="品牌";
 
+/* Brand View Controller */
+"brands_root_cell_all"="全部";
+
 /* Products View Controller */
 "products_vc_title"="产品";
 

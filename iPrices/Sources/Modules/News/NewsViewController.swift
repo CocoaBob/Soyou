@@ -19,7 +19,7 @@ class NewsViewController: BaseViewController {
         super.init(coder: aDecoder)
         
         // UIViewController
-        self.navigationItem.titleView = UIImageView(image: UIImage(named: "img_logo_nav_bar"))
+        self.title = NSLocalizedString("news_vc_title")
 
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_house"), selectedImage: UIImage(named: "img_tab_house_selected"))
