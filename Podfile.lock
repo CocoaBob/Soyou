@@ -24,7 +24,7 @@ PODS:
   - CHTCollectionViewWaterfallLayout (0.9.2)
   - CHTwitterCover (0.1)
   - DACircularProgress (2.3.1)
-  - EAIntroView (2.7.4):
+  - EAIntroView (2.8.1):
     - EARestrictedScrollView (~> 0.2.0)
   - EARestrictedScrollView (0.2.0)
   - FCUUID (1.1.5):
@@ -48,33 +48,35 @@ PODS:
   - ZoomInteractiveTransition (0.4.0)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.6)
+  - AFNetworking (~> 2)
   - Base64nl
-  - CHTCollectionViewWaterfallLayout (~> 0.9)
-  - CHTwitterCover (from `git://github.com/CocoaBob/TwitterCover`)
-  - EAIntroView (= 2.7.4)
-  - FCUUID (~> 1.1)
+  - CHTCollectionViewWaterfallLayout
+  - CHTwitterCover (from `git://github.com/CocoaBob/TwitterCover`, commit `61d0e5eb532962d5510d65c7619d80f484d675f6`)
+  - EAIntroView
+  - FCUUID
   - IDMPhotoBrowser
-  - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`)
+  - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `bb4387498ef2974189e8270928f62a1cd3a8ef62`)
   - MagicalRecord (~> 2.3)
-  - MBProgressHUD (~> 0.9.1)
-  - MJRefresh (~> 3.0)
+  - MBProgressHUD
+  - MJRefresh
   - RandomColorSwift
   - SCLAlertView
-  - SDWebImage (~> 3.7)
-  - UICKeyChainStore (~> 1.0)
-  - UIColor_Hex_Swift (~> 1.5)
+  - SDWebImage
+  - UICKeyChainStore
+  - UIColor_Hex_Swift
   - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
   CHTwitterCover:
+    :commit: 61d0e5eb532962d5510d65c7619d80f484d675f6
     :git: git://github.com/CocoaBob/TwitterCover
   libWeChatSDK:
+    :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
 
 CHECKOUT OPTIONS:
   CHTwitterCover:
-    :commit: 1b5af04c0dcdcf77a0fc8e941362a6ea08b65dfe
+    :commit: 61d0e5eb532962d5510d65c7619d80f484d675f6
     :git: git://github.com/CocoaBob/TwitterCover
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
@@ -86,7 +88,7 @@ SPEC CHECKSUMS:
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
   CHTwitterCover: 5cc99cb4535ec79bf614507e4eaa8616a30b015a
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  EAIntroView: 50b85eedf414260e61330070ffe5947e72493a62
+  EAIntroView: 73abfa89caa311f450af876421d950b96679e845
   EARestrictedScrollView: f86d61e16c61d3e93c84f8e96e83122a2a3b7631
   FCUUID: a9108673d64a4585a4bb89ea5d4c69b002edadb3
   IDMPhotoBrowser: 99eccfe6431e182f64e2fe57ac654316fbf81576
