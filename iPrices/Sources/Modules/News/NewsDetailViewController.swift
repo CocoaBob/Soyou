@@ -7,6 +7,9 @@
 //
 
 class NewsDetailViewController: UIViewController {
+    
+    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    
     let btnActiveColor = UIColor(rgba:"#10ABFE")
     let btnInactiveColor = UIToolbar.appearance().tintColor
     var coverHeight:CGFloat = 200.0
@@ -139,7 +142,7 @@ class NewsDetailViewController: UIViewController {
 }
 
 // MARK: Web image tap gesture handler
-extension NewsDetailViewController: UIGestureRecognizerDelegate {
+extension NewsDetailViewController {
     
     func tapHandler(tapGR: UITapGestureRecognizer) {
         guard let webView = self.webView else {
@@ -171,11 +174,11 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
         if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
             if let imageDataBase64: String = webView.stringByEvaluatingJavaScriptFromString(
                 "var img = document.elementFromPoint(\(touchPoint.x), \(touchPoint.y));" +
-                "var canvas = document.createElement('canvas'); " +
-                "var context = canvas.getContext('2d');" +
-                "canvas.width = img.naturalWidth;" +
-                "canvas.height = img.naturalHeight;" +
-                "context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);" +
+                    "var canvas = document.createElement('canvas'); " +
+                    "var context = canvas.getContext('2d');" +
+                    "canvas.width = img.naturalWidth;" +
+                    "canvas.height = img.naturalHeight;" +
+                    "context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);" +
                 "canvas.toDataURL('image/png');"),
                 imageData = imageDataBase64.substringFromIndex(imageDataBase64.startIndex.advancedBy(22)).base64DecodedData(),
                 image = UIImage(data: imageData)
@@ -193,10 +196,6 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
                 self.presentViewController(photoBrowser, animated: true, completion: nil)
             }
         }
-    }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }
 
@@ -417,6 +416,21 @@ extension NewsDetailViewController {
     }
 }
 
+// MARK: UIGestureRecognizerDelegate
+extension NewsDetailViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
+            self.isEdgeSwiping = true
+        }
+        return true
+    }
+}
+
 // MARK: ZoomInteractiveTransition
 extension NewsDetailViewController: ZoomTransitionProtocol {
     
@@ -425,6 +439,15 @@ extension NewsDetailViewController: ZoomTransitionProtocol {
             return twitterCoverView
         }
         return nil
+    }
+    
+    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        // No zoom transition when edge swiping
+        if self.isEdgeSwiping {
+            self.isEdgeSwiping = false
+            return false
+        }
+        return true
     }
 }
 

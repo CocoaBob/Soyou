@@ -16,6 +16,8 @@ private class CategoryItem: AnyObject {
 
 class BrandViewController: BaseViewController {
     
+    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    
     @IBOutlet var _tableView: UITableView?
     @IBOutlet var _mapView: MKMapView?
     
@@ -211,6 +213,17 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: UIGestureRecognizerDelegate
+extension BrandViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
+            self.isEdgeSwiping = true
+        }
+        return true
+    }
+}
+
 // MARK: ZoomInteractiveTransition
 extension BrandViewController: ZoomTransitionProtocol {
     
@@ -223,7 +236,14 @@ extension BrandViewController: ZoomTransitionProtocol {
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        // No zoom transition from BrandVC to ProductsVC
         if operation == .Push && fromVC === self && toVC is ProductsViewController {
+            return false
+        }
+        
+        // No zoom transition when edge swiping
+        if self.isEdgeSwiping {
+            self.isEdgeSwiping = false
             return false
         }
         return true

@@ -37,6 +37,7 @@ class BrandsViewController: BaseViewController {
         
         // Transitions
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
+        self.transition?.handleEdgePanBackGesture = false
         self.transition?.transitionDuration = 0.3
         let animationOpts: UIViewAnimationOptions = .CurveEaseOut
         let keyFrameOpts: UIViewKeyframeAnimationOptions = UIViewKeyframeAnimationOptions(rawValue: animationOpts.rawValue)
