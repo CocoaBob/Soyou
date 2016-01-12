@@ -50,6 +50,23 @@
 "login_vc_forget_password_alert_message"="We've sent you a verfication code, please check your Email to get the code.";
 "login_vc_reset_password_alert_message"="Password has been reset, now you are logged in.";
 
+/* Error Code */
+"invalid_activation_code"="Invalid activation code.";
+"invalid_verification_code"="Invalide verification code.";
+"server_error"="Server error.";
+"email_password_cannot_be_empty"="Emaill/Password can not be empty.";
+"email_format_incorrect"="Incorrect email format.";
+"verification_password_cannot_be_empty"="Verification password cannot be empty.";
+"email_already_exist"="Email already exists.";
+"incorrect_email_or_password"="Incorrect email or password.";
+"invalid_login"="Invalid login.";
+"logout_failed"="Login failed.";
+"forbidden"="Forbidden.";
+"unauthorized"="Unauthorized.";
+"bad_request"="Bad request.";
+"not_found"="Not found.";
+"invalid_operation"="Invalid operation.";
+
 /* Common */
 "alert_title_failed"="Failed";
 "alert_title_error"="Error";

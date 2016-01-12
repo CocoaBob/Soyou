@@ -141,8 +141,8 @@ extension LoginViewController {
         DLog(responseObject)
         // Show error
         if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-            data = responseObject["data"] as? [Dictionary<String, AnyObject>],
-            message = data[0]["message"] as? String
+           let data = responseObject["data"] as? [String],
+           let message = data.first
         {
             SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: message)
         }

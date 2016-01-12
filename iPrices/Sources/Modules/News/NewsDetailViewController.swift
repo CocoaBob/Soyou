@@ -11,10 +11,12 @@ class NewsDetailViewController: UIViewController {
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     // Toolbar
-    let btnActiveColor = UIColor(rgba:"#10ABFE")
-    let btnInactiveColor = UIToolbar.appearance().tintColor
     var btnLike: UIButton?
+    let btnLikeActiveColor = UIColor.redColor()
+    let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
+    let btnFavActiveColor = UIColor(rgba:"#FFB751")
+    let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
     // Header Cover
     var coverHeight:CGFloat = 200.0
@@ -276,7 +278,15 @@ extension NewsDetailViewController {
     }
     
     private func updateLikeBtnColor(appIsLiked: Bool?) {
-        self.btnLike?.tintColor = (appIsLiked != nil && appIsLiked!.boolValue) ? btnActiveColor : btnInactiveColor
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            if appIsLiked != nil && appIsLiked!.boolValue {
+                self.btnLike?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
+                self.btnLike?.tintColor = self.btnLikeActiveColor
+            } else {
+                self.btnLike?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+                self.btnLike?.tintColor = self.btnLikeInactiveColor
+            }
+        }
         self.likeBtnToggle = !likeBtnToggle
     }
     
@@ -301,24 +311,20 @@ extension NewsDetailViewController {
 // MARK: Fav button
 extension NewsDetailViewController {
     
-    private func updateFavBtnColor(appIsLiked: Bool?) {
-        self.btnFav?.tintColor = (appIsLiked != nil && appIsLiked!.boolValue) ? btnActiveColor : btnInactiveColor
-    }
-    
     private var isFavorite: Bool? {
         set(newValue) {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 if newValue != nil && newValue == true {
                     self.btnFav?.setImage(UIImage(named: "img_star_selected"), forState: .Normal)
-                    self.btnFav?.tintColor = self.btnActiveColor
+                    self.btnFav?.tintColor = self.btnFavActiveColor
                 } else {
                     self.btnFav?.setImage(UIImage(named: "img_star"), forState: .Normal)
-                    self.btnFav?.tintColor = self.btnInactiveColor
+                    self.btnFav?.tintColor = self.btnFavInactiveColor
                 }
             }
         }
         get {
-            return self.btnFav?.tintColor == btnActiveColor
+            return self.btnFav?.tintColor == btnFavActiveColor
         }
     }
 }
@@ -543,7 +549,7 @@ extension NewsDetailViewController {
             if let isFavorite = self.isFavorite {
                 MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                     if let localNews = self.news?.MR_inContext(localContext) {
-                        DataManager.shared.newsFavorite(localNews.id!, isFavorite: isFavorite,
+                        DataManager.shared.newsFavorite(localNews.id!, wasFavorite: isFavorite,
                             { (data: AnyObject?) -> () in
                                 // Toggle the value of isFavorite
                                 self.isFavorite = !isFavorite

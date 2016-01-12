@@ -118,8 +118,8 @@ class DataManager {
     // MARK: Favorites News
     //////////////////////////////////////
     
-    func newsFavorite(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
-        RequestManager.shared.newsFavorite(id, operation: isFavorite ? "-" : "+",
+    func newsFavorite(id: NSNumber, wasFavorite: Bool, _ completion: DataClosure?) {
+        RequestManager.shared.newsFavorite(id, operation: wasFavorite ? "-" : "+",
             { (responseObject: AnyObject?) -> () in
                 if let completion = completion {
                     completion(responseObject?["data"])

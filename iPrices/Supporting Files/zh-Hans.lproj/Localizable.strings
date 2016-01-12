@@ -50,6 +50,23 @@
 "login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
 "login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
 
+/* Error Code */
+"invalid_activation_code"="无效激活码。";
+"invalid_verification_code"="无效验证码。";
+"server_error"="服务器错误。";
+"email_password_cannot_be_empty"="邮箱、密码不能为空。";
+"email_format_incorrect"="错误的邮箱地址格式。";
+"verification_password_cannot_be_empty"="第二次密码不能为空。";
+"email_already_exist"="邮箱地址已经存在。";
+"incorrect_email_or_password"="用户名或密码错误。";
+"invalid_login"="无效用户名。";
+"logout_failed"="登录失败。";
+"forbidden"="禁止。";
+"unauthorized"="未授权。";
+"bad_request"="错误请求。";
+"not_found"="未找到。";
+"invalid_operation"="无效操作。";
+
 /* Common */
 "alert_title_failed"="失败";
 "alert_title_error"="错误";
