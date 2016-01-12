@@ -14,14 +14,7 @@ extension UIToolbar {
             transition.duration = 0.25
             transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             transition.type = kCATransitionPush
-            
-            if layer.position.x < 0 || layer.position.x >= layer.bounds.size.width {
-                transition.subtype = kCATransitionFromTop
-            } else if layer.position.y > 0 {
-                transition.subtype = kCATransitionFromTop
-            } else {
-                return nil;
-            }
+            transition.subtype = kCATransitionFromTop
             
             return transition
         }

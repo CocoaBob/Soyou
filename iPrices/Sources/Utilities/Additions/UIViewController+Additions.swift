@@ -13,8 +13,8 @@ extension UIViewController {
         self.navigationController?.setToolbarHidden(true, animated: animated)
     }
     
-    func showToolbar() {
-        self.navigationController?.setToolbarHidden(false, animated: false)
+    func showToolbar(animated: Bool) {
+        self.navigationController?.setToolbarHidden(false, animated: animated)
     }
     
     func topInset(includeStatusBar: Bool) -> CGFloat {

@@ -93,24 +93,24 @@ class NewsDetailViewController: UIViewController {
         self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
         self.btnLike?.backgroundColor = UIColor.clearColor()
         self.btnLike?.frame = CGRectMake(0, 0, 64, 32)
-        self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
+        self.btnLike?.setImage(UIImage(named: "img_heart"), forState: .Normal)
         self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnLike?.addTarget(self, action: "like:", forControlEvents: .TouchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clearColor()
         self.btnFav?.frame = CGRectMake(0, 0, 64, 32)
-        self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+        self.btnFav?.setImage(UIImage(named: "img_star"), forState: .Normal)
         self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnFav?.addTarget(self, action: "star:", forControlEvents: .TouchUpInside)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
         let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: "back:")
-        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
         let like = UIBarButtonItem(customView: self.btnLike!)
         let fav = UIBarButtonItem(customView: self.btnFav!)
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
         (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
         
-        self.toolbarItems = [ space, back, space, share, space, like, space, fav, space]
+        self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
         
         // Load content
         loadNews()
@@ -131,7 +131,7 @@ class NewsDetailViewController: UIViewController {
         // Hide navigation bar if it's visible again
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         // Show tool bar if it's invisible again
-        self.showToolbar()
+        self.showToolbar(animated)
         // Update statusbar cover
         self.updateStatusBarCover()
     }
@@ -309,10 +309,10 @@ extension NewsDetailViewController {
         set(newValue) {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 if newValue != nil && newValue == true {
-                    self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
+                    self.btnFav?.setImage(UIImage(named: "img_star_selected"), forState: .Normal)
                     self.btnFav?.tintColor = self.btnActiveColor
                 } else {
-                    self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+                    self.btnFav?.setImage(UIImage(named: "img_star"), forState: .Normal)
                     self.btnFav?.tintColor = self.btnInactiveColor
                 }
             }

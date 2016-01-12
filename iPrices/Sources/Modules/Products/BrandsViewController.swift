@@ -46,7 +46,7 @@ class BrandsViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.hideToolbar(false)
+        self.hideToolbar(animated)
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {

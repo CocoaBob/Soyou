@@ -11,9 +11,6 @@ extension UITabBar {
     override public func actionForLayer(layer: CALayer, forKey event: String) -> CAAction? {
         if "position" == event {
             let transition = CATransition()
-            transition.duration = 0.25
-            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-            transition.type = kCATransitionPush
             
             if layer.position.x < 0 || layer.position.x >= layer.bounds.size.width {
                 transition.subtype = kCATransitionFromTop
@@ -22,6 +19,10 @@ extension UITabBar {
             } else {
                 return nil;
             }
+            
+            transition.type = kCATransitionPush
+            transition.duration = 0.25
+            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             
             return transition
         }
