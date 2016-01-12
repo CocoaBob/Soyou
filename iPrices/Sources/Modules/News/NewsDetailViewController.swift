@@ -51,7 +51,7 @@ class NewsDetailViewController: UIViewController {
     var newsTitle: String!
     var newsId: Int!
     var webViewImageURLs: [String] = [String]()
-    var webViewPhotosBrowser: IDMPhotoBrowser?
+    var webViewPhotos: [IDMPhoto] = [IDMPhoto]()
     
     @IBOutlet var webView: UIWebView?
     var scrollView: UIScrollView? {
@@ -192,11 +192,22 @@ extension NewsDetailViewController {
         }
         
         if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
-            if let webViewPhotosBrowser = self.webViewPhotosBrowser,
-                let imageURLString: String = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
+            if let imageURLString: String = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
                 let photoIndex = self.webViewImageURLs.indexOf(imageURLString) {
-                    webViewPhotosBrowser.setInitialPageIndex(UInt(photoIndex))
-                    self.presentViewController(webViewPhotosBrowser, animated: true, completion: nil)
+                    let photoBrowser = IDMPhotoBrowser(photos: self.webViewPhotos)
+                    photoBrowser.displayToolbar = true
+                    photoBrowser.displayActionButton = true
+                    photoBrowser.displayArrowButton = true
+                    photoBrowser.displayCounterLabel = true
+                    photoBrowser.displayDoneButton = true
+                    photoBrowser.usePopAnimation = false
+                    photoBrowser.useWhiteBackgroundColor = false
+                    photoBrowser.disableVerticalSwipe = false
+                    photoBrowser.forceHideStatusBar = false
+                    
+                    photoBrowser.setInitialPageIndex(UInt(photoIndex))
+                    
+                    self.presentViewController(photoBrowser, animated: true, completion: nil)
             }
         }
     }
@@ -419,27 +430,18 @@ extension NewsDetailViewController {
                 // All IDMPhotos
                 var webViewPhotos = [IDMPhoto]()
                 for strURL in self.webViewImageURLs {
-                    if let imageURL = NSURL(string: strURL),
-                        let imageResponse = NSURLCache.sharedURLCache().cachedResponseForRequest(NSURLRequest(URL: imageURL)) {
-                            if let image = UIImage(data: imageResponse.data) {
+                    if let imageURL = NSURL(string: strURL) {
+                        if let imageResponse = NSURLCache.sharedURLCache().cachedResponseForRequest(NSURLRequest(URL: imageURL)),
+                            let image = UIImage(data: imageResponse.data) {
                                 webViewPhotos.append(IDMPhoto(image:image))
-                            }
+                        } else {
+                            webViewPhotos.append(IDMPhoto(URL: imageURL))
+                        }
+                    } else {
+                        self.webViewImageURLs.removeAtIndex(self.webViewImageURLs.indexOf(strURL)!)
                     }
                 }
-                
-                // Photos browser
-                let photoBrowser = IDMPhotoBrowser(photos: webViewPhotos)
-                photoBrowser.displayToolbar = true
-                photoBrowser.displayActionButton = true
-                photoBrowser.displayArrowButton = true
-                photoBrowser.displayCounterLabel = true
-                photoBrowser.displayDoneButton = true
-                photoBrowser.usePopAnimation = false
-                photoBrowser.useWhiteBackgroundColor = false
-                photoBrowser.disableVerticalSwipe = false
-                photoBrowser.forceHideStatusBar = false
-                self.webViewPhotosBrowser = photoBrowser
-
+                self.webViewPhotos = webViewPhotos
         }
     }
 }
