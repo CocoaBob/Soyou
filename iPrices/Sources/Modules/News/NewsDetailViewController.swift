@@ -12,7 +12,7 @@ class NewsDetailViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor.redColor()
+    let btnLikeActiveColor = UIColor(rgba:"#F21E8C")//UIColor.redColor()
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:"#FFB751")
