@@ -80,7 +80,18 @@ class BrandViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        // Reset isEdgeSwiping to false, if interactive transition is cancelled
+        self.isEdgeSwiping = false
+        // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        // Hide toolbar
         self.hideToolbar(false)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Reset isEdgeSwiping to false, if interactive transition is cancelled
+        self.isEdgeSwiping = false
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -243,7 +254,6 @@ extension BrandViewController: ZoomTransitionProtocol {
         
         // No zoom transition when edge swiping
         if self.isEdgeSwiping {
-            self.isEdgeSwiping = false
             return false
         }
         return true

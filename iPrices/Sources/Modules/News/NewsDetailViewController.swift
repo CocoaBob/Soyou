@@ -115,6 +115,10 @@ class NewsDetailViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Reset isEdgeSwiping to false, if interactive transition is cancelled
+        self.isEdgeSwiping = false
+        // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Hide navigation bar if it's visible again
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         // Show tool bar if it's invisible again
@@ -127,6 +131,13 @@ class NewsDetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.removeStatusBarCover()
         MBProgressHUD.hideLoader(self.view)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Reset isEdgeSwiping to false, if interactive transition is cancelled
+        self.isEdgeSwiping = false
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -444,7 +455,6 @@ extension NewsDetailViewController: ZoomTransitionProtocol {
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
         // No zoom transition when edge swiping
         if self.isEdgeSwiping {
-            self.isEdgeSwiping = false
             return false
         }
         return true
