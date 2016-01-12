@@ -12,15 +12,13 @@ func AFNetworkingGetResponseObjectFromError(error: NSError?) -> AnyObject? {
         userInfo = error.userInfo as? Dictionary<String, AnyObject>,
         responseData = userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? NSData
     {
-        return AFNetworkingGetObjectFromJSONData(responseData)
+        return GetObjectFromJSONData(responseData)
     } else {
         return nil
     }
 }
 
-let _jsonResponseSerializer = AFJSONResponseSerializer()
-
-func AFNetworkingGetObjectFromJSONData(data: NSData?) -> AnyObject? {
+func GetObjectFromJSONData(data: NSData?) -> AnyObject? {
     var returnValue: AnyObject?
     do {
         if let data = data {
@@ -32,6 +30,6 @@ func AFNetworkingGetObjectFromJSONData(data: NSData?) -> AnyObject? {
     return returnValue
 }
 
-func AFNetworkingGetObjectFromJSONString(string: String) -> AnyObject? {
-    return AFNetworkingGetObjectFromJSONData(string.dataUsingEncoding(NSUTF8StringEncoding))
+func GetObjectFromJSONString(string: String) -> AnyObject? {
+    return GetObjectFromJSONData(string.dataUsingEncoding(NSUTF8StringEncoding))
 }

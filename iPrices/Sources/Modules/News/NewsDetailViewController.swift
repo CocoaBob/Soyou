@@ -10,22 +10,29 @@ class NewsDetailViewController: UIViewController {
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
+    // Toolbar
     let btnActiveColor = UIColor(rgba:"#10ABFE")
     let btnInactiveColor = UIToolbar.appearance().tintColor
+    var btnLike: UIButton?
+    var btnFav: UIButton?
+    
+    // Header Cover
     var coverHeight:CGFloat = 200.0
     
     // Used only when no internet connection
     var likeBtnToggle: Bool = false
     
+    // Status bar cover
     var isStatusBarOverlyingCoverImage = true
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
     
+    // Share
     var activityView: UIActivityViewController? {
-        if let image = self.image, newsTitle = self.newsTitle, newsID = self.newsId {
+        if let headerImage = self.headerImage, newsTitle = self.newsTitle, newsID = self.newsId {
             let _activityView = UIActivityViewController(
-                activityItems: [image, newsTitle, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)")!],
+                activityItems: [headerImage, newsTitle, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)")!],
                 applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
             _activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
             return _activityView
@@ -33,23 +40,25 @@ class NewsDetailViewController: UIViewController {
         return nil
     }
     
+    // Data
     var news: News? {
         didSet {
             self.newsTitle = self.news?.title ?? ""
             self.newsId = self.news?.id as? Int ?? -1
         }
     }
-    var image: UIImage?
+    var headerImage: UIImage?
     var newsTitle: String!
     var newsId: Int!
-    var btnLike: UIButton?
-    var btnFav: UIButton?
+    var webViewImageURLs: [String] = [String]()
+    var webViewPhotosBrowser: IDMPhotoBrowser?
     
     @IBOutlet var webView: UIWebView?
     var scrollView: UIScrollView? {
         return self.webView?.scrollView
     }
     
+    // Lif cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -183,28 +192,11 @@ extension NewsDetailViewController {
         }
         
         if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
-            if let imageDataBase64: String = webView.stringByEvaluatingJavaScriptFromString(
-                "var img = document.elementFromPoint(\(touchPoint.x), \(touchPoint.y));" +
-                    "var canvas = document.createElement('canvas'); " +
-                    "var context = canvas.getContext('2d');" +
-                    "canvas.width = img.naturalWidth;" +
-                    "canvas.height = img.naturalHeight;" +
-                    "context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);" +
-                "canvas.toDataURL('image/png');"),
-                imageData = imageDataBase64.substringFromIndex(imageDataBase64.startIndex.advancedBy(22)).base64DecodedData(),
-                image = UIImage(data: imageData)
-            {
-                let photoBrowser = IDMPhotoBrowser(photos: [IDMPhoto(image:image)])
-                photoBrowser.displayToolbar = true
-                photoBrowser.displayActionButton = true
-                photoBrowser.displayArrowButton = true
-                photoBrowser.displayCounterLabel = true
-                photoBrowser.displayDoneButton = true
-                photoBrowser.usePopAnimation = false
-                photoBrowser.useWhiteBackgroundColor = false
-                photoBrowser.disableVerticalSwipe = false
-                photoBrowser.forceHideStatusBar = false
-                self.presentViewController(photoBrowser, animated: true, completion: nil)
+            if let webViewPhotosBrowser = self.webViewPhotosBrowser,
+                let imageURLString: String = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
+                let photoIndex = self.webViewImageURLs.indexOf(imageURLString) {
+                    webViewPhotosBrowser.setInitialPageIndex(UInt(photoIndex))
+                    self.presentViewController(webViewPhotosBrowser, animated: true, completion: nil)
             }
         }
     }
@@ -367,7 +359,7 @@ extension NewsDetailViewController {
                             
                         },
                         completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
-                            self.image = image
+                            self.headerImage = image
                             self.updateTwitterCoverView()
                             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                                 if let localNews = self.news?.MR_inContext(localContext) {
@@ -415,13 +407,58 @@ extension NewsDetailViewController {
     }
 }
 
+// MARK: Images
+extension NewsDetailViewController {
+    
+    func loadAllImagesFromWebView(webView: UIWebView) {
+        if let imageURLsJSONString = webView.stringByEvaluatingJavaScriptFromString("(function() {var images=document.querySelectorAll(\"img\");var imageUrls=[];[].forEach.call(images, function(el) { imageUrls[imageUrls.length] = el.src;}); return JSON.stringify(imageUrls);})()"),
+            let imageURLs = GetObjectFromJSONString(imageURLsJSONString) {
+                // All URLs
+                self.webViewImageURLs = imageURLs as! [String];
+                
+                // All IDMPhotos
+                var webViewPhotos = [IDMPhoto]()
+                for strURL in self.webViewImageURLs {
+                    if let imageURL = NSURL(string: strURL),
+                        let imageResponse = NSURLCache.sharedURLCache().cachedResponseForRequest(NSURLRequest(URL: imageURL)) {
+                            if let image = UIImage(data: imageResponse.data) {
+                                webViewPhotos.append(IDMPhoto(image:image))
+                            }
+                    }
+                }
+                
+                // Photos browser
+                let photoBrowser = IDMPhotoBrowser(photos: webViewPhotos)
+                photoBrowser.displayToolbar = true
+                photoBrowser.displayActionButton = true
+                photoBrowser.displayArrowButton = true
+                photoBrowser.displayCounterLabel = true
+                photoBrowser.displayDoneButton = true
+                photoBrowser.usePopAnimation = false
+                photoBrowser.useWhiteBackgroundColor = false
+                photoBrowser.disableVerticalSwipe = false
+                photoBrowser.forceHideStatusBar = false
+                self.webViewPhotosBrowser = photoBrowser
+
+        }
+    }
+}
+
+// MARK: UIWebViewDelegate
+extension NewsDetailViewController: UIWebViewDelegate {
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        self.loadAllImagesFromWebView(webView)
+    }
+}
+
 // MARK: Twitter Cover View
 extension NewsDetailViewController {
     
     private func updateTwitterCoverView() {
-        if let image = self.image {
-            self.coverHeight = self.view.bounds.size.width * image.size.height / image.size.width
-            self.scrollView?.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
+        if let headerImage = self.headerImage {
+            self.coverHeight = self.view.bounds.size.width * headerImage.size.height / headerImage.size.width
+            self.scrollView?.addTwitterCoverWithImage(headerImage, coverHeight: coverHeight, noBlur: true)
             self.scrollView?.twitterCoverView.noContentInset = true
         }
     }

@@ -171,7 +171,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 // Prepare view controller
                 let newsDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NewsDetailViewController") as! NewsDetailViewController
                 newsDetailViewController.news = localNews
-                newsDetailViewController.image = image
+                newsDetailViewController.headerImage = image
                 
                 // Push view controller
                 self.navigationController?.pushViewController(newsDetailViewController, animated: true)

@@ -64,7 +64,8 @@ DEPENDENCIES:
   - SDWebImage
   - UICKeyChainStore
   - UIColor_Hex_Swift
-  - ZoomInteractiveTransition
+  - ZoomInteractiveTransition (from `git://github.com/DenHeadless/ZoomInteractiveTransition`,
+    commit `de9a435ed09c6d0d96949083a476190e8ad9e59a`)
 
 EXTERNAL SOURCES:
   CHTwitterCover:
@@ -73,6 +74,9 @@ EXTERNAL SOURCES:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
+  ZoomInteractiveTransition:
+    :commit: de9a435ed09c6d0d96949083a476190e8ad9e59a
+    :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 CHECKOUT OPTIONS:
   CHTwitterCover:
@@ -81,6 +85,9 @@ CHECKOUT OPTIONS:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
+  ZoomInteractiveTransition:
+    :commit: de9a435ed09c6d0d96949083a476190e8ad9e59a
+    :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60

@@ -140,6 +140,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.97718220949172974" green="0.97736459970474243" blue="0.97737902402877808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <connections>
+                            <outlet property="delegate" destination="mQM-eh-iat" id="zhd-Lx-3ci"/>
+                        </connections>
                     </webView>
                     <connections>
                         <outlet property="webView" destination="4Lp-JS-AVM" id="Tqs-Ak-Jrx"/>
