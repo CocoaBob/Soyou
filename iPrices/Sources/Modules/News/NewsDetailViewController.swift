@@ -17,6 +17,7 @@ class NewsDetailViewController: UIViewController {
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:"#FFB751")
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
+    var lastScrollViewOffset: CGFloat = 0
     
     // Header Cover
     var coverHeight:CGFloat = 200.0
@@ -132,10 +133,10 @@ class NewsDetailViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Hide navigation bar if it's visible again
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        // Show tool bar if it's invisible again
-        self.showToolbar(animated)
         // Update statusbar cover
         self.updateStatusBarCover()
+        // Show tool bar if it's invisible again
+        self.showToolbar(animated)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -220,6 +221,22 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         self.updateStatusBarCover()
+        
+        if (scrollView.contentOffset.y > self.lastScrollViewOffset) {
+            self.hideToolbar(true)
+        } else if (scrollView.contentOffset.y < 0) {
+            self.showToolbar(true)
+        }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if (decelerate && scrollView.contentOffset.y < self.lastScrollViewOffset) {
+            self.showToolbar(true)
+        }
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.lastScrollViewOffset = scrollView.contentOffset.y
     }
     
     private func updateStatusBarCover() {

@@ -84,8 +84,8 @@ class BrandViewController: BaseViewController {
         self.isEdgeSwiping = false
         // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        // Hide toolbar
-        self.hideToolbar(animated)
+        // Hide toolbar. No animation because it might need to be shown immediately
+        self.hideToolbar(false)
     }
     
     override func viewDidDisappear(animated: Bool) {

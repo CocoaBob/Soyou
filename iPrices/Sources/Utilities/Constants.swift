@@ -79,13 +79,13 @@ func DLog<T>(@autoclosure object: () -> T, _ file: String = __FILE__, _ function
     #if DEBUG
         let value = object()
         
-        let fileURL = NSURL(string: file)?.URLByDeletingPathExtension?.lastPathComponent ?? "Unknown"
+        let fileURL = NSURL(string: file)?.lastPathComponent ?? "Unknown"
         let queue = NSThread.isMainThread() ? "UI" : "BG"
         
-        let strFileName = fileURL.stringByPaddingToLength(16, withString: ".", startingAtIndex: 0)
-        let strFunction = function.stringByPaddingToLength(32, withString: ".", startingAtIndex: 0)
+        let strFileName = fileURL.stringByPaddingToLength(40, withString: " ", startingAtIndex: 0)
+        let strFunction = (function+"()").stringByPaddingToLength(32, withString: " ", startingAtIndex: 0)
         let strLineNmbr = FmtString("%04d", line)
         
-        print("[\(queue)] \(strFileName): \(strFunction) [\(strLineNmbr)]: \(value)")
+        print("[\(queue)] \(strFileName) \(strFunction) [-\(strLineNmbr)]: \(value)")
     #endif
 }
