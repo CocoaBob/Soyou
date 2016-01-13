@@ -20,6 +20,7 @@
 @import MagicalRecord;
 @import MBProgressHUD;
 @import MJRefresh;
+@import PFCarouselView;
 @import RandomColorSwift;
 @import SCLAlertView;
 @import SDWebImage;

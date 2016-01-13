@@ -12,8 +12,9 @@ class NewsDetailViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(rgba:"#F21E8C")//UIColor.redColor()
+    let btnLikeActiveColor = UIColor(rgba:"#F21E8C")
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
+    var btnLikeToggle: Bool = false // Used only when offline
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:"#FFB751")
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
@@ -22,26 +23,11 @@ class NewsDetailViewController: UIViewController {
     // Header Cover
     var coverHeight:CGFloat = 200.0
     
-    // Used only when no internet connection
-    var likeBtnToggle: Bool = false
-    
     // Status bar cover
     var isStatusBarOverlyingCoverImage = true
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
-    
-    // Share
-    var activityView: UIActivityViewController? {
-        if let headerImage = self.headerImage, newsTitle = self.newsTitle, newsID = self.newsId {
-            let _activityView = UIActivityViewController(
-                activityItems: [headerImage, newsTitle, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)")!],
-                applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-            _activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-            return _activityView
-        }
-        return nil
-    }
     
     // Data
     var news: News? {
@@ -79,7 +65,7 @@ class NewsDetailViewController: UIViewController {
         tapGR.delegate = self
         self.webView?.addGestureRecognizer(tapGR)
         
-        // Set WebView scroll delegate
+        // Set WebView scroll view
         self.scrollView?.delegate = self
         
         // Twitter cover view
@@ -118,7 +104,7 @@ class NewsDetailViewController: UIViewController {
         // Load content
         loadNews()
         
-        // Hide navigation bar
+        // Hide navigation bar at beginning for calculating topInset
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         // Fix scroll view insets
         self.updateScrollViewInset(self.webView!.scrollView, true, true)
@@ -150,12 +136,6 @@ class NewsDetailViewController: UIViewController {
         
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
-    }
-    
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition( { (context) -> Void in
-            self.scrollView?.contentSize = CGSizeMake(self.view.frame.size.width, 9999)
-        }, completion: nil)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -216,7 +196,7 @@ extension NewsDetailViewController {
     }
 }
 
-// MARK: Status Bar Cover
+// MARK: UIScrollViewDelegate
 extension NewsDetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -304,7 +284,7 @@ extension NewsDetailViewController {
                 self.btnLike?.tintColor = self.btnLikeInactiveColor
             }
         }
-        self.likeBtnToggle = !likeBtnToggle
+        self.btnLikeToggle = !btnLikeToggle
     }
     
     private var likeBtnNumber: Int? {
@@ -377,7 +357,7 @@ extension NewsDetailViewController {
         
         // Like button
         if let appIsLiked = news.appIsLiked {
-            self.likeBtnToggle = !appIsLiked.boolValue
+            self.btnLikeToggle = !appIsLiked.boolValue
             updateLikeBtnColor(appIsLiked.boolValue)
         }
         initLikeBtnNumberAndFavBtnStatus()
@@ -409,6 +389,8 @@ extension NewsDetailViewController {
     func loadNews() {
         var newsID: NSNumber? = nil
         var needToLoad: Bool = false
+        
+        self.webView?.loadHTMLString("<html></html>", baseURL: nil)
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
@@ -531,7 +513,11 @@ extension NewsDetailViewController {
     }
     
     func share(sender: UIBarButtonItem) {
-        if let activityView = self.activityView {
+        if let headerImage = self.headerImage, newsTitle = self.newsTitle, newsID = self.newsId {
+            let activityView = UIActivityViewController(
+                activityItems: [headerImage, newsTitle, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)")!],
+                applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
             self.presentViewController(activityView, animated: true, completion: nil)
         }
     }

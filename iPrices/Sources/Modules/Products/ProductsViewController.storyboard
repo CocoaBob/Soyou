@@ -224,8 +224,62 @@
                     <view key="view" contentMode="scaleToFill" id="wDJ-sM-AAg">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.028776496499999998" green="0.28383863710000001" blue="0.71423066140000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ibw-2z-sIZ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="euV-lz-fZM">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" id="ChJ-JW-E4g"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nl8-UQ-fmF" customClass="PFCarouselView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="6fx-dq-Z8a"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wca-2O-ohR">
+                                        <rect key="frame" x="0.0" y="200" width="600" height="1000"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1000" id="kvo-4i-ziQ"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="wca-2O-ohR" secondAttribute="bottom" id="6Vy-sS-czF"/>
+                                    <constraint firstItem="Nl8-UQ-fmF" firstAttribute="leading" secondItem="ibw-2z-sIZ" secondAttribute="leading" id="9ht-7t-jzl"/>
+                                    <constraint firstItem="wca-2O-ohR" firstAttribute="leading" secondItem="ibw-2z-sIZ" secondAttribute="leading" id="A9g-UF-Pbz"/>
+                                    <constraint firstAttribute="trailing" secondItem="euV-lz-fZM" secondAttribute="trailing" id="Mes-mH-DOV"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nl8-UQ-fmF" secondAttribute="trailing" id="Wfo-yh-8Hc"/>
+                                    <constraint firstItem="euV-lz-fZM" firstAttribute="leading" secondItem="ibw-2z-sIZ" secondAttribute="leading" id="Wqe-ga-cNW"/>
+                                    <constraint firstAttribute="trailing" secondItem="wca-2O-ohR" secondAttribute="trailing" id="cKF-TN-Ndq"/>
+                                    <constraint firstItem="wca-2O-ohR" firstAttribute="top" secondItem="Nl8-UQ-fmF" secondAttribute="bottom" id="hOF-gW-83B"/>
+                                    <constraint firstItem="Nl8-UQ-fmF" firstAttribute="top" secondItem="ibw-2z-sIZ" secondAttribute="top" id="rei-ko-0sa"/>
+                                    <constraint firstItem="euV-lz-fZM" firstAttribute="top" secondItem="ibw-2z-sIZ" secondAttribute="top" id="vky-NM-7RJ"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="3nx-sA-4VU" id="FYb-5q-fm9"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="bwy-hx-bOj" firstAttribute="top" secondItem="ibw-2z-sIZ" secondAttribute="bottom" id="SpU-iL-BPw"/>
+                            <constraint firstAttribute="trailing" secondItem="ibw-2z-sIZ" secondAttribute="trailing" id="aIc-XZ-wqX"/>
+                            <constraint firstItem="euV-lz-fZM" firstAttribute="width" secondItem="wDJ-sM-AAg" secondAttribute="width" id="df5-ov-NIX"/>
+                            <constraint firstItem="ibw-2z-sIZ" firstAttribute="leading" secondItem="wDJ-sM-AAg" secondAttribute="leading" id="oon-5d-zqf"/>
+                            <constraint firstItem="ibw-2z-sIZ" firstAttribute="top" secondItem="wDJ-sM-AAg" secondAttribute="top" id="yjf-hl-aPi"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="carouselView" destination="Nl8-UQ-fmF" id="urz-C9-fIP"/>
+                        <outlet property="carouselViewHeight" destination="6fx-dq-Z8a" id="cOy-YA-Sg1"/>
+                        <outlet property="scrollView" destination="ibw-2z-sIZ" id="Tui-zb-6R8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sgS-ft-lZG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -394,7 +448,7 @@
     </scenes>
     <resources>
         <image name="img_cell_closed" width="8" height="9"/>
-        <image name="img_cell_disclosure" width="12" height="21"/>
+        <image name="img_cell_disclosure" width="13" height="21"/>
         <image name="img_map_button_icon" width="46" height="46"/>
     </resources>
 </document>

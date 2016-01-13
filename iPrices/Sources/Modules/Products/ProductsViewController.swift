@@ -35,6 +35,7 @@ class ProductsViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
     }
@@ -111,8 +112,15 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         if let productViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 let localProduct = product.MR_inContext(localContext)
-                DLog(localProduct)
+                productViewController.product = localProduct
             })
+            
+            if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
+                let imageView = cell.fgImageView,
+                let image = imageView.image {
+                    let imageSize = image.size
+                    productViewController.imageRatio = imageSize.width / imageSize.height
+            }
             self.navigationController?.pushViewController(productViewController, animated: true)
         }
     }
