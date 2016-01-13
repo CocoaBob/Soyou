@@ -114,6 +114,19 @@ class DataManager {
         );
     }
     
+    func loadProductInfo(id: String, _ completion: DataClosure?) {
+        RequestManager.shared.requestProductInfo(id,
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion {
+                    completion((responseObject?["data"]))
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+            }
+        );
+    }
+    
     //////////////////////////////////////
     // MARK: Favorites News
     //////////////////////////////////////

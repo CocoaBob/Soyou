@@ -32,6 +32,7 @@ class ProductViewController: UIViewController {
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:"#FFB751")
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
+    var btnLikeToggle: Bool = false // Used only when offline
     
     // Status bar cover
     var isStatusBarOverlyingCoverImage = true
@@ -78,6 +79,9 @@ class ProductViewController: UIViewController {
         self.setupParallaxHeader()
         // Fix scroll view insets
         self.updateScrollViewInset(self.scrollView!, self.scrollView?.parallaxHeader.height ?? 0, true, true)
+        
+        // Load content
+        initLikeBtnNumberAndFavBtnStatus()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -260,6 +264,79 @@ extension ProductViewController: ZoomTransitionProtocol {
     }
 }
 
+// MARK: Like button
+extension ProductViewController {
+    
+    private func initLikeBtnNumberAndFavBtnStatus() {
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localProduct = self.product?.MR_inContext(localContext) {
+                if let productID = localProduct.id {
+                    DataManager.shared.loadProductInfo("\(productID)", { (data: AnyObject?) -> () in
+                        if let likeNumber = data?["likeNumber"] as? NSNumber {
+                            self.likeBtnNumber = likeNumber.integerValue
+                        }
+                        
+                        if let isFavorite = data?["isFavorite"] as? Bool {
+                            self.isFavorite = isFavorite
+                        }
+                    })
+                }
+            }
+        })
+    }
+    
+    private func updateLikeBtnColor(appIsLiked: Bool?) {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            if appIsLiked != nil && appIsLiked!.boolValue {
+                self.btnLike?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
+                self.btnLike?.tintColor = self.btnLikeActiveColor
+            } else {
+                self.btnLike?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+                self.btnLike?.tintColor = self.btnLikeInactiveColor
+            }
+        }
+        self.btnLikeToggle = !btnLikeToggle
+    }
+    
+    private var likeBtnNumber: Int? {
+        set(newValue) {
+            if newValue != nil && newValue! > 0 {
+                self.btnLike?.setTitle("\(newValue!)", forState: .Normal)
+            } else {
+                self.btnLike?.setTitle("", forState: .Normal)
+            }
+        }
+        get {
+            if let title = self.btnLike?.titleForState(.Normal) {
+                return Int(title)
+            } else {
+                return 0
+            }
+        }
+    }
+}
+
+// MARK: Fav button
+extension ProductViewController {
+    
+    private var isFavorite: Bool? {
+        set(newValue) {
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                if newValue != nil && newValue == true {
+                    self.btnFav?.setImage(UIImage(named: "img_star_selected"), forState: .Normal)
+                    self.btnFav?.tintColor = self.btnFavActiveColor
+                } else {
+                    self.btnFav?.setImage(UIImage(named: "img_star"), forState: .Normal)
+                    self.btnFav?.tintColor = self.btnFavInactiveColor
+                }
+            }
+        }
+        get {
+            return self.btnFav?.tintColor == btnFavActiveColor
+        }
+    }
+}
+
 // MARK: Actions
 extension ProductViewController {
     
@@ -278,51 +355,51 @@ extension ProductViewController {
     }
     
     func like(sender: UIBarButtonItem) {
-//        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-//            if let localNews = self.news?.MR_inContext(localContext) {
-//                let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
-//                
-//                DataManager.shared.likeNews(localNews.id!, wasLiked: appIsLiked, { (data: AnyObject?) -> () in
-//                    // Update like number
-//                    if let likeNumber = data as? NSNumber {
-//                        self.likeBtnNumber = likeNumber.integerValue
-//                    }
-//                    
-//                    // Update like color
-//                    self.updateLikeBtnColor(!appIsLiked)
-//                    
-//                    // Remember if it's liked or not
-//                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-//                        if let localNews = self.news?.MR_inContext(localContext) {
-//                            localNews.appIsLiked = NSNumber(bool: !appIsLiked)
-//                        }
-//                    })
-//                })
-//            }
-//        })
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localProduct = self.product?.MR_inContext(localContext) {
+                let appIsLiked = localProduct.appIsLiked != nil && localProduct.appIsLiked!.boolValue
+                
+                DataManager.shared.likeProduct(localProduct.id!, wasLiked: appIsLiked, { (data: AnyObject?) -> () in
+                    // Update like number
+                    if let likeNumber = data as? NSNumber {
+                        self.likeBtnNumber = likeNumber.integerValue
+                    }
+                    
+                    // Update like color
+                    self.updateLikeBtnColor(!appIsLiked)
+                    
+                    // Remember if it's liked or not
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        if let localProduct = self.product?.MR_inContext(localContext) {
+                            localProduct.appIsLiked = NSNumber(bool: !appIsLiked)
+                        }
+                    })
+                })
+            }
+        })
     }
     
     func star(sender: UIBarButtonItem) {
-//        if UserManager.shared.isLoggedIn {
-//            if let isFavorite = self.isFavorite {
-//                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-//                    if let localNews = self.news?.MR_inContext(localContext) {
-//                        DataManager.shared.newsFavorite(localNews.id!, wasFavorite: isFavorite,
-//                            { (data: AnyObject?) -> () in
-//                                // Toggle the value of isFavorite
-//                                self.isFavorite = !isFavorite
-//                        })
-//                    }
-//                })
-//            }
-//        } else {
-//            let loginViewController = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController")
-//            loginViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
-//                barButtonSystemItem: .Done,
-//                target:loginViewController,
-//                action: "dismissSelf")
-//            let navC = UINavigationController(rootViewController: loginViewController)
-//            self.presentViewController(navC, animated: true, completion: nil)
-//        }
+        if UserManager.shared.isLoggedIn {
+            if let isFavorite = self.isFavorite {
+                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                    if let localProduct = self.product?.MR_inContext(localContext) {
+                        DataManager.shared.productFavorite(localProduct.id!, isFavorite: isFavorite,
+                            { (data: AnyObject?) -> () in
+                                // Toggle the value of isFavorite
+                                self.isFavorite = !isFavorite
+                        })
+                    }
+                })
+            }
+        } else {
+            let loginViewController = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController")
+            loginViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .Done,
+                target:loginViewController,
+                action: "dismissSelf")
+            let navC = UINavigationController(rootViewController: loginViewController)
+            self.presentViewController(navC, animated: true, completion: nil)
+        }
     }
 }

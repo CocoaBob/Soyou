@@ -154,4 +154,8 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", onSuccess, onFailure)
     }
     
+    func requestProductInfo(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/extra", "Products", onSuccess, onFailure)
+    }
+    
 }
