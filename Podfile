@@ -19,7 +19,7 @@ pod 'libWeChatSDK', :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit =>
 pod 'MagicalRecord', '~> 2.3'
 pod 'MBProgressHUD'
 pod 'MJRefresh'
-pod 'PFCarouselView', :git => 'git://github.com/PFei-He/PFCarouselView', :commit => '879b819b86588876dc3fd5048902887393574fc5'
+pod 'PFCarouselView', :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => 'bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717'
 pod 'RandomColorSwift'
 pod 'SCLAlertView'
 pod 'SDWebImage'

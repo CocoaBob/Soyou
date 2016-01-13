@@ -60,7 +60,7 @@ DEPENDENCIES:
   - MagicalRecord (~> 2.3)
   - MBProgressHUD
   - MJRefresh
-  - PFCarouselView (from `git://github.com/PFei-He/PFCarouselView`, commit `879b819b86588876dc3fd5048902887393574fc5`)
+  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717`)
   - RandomColorSwift
   - SCLAlertView
   - SDWebImage
@@ -77,8 +77,8 @@ EXTERNAL SOURCES:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
   PFCarouselView:
-    :commit: 879b819b86588876dc3fd5048902887393574fc5
-    :git: git://github.com/PFei-He/PFCarouselView
+    :commit: bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717
+    :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
     :commit: de9a435ed09c6d0d96949083a476190e8ad9e59a
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
@@ -91,8 +91,8 @@ CHECKOUT OPTIONS:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
   PFCarouselView:
-    :commit: 879b819b86588876dc3fd5048902887393574fc5
-    :git: git://github.com/PFei-He/PFCarouselView
+    :commit: bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717
+    :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
     :commit: de9a435ed09c6d0d96949083a476190e8ad9e59a
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
