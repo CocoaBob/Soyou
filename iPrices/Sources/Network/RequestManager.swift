@@ -38,7 +38,7 @@ class RequestManager {
     }
     
     func login(email: String, _ password: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/auth/login", "Auth", ["email": email, "password": password], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/login", "Auth", ["email": email, "password": password, "uuid": UserManager.shared.uuid], onSuccess, onFailure)
     }
     
     // Not tested yet
