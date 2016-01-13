@@ -9,7 +9,6 @@ use_frameworks!
 pod "AFNetworking", '~> 2'
 pod "Base64nl"
 pod "CHTCollectionViewWaterfallLayout"
-pod "CHTwitterCover", :git => 'git://github.com/CocoaBob/TwitterCover', :commit => '61d0e5eb532962d5510d65c7619d80f484d675f6'
 pod "EAIntroView"
 pod "FCUUID"
 pod "IDMPhotoBrowser"
@@ -17,6 +16,7 @@ pod "libWeChatSDK", :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit =>
 pod "MagicalRecord", '~> 2.3'
 pod "MBProgressHUD"
 pod "MJRefresh"
+pod "MXParallaxHeader"
 pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => 'bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717'
 pod "RandomColorSwift"
 pod "SCLAlertView"

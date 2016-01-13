@@ -30,7 +30,7 @@ class BrandsViewController: BaseViewController {
         super.viewDidLoad()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.collectionView(), false, false)
+        self.updateScrollViewInset(self.collectionView(), 0, false, false)
         
         // Setups
         setupCollectionView()

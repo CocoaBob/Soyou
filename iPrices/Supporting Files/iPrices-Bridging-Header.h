@@ -13,13 +13,13 @@
 @import AFNetworking;
 @import Base64nl;
 @import CHTCollectionViewWaterfallLayout;
-@import CHTwitterCover;
 @import EAIntroView;
 @import FCUUID;
 @import IDMPhotoBrowser;
 @import MagicalRecord;
 @import MBProgressHUD;
 @import MJRefresh;
+@import MXParallaxHeader;
 @import PFCarouselView;
 @import RandomColorSwift;
 @import SCLAlertView;

@@ -47,7 +47,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let scrollView = self.scrollView {
-            self.updateScrollViewInset(scrollView, false, false)
+            self.updateScrollViewInset(scrollView, 0, false, false)
         }
     }
     
@@ -65,7 +65,7 @@ class LoginViewController: UIViewController {
     override func willMoveToParentViewController(parent: UIViewController?) {
         super.willMoveToParentViewController(parent)
         if let scrollView = self.scrollView {
-            self.updateScrollViewInset(scrollView, false, false)
+            self.updateScrollViewInset(scrollView, 0, false, false)
         }
     }
     
@@ -269,7 +269,7 @@ extension LoginViewController {
     override func adjustViewsForKeyboardFrame(keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: NSTimeInterval, _ options: UIViewAnimationOptions) {
         super.adjustViewsForKeyboardFrame(keyboardFrame, isAnimated, duration, options)
         if let scrollView = self.scrollView {
-            self.updateScrollViewInset(scrollView, false, false)
+            self.updateScrollViewInset(scrollView, 0, false, false)
         }
     }
 }

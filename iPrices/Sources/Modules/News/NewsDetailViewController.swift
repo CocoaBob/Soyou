@@ -20,10 +20,7 @@ class NewsDetailViewController: UIViewController {
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     var lastScrollViewOffset: CGFloat = 0
     
-    // Header Cover
-    var coverHeight:CGFloat = 200.0
-    
-    // Status bar cover
+    // Status Bar Cover
     var isStatusBarOverlyingCoverImage = true
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
@@ -65,13 +62,7 @@ class NewsDetailViewController: UIViewController {
         tapGR.delegate = self
         self.webView?.addGestureRecognizer(tapGR)
         
-        // Set WebView scroll view
-        self.scrollView?.delegate = self
-        
-        // Twitter cover view
-        self.updateTwitterCoverView()
-        
-        // Status bar
+        // Status Bar Cover
         statusBarCover.backgroundColor = UIColor.whiteColor()
         
         // Toolbar
@@ -101,13 +92,15 @@ class NewsDetailViewController: UIViewController {
         
         self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
         
-        // Load content
-        loadNews()
-        
         // Hide navigation bar at beginning for calculating topInset
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // Parallax Header
+        self.setupParallaxHeader()
         // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, true, true)
+        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, true, true)
+        
+        // Load content
+        loadNews()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -119,16 +112,27 @@ class NewsDetailViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Hide navigation bar if it's visible again
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        // Update statusbar cover
+        // Update Status Bar Cover
         self.updateStatusBarCover()
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Set WebView scroll view
+        self.scrollView?.delegate = self
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        // Update Status Bar Cover
         self.removeStatusBarCover()
+        // Hide HUD indicator if exists
         MBProgressHUD.hideLoader(self.view)
+        // Set WebView scroll view
+        self.scrollView?.delegate = nil
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -200,18 +204,32 @@ extension NewsDetailViewController {
 extension NewsDetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        // Update Status Bar Cover
         self.updateStatusBarCover()
         
         if (scrollView.contentOffset.y > self.lastScrollViewOffset) {
-            self.hideToolbar(true)
+            // Only if the header+content height is obviously larger than the scrollView height
+            if (scrollView.contentInset.top + scrollView.contentSize.height - scrollView.frame.height > 64) {
+                self.hideToolbar(true)
+                scrollView.contentInset.bottom = 0
+                scrollView.scrollIndicatorInsets = scrollView.contentInset
+            }
         } else if (scrollView.contentOffset.y < 0) {
             self.showToolbar(true)
+            if let toolbar = self.navigationController?.toolbar {
+                scrollView.contentInset.bottom = toolbar.frame.size.height
+                scrollView.scrollIndicatorInsets = scrollView.contentInset
+            }
         }
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if (decelerate && scrollView.contentOffset.y < self.lastScrollViewOffset) {
             self.showToolbar(true)
+            if let toolbar = self.navigationController?.toolbar {
+                scrollView.contentInset.bottom = toolbar.frame.size.height
+                scrollView.scrollIndicatorInsets = scrollView.contentInset
+            }
         }
     }
     
@@ -221,12 +239,10 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     
     private func updateStatusBarCover() {
         guard let scrollView = self.scrollView else { return }
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
-        if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= (coverHeight - statusBarHeight) {
+        if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= 0 {
             isStatusBarOverlyingCoverImage = false
             self.addStatusBarCover()
-            
-        } else if !isStatusBarOverlyingCoverImage && scrollView.contentOffset.y < (coverHeight - statusBarHeight){
+        } else if !isStatusBarOverlyingCoverImage && scrollView.contentOffset.y < 0 {
             isStatusBarOverlyingCoverImage = true
             self.removeStatusBarCover()
         }
@@ -342,7 +358,7 @@ extension NewsDetailViewController {
                 
             }
             if var cssContent = cssContent, var htmlContent = htmlContent {
-                cssContent = cssContent.stringByReplacingOccurrencesOfString("__COVER_HEIGHT__", withString: "\(coverHeight)")
+                cssContent = cssContent.stringByReplacingOccurrencesOfString("__COVER_HEIGHT__", withString: "0")
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__TITLE__", withString: newsTitle)
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CONTENT__", withString: newsContent)
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
@@ -374,7 +390,7 @@ extension NewsDetailViewController {
                         },
                         completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
                             self.headerImage = image
-                            self.updateTwitterCoverView()
+                            self.setupParallaxHeader()
                             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                                 if let localNews = self.news?.MR_inContext(localContext) {
                                     self.loadPageContent(localNews)
@@ -459,14 +475,22 @@ extension NewsDetailViewController: UIWebViewDelegate {
     }
 }
 
-// MARK: Twitter Cover View
+// MARK: Parallax Header
 extension NewsDetailViewController {
     
-    private func updateTwitterCoverView() {
-        if let headerImage = self.headerImage {
-            self.coverHeight = self.view.bounds.size.width * headerImage.size.height / headerImage.size.width
-            self.scrollView?.addTwitterCoverWithImage(headerImage, coverHeight: coverHeight, noBlur: true)
-            self.scrollView?.twitterCoverView.noContentInset = true
+    private func setupParallaxHeader() {
+        // Image
+        guard let image = self.headerImage else { return }
+        // Height
+        let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
+        // Header View
+        let headerView = UIImageView(image: image)
+        headerView.contentMode = .ScaleAspectFill
+        // Parallax View
+        if let scrollView = self.scrollView {
+            scrollView.parallaxHeader.view = headerView
+            scrollView.parallaxHeader.height = headerHeight
+            scrollView.parallaxHeader.mode = .Fill
         }
     }
 }
@@ -490,8 +514,10 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
 extension NewsDetailViewController: ZoomTransitionProtocol {
     
     func viewForZoomTransition(isSource: Bool) -> UIView? {
-        if let twitterCoverView = self.scrollView?.twitterCoverView {
-            return twitterCoverView
+        if let parallaxHeaderView = self.scrollView?.parallaxHeader.view {
+            parallaxHeaderView.setNeedsLayout()
+            parallaxHeaderView.layoutIfNeeded()
+            return parallaxHeaderView
         }
         return nil
     }

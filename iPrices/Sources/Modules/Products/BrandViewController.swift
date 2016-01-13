@@ -24,8 +24,6 @@ class BrandViewController: BaseViewController {
     private var _locationManager = CLLocationManager()
     private var _sections = [CategoryItem]()
     
-    var coverHeight:CGFloat = 200.0
-    
     var brandID: String?
     var brandName: String?
     var brandCategories: [NSDictionary]?
@@ -62,9 +60,6 @@ class BrandViewController: BaseViewController {
         // UIViewController
         self.title = self.brandName
         
-        // Twitter cover view
-        self.updateTwitterCoverView()
-        
         // Update footer view size
         self.updateFooterView()
         
@@ -74,8 +69,11 @@ class BrandViewController: BaseViewController {
         // Update user locations
         self.initLocationManager()
         
+        // Parallax Header
+        self.setupParallaxHeader()
+        
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView()!, false, false)
+        self.updateScrollViewInset(self.tableView()!, self.tableView()?.parallaxHeader.height ?? 0, false, false)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -158,16 +156,19 @@ extension BrandViewController {
 // MARK: Table View
 extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
-    private func updateTwitterCoverView() {
+    private func setupParallaxHeader() {
+        // Image
         guard let image = brandImage else { return }
-        let coverWidth = self.view.bounds.size.width
-        coverHeight = coverWidth * image.size.height / image.size.width
-        if let tableView = self.tableView() {
-            tableView.addTwitterCoverWithImage(image, coverHeight: coverHeight, noBlur: true)
-            if let tableHeaderView = tableView.tableHeaderView {
-                tableHeaderView.frame = CGRectMake(0, 0, coverWidth, coverHeight)
-                tableView.tableHeaderView = tableHeaderView // Reset header view to update the frame
-            }
+        // Height
+        let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
+        // Header View
+        let headerView = UIImageView(image: image)
+        headerView.contentMode = .ScaleAspectFill
+        // Parallax View
+        if let scrollView = self.tableView() {
+            scrollView.parallaxHeader.view = headerView
+            scrollView.parallaxHeader.height = headerHeight
+            scrollView.parallaxHeader.mode = .Fill
         }
     }
     
@@ -239,8 +240,10 @@ extension BrandViewController: UIGestureRecognizerDelegate {
 extension BrandViewController: ZoomTransitionProtocol {
     
     func viewForZoomTransition(isSource: Bool) -> UIView? {
-        if let twitterCoverView = self.tableView()?.twitterCoverView {
-            return twitterCoverView
+        if let parallaxHeaderView = self.tableView()?.parallaxHeader.view {
+            parallaxHeaderView.setNeedsLayout()
+            parallaxHeaderView.layoutIfNeeded()
+            return parallaxHeaderView
         }
         
         return nil
