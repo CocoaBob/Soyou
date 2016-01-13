@@ -235,15 +235,8 @@
                                             <constraint firstAttribute="height" id="ChJ-JW-E4g"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nl8-UQ-fmF" customClass="PFCarouselView">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="6fx-dq-Z8a"/>
-                                        </constraints>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wca-2O-ohR">
-                                        <rect key="frame" x="0.0" y="200" width="600" height="1000"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1000" id="kvo-4i-ziQ"/>
@@ -252,14 +245,11 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="wca-2O-ohR" secondAttribute="bottom" id="6Vy-sS-czF"/>
-                                    <constraint firstItem="Nl8-UQ-fmF" firstAttribute="leading" secondItem="ibw-2z-sIZ" secondAttribute="leading" id="9ht-7t-jzl"/>
                                     <constraint firstItem="wca-2O-ohR" firstAttribute="leading" secondItem="ibw-2z-sIZ" secondAttribute="leading" id="A9g-UF-Pbz"/>
                                     <constraint firstAttribute="trailing" secondItem="euV-lz-fZM" secondAttribute="trailing" id="Mes-mH-DOV"/>
-                                    <constraint firstAttribute="trailing" secondItem="Nl8-UQ-fmF" secondAttribute="trailing" id="Wfo-yh-8Hc"/>
                                     <constraint firstItem="euV-lz-fZM" firstAttribute="leading" secondItem="ibw-2z-sIZ" secondAttribute="leading" id="Wqe-ga-cNW"/>
                                     <constraint firstAttribute="trailing" secondItem="wca-2O-ohR" secondAttribute="trailing" id="cKF-TN-Ndq"/>
-                                    <constraint firstItem="wca-2O-ohR" firstAttribute="top" secondItem="Nl8-UQ-fmF" secondAttribute="bottom" id="hOF-gW-83B"/>
-                                    <constraint firstItem="Nl8-UQ-fmF" firstAttribute="top" secondItem="ibw-2z-sIZ" secondAttribute="top" id="rei-ko-0sa"/>
+                                    <constraint firstItem="wca-2O-ohR" firstAttribute="top" secondItem="ibw-2z-sIZ" secondAttribute="top" id="dkx-y3-VnL"/>
                                     <constraint firstItem="euV-lz-fZM" firstAttribute="top" secondItem="ibw-2z-sIZ" secondAttribute="top" id="vky-NM-7RJ"/>
                                 </constraints>
                                 <connections>
@@ -276,8 +266,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="carouselView" destination="Nl8-UQ-fmF" id="urz-C9-fIP"/>
-                        <outlet property="carouselViewHeight" destination="6fx-dq-Z8a" id="cOy-YA-Sg1"/>
                         <outlet property="scrollView" destination="ibw-2z-sIZ" id="Tui-zb-6R8"/>
                     </connections>
                 </viewController>

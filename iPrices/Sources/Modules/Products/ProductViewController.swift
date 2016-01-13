@@ -10,17 +10,20 @@ class ProductViewController: UIViewController {
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
-    @IBOutlet var carouselView: PFCarouselView?
-    @IBOutlet var carouselViewHeight: NSLayoutConstraint?
     @IBOutlet var scrollView: UIScrollView?
-    
+
     var product: Product?
-    var imageViews: [UIImageView] = [UIImageView]()
-    var imageRatio: CGFloat = 1.5 {
+    
+    var firstImage: UIImage? {
         didSet {
-            self.carouselViewHeight?.constant = self.view.frame.size.width / imageRatio
+            if let image = firstImage {
+                let imageSize = image.size
+                imageRatio = imageSize.width / imageSize.height
+            }
         }
     }
+    var imageViews: [UIImageView] = [UIImageView]()
+    var imageRatio: CGFloat = 1.5
     
     // Toolbar
     var btnLike: UIButton?
@@ -69,10 +72,12 @@ class ProductViewController: UIViewController {
         
         self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
         
-        // Carousel
-        self.setupCarouselView()
         // Hide navigation bar at beginning for calculating topInset
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // Parallax Header & Carousel View
+        self.setupParallaxHeader()
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.scrollView!, self.scrollView?.parallaxHeader.height ?? 0, true, true)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -89,13 +94,6 @@ class ProductViewController: UIViewController {
         self.showToolbar(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Carousel
-        self.carouselView?.resume()
-    }
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeStatusBarCover()
@@ -105,8 +103,10 @@ class ProductViewController: UIViewController {
         super.viewDidDisappear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
-        // Carousel
-        self.carouselView?.pause()
+        // Stop Carousel from accessing delegate
+        if let carouselView = self.scrollView?.parallaxHeader.view as? PFCarouselView {
+            carouselView.pause()
+        }
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -123,14 +123,11 @@ extension ProductViewController: UIScrollViewDelegate {
     
     private func updateStatusBarCover() {
         guard let scrollView = self.scrollView else { return }
-        guard let carouselView = self.carouselView else { return }
         
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
-        if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= (carouselView.frame.size.height - statusBarHeight) {
+        if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= 0 {
             isStatusBarOverlyingCoverImage = false
             self.addStatusBarCover()
-            
-        } else if !isStatusBarOverlyingCoverImage && scrollView.contentOffset.y < (carouselView.frame.size.height - statusBarHeight){
+        } else if !isStatusBarOverlyingCoverImage && scrollView.contentOffset.y < 0 {
             isStatusBarOverlyingCoverImage = true
             self.removeStatusBarCover()
         }
@@ -157,19 +154,10 @@ extension ProductViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: PFCarouselView
-extension ProductViewController: PFCarouselViewDelegate {
+// MARK: Parallax Header & Carousel View
+extension ProductViewController {
     
-    private func setupCarouselView() {
-        // Setup UI
-        if let carouselView = self.carouselView {
-            carouselView.duration = 2.0
-            carouselView.delegate = self
-            carouselView.textLabelShow = false
-        }
-        if let carouselViewHeight = self.carouselViewHeight {
-            carouselViewHeight.constant = self.view.frame.size.width / self.imageRatio
-        }
+    private func setupCarouselView() -> PFCarouselView {
         // Prepare data
         self.imageViews.removeAll()
         var images: [String]?
@@ -180,18 +168,49 @@ extension ProductViewController: PFCarouselViewDelegate {
             }
         }
         if let images = images {
-            for imageURLString in images {
-                if let imageURL = NSURL(string: imageURLString) {
-                    let imageView = UIImageView(frame: CGRectMake(0, 0, 320, 240))
-                    imageView.contentMode = .ScaleAspectFit
-                    imageView.sd_setImageWithURL(imageURL,
-                        placeholderImage: UIImage.imageWithRandomColor(nil),
-                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates])
-                    self.imageViews.append(imageView)
+            // Add 1st image
+            self.imageViews.append(UIImageView(image: self.firstImage))
+            // Add other images
+            if images.count > 1 {
+                let count = images.count - 1
+                let restImages = Array(images[1..<count])
+                for imageURLString in restImages {
+                    if let imageURL = NSURL(string: imageURLString) {
+                        let imageView = UIImageView(frame: CGRectMake(0, 0, 320, 240))
+                        imageView.contentMode = .ScaleAspectFit
+                        imageView.sd_setImageWithURL(imageURL,
+                            placeholderImage: UIImage.imageWithRandomColor(nil),
+                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                            completed: nil)
+                        self.imageViews.append(imageView)
+                    }
                 }
             }
         }
+        
+        // Setup UI
+        let carouselView = PFCarouselView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / self.imageRatio))
+        carouselView.duration = 2.0
+        carouselView.delegate = self
+        carouselView.textLabelShow = false
+        carouselView.resume()
+        
+        return carouselView
     }
+    
+    private func setupParallaxHeader() {
+        // Parallax View
+        if let scrollView = self.scrollView {
+            let carouselView = self.setupCarouselView()
+            scrollView.parallaxHeader.height = self.view.frame.size.width / self.imageRatio
+            scrollView.parallaxHeader.view = carouselView
+            scrollView.parallaxHeader.mode = .Bottom
+        }
+    }
+}
+
+// MARK: PFCarouselView
+extension ProductViewController: PFCarouselViewDelegate {
     
     func numberOfPagesInCarouselView(carouselView: PFCarouselView!) -> Int {
         return self.imageViews.count
@@ -199,9 +218,7 @@ extension ProductViewController: PFCarouselViewDelegate {
     
     func carouselView(carouselView: PFCarouselView!, setupContentViewAtIndex index: Int) -> UIView! {
         let imageView = self.imageViews[index]
-        if let carouselView = self.carouselView {
-            imageView.frame = carouselView.bounds
-        }
+        imageView.frame = carouselView.bounds
         return imageView
     }
     
@@ -225,7 +242,8 @@ extension ProductViewController: UIGestureRecognizerDelegate {
 extension ProductViewController: ZoomTransitionProtocol {
     
     func viewForZoomTransition(isSource: Bool) -> UIView? {
-        return self.carouselView
+        let carouselView = self.scrollView?.parallaxHeader.view
+        return carouselView
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {

@@ -118,8 +118,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
                 let imageView = cell.fgImageView,
                 let image = imageView.image {
-                    let imageSize = image.size
-                    productViewController.imageRatio = imageSize.width / imageSize.height
+                    productViewController.firstImage = image
             }
             self.navigationController?.pushViewController(productViewController, animated: true)
         }

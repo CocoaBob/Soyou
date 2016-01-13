@@ -488,8 +488,8 @@ extension NewsDetailViewController {
         headerView.contentMode = .ScaleAspectFill
         // Parallax View
         if let scrollView = self.scrollView {
-            scrollView.parallaxHeader.view = headerView
             scrollView.parallaxHeader.height = headerHeight
+            scrollView.parallaxHeader.view = headerView
             scrollView.parallaxHeader.mode = .Fill
         }
     }

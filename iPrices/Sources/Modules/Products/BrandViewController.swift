@@ -152,9 +152,8 @@ extension BrandViewController {
     }
 }
 
-
-// MARK: Table View
-extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: Parallax Header
+extension BrandViewController {
     
     private func setupParallaxHeader() {
         // Image
@@ -166,11 +165,15 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         headerView.contentMode = .ScaleAspectFill
         // Parallax View
         if let scrollView = self.tableView() {
-            scrollView.parallaxHeader.view = headerView
             scrollView.parallaxHeader.height = headerHeight
+            scrollView.parallaxHeader.view = headerView
             scrollView.parallaxHeader.mode = .Fill
         }
     }
+}
+
+// MARK: Table View
+extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
     private func updateFooterView() {
         guard let footerView = self.tableView()?.tableFooterView else { return }
