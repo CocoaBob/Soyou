@@ -7,9 +7,9 @@
 //
 
 class ProductDescriptionsViewController: UIViewController {
-    let lineTemplate: String = "<div class=row clearfix>" +
-                                    "<div class=key>__KEY__</div>" +
-                                    "<div class=value>__VALUE__</div>" +
+    let lineTemplate: String = "<div class=\"row clearfix\">" +
+                                    "<div class=\"key\">__KEY__</div>" +
+                                    "<div class=\"value\">__VALUE__</div>" +
                                 "</div>"
     
     @IBOutlet var webView: UIWebView!
