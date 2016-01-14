@@ -47,8 +47,7 @@ class ProductViewController: UIViewController {
         super.viewDidLoad()
         
         // Status bar
-        statusBarCover.backgroundColor = UIColor.blackColor()
-        self.addStatusBarCover()
+        statusBarCover.backgroundColor = UIColor.whiteColor()
         
         // Hide navigation bar at beginning for calculating topInset
         self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -114,12 +113,14 @@ class ProductViewController: UIViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        // Update Status Bar Cover
+        self.removeStatusBarCover()
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+        return UIStatusBarStyle.Default//isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
     }
 }
 
@@ -133,8 +134,10 @@ extension ProductViewController: UIScrollViewDelegate {
     private func updateStatusBarCover() {
         if isStatusBarOverlyingCoverImage && self.scrollView.contentOffset.y >= 0 {
             isStatusBarOverlyingCoverImage = false
+            self.addStatusBarCover()
         } else if !isStatusBarOverlyingCoverImage && self.scrollView.contentOffset.y < 0 {
             isStatusBarOverlyingCoverImage = true
+            self.removeStatusBarCover()
         }
     }
     
