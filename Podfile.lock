@@ -37,7 +37,8 @@ PODS:
   - MBProgressHUD (0.9.2)
   - MJRefresh (3.1.0)
   - MXParallaxHeader (0.4.3)
-  - PFCarouselView (0.5.0)
+  - PageMenu (1.2.8)
+  - PFCarouselView (0.7.0)
   - pop (1.0.8)
   - RandomColorSwift (0.1.0)
   - SCLAlertView (0.4.3)
@@ -60,7 +61,8 @@ DEPENDENCIES:
   - MBProgressHUD
   - MJRefresh
   - MXParallaxHeader
-  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717`)
+  - PageMenu (from `git://github.com/uacaps/PageMenu`, commit `9ed0c136a540ac9f2356a0cc4faddf0987d1af09`)
+  - PFCarouselView
   - RandomColorSwift
   - SCLAlertView
   - SDWebImage
@@ -73,9 +75,9 @@ EXTERNAL SOURCES:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
-  PFCarouselView:
-    :commit: bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717
-    :git: git://github.com/CocoaBob/PFCarouselView
+  PageMenu:
+    :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
+    :git: git://github.com/uacaps/PageMenu
   ZoomInteractiveTransition:
     :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
@@ -84,9 +86,9 @@ CHECKOUT OPTIONS:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
-  PFCarouselView:
-    :commit: bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717
-    :git: git://github.com/CocoaBob/PFCarouselView
+  PageMenu:
+    :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
+    :git: git://github.com/uacaps/PageMenu
   ZoomInteractiveTransition:
     :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
@@ -105,7 +107,8 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MXParallaxHeader: 96d9e7c392a26b29b97ddc34bff904a9c0baef27
-  PFCarouselView: b3f0533dad051c471501a1901881e258434d19f1
+  PageMenu: 703e82e173f54a4626ab88fcdca7703ee52e0cbe
+  PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   RandomColorSwift: b2e95d6d3670def6d2f907ec7b7041138b268ac9
   SCLAlertView: a5c726a80a938fd3127edd7dbc19da33fb936ca3

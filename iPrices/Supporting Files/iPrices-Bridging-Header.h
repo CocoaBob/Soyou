@@ -16,15 +16,16 @@
 @import EAIntroView;
 @import FCUUID;
 @import IDMPhotoBrowser;
+// libWeChatSDK
 @import MagicalRecord;
 @import MBProgressHUD;
 @import MJRefresh;
 @import MXParallaxHeader;
+@import PageMenu;
 @import PFCarouselView;
 @import RandomColorSwift;
 @import SCLAlertView;
 @import SDWebImage;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
-@import VTAcknowledgementsViewController;
 @import ZoomInteractiveTransition;
