@@ -62,7 +62,7 @@ DEPENDENCIES:
   - MJRefresh
   - MXParallaxHeader
   - PageMenu (from `git://github.com/uacaps/PageMenu`, commit `9ed0c136a540ac9f2356a0cc4faddf0987d1af09`)
-  - PFCarouselView
+  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `5ba33d405295ad3d33078a84eb4921eb79b9f6a2`)
   - RandomColorSwift
   - SCLAlertView
   - SDWebImage
@@ -78,6 +78,9 @@ EXTERNAL SOURCES:
   PageMenu:
     :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
     :git: git://github.com/uacaps/PageMenu
+  PFCarouselView:
+    :commit: 5ba33d405295ad3d33078a84eb4921eb79b9f6a2
+    :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
     :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
@@ -89,6 +92,9 @@ CHECKOUT OPTIONS:
   PageMenu:
     :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
     :git: git://github.com/uacaps/PageMenu
+  PFCarouselView:
+    :commit: 5ba33d405295ad3d33078a84eb4921eb79b9f6a2
+    :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
     :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
