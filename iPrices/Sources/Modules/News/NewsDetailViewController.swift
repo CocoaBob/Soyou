@@ -12,11 +12,11 @@ class NewsDetailViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(rgba:"#F21E8C")
+    let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorHeart)
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnLikeToggle: Bool = false // Used only when offline
     var btnFav: UIButton?
-    let btnFavActiveColor = UIColor(rgba:"#FFB751")
+    let btnFavActiveColor = UIColor(rgba:Cons.UI.colorMain)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     var lastScrollViewOffset: CGFloat = 0
     

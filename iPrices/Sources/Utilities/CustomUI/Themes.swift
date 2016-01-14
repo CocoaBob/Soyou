@@ -10,17 +10,17 @@ class Themes {
     
     class func setupAppearances() {
         // UIWindow
-        UIWindow.appearance().tintColor = UIColor(rgba: "#FFB751")
+        UIWindow.appearance().tintColor = UIColor(rgba: Cons.UI.colorMain)
         
         // UINavigationBar
         UINavigationBar.appearance().barStyle = .Black
-        UINavigationBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
+        UINavigationBar.appearance().tintColor = UIColor(rgba: Cons.UI.colorMain) // Bar tint color
         UINavigationBar.appearance().barTintColor = UIColor(white: 0.1, alpha: 0.0)
         UINavigationBar.appearance().translucent = true
         
         // UITabBar
         UITabBar.appearance().translucent = false
-        UITabBar.appearance().tintColor = UIColor(rgba: "#FFB751") // Bar tint color
+        UITabBar.appearance().tintColor = UIColor(rgba: Cons.UI.colorMain) // Bar tint color
         
         // UIToolbar
         UIToolbar.appearance().translucent = true

@@ -36,6 +36,11 @@ public struct Cons {
         static let lastVerIntro                         = "lastVerIntro" // The last app version that displayed the introduction view
         static let lastUpdateDate                       = "lastUpdateDate"
     }
+    
+    struct UI {
+        static let colorMain                            = "#FFB751"
+        static let colorHeart                           = "#FF5EAA"
+    }
 }
 
 typealias DataClosure = (AnyObject?)->()

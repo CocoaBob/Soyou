@@ -88,6 +88,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.lblPrice?.text = FmtString("%@",priceNumber)
             }
         }
+        cell.isLiked = product.appIsLiked?.boolValue
 
         if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
@@ -196,21 +197,52 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     }
 }
 
+//MARK: - Actions
+extension ProductsViewController {
+    
+    @IBAction func likeProduct(sender: UIButton) {
+        let position = sender.convertPoint(CGPointZero, toView: self.collectionView())
+        guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
+        if let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Product {
+            product.doLike({ (data: AnyObject?) -> () in
+                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                    if let localProduct = product.MR_inContext(localContext) {
+                        if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell {
+                            cell.isLiked = localProduct.appIsLiked?.boolValue
+                        }
+                    }
+                })
+            })
+        }
+    }
+}
+
 // MARK: - Custom cells
 class ProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView!
-    @IBOutlet var lblBrand: UILabel?
-    @IBOutlet var lblTitle: UILabel?
-    @IBOutlet var lblPrice: UILabel?
+    @IBOutlet var lblBrand: UILabel!
+    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var lblPrice: UILabel!
+    @IBOutlet var btnLike: UIButton!
+    
+    var isLiked: Bool? {
+        didSet {
+            if isLiked != nil && isLiked!.boolValue {
+                self.btnLike.setImage(UIImage(named: "img_heart_shadow_selected"), forState: UIControlState.Normal)
+            } else {
+                self.btnLike.setImage(UIImage(named: "img_heart_shadow"), forState: UIControlState.Normal)
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
     override func prepareForReuse() {
-        lblBrand?.text = nil
-        lblTitle?.text = nil
-        lblPrice?.text = nil
-        fgImageView.image = UIImage.imageWithRandomColor(nil)
+        lblBrand.text = nil
+        lblTitle.text = nil
+        lblPrice.text = nil
+        self.isLiked = false
     }
 }

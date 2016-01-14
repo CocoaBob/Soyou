@@ -23,10 +23,10 @@ class ProductViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(rgba:"#F21E8C")
+    let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorHeart)
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
-    let btnFavActiveColor = UIColor(rgba:"#FFB751")
+    let btnFavActiveColor = UIColor(rgba:Cons.UI.colorMain)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     var btnLikeToggle: Bool = false // Used only when offline
     
@@ -244,10 +244,10 @@ extension ProductViewController {
             .ScrollMenuBackgroundColor(UIColor.whiteColor()),
             .ViewBackgroundColor(UIColor(white: 0.95, alpha: 1)),
             .BottomMenuHairlineColor(UIColor(white: 0.75, alpha: 1)),
-            .SelectionIndicatorColor(UIColor(rgba: "#FFB751")),
+            .SelectionIndicatorColor(UIColor(rgba: Cons.UI.colorMain)),
             .MenuMargin(20.0),
             .MenuHeight(40.0),
-            .SelectedMenuItemLabelColor(UIColor(rgba: "#FFB751")),
+            .SelectedMenuItemLabelColor(UIColor(rgba: Cons.UI.colorMain)),
             .UnselectedMenuItemLabelColor(UIColor(white: 0.33, alpha: 1)),
             .MenuItemFont(UIFont.systemFontOfSize(14)),
             .UseMenuLikeSegmentedControl(true),
@@ -428,27 +428,17 @@ extension ProductViewController {
     }
     
     func like(sender: UIBarButtonItem) {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localProduct = self.product?.MR_inContext(localContext) {
-                let appIsLiked = localProduct.appIsLiked != nil && localProduct.appIsLiked!.boolValue
-                
-                DataManager.shared.likeProduct(localProduct.id!, wasLiked: appIsLiked, { (data: AnyObject?) -> () in
+        self.product?.doLike({ (data: AnyObject?) -> () in
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                if let localProduct = self.product?.MR_inContext(localContext) {
+                    // Update like color
+                    self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
                     // Update like number
                     if let likeNumber = data as? NSNumber {
                         self.likeBtnNumber = likeNumber.integerValue
                     }
-                    
-                    // Update like color
-                    self.updateLikeBtnColor(!appIsLiked)
-                    
-                    // Remember if it's liked or not
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localProduct = self.product?.MR_inContext(localContext) {
-                            localProduct.appIsLiked = NSNumber(bool: !appIsLiked)
-                        }
-                    })
-                })
-            }
+                }
+            })
         })
     }
     

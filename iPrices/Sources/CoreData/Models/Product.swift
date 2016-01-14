@@ -106,4 +106,25 @@ class Product: BaseModel {
             })
         }
     }
+    
+    func doLike(completion: DataClosure?) {
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localProduct = self.MR_inContext(localContext) {
+                let appWasLiked = localProduct.appIsLiked != nil && localProduct.appIsLiked!.boolValue
+                // Update only when response is received
+                DataManager.shared.likeProduct(localProduct.id!, wasLiked: appWasLiked, { (data: AnyObject?) -> () in
+                    // Remember if it's liked or not
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        if let localProduct = self.MR_inContext(localContext) {
+                            localProduct.appIsLiked = NSNumber(bool: !appWasLiked)
+                        }
+                    })
+                    // Completion
+                    if let completion = completion {
+                        completion(data)
+                    }
+                })
+            }
+        })
+    }
 }
