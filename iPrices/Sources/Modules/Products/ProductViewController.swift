@@ -28,7 +28,6 @@ class ProductViewController: UIViewController {
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:Cons.UI.colorMain)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
-    var btnLikeToggle: Bool = false // Used only when offline
     
     // Status bar cover
     var isStatusBarOverlyingCoverImage = true
@@ -89,7 +88,7 @@ class ProductViewController: UIViewController {
         self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
         
         // Load content
-        initLikeBtnNumberAndFavBtnStatus()
+        initLikeBtnAndFavBtn()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -343,9 +342,10 @@ extension ProductViewController: ZoomTransitionProtocol {
 // MARK: Like button
 extension ProductViewController {
     
-    private func initLikeBtnNumberAndFavBtnStatus() {
+    private func initLikeBtnAndFavBtn() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localProduct = self.product?.MR_inContext(localContext) {
+                self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
                 if let productID = localProduct.id {
                     DataManager.shared.loadProductInfo("\(productID)", { (data: AnyObject?) -> () in
                         if let likeNumber = data?["likeNumber"] as? NSNumber {
@@ -371,7 +371,6 @@ extension ProductViewController {
                 self.btnLike?.tintColor = self.btnLikeInactiveColor
             }
         }
-        self.btnLikeToggle = !btnLikeToggle
     }
     
     private var likeBtnNumber: Int? {

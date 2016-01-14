@@ -14,7 +14,6 @@ class NewsDetailViewController: UIViewController {
     var btnLike: UIButton?
     let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorHeart)
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
-    var btnLikeToggle: Bool = false // Used only when offline
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:Cons.UI.colorMain)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
@@ -272,7 +271,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
 // MARK: Like button
 extension NewsDetailViewController {
     
-    private func initLikeBtnNumberAndFavBtnStatus() {
+    private func initLikeBtnAndFavBtn() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
@@ -300,7 +299,6 @@ extension NewsDetailViewController {
                 self.btnLike?.tintColor = self.btnLikeInactiveColor
             }
         }
-        self.btnLikeToggle = !btnLikeToggle
     }
     
     private var likeBtnNumber: Int? {
@@ -373,10 +371,9 @@ extension NewsDetailViewController {
         
         // Like button
         if let appIsLiked = news.appIsLiked {
-            self.btnLikeToggle = !appIsLiked.boolValue
             updateLikeBtnColor(appIsLiked.boolValue)
         }
-        initLikeBtnNumberAndFavBtnStatus()
+        initLikeBtnAndFavBtn()
         
         // Cover Image
         if let imageURLString = news.image,

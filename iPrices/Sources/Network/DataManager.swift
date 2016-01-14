@@ -344,6 +344,7 @@ class DataManager {
             var count = 2
             let completionClosure = {
                 --count
+                DLog("PrefetchData Completion Closure count == \(count)")
                 if count == 0 {
                     self.isLoading = false
                     NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)

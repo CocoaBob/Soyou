@@ -162,7 +162,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pa-32-SkC">
-                                                    <rect key="frame" x="71" y="8" width="26" height="24"/>
+                                                    <rect key="frame" x="71" y="73" width="26" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="Skl-Cj-fMf"/>
                                                         <constraint firstAttribute="width" constant="26" id="tZ4-ce-Re1"/>
@@ -179,7 +179,7 @@
                                         <constraints>
                                             <constraint firstItem="Bmh-Jz-YrW" firstAttribute="trailing" secondItem="T5x-1o-buP" secondAttribute="trailingMargin" id="3R3-Na-uku"/>
                                             <constraint firstItem="nWa-Ws-mpS" firstAttribute="top" secondItem="ROd-8g-lc4" secondAttribute="bottom" constant="2" id="5gi-3x-hmW"/>
-                                            <constraint firstItem="4pa-32-SkC" firstAttribute="top" secondItem="T5x-1o-buP" secondAttribute="topMargin" id="6cN-Y1-HvN"/>
+                                            <constraint firstItem="4pa-32-SkC" firstAttribute="top" secondItem="hJi-XA-WI0" secondAttribute="bottom" constant="-32" id="Aeb-XD-rjW"/>
                                             <constraint firstItem="nWa-Ws-mpS" firstAttribute="bottom" secondItem="T5x-1o-buP" secondAttribute="bottom" constant="-2" id="C3X-Qh-6T1"/>
                                             <constraint firstItem="4pa-32-SkC" firstAttribute="trailing" secondItem="T5x-1o-buP" secondAttribute="trailingMargin" id="Cug-PI-OEf"/>
                                             <constraint firstItem="Bmh-Jz-YrW" firstAttribute="leading" secondItem="T5x-1o-buP" secondAttribute="leadingMargin" id="GyW-oZ-dI0"/>
@@ -580,7 +580,7 @@
     <resources>
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="13" height="21"/>
-        <image name="img_heart_shadow" width="26" height="24"/>
+        <image name="img_heart_shadow" width="24" height="22"/>
         <image name="img_map_button_icon" width="46" height="46"/>
     </resources>
 </document>

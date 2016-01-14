@@ -38,6 +38,11 @@ class ProductsViewController: BaseViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
+        
+        // Update the selected cell in case if appIsLiked is changed
+        if let selectedIndexPath = self.selectedIndexPath {
+            self.collectionView().reloadItemsAtIndexPaths([selectedIndexPath])
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -48,7 +53,7 @@ class ProductsViewController: BaseViewController {
         return Product.MR_fetchAllGroupedBy(
             nil,
             withPredicate: FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID ?? "")),
-            sortedBy: "order",
+            sortedBy: "order,id",
             ascending: true)
     }
     
