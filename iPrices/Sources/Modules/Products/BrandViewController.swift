@@ -242,13 +242,25 @@ extension BrandViewController: UIGestureRecognizerDelegate {
 // MARK: ZoomInteractiveTransition
 extension BrandViewController: ZoomTransitionProtocol {
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    private func imageViewForZoomTransition() -> UIImageView? {
         if let parallaxHeaderView = self.tableView()?.parallaxHeader.view {
             parallaxHeaderView.setNeedsLayout()
             parallaxHeaderView.layoutIfNeeded()
-            return parallaxHeaderView
+            return parallaxHeaderView as? UIImageView
         }
-        
+        return nil
+    }
+    
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
+        return self.imageViewForZoomTransition()
+    }
+    
+    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+        if let imageView = self.imageViewForZoomTransition() {
+            let returnImageView = UIImageView(image: imageView.image)
+            returnImageView.contentMode = imageView.contentMode
+            return returnImageView
+        }
         return nil
     }
     

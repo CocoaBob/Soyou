@@ -118,24 +118,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bUq-Q3-FX5">
-                                    <size key="itemSize" width="133" height="158"/>
+                                    <size key="itemSize" width="105" height="158"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductsCollectionViewCell" id="T5x-1o-buP" customClass="ProductsCollectionViewCell" customModule="iPrices" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="133" height="158"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="105" height="158"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="133" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="105" height="158"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hJi-XA-WI0" userLabel="Foreground Image View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="133" height="105"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="hJi-XA-WI0" userLabel="Foreground Image View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="105" height="105"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brand" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmh-Jz-YrW">
-                                                    <rect key="frame" x="8" y="107" width="117" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Brand" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmh-Jz-YrW">
+                                                    <rect key="frame" x="8" y="107" width="89" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="E6q-PB-y77"/>
                                                     </constraints>
@@ -143,8 +143,8 @@
                                                     <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROd-8g-lc4" userLabel="Lbl Title">
-                                                    <rect key="frame" x="8" y="124" width="117" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Product Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROd-8g-lc4" userLabel="Lbl Title">
+                                                    <rect key="frame" x="8" y="124" width="89" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="2IO-CM-gFt"/>
                                                     </constraints>
@@ -152,8 +152,8 @@
                                                     <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWa-Ws-mpS" userLabel="Lbl Price">
-                                                    <rect key="frame" x="8" y="141" width="117" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nWa-Ws-mpS" userLabel="Lbl Price">
+                                                    <rect key="frame" x="8" y="141" width="89" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="7R6-Kz-TAO"/>
                                                     </constraints>

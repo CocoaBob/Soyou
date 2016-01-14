@@ -14,14 +14,15 @@ class ProductViewController: UIViewController {
 
     var product: Product?
     
-    var firstImage: UIImage? {
-        didSet {
-            if let image = firstImage {
-                let imageSize = image.size
-                imageRatio = imageSize.width / imageSize.height
-            }
-        }
-    }
+    var firstImage: UIImage?
+//        {
+//        didSet {
+//            if let image = firstImage {
+//                let imageSize = image.size
+//                imageRatio = imageSize.width / imageSize.height
+//            }
+//        }
+//    }
     var imageViews: [UIImageView] = [UIImageView]()
     var imageRatio: CGFloat = 1.5
     
@@ -78,7 +79,7 @@ class ProductViewController: UIViewController {
         // Parallax Header & Carousel View
         self.setupParallaxHeader()
         // Fix scroll view insets
-        self.updateScrollViewInset(self.scrollView!, self.scrollView?.parallaxHeader.height ?? 0, true, true)
+        self.updateScrollViewInset(self.scrollView!, self.scrollView?.parallaxHeader.height ?? 0, false, true)
         
         // Load content
         initLikeBtnNumberAndFavBtnStatus()
@@ -107,10 +108,6 @@ class ProductViewController: UIViewController {
         super.viewDidDisappear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
-        // Stop Carousel from accessing delegate
-        if let carouselView = self.scrollView?.parallaxHeader.view as? PFCarouselView {
-            carouselView.pause()
-        }
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -173,14 +170,16 @@ extension ProductViewController {
         }
         if let images = images {
             // Add 1st image
-            self.imageViews.append(UIImageView(image: self.firstImage))
+            let firstImageView = UIImageView(image: self.firstImage)
+            firstImageView.contentMode = .ScaleAspectFit
+            self.imageViews.append(firstImageView)
             // Add other images
             if images.count > 1 {
                 let count = images.count - 1
                 let restImages = Array(images[1..<count])
                 for imageURLString in restImages {
                     if let imageURL = NSURL(string: imageURLString) {
-                        let imageView = UIImageView(frame: CGRectMake(0, 0, 320, 240))
+                        let imageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width))
                         imageView.contentMode = .ScaleAspectFit
                         imageView.sd_setImageWithURL(imageURL,
                             placeholderImage: UIImage.imageWithRandomColor(nil),
@@ -194,10 +193,9 @@ extension ProductViewController {
         
         // Setup UI
         let carouselView = PFCarouselView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / self.imageRatio))
-        carouselView.duration = 2.0
         carouselView.delegate = self
         carouselView.textLabelShow = false
-        carouselView.resume()
+        carouselView.refresh()
         
         return carouselView
     }
@@ -248,6 +246,16 @@ extension ProductViewController: ZoomTransitionProtocol {
     func viewForZoomTransition(isSource: Bool) -> UIView? {
         let carouselView = self.scrollView?.parallaxHeader.view
         return carouselView
+    }
+    
+    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+        if (self.imageViews.count > 0) {
+            let imageView = self.imageViews[0]
+            let returnImageView = UIImageView(image: imageView.image)
+            returnImageView.contentMode = imageView.contentMode
+            return returnImageView
+        }
+        return nil
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {

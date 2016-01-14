@@ -240,11 +240,24 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
 // MARK: ZoomInteractiveTransition
 extension NewsViewController: ZoomTransitionProtocol {
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
             let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell,
             let imageView = cell.fgImageView {
                 return imageView
+        }
+        return nil
+    }
+    
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
+        return self.imageViewForZoomTransition()
+    }
+    
+    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+        if let imageView = self.imageViewForZoomTransition() {
+            let returnImageView = UIImageView(image: imageView.image)
+            returnImageView.contentMode = imageView.contentMode
+            return returnImageView
         }
         return nil
     }

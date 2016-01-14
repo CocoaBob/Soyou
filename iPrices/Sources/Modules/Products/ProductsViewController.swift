@@ -88,7 +88,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.lblPrice?.text = FmtString("%@",priceNumber)
             }
         }
-        
+
         if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
                 placeholderImage: UIImage.imageWithRandomColor(nil),
@@ -128,13 +128,25 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
 // MARK: ZoomInteractiveTransition
 extension ProductsViewController: ZoomTransitionProtocol {
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
             let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
             let imageView = cell.fgImageView {
                 return imageView
         }
-        
+        return nil
+    }
+    
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
+        return self.imageViewForZoomTransition()
+    }
+    
+    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+        if let imageView = self.imageViewForZoomTransition() {
+            let returnImageView = UIImageView(image: imageView.image)
+            returnImageView.contentMode = .ScaleAspectFit
+            return returnImageView
+        }
         return nil
     }
     
@@ -176,7 +188,11 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
             let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
             if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
-                return image.size
+                let bottomMargin: CGFloat = 51.0
+                let cellMargin: CGFloat = 4.0
+                let cellWidth = (collectionView.frame.size.width - cellMargin * 3) / 2.0
+                let cellHeight = cellWidth * image.size.height / image.size.width + bottomMargin
+                return CGSizeMake(cellWidth, cellHeight)
             }
         }
         return CGSizeMake(1, 1)
