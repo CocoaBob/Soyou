@@ -94,10 +94,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 placeholderImage: UIImage.imageWithRandomColor(nil),
                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                    UIView.animateWithDuration(0.25, animations: { () -> Void in
-                        collectionView.collectionViewLayout.invalidateLayout()
-                        }
-                    )
+                    collectionView.collectionViewLayout.invalidateLayout()
             })
         }
         

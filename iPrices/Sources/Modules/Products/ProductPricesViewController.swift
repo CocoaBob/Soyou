@@ -18,9 +18,6 @@ class ProductPricesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // UIViewController
-        self.title = NSLocalizedString("product_prices_vc_title")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -57,7 +54,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let prices = self.prices else { return UITableViewCell() }
-        guard let item = prices[indexPath.row] else { return UITableViewCell() }
+        guard let item = prices[indexPath.section] else { return UITableViewCell() }
         
         let country = item["country"] as! String
         let price = item["price"] as! NSNumber

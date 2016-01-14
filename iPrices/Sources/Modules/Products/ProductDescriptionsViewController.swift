@@ -23,9 +23,6 @@ class ProductDescriptionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // UIViewController
-        self.title = NSLocalizedString("product_descriptions_vc_title")
-        
         // Web View
         self.webView.scrollView.scrollEnabled = false
         

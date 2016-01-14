@@ -226,6 +226,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="2Ct-53-vO6">
+                            <rect key="frame" x="0.0" y="116" width="600" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ProductPricesTableViewCellCountry" id="SfF-o3-dTd" customClass="ProductPricesTableViewCellCountry" customModule="iPrices" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
@@ -263,6 +268,7 @@
                                         <constraint firstItem="GGJ-GP-I00" firstAttribute="leading" secondItem="QiQ-Tu-IQH" secondAttribute="trailing" constant="8" id="iwF-iL-4lm"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="imgView" destination="QiQ-Tu-IQH" id="Obn-KP-hhk"/>
                                     <outlet property="lblAccessory" destination="kEh-Tu-TRK" id="2e7-jK-Mio"/>
@@ -307,6 +313,7 @@
                                         <constraint firstItem="Adq-Ip-CdI" firstAttribute="leading" secondItem="PzU-Zz-1e7" secondAttribute="trailing" constant="8" id="rCd-3i-CxB"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="51" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="lblPrice" destination="dOd-tu-pBs" id="kD6-o5-x2h"/>
                                     <outlet property="lblPriceCNY" destination="Adq-Ip-CdI" id="Vyh-HJ-Ipb"/>
