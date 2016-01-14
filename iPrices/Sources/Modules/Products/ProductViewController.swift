@@ -16,7 +16,7 @@ class ProductViewController: UIViewController {
     var product: Product?
     var firstImage: UIImage?
     var imageViews: [UIImageView] = [UIImageView]()
-    var imageRatio: CGFloat = 1.5
+    var imageRatio: CGFloat = 1.1
     
     // PageMenu
     var pageMenu: CAPSPageMenu?
