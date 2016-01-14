@@ -67,7 +67,7 @@ DEPENDENCIES:
   - UICKeyChainStore
   - UIColor_Hex_Swift
   - ZoomInteractiveTransition (from `git://github.com/DenHeadless/ZoomInteractiveTransition`,
-    commit `de9a435ed09c6d0d96949083a476190e8ad9e59a`)
+    commit `71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd`)
 
 EXTERNAL SOURCES:
   libWeChatSDK:
@@ -77,7 +77,7 @@ EXTERNAL SOURCES:
     :commit: bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717
     :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
-    :commit: de9a435ed09c6d0d96949083a476190e8ad9e59a
+    :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 CHECKOUT OPTIONS:
@@ -88,7 +88,7 @@ CHECKOUT OPTIONS:
     :commit: bcab403e5d842fdd6f1b38d3dd6c1c9ad747a717
     :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
-    :commit: de9a435ed09c6d0d96949083a476190e8ad9e59a
+    :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 SPEC CHECKSUMS:
