@@ -10,21 +10,16 @@ class ProductViewController: UIViewController {
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
-    @IBOutlet var scrollView: UIScrollView?
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var subViewsContainer: UIView!
 
     var product: Product?
-    
     var firstImage: UIImage?
-//        {
-//        didSet {
-//            if let image = firstImage {
-//                let imageSize = image.size
-//                imageRatio = imageSize.width / imageSize.height
-//            }
-//        }
-//    }
     var imageViews: [UIImageView] = [UIImageView]()
     var imageRatio: CGFloat = 1.5
+    
+    // PageMenu
+    var pageMenu: CAPSPageMenu?
     
     // Toolbar
     var btnLike: UIButton?
@@ -41,11 +36,31 @@ class ProductViewController: UIViewController {
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        // Hide tabs
+        self.hidesBottomBarWhenPushed = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Status bar
-        statusBarCover.backgroundColor = UIColor.whiteColor()
+        statusBarCover.backgroundColor = UIColor.blackColor()
+        self.addStatusBarCover()
+        
+        // Hide navigation bar at beginning for calculating topInset
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // Parallax Header & Carousel View
+        self.setupParallaxHeader()
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.scrollView, self.scrollView.parallaxHeader.height ?? 0, false, true)
+        self.scrollView.contentInset.bottom = 0 // Workaround: Fix contentInset.bottom...
+        self.scrollView.scrollIndicatorInsets = UIEdgeInsetsZero // Workaround: Fix scrollIndicatorInsets...
+        self.scrollView.scrollIndicatorInsets.top = UIApplication.sharedApplication().statusBarFrame.size.height
+        // SubViewControllers
+        self.setupSubViewControllers()
         
         // Toolbar
         self.btnLike = UIButton(type: .System)
@@ -73,13 +88,6 @@ class ProductViewController: UIViewController {
         (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
         
         self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
-        
-        // Hide navigation bar at beginning for calculating topInset
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        // Parallax Header & Carousel View
-        self.setupParallaxHeader()
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.scrollView!, self.scrollView?.parallaxHeader.height ?? 0, false, true)
         
         // Load content
         initLikeBtnNumberAndFavBtnStatus()
@@ -111,7 +119,7 @@ class ProductViewController: UIViewController {
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
+        return UIStatusBarStyle.LightContent
     }
 }
 
@@ -123,14 +131,10 @@ extension ProductViewController: UIScrollViewDelegate {
     }
     
     private func updateStatusBarCover() {
-        guard let scrollView = self.scrollView else { return }
-        
-        if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= 0 {
+        if isStatusBarOverlyingCoverImage && self.scrollView.contentOffset.y >= 0 {
             isStatusBarOverlyingCoverImage = false
-            self.addStatusBarCover()
-        } else if !isStatusBarOverlyingCoverImage && scrollView.contentOffset.y < 0 {
+        } else if !isStatusBarOverlyingCoverImage && self.scrollView.contentOffset.y < 0 {
             isStatusBarOverlyingCoverImage = true
-            self.removeStatusBarCover()
         }
     }
     
@@ -201,12 +205,64 @@ extension ProductViewController {
     }
     
     private func setupParallaxHeader() {
-        // Parallax View
-        if let scrollView = self.scrollView {
-            let carouselView = self.setupCarouselView()
-            scrollView.parallaxHeader.height = self.view.frame.size.width / self.imageRatio
-            scrollView.parallaxHeader.view = carouselView
-            scrollView.parallaxHeader.mode = .Bottom
+        let carouselView = self.setupCarouselView()
+        self.scrollView.parallaxHeader.height = self.view.frame.size.width / self.imageRatio
+        self.scrollView.parallaxHeader.view = carouselView
+        self.scrollView.parallaxHeader.mode = .Bottom
+    }
+}
+
+// MARK: Sub View Controllers
+extension ProductViewController {
+    
+    func setupSubViewControllers() {
+        guard let product = self.product else { return }
+        
+        var viewControllers = [UIViewController]()
+        if let productPricesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController {
+            productPricesViewController.prices = product.prices as? NSDictionary
+            viewControllers.append(productPricesViewController)
+        }
+        if let productDescriptionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController {
+            productDescriptionsViewController.descriptions = product.descriptions
+            viewControllers.append(productDescriptionsViewController)
+        }
+        
+        // Customize menu (Optional)
+        let parameters: [CAPSPageMenuOption] = [
+            .MenuItemSeparatorWidth(4.3),
+            .ScrollMenuBackgroundColor(UIColor.whiteColor()),
+            .ViewBackgroundColor(UIColor(white: 0.95, alpha: 1)),
+            .BottomMenuHairlineColor(UIColor(white: 0.75, alpha: 1)),
+            .SelectionIndicatorColor(UIColor(rgba: "#FFB751")),
+            .MenuMargin(20.0),
+            .MenuHeight(40.0),
+            .SelectedMenuItemLabelColor(UIColor(rgba: "#FFB751")),
+            .UnselectedMenuItemLabelColor(UIColor(white: 0.33, alpha: 1)),
+            .MenuItemFont(UIFont.systemFontOfSize(14)),
+            .UseMenuLikeSegmentedControl(true),
+            .MenuItemSeparatorRoundEdges(false),
+            .SelectionIndicatorHeight(2.0),
+            .MenuItemSeparatorPercentageHeight(0)
+        ]
+        
+        // UI
+        self.pageMenu = CAPSPageMenu(
+            viewControllers: viewControllers,
+            frame: CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height),
+            pageMenuOptions: parameters)
+        if let pageMenu = self.pageMenu  {
+            pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+            self.subViewsContainer.addSubview(pageMenu.view)
+            self.subViewsContainer.addConstraint(NSLayoutConstraint(
+                item: self.subViewsContainer,
+                attribute: NSLayoutAttribute.Height,
+                relatedBy: NSLayoutRelation.Equal,
+                toItem: pageMenu.view,
+                attribute: NSLayoutAttribute.Height,
+                multiplier: 1,
+                constant: 0))
+            pageMenu.view.frame = CGRectMake(0, 0, self.subViewsContainer.frame.size.width, self.subViewsContainer.frame.size.height)
         }
     }
 }
@@ -244,8 +300,7 @@ extension ProductViewController: UIGestureRecognizerDelegate {
 extension ProductViewController: ZoomTransitionProtocol {
     
     func viewForZoomTransition(isSource: Bool) -> UIView? {
-        let carouselView = self.scrollView?.parallaxHeader.view
-        return carouselView
+        return self.scrollView.parallaxHeader.view
     }
     
     func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {

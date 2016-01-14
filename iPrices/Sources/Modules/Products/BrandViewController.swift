@@ -14,11 +14,11 @@ private class CategoryItem: AnyObject {
     var childrenIsVisible: Bool = false
 }
 
-class BrandViewController: BaseViewController {
+class BrandViewController: UIViewController {
     
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
-    @IBOutlet var _tableView: UITableView?
+    @IBOutlet var tableView: UITableView!
     @IBOutlet var _mapView: MKMapView?
     
     private var _locationManager = CLLocationManager()
@@ -73,7 +73,7 @@ class BrandViewController: BaseViewController {
         self.setupParallaxHeader()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView()!, self.tableView()?.parallaxHeader.height ?? 0, false, false)
+        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height ?? 0, false, false)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -91,15 +91,6 @@ class BrandViewController: BaseViewController {
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
     }
-    
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("brandId == %@", self.brandID ?? ""), sortedBy: nil, ascending: true)
-    }
-    
-    override func tableView() -> UITableView? {
-        return _tableView
-    }
-
 }
 
 // MARK: Data
@@ -148,7 +139,7 @@ extension BrandViewController {
         }
         
         // Reload table
-        self.tableView()?.reloadData()
+        self.tableView.reloadData()
     }
 }
 
@@ -164,11 +155,10 @@ extension BrandViewController {
         let headerView = UIImageView(image: image)
         headerView.contentMode = .ScaleAspectFill
         // Parallax View
-        if let scrollView = self.tableView() {
-            scrollView.parallaxHeader.height = headerHeight
-            scrollView.parallaxHeader.view = headerView
-            scrollView.parallaxHeader.mode = .Fill
-        }
+        let scrollView = self.tableView
+        scrollView.parallaxHeader.height = headerHeight
+        scrollView.parallaxHeader.view = headerView
+        scrollView.parallaxHeader.mode = .Fill
     }
 }
 
@@ -176,13 +166,13 @@ extension BrandViewController {
 extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
     private func updateFooterView() {
-        guard let footerView = self.tableView()?.tableFooterView else { return }
+        guard let footerView = self.tableView.tableFooterView else { return }
         let viewWidth = self.view.frame.size.width
         footerView.layoutMargins = UIEdgeInsetsMake(15, 15, 15, 15)
         let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
         let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
         footerView.frame = CGRectMake(0, 0, viewWidth, (viewWidth - marginH) * 0.5 + marginV)
-        self.tableView()?.tableFooterView = footerView // Reset footer view to update the frame
+        self.tableView.tableFooterView = footerView // Reset footer view to update the frame
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -243,7 +233,7 @@ extension BrandViewController: UIGestureRecognizerDelegate {
 extension BrandViewController: ZoomTransitionProtocol {
     
     private func imageViewForZoomTransition() -> UIImageView? {
-        if let parallaxHeaderView = self.tableView()?.parallaxHeader.view {
+        if let parallaxHeaderView = self.tableView.parallaxHeader.view {
             parallaxHeaderView.setNeedsLayout()
             parallaxHeaderView.layoutIfNeeded()
             return parallaxHeaderView as? UIImageView
@@ -306,7 +296,7 @@ extension BrandViewController {
             indexSet.addIndex(lastOpenedSection)
         }
         
-        self.tableView()?.reloadSections(indexSet, withRowAnimation: UITableViewRowAnimation.Fade)
+        self.tableView.reloadSections(indexSet, withRowAnimation: UITableViewRowAnimation.Fade)
     }
     
     private func presentProductsViewController(indexPath: NSIndexPath) {
@@ -321,9 +311,8 @@ extension BrandViewController {
     }
     
     @IBAction func didTapAccessoryButton(sender: UIButton) {
-        guard let tableView = self.tableView() else { return }
-        let position = sender.convertPoint(CGPointZero, toView: tableView)
-        guard let indexPath = tableView.indexPathForRowAtPoint(position) else { return }
+        let position = sender.convertPoint(CGPointZero, toView: self.tableView)
+        guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
         self.presentProductsViewController(indexPath)
     }
 }

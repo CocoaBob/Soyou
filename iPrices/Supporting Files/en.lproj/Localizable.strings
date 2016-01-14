@@ -35,6 +35,15 @@
 /* Products View Controller */
 "products_vc_title"="Products";
 
+/* Product Prices View Controller */
+"product_prices_vc_title"="Global Prices";
+"product_prices_vc_official_price"="Official price in %@";
+"product_prices_vc_official_website"="Website";
+
+/* Product Descriptions View Controller */
+"product_descriptions_vc_title"="Descriptions";
+"product_descriptions_vc_empty"="No descriptions";
+
 /* User View Controller */
 "user_vc_title"="User";
 "user_vc_tab_title"="User";
@@ -73,3 +82,39 @@
 "alert_title_info"="Info";
 "alert_title_success"="Success";
 "alert_button_ok"="OK";
+
+/* Currency Names */
+"currency_name_cny"="CNY";
+"currency_name_hkd"="HKD";
+"currency_name_jpy"="JPY";
+"currency_name_krw"="KRW";
+"currency_name_sgd"="SGD";
+"currency_name_gbp"="GBP";
+"currency_name_eur"="EUR";
+"currency_name_usd"="USD";
+"currency_name_cad"="CAD";
+
+/* Currency Symbols */
+"currency_name_cny"="¥";
+"currency_name_hkd"="$";
+"currency_name_jpy"="¥";
+"currency_name_krw"="₩";
+"currency_name_sgd"="$";
+"currency_name_gbp"="£";
+"currency_name_eur"="€";
+"currency_name_usd"="$";
+"currency_name_cad"="$";
+
+/* Country Names */
+"country_name_中国"="PRC";
+"country_name_香港"="Hong Kong";
+"country_name_日本"="Japan";
+"country_name_韩国"="South Korea";
+"country_name_新加坡"="Singapore";
+"country_name_英国"="UK";
+"country_name_德国"="German";
+"country_name_法国"="France";
+"country_name_意大利"="Italie";
+"country_name_西班牙"="Spain";
+"country_name_美国"="USA";
+"country_name_加拿大"="Canada";
