@@ -1,0 +1,20 @@
+body, .main{
+    width: 100%;
+}
+
+.row{
+    width: 100%;
+}
+.key{
+    width: 20%;
+    float: left;
+}
+.value{
+    width: 70%;
+    float: left;
+}
+
+.clearfix:before, .clearfix:after{
+    display: table;
+    content: " ";
+}

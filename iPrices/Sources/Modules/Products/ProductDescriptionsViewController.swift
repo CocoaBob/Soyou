@@ -7,6 +7,10 @@
 //
 
 class ProductDescriptionsViewController: UIViewController {
+    let lineTemplate: String = "<div class=row clearfix>" +
+                                    "<div class=key>__KEY__</div>" +
+                                    "<div class=value>__VALUE__</div>" +
+                                "</div>"
     
     @IBOutlet var webView: UIWebView!
     
@@ -15,6 +19,10 @@ class ProductDescriptionsViewController: UIViewController {
             
         }
     }
+    
+    var surname: String?
+    var brand: String?
+    var reference: String?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -27,11 +35,7 @@ class ProductDescriptionsViewController: UIViewController {
         self.webView.scrollView.scrollEnabled = false
         
         // Load Content
-        if let descriptions = self.descriptions {
-            self.webView.loadHTMLString(descriptions, baseURL: nil)
-        } else {
-            self.webView.loadHTMLString(NSLocalizedString("product_descriptions_vc_empty"), baseURL: nil)
-        }
+        loadContent()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -52,6 +56,49 @@ class ProductDescriptionsViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
+    }
+}
+// MARK: Data
+extension ProductDescriptionsViewController {
+
+    // Load HTML
+    private func loadContent() {
+        var htmlContent: String = ""
+        var cssContent: String?
+        
+        if let surname = self.surname {
+            htmlContent = lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__VALUE__", withString: surname)
+        }
+        
+        if let brand = self.brand {
+            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__VALUE__", withString: brand)
+        }
+        
+        if let reference = self.reference {
+            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__VALUE__", withString: reference)
+        }
+        
+        if let descriptions = self.descriptions {
+            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_descriptions")).stringByReplacingOccurrencesOfString("__VALUE__", withString: descriptions)
+        }
+        
+        if htmlContent == "" {
+            htmlContent = NSLocalizedString("product_descriptions_vc_empty")
+        }
+        
+        var html: String?
+        do {
+            cssContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("productDescription", ofType: "css")!)
+            html = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("productDescription", ofType: "html")!)
+        } catch {
+                        
+        }
+        
+        if let cssContent = cssContent, var html = html {
+            html = html.stringByReplacingOccurrencesOfString("__CONTENT__", withString: htmlContent)
+            html = html.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
+            self.webView.loadHTMLString(html, baseURL: nil)
+        }
     }
 }
 

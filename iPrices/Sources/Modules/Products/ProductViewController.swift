@@ -234,6 +234,9 @@ extension ProductViewController {
             if let productDescriptionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController {
                 productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
                 productDescriptionsViewController.descriptions = localProduct.descriptions
+                productDescriptionsViewController.surname = localProduct.surname
+                productDescriptionsViewController.brand = localProduct.brandLabel
+                productDescriptionsViewController.reference = localProduct.reference
                 viewControllers.append(productDescriptionsViewController)
             }
         })

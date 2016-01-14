@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D05D6551C484B7D00D8A7C2 /* productDescription.html in Resources */ = {isa = PBXBuildFile; fileRef = 0D05D6541C484B7D00D8A7C2 /* productDescription.html */; };
+		0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */ = {isa = PBXBuildFile; fileRef = 0D05D6561C485A1900D8A7C2 /* productDescription.css */; };
 		0D1DF07B1C1DCA8800574D98 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF07A1C1DCA8800574D98 /* CoreTelephony.framework */; };
 		0D1DF07F1C1DCF3C00574D98 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF07E1C1DCF3C00574D98 /* SystemConfiguration.framework */; };
 		0D1DF0811C1DCF4800574D98 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF0801C1DCF4800574D98 /* libz.tbd */; };
@@ -92,6 +94,8 @@
 
 /* Begin PBXFileReference section */
 		07366AF0A57023FAF6EDEF95 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		0D05D6541C484B7D00D8A7C2 /* productDescription.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = productDescription.html; sourceTree = "<group>"; };
+		0D05D6561C485A1900D8A7C2 /* productDescription.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = productDescription.css; sourceTree = "<group>"; };
 		0D1DF07A1C1DCA8800574D98 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		0D1DF07C1C1DCDD400574D98 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		0D1DF07E1C1DCF3C00574D98 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -245,6 +249,8 @@
 				4555BBAB1BFFEEB500A01B41 /* server.cer */,
 				45A4D8301C08CD200000309C /* news.css */,
 				45A4D8311C08CD200000309C /* news.html */,
+				0D05D6541C484B7D00D8A7C2 /* productDescription.html */,
+				0D05D6561C485A1900D8A7C2 /* productDescription.css */,
 			);
 			name = Resources;
 			path = iPrices/Resources;
@@ -485,10 +491,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				457777911BFCE4AC00805D79 /* NewsViewController.storyboard in Resources */,
+				0D05D6551C484B7D00D8A7C2 /* productDescription.html in Resources */,
 				455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */,
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
 				45A4D8321C08CD200000309C /* news.css in Resources */,
+				0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */,
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,

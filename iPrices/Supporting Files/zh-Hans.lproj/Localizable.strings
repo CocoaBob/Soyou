@@ -83,6 +83,12 @@
 "alert_title_success"="成功";
 "alert_button_ok"="确认";
 
+/* Product descriptions */
+"product_surname"="别名";
+"product_brand"="品牌";
+"product_reference"="编号";
+"product_descriptions"="描述";
+
 /* Currency Names */
 "currency_name_cny"="人民币";
 "currency_name_hkd"="港元";
