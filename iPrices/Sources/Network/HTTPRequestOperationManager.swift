@@ -98,13 +98,13 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         if let headers: Dictionary = operation.response?.allHeaderFields {
             if let serverVersion = headers["Server-Version"] as? NSString as? String {
                 verServer = serverVersion
-                if serverVersion == Cons.Svr.minVer {
+                if serverVersion.rangeOfString(Cons.Svr.minVer) != nil{
                     isAccepted = true
                 }
             }
         }
         if !isAccepted {
-            let error = FmtError(0, "Accepted Server Version: %@ Server Version: %@", Cons.Svr.minVer, (verServer != nil ? verServer! : ""))
+            let error = FmtError(0, "Local version: %@ Server supported version: %@", Cons.Svr.minVer, (verServer != nil ? verServer! : ""))
             if let onFailure = onFailure { onFailure(error) }
             return
         }
