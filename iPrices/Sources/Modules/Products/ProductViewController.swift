@@ -222,16 +222,21 @@ extension ProductViewController {
         guard let product = self.product else { return }
         
         var viewControllers = [UIViewController]()
-        if let productPricesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController {
-            productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
-            productPricesViewController.prices = product.prices as? NSDictionary
-            viewControllers.append(productPricesViewController)
-        }
-        if let productDescriptionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController {
-            productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
-            productDescriptionsViewController.descriptions = product.descriptions
-            viewControllers.append(productDescriptionsViewController)
-        }
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            let localProduct = product.MR_inContext(localContext)
+            // Prices VC
+            if let productPricesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController {
+                productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
+                productPricesViewController.prices = localProduct.prices as? [[String: AnyObject]]
+                viewControllers.append(productPricesViewController)
+            }
+            // Descriptions VC
+            if let productDescriptionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController {
+                productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
+                productDescriptionsViewController.descriptions = localProduct.descriptions
+                viewControllers.append(productDescriptionsViewController)
+            }
+        })
         
         // Customize menu (Optional)
         let parameters: [CAPSPageMenuOption] = [

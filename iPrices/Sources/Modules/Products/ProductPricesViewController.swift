@@ -10,7 +10,7 @@ class ProductPricesViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    var prices: NSDictionary? //[ { "country": "法国", "price": 1450 } ]
+    var prices: [[String: AnyObject]]? //[ { "country": "法国", "price": 1450 } ]
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -54,7 +54,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let prices = self.prices else { return UITableViewCell() }
-        guard let item = prices[indexPath.section] else { return UITableViewCell() }
+        guard let item: [String: AnyObject] = prices[indexPath.section] else { return UITableViewCell() }
         
         let country = item["country"] as! String
         let price = item["price"] as! NSNumber
