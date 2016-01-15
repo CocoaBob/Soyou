@@ -88,6 +88,7 @@
 "product_brand"="品牌";
 "product_reference"="编号";
 "product_descriptions"="描述";
+"product_unavailable"="暂无";
 
 /* Currency Names */
 "currency_name_cny"="人民币";

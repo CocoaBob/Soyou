@@ -84,10 +84,11 @@
 "alert_button_ok"="OK";
 
 /* Product descriptions */
-"product_surname"="别名";
-"product_brand"="品牌";
-"product_reference"="编号";
-"product_descriptions"="描述";
+"product_surname"="Surname";
+"product_brand"="Brand";
+"product_reference"="Reference";
+"product_descriptions"="Description";
+"product_unavailable"="Unavailable";
 
 /* Currency Names */
 "currency_name_cny"="CNY";

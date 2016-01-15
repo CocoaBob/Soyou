@@ -65,21 +65,29 @@ extension ProductDescriptionsViewController {
     private func loadContent() {
         var htmlContent: String = ""
         var cssContent: String?
-        
+
         if let surname = self.surname {
             htmlContent = lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__VALUE__", withString: surname)
+        }else{
+            htmlContent = lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
         }
         
         if let brand = self.brand {
             htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__VALUE__", withString: brand)
+        }else{
+            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
         }
         
         if let reference = self.reference {
             htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__VALUE__", withString: reference)
+        }else{
+            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
         }
         
         if let descriptions = self.descriptions {
             htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_descriptions")).stringByReplacingOccurrencesOfString("__VALUE__", withString: descriptions)
+        }else{
+            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_descriptions")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
         }
         
         if htmlContent == "" {
