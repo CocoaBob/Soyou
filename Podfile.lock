@@ -28,6 +28,7 @@ PODS:
   - EARestrictedScrollView (0.2.0)
   - FCUUID (1.1.5):
     - UICKeyChainStore (~> 1.0.5)
+  - FlagKit (1.0.7)
   - IDMPhotoBrowser (1.8.1):
     - DACircularProgress
     - pop
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - CHTCollectionViewWaterfallLayout
   - EAIntroView
   - FCUUID
+  - FlagKit
   - IDMPhotoBrowser
   - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `bb4387498ef2974189e8270928f62a1cd3a8ef62`)
   - MagicalRecord (~> 2.3)
@@ -107,6 +109,7 @@ SPEC CHECKSUMS:
   EAIntroView: 73abfa89caa311f450af876421d950b96679e845
   EARestrictedScrollView: f86d61e16c61d3e93c84f8e96e83122a2a3b7631
   FCUUID: a9108673d64a4585a4bb89ea5d4c69b002edadb3
+  FlagKit: dffc62b4c5db33043c89bbda0bda897077d521e5
   IDMPhotoBrowser: 99eccfe6431e182f64e2fe57ac654316fbf81576
   libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba

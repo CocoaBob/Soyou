@@ -11,6 +11,7 @@ pod "Base64nl"
 pod "CHTCollectionViewWaterfallLayout"
 pod "EAIntroView"
 pod "FCUUID"
+pod "FlagKit"
 pod "IDMPhotoBrowser"
 pod "libWeChatSDK", :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
 pod "MagicalRecord", '~> 2.3'
