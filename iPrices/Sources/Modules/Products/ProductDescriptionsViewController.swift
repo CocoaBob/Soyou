@@ -63,50 +63,51 @@ extension ProductDescriptionsViewController {
 
     // Load HTML
     private func loadContent() {
-        var htmlContent: String = ""
         var cssContent: String?
-
-        if let surname = self.surname {
-            htmlContent = lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__VALUE__", withString: surname)
-        }else{
-            htmlContent = lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
+        var htmlContent: String = ""
+        
+        do {
+            cssContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("productDescription", ofType: "css")!)
+            htmlContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("productDescription", ofType: "html")!)
+        } catch {
+            
         }
         
-        if let brand = self.brand {
-            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__VALUE__", withString: brand)
-        }else{
-            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
-        }
-        
-        if let reference = self.reference {
-            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__VALUE__", withString: reference)
-        }else{
-            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
-        }
-        
-        if let descriptions = self.descriptions {
-            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_descriptions")).stringByReplacingOccurrencesOfString("__VALUE__", withString: descriptions)
-        }else{
-            htmlContent = htmlContent + lineTemplate.stringByReplacingOccurrencesOfString("__KEY__", withString: NSLocalizedString("product_descriptions")).stringByReplacingOccurrencesOfString("__VALUE__", withString: NSLocalizedString("product_unavailable"))
+        if let cssContent = cssContent {
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__KEY__SURNAME__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__KEY__BRAND__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__KEY__REFERENCE__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__KEY__DESCRIPTION__", withString: NSLocalizedString("product_descriptions"))
+            
+            if let surname = self.surname {
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: surname)
+            }else{
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: NSLocalizedString("product_unavailable"))
+            }
+            
+            if let brand = self.brand {
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__BRAND__", withString: brand)
+            }else{
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__BRAND__", withString: NSLocalizedString("product_unavailable"))
+            }
+            
+            if let reference = self.reference {
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: reference)
+            }else{
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: NSLocalizedString("product_unavailable"))
+            }
+            
+            if let descriptions = self.descriptions {
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: descriptions).stringByReplacingOccurrencesOfString("__BTN_TRANSLATION__", withString: "<div><button id=\"btn-translation\">\(NSLocalizedString("product_translation"))</button></div>")
+            }else{
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: NSLocalizedString("product_unavailable"))
+            }
+            
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
         }
         
         if htmlContent == "" {
             htmlContent = NSLocalizedString("product_descriptions_vc_empty")
         }
         
-        var html: String?
-        do {
-            cssContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("productDescription", ofType: "css")!)
-            html = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("productDescription", ofType: "html")!)
-        } catch {
-                        
-        }
-        
-        if let cssContent = cssContent, var html = html {
-            html = html.stringByReplacingOccurrencesOfString("__CONTENT__", withString: htmlContent)
-            html = html.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
-            self.webView.loadHTMLString(html, baseURL: nil)
-        }
+        self.webView.loadHTMLString(htmlContent, baseURL: nil)
     }
 }
 

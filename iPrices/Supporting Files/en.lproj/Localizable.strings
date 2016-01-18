@@ -89,6 +89,7 @@
 "product_reference"="Reference";
 "product_descriptions"="Description";
 "product_unavailable"="Unavailable";
+"product_translation"="Tranlate";
 
 /* Currency Names */
 "currency_name_cny"="CNY";
