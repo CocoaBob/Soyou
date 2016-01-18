@@ -420,13 +420,15 @@ extension ProductViewController {
     }
     
     func share(sender: UIBarButtonItem) {
-//        if let headerImage = self.headerImage, newsTitle = self.newsTitle, newsID = self.newsId {
-//            let activityView = UIActivityViewController(
-//                activityItems: [headerImage, newsTitle, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)")!],
-//                applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-//            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-//            self.presentViewController(activityView, animated: true, completion: nil)
-//        }
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localProduct = self.product?.MR_inContext(localContext) {
+                if let image = self.firstImage, let id = localProduct.id{
+                    let activityView = UIActivityViewController(
+                        activityItems: [image, localProduct.title == nil ? "" : localProduct.title!, NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(id)")!], applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+                    activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
+                    self.presentViewController(activityView, animated: true, completion: nil)}
+            }
+        })
     }
     
     func like(sender: UIBarButtonItem) {

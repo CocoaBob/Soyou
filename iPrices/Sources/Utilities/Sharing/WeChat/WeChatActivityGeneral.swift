@@ -49,7 +49,7 @@ class WeChatActivityGeneral: UIActivity {
         let message = WXMediaMessage()
         
         message.title = text
-        message.description = "TODO TODO"
+        message.description = ""
         
         if url !== nil {// set link url
             let urlObject =  WXWebpageObject()
