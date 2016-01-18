@@ -18,6 +18,9 @@ class ProductPricesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.tableView.estimatedRowHeight = 44.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,7 +66,11 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         if indexPath.row == 0 {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCountry", forIndexPath: indexPath) as! ProductPricesTableViewCellCountry
             
-            _cell.imgView.image = UIImage(named: "")
+            if let countryCode = CountryCode[country], image = UIImage(flagImageWithCountryCode: countryCode) {
+                _cell.imgView.image = image
+            } else {
+                _cell.imgView.image = UIImage(flagImageForSpecialFlag: .World)
+            }
             let countryNameCode = FmtString("country_name_%@",country)
             _cell.lblTitle.text = FmtString(NSLocalizedString("product_prices_vc_official_price"), NSLocalizedString(countryNameCode))
             cell = _cell
@@ -77,6 +84,14 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         }
         
         return cell!
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 40
+        } else {
+            return 32
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -107,10 +122,11 @@ class ProductPricesTableViewCellCountry: UITableViewCell {
 
 class ProductPricesTableViewCellCurrency: UITableViewCell {
     @IBOutlet var lblPrice: UILabel!
+    @IBOutlet var lblEquivalent: UILabel!
     @IBOutlet var lblPriceCNY: UILabel!
     
     override func awakeFromNib() {
-        
+        lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
     }
     
     override func prepareForReuse() {

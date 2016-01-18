@@ -15,6 +15,7 @@
 @import CHTCollectionViewWaterfallLayout;
 @import EAIntroView;
 @import FCUUID;
+@import FlagKit;
 @import IDMPhotoBrowser;
 // libWeChatSDK
 @import MagicalRecord;

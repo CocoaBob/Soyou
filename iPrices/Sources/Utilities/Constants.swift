@@ -67,6 +67,20 @@ func NSLocalizedString(key: String) -> String {
     return NSLocalizedString(key, comment: "")
 }
 
+var CountryCode: [String:String] = [
+    "中国":"CN",
+    "香港":"HK",
+    "日本":"JP",
+    "韩国":"KR",
+    "新加坡":"SG",
+    "英国":"GB",
+    "德国":"DE",
+    "法国":"FR",
+    "意大利":"IT",
+    "西班牙":"ES",
+    "美国":"US",
+    "加拿大":"CA"]
+
 /**
  Prints the filename, function name, line number and textual representation of `object` and a newline character into
  the standard output if the build setting for "Other Swift Flags" defines `-D DEBUG`.

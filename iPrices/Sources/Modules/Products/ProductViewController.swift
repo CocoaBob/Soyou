@@ -168,10 +168,12 @@ extension ProductViewController {
         // Prepare data
         self.imageViews.removeAll()
         var images: [String]?
+        var title: String?
         if let product = self.product {
             MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
                 let localProduct = product.MR_inContext(localContext)
                 images = localProduct.images as? [String]
+                title = localProduct.title
             }
         }
         if let images = images {
@@ -200,7 +202,12 @@ extension ProductViewController {
         // Setup UI
         let carouselView = PFCarouselView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / self.imageRatio))
         carouselView.delegate = self
-        carouselView.textLabelShow = false
+        if let title = title {
+            carouselView.textLabelShow = true
+            carouselView.textLabel.text = title
+        } else {
+            carouselView.textLabelShow = false
+        }
         carouselView.refresh()
         
         return carouselView
@@ -243,23 +250,21 @@ extension ProductViewController {
         
         // Customize menu (Optional)
         let parameters: [CAPSPageMenuOption] = [
-            .MenuItemSeparatorWidth(4.3),
+            .MenuItemSeparatorWidth(0),
             .ScrollMenuBackgroundColor(UIColor.whiteColor()),
-            .ViewBackgroundColor(UIColor(white: 0.95, alpha: 1)),
-            .BottomMenuHairlineColor(UIColor(white: 0.75, alpha: 1)),
-            .SelectionIndicatorColor(UIColor(rgba: Cons.UI.colorMain)),
-            .MenuMargin(20.0),
-            .MenuHeight(40.0),
-            .SelectedMenuItemLabelColor(UIColor(rgba: Cons.UI.colorMain)),
-            .UnselectedMenuItemLabelColor(UIColor(white: 0.33, alpha: 1)),
-            .MenuItemFont(UIFont.systemFontOfSize(14)),
+            .SelectionIndicatorColor(UIColor.darkGrayColor()),
+            .SelectedMenuItemLabelColor(UIColor.darkGrayColor()),
+            .UnselectedMenuItemLabelColor(UIColor.lightGrayColor()),
             .UseMenuLikeSegmentedControl(true),
-            .MenuItemSeparatorRoundEdges(false),
-            .SelectionIndicatorHeight(2.0),
-            .MenuItemSeparatorPercentageHeight(0)
+            .CenterMenuItems(true),
+            .MenuItemFont(UIFont.systemFontOfSize(13)),
+            .MenuMargin(10.0),
+            .MenuHeight(30.0),
+            .AddBottomMenuHairline(true),
+            .BottomMenuHairlineColor(UIColor.clearColor())
         ]
         
-        // UI
+        // Add page menu to the scroll view's subViewsContainer
         self.pageMenu = CAPSPageMenu(
             viewControllers: viewControllers,
             frame: CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height),
@@ -267,6 +272,7 @@ extension ProductViewController {
         if let pageMenu = self.pageMenu  {
             pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.subViewsContainer.addSubview(pageMenu.view)
+            // Add the missing height constraint, so the red warning in the InterfaceBuilder will disapplear at running time
             self.subViewsContainer.addConstraint(NSLayoutConstraint(
                 item: self.subViewsContainer,
                 attribute: NSLayoutAttribute.Height,

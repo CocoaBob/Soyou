@@ -39,6 +39,7 @@
 "product_prices_vc_title"="全球售价";
 "product_prices_vc_official_price"="%@官方售价";
 "product_prices_vc_official_website"="官网直达";
+"product_prices_vc_official_equivalent"="折合人民币";
 
 /* Product Descriptions View Controller */
 "product_descriptions_vc_title"="单品描述";
