@@ -236,6 +236,7 @@ extension ProductViewController {
                 productDescriptionsViewController.surname = localProduct.surname
                 productDescriptionsViewController.brand = localProduct.brandLabel
                 productDescriptionsViewController.reference = localProduct.reference
+                productDescriptionsViewController.id = localProduct.id
                 viewControllers.append(productDescriptionsViewController)
             }
         })

@@ -7,10 +7,6 @@
 //
 
 class ProductDescriptionsViewController: UIViewController {
-    let lineTemplate: String = "<div class=\"row clearfix\">" +
-                                    "<div class=\"key\">__KEY__</div>" +
-                                    "<div class=\"value\">__VALUE__</div>" +
-                                "</div>"
     
     @IBOutlet var webView: UIWebView!
     
@@ -23,6 +19,7 @@ class ProductDescriptionsViewController: UIViewController {
     var surname: String?
     var brand: String?
     var reference: String?
+    var id: NSNumber?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -111,10 +108,35 @@ extension ProductDescriptionsViewController {
     }
 }
 
+
 // MARK: UIWebViewDelegate
 extension ProductDescriptionsViewController: UIWebViewDelegate {
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        
+        let js = "document.getElementById('btn-translation').addEventListener('click', function(){ window.location.href = 'inapp://translate'});"
+        webView.stringByEvaluatingJavaScriptFromString(js)
+    }
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool{
+        if let url = request.URL{
+            if ("inapp".caseInsensitiveCompare(url.scheme) == .OrderedSame) {
+                if ("translate".caseInsensitiveCompare(url.host!) == .OrderedSame) {
+                    MBProgressHUD.showLoader(self.view)
+                    DataManager.shared.translateProduct(self.id!,
+                        { (data: AnyObject?) in
+                            if let data = data {
+                                if let translation = data["descriptions"] as? String {
+                                    let js = "document.getElementById('description').innerHTML = '\(translation)'"
+                                    webView.stringByEvaluatingJavaScriptFromString(js)
+                                }
+                            }
+                            
+                            MBProgressHUD.hideLoader(self.view)
+                        })
+                }
+                false;
+            }
+        }
+        return true
     }
 }

@@ -244,6 +244,23 @@ class DataManager {
     // MARK: Products
     //////////////////////////////////////
     
+    func translateProduct(id: NSNumber, _ completion: DataClosure?) {
+        RequestManager.shared.translateProduct(id,
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion {
+                    completion(responseObject?["data"])
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+                
+                if let completion = completion {
+                    completion(nil)
+                }
+            }
+        )
+    }
+    
     func likeProduct(id: NSNumber, wasLiked: Bool, _ completion: DataClosure?) {
         RequestManager.shared.likeProduct(id, operation: wasLiked ? "-" : "+",
             { (responseObject: AnyObject?) -> () in
