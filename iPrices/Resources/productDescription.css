@@ -2,11 +2,11 @@
     width: 100%;
 }
 .key{
-    width: 20%;
+    width: 30%;
     float: left;
 }
 .value{
-    width: 70%;
+    width: 60%;
     float: left;
 }
 .clearfix{
