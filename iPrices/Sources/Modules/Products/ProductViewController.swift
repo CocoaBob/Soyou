@@ -18,8 +18,14 @@ class ProductViewController: UIViewController {
     var imageViews: [UIImageView] = [UIImageView]()
     var imageRatio: CGFloat = 1.1
     
+    var productPricesViewController: ProductPricesViewController?
+    var productDescriptionsViewController: ProductDescriptionsViewController?
+    var descriptionViewHeight: CGFloat = 0
+    var viewsContainerHeight: NSLayoutConstraint?
+    
     // PageMenu
     var pageMenu: CAPSPageMenu?
+    var pageMenuHeight: CGFloat = 30
     
     // Toolbar
     var btnLike: UIButton?
@@ -234,27 +240,25 @@ extension ProductViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = product.MR_inContext(localContext)
             // Prices VC
-            if let productPricesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController {
+            self.productPricesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController
+            if let productPricesViewController = self.productPricesViewController {
                 productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
                 productPricesViewController.prices = localProduct.prices as? [[String: AnyObject]]
                 viewControllers.append(productPricesViewController)
             }
             // Descriptions VC
-            if let productDescriptionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController {
+            self.productDescriptionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController
+            if let productDescriptionsViewController = self.productDescriptionsViewController {
                 productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
                 productDescriptionsViewController.descriptions = localProduct.descriptions
                 productDescriptionsViewController.surname = localProduct.surname
                 productDescriptionsViewController.brand = localProduct.brandLabel
                 productDescriptionsViewController.reference = localProduct.reference
                 productDescriptionsViewController.id = localProduct.id
+                productDescriptionsViewController.webViewHeightDelegate = self
                 viewControllers.append(productDescriptionsViewController)
             }
         })
-        
-        // Load views
-        for viewController in viewControllers {
-            let _ = viewController.view
-        }
         
         // Customize menu (Optional)
         let parameters: [CAPSPageMenuOption] = [
@@ -267,10 +271,15 @@ extension ProductViewController {
             .CenterMenuItems(true),
             .MenuItemFont(UIFont.systemFontOfSize(13)),
             .MenuMargin(10.0),
-            .MenuHeight(30.0),
+            .MenuHeight(self.pageMenuHeight),
             .AddBottomMenuHairline(true),
             .BottomMenuHairlineColor(UIColor.whiteColor())
         ]
+        
+        // Load views
+        for viewController in viewControllers {
+            let _ = viewController.view
+        }
         
         // Add page menu to the scroll view's subViewsContainer
         self.pageMenu = CAPSPageMenu(
@@ -281,16 +290,37 @@ extension ProductViewController {
             pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.subViewsContainer.addSubview(pageMenu.view)
             // Add the missing height constraint, so the red warning in the InterfaceBuilder will disapplear at running time
-            self.subViewsContainer.addConstraint(NSLayoutConstraint(
+            self.viewsContainerHeight = NSLayoutConstraint(
                 item: self.subViewsContainer,
                 attribute: NSLayoutAttribute.Height,
                 relatedBy: NSLayoutRelation.Equal,
-                toItem: pageMenu.view,
-                attribute: NSLayoutAttribute.Height,
+                toItem: nil,
+                attribute: NSLayoutAttribute.NotAnAttribute,
                 multiplier: 1,
-                constant: 0))
+                constant: 1000)
+            if let constraint = self.viewsContainerHeight {
+                self.subViewsContainer.addConstraint(constraint)
+            }
             pageMenu.view.frame = CGRectMake(0, 0, self.subViewsContainer.frame.size.width, self.subViewsContainer.frame.size.height)
         }
+    }
+}
+
+// MARK: Control view height
+extension ProductViewController: WebViewHeightDelegate {
+
+    func webView(webView: UIWebView, didChangeHeight height: CGFloat) {
+        descriptionViewHeight = height
+        self.updateViewsContainerHeight()
+    }
+    
+    func updateViewsContainerHeight() {
+        let pricesViewHeight = self.productPricesViewController?.tableView.contentSize.height ?? 0
+        let descriptionsViewHeight = descriptionViewHeight
+        let maxHeight = max(descriptionsViewHeight, pricesViewHeight)
+        self.viewsContainerHeight?.constant = maxHeight + self.pageMenuHeight + 20 // Bottom margin 20
+        self.view.setNeedsLayout()
+        self.view.layoutIfNeeded()
     }
 }
 

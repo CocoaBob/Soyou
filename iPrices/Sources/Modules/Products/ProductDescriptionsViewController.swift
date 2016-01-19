@@ -6,9 +6,14 @@
 //  Copyright © 2016 iPrices. All rights reserved.
 //
 
+protocol WebViewHeightDelegate {
+    func webView(webView: UIWebView, didChangeHeight height: CGFloat)
+}
+
 class ProductDescriptionsViewController: UIViewController {
     
     @IBOutlet var webView: UIWebView!
+    var webViewHeightDelegate: WebViewHeightDelegate?
     
     var descriptions: String? {
         didSet {
@@ -39,7 +44,6 @@ class ProductDescriptionsViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -57,6 +61,7 @@ class ProductDescriptionsViewController: UIViewController {
         
     }
 }
+
 // MARK: Data
 extension ProductDescriptionsViewController {
 
@@ -117,6 +122,14 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
     func webViewDidFinishLoad(webView: UIWebView) {
         let js = "document.getElementById('btn-translation').addEventListener('click', function(){ window.location.href = 'inapp://translate'});"
         webView.stringByEvaluatingJavaScriptFromString(js)
+        
+        // Update web view height
+        if let heightStr = webView.stringByEvaluatingJavaScriptFromString("document.body.scrollHeight") {
+            let heightFloat = CGFloat((heightStr as NSString).floatValue)
+            if let delegate = self.webViewHeightDelegate {
+                delegate.webView(self.webView, didChangeHeight: heightFloat)
+            }
+        }
     }
     
     private func toggleTranslationState(webView: UIWebView) {
