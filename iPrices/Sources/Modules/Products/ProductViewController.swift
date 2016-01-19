@@ -320,7 +320,9 @@ extension ProductViewController: WebViewHeightDelegate {
         let maxHeight = max(descriptionsViewHeight, pricesViewHeight)
         self.viewsContainerHeight?.constant = maxHeight + self.pageMenuHeight + 20 // Bottom margin 20
         self.view.setNeedsLayout()
-        self.view.layoutIfNeeded()
+        UIView.animateWithDuration(0.3) { () -> Void in
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
