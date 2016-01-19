@@ -19,7 +19,7 @@ pod "MBProgressHUD"
 pod "MJRefresh"
 pod "MXParallaxHeader"
 pod "PageMenu", :git => 'git://github.com/uacaps/PageMenu', :commit => '9ed0c136a540ac9f2356a0cc4faddf0987d1af09'
-pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => 'eadfe48d7a9fec0ee93d09bb2001a6bf2b195707'
+pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '590261677b70ddaf134c5166da01bb8aacedbbed'
 pod "RandomColorSwift"
 pod "SCLAlertView"
 pod "SDWebImage"
