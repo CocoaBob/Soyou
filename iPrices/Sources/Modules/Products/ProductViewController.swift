@@ -251,6 +251,11 @@ extension ProductViewController {
             }
         })
         
+        // Load views
+        for viewController in viewControllers {
+            let _ = viewController.view
+        }
+        
         // Customize menu (Optional)
         let parameters: [CAPSPageMenuOption] = [
             .MenuItemSeparatorWidth(0),
