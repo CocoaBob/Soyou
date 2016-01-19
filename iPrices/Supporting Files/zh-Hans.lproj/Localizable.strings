@@ -91,6 +91,7 @@
 "product_descriptions"="描述";
 "product_unavailable"="暂无";
 "product_translation"="翻译";
+"product_back"="恢复";
 
 /* Currency Names */
 "currency_name_cny"="人民币";

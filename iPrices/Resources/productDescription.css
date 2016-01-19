@@ -27,6 +27,10 @@ li:not(:first-child){
     margin-top:10px;
 }
 
+.hide{
+    display:none;
+}
+
 #btn-translation{
     margin-top:10px;
     width:60px;

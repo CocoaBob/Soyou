@@ -20,6 +20,8 @@ class ProductDescriptionsViewController: UIViewController {
     var brand: String?
     var reference: String?
     var id: NSNumber?
+    var descriptionZH: String?
+    var isDisplayingTranslatedText = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -117,24 +119,45 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
         webView.stringByEvaluatingJavaScriptFromString(js)
     }
     
+    private func toggleTranslationState(webView: UIWebView) {
+        MBProgressHUD.showLoader(self.view)
+        if self.isDisplayingTranslatedText {
+            let js = "document.getElementById('descriptionZH').className = 'hide';document.getElementById('description').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_translation"))'"
+            webView.stringByEvaluatingJavaScriptFromString(js)
+            self.isDisplayingTranslatedText = false
+            MBProgressHUD.hideLoader(self.view)
+        }else{
+            if let _ = self.descriptionZH {
+                let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
+                webView.stringByEvaluatingJavaScriptFromString(js)
+                self.isDisplayingTranslatedText = true
+                MBProgressHUD.hideLoader(self.view)
+            }else {
+                DataManager.shared.translateProduct(self.id!,
+                    { (data: AnyObject?) in
+                        if let data = data {
+                            if let translation = data["descriptions"] as? String {
+                                self.descriptionZH = translation
+                                let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('descriptionZH').innerHTML = '\(translation)';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
+                                webView.stringByEvaluatingJavaScriptFromString(js)
+                            }
+                        }
+                        self.isDisplayingTranslatedText = true
+                        MBProgressHUD.hideLoader(self.view)
+                })
+            }
+        }
+    }
+    
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool{
         if let url = request.URL{
-            if ("inapp".caseInsensitiveCompare(url.scheme) == .OrderedSame) {
-                if ("translate".caseInsensitiveCompare(url.host!) == .OrderedSame) {
-                    MBProgressHUD.showLoader(self.view)
-                    DataManager.shared.translateProduct(self.id!,
-                        { (data: AnyObject?) in
-                            if let data = data {
-                                if let translation = data["descriptions"] as? String {
-                                    let js = "document.getElementById('description').innerHTML = '\(translation)'"
-                                    webView.stringByEvaluatingJavaScriptFromString(js)
-                                }
-                            }
-                            
-                            MBProgressHUD.hideLoader(self.view)
-                        })
+            if "inapp".caseInsensitiveCompare(url.scheme) == .OrderedSame {
+                if "translate".caseInsensitiveCompare(url.host!) == .OrderedSame {
+                    toggleTranslationState(webView);
                 }
-                false;
+                
+                
+                false
             }
         }
         return true
