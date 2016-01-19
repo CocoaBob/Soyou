@@ -119,12 +119,8 @@ extension ProductDescriptionsViewController {
 // MARK: UIWebViewDelegate
 extension ProductDescriptionsViewController: UIWebViewDelegate {
     
-    func webViewDidFinishLoad(webView: UIWebView) {
-        let js = "document.getElementById('btn-translation').addEventListener('click', function(){ window.location.href = 'inapp://translate'});"
-        webView.stringByEvaluatingJavaScriptFromString(js)
-        
-        // Update web view height
-        if let heightStr = webView.stringByEvaluatingJavaScriptFromString("document.body.scrollHeight") {
+    private func updateWebViewHeight(webView: UIWebView){
+        if let heightStr = webView.stringByEvaluatingJavaScriptFromString("document.getElementById('main').offsetHeight") {
             let heightFloat = CGFloat((heightStr as NSString).floatValue)
             if let delegate = self.webViewHeightDelegate {
                 delegate.webView(self.webView, didChangeHeight: heightFloat)
@@ -132,17 +128,27 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
         }
     }
     
+    func webViewDidFinishLoad(webView: UIWebView) {
+        let js = "document.getElementById('btn-translation').addEventListener('click', function(){ window.location.href = 'inapp://translate'});"
+        webView.stringByEvaluatingJavaScriptFromString(js)
+        
+        // Update web view height
+        updateWebViewHeight(webView)
+    }
+    
     private func toggleTranslationState(webView: UIWebView) {
         MBProgressHUD.showLoader(self.view)
         if self.isDisplayingTranslatedText {
             let js = "document.getElementById('descriptionZH').className = 'hide';document.getElementById('description').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_translation"))'"
             webView.stringByEvaluatingJavaScriptFromString(js)
+            updateWebViewHeight(webView)
             self.isDisplayingTranslatedText = false
             MBProgressHUD.hideLoader(self.view)
         }else{
             if let _ = self.descriptionZH {
                 let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
                 webView.stringByEvaluatingJavaScriptFromString(js)
+                updateWebViewHeight(webView)
                 self.isDisplayingTranslatedText = true
                 MBProgressHUD.hideLoader(self.view)
             }else {
@@ -155,6 +161,7 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
                                 webView.stringByEvaluatingJavaScriptFromString(js)
                             }
                         }
+                        self.updateWebViewHeight(webView)
                         self.isDisplayingTranslatedText = true
                         MBProgressHUD.hideLoader(self.view)
                 })
@@ -169,8 +176,7 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
                     toggleTranslationState(webView);
                 }
                 
-                
-                false
+                return false
             }
         }
         return true
