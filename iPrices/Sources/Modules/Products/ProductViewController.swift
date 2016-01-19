@@ -203,8 +203,11 @@ extension ProductViewController {
         let carouselView = PFCarouselView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / self.imageRatio))
         carouselView.delegate = self
         if let title = title {
+            carouselView.textLabel.numberOfLines = 0
+            carouselView.textLabel.font = UIFont.boldSystemFontOfSize(17)
             carouselView.textLabelShow = true
-            carouselView.textLabel.text = title
+            carouselView.textString = title;
+            carouselView.textInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         } else {
             carouselView.textLabelShow = false
         }
