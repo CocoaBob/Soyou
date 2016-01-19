@@ -24,6 +24,24 @@ class DataManager {
     }
     
     //////////////////////////////////////
+    // MARK: Currency
+    //////////////////////////////////////
+    
+    func requestCurrencies(currencies: [NSDictionary], _ completion: DataClosure?) {
+        RequestManager.shared.requestCurrencies(currencies,
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion {
+                    completion((responseObject?["results"]))
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+            }
+        );
+    }
+    
+    
+    //////////////////////////////////////
     // MARK: Authentication
     //////////////////////////////////////
     

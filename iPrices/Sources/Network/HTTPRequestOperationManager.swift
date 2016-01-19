@@ -33,6 +33,65 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func requestExternal(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: AnyObject?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        DLog("--> \"\(path)\"")
+        guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+            let error = FmtError(0, "Failed to encode URL")
+            if let onFailure = onFailure { onFailure(error) }
+            return
+        }
+        modeUI ? MBProgressHUD.showLoader(nil) : ()
+        
+        // Handlers of success and failure
+        let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
+            modeUI ? MBProgressHUD.hideLoader(nil) : ()
+            DLog("<-- [\((responseObject?["data"])?.count)]")
+            self.handleSuccessWithoutServerVersionCheck(operation, responseObject, path, onSuccess, onFailure)
+        }
+        
+        let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
+            modeUI ? MBProgressHUD.hideLoader(nil) : ()
+            DLog("<-- [x]")
+            self.handleFailure(operation, error, onFailure)
+        }
+        
+        // Build the URL
+        guard let urlString = NSURL(string: path, relativeToURL: self.baseURL)?.absoluteString else {
+            let error = FmtError(0, "Failed to build URL")
+            if let onFailure = onFailure { onFailure(error) }
+            return
+        }
+        
+        // Setup request
+        let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
+        request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
+        if let headers = headers {
+            for (key, value) in headers {
+                request.addValue(value, forHTTPHeaderField: key)
+            }
+        }
+        
+        // Setup operation
+        let operation: AFHTTPRequestOperation = self.HTTPRequestOperationWithRequest(request, success: nil, failure: nil)
+        if let userInfo = userInfo { operation.userInfo = userInfo }
+        if isSynchronous {
+            operation.start()
+            operation.waitUntilFinished()
+            if !operation.cancelled {
+                modeUI ? MBProgressHUD.hideLoader(nil) : ()
+            } else {
+                if operation.error == nil {
+                    success(operation, operation.responseObject)
+                } else {
+                    failure(operation, operation.error!)
+                }
+            }
+        } else {
+            operation.setCompletionBlockWithSuccess(success, failure: failure)
+            self.operationQueue.addOperation(operation)
+        }
+    }
+    
     func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: AnyObject?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         DLog("--> \"\(path)\"")
         guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
@@ -92,7 +151,12 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
     }
     
+    private func handleSuccessWithoutServerVersionCheck(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        if let onSuccess = onSuccess { onSuccess(responseObject) }
+    }
+    
     private func handleSuccess(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        
         var isAccepted = false
         var verServer: String? = nil
         if let headers: Dictionary = operation.response?.allHeaderFields {

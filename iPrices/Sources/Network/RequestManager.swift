@@ -16,6 +16,10 @@ class RequestManager {
     // MARK: General
     //////////////////////////////////////
     
+    func getAsyncExternal(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        requestOperationManager.requestExternal("GET", path, false, false, nil, nil, nil, onSuccess, onFailure)
+    }
+    
     func getAsync(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         requestOperationManager.request("GET", path, false, false, ["api": api, "authorization": UserManager.shared.token ?? ""], nil, nil, onSuccess, onFailure)
     }
@@ -161,6 +165,24 @@ class RequestManager {
     
     func requestProductInfo(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/extra", "Products", onSuccess, onFailure)
+    }
+    
+    func requestCurrencies(currencies: [NSDictionary], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        
+        let url = "http://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.xchange where pair in (\"__CURRENCIES__\")&format=json&env=store://datatables.org/alltableswithkeys"
+        
+        var _currenciies: [String] = [String]();
+        for currency in currencies {
+            if let sourceCode = currency["sourceCode"], let targetCode = currency["targetCode"]{
+                _currenciies.append("\(sourceCode)\(targetCode)")
+            }
+        }
+        
+        if _currenciies.count == 0{
+            if let onFailure = onFailure { onFailure(nil) };
+        }else{
+            getAsyncExternal(url.stringByReplacingOccurrencesOfString("__CURRENCIES__", withString: _currenciies.joinWithSeparator(",")), "", onSuccess, onFailure)
+        }
     }
     
 }
