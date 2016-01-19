@@ -261,7 +261,7 @@ extension ProductViewController {
             .MenuMargin(10.0),
             .MenuHeight(30.0),
             .AddBottomMenuHairline(true),
-            .BottomMenuHairlineColor(UIColor.clearColor())
+            .BottomMenuHairlineColor(UIColor.whiteColor())
         ]
         
         // Add page menu to the scroll view's subViewsContainer
