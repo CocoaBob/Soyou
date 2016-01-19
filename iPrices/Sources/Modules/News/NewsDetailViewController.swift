@@ -12,10 +12,10 @@ class NewsDetailViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorHeart)
+    let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorMain)
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
-    let btnFavActiveColor = UIColor(rgba:Cons.UI.colorMain)
+    let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     var lastScrollViewOffset: CGFloat = 0
     
@@ -72,13 +72,13 @@ class NewsDetailViewController: UIViewController {
         self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
         self.btnLike?.backgroundColor = UIColor.clearColor()
         self.btnLike?.frame = CGRectMake(0, 0, 64, 32)
-        self.btnLike?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+        self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
         self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnLike?.addTarget(self, action: "like:", forControlEvents: .TouchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clearColor()
         self.btnFav?.frame = CGRectMake(0, 0, 64, 32)
-        self.btnFav?.setImage(UIImage(named: "img_star"), forState: .Normal)
+        self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
         self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnFav?.addTarget(self, action: "star:", forControlEvents: .TouchUpInside)
         
@@ -292,10 +292,10 @@ extension NewsDetailViewController {
     private func updateLikeBtnColor(appIsLiked: Bool?) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if appIsLiked != nil && appIsLiked!.boolValue {
-                self.btnLike?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
+                self.btnLike?.setImage(UIImage(named: "img_thumb_selected"), forState: .Normal)
                 self.btnLike?.tintColor = self.btnLikeActiveColor
             } else {
-                self.btnLike?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+                self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
                 self.btnLike?.tintColor = self.btnLikeInactiveColor
             }
         }
@@ -326,10 +326,10 @@ extension NewsDetailViewController {
         set(newValue) {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 if newValue != nil && newValue == true {
-                    self.btnFav?.setImage(UIImage(named: "img_star_selected"), forState: .Normal)
+                    self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
                     self.btnFav?.tintColor = self.btnFavActiveColor
                 } else {
-                    self.btnFav?.setImage(UIImage(named: "img_star"), forState: .Normal)
+                    self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
                     self.btnFav?.tintColor = self.btnFavInactiveColor
                 }
             }
