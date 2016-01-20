@@ -31,7 +31,7 @@ class DataManager {
         RequestManager.shared.requestCurrencies(currencies,
             { (responseObject: AnyObject?) -> () in
                 if let completion = completion {
-                    completion((responseObject?["results"]))
+                    completion((responseObject?["query"]))
                 }
             },
             { (error: NSError?) -> () in
