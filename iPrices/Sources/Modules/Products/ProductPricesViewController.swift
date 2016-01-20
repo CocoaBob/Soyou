@@ -11,6 +11,7 @@ class ProductPricesViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var prices: [[String: AnyObject]]? //[ { "country": "法国", "price": 1450 } ]
+    var currencyRates: [CurrencyRate]?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -19,6 +20,8 @@ class ProductPricesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.currencyRates = Utils.shared.fetchCurrencyRates()
+        
         self.tableView.estimatedRowHeight = 44.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -41,6 +44,21 @@ class ProductPricesViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
+    }
+}
+
+// MARK: Utility methods
+extension ProductPricesViewController{
+    private func getRateBySourceCode(sourceCode: String) -> CurrencyRate?{
+        for rate in self.currencyRates!{
+            if let code = rate.sourceCode {
+                if sourceCode.caseInsensitiveCompare(code) == .OrderedSame{
+                    return rate
+                }
+            }
+        }
+        
+        return nil
     }
 }
 
@@ -77,8 +95,14 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         } else {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as! ProductPricesTableViewCellCurrency
             
+            if let sourceCurrencyCode = CurrencyCode[country], rate = self.getRateBySourceCode(sourceCurrencyCode) {
+                    _cell.lblPriceCNY.text = "\(Int(round(price.doubleValue * (rate.rate?.doubleValue)!)))"
+            }else{
+                _cell.lblPriceCNY.text = NSLocalizedString("unavailable")
+            }
+            
             _cell.lblPrice.text = "\(price)"
-            _cell.lblPriceCNY.text = "\(price)"
+            
             
             cell = _cell
         }

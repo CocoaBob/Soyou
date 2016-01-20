@@ -83,6 +83,7 @@
 "alert_title_info"="信息";
 "alert_title_success"="成功";
 "alert_button_ok"="确认";
+"unavailable"="暂无";
 
 /* Product descriptions */
 "product_surname"="别名";

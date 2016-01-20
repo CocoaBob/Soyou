@@ -12,7 +12,12 @@ class Utils {
     static let shared = Utils()
     
     let currencies = [
-        ["sourceCode": "USD", "targetCode":"CNY"]
+        ["sourceCode": "USD", "targetCode":"CNY"],
+        ["sourceCode": "EUR", "targetCode":"CNY"],
+        ["sourceCode": "JPY", "targetCode":"CNY"],
+        ["sourceCode": "GBP", "targetCode":"CNY"],
+        ["sourceCode": "HKD", "targetCode":"CNY"],
+        ["sourceCode": "SGD", "targetCode":"CNY"]
     ]
     
     func logAnalytic(target: Int16, action: Int16, data: String) {

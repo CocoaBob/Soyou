@@ -83,6 +83,7 @@
 "alert_title_info"="Info";
 "alert_title_success"="Success";
 "alert_button_ok"="OK";
+"unavailable"="Unavailable";
 
 /* Product descriptions */
 "product_surname"="Surname";
