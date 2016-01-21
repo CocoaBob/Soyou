@@ -16,6 +16,7 @@
 		0D1DF0811C1DCF4800574D98 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF0801C1DCF4800574D98 /* libz.tbd */; };
 		0D1DF0831C1DCF5600574D98 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF0821C1DCF5600574D98 /* libsqlite3.0.tbd */; };
 		0D1DF0851C1DCF6900574D98 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF0841C1DCF6900574D98 /* libc++.tbd */; };
+		0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28BD711C51749E008CCF80 /* CurrencyManager.swift */; };
 		0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C771C3B1DAF001CC36D /* Analytic.swift */; };
 		0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */; };
 		0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C7B1C3B2098001CC36D /* Utils.swift */; };
@@ -106,6 +107,7 @@
 		0D1DF0801C1DCF4800574D98 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0D1DF0821C1DCF5600574D98 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		0D1DF0841C1DCF6900574D98 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		0D28BD711C51749E008CCF80 /* CurrencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
 		0D783C771C3B1DAF001CC36D /* Analytic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytic.swift; sourceTree = "<group>"; };
 		0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Analytic+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0D783C7B1C3B2098001CC36D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
 				45B77F091C05A77B002E3385 /* UserManager.swift */,
 				0D783C7B1C3B2098001CC36D /* Utils.swift */,
+				0D28BD711C51749E008CCF80 /* CurrencyManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
 				4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
+				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,

@@ -20,7 +20,7 @@ class ProductPricesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.currencyRates = Utils.shared.fetchCurrencyRates()
+        self.currencyRates = CurrencyManager.shared.fetchCurrencyRates()
         
         self.tableView.estimatedRowHeight = 44.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
