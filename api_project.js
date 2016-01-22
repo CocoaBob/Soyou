@@ -1,0 +1,1 @@
+define({  "name": "iPrices",  "version": "0.0.1",  "description": "Api documentation",  "sampleUrl": false,  "apidoc": "0.2.0",  "generator": {    "name": "apidoc",    "time": "2016-01-22T23:13:13.222Z",    "url": "http://apidocjs.com",    "version": "0.13.1"  }});

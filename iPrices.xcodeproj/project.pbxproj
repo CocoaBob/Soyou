@@ -18,6 +18,17 @@
 		0D1DF0851C1DCF6900574D98 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF0841C1DCF6900574D98 /* libc++.tbd */; };
 		0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28BD711C51749E008CCF80 /* CurrencyManager.swift */; };
 		0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */; };
+		0D28BD861C52EF7F008CCF80 /* api_data.js in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD7B1C52EF7F008CCF80 /* api_data.js */; };
+		0D28BD871C52EF7F008CCF80 /* api_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD7C1C52EF7F008CCF80 /* api_data.json */; };
+		0D28BD881C52EF7F008CCF80 /* api_project.js in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD7D1C52EF7F008CCF80 /* api_project.js */; };
+		0D28BD891C52EF7F008CCF80 /* api_project.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD7E1C52EF7F008CCF80 /* api_project.json */; };
+		0D28BD8A1C52EF7F008CCF80 /* css in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD7F1C52EF7F008CCF80 /* css */; };
+		0D28BD8B1C52EF7F008CCF80 /* img in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD801C52EF7F008CCF80 /* img */; };
+		0D28BD8C1C52EF7F008CCF80 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD811C52EF7F008CCF80 /* index.html */; };
+		0D28BD8D1C52EF7F008CCF80 /* locales in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD821C52EF7F008CCF80 /* locales */; };
+		0D28BD8E1C52EF7F008CCF80 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD831C52EF7F008CCF80 /* main.js */; };
+		0D28BD8F1C52EF7F008CCF80 /* utils in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD841C52EF7F008CCF80 /* utils */; };
+		0D28BD901C52EF7F008CCF80 /* vendor in Resources */ = {isa = PBXBuildFile; fileRef = 0D28BD851C52EF7F008CCF80 /* vendor */; };
 		0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C771C3B1DAF001CC36D /* Analytic.swift */; };
 		0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */; };
 		0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C7B1C3B2098001CC36D /* Utils.swift */; };
@@ -113,6 +124,17 @@
 		0D1DF0841C1DCF6900574D98 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0D28BD711C51749E008CCF80 /* CurrencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
 		0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0D28BD7B1C52EF7F008CCF80 /* api_data.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = api_data.js; sourceTree = "<group>"; };
+		0D28BD7C1C52EF7F008CCF80 /* api_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = api_data.json; sourceTree = "<group>"; };
+		0D28BD7D1C52EF7F008CCF80 /* api_project.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = api_project.js; sourceTree = "<group>"; };
+		0D28BD7E1C52EF7F008CCF80 /* api_project.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = api_project.json; sourceTree = "<group>"; };
+		0D28BD7F1C52EF7F008CCF80 /* css */ = {isa = PBXFileReference; lastKnownFileType = folder; path = css; sourceTree = "<group>"; };
+		0D28BD801C52EF7F008CCF80 /* img */ = {isa = PBXFileReference; lastKnownFileType = folder; path = img; sourceTree = "<group>"; };
+		0D28BD811C52EF7F008CCF80 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		0D28BD821C52EF7F008CCF80 /* locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locales; sourceTree = "<group>"; };
+		0D28BD831C52EF7F008CCF80 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
+		0D28BD841C52EF7F008CCF80 /* utils */ = {isa = PBXFileReference; lastKnownFileType = folder; path = utils; sourceTree = "<group>"; };
+		0D28BD851C52EF7F008CCF80 /* vendor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vendor; sourceTree = "<group>"; };
 		0D783C771C3B1DAF001CC36D /* Analytic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytic.swift; sourceTree = "<group>"; };
 		0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Analytic+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0D783C7B1C3B2098001CC36D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -205,6 +227,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D28BD7A1C52EF3E008CCF80 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				0D28BD7B1C52EF7F008CCF80 /* api_data.js */,
+				0D28BD7C1C52EF7F008CCF80 /* api_data.json */,
+				0D28BD7D1C52EF7F008CCF80 /* api_project.js */,
+				0D28BD7E1C52EF7F008CCF80 /* api_project.json */,
+				0D28BD7F1C52EF7F008CCF80 /* css */,
+				0D28BD801C52EF7F008CCF80 /* img */,
+				0D28BD811C52EF7F008CCF80 /* index.html */,
+				0D28BD821C52EF7F008CCF80 /* locales */,
+				0D28BD831C52EF7F008CCF80 /* main.js */,
+				0D28BD841C52EF7F008CCF80 /* utils */,
+				0D28BD851C52EF7F008CCF80 /* vendor */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
 		45034D0C1C29954D00026027 /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
@@ -407,6 +447,7 @@
 		45E7CE021BF8C05F00FAB7D6 = {
 			isa = PBXGroup;
 			children = (
+				0D28BD7A1C52EF3E008CCF80 /* API */,
 				4568E28E1BF90797009A6164 /* Resources */,
 				4568E2901BF90797009A6164 /* Sources */,
 				4568E29C1BF90797009A6164 /* Supporting Files */,
@@ -511,19 +552,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D28BD901C52EF7F008CCF80 /* vendor in Resources */,
+				0D28BD8A1C52EF7F008CCF80 /* css in Resources */,
+				0D28BD8C1C52EF7F008CCF80 /* index.html in Resources */,
+				0D28BD891C52EF7F008CCF80 /* api_project.json in Resources */,
 				457777911BFCE4AC00805D79 /* NewsViewController.storyboard in Resources */,
 				4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */,
 				0D05D6551C484B7D00D8A7C2 /* productDescription.html in Resources */,
 				4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */,
+				0D28BD8D1C52EF7F008CCF80 /* locales in Resources */,
 				455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */,
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
+				0D28BD871C52EF7F008CCF80 /* api_data.json in Resources */,
+				0D28BD8B1C52EF7F008CCF80 /* img in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
 				45A4D8321C08CD200000309C /* news.css in Resources */,
 				0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */,
+				0D28BD8E1C52EF7F008CCF80 /* main.js in Resources */,
+				0D28BD861C52EF7F008CCF80 /* api_data.js in Resources */,
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
+				0D28BD8F1C52EF7F008CCF80 /* utils in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,
 				4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */,
+				0D28BD881C52EF7F008CCF80 /* api_project.js in Resources */,
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
 				4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */,
 			);
