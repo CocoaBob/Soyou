@@ -227,7 +227,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
 //MARK: - Actions
 extension ProductsViewController {
     
-    @IBAction func likeProduct(sender: UIButton) {
+    @IBAction func favProduct(sender: UIButton) {
         let position = sender.convertPoint(CGPointZero, toView: self.collectionView())
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
         if UserManager.shared.isLoggedIn {
@@ -260,14 +260,14 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var lblBrand: UILabel!
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var lblPrice: UILabel!
-    @IBOutlet var btnLike: UIButton!
+    @IBOutlet var btnFav: UIButton!
     
     var isFavorite: Bool? {
         didSet {
             if isFavorite != nil && isFavorite!.boolValue {
-                self.btnLike.setImage(UIImage(named: "img_heart_shadow_selected"), forState: UIControlState.Normal)
+                self.btnFav.setImage(UIImage(named: "img_heart_shadow_selected"), forState: UIControlState.Normal)
             } else {
-                self.btnLike.setImage(UIImage(named: "img_heart_shadow"), forState: UIControlState.Normal)
+                self.btnFav.setImage(UIImage(named: "img_heart_shadow"), forState: UIControlState.Normal)
             }
         }
     }

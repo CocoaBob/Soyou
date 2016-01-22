@@ -169,7 +169,7 @@
                                                     </constraints>
                                                     <state key="normal" image="img_heart_shadow"/>
                                                     <connections>
-                                                        <action selector="likeProduct:" destination="yPF-cR-cYy" eventType="touchUpInside" id="0Vu-3K-wvp"/>
+                                                        <action selector="favProduct:" destination="yPF-cR-cYy" eventType="touchUpInside" id="iHq-Rm-zVG"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -199,7 +199,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <outlet property="btnLike" destination="4pa-32-SkC" id="J6Y-Xb-6nY"/>
+                                            <outlet property="btnFav" destination="4pa-32-SkC" id="zYZ-Lt-QQ3"/>
                                             <outlet property="fgImageView" destination="hJi-XA-WI0" id="uUn-XT-tv9"/>
                                             <outlet property="lblBrand" destination="Bmh-Jz-YrW" id="3vK-AS-758"/>
                                             <outlet property="lblPrice" destination="nWa-Ws-mpS" id="siK-lj-Ks7"/>
