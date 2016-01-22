@@ -32,6 +32,7 @@ public struct Cons {
     }
     
     struct App {
+        static let userName                             = "userName"
         static let deviceToken                          = "deviceToken"
         static let lastVerIntro                         = "lastVerIntro" // The last app version that displayed the introduction view
         static let lastUpdateDate                       = "lastUpdateDate"
@@ -39,6 +40,7 @@ public struct Cons {
     
     struct UI {
         static let colorMain                            = "#FFB751"
+        static let colorBG                              = "#EDEAE5"
         static let colorHeart                           = "#FF5EAA"
     }
 }

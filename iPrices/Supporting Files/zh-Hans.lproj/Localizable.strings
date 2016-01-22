@@ -45,9 +45,20 @@
 "product_descriptions_vc_title"="单品描述";
 "product_descriptions_vc_empty"="没有描述";
 
-/* Account View Controller */
+/* User View Controller */
 "user_vc_title"="用户";
 "user_vc_tab_title"="用户";
+"user_vc_cell_favs"="收藏夹";
+"user_vc_cell_favs_news"="资讯";
+"user_vc_cell_favs_products"="产品";
+
+/* Profile View Controller */
+"profile_vc_title"="Profile";
+"profile_vc_cell_account_nickname"="昵称";
+"profile_vc_cell_account_email"="邮箱";
+"profile_vc_cell_basics_sex"="性别";
+"profile_vc_cell_basics_region"="地区";
+"profile_vc_cell_logout"="退出登录";
 
 /* Login View Controller */
 "login_vc_login_title"="登录";

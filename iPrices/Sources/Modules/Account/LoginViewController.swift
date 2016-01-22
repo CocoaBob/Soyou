@@ -46,6 +46,11 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Navigation Bar Items
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "dismissSelf")
+        
+        // Scroll View Inset
         if let scrollView = self.scrollView {
             self.updateScrollViewInset(scrollView, 0, false, false)
         }
@@ -144,7 +149,7 @@ extension LoginViewController {
            let data = responseObject["data"] as? [String],
            let message = data.first
         {
-            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: message)
+            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message))
         }
     }
 }
@@ -162,10 +167,10 @@ extension LoginViewController {
             DataManager.shared.login(strEmail, strPassword, completion: { (error: NSError?) -> () in
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     MBProgressHUD.hideLoader(self.view)
+                    self.dismissSelf()
                     if let error = error {
                         self.showErrorAlert(error)
                     }
-                    self.dismissSelf()
                 })
             })
         }

@@ -8,11 +8,11 @@
 
 class CenterTitleTableViewCell: UITableViewCell {
     
-    @IBOutlet var lblTitle: UILabel?
+    @IBOutlet var lblTitle: UILabel!
 }
 
 class IconTitleTableViewCell: UITableViewCell {
     
-    @IBOutlet var imgView: UIImageView?
-    @IBOutlet var lblTitle: UILabel?
+    @IBOutlet var imgView: UIImageView!
+    @IBOutlet var lblTitle: UILabel!
 }

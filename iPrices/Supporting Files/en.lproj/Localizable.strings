@@ -48,6 +48,17 @@
 /* User View Controller */
 "user_vc_title"="User";
 "user_vc_tab_title"="User";
+"user_vc_cell_favs"="Favorites";
+"user_vc_cell_favs_news"="News";
+"user_vc_cell_favs_products"="Products";
+
+/* Profile View Controller */
+"profile_vc_title"="Profile";
+"profile_vc_cell_account_nickname"="Nickname";
+"profile_vc_cell_account_email"="Email";
+"profile_vc_cell_basics_sex"="Sex";
+"profile_vc_cell_basics_region"="Region";
+"profile_vc_cell_logout"="Logout";
 
 /* Login View Controller */
 "login_vc_login_title"="Login";

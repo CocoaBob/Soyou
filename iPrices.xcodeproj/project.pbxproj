@@ -35,14 +35,14 @@
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
 		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
-		4549F3E41C25DEF600EAA1DB /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4549F3E31C25DEF600EAA1DB /* UserViewController.swift */; };
 		4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */; };
 		454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */; };
 		4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4555BBAB1BFFEEB500A01B41 /* server.cer */; };
 		455D06A61C0388C700D81ABF /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06A51C0388C700D81ABF /* Themes.swift */; };
 		455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455D06AB1C0391A600D81ABF /* InfoPlist.strings */; };
 		455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06AE1C0394E200D81ABF /* SettingsViewController.swift */; };
-		455D06B41C03950300D81ABF /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06B31C03950300D81ABF /* AccountViewController.swift */; };
+		455D06B41C03950300D81ABF /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06B31C03950300D81ABF /* UserViewController.swift */; };
+		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* iPrices.xcdatamodeld */; };
@@ -126,7 +126,6 @@
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
-		4549F3E31C25DEF600EAA1DB /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MBProgressHUD+Additions.swift"; sourceTree = "<group>"; };
 		4555BBAB1BFFEEB500A01B41 /* server.cer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.cer; sourceTree = "<group>"; };
@@ -134,7 +133,8 @@
 		455D06AA1C0391A600D81ABF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		455D06AC1C0391A700D81ABF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		455D06AE1C0394E200D81ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		455D06B31C03950300D81ABF /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		455D06B31C03950300D81ABF /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		45640AF31C51A934009984EC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4568E2981BF90797009A6164 /* iPrices.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iPrices.xcdatamodel; sourceTree = "<group>"; };
@@ -236,10 +236,10 @@
 			isa = PBXGroup;
 			children = (
 				4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */,
-				4549F3E31C25DEF600EAA1DB /* UserViewController.swift */,
-				455D06B31C03950300D81ABF /* AccountViewController.swift */,
+				455D06B31C03950300D81ABF /* UserViewController.swift */,
 				4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */,
 				4506ED701C221797003B5018 /* LoginViewController.swift */,
+				45640AF31C51A934009984EC /* ProfileViewController.swift */,
 				455D06AE1C0394E200D81ABF /* SettingsViewController.swift */,
 			);
 			name = User;
@@ -592,6 +592,8 @@
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
 				45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
+				45016E571C14EC25004034BC /* Product+CoreDataProperties.swift in Sources */,
+				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
 				4514066C1C198E2D00872AAD /* TableViewCells.swift in Sources */,
 				45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
@@ -601,13 +603,12 @@
 				4506ED711C221797003B5018 /* LoginViewController.swift in Sources */,
 				459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */,
 				45D9B36D1C39B3F600D7E899 /* ProductViewController.swift in Sources */,
-				4549F3E41C25DEF600EAA1DB /* UserViewController.swift in Sources */,
 				45CFA59B1C2B1585007D38F3 /* BrandsViewController.swift in Sources */,
 				4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */,
 				0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
 				45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */,
-				455D06B41C03950300D81ABF /* AccountViewController.swift in Sources */,
+				455D06B41C03950300D81ABF /* UserViewController.swift in Sources */,
 				45034D131C29954D00026027 /* WeChatActivityGeneral.swift in Sources */,
 				45016E5A1C14F043004034BC /* BaseModel.swift in Sources */,
 				4568E2A61BF90797009A6164 /* iPrices.xcdatamodeld in Sources */,

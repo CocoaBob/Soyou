@@ -1,5 +1,5 @@
 //
-//  UserViewController.swift
+//  ProfileViewController.swift
 //  iPrices
 //
 //  Created by CocoaBob on 23/11/15.
@@ -31,32 +31,26 @@ private struct Section {
 
 private var sections = [Section]()
 
-class UserViewController: UIViewController {
+class ProfileViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var imgViewAvatar: UIImageView!
-    @IBOutlet var lblUsername: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         // UIViewController
-        self.title = NSLocalizedString("user_vc_title")
-        
-        // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user"))
-        self.tabBarItem.title = NSLocalizedString("user_vc_tab_title")
+        self.title = NSLocalizedString("login_vc_login_title")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Navigation Bar Items
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
+        
         // Background Color
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
-        
-        // Navigation Bar Button Items
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_heart_selected"), style: UIBarButtonItemStyle.Plain, target: self, action: "likeApp:")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettingsViewController:")
         
         // Setup table
         self.tableView.sectionHeaderHeight = 10.0;
@@ -64,22 +58,11 @@ class UserViewController: UIViewController {
         
         // Setup table data
         self.rebuildTable()
-        
-        // Setup avatar action
-        let tapGR = UITapGestureRecognizer(target: self, action: "avatarAction")
-        self.imgViewAvatar.addGestureRecognizer(tapGR)
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Update login status
-        updateUserInfo()
     }
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
-extension UserViewController: UITableViewDataSource, UITableViewDelegate {
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return sections.count
@@ -96,6 +79,11 @@ extension UserViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch row.cell {
         case .CenterTitle:
+            let rowCell = cell as! CenterTitleTableViewCell
+            rowCell.lblTitle.text = row.title
+            if let titleColor = row.titleColor {
+                rowCell.lblTitle.textColor = titleColor
+            }
             break
         case .IconTitle:
             let rowCell = cell as! IconTitleTableViewCell
@@ -122,55 +110,71 @@ extension UserViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let row = sections[indexPath.section].rows[indexPath.row]
-
+        
         if let callback = row.callback {
             self.performSelector(callback)
         }
     }
 }
 
-// Routines
-extension UserViewController {
+// Cell actions
+extension ProfileViewController {
     
-    func updateUserInfo() {
+    func logout() {
+        UserManager.shared.logOut()
+        self.dismissSelf()
+    }
+}
+
+// Routines
+extension ProfileViewController {
+    
+    func updateAvatar() {
         self.imgViewAvatar.image = UIImage(named: UserManager.shared.isLoggedIn ? "img_default_avatar" : "img_default_avatar_2")
-        self.lblUsername.text = UserManager.shared.isLoggedIn ? UserManager.shared.userName : ""
     }
     
     func rebuildTable() {
         sections = [
             Section(
-                title: NSLocalizedString("user_vc_cell_favs"),
+                title: nil,
                 rows: [
                     Row(image: UIImage(named: "img_heart_shadow_selected")!,
-                        title: NSLocalizedString("user_vc_cell_favs_news"),
+                        title: NSLocalizedString("profile_vc_cell_account_nickname"),
                         titleColor: nil,
                         cell: .IconTitle,
                         callback: nil),
                     Row(image: UIImage(named: "img_heart_shadow_selected")!,
-                        title: NSLocalizedString("user_vc_cell_favs_products"),
+                        title: NSLocalizedString("profile_vc_cell_account_email"),
                         titleColor: nil,
                         cell: .IconTitle,
                         callback: nil)
                 ]
+            ),
+            Section(
+                title: nil,
+                rows: [
+                    Row(image: UIImage(named: "img_heart_shadow_selected")!,
+                        title: NSLocalizedString("profile_vc_cell_basics_sex"),
+                        titleColor: nil,
+                        cell: .IconTitle,
+                        callback: nil),
+                    Row(image: UIImage(named: "img_heart_shadow_selected")!,
+                        title: NSLocalizedString("profile_vc_cell_basics_region"),
+                        titleColor: nil,
+                        cell: .IconTitle,
+                        callback: nil)
+                ]
+            ),
+            Section(
+                title: nil,
+                rows: [
+                    Row(image: nil,
+                        title: NSLocalizedString("profile_vc_cell_logout"),
+                        titleColor: UIColor.redColor(),
+                        cell: .CenterTitle,
+                        callback: "logout")
+                ]
             )
         ]
-    }
-    
-    func avatarAction() {
-        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier(UserManager.shared.isLoggedIn ?  "ProfileViewController" : "LoginViewController") {
-            let navigationController = UINavigationController(rootViewController: viewController)
-            self.presentViewController(navigationController, animated: true, completion: nil)
-        }
-    }
-    
-    func showSettingsViewController(sender: UIBarButtonItem) {
-        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController") {
-            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
-        }
-    }
-    
-    func likeApp(sender: UIBarButtonItem) {
-        
     }
 }

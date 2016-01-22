@@ -22,7 +22,7 @@ class NewsViewController: BaseViewController {
         self.title = NSLocalizedString("news_vc_title")
 
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_house"), selectedImage: UIImage(named: "img_tab_house_selected"))
+        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_house"), selectedImage: UIImage(named: "img_tab_house"))
 //        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         self.tabBarItem.title = NSLocalizedString("news_vc_tab_title")
         

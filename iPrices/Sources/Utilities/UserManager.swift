@@ -24,6 +24,18 @@ class UserManager {
     }
     
     // User info
+    var userName: String? {
+        get {
+            return UICKeyChainStore.stringForKey(Cons.App.userName)
+        }
+        set {
+            if newValue != nil {
+                UICKeyChainStore.setString(newValue, forKey: Cons.App.userName)
+            } else {
+                UICKeyChainStore.removeItemForKey(Cons.App.userName)
+            }
+        }
+    }
     var uuid: String {
         get {
             if let value = UICKeyChainStore.stringForKey(Cons.Usr.uuid) {
