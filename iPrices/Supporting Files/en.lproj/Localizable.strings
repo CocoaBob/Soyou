@@ -47,7 +47,7 @@
 
 /* User View Controller */
 "user_vc_title"="User";
-"user_vc_please_login"="Login";
+"user_vc_login"="Login to sync favorites";
 "user_vc_tab_title"="User";
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";

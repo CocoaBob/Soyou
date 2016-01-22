@@ -21,9 +21,7 @@ class BrandsViewController: BaseViewController {
         self.title = NSLocalizedString("brands_vc_title")
         
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_tag"), selectedImage: UIImage(named: "img_tab_tag"))
-//        self.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        self.tabBarItem.title = NSLocalizedString("brands_vc_tab_title")
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("brands_vc_tab_title"), image: UIImage(named: "img_tab_tag"), selectedImage: UIImage(named: "img_tab_tag_selected"))
     }
     
     override func viewDidLoad() {
@@ -140,7 +138,7 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
         layout.itemRenderDirection = .LeftToRight
         layout.minimumColumnSpacing = 1
         layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsetsZero
+        layout.sectionInset = UIEdgeInsetsMake(1, 0, 1, 0)
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout

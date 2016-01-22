@@ -32,15 +32,19 @@ public struct Cons {
     }
     
     struct App {
-        static let userName                             = "userName"
+        static let username                             = "username"
         static let deviceToken                          = "deviceToken"
         static let lastVerIntro                         = "lastVerIntro" // The last app version that displayed the introduction view
         static let lastUpdateDate                       = "lastUpdateDate"
     }
     
     struct UI {
-        static let colorMain                            = "#FFB751"
+        static let colorWindow                          = "#555555"
+        static let colorNavBar                          = "#000000"
+        static let colorToolbar                         = "#a0a0a0"
+        static let colorTab                             = "#333C41"
         static let colorBG                              = "#EDEAE5"
+        static let colorLike                            = "#00B8F4"
         static let colorHeart                           = "#FF5EAA"
     }
 }

@@ -24,15 +24,15 @@ class UserManager {
     }
     
     // User info
-    var userName: String? {
+    var username: String? {
         get {
-            return UICKeyChainStore.stringForKey(Cons.App.userName)
+            return UICKeyChainStore.stringForKey(Cons.App.username)
         }
         set {
             if newValue != nil {
-                UICKeyChainStore.setString(newValue, forKey: Cons.App.userName)
+                UICKeyChainStore.setString(newValue, forKey: Cons.App.username)
             } else {
-                UICKeyChainStore.removeItemForKey(Cons.App.userName)
+                UICKeyChainStore.removeItemForKey(Cons.App.username)
             }
         }
     }

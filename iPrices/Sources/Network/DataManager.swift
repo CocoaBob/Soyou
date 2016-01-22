@@ -49,9 +49,9 @@ class DataManager {
         RequestManager.shared.login(email, password,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    UserManager.shared.userName = email
-                    if let data = self.getResponseData(responseObject) as? Dictionary<String, String> {
-                        UserManager.shared.logIn(data["token"]!, roleCode: data["roleCode"]!)
+                    if let data = self.getResponseData(responseObject) as? NSDictionary {
+                        UserManager.shared.username = data["username"] as? String ?? email
+                        UserManager.shared.logIn(data["token"]! as! String, roleCode: data["roleCode"]! as! String)
                     }
                     // Complete
                     if let completion = completion { completion(nil) }

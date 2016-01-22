@@ -12,7 +12,7 @@ class NewsDetailViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorMain)
+    let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorLike)
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
@@ -292,10 +292,8 @@ extension NewsDetailViewController {
     private func updateLikeBtnColor(appIsLiked: Bool?) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if appIsLiked != nil && appIsLiked!.boolValue {
-                self.btnLike?.setImage(UIImage(named: "img_thumb_selected"), forState: .Normal)
                 self.btnLike?.tintColor = self.btnLikeActiveColor
             } else {
-                self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
                 self.btnLike?.tintColor = self.btnLikeInactiveColor
             }
         }

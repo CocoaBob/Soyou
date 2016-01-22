@@ -19,12 +19,20 @@ class UserViewController: SimpleTableViewController {
         self.title = NSLocalizedString("user_vc_title")
         
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user"))
-        self.tabBarItem.title = NSLocalizedString("user_vc_tab_title")
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("user_vc_tab_title"), image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Hide navigation bar before calculating inset
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.tableView, 0, true, false)
+        
+        // Parallax Header
+        self.setupParallaxHeader()
         
         // Background Color
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
@@ -40,9 +48,17 @@ class UserViewController: SimpleTableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         // Update login status
         updateUserInfo()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
 }
 
@@ -70,12 +86,24 @@ extension UserViewController {
     }
 }
 
+// MARK: Parallax Header
+extension UserViewController {
+    
+    private func setupParallaxHeader() {
+        // Parallax View
+        let scrollView = self.tableView
+        scrollView.parallaxHeader.height = self.viewUserInfo.frame.size.height
+        scrollView.parallaxHeader.view = self.viewUserInfo
+        scrollView.parallaxHeader.mode = .Fill
+    }
+}
+
 // Routines
 extension UserViewController {
     
     func updateUserInfo() {
         self.imgViewAvatar.image = UIImage(named: UserManager.shared.isLoggedIn ? "img_default_avatar" : "img_default_avatar_2")
-        self.lblUsername.text = UserManager.shared.isLoggedIn ? UserManager.shared.userName : NSLocalizedString("user_vc_please_login")
+        self.lblUsername.text = UserManager.shared.isLoggedIn ? UserManager.shared.username : NSLocalizedString("user_vc_login")
     }
     
     func avatarAction() {
@@ -85,13 +113,13 @@ extension UserViewController {
         }
     }
     
-    func showSettingsViewController(sender: UIBarButtonItem) {
+    @IBAction func showSettingsViewController(sender: UIBarButtonItem) {
         if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController") {
             self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
         }
     }
     
-    func likeApp(sender: UIBarButtonItem) {
+    @IBAction func likeApp(sender: UIBarButtonItem) {
         
     }
 }
