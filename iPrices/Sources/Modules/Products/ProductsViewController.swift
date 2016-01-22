@@ -47,24 +47,22 @@ class ProductsViewController: BaseViewController {
         DataManager.shared.requestFavoriteProductsByCategory(categoryID!, { (data: AnyObject?) -> () in
             if let data = data {
                 let response = data as! [NSDictionary]
-                if response.count > 0 {
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         
-                        let products = Product.MR_findAllWithPredicate(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",self.categoryID ?? ""))) as! [Product]
+                    let products = Product.MR_findAllWithPredicate(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",self.categoryID ?? ""))) as! [Product]
                         
-                        for product in products {
-                            if response.contains({(p: NSDictionary) -> Bool in
-                                return (p["productId"] as! NSNumber) == product.id
-                            }){
-                                product.appIsFavorite = true
-                            }else{
-                                product.appIsFavorite = false
-                            }
+                    for product in products {
+                        if response.contains({(p: NSDictionary) -> Bool in
+                            return (p["productId"] as! NSNumber) == product.id
+                        }){
+                            product.appIsFavorite = true
+                        }else{
+                            product.appIsFavorite = false
                         }
-                    })
+                    }
+                })
                     
-                   self.collectionView().reloadData()
-                }
+                self.collectionView().reloadData()
             }
         })
     }
