@@ -230,16 +230,26 @@ extension ProductsViewController {
     @IBAction func likeProduct(sender: UIButton) {
         let position = sender.convertPoint(CGPointZero, toView: self.collectionView())
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
-        if let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Product {
-            product.doFavorite({ (data: AnyObject?) -> () in
-                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                    if let localProduct = product.MR_inContext(localContext) {
-                        if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell {
-                            cell.isFavorite = localProduct.appIsFavorite?.boolValue
+        if UserManager.shared.isLoggedIn {
+            if let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Product {
+                product.doFavorite({ (data: AnyObject?) -> () in
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        if let localProduct = product.MR_inContext(localContext) {
+                            if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell {
+                                cell.isFavorite = localProduct.appIsFavorite?.boolValue
+                            }
                         }
-                    }
+                    })
                 })
-            })
+            }
+        } else {
+            let loginViewController = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController")
+            loginViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .Done,
+                target:loginViewController,
+                action: "dismissSelf")
+            let navC = UINavigationController(rootViewController: loginViewController)
+            self.presentViewController(navC, animated: true, completion: nil)
         }
     }
 }
