@@ -498,10 +498,9 @@ extension ProductViewController {
             if let isFavorite = self.isFavorite {
                 MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                     if let localProduct = self.product?.MR_inContext(localContext) {
-                        DataManager.shared.productFavorite(localProduct.id!, isFavorite: isFavorite,
-                            { (data: AnyObject?) -> () in
-                                // Toggle the value of isFavorite
-                                self.isFavorite = !isFavorite
+                        localProduct.doFavorite({ (data: AnyObject?) -> () in
+                            // Toggle the value of isFavorite
+                            self.isFavorite = !isFavorite
                         })
                     }
                 })

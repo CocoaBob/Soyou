@@ -167,6 +167,19 @@ class DataManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
+    func requestFavoriteProductsByCategory(categoryId: NSNumber, _ completion: DataClosure?) {
+        RequestManager.shared.requestFavoriteProductsByCategory(categoryId,
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion {
+                    completion(responseObject?["data"])
+                }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+            }
+        )
+    }
+    
     func productFavorite(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
         RequestManager.shared.productFavorite(id, operation: isFavorite ? "-" : "+",
             { (responseObject: AnyObject?) -> () in

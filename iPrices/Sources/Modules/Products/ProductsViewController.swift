@@ -39,10 +39,34 @@ class ProductsViewController: BaseViewController {
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
         
-        // Update the selected cell in case if appIsLiked is changed
+        // Update the selected cell in case if appIsFavorite is changed
         if let selectedIndexPath = self.selectedIndexPath {
             self.collectionView().reloadItemsAtIndexPaths([selectedIndexPath])
         }
+        
+        DataManager.shared.requestFavoriteProductsByCategory(categoryID!, { (data: AnyObject?) -> () in
+            if let data = data {
+                let response = data as! [NSDictionary]
+                if response.count > 0 {
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        
+                        let products = Product.MR_findAllWithPredicate(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",self.categoryID ?? ""))) as! [Product]
+                        
+                        for product in products {
+                            if response.contains({(p: NSDictionary) -> Bool in
+                                return (p["productId"] as! NSNumber) == product.id
+                            }){
+                                product.appIsFavorite = true
+                            }else{
+                                product.appIsFavorite = false
+                            }
+                        }
+                    })
+                    
+                   self.collectionView().reloadData()
+                }
+            }
+        })
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -93,7 +117,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.lblPrice?.text = FmtString("%@",priceNumber)
             }
         }
-        cell.isLiked = product.appIsLiked?.boolValue
+        cell.isFavorite = product.appIsFavorite?.boolValue
 
         if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
@@ -209,11 +233,11 @@ extension ProductsViewController {
         let position = sender.convertPoint(CGPointZero, toView: self.collectionView())
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
         if let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Product {
-            product.doLike({ (data: AnyObject?) -> () in
+            product.doFavorite({ (data: AnyObject?) -> () in
                 MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                     if let localProduct = product.MR_inContext(localContext) {
                         if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell {
-                            cell.isLiked = localProduct.appIsLiked?.boolValue
+                            cell.isFavorite = localProduct.appIsFavorite?.boolValue
                         }
                     }
                 })
@@ -230,9 +254,9 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var lblPrice: UILabel!
     @IBOutlet var btnLike: UIButton!
     
-    var isLiked: Bool? {
+    var isFavorite: Bool? {
         didSet {
-            if isLiked != nil && isLiked!.boolValue {
+            if isFavorite != nil && isFavorite!.boolValue {
                 self.btnLike.setImage(UIImage(named: "img_heart_shadow_selected"), forState: UIControlState.Normal)
             } else {
                 self.btnLike.setImage(UIImage(named: "img_heart_shadow"), forState: UIControlState.Normal)
@@ -248,6 +272,6 @@ class ProductsCollectionViewCell: UICollectionViewCell {
         lblBrand.text = nil
         lblTitle.text = nil
         lblPrice.text = nil
-        self.isLiked = false
+        self.isFavorite = false
     }
 }

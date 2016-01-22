@@ -17,10 +17,10 @@
 		0D1DF0831C1DCF5600574D98 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF0821C1DCF5600574D98 /* libsqlite3.0.tbd */; };
 		0D1DF0851C1DCF6900574D98 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D1DF0841C1DCF6900574D98 /* libc++.tbd */; };
 		0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28BD711C51749E008CCF80 /* CurrencyManager.swift */; };
+		0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */; };
 		0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C771C3B1DAF001CC36D /* Analytic.swift */; };
 		0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */; };
 		0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C7B1C3B2098001CC36D /* Utils.swift */; };
-		45016E571C14EC25004034BC /* Product+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E551C14EC25004034BC /* Product+CoreDataProperties.swift */; };
 		45016E581C14EC25004034BC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E561C14EC25004034BC /* Product.swift */; };
 		45016E5A1C14F043004034BC /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E591C14F043004034BC /* BaseModel.swift */; };
 		45034D121C29954D00026027 /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D0D1C29954D00026027 /* SharingProvider.swift */; };
@@ -108,10 +108,10 @@
 		0D1DF0821C1DCF5600574D98 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		0D1DF0841C1DCF6900574D98 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		0D28BD711C51749E008CCF80 /* CurrencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
+		0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0D783C771C3B1DAF001CC36D /* Analytic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytic.swift; sourceTree = "<group>"; };
 		0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Analytic+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0D783C7B1C3B2098001CC36D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		45016E551C14EC25004034BC /* Product+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		45016E561C14EC25004034BC /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		45016E591C14F043004034BC /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		45034D0D1C29954D00026027 /* SharingProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingProvider.swift; sourceTree = "<group>"; };
@@ -358,12 +358,12 @@
 				45D418AB1C1B935200685DFC /* Brand.swift */,
 				457777801BFCB60100805D79 /* News+CoreDataProperties.swift */,
 				457777811BFCB60100805D79 /* News.swift */,
-				45016E551C14EC25004034BC /* Product+CoreDataProperties.swift */,
 				45016E561C14EC25004034BC /* Product.swift */,
 				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
 				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
 				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
 				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
+				0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -592,9 +592,9 @@
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
 				45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
-				45016E571C14EC25004034BC /* Product+CoreDataProperties.swift in Sources */,
 				4514066C1C198E2D00872AAD /* TableViewCells.swift in Sources */,
 				45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */,
+				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */,
 				45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */,
 				455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */,
