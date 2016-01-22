@@ -9,6 +9,7 @@
 class UserViewController: SimpleTableViewController {
     
     @IBOutlet var imgViewAvatar: UIImageView!
+    @IBOutlet var viewUserInfo: UIView!
     @IBOutlet var lblUsername: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,7 +35,7 @@ class UserViewController: SimpleTableViewController {
         
         // Setup avatar action
         let tapGR = UITapGestureRecognizer(target: self, action: "avatarAction")
-        self.imgViewAvatar.addGestureRecognizer(tapGR)
+        self.viewUserInfo.addGestureRecognizer(tapGR)
     }
     
     override func viewWillAppear(animated: Bool) {
