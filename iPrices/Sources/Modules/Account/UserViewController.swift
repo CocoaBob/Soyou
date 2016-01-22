@@ -6,34 +6,8 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-private enum SectionType: Int {
-    case Favorites
-    case Settings
-}
-
-private enum CellType: String {
-    case CenterTitle
-    case IconTitle
-}
-
-private struct Row {
-    var image: UIImage?
-    var title: String?
-    var titleColor: UIColor?
-    var cell: CellType
-    var callback: Selector?
-}
-
-private struct Section {
-    var title: String?
-    var rows: [Row]
-}
-
-private var sections = [Section]()
-
-class UserViewController: UIViewController {
+class UserViewController: SimpleTableViewController {
     
-    @IBOutlet var tableView: UITableView!
     @IBOutlet var imgViewAvatar: UIImageView!
     @IBOutlet var lblUsername: UILabel!
     
@@ -55,15 +29,8 @@ class UserViewController: UIViewController {
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
         
         // Navigation Bar Button Items
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_heart_selected"), style: UIBarButtonItemStyle.Plain, target: self, action: "likeApp:")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_heart"), style: UIBarButtonItemStyle.Plain, target: self, action: "likeApp:")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettingsViewController:")
-        
-        // Setup table
-        self.tableView.sectionHeaderHeight = 10.0;
-        self.tableView.sectionFooterHeight = 10.0;
-        
-        // Setup table data
-        self.rebuildTable()
         
         // Setup avatar action
         let tapGR = UITapGestureRecognizer(target: self, action: "avatarAction")
@@ -78,66 +45,10 @@ class UserViewController: UIViewController {
     }
 }
 
-// MARK: UITableViewDataSource, UITableViewDelegate
-extension UserViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sections.count
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].rows.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row = sections[indexPath.section].rows[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(row.cell.rawValue, forIndexPath: indexPath)
-        
-        switch row.cell {
-        case .CenterTitle:
-            break
-        case .IconTitle:
-            let rowCell = cell as! IconTitleTableViewCell
-            rowCell.imgView.image = row.image
-            rowCell.lblTitle.text = row.title
-            if let titleColor = row.titleColor {
-                rowCell.lblTitle.textColor = titleColor
-            }
-        }
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = sections[section]
-        return section.title
-    }
-    
-//    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        return 32
-//    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        let row = sections[indexPath.section].rows[indexPath.row]
-
-        if let callback = row.callback {
-            self.performSelector(callback)
-        }
-    }
-}
-
-// Routines
+// MARK: Build hierarchy
 extension UserViewController {
     
-    func updateUserInfo() {
-        self.imgViewAvatar.image = UIImage(named: UserManager.shared.isLoggedIn ? "img_default_avatar" : "img_default_avatar_2")
-        self.lblUsername.text = UserManager.shared.isLoggedIn ? UserManager.shared.userName : ""
-    }
-    
-    func rebuildTable() {
+    override func rebuildTable() {
         sections = [
             Section(
                 title: NSLocalizedString("user_vc_cell_favs"),
@@ -155,6 +66,15 @@ extension UserViewController {
                 ]
             )
         ]
+    }
+}
+
+// Routines
+extension UserViewController {
+    
+    func updateUserInfo() {
+        self.imgViewAvatar.image = UIImage(named: UserManager.shared.isLoggedIn ? "img_default_avatar" : "img_default_avatar_2")
+        self.lblUsername.text = UserManager.shared.isLoggedIn ? UserManager.shared.userName : NSLocalizedString("user_vc_please_login")
     }
     
     func avatarAction() {

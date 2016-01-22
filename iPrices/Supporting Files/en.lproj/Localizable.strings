@@ -47,6 +47,7 @@
 
 /* User View Controller */
 "user_vc_title"="User";
+"user_vc_please_login"="Login";
 "user_vc_tab_title"="User";
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
@@ -54,7 +55,7 @@
 
 /* Profile View Controller */
 "profile_vc_title"="Profile";
-"profile_vc_cell_account_nickname"="Nickname";
+"profile_vc_cell_account_username"="Username";
 "profile_vc_cell_account_email"="Email";
 "profile_vc_cell_basics_sex"="Sex";
 "profile_vc_cell_basics_region"="Region";
@@ -70,6 +71,12 @@
 "login_vc_forget_password_alert_button"="I've got the code";
 "login_vc_forget_password_alert_message"="We've sent you a verfication code, please check your Email to get the code.";
 "login_vc_reset_password_alert_message"="Password has been reset, now you are logged in.";
+
+/* Settings View Controller */
+"settings_vc_title"="Settings";
+"settings_vc_cell_clean_cache"="Clean caches";
+"settings_vc_cell_about"="About";
+"settings_vc_cell_feedback"="Feedback";
 
 /* Error Code */
 "invalid_activation_code"="Invalid activation code.";

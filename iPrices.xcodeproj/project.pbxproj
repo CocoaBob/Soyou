@@ -28,7 +28,6 @@
 		45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D101C29954D00026027 /* WeChatMomentsActivity.swift */; };
 		45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D111C29954D00026027 /* WeChatSessionActivity.swift */; };
 		4506ED711C221797003B5018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4506ED701C221797003B5018 /* LoginViewController.swift */; };
-		4514066C1C198E2D00872AAD /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4514066B1C198E2D00872AAD /* TableViewCells.swift */; };
 		45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243C681C17A514005D476D /* UIViewController+Additions.swift */; };
 		4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */; };
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
@@ -57,6 +56,11 @@
 		457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* RequestManager.swift */; };
 		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
+		4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */; };
+		4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C91C52A1AA00329ECA /* TableViewCells.swift */; };
+		4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */; };
+		4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */; };
+		4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */; };
 		459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */; };
 		45A4D8321C08CD200000309C /* news.css in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8301C08CD200000309C /* news.css */; };
 		45A4D8331C08CD200000309C /* news.html in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8311C08CD200000309C /* news.html */; };
@@ -119,7 +123,6 @@
 		45034D101C29954D00026027 /* WeChatMomentsActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatMomentsActivity.swift; sourceTree = "<group>"; };
 		45034D111C29954D00026027 /* WeChatSessionActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatSessionActivity.swift; sourceTree = "<group>"; };
 		4506ED701C221797003B5018 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		4514066B1C198E2D00872AAD /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
 		45243C681C17A514005D476D /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Additions.swift"; sourceTree = "<group>"; };
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
@@ -152,6 +155,11 @@
 		457D1EB71BFBDE9700D451D0 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
+		4590F8C91C52A1AA00329ECA /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
+		4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellSectionHeader.xib; sourceTree = "<group>"; };
+		4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellCenterTitle.xib; sourceTree = "<group>"; };
+		4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellIconTitle.xib; sourceTree = "<group>"; };
 		459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AFNetworking+Additions.swift"; sourceTree = "<group>"; };
 		45A4D8301C08CD200000309C /* news.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = news.css; sourceTree = "<group>"; };
 		45A4D8311C08CD200000309C /* news.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = news.html; sourceTree = "<group>"; };
@@ -346,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				4568E2F51BF92182009A6164 /* BaseViewControllers.swift */,
+				4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -371,8 +380,11 @@
 		457777921BFCE97D00805D79 /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
+				4590F8C91C52A1AA00329ECA /* TableViewCells.swift */,
+				4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */,
+				4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */,
+				4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */,
 				455D06A51C0388C700D81ABF /* Themes.swift */,
-				4514066B1C198E2D00872AAD /* TableViewCells.swift */,
 				4534D54A1C230A8E00F4DDA5 /* TextFields.swift */,
 			);
 			path = CustomUI;
@@ -500,7 +512,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				457777911BFCE4AC00805D79 /* NewsViewController.storyboard in Resources */,
+				4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */,
 				0D05D6551C484B7D00D8A7C2 /* productDescription.html in Resources */,
+				4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */,
 				455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */,
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
@@ -511,6 +525,7 @@
 				45A4D8331C08CD200000309C /* news.html in Resources */,
 				4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */,
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
+				4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,13 +603,13 @@
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */,
+				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
 				45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
-				45016E571C14EC25004034BC /* Product+CoreDataProperties.swift in Sources */,
 				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
-				4514066C1C198E2D00872AAD /* TableViewCells.swift in Sources */,
+				4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */,
 				45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */,

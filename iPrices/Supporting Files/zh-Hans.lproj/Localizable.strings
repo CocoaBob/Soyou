@@ -47,15 +47,16 @@
 
 /* User View Controller */
 "user_vc_title"="用户";
+"user_vc_please_login"="点击登录";
 "user_vc_tab_title"="用户";
 "user_vc_cell_favs"="收藏夹";
 "user_vc_cell_favs_news"="资讯";
 "user_vc_cell_favs_products"="产品";
 
 /* Profile View Controller */
-"profile_vc_title"="Profile";
-"profile_vc_cell_account_nickname"="昵称";
-"profile_vc_cell_account_email"="邮箱";
+"profile_vc_title"="个人信息";
+"profile_vc_cell_account_username"="用户名";
+"profile_vc_cell_account_email"="电子邮箱";
 "profile_vc_cell_basics_sex"="性别";
 "profile_vc_cell_basics_region"="地区";
 "profile_vc_cell_logout"="退出登录";
@@ -70,6 +71,12 @@
 "login_vc_forget_password_alert_button"="我已收到验证码";
 "login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
 "login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
+
+/* Settings View Controller */
+"settings_vc_title"="设置";
+"settings_vc_cell_clean_cache"="清除缓存";
+"settings_vc_cell_about"="关于我们";
+"settings_vc_cell_feedback"="给我们一些建议吧";
 
 /* Error Code */
 "invalid_activation_code"="无效激活码。";
