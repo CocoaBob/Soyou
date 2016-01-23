@@ -99,7 +99,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             // Prepare attributes
             var imageURLString: String? = nil
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                let localBrand = brand.MR_inContext(localContext)
+                guard let localBrand = brand.MR_inContext(localContext) else { return }
                 brandViewController.brandID = "\(localBrand.id)"
                 brandViewController.brandName = localBrand.label
                 brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?

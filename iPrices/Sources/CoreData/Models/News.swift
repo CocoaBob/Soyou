@@ -79,7 +79,7 @@ class News: BaseModel {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 // Prepare data
                 let newestNews = News.MR_findFirstOrderedByAttribute("datePublication", ascending: false, inContext: localContext)
-                let moreItems = News.MR_findAllSortedBy("datePublication", ascending: false, withPredicate: FmtPredicate("appIsMore == true"), inContext: localContext)
+                let moreItems = News.MR_findAllSortedBy("datePublication", ascending: false, withPredicate: FmtPredicate("appIsMore == true"), inContext: localContext) ?? []
                 
                 
                 // Prepare sections
@@ -129,10 +129,11 @@ class News: BaseModel {
                         if (oldestNewNews.datePublication! > sectionDate) {
                             // Check if a more button already exists
                             guard let _ = News.MR_findFirstWithPredicate(FmtPredicate("appIsMore == true && id == %@",oldestNewNews.id!), inContext: localContext) else {
-                                let newMoreItem = News.MR_createEntityInContext(localContext)
-                                newMoreItem.id = oldestNewNews.id
-                                newMoreItem.datePublication = oldestNewNews.datePublication
-                                newMoreItem.appIsMore = NSNumber(bool: true)
+                                if let newMoreItem = News.MR_createEntityInContext(localContext) {
+                                    newMoreItem.id = oldestNewNews.id
+                                    newMoreItem.datePublication = oldestNewNews.datePublication
+                                    newMoreItem.appIsMore = NSNumber(bool: true)
+                                }
                                 continue
                             }
                         }

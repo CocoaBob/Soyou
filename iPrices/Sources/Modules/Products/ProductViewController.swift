@@ -177,7 +177,7 @@ extension ProductViewController {
         var title: String?
         if let product = self.product {
             MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-                let localProduct = product.MR_inContext(localContext)
+                guard let localProduct = product.MR_inContext(localContext) else { return }
                 images = localProduct.images as? [String]
                 title = localProduct.title
             }
@@ -238,7 +238,7 @@ extension ProductViewController {
         
         var viewControllers = [UIViewController]()
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            let localProduct = product.MR_inContext(localContext)
+            guard let localProduct = product.MR_inContext(localContext) else { return }
             // Prices VC
             self.productPricesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController
             if let productPricesViewController = self.productPricesViewController {

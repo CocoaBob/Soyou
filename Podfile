@@ -6,6 +6,7 @@ xcodeproj "iPrices"
 inhibit_all_warnings!
 use_frameworks!
 
+pod "ActionSheetPicker-3.0"
 pod "AFNetworking", '~> 2'
 pod "Base64nl"
 pod "CHTCollectionViewWaterfallLayout"
@@ -31,4 +32,6 @@ pod "ZoomInteractiveTransition", :git => 'git://github.com/DenHeadless/ZoomInter
 #pod "1PasswordExtension"
 #pod "ActionSheetPicker-3.0"
 #pod "CYLTabBarController"
+#pod "GPUImage"
 #pod "JSQMessagesViewController"
+#pod "UIImage-ResizeMagick"

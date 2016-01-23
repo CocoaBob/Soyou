@@ -81,9 +81,6 @@ class Product: BaseModel {
                     product.categories = value
                 }
                 if let value = data["order"] as? NSNumber {
-                    if data["brandLabel"] as! String == "BURBERRY" {
-                        DLog(value)
-                    }
                     product.order = value
                 }
             }

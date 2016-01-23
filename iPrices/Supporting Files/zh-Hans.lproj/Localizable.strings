@@ -57,7 +57,7 @@
 "profile_vc_title"="个人信息";
 "profile_vc_cell_account_username"="用户名";
 "profile_vc_cell_account_email"="电子邮箱";
-"profile_vc_cell_basics_sex"="性别";
+"profile_vc_cell_basics_gender"="性别";
 "profile_vc_cell_basics_region"="地区";
 "profile_vc_cell_logout"="退出登录";
 

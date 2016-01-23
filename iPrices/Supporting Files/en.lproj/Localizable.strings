@@ -57,7 +57,7 @@
 "profile_vc_title"="Profile";
 "profile_vc_cell_account_username"="Username";
 "profile_vc_cell_account_email"="Email";
-"profile_vc_cell_basics_sex"="Sex";
+"profile_vc_cell_basics_gender"="Gender";
 "profile_vc_cell_basics_region"="Region";
 "profile_vc_cell_logout"="Logout";
 

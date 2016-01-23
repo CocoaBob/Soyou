@@ -141,7 +141,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-            let localNews = news.MR_inContext(localContext)
+            guard let localNews = news.MR_inContext(localContext) else { return }
             let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
             if localNews.appIsMore != nil && localNews.appIsMore!.boolValue {
                 guard let cell = cell as? NewsCollectionViewCellMore else { return }
@@ -219,7 +219,7 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         var size = CGSizeMake(3, 2) // Default size for news
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-            let localNews = news.MR_inContext(localContext)
+            guard let localNews = news.MR_inContext(localContext) else { return }
             if localNews.appIsMore == nil || !localNews.appIsMore!.boolValue {
                 if let imageURLString = localNews.image,
                     let imageURL = NSURL(string: imageURLString),

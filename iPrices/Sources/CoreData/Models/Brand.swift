@@ -62,8 +62,10 @@ class Brand: BaseModel {
                 }
                 
                 // Delete non existing items
-                for brand in Brand.MR_findAllWithPredicate(FmtPredicate("NOT (id IN %@)", newIDs), inContext: localContext) {
-                    brand.MR_deleteEntityInContext(localContext)
+                if let brands = Brand.MR_findAllWithPredicate(FmtPredicate("NOT (id IN %@)", newIDs), inContext: localContext) {
+                    for brand in brands {
+                        brand.MR_deleteEntityInContext(localContext)
+                    }
                 }
             })
         }

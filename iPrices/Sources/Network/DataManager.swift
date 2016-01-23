@@ -367,11 +367,12 @@ class DataManager {
             // Collect product ids
             var productIDs = [NSNumber]()
             MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                let allNotUpdatedProducts = Product.MR_findAllWithPredicate(
+                if let allNotUpdatedProducts = Product.MR_findAllWithPredicate(
                     FmtPredicate("appIsUpdated == %@", NSNumber(bool: false)),
-                    inContext: localContext)
-                productIDs = allNotUpdatedProducts.map { (product) -> NSNumber in
-                    return (product as! Product).id!
+                    inContext: localContext) {
+                        productIDs = allNotUpdatedProducts.map { (product) -> NSNumber in
+                            return (product as! Product).id!
+                        }
                 }
             })
             

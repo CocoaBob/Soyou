@@ -52,7 +52,7 @@ extension ProfileViewController {
                 title: nil,
                 rows: [
                     Row(image: UIImage(named: "img_heart_shadow_selected")!,
-                        title: NSLocalizedString("profile_vc_cell_basics_sex"),
+                        title: NSLocalizedString("profile_vc_cell_basics_gender"),
                         titleColor: nil,
                         cell: .IconTitle,
                         callback: nil),
