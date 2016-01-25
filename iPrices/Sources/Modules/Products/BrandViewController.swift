@@ -345,6 +345,8 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
     @IBOutlet var btnAccessory: UIButton!
     
     override func awakeFromNib() {
+        super.awakeFromNib()
+        
         btnAccessory.setBackgroundImage(UIImage(named: "img_cell_disclosure"), forState: .Normal)
         btnAccessory.setTitle(NSLocalizedString("brands_root_cell_all"), forState: .Normal)
     }

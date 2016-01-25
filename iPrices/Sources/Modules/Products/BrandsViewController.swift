@@ -8,12 +8,23 @@
 
 class BrandsViewController: BaseViewController {
     
-    @IBOutlet var _collectionView: UICollectionView?
+    // Override BaseViewController
+    @IBOutlet var _collectionView: UICollectionView!
     
+    override func collectionView() -> UICollectionView {
+        return _collectionView
+    }
+    
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "order", ascending: true)
+    }
+    
+    // Properties
     var transition: ZoomInteractiveTransition?
     
     var selectedIndexPath: NSIndexPath?
     
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -47,14 +58,6 @@ class BrandsViewController: BaseViewController {
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
     }
-    
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "order", ascending: true)
-    }
-    
-    override func collectionView() -> UICollectionView {
-        return _collectionView!
-    }
 }
 
 // MARK: - CollectionView Delegate Methods
@@ -73,7 +76,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell: BrandsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as! BrandsCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as! BrandsCollectionViewCell
         
         let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
         

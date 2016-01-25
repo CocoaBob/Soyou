@@ -74,12 +74,12 @@ extension UserViewController {
                         title: NSLocalizedString("user_vc_cell_favs_news"),
                         titleColor: nil,
                         cell: .IconTitle,
-                        callback: nil),
+                        callback: "showNewsFavorites"),
                     Row(image: UIImage(named: "img_heart_shadow_selected")!,
                         title: NSLocalizedString("user_vc_cell_favs_products"),
                         titleColor: nil,
                         cell: .IconTitle,
-                        callback: nil)
+                        callback: "showProductsFavorites")
                 ]
             )
         ]
@@ -97,6 +97,23 @@ extension UserViewController {
         scrollView.parallaxHeader.mode = .Fill
     }
 }
+
+// MARK: Cell actions
+extension UserViewController {
+    
+    func showNewsFavorites() {
+        let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+        favoritesViewController.type = .News
+        self.navigationController?.pushViewController(favoritesViewController, animated: true)
+    }
+    
+    func showProductsFavorites() {
+        let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+        favoritesViewController.type = .Products
+        self.navigationController?.pushViewController(favoritesViewController, animated: true)
+    }
+}
+
 
 // Routines
 extension UserViewController {

@@ -8,14 +8,29 @@
 
 class ProductsViewController: BaseViewController {
     
-    @IBOutlet var _collectionView: UICollectionView?
+    // Override BaseViewController
+    @IBOutlet var _collectionView: UICollectionView!
     
+    override func collectionView() -> UICollectionView {
+        return _collectionView
+    }
+    
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        return Product.MR_fetchAllGroupedBy(
+            nil,
+            withPredicate: FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID ?? "")),
+            sortedBy: "order,id",
+            ascending: true)
+    }
+    
+    // Properties
     var selectedIndexPath: NSIndexPath?
     
     var brandID: String?
     var brandName: String?
     var categoryID: NSNumber?
     
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -70,18 +85,6 @@ class ProductsViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
     }
-    
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Product.MR_fetchAllGroupedBy(
-            nil,
-            withPredicate: FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID ?? "")),
-            sortedBy: "order,id",
-            ascending: true)
-    }
-    
-    override func collectionView() -> UICollectionView {
-        return _collectionView!
-    }
 }
 
 // MARK: - CollectionView Delegate Methods
@@ -100,16 +103,12 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell: ProductsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductsCollectionViewCell", forIndexPath: indexPath) as! ProductsCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductsCollectionViewCell", forIndexPath: indexPath) as! ProductsCollectionViewCell
         
         let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
         
-        if let title = product.title {
-            cell.lblTitle?.text = title
-        }
-        if let brandName = product.brandLabel {
-            cell.lblBrand?.text = brandName
-        }
+        cell.lblTitle?.text = product.title
+        cell.lblBrand?.text = product.brandLabel
         if let prices = product.prices as? NSArray {
             if let price = prices.firstObject as! NSDictionary?, priceNumber = price["price"] as? NSNumber {
                 cell.lblPrice?.text = FmtString("%@",priceNumber)

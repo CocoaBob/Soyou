@@ -367,12 +367,12 @@
 				45D418AB1C1B935200685DFC /* Brand.swift */,
 				457777801BFCB60100805D79 /* News+CoreDataProperties.swift */,
 				457777811BFCB60100805D79 /* News.swift */,
-				45016E561C14EC25004034BC /* Product.swift */,
-				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
-				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
-				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
-				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
 				0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */,
+				45016E561C14EC25004034BC /* Product.swift */,
+				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
+				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
+				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
+				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

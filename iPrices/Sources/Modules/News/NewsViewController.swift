@@ -8,13 +8,24 @@
 
 class NewsViewController: BaseViewController {
     
-    @IBOutlet var _collectionView: UICollectionView?
+    // Override BaseViewController
+    @IBOutlet var _collectionView: UICollectionView!
     
+    override func collectionView() -> UICollectionView {
+        return _collectionView
+    }
+    
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+    }
+    
+    // Properties
     var transition: ZoomInteractiveTransition?
     
     var selectedMoreButtonCell: NewsCollectionViewCellMore?
     var selectedIndexPath: NSIndexPath?
     
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -56,14 +67,6 @@ class NewsViewController: BaseViewController {
         self.hideToolbar(false);
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
-    }
-    
-    override func collectionView() -> UICollectionView {
-        return _collectionView!
-    }
-    
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         updateColumnCount(Int(floor(size.width / 240)))
     }
@@ -75,8 +78,8 @@ extension NewsViewController {
     
     private func resetMoreButtonCell() {
         if let cell = self.selectedMoreButtonCell {
-            cell.indicator?.hidden = true
-            cell.moreImage?.hidden = false
+            cell.indicator.hidden = true
+            cell.moreImage.hidden = false
         }
     }
     
@@ -109,17 +112,17 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         var returnValue: UICollectionViewCell?
         if news.appIsMore != nil && news.appIsMore!.boolValue {
-            let cell: NewsCollectionViewCellMore = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
             
-            cell.indicator?.hidden = true
-            cell.moreImage?.hidden = false
+            cell.indicator.hidden = true
+            cell.moreImage.hidden = false
             returnValue = cell
         } else {
-            let cell: NewsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
             
-            cell.lblTitle?.text = news.title
+            cell.lblTitle.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                cell.fgImageView?.sd_setImageWithURL(imageURL,
+                cell.fgImageView.sd_setImageWithURL(imageURL,
                     placeholderImage: UIImage.imageWithRandomColor(CGSizeMake(3, 2)),
                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                     completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
@@ -148,9 +151,9 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 
                 self.selectedMoreButtonCell = cell
                 
-                cell.indicator?.startAnimating()
-                cell.indicator?.hidden = false
-                cell.moreImage?.hidden = true
+                cell.indicator.startAnimating()
+                cell.indicator.hidden = false
+                cell.moreImage.hidden = true
                 self.loadData(localNews.id)
             } else {
                 guard let cell = cell as? NewsCollectionViewCell else { return }
@@ -163,7 +166,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 }
                 
                 if image == nil {
-                    image = cell.fgImageView?.image
+                    image = cell.fgImageView.image
                 }
                 
                 // Prepare view controller
@@ -240,9 +243,8 @@ extension NewsViewController: ZoomTransitionProtocol {
     
     private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell,
-            let imageView = cell.fgImageView {
-                return imageView
+            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell {
+            return cell.fgImageView
         }
         return nil
     }
@@ -313,25 +315,25 @@ extension NewsViewController {
 // MARK: - Custom cells
 
 class NewsCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var fgImageView: UIImageView?
-    @IBOutlet var lblTitle: UILabel?
+    @IBOutlet var fgImageView: UIImageView!
+    @IBOutlet var lblTitle: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.lblTitle?.clipsToBounds = true
-        self.lblTitle?.layer.shadowRadius = 1
-        self.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
-        self.lblTitle?.layer.shadowOpacity = 1
-        self.lblTitle?.layer.shadowOffset = CGSizeZero
+        self.lblTitle.clipsToBounds = true
+        self.lblTitle.layer.shadowRadius = 1
+        self.lblTitle.layer.shadowColor = UIColor.blackColor().CGColor
+        self.lblTitle.layer.shadowOpacity = 1
+        self.lblTitle.layer.shadowOffset = CGSizeZero
     }
     
     override func prepareForReuse() {
-        lblTitle?.text = nil
+        lblTitle.text = nil
     }
 }
 
 class NewsCollectionViewCellMore: UICollectionViewCell {
-    @IBOutlet var indicator: UIActivityIndicatorView?
-    @IBOutlet var moreImage: UIImageView?
+    @IBOutlet var indicator: UIActivityIndicatorView!
+    @IBOutlet var moreImage: UIImageView!
 }
