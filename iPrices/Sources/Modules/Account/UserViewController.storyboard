@@ -43,7 +43,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X9P-Xf-wSh">
-                                <rect key="frame" x="556" y="64" width="44" height="44"/>
+                                <rect key="frame" x="552" y="64" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="gsv-kj-5pQ"/>
                                     <constraint firstAttribute="height" constant="44" id="uZ6-ZY-1Xr"/>
@@ -54,7 +54,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4K-kN-f95">
-                                <rect key="frame" x="0.0" y="64" width="44" height="44"/>
+                                <rect key="frame" x="4" y="64" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="5uZ-5T-b2s"/>
                                     <constraint firstAttribute="width" constant="44" id="cqQ-YQ-sfb"/>
@@ -68,11 +68,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Z4K-kN-f95" firstAttribute="top" secondItem="lK2-7g-FKu" secondAttribute="bottom" id="2SJ-GK-Tyf"/>
-                            <constraint firstItem="X9P-Xf-wSh" firstAttribute="trailing" secondItem="oTz-44-I1S" secondAttribute="trailing" id="HqN-IJ-pDx"/>
+                            <constraint firstItem="X9P-Xf-wSh" firstAttribute="trailing" secondItem="oTz-44-I1S" secondAttribute="trailing" constant="-4" id="HqN-IJ-pDx"/>
                             <constraint firstItem="3NO-BY-JXz" firstAttribute="top" secondItem="oTz-44-I1S" secondAttribute="top" id="P36-ov-ccQ"/>
                             <constraint firstAttribute="trailing" secondItem="3NO-BY-JXz" secondAttribute="trailing" id="PHk-2H-KpA"/>
                             <constraint firstItem="3NO-BY-JXz" firstAttribute="leading" secondItem="oTz-44-I1S" secondAttribute="leading" id="ebP-cc-qOg"/>
-                            <constraint firstItem="Z4K-kN-f95" firstAttribute="leading" secondItem="oTz-44-I1S" secondAttribute="leading" id="n1v-DZ-KRD"/>
+                            <constraint firstItem="Z4K-kN-f95" firstAttribute="leading" secondItem="oTz-44-I1S" secondAttribute="leading" constant="4" id="n1v-DZ-KRD"/>
                             <constraint firstItem="X9P-Xf-wSh" firstAttribute="top" secondItem="lK2-7g-FKu" secondAttribute="bottom" id="peo-OC-s3G"/>
                             <constraint firstItem="ANq-9X-ieL" firstAttribute="top" secondItem="3NO-BY-JXz" secondAttribute="bottom" id="vtK-Ch-Crw"/>
                         </constraints>
@@ -95,7 +95,7 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_bg_user" translatesAutoresizingMaskIntoConstraints="NO" id="Lap-td-XWB" userLabel="bg">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                         </imageView>
-                        <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="CyA-3f-zIP" userLabel="avatar">
+                        <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_avatar_neutral" translatesAutoresizingMaskIntoConstraints="NO" id="CyA-3f-zIP" userLabel="avatar">
                             <rect key="frame" x="260" y="80" width="80" height="80"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="80" id="5Ce-f9-wnB"/>
@@ -956,12 +956,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="img_avatar_neutral" width="80" height="80"/>
         <image name="img_bg_login" width="768" height="256"/>
         <image name="img_bg_tile_dark_gray_translucent" width="1" height="1"/>
         <image name="img_bg_tile_gray_translucent" width="1" height="1"/>
         <image name="img_bg_tile_light_gray_translucent" width="1" height="1"/>
         <image name="img_bg_user" width="512" height="512"/>
-        <image name="img_default_avatar" width="143" height="139"/>
         <image name="img_gear_shadow" width="26" height="26"/>
         <image name="img_heart_shadow" width="24" height="22"/>
     </resources>

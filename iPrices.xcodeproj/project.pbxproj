@@ -36,6 +36,8 @@
 		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
 		4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */; };
 		454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */; };
+		454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */; };
+		454ECE9C1C567AE5003A0E94 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE9A1C567AE5003A0E94 /* User.swift */; };
 		4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4555BBAB1BFFEEB500A01B41 /* server.cer */; };
 		455D06A61C0388C700D81ABF /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06A51C0388C700D81ABF /* Themes.swift */; };
 		455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455D06AB1C0391A600D81ABF /* InfoPlist.strings */; };
@@ -131,6 +133,8 @@
 		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
 		4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MBProgressHUD+Additions.swift"; sourceTree = "<group>"; };
+		454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		454ECE9A1C567AE5003A0E94 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4555BBAB1BFFEEB500A01B41 /* server.cer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.cer; sourceTree = "<group>"; };
 		455D06A51C0388C700D81ABF /* Themes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		455D06AA1C0391A600D81ABF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -373,6 +377,8 @@
 				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
 				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
 				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
+				454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */,
+				454ECE9A1C567AE5003A0E94 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -616,6 +622,7 @@
 				45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */,
 				455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */,
 				4506ED711C221797003B5018 /* LoginViewController.swift in Sources */,
+				454ECE9C1C567AE5003A0E94 /* User.swift in Sources */,
 				459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */,
 				45D9B36D1C39B3F600D7E899 /* ProductViewController.swift in Sources */,
 				45CFA59B1C2B1585007D38F3 /* BrandsViewController.swift in Sources */,
@@ -631,6 +638,7 @@
 				457777831BFCB60100805D79 /* News.swift in Sources */,
 				45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */,
 				0D05D65B1C4EE91400D8A7C2 /* CurrencyRate.swift in Sources */,
+				454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */,
 				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 				454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */,
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,

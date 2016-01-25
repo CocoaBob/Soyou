@@ -64,6 +64,21 @@ class LoginViewController: UIViewController {
         self.keyboardControlInstall()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        switch self.type {
+        case .Login:
+            tfEmail?.becomeFirstResponder()
+        case .Register:
+            tfEmail?.becomeFirstResponder()
+        case .ForgetPassword:
+            tfEmail?.becomeFirstResponder()
+        case .ResetPassword:
+            tfVerificationCode?.becomeFirstResponder()
+        }
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.keyboardControlUninstall()

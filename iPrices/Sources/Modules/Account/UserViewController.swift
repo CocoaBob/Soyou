@@ -119,8 +119,8 @@ extension UserViewController {
 extension UserViewController {
     
     func updateUserInfo() {
-        self.imgViewAvatar.image = UIImage(named: UserManager.shared.isLoggedIn ? "img_default_avatar" : "img_default_avatar_2")
-        self.lblUsername.text = UserManager.shared.isLoggedIn ? UserManager.shared.username : NSLocalizedString("user_vc_login")
+        self.imgViewAvatar.image = UserManager.shared.avatarImage()
+        self.lblUsername.text = UserManager.shared.userName() ?? NSLocalizedString("user_vc_login")
     }
     
     func avatarAction() {

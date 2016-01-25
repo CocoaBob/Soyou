@@ -13,7 +13,8 @@ import Foundation
 import CoreData
 
 extension Product {
-
+    
+    @NSManaged var appIsFavorite: NSNumber?
     @NSManaged var appIsLiked: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var brandId: NSNumber?
@@ -33,6 +34,5 @@ extension Product {
     @NSManaged var rubricId: NSNumber?
     @NSManaged var surname: String?
     @NSManaged var title: String?
-    @NSManaged var appIsFavorite: NSNumber?
 
 }

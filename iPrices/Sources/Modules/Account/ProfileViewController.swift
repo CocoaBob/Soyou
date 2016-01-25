@@ -89,7 +89,4 @@ extension ProfileViewController {
 // MARK: Routines
 extension ProfileViewController {
     
-    func updateAvatar() {
-        self.imgViewAvatar.image = UIImage(named: UserManager.shared.isLoggedIn ? "img_default_avatar" : "img_default_avatar_2")
-    }
 }
