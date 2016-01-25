@@ -57,6 +57,7 @@
 "profile_vc_title"="Profile";
 "profile_vc_cell_account_username"="Username";
 "profile_vc_cell_account_email"="Email";
+"profile_vc_cell_account_email_change"="Change Email";
 "profile_vc_cell_basics_gender"="Gender";
 "profile_vc_cell_basics_region"="Region";
 "profile_vc_cell_logout"="Logout";
@@ -111,6 +112,13 @@
 "product_unavailable"="Unavailable";
 "product_translation"="Translate";
 "product_back"="Back";
+
+/* User Info */
+"user_info_username_empty"="Empty";
+"user_info_region_unknown"="Unknown";
+"user_info_gender_secret"="Secret";
+"user_info_gender_male"="Male";
+"user_info_gender_female"="Female";
 
 /* Currency Names */
 "currency_name_cny"="CNY";

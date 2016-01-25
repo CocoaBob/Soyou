@@ -70,6 +70,9 @@
 		45AE9B491C47C4150081ECBA /* ProductPricesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE9B481C47C4150081ECBA /* ProductPricesViewController.swift */; };
 		45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE9B4A1C47C4310081ECBA /* ProductDescriptionsViewController.swift */; };
 		45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77F091C05A77B002E3385 /* UserManager.swift */; };
+		45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */; };
+		45B8233D1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */; };
+		45B8233F1C56C9260034DA98 /* TableViewCellTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */; };
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
 		45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */; };
 		45CFA5961C2AAA61007D38F3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CFA5951C2AAA61007D38F3 /* DataManager.swift */; };
@@ -171,6 +174,9 @@
 		45AE9B481C47C4150081ECBA /* ProductPricesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPricesViewController.swift; sourceTree = "<group>"; };
 		45AE9B4A1C47C4310081ECBA /* ProductDescriptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDescriptionsViewController.swift; sourceTree = "<group>"; };
 		45B77F091C05A77B002E3385 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellLeftTitle.xib; sourceTree = "<group>"; };
+		45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellLeftTitleRightDetail.xib; sourceTree = "<group>"; };
+		45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellTextField.xib; sourceTree = "<group>"; };
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
 		45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIToolbar+Additions.swift"; sourceTree = "<group>"; };
 		45CFA5951C2AAA61007D38F3 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -389,7 +395,10 @@
 				4590F8C91C52A1AA00329ECA /* TableViewCells.swift */,
 				4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */,
 				4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */,
+				45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */,
+				45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */,
 				4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */,
+				45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */,
 				455D06A51C0388C700D81ABF /* Themes.swift */,
 				4534D54A1C230A8E00F4DDA5 /* TextFields.swift */,
 			);
@@ -522,15 +531,18 @@
 				0D05D6551C484B7D00D8A7C2 /* productDescription.html in Resources */,
 				4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */,
 				455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */,
+				45B8233F1C56C9260034DA98 /* TableViewCellTextField.xib in Resources */,
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
 				45A4D8321C08CD200000309C /* news.css in Resources */,
 				0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */,
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
+				45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,
 				4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */,
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
+				45B8233D1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib in Resources */,
 				4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

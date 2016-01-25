@@ -6,14 +6,6 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-enum UserAttribute: String {
-    case Username   = "username"
-    case Gender     = "gender"
-    case Matricule  = "matricule"
-    case RoleCode   = "roleCode"
-    case Region     = "region"
-}
-
 class UserManager {
     
     static let shared = UserManager()
@@ -36,9 +28,17 @@ class UserManager {
                 if user == nil {
                     user = User.MR_createEntityInContext(localContext)
                 }
-                if (user?.entity.attributesByName[key] != nil) {
+                if let attDesc = user?.entity.attributesByName[key] {
                     if let user = user {
-                        user.setValue(newValue, forKey: key)
+                        if !(newValue is NSNull) {
+                            user.setValue(newValue, forKey: key)
+                        } else {
+                            if attDesc.attributeType == .StringAttributeType {
+                                user.setValue("", forKey: key)
+                            } else if attDesc.attributeType == .Integer32AttributeType {
+                                user.setValue(0, forKey: key)
+                            }
+                        }
                     }
                 }
             }
@@ -132,6 +132,36 @@ extension UserManager {
     }
     
     func userName() -> String? {
-        return self.isLoggedIn ? (self[UserAttribute.Username.rawValue] as? String ?? "") : nil
+        if let value = self["username"] as? String {
+            if value != "" {
+                return value
+            }
+        }
+        if self.isLoggedIn {
+            return nil
+        } else {
+            return NSLocalizedString("user_vc_login")
+        }
+    }
+    
+    func region() -> String? {
+        if let value = self["region"] as? String {
+            if value != "" {
+                return value
+            }
+        }
+        return NSLocalizedString("user_info_region_unknown")
+        
+    }
+    
+    func gender() -> String? {
+        if let gender = self["gender"] as? NSNumber {
+            if gender == 2 {
+                return NSLocalizedString("user_info_gender_male")
+            } else if gender == 3 {
+                return NSLocalizedString("user_info_gender_female")
+            }
+        }
+        return NSLocalizedString("user_info_gender_secret")
     }
 }

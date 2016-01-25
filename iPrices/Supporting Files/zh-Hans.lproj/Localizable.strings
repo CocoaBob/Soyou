@@ -56,7 +56,8 @@
 /* Profile View Controller */
 "profile_vc_title"="个人信息";
 "profile_vc_cell_account_username"="用户名";
-"profile_vc_cell_account_email"="电子邮箱";
+"profile_vc_cell_account_email"="邮箱地址";
+"profile_vc_cell_account_email_change"="修改";
 "profile_vc_cell_basics_gender"="性别";
 "profile_vc_cell_basics_region"="地区";
 "profile_vc_cell_logout"="退出登录";
@@ -74,7 +75,7 @@
 
 /* Settings View Controller */
 "settings_vc_title"="设置";
-"settings_vc_cell_clean_cache"="清除缓存";
+"settings_vc_cell_clean_cache"="清空缓存";
 "settings_vc_cell_about"="关于我们";
 "settings_vc_cell_feedback"="给我们一些建议吧";
 
@@ -111,6 +112,13 @@
 "product_unavailable"="暂无";
 "product_translation"="翻译";
 "product_back"="恢复";
+
+/* User Info */
+"user_info_username_empty"="空白";
+"user_info_region_unknown"="未知";
+"user_info_gender_secret"="保密";
+"user_info_gender_male"="男";
+"user_info_gender_female"="女";
 
 /* Currency Names */
 "currency_name_cny"="人民币";

@@ -6,22 +6,27 @@
 //  Copyright © 2016 iPrices. All rights reserved.
 //
 
-enum SectionType: Int {
-    case Favorites
-    case Settings
-}
-
 enum CellType: String {
     case CenterTitle
     case IconTitle
+    case LeftTitle
+    case LeftTitleRightDetail
+    case TextField
+}
+
+struct Text {
+    var text: String?
+    var color: UIColor?
 }
 
 struct Row {
+    var type: CellType
     var image: UIImage?
-    var title: String?
-    var titleColor: UIColor?
-    var cell: CellType
+    var title: Text?
+    var subTitle: Text?
     var callback: Selector?
+    var accessoryType: UITableViewCellAccessoryType
+    var separatorInset: UIEdgeInsets?
 }
 
 struct Section {
@@ -52,7 +57,10 @@ class SimpleTableViewController: UIViewController {
         // Register custom cells
         self.tableView.registerNib(UINib(nibName: "TableViewCellCenterTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "CenterTitle")
         self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitle")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitle")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitleRightDetail", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitleRightDetail")
         self.tableView.registerNib(UINib(nibName: "TableViewCellSectionHeader", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TableViewCellSectionHeader")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellTextField", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TableViewCellTextField")
     }
 }
 
@@ -70,22 +78,49 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = sections[indexPath.section].rows[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(row.cell.rawValue, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(row.type.rawValue, forIndexPath: indexPath)
         
-        switch row.cell {
+        switch row.type {
         case .CenterTitle:
             let rowCell = cell as! TableViewCellCenterTitle
-            rowCell.lblTitle.text = row.title
-            if let titleColor = row.titleColor {
-                rowCell.lblTitle.textColor = titleColor
+            rowCell.lblTitle.text = row.title?.text
+            if let color = row.title?.color {
+                rowCell.lblTitle.textColor = color
             }
         case .IconTitle:
             let rowCell = cell as! TableViewCellIconTitle
             rowCell.imgView.image = row.image
-            rowCell.lblTitle.text = row.title
-            if let titleColor = row.titleColor {
-                rowCell.lblTitle.textColor = titleColor
+            rowCell.lblTitle.text = row.title?.text
+            if let color = row.title?.color {
+                rowCell.lblTitle.textColor = color
             }
+        case .LeftTitle:
+            let rowCell = cell as! TableViewCellLeftTitle
+            rowCell.lblTitle.text = row.title?.text
+            if let color = row.title?.color {
+                rowCell.lblTitle.textColor = color
+            }
+        case .LeftTitleRightDetail:
+            let rowCell = cell as! TableViewCellLeftTitleRightDetail
+            rowCell.lblTitle.text = row.title?.text
+            if let color = row.title?.color {
+                rowCell.lblTitle.textColor = color
+            }
+            rowCell.lblSubTitle.text = row.subTitle?.text
+            if let color = row.subTitle?.color {
+                rowCell.lblSubTitle.textColor = color
+            }
+        case .TextField:
+            let rowCell = cell as! TableViewCellTextField
+            rowCell.tfTitle.text = row.title?.text
+            if let color = row.title?.color {
+                rowCell.tfTitle.textColor = color
+            }
+        }
+        
+        cell.accessoryType = row.accessoryType
+        if let separatorInset = row.separatorInset {
+            cell.separatorInset = separatorInset
         }
         
         return cell

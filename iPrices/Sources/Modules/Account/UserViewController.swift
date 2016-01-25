@@ -70,16 +70,20 @@ extension UserViewController {
             Section(
                 title: NSLocalizedString("user_vc_cell_favs"),
                 rows: [
-                    Row(image: UIImage(named: "img_heart_shadow_selected")!,
-                        title: NSLocalizedString("user_vc_cell_favs_news"),
-                        titleColor: nil,
-                        cell: .IconTitle,
-                        callback: "showNewsFavorites"),
-                    Row(image: UIImage(named: "img_heart_shadow_selected")!,
-                        title: NSLocalizedString("user_vc_cell_favs_products"),
-                        titleColor: nil,
-                        cell: .IconTitle,
-                        callback: "showProductsFavorites")
+                    Row(type: .LeftTitle,
+                        image: nil,
+                        title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), color: nil),
+                        subTitle: Text(text: nil, color: nil),
+                        callback: "showNewsFavorites",
+                        accessoryType: .DisclosureIndicator,
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                    Row(type: .LeftTitle,
+                        image: nil,
+                        title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), color: nil),
+                        subTitle: Text(text: nil, color: nil),
+                        callback: "showProductsFavorites",
+                        accessoryType: .DisclosureIndicator,
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0))
                 ]
             )
         ]
@@ -120,7 +124,7 @@ extension UserViewController {
     
     func updateUserInfo() {
         self.imgViewAvatar.image = UserManager.shared.avatarImage()
-        self.lblUsername.text = UserManager.shared.userName() ?? NSLocalizedString("user_vc_login")
+        self.lblUsername.text = UserManager.shared.userName()
     }
     
     func avatarAction() {

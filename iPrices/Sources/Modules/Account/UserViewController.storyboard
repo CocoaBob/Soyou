@@ -96,10 +96,10 @@
                             <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                         </imageView>
                         <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_avatar_neutral" translatesAutoresizingMaskIntoConstraints="NO" id="CyA-3f-zIP" userLabel="avatar">
-                            <rect key="frame" x="260" y="80" width="80" height="80"/>
+                            <rect key="frame" x="258" y="78" width="84" height="84"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="80" id="5Ce-f9-wnB"/>
-                                <constraint firstAttribute="height" constant="80" id="pai-le-fEj"/>
+                                <constraint firstAttribute="width" constant="84" id="5Ce-f9-wnB"/>
+                                <constraint firstAttribute="height" constant="84" id="pai-le-fEj"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -108,7 +108,7 @@
                             </userDefinedRuntimeAttributes>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaK-Gp-xgc">
-                            <rect key="frame" x="259" y="176" width="83" height="18"/>
+                            <rect key="frame" x="259" y="178" width="83" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -956,7 +956,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="img_avatar_neutral" width="80" height="80"/>
+        <image name="img_avatar_neutral" width="84" height="84"/>
         <image name="img_bg_login" width="768" height="256"/>
         <image name="img_bg_tile_dark_gray_translucent" width="1" height="1"/>
         <image name="img_bg_tile_gray_translucent" width="1" height="1"/>
