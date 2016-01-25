@@ -17,7 +17,7 @@ public struct Cons {
         static let shareBaseURL                         = "http://baodating-contents.woniu.io:8090/#"
         
         // Count of News to load for each request
-        static let reqCnt                               = 2
+        static let reqCnt                               = 5
         
         static let reqAPIKey                            = "48548598-f079-4c57-bb39-d9ca8344abd7"
         static let reqAuthorizationKey                  = "reqAuthorizationKey"

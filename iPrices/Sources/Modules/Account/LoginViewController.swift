@@ -170,9 +170,10 @@ extension LoginViewController {
             DataManager.shared.login(strEmail, strPassword, completion: { (error: NSError?) -> () in
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     MBProgressHUD.hideLoader(self.view)
-                    self.dismissSelf()
                     if let error = error {
                         self.showErrorAlert(error)
+                    } else {
+                        self.dismissSelf()
                     }
                 })
             })
