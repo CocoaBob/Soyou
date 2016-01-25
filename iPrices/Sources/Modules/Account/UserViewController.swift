@@ -24,7 +24,7 @@ class UserViewController: SimpleTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         // Hide navigation bar before calculating inset
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
@@ -66,7 +66,7 @@ class UserViewController: SimpleTableViewController {
 extension UserViewController {
     
     override func rebuildTable() {
-        sections = [
+        self.sections = [
             Section(
                 title: NSLocalizedString("user_vc_cell_favs"),
                 rows: [

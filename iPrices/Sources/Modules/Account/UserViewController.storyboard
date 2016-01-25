@@ -159,7 +159,9 @@
                             <constraint firstItem="saW-re-b72" firstAttribute="top" secondItem="tWN-VI-e2A" secondAttribute="top" id="lx8-uS-1PN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="azY-WG-9JG"/>
+                    <navigationItem key="navigationItem" id="azY-WG-9JG">
+                        <barButtonItem key="backBarButtonItem" title=" " id="aok-Ys-8HR"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="saW-re-b72" id="YAo-A7-3ez"/>
                     </connections>
@@ -198,7 +200,9 @@
                             <constraint firstItem="Jva-HD-Hhh" firstAttribute="top" secondItem="MSS-FB-gLu" secondAttribute="top" id="d6a-Pu-Bif"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="50w-bd-IpY"/>
+                    <navigationItem key="navigationItem" id="50w-bd-IpY">
+                        <barButtonItem key="backBarButtonItem" title=" " id="dFR-Jv-XTt"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="Jva-HD-Hhh" id="1de-2d-SaI"/>
                     </connections>

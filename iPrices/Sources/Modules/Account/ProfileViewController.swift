@@ -22,9 +22,6 @@ class ProfileViewController: SimpleTableViewController {
         
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
-        
-        // Background Color
-        self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
     }
 }
 
@@ -32,7 +29,7 @@ class ProfileViewController: SimpleTableViewController {
 extension ProfileViewController {
     
     override func rebuildTable() {
-        sections = [
+        self.sections = [
             Section(
                 title: nil,
                 rows: [
@@ -96,7 +93,22 @@ extension ProfileViewController {
     }
 
     func changeUsername() {
-        
+        let editViewController = SimpleTableViewController()
+        editViewController.sections = [
+            Section(
+                title: nil,
+                rows: [
+                    Row(type: .TextField,
+                        image: nil,
+                        title: Text(text: UserManager.shared.userName(), color: nil),
+                        subTitle: nil,
+                        callback: nil,
+                        accessoryType: .None,
+                        separatorInset: nil)
+                ]
+            )
+        ]
+        self.navigationController?.pushViewController(editViewController, animated: true)
     }
     
     func changeEmail() {

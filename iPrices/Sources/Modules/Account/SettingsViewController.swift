@@ -32,7 +32,7 @@ class SettingsViewController: SimpleTableViewController {
 extension SettingsViewController {
     
     override func rebuildTable() {
-        sections = [
+        self.sections = [
             Section(
                 title: nil,
                 rows: [

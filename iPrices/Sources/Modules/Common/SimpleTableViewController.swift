@@ -34,9 +34,16 @@ struct Section {
     var rows: [Row]
 }
 
+//protocol SimpleTableViewEditDelegate {
+//    
+//    func simpleTableView(tableView: UITableView, didChangeValue value: AnyObject)
+//}
+
 class SimpleTableViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    
+//    var delegate: SimpleTableViewEditDelegate?
     
     var sections = [Section]()
     
@@ -44,15 +51,37 @@ class SimpleTableViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    convenience init() {
+        self.init(nibName:nil, bundle:nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // In case created programmatically
+        if self.tableView == nil {
+            self.tableView = UITableView(frame: self.view.bounds, style: .Grouped)
+            self.tableView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+            self.tableView.delegate = self
+            self.tableView.dataSource = self
+            self.view.addSubview(self.tableView)
+        }
         
         // Setup table
         self.tableView.sectionHeaderHeight = 32;
         self.tableView.sectionFooterHeight = 0;
         
+        // Background Color
+        self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        
         // Setup table data
-        self.rebuildTable()
+        if sections.count == 0 {
+            self.rebuildTable()
+        }
         
         // Register custom cells
         self.tableView.registerNib(UINib(nibName: "TableViewCellCenterTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "CenterTitle")
@@ -60,7 +89,7 @@ class SimpleTableViewController: UIViewController {
         self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitle")
         self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitleRightDetail", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitleRightDetail")
         self.tableView.registerNib(UINib(nibName: "TableViewCellSectionHeader", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TableViewCellSectionHeader")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellTextField", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TableViewCellTextField")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellTextField", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TextField")
     }
 }
 
