@@ -23,6 +23,18 @@ class DataManager {
         return responseObject["data"]
     }
     
+    class func showRequestFailedAlert(error: NSError?) {
+        let responseObject = AFNetworkingGetResponseObjectFromError(error)
+        DLog(responseObject)
+        // Show error
+        if let responseObject = responseObject as? Dictionary<String, AnyObject>,
+            let data = responseObject["data"] as? [String],
+            let message = data.first
+        {
+            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message))
+        }
+    }
+    
     //////////////////////////////////////
     // MARK: Currency
     //////////////////////////////////////
@@ -106,6 +118,37 @@ class DataManager {
                     // Complete
                     if let completion = completion { completion(nil) }
                 }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+                // Complete
+                if let completion = completion { completion(error) }
+            }
+        )
+    }
+    
+    
+    //////////////////////////////////////
+    // MARK: User
+    //////////////////////////////////////
+    
+    func modifyEmail(email: String, completion: ErrorClosure?) {
+        RequestManager.shared.modifyEmail(email,
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion { completion(nil) }
+            },
+            { (error: NSError?) -> () in
+                self.handleError(error)
+                // Complete
+                if let completion = completion { completion(error) }
+            }
+        )
+    }
+    
+    func modifyUserInfo(field:String, _ value:String, completion: ErrorClosure?) {
+        RequestManager.shared.modifyUserInfo(field, value,
+            { (responseObject: AnyObject?) -> () in
+                if let completion = completion { completion(nil) }
             },
             { (error: NSError?) -> () in
                 self.handleError(error)

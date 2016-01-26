@@ -40,16 +40,20 @@ extension SettingsViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_about"), color: nil),
                         subTitle: Text(text: nil, color: nil),
-                        callback: "showAbout",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.showAbout()
+                    }),
                     Row(type: .LeftTitle,
                         image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_feedback"), color: nil),
                         subTitle: Text(text: nil, color: nil),
-                        callback: "sendFeedback",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0))
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.sendFeedback()
+                    })
                 ]
             ),
             Section(
@@ -59,9 +63,11 @@ extension SettingsViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_clean_cache"), color: nil),
                         subTitle: Text(text: nil, color: nil),
-                        callback: "cleanCache",
                         accessoryType: .None,
-                        separatorInset: nil)
+                        separatorInset: nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.cleanCache()
+                    })
                 ]
             )
         ]

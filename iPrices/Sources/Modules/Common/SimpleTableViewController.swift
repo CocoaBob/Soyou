@@ -24,9 +24,9 @@ struct Row {
     var image: UIImage?
     var title: Text?
     var subTitle: Text?
-    var callback: Selector?
     var accessoryType: UITableViewCellAccessoryType
     var separatorInset: UIEdgeInsets?
+    var didSelect: ((UITableView, NSIndexPath)->())?
 }
 
 struct Section {
@@ -34,18 +34,14 @@ struct Section {
     var rows: [Row]
 }
 
-//protocol SimpleTableViewEditDelegate {
-//    
-//    func simpleTableView(tableView: UITableView, didChangeValue value: AnyObject)
-//}
-
 class SimpleTableViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-//    var delegate: SimpleTableViewEditDelegate?
-    
     var sections = [Section]()
+    var editedText: String?
+    var selectedRow: NSIndexPath?
+    var completion: (() -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -145,6 +141,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             if let color = row.title?.color {
                 rowCell.tfTitle.textColor = color
             }
+            rowCell.tfTitle.addTarget(self, action: "textFieldDidEdit:", forControlEvents: UIControlEvents.EditingChanged)
         }
         
         cell.accessoryType = row.accessoryType
@@ -174,10 +171,25 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let row = sections[indexPath.section].rows[indexPath.row]
+        self.selectedRow = indexPath
         
-        if let callback = row.callback {
-            self.performSelector(callback)
+        let row = sections[indexPath.section].rows[indexPath.row]
+        if let didSelectClosure = row.didSelect {
+            didSelectClosure(tableView, indexPath)
+        }
+    }
+}
+
+// MARK: Actions
+extension SimpleTableViewController {
+    
+    func textFieldDidEdit(textField: UITextField) {
+        self.editedText = textField.text
+    }
+    
+    func doneAction() {
+        if let completion = self.completion {
+            completion()
         }
     }
 }

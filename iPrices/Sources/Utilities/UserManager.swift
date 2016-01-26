@@ -132,16 +132,20 @@ extension UserManager {
     }
     
     func userName() -> String? {
-        if let value = self["username"] as? String {
-            if value != "" {
-                return value
-            }
-        }
         if self.isLoggedIn {
+            if let value = self["username"] as? String {
+                if value != "" {
+                    return value
+                }
+            }
             return nil
         } else {
             return NSLocalizedString("user_vc_login")
         }
+    }
+    
+    func setUserName(newValue: String) {
+        self["username"] = newValue
     }
     
     func region() -> String? {
@@ -154,6 +158,10 @@ extension UserManager {
         
     }
     
+    func setRegion(newValue: String) {
+        self["region"] = newValue
+    }
+    
     func gender() -> String? {
         if let gender = self["gender"] as? NSNumber {
             if gender == 2 {
@@ -163,5 +171,9 @@ extension UserManager {
             }
         }
         return NSLocalizedString("user_info_gender_secret")
+    }
+    
+    func setGender(newValue: String) {
+        self["gender"] = newValue
     }
 }

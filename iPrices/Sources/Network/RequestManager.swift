@@ -177,4 +177,15 @@ class RequestManager {
         }
     }
     
+    //////////////////////////////////////
+    // MARK: Products
+    //////////////////////////////////////
+    
+    func modifyEmail(email:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/email", "UserEmail", ["email": email], onSuccess, onFailure)
+    }
+    
+    func modifyUserInfo(field:String, _ value:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/info", "UserInfo", ["field": field, "value": value], onSuccess, onFailure)
+    }
 }

@@ -23,6 +23,14 @@ class ProfileViewController: SimpleTableViewController {
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Reload table in case UserInfo is updated
+        rebuildTable()
+        self.tableView.reloadData()
+    }
 }
 
 // MARK: Build hierarchy
@@ -37,16 +45,20 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_username"), color: nil),
                         subTitle: Text(text: UserManager.shared.userName() ?? NSLocalizedString("user_info_username_empty"), color: nil),
-                        callback: "changeUsername",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeUsername()
+                    }),
                     Row(type: .LeftTitleRightDetail,
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_email"), color: nil),
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change"), color: nil),
-                        callback: "changeEmail",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0))
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeEmail()
+                    })
                 ]
             ),
             Section(
@@ -56,16 +68,20 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_region"), color: nil),
                         subTitle: Text(text: UserManager.shared.region(), color: nil),
-                        callback: "changeRegion",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeRegion()
+                    }),
                     Row(type: .LeftTitleRightDetail,
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_gender"), color: nil),
                         subTitle: Text(text: UserManager.shared.gender(), color: nil),
-                        callback: "changeGender",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0))
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeGender()
+                    })
                 ]
             ),
             Section(
@@ -75,9 +91,11 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_logout"), color: UIColor.redColor()),
                         subTitle: Text(text: nil, color: nil),
-                        callback: "logout",
                         accessoryType:.None,
-                        separatorInset:nil)
+                        separatorInset:nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.logout()
+                    })
                 ]
             )
         ]
@@ -102,12 +120,33 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: UserManager.shared.userName(), color: nil),
                         subTitle: nil,
-                        callback: nil,
                         accessoryType: .None,
-                        separatorInset: nil)
+                        separatorInset: nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+
+                    })
                 ]
             )
         ]
+        editViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: editViewController, action: "doneAction")
+        editViewController.completion = { () -> () in
+            if let editedText = editViewController.editedText {
+                MBProgressHUD.showLoader(nil)
+                DataManager.shared.modifyUserInfo("username", editedText, completion: { (error: NSError?) -> () in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        MBProgressHUD.hideLoader(nil)
+                        if let error = error {
+                            DataManager.showRequestFailedAlert(error)
+                        } else {
+                            UserManager.shared.setUserName(editedText)
+                            editViewController.navigationController?.popViewControllerAnimated(true)
+                        }
+                    })
+                })
+            } else {
+                editViewController.navigationController?.popViewControllerAnimated(true)
+            }
+        }
         self.navigationController?.pushViewController(editViewController, animated: true)
     }
     

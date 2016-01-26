@@ -158,18 +158,6 @@ extension LoginViewController {
     @IBAction func textFieldDidChange(textField: UITextField?) {
         validateActionButton()
     }
-    
-    func showErrorAlert(error: NSError?) {
-        let responseObject = AFNetworkingGetResponseObjectFromError(error)
-        DLog(responseObject)
-        // Show error
-        if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-           let data = responseObject["data"] as? [String],
-           let message = data.first
-        {
-            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message))
-        }
-    }
 }
 
 // MARK: Login
@@ -186,7 +174,7 @@ extension LoginViewController {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     MBProgressHUD.hideLoader(self.view)
                     if let error = error {
-                        self.showErrorAlert(error)
+                        DataManager.showRequestFailedAlert(error)
                     } else {
                         self.dismissSelf()
                     }
@@ -210,7 +198,7 @@ extension LoginViewController {
             DataManager.shared.register(strEmail, strPassword, completion: { (error: NSError?) -> () in
                 MBProgressHUD.hideLoader(self.view)
                 if let error = error {
-                    self.showErrorAlert(error)
+                    DataManager.showRequestFailedAlert(error)
                 } else {
                     // Show alert
                     let alertView = SCLAlertView()
@@ -239,7 +227,7 @@ extension LoginViewController {
             DataManager.shared.requestVerifyCode(strEmail, completion: { (error: NSError?) -> () in
                 MBProgressHUD.hideLoader(self.view)
                 if let error = error {
-                    self.showErrorAlert(error)
+                    DataManager.showRequestFailedAlert(error)
                 } else {
                     let alertView = SCLAlertView()
                     alertView.addButton(NSLocalizedString("login_vc_forget_password_alert_button")) { () -> Void in
@@ -270,7 +258,7 @@ extension LoginViewController {
             DataManager.shared.resetPassword(strVerificationCode, strPassword, completion: { (error: NSError?) -> () in
                 MBProgressHUD.hideLoader(self.view)
                 if let error = error {
-                    self.showErrorAlert(error)
+                    DataManager.showRequestFailedAlert(error)
                 } else {
                     self.dismissSelf()
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in

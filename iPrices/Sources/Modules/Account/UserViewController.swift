@@ -74,16 +74,20 @@ extension UserViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), color: nil),
                         subTitle: Text(text: nil, color: nil),
-                        callback: "showNewsFavorites",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.showNewsFavorites()
+                    }),
                     Row(type: .LeftTitle,
                         image: nil,
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), color: nil),
                         subTitle: Text(text: nil, color: nil),
-                        callback: "showProductsFavorites",
                         accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0))
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.showProductsFavorites()
+                    })
                 ]
             )
         ]
