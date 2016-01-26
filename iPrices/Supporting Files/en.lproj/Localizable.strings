@@ -62,8 +62,8 @@
 "profile_vc_cell_basics_region"="Region";
 "profile_vc_cell_logout"="Logout";
 "profile_vc_modify_title_prefix"="Modify ";
-"profile_vc_cell_new_email_placeholder"="New Email address";
-"profile_vc_cell_confirm_new_email_placeholder"="Confirm the new Email address";
+"profile_vc_cell_new_email_placeholder"="Your Email address";
+"profile_vc_cell_confirm_new_email_placeholder"="Confirm";
 "profile_vc_change_email_alert_message"="Please check your Email to activate your new Email address.";
 
 /* Login View Controller */

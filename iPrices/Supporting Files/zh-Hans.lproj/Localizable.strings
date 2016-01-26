@@ -62,8 +62,8 @@
 "profile_vc_cell_basics_region"="地区";
 "profile_vc_cell_logout"="退出登录";
 "profile_vc_modify_title_prefix"="修改";
-"profile_vc_cell_new_email_placeholder"="新的邮箱地址";
-"profile_vc_cell_confirm_new_email_placeholder"="请再次输入新的邮箱地址";
+"profile_vc_cell_new_email_placeholder"="您的邮箱地址";
+"profile_vc_cell_confirm_new_email_placeholder"="请再次输入您的邮箱地址";
 "profile_vc_change_email_alert_message"="请查收您的邮箱以激活新地址。";
 
 /* Login View Controller */
