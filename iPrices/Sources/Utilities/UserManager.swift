@@ -131,49 +131,52 @@ extension UserManager {
         return UIImage(named: "img_avatar_neutral")!
     }
     
-    func userName() -> String? {
-        if self.isLoggedIn {
-            if let value = self["username"] as? String {
-                if value != "" {
-                    return value
+    var username: String? {
+        set {
+            self["username"] = newValue
+        }
+        get {
+            if self.isLoggedIn {
+                if let value = self["username"] as? String {
+                    if value != "" {
+                        return value
+                    }
                 }
+                return nil
+            } else {
+                return NSLocalizedString("user_vc_login")
             }
-            return nil
-        } else {
-            return NSLocalizedString("user_vc_login")
         }
     }
     
-    func setUserName(newValue: String) {
-        self["username"] = newValue
-    }
-    
-    func region() -> String? {
+    var region: String? {
+        set {
+        self["region"] = newValue
+        }
+        get {
         if let value = self["region"] as? String {
-            if value != "" {
-                return value
-            }
+        if value != "" {
+        return value
+        }
         }
         return NSLocalizedString("user_info_region_unknown")
-        
-    }
-    
-    func setRegion(newValue: String) {
-        self["region"] = newValue
-    }
-    
-    func gender() -> String? {
-        if let gender = self["gender"] as? NSNumber {
-            if gender == 2 {
-                return NSLocalizedString("user_info_gender_male")
-            } else if gender == 3 {
-                return NSLocalizedString("user_info_gender_female")
-            }
         }
-        return NSLocalizedString("user_info_gender_secret")
     }
     
-    func setGender(newValue: String) {
-        self["gender"] = newValue
+    
+    var gender: String? {
+        set {
+            self["gender"] = newValue
+        }
+        get {
+            if let gender = self["gender"] as? NSNumber {
+                if gender == 2 {
+                    return NSLocalizedString("user_info_gender_male")
+                } else if gender == 3 {
+                    return NSLocalizedString("user_info_gender_female")
+                }
+            }
+            return NSLocalizedString("user_info_gender_secret")
+        }
     }
 }

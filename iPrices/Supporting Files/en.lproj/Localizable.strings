@@ -61,6 +61,10 @@
 "profile_vc_cell_basics_gender"="Gender";
 "profile_vc_cell_basics_region"="Region";
 "profile_vc_cell_logout"="Logout";
+"profile_vc_modify_title_prefix"="Modify ";
+"profile_vc_cell_new_email_placeholder"="New Email address";
+"profile_vc_cell_confirm_new_email_placeholder"="Confirm the new Email address";
+"profile_vc_change_email_alert_message"="Please check your Email to activate your new Email address.";
 
 /* Login View Controller */
 "login_vc_login_title"="Login";
@@ -83,6 +87,7 @@
 "invalid_activation_code"="Invalid activation code.";
 "invalid_verification_code"="Invalide verification code.";
 "server_error"="Server error.";
+"email_unavailable"="Email address unavailable.";
 "email_password_cannot_be_empty"="Emaill/Password can not be empty.";
 "email_format_incorrect"="Incorrect email format.";
 "verification_password_cannot_be_empty"="Verification password cannot be empty.";

@@ -38,8 +38,8 @@ extension SettingsViewController {
                 rows: [
                     Row(type: .LeftTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_about"), color: nil),
-                        subTitle: Text(text: nil, color: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_about"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -47,8 +47,8 @@ extension SettingsViewController {
                     }),
                     Row(type: .LeftTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_feedback"), color: nil),
-                        subTitle: Text(text: nil, color: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_feedback"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -61,8 +61,8 @@ extension SettingsViewController {
                 rows: [
                     Row(type: .CenterTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_clean_cache"), color: nil),
-                        subTitle: Text(text: nil, color: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_clean_cache"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         accessoryType: .None,
                         separatorInset: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in

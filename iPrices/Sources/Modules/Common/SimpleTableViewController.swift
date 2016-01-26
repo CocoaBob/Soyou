@@ -16,7 +16,10 @@ enum CellType: String {
 
 struct Text {
     var text: String?
+    var placeholder: String?
     var color: UIColor?
+    var keyboardType: UIKeyboardType?
+    var returnKeyType: UIReturnKeyType?
 }
 
 struct Row {
@@ -137,7 +140,15 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             }
         case .TextField:
             let rowCell = cell as! TableViewCellTextField
+            rowCell.tfTitle.delegate = self
             rowCell.tfTitle.text = row.title?.text
+            rowCell.tfTitle.placeholder = row.title?.placeholder
+            if let keyboardType = row.title?.keyboardType {
+                rowCell.tfTitle.keyboardType = keyboardType
+            }
+            if let returnKeyType = row.title?.returnKeyType {
+                rowCell.tfTitle.returnKeyType = returnKeyType
+            }
             if let color = row.title?.color {
                 rowCell.tfTitle.textColor = color
             }
@@ -180,11 +191,46 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
     }
 }
 
+// MARK: UITextFieldDelegate
+extension SimpleTableViewController: UITextFieldDelegate {
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        let position = textField.convertPoint(CGPointZero, toView: self.tableView)
+        guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return true }
+        
+        var nextTextFieldCell: TableViewCellTextField?
+        searchingLoop: for idxSection in indexPath.section..<self.sections.count {
+            for idxRow in indexPath.row..<self.sections[idxSection].rows.count {
+                let row = sections[idxSection].rows[idxRow]
+                if row.type == .TextField {
+                    if let tableViewCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: idxRow, inSection: idxSection)) as? TableViewCellTextField {
+                        if tableViewCell.tfTitle != textField {
+                            nextTextFieldCell = tableViewCell
+                            break searchingLoop
+                        }
+                    }
+                }
+            }
+        }
+        if let nextTextFieldCell = nextTextFieldCell {
+            nextTextFieldCell.tfTitle.becomeFirstResponder()
+        } else {
+            self.doneAction()
+        }
+        
+        return true
+    }
+}
+
 // MARK: Actions
 extension SimpleTableViewController {
     
     func textFieldDidEdit(textField: UITextField) {
         self.editedText = textField.text
+        let position = textField.convertPoint(CGPointZero, toView: self.tableView)
+        guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
+        let row = sections[indexPath.section].rows[indexPath.row]
+        textField.textColor = row.title?.color
     }
     
     func doneAction() {

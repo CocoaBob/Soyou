@@ -72,8 +72,8 @@ extension UserViewController {
                 rows: [
                     Row(type: .LeftTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), color: nil),
-                        subTitle: Text(text: nil, color: nil),
+                        title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -81,8 +81,8 @@ extension UserViewController {
                     }),
                     Row(type: .LeftTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), color: nil),
-                        subTitle: Text(text: nil, color: nil),
+                        title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -110,15 +110,23 @@ extension UserViewController {
 extension UserViewController {
     
     func showNewsFavorites() {
-        let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
-        favoritesViewController.type = .News
-        self.navigationController?.pushViewController(favoritesViewController, animated: true)
+        if UserManager.shared.isLoggedIn {
+            let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+            favoritesViewController.type = .News
+            self.navigationController?.pushViewController(favoritesViewController, animated: true)
+        } else {
+            avatarAction()
+        }
     }
     
     func showProductsFavorites() {
-        let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
-        favoritesViewController.type = .Products
-        self.navigationController?.pushViewController(favoritesViewController, animated: true)
+        if UserManager.shared.isLoggedIn {
+            let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+            favoritesViewController.type = .Products
+            self.navigationController?.pushViewController(favoritesViewController, animated: true)
+        } else {
+            avatarAction()
+        }
     }
 }
 
@@ -128,7 +136,7 @@ extension UserViewController {
     
     func updateUserInfo() {
         self.imgViewAvatar.image = UserManager.shared.avatarImage()
-        self.lblUsername.text = UserManager.shared.userName()
+        self.lblUsername.text = UserManager.shared.username
     }
     
     func avatarAction() {

@@ -61,6 +61,10 @@
 "profile_vc_cell_basics_gender"="性别";
 "profile_vc_cell_basics_region"="地区";
 "profile_vc_cell_logout"="退出登录";
+"profile_vc_modify_title_prefix"="修改";
+"profile_vc_cell_new_email_placeholder"="新的邮箱地址";
+"profile_vc_cell_confirm_new_email_placeholder"="请再次输入新的邮箱地址";
+"profile_vc_change_email_alert_message"="请查收您的邮箱以激活新地址。";
 
 /* Login View Controller */
 "login_vc_login_title"="登录";
@@ -83,6 +87,7 @@
 "invalid_activation_code"="无效激活码。";
 "invalid_verification_code"="无效验证码。";
 "server_error"="服务器错误。";
+"email_unavailable"="邮箱地址不可用。";
 "email_password_cannot_be_empty"="邮箱、密码不能为空。";
 "email_format_incorrect"="错误的邮箱地址格式。";
 "verification_password_cannot_be_empty"="第二次密码不能为空。";

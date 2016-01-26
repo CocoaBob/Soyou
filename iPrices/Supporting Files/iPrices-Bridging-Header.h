@@ -30,4 +30,5 @@
 @import SDWebImage;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
+@import UIView_Shake;
 @import ZoomInteractiveTransition;

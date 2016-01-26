@@ -26,6 +26,7 @@ pod "SCLAlertView"
 pod "SDWebImage"
 pod "UICKeyChainStore"
 pod "UIColor_Hex_Swift"
+pod "UIView+Shake"
 pod "ZoomInteractiveTransition", :git => 'git://github.com/DenHeadless/ZoomInteractiveTransition', :commit => '71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd'
 
 # Will be integrated in the future
