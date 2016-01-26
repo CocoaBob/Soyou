@@ -23,9 +23,9 @@ class FavoritesViewController: BaseViewController {
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         switch (type) {
         case .News:
-            return News.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsLiked == %@", NSNumber(bool: true)), sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+            return News.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == %@", NSNumber(bool: true)), sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
         case .Products:
-            return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsLiked == %@", NSNumber(bool: true)), sortedBy: "order,id", ascending: true)
+            return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == %@", NSNumber(bool: true)), sortedBy: "order,id", ascending: true)
         }
     }
     
@@ -43,6 +43,11 @@ class FavoritesViewController: BaseViewController {
         // Setup table
         self.tableView().estimatedRowHeight = 44
         self.tableView().rowHeight = UITableViewAutomaticDimension
+        self.tableView().sectionHeaderHeight = 0;
+        self.tableView().sectionFooterHeight = 0;
+        
+        // Background Color
+        self.tableView().backgroundColor = UIColor(rgba: Cons.UI.colorBG)
     }
     
     override func viewWillAppear(animated: Bool) {
