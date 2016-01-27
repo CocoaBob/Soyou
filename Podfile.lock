@@ -41,6 +41,7 @@ PODS:
   - MBProgressHUD (0.9.2)
   - MJRefresh (3.1.0)
   - MXParallaxHeader (0.4.3)
+  - NYSegmentedControl (1.0.7)
   - PageMenu (1.2.8)
   - PFCarouselView (0.7.0)
   - pop (1.0.8)
@@ -68,6 +69,7 @@ DEPENDENCIES:
   - MBProgressHUD
   - MJRefresh
   - MXParallaxHeader
+  - NYSegmentedControl
   - PageMenu (from `git://github.com/uacaps/PageMenu`, commit `9ed0c136a540ac9f2356a0cc4faddf0987d1af09`)
   - PFCarouselView (from `git://github.com/PFei-He/PFCarouselView`, commit `2fbb7a1a50ae8c096259f868ced0db0935cea1c2`)
   - RandomColorSwift
@@ -123,6 +125,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MXParallaxHeader: 96d9e7c392a26b29b97ddc34bff904a9c0baef27
+  NYSegmentedControl: 55b4f9eb652767cae9799623ec3e49e50029ef47
   PageMenu: 703e82e173f54a4626ab88fcdca7703ee52e0cbe
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57

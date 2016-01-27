@@ -44,6 +44,8 @@ class LoginViewController: UIViewController {
     @IBOutlet var tfVerificationCode: NextResponderTextField?
     @IBOutlet var btnAction: UIButton?
     
+    @IBOutlet var ctlGender: NYSegmentedControl?
+    
     // Class methods
     class func instantiate(type: LoginType) -> LoginViewController {
         switch type {

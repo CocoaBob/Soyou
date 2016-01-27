@@ -234,7 +234,9 @@ class DataManager {
                 }
                 // Request non-existing ones
                 self.requestNews(favoriteIDs, { () -> () in
-                    
+                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
+                        FavoriteNews.importDatas(data, true, nil)
+                    }
                 })
             })
             
@@ -357,9 +359,6 @@ class DataManager {
         RequestManager.shared.requestNews(ids,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
-                        News.importDatas(data, true, nil)
-                    }
                     // Complete
                     if let completion = completion { completion() }
                 }

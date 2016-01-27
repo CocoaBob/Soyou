@@ -23,6 +23,7 @@
 @import MBProgressHUD;
 @import MJRefresh;
 @import MXParallaxHeader;
+@import NYSegmentedControl;
 @import PageMenu;
 @import PFCarouselView;
 @import RandomColorSwift;

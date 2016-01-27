@@ -19,6 +19,7 @@ pod "MagicalRecord", '~> 2.3'
 pod "MBProgressHUD"
 pod "MJRefresh"
 pod "MXParallaxHeader"
+pod "NYSegmentedControl"
 pod "PageMenu", :git => 'git://github.com/uacaps/PageMenu', :commit => '9ed0c136a540ac9f2356a0cc4faddf0987d1af09'
 pod "PFCarouselView", :git => 'git://github.com/PFei-He/PFCarouselView', :commit => '2fbb7a1a50ae8c096259f868ced0db0935cea1c2'
 pod "RandomColorSwift"

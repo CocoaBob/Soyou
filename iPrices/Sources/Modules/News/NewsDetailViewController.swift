@@ -17,6 +17,8 @@ class NewsDetailViewController: UIViewController {
     var btnFav: UIButton?
     let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
+    
+    // To hide toolbar
     var lastScrollViewOffset: CGFloat = 0
     
     // Status Bar Cover
@@ -211,6 +213,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
         // Update Status Bar Cover
         self.updateStatusBarCover()
         
+        // To hide toolbar
         if (scrollView.contentOffset.y > self.lastScrollViewOffset) {
             // Only if the header+content height is obviously larger than the scrollView height
             if (scrollView.contentInset.top + scrollView.contentSize.height - scrollView.frame.height > 64) {
@@ -227,6 +230,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
         }
     }
     
+    // To hide toolbar
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if (decelerate && scrollView.contentOffset.y < self.lastScrollViewOffset) {
             self.showToolbar(true)
@@ -237,6 +241,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
         }
     }
     
+    // To hide toolbar
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.lastScrollViewOffset = scrollView.contentOffset.y
     }
