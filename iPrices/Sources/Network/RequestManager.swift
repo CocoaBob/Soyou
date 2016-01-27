@@ -85,7 +85,7 @@ class RequestManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func requestFavoriteProductsByCategory(categoryId: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestProductFavoritesByCategory(categoryId: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/category-products/\(categoryId)", "FavoriteProductsByCategory", onSuccess, onFailure)
     }
     

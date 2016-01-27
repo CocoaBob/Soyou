@@ -215,13 +215,13 @@
         <scene sceneID="LNg-R6-UBp">
             <objects>
                 <viewController storyboardIdentifier="FavoritesViewController" id="CZo-nY-ZZM" customClass="FavoritesViewController" customModule="iPrices" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="KXT-dc-Nbi">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="KXT-dc-Nbi">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FavoriteNewsTableViewCell" rowHeight="80" id="eaX-1J-jED" customClass="FavoriteNewsTableViewCell" customModule="iPrices" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="600" height="80"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" tableViewCell="eaX-1J-jED" id="Ofv-7e-403">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="79"/>
@@ -261,14 +261,13 @@
                                         <constraint firstItem="xTV-92-a7v" firstAttribute="centerY" secondItem="Ofv-7e-403" secondAttribute="centerY" id="iIj-Vi-qpA"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="imgView" destination="52E-uY-lzB" id="dvT-ku-reT"/>
                                     <outlet property="lblTitle" destination="xTV-92-a7v" id="v39-nO-eRJ"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FavoriteProductsTableViewCell" rowHeight="80" id="LlS-PJ-V8F" customClass="FavoriteProductsTableViewCell" customModule="iPrices" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="130" width="600" height="80"/>
+                                <rect key="frame" x="0.0" y="108" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LlS-PJ-V8F" id="117-qk-b0t">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="79"/>
@@ -331,7 +330,6 @@
                                         <constraint firstItem="SqS-kJ-1Ea" firstAttribute="trailing" secondItem="hhn-9F-4gO" secondAttribute="trailing" id="yKn-MZ-riU"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="imgView" destination="1gz-c1-kFm" id="fGf-sm-bK7"/>
                                     <outlet property="lblBrand" destination="hhn-9F-4gO" id="cra-h6-d91"/>

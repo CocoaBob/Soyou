@@ -45,6 +45,7 @@ class FavoritesViewController: BaseViewController {
         self.tableView().rowHeight = UITableViewAutomaticDimension
         self.tableView().sectionHeaderHeight = 0;
         self.tableView().sectionFooterHeight = 0;
+        self.tableView().tableFooterView = UIView(frame: CGRectZero)
         
         // Background Color
         self.tableView().backgroundColor = UIColor(rgba: Cons.UI.colorBG)
@@ -54,6 +55,16 @@ class FavoritesViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        // Load favorites
+        switch (type) {
+        case .News:
+            break;
+        case .Products:
+            DataManager.shared.requestProductFavorites(nil) { (data: AnyObject?) -> () in
+                self.reloadData()
+            }
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {

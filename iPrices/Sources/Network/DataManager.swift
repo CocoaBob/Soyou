@@ -216,17 +216,45 @@ class DataManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func requestFavoriteProductsByCategory(categoryId: NSNumber, _ completion: DataClosure?) {
-        RequestManager.shared.requestFavoriteProductsByCategory(categoryId,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion(responseObject?["data"])
+    func requestProductFavorites(categoryId: NSNumber?, _ completion: DataClosure?) {
+        let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                // Collect all products and favorite ids
+                var allProducts: [Product]?
+                var favoriteIDs = [NSNumber]()
+                if let categoryId = categoryId {
+                    allProducts = Product.MR_findAllWithPredicate(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryId)), inContext: localContext) as? [Product]
+                    if let data = responseObject?["data"] as? [NSDictionary] {
+                        for dict in data {
+                            favoriteIDs.append(dict["productId"] as! NSNumber)
+                        }
+                    }
+                } else {
+                    allProducts = Product.MR_findAllInContext(localContext) as? [Product]
+                    if let data = responseObject?["data"] as? [NSNumber] {
+                        favoriteIDs.appendContentsOf(data)
+                    }
                 }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
+                // Update .appIsFavorite
+                if let allProducts = allProducts {
+                    for product in allProducts {
+                        product.appIsFavorite = favoriteIDs.contains(product.id!)
+                    }
+                }
+            })
+            
+            if let completion = completion {
+                completion(responseObject?["data"])
             }
-        )
+        }
+        let errorHandlerClosure = { (error: NSError?) -> () in
+            self.handleError(error)
+        }
+        if let categoryId = categoryId {
+            RequestManager.shared.requestProductFavoritesByCategory(categoryId, responseHandlerClosure, errorHandlerClosure)
+        } else {
+            RequestManager.shared.requestProductFavorites(responseHandlerClosure, errorHandlerClosure)
+        }
     }
     
     func productFavorite(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
