@@ -10,16 +10,16 @@ import Foundation
 import CoreData
 
 
-class FavoriteNews: News {
+class FavoriteNews: BaseNews {
 
-    override class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
+    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
         var news: FavoriteNews? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
             
-            news = FavoriteNews.MR_findFirstWithPredicate(FmtPredicate("id == %@ && (appIsMore == nil || appIsMore == false)", id), inContext: context)
+            news = FavoriteNews.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
             if news == nil {
                 news = FavoriteNews.MR_createEntityInContext(context)
             }
@@ -75,7 +75,7 @@ class FavoriteNews: News {
         return news
     }
     
-    override class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
+    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {

@@ -37,13 +37,15 @@ class UserViewController: SimpleTableViewController {
         // Background Color
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
         
-        // Navigation Bar Button Items
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_heart"), style: UIBarButtonItemStyle.Plain, target: self, action: "likeApp:")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_gear"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettingsViewController:")
-        
         // Setup avatar action
-        let tapGR = UITapGestureRecognizer(target: self, action: "avatarAction")
-        self.viewUserInfo.addGestureRecognizer(tapGR)
+        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "avatarAction"))
+        self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "avatarAction"))
+        
+        // Username shadow
+        self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).CGColor
+        self.lblUsername.layer.shadowOpacity = 1
+        self.lblUsername.layer.shadowRadius = 2
+        self.lblUsername.layer.shadowOffset = CGSizeZero
     }
     
     override func viewWillAppear(animated: Bool) {

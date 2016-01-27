@@ -28,7 +28,7 @@ class NewsDetailViewController: UIViewController {
     )
     
     // Data
-    var news: News? {
+    var news: BaseNews? {
         didSet {
             self.newsTitle = self.news?.title ?? ""
             self.newsId = self.news?.id as? Int ?? -1
@@ -139,6 +139,8 @@ class NewsDetailViewController: UIViewController {
         MBProgressHUD.hideLoader(self.view)
         // Set WebView scroll view
         self.scrollView?.delegate = nil
+        // Remove the corresponding FavoriteNews if it's leaving without favorite status
+        DLog(self.navigationController?.viewControllers)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -353,7 +355,7 @@ extension NewsDetailViewController {
 extension NewsDetailViewController {
     
     // Load HTML
-    private func loadPageContent(news: News) {
+    private func loadPageContent(news: BaseNews) {
         if let webView = self.webView, newsContent = news.content, newsTitle = news.title {
             var cssContent: String?
             var htmlContent: String?
@@ -373,7 +375,7 @@ extension NewsDetailViewController {
         }
     }
     
-    private func requestNews(news: News) {
+    private func requestNews(news: BaseNews) {
         // Load HTML
         self.loadPageContent(news)
         

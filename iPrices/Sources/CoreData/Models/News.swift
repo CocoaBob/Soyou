@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class News: BaseModel {
+class News: BaseNews {
 
     class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (News?) {
         var news: News? = nil

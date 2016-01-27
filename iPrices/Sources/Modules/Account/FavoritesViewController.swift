@@ -23,7 +23,7 @@ class FavoritesViewController: BaseViewController {
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         switch (type) {
         case .News:
-            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false", ascending: false)
         case .Products:
             return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == %@", NSNumber(bool: true)), sortedBy: "order,id", ascending: true)
         }

@@ -50,6 +50,8 @@
 		4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E29B1BF90797009A6164 /* NewsViewController.swift */; };
 		4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* BaseViewControllers.swift */; };
 		4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2FB1BF938C9009A6164 /* FileManager.swift */; };
+		456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */; };
+		456B419A1C597F83001E66EB /* BaseNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41981C597F83001E66EB /* BaseNews.swift */; };
 		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundle Resource For IDMPhotoBrowser */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
 		457777831BFCB60100805D79 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777811BFCB60100805D79 /* News.swift */; };
@@ -155,6 +157,8 @@
 		4568E2F51BF92182009A6164 /* BaseViewControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewControllers.swift; sourceTree = "<group>"; };
 		4568E2F71BF922B7009A6164 /* iPrices-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPrices-Bridging-Header.h"; sourceTree = "<group>"; };
 		4568E2FB1BF938C9009A6164 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		456B41981C597F83001E66EB /* BaseNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNews.swift; sourceTree = "<group>"; };
 		4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = IDMPBLocalizations.bundle; path = ../../Pods/IDMPhotoBrowser/Classes/IDMPBLocalizations.bundle; sourceTree = "<group>"; };
 		457777801BFCB60100805D79 /* News+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "News+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		457777811BFCB60100805D79 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
@@ -379,6 +383,8 @@
 				45016E591C14F043004034BC /* BaseModel.swift */,
 				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
 				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
+				456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */,
+				456B41981C597F83001E66EB /* BaseNews.swift */,
 				45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */,
 				45D418AB1C1B935200685DFC /* Brand.swift */,
 				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
@@ -615,6 +621,7 @@
 				4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */,
 				4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */,
 				4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */,
+				456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */,
 				4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */,
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
 				45ACD5EA1C2C0F9000CF865F /* UIImage+Additions.swift in Sources */,
@@ -628,6 +635,7 @@
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */,
+				456B419A1C597F83001E66EB /* BaseNews.swift in Sources */,
 				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
