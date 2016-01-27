@@ -73,7 +73,7 @@ class RequestManager {
     //////////////////////////////////////
     
     // Add (remove) news to (from) favorite
-    func newsFavorite(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func favoriteNews(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -85,12 +85,12 @@ class RequestManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func requestProductFavoritesByCategory(categoryId: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/category-products/\(categoryId)", "FavoriteProductsByCategory", onSuccess, onFailure)
+    func favoriteProduct(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", ["operation": operation], onSuccess, onFailure)
     }
     
-    func productFavorite(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", ["operation": operation], onSuccess, onFailure)
+    func requestProductFavoritesByCategory(categoryId: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/category-products/\(categoryId)", "FavoriteProductsByCategory", onSuccess, onFailure)
     }
     
     func requestProductFavorites(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -111,11 +111,15 @@ class RequestManager {
         getAsync(path, "News", onSuccess, onFailure)
     }
     
-    func requestNews(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestNewsByID(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)", "News", onSuccess, onFailure)
     }
     
-    func requestNewsInfo(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestNews(ids: [NSNumber], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/news", "News", ["ids": ids], onSuccess, onFailure)
+    }
+    
+    func requestNewsInfo(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/extra", "News", onSuccess, onFailure)
     }
     
@@ -178,7 +182,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Products
+    // MARK: User Info
     //////////////////////////////////////
     
     func modifyEmail(email:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {

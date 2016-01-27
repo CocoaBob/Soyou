@@ -99,7 +99,7 @@ class NewsDetailViewController: UIViewController {
         self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, true, true)
         
         // Load content
-        loadNews()
+        requestNews()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -275,7 +275,7 @@ extension NewsDetailViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
-                    DataManager.shared.loadNewsInfo("\(newsID)", { (data: AnyObject?) -> () in
+                    DataManager.shared.loadNewsInfo(newsID, { (data: AnyObject?) -> () in
                         if let likeNumber = data?["likeNumber"] as? NSNumber {
                             self.likeBtnNumber = likeNumber.integerValue
                         }
@@ -363,7 +363,7 @@ extension NewsDetailViewController {
         }
     }
     
-    private func loadNews(news: News) {
+    private func requestNews(news: News) {
         // Load HTML
         self.loadPageContent(news)
         
@@ -397,7 +397,7 @@ extension NewsDetailViewController {
         }
     }
     
-    func loadNews() {
+    func requestNews() {
         var newsID: NSNumber? = nil
         var needToLoad: Bool = false
         
@@ -415,11 +415,11 @@ extension NewsDetailViewController {
         if needToLoad {
             if let newsID = newsID {
                 MBProgressHUD.showLoader(self.view)
-                DataManager.shared.loadNews("\(newsID)", { () -> () in
+                DataManager.shared.requestNewsByID(newsID, { () -> () in
                     MBProgressHUD.hideLoader(self.view)
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         if let localNews = self.news?.MR_inContext(localContext) {
-                            self.loadNews(localNews)
+                            self.requestNews(localNews)
                         }
                     })
                 })
@@ -427,7 +427,7 @@ extension NewsDetailViewController {
         } else {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 if let localNews = self.news?.MR_inContext(localContext) {
-                    self.loadNews(localNews)
+                    self.requestNews(localNews)
                 }
             })
         }
@@ -586,7 +586,7 @@ extension NewsDetailViewController {
             if let isFavorite = self.isFavorite {
                 MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                     if let localNews = self.news?.MR_inContext(localContext) {
-                        DataManager.shared.newsFavorite(localNews.id!, wasFavorite: isFavorite,
+                        DataManager.shared.favoriteNews(localNews.id!, wasFavorite: isFavorite,
                             { (data: AnyObject?) -> () in
                                 // Toggle the value of isFavorite
                                 self.isFavorite = !isFavorite

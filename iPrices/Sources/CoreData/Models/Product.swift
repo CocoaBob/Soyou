@@ -133,7 +133,7 @@ class Product: BaseModel {
             if let localProduct = self.MR_inContext(localContext) {
                 let appIsFavorite = localProduct.appIsFavorite != nil && localProduct.appIsFavorite!.boolValue
                 // Update only when response is received
-                DataManager.shared.productFavorite(localProduct.id!, isFavorite: appIsFavorite, { (data: AnyObject?) -> () in
+                DataManager.shared.favoriteProduct(localProduct.id!, isFavorite: appIsFavorite, { (data: AnyObject?) -> () in
                     // Remember if it's liked or not
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         if let localProduct = self.MR_inContext(localContext) {

@@ -84,6 +84,8 @@
 		45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D9B36A1C39AE2200D7E899 /* ProductsViewController.swift */; };
 		45D9B36D1C39B3F600D7E899 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D9B36C1C39B3F600D7E899 /* ProductViewController.swift */; };
 		45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */; };
+		45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E67EDE1C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift */; };
+		45E67EE11C58EB0500806929 /* FavoriteNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E67EDF1C58EB0500806929 /* FavoriteNews.swift */; };
 		45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */; };
 		45EE7A8A1C3A98D700CC554D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EE7A891C3A98D700CC554D /* MapKit.framework */; };
 		45EE7A8C1C3AE09D00CC554D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EE7A8B1C3AE09D00CC554D /* CoreLocation.framework */; };
@@ -188,6 +190,8 @@
 		45D9B36A1C39AE2200D7E899 /* ProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		45D9B36C1C39B3F600D7E899 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		45E67EDE1C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		45E67EDF1C58EB0500806929 /* FavoriteNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteNews.swift; sourceTree = "<group>"; };
 		45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPrices.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EE7A891C3A98D700CC554D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -373,16 +377,18 @@
 			isa = PBXGroup;
 			children = (
 				45016E591C14F043004034BC /* BaseModel.swift */,
+				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
+				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
 				45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */,
 				45D418AB1C1B935200685DFC /* Brand.swift */,
+				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
+				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
+				45E67EDE1C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift */,
+				45E67EDF1C58EB0500806929 /* FavoriteNews.swift */,
 				457777801BFCB60100805D79 /* News+CoreDataProperties.swift */,
 				457777811BFCB60100805D79 /* News.swift */,
 				0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */,
 				45016E561C14EC25004034BC /* Product.swift */,
-				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
-				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
-				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
-				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
 				454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */,
 				454ECE9A1C567AE5003A0E94 /* User.swift */,
 			);
@@ -612,6 +618,7 @@
 				4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */,
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
 				45ACD5EA1C2C0F9000CF865F /* UIImage+Additions.swift in Sources */,
+				45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
 				0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */,
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
@@ -651,6 +658,7 @@
 				45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */,
 				0D05D65B1C4EE91400D8A7C2 /* CurrencyRate.swift in Sources */,
 				454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */,
+				45E67EE11C58EB0500806929 /* FavoriteNews.swift in Sources */,
 				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 				454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */,
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,

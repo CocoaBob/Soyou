@@ -65,6 +65,9 @@ class NewsViewController: BaseViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.hideToolbar(false);
+        
+        // Load favorites
+        DataManager.shared.requestNewsFavorites(nil)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -84,7 +87,7 @@ extension NewsViewController {
     }
     
     private func loadData(relativeID: NSNumber?) {
-        DataManager.shared.loadNewsList(relativeID) { () -> () in
+        DataManager.shared.requestNewsList(relativeID) { () -> () in
             self.endRefreshing()
             self.resetMoreButtonCell()
         }

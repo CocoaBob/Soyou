@@ -23,7 +23,7 @@ class FavoritesViewController: BaseViewController {
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         switch (type) {
         case .News:
-            return News.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == %@", NSNumber(bool: true)), sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+            return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
         case .Products:
             return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == %@", NSNumber(bool: true)), sortedBy: "order,id", ascending: true)
         }
@@ -41,10 +41,6 @@ class FavoritesViewController: BaseViewController {
         super.viewDidLoad()
         
         // Setup table
-        self.tableView().estimatedRowHeight = 44
-        self.tableView().rowHeight = UITableViewAutomaticDimension
-        self.tableView().sectionHeaderHeight = 0;
-        self.tableView().sectionFooterHeight = 0;
         self.tableView().tableFooterView = UIView(frame: CGRectZero)
         
         // Background Color
@@ -59,11 +55,9 @@ class FavoritesViewController: BaseViewController {
         // Load favorites
         switch (type) {
         case .News:
-            break;
+            DataManager.shared.requestNewsFavorites(nil)
         case .Products:
-            DataManager.shared.requestProductFavorites(nil) { (data: AnyObject?) -> () in
-                self.reloadData()
-            }
+            DataManager.shared.requestProductFavorites(nil, nil)
         }
     }
     

@@ -1,5 +1,5 @@
 //
-//  News+CoreDataProperties.swift
+//  FavoriteNews+CoreDataProperties.swift
 //  iPrices
 //
 //  Created by CocoaBob on 27/01/16.
@@ -12,10 +12,9 @@
 import Foundation
 import CoreData
 
-extension News {
+extension FavoriteNews {
 
     @NSManaged var appIsLiked: NSNumber?
-    @NSManaged var appIsMore: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var author: String?
     @NSManaged var content: String?

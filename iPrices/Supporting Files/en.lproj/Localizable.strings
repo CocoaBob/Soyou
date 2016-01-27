@@ -90,7 +90,7 @@
 "email_unavailable"="Email address unavailable.";
 "email_password_cannot_be_empty"="Emaill/Password can not be empty.";
 "email_format_incorrect"="Incorrect email format.";
-"email_can_be_modified_only_once_during_one_day"="Email can only be modified once per day.";
+"email_can_be_modified_only_once_during_one_day"="Email can be modified only once within 24 hours.";
 "verification_password_cannot_be_empty"="Verification password cannot be empty.";
 "email_already_exist"="Email already exists.";
 "incorrect_email_or_password"="Incorrect email or password.";

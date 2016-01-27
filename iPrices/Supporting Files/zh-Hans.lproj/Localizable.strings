@@ -90,7 +90,7 @@
 "email_unavailable"="邮箱地址不可用。";
 "email_password_cannot_be_empty"="邮箱、密码不能为空。";
 "email_format_incorrect"="错误的邮箱地址格式。";
-"email_can_be_modified_only_once_during_one_day"="每天只能修改一次邮箱地址。";
+"email_can_be_modified_only_once_during_one_day"="邮箱地址在24小时内只能改一次。";
 "verification_password_cannot_be_empty"="第二次密码不能为空。";
 "email_already_exist"="邮箱地址已经存在。";
 "incorrect_email_or_password"="用户名或密码错误。";

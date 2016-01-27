@@ -73,7 +73,7 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                // Complete
+                // Complete, to hide ProgressHUD
                 if let completion = completion { completion(error) }
             }
         )
@@ -86,7 +86,7 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                // Complete
+                // Complete, to hide ProgressHUD
                 if let completion = completion { completion(error) }
             }
         )
@@ -99,7 +99,7 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                // Complete
+                // Complete, to hide ProgressHUD
                 if let completion = completion { completion(error) }
             }
         )
@@ -121,7 +121,7 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                // Complete
+                // Complete, to hide ProgressHUD
                 if let completion = completion { completion(error) }
             }
         )
@@ -139,7 +139,7 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                // Complete
+                // Complete, to hide ProgressHUD
                 if let completion = completion { completion(error) }
             }
         )
@@ -152,7 +152,7 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                // Complete
+                // Complete, to hide ProgressHUD
                 if let completion = completion { completion(error) }
             }
         )
@@ -198,8 +198,8 @@ class DataManager {
     // MARK: Favorites News
     //////////////////////////////////////
     
-    func newsFavorite(id: NSNumber, wasFavorite: Bool, _ completion: DataClosure?) {
-        RequestManager.shared.newsFavorite(id, operation: wasFavorite ? "-" : "+",
+    func favoriteNews(id: NSNumber, wasFavorite: Bool, _ completion: DataClosure?) {
+        RequestManager.shared.favoriteNews(id, operation: wasFavorite ? "-" : "+",
             { (responseObject: AnyObject?) -> () in
                 if let completion = completion {
                     completion(responseObject?["data"])
@@ -210,7 +210,43 @@ class DataManager {
             }
         )
     }
-
+    
+    func requestNewsFavorites(completion: DataClosure?) {
+        let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                // Collect all products and favorite ids
+                let allFavoriteNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews]
+                var favoriteIDs = [NSNumber]()
+                if let data = responseObject?["data"] as? [NSNumber] {
+                    favoriteIDs.appendContentsOf(data)
+                }
+                // Filter all existing ones, delete remotely deleted ones.
+                if let allFavoritesNews = allFavoriteNews {
+                    for favoriteNews in allFavoritesNews {
+                        if let newsID = favoriteNews.id {
+                            if let index = favoriteIDs.indexOf(newsID) {
+                                favoriteIDs.removeAtIndex(index)
+                            } else {
+                                favoriteNews.MR_deleteEntityInContext(localContext)
+                            }
+                        }
+                    }
+                }
+                // Request non-existing ones
+                self.requestNews(favoriteIDs, { () -> () in
+                    
+                })
+            })
+            
+            if let completion = completion {
+                completion(responseObject?["data"])
+            }
+        }
+        let errorHandlerClosure = { (error: NSError?) -> () in
+            self.handleError(error)
+        }
+        RequestManager.shared.requestNewsFavorites(responseHandlerClosure, errorHandlerClosure)
+    }
     
     //////////////////////////////////////
     // MARK: Favorites Products
@@ -257,16 +293,14 @@ class DataManager {
         }
     }
     
-    func productFavorite(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
-        RequestManager.shared.productFavorite(id, operation: isFavorite ? "-" : "+",
+    func favoriteProduct(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
+        RequestManager.shared.favoriteProduct(id, operation: isFavorite ? "-" : "+",
             { (responseObject: AnyObject?) -> () in
                 if let completion = completion {
                     completion(responseObject?["data"])
                 }
             },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-            }
+            { (error: NSError?) -> () in self.handleError(error) }
         )
     }
     
@@ -281,13 +315,11 @@ class DataManager {
                     completion(responseObject?["data"])
                 }
             },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-            }
+            { (error: NSError?) -> () in self.handleError(error) }
         )
     }
     
-    func loadNewsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
+    func requestNewsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -302,8 +334,8 @@ class DataManager {
         );
     }
     
-    func loadNews(id: String, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestNews(id,
+    func requestNewsByID(id: NSNumber, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestNewsByID(id,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = self.getResponseData(responseObject) as? NSDictionary {
@@ -315,13 +347,28 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                // Complete
+                // Complete, to hide ProgressHUD
                 if let completion = completion { completion() }
             }
         );
     }
     
-    func loadNewsInfo(id: String, _ completion: DataClosure?) {
+    func requestNews(ids: [NSNumber], _ completion: CompletionClosure?) {
+        RequestManager.shared.requestNews(ids,
+            { (responseObject: AnyObject?) -> () in
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
+                        News.importDatas(data, true, nil)
+                    }
+                    // Complete
+                    if let completion = completion { completion() }
+                }
+            },
+            { (error: NSError?) -> () in self.handleError(error) }
+        );
+    }
+    
+    func loadNewsInfo(id: NSNumber, _ completion: DataClosure?) {
         RequestManager.shared.requestNewsInfo(id,
             { (responseObject: AnyObject?) -> () in
                 if let completion = completion {
@@ -361,7 +408,7 @@ class DataManager {
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
-                
+                // Completion, to hide ProgressHUD
                 if let completion = completion {
                     completion(nil)
                 }
