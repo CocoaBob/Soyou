@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 
 
-class FavoriteNews: BaseModel {
+class FavoriteNews: News {
 
-    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
+    override class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
         var news: FavoriteNews? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
@@ -75,7 +75,7 @@ class FavoriteNews: BaseModel {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
+    override class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {

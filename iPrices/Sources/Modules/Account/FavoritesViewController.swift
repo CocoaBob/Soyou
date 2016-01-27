@@ -111,7 +111,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         switch (type) {
         case .News:
             let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteNewsTableViewCell", forIndexPath: indexPath) as! FavoriteNewsTableViewCell
-            let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+            let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
             // Title
             _cell.lblTitle.text = news.title
             // Image
@@ -159,7 +159,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch (type) {
         case .News:
-            let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+            let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
             // Prepare cover image
             var image: UIImage?
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {

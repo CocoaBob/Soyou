@@ -106,7 +106,7 @@ extension UserManager {
     }
     
     var isLoggedIn: Bool {
-        return self.token != nil
+        return self.token != nil && User.MR_findFirst() != nil
     }
     
     func checkTokenValidity(validCompletion validCompletion: () -> Void, failCompletion: () -> Void){

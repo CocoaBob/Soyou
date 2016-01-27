@@ -233,7 +233,7 @@ class DataManager {
                     }
                 }
                 // Request non-existing ones
-                self.requestNews(favoriteIDs, { () -> () in
+                self.requestNews(favoriteIDs, { (responseObject: AnyObject?) -> () in
                     if let data = self.getResponseData(responseObject) as? [NSDictionary] {
                         FavoriteNews.importDatas(data, true, nil)
                     }
@@ -355,12 +355,12 @@ class DataManager {
         );
     }
     
-    func requestNews(ids: [NSNumber], _ completion: CompletionClosure?) {
+    func requestNews(ids: [NSNumber], _ completion: DataClosure?) {
         RequestManager.shared.requestNews(ids,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     // Complete
-                    if let completion = completion { completion() }
+                    if let completion = completion { completion(responseObject) }
                 }
             },
             { (error: NSError?) -> () in self.handleError(error) }
