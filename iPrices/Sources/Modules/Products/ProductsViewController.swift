@@ -54,8 +54,8 @@ class ProductsViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillAppear(animated)
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
         

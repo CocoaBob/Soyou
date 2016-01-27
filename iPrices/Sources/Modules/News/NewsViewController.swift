@@ -62,8 +62,8 @@ class NewsViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillAppear(animated)
         self.hideToolbar(false);
         
         // Load favorites
@@ -188,6 +188,8 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
+        self.collectionView().indicatorStyle = .White
+
         // Create a waterfall layout
         let layout = CHTCollectionViewWaterfallLayout()
         

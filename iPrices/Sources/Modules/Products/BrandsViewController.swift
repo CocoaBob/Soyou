@@ -134,6 +134,8 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
+        self.collectionView().indicatorStyle = .White
+
         // Create a waterfall layout
         let layout = CHTCollectionViewWaterfallLayout()
         

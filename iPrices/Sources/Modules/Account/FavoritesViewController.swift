@@ -64,9 +64,11 @@ class FavoritesViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.hideToolbar(false);
         
         // Load favorites
@@ -78,10 +80,14 @@ class FavoritesViewController: BaseViewController {
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Workaround to make sure navigation bar is visible even the slide-back gesture is cancelled.
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+        }
     }
-    
 }
 
 // MARK: Table View
@@ -178,6 +184,14 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         
         // Push view controller
         self.navigationController?.pushViewController(nextViewController!, animated: true)
+    }
+}
+
+// MARK: UIGestureRecognizerDelegate
+extension FavoritesViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 

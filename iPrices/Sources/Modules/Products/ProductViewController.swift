@@ -105,13 +105,13 @@ class ProductViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        // Hide navigation bar if it's visible again
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
         // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        // Hide navigation bar if it's visible again
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         // Update statusbar cover
         self.updateStatusBarCover()
         // Show tool bar if it's invisible again
