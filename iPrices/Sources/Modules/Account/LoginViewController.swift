@@ -6,7 +6,7 @@
 //  Copyright © 2015 iPrices. All rights reserved.
 //
 
-private enum LoginType: Int {
+enum LoginType: Int {
     case Login
     case Register
     case ForgetPassword
@@ -44,11 +44,27 @@ class LoginViewController: UIViewController {
     @IBOutlet var tfVerificationCode: NextResponderTextField?
     @IBOutlet var btnAction: UIButton?
     
+    // Class methods
+    class func instantiate(type: LoginType) -> LoginViewController {
+        switch type {
+        case .Login:
+            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        case .Register:
+            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("RegisterViewController") as! LoginViewController
+        case .ForgetPassword:
+            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ForgetPasswordViewController") as! LoginViewController
+        case .ResetPassword:
+            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ResetPasswordViewController") as! LoginViewController
+        }
+    }
+    
+    // Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Navigation Bar Items
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "dismissSelf")
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "dismissSelf")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target:self, action: "dismissSelf")
         
         // Scroll View Inset
         if let scrollView = self.scrollView {
@@ -232,9 +248,7 @@ extension LoginViewController {
                     let alertView = SCLAlertView()
                     alertView.addButton(NSLocalizedString("login_vc_forget_password_alert_button")) { () -> Void in
                         // Show reset password view controller
-                        if let resetPasswordViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ResetPasswordViewController") {
-                            self.navigationController?.pushViewController(resetPasswordViewController, animated: true)
-                        }
+                        self.navigationController?.pushViewController(LoginViewController.instantiate(.ResetPassword), animated: true)
                     }
                     alertView.showCloseButton = false
                     alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_forget_password_alert_message"))

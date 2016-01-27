@@ -53,6 +53,10 @@
 "user_vc_cell_favs_news"="资讯";
 "user_vc_cell_favs_products"="产品";
 
+/* Favorites View Controller */
+"fav_vc_title_news"="收藏的新闻";
+"fav_vc_title_products"="收藏的产品";
+
 /* Profile View Controller */
 "profile_vc_title"="个人信息";
 "profile_vc_cell_account_username"="用户名";

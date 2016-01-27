@@ -43,6 +43,11 @@ class NewsDetailViewController: UIViewController {
         return self.webView?.scrollView
     }
     
+    // Class methods
+    class func instantiate() -> NewsDetailViewController {
+        return UIStoryboard(name: "NewsViewController", bundle: nil).instantiateViewControllerWithIdentifier("NewsDetailViewController") as! NewsDetailViewController
+    }
+    
     // Lif cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -595,11 +600,7 @@ extension NewsDetailViewController {
                 })
             }
         } else {
-            let loginViewController = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController")
-            loginViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
-                barButtonSystemItem: .Done,
-                target:loginViewController,
-                action: "dismissSelf")
+            let loginViewController = LoginViewController.instantiate(.Login)
             let navC = UINavigationController(rootViewController: loginViewController)
             self.presentViewController(navC, animated: true, completion: nil)
         }

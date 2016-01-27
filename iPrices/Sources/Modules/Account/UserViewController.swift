@@ -111,7 +111,7 @@ extension UserViewController {
     
     func showNewsFavorites() {
         if UserManager.shared.isLoggedIn {
-            let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+            let favoritesViewController = FavoritesViewController.instantiate()
             favoritesViewController.type = .News
             self.navigationController?.pushViewController(favoritesViewController, animated: true)
         } else {
@@ -121,7 +121,7 @@ extension UserViewController {
     
     func showProductsFavorites() {
         if UserManager.shared.isLoggedIn {
-            let favoritesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+            let favoritesViewController = FavoritesViewController.instantiate()
             favoritesViewController.type = .Products
             self.navigationController?.pushViewController(favoritesViewController, animated: true)
         } else {
@@ -140,9 +140,10 @@ extension UserViewController {
     }
     
     func avatarAction() {
-        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier(UserManager.shared.isLoggedIn ?  "ProfileViewController" : "LoginViewController") {
-            let navigationController = UINavigationController(rootViewController: viewController)
-            self.presentViewController(navigationController, animated: true, completion: nil)
+        if UserManager.shared.isLoggedIn {
+            self.presentViewController(UINavigationController(rootViewController: ProfileViewController.instantiate()), animated: true, completion: nil)
+        } else {
+            self.presentViewController(UINavigationController(rootViewController: LoginViewController.instantiate(.Login)), animated: true, completion: nil)
         }
     }
     

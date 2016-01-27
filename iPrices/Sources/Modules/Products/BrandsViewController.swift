@@ -98,35 +98,35 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
         
-        if let brandViewController = self.storyboard?.instantiateViewControllerWithIdentifier("BrandViewController") as? BrandViewController {
-            // Prepare attributes
-            var imageURLString: String? = nil
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                guard let localBrand = brand.MR_inContext(localContext) else { return }
-                brandViewController.brandID = "\(localBrand.id)"
-                brandViewController.brandName = localBrand.label
-                brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?
-                imageURLString = localBrand.imageUrl
-            })
+        let brandViewController = BrandViewController.instantiate()
+        
+        // Prepare attributes
+        var imageURLString: String? = nil
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            guard let localBrand = brand.MR_inContext(localContext) else { return }
+            brandViewController.brandID = "\(localBrand.id)"
+            brandViewController.brandName = localBrand.label
+            brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?
+            imageURLString = localBrand.imageUrl
+        })
+        
+        // Load brand image
+        var image: UIImage?
+        if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
+            brandViewController.brandImageURL = imageURL
             
-            // Load brand image
-            var image: UIImage?
-            if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
-                brandViewController.brandImageURL = imageURL
-                
-                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-            }
-            if image == nil {
-                if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell {
-                    image = cell.fgImageView.image
-                }
-            }
-            brandViewController.brandImage = image
-            
-            // Push view
-            self.navigationController?.pushViewController(brandViewController, animated: true)
+            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+            image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
         }
+        if image == nil {
+            if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell {
+                image = cell.fgImageView.image
+            }
+        }
+        brandViewController.brandImage = image
+        
+        // Push view
+        self.navigationController?.pushViewController(brandViewController, animated: true)
     }
 }
 

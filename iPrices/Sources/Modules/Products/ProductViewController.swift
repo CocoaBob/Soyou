@@ -8,6 +8,7 @@
 
 class ProductViewController: UIViewController {
     
+    // Properties
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     @IBOutlet var scrollView: UIScrollView!
@@ -18,8 +19,8 @@ class ProductViewController: UIViewController {
     var imageViews: [UIImageView] = [UIImageView]()
     var imageRatio: CGFloat = 1.1
     
-    var productPricesViewController: ProductPricesViewController?
-    var productDescriptionsViewController: ProductDescriptionsViewController?
+    var productPricesViewController = ProductPricesViewController.instantiate()
+    var productDescriptionsViewController = ProductDescriptionsViewController.instantiate()
     var descriptionViewHeight: CGFloat = 0
     var viewsContainerHeight: NSLayoutConstraint?
     
@@ -41,6 +42,12 @@ class ProductViewController: UIViewController {
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
     
+    // Class methods
+    class func instantiate() -> ProductViewController {
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
+    }
+    
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -184,13 +191,15 @@ extension ProductViewController {
         }
         if let images = images {
             // Add 1st image
-            let firstImageView = UIImageView(image: self.firstImage)
-            firstImageView.contentMode = .ScaleAspectFit
-            self.imageViews.append(firstImageView)
+            if self.firstImage != nil {
+                let firstImageView = UIImageView(image: self.firstImage)
+                firstImageView.contentMode = .ScaleAspectFit
+                self.imageViews.append(firstImageView)
+            }
             // Add other images
             if images.count > 1 {
                 let count = images.count - 1
-                let restImages = Array(images[1..<count])
+                let restImages = (self.firstImage != nil) ? Array(images[1..<count]) : images
                 for imageURLString in restImages {
                     if let imageURL = NSURL(string: imageURLString) {
                         let imageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width))
@@ -240,24 +249,18 @@ extension ProductViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             guard let localProduct = product.MR_inContext(localContext) else { return }
             // Prices VC
-            self.productPricesViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController
-            if let productPricesViewController = self.productPricesViewController {
-                productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
-                productPricesViewController.prices = localProduct.prices as? [[String: AnyObject]]
-                viewControllers.append(productPricesViewController)
-            }
+            self.productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
+            self.productPricesViewController.prices = localProduct.prices as? [[String: AnyObject]]
+            viewControllers.append(self.productPricesViewController)
             // Descriptions VC
-            self.productDescriptionsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController
-            if let productDescriptionsViewController = self.productDescriptionsViewController {
-                productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
-                productDescriptionsViewController.descriptions = localProduct.descriptions
-                productDescriptionsViewController.surname = localProduct.surname
-                productDescriptionsViewController.brand = localProduct.brandLabel
-                productDescriptionsViewController.reference = localProduct.reference
-                productDescriptionsViewController.id = localProduct.id
-                productDescriptionsViewController.webViewHeightDelegate = self
-                viewControllers.append(productDescriptionsViewController)
-            }
+            self.productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
+            self.productDescriptionsViewController.descriptions = localProduct.descriptions
+            self.productDescriptionsViewController.surname = localProduct.surname
+            self.productDescriptionsViewController.brand = localProduct.brandLabel
+            self.productDescriptionsViewController.reference = localProduct.reference
+            self.productDescriptionsViewController.id = localProduct.id
+            self.productDescriptionsViewController.webViewHeightDelegate = self
+            viewControllers.append(self.productDescriptionsViewController)
         })
         
         // Customize menu (Optional)
@@ -315,7 +318,7 @@ extension ProductViewController: WebViewHeightDelegate {
     }
     
     func updateViewsContainerHeight() {
-        let pricesViewHeight = self.productPricesViewController?.tableView.contentSize.height ?? 0
+        let pricesViewHeight = self.productPricesViewController.tableView.contentSize.height ?? 0
         let descriptionsViewHeight = descriptionViewHeight
         let maxHeight = max(descriptionsViewHeight, pricesViewHeight)
         self.viewsContainerHeight?.constant = maxHeight + self.pageMenuHeight + 20 // Bottom margin 20
@@ -467,7 +470,7 @@ extension ProductViewController {
     func share(sender: UIBarButtonItem) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localProduct = self.product?.MR_inContext(localContext) {
-                if let image = self.firstImage, let id = localProduct.id{
+                if let image = self.imageViews.first?.image, let id = localProduct.id{
                     let activityView = UIActivityViewController(
                         activityItems: [image, localProduct.title == nil ? "" : localProduct.title!, NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(id)")!], applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
                     activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
@@ -504,11 +507,7 @@ extension ProductViewController {
                 })
             }
         } else {
-            let loginViewController = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController")
-            loginViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
-                barButtonSystemItem: .Done,
-                target:loginViewController,
-                action: "dismissSelf")
+            let loginViewController = LoginViewController.instantiate(.Login)
             let navC = UINavigationController(rootViewController: loginViewController)
             self.presentViewController(navC, animated: true, completion: nil)
         }

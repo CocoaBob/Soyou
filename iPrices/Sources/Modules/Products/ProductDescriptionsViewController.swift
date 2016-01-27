@@ -28,6 +28,12 @@ class ProductDescriptionsViewController: UIViewController {
     var descriptionZH: String?
     var isDisplayingTranslatedText = false
     
+    // Class methods
+    class func instantiate() -> ProductDescriptionsViewController {
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as! ProductDescriptionsViewController
+    }
+    
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }

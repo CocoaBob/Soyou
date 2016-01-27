@@ -10,6 +10,12 @@ class ProfileViewController: SimpleTableViewController {
     
     @IBOutlet var imgViewAvatar: UIImageView!
     
+    // Class methods
+    class func instantiate() -> ProfileViewController {
+        return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+    }
+    
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         

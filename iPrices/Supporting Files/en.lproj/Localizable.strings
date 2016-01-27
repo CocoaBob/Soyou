@@ -53,6 +53,10 @@
 "user_vc_cell_favs_news"="News";
 "user_vc_cell_favs_products"="Products";
 
+/* Favorites View Controller */
+"fav_vc_title_news"="Favorite News";
+"fav_vc_title_products"="Favorite Products";
+
 /* Profile View Controller */
 "profile_vc_title"="Profile";
 "profile_vc_cell_account_username"="Username";

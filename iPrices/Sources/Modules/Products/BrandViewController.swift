@@ -16,6 +16,7 @@ private class CategoryItem: AnyObject {
 
 class BrandViewController: UIViewController {
     
+    // Properties
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     @IBOutlet var tableView: UITableView!
@@ -43,6 +44,12 @@ class BrandViewController: UIViewController {
     }
     var brandImage: UIImage?
     
+    // Class methods
+    class func instantiate() -> BrandViewController {
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("BrandViewController") as! BrandViewController
+    }
+    
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -300,14 +307,11 @@ extension BrandViewController {
     }
     
     private func presentProductsViewController(indexPath: NSIndexPath) {
-        let item = self.itemForIndexPath(indexPath)
-        
-        if let productsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController {
-            productsViewController.brandID = self.brandID
-            productsViewController.brandName = self.brandName
-            productsViewController.categoryID = item.id
-            self.navigationController?.pushViewController(productsViewController, animated: true)
-        }
+        let productsViewController = ProductsViewController.instantiate()
+        productsViewController.brandID = self.brandID
+        productsViewController.brandName = self.brandName
+        productsViewController.categoryID = self.itemForIndexPath(indexPath).id
+        self.navigationController?.pushViewController(productsViewController, animated: true)
     }
     
     @IBAction func didTapAccessoryButton(sender: UIButton) {

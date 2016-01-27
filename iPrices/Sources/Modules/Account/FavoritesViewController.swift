@@ -32,13 +32,29 @@ class FavoritesViewController: BaseViewController {
     // Properties
     var type: FavoriteType = .Products
     
+    // Class methods
+    class func instantiate() -> FavoritesViewController {
+        return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+    }
+    
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        // Bars
+        self.hidesBottomBarWhenPushed = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Title
+        switch (type) {
+        case .News:
+            self.title = NSLocalizedString("fav_vc_title_news")
+        case .Products:
+            self.title = NSLocalizedString("fav_vc_title_products")
+        }
         
         // Setup table
         self.tableView().tableFooterView = UIView(frame: CGRectZero)
@@ -51,6 +67,7 @@ class FavoritesViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.hideToolbar(false);
         
         // Load favorites
         switch (type) {
@@ -132,12 +149,35 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
+        var nextViewController: UIViewController?
+        
         switch (type) {
         case .News:
-            break
+            let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+            // Prepare cover image
+            var image: UIImage?
+            if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+            }
+            
+            // Prepare view controller
+            let viewController = NewsDetailViewController.instantiate()
+            viewController.news = news
+            viewController.headerImage = image
+            
+            nextViewController = viewController
         case .Products:
-            break
+            let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
+            
+            let viewController = ProductViewController.instantiate()
+            viewController.product = product
+            
+            nextViewController = viewController
         }
+        
+        // Push view controller
+        self.navigationController?.pushViewController(nextViewController!, animated: true)
     }
 }
 

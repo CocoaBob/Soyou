@@ -13,6 +13,12 @@ class ProductPricesViewController: UIViewController {
     var prices: [[String: AnyObject]]? //[ { "country": "法国", "price": 1450 } ]
     var currencyRates: [CurrencyRate]?
     
+    // Class methods
+    class func instantiate() -> ProductPricesViewController {
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductPricesViewController") as! ProductPricesViewController
+    }
+    
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }

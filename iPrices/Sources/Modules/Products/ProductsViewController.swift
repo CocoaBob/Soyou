@@ -30,6 +30,11 @@ class ProductsViewController: BaseViewController {
     var brandName: String?
     var categoryID: NSNumber?
     
+    // Class methods
+    class func instantiate() -> ProductsViewController {
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductsViewController") as! ProductsViewController
+    }
+    
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -116,19 +121,15 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         
         let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
         
-        if let productViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                let localProduct = product.MR_inContext(localContext)
-                productViewController.product = localProduct
-            })
-            
-            if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
-                let imageView = cell.fgImageView,
-                let image = imageView.image {
-                    productViewController.firstImage = image
-            }
-            self.navigationController?.pushViewController(productViewController, animated: true)
+        let productViewController = ProductViewController.instantiate()
+        productViewController.product = product
+        
+        if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
+            let imageView = cell.fgImageView,
+            let image = imageView.image {
+                productViewController.firstImage = image
         }
+        self.navigationController?.pushViewController(productViewController, animated: true)
     }
 }
 
