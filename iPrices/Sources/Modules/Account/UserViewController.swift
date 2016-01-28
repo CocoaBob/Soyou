@@ -94,21 +94,6 @@ extension UserViewController {
                             self.showProductsFavorites()
                     })
                 ]
-            ),
-            Section(
-                title: NSLocalizedString("user_vc_cell_misc"),
-                rows: [
-                    Row(type: .LeftTitle,
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_review"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.likeApp(nil)
-                        }
-                    )
-                ]
             )
         ]
     }

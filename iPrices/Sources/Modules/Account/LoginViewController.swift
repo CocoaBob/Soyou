@@ -45,6 +45,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var btnAction: UIButton?
     
     @IBOutlet var ctlGender: NYSegmentedControl?
+    var selectedGender = "1"
     
     // Class methods
     class func instantiate(type: LoginType) -> LoginViewController {
@@ -71,6 +72,25 @@ class LoginViewController: UIViewController {
         // Scroll View Inset
         if let scrollView = self.scrollView {
             self.updateScrollViewInset(scrollView, 0, false, false)
+        }
+        
+        // Setup NYSegmentedControl
+        if let segmentedControl = self.ctlGender {
+            segmentedControl.backgroundColor = UIColor.whiteColor()
+//            segmentedControl.titleFont = UIFont.systemFontOfSize(15)
+            segmentedControl.titleTextColor = UIColor.lightGrayColor()
+//            segmentedControl.selectedTitleFont = UIFont.systemFontOfSize(15)
+            segmentedControl.selectedTitleTextColor = UIColor.darkGrayColor()
+            segmentedControl.cornerRadius = 5.0
+            segmentedControl.borderColor = UIColor(white: 0.8, alpha: 1)
+            segmentedControl.borderWidth = 1 / 2.0//(self.view.window?.screen.scale ?? 1)
+            segmentedControl.segmentIndicatorInset = segmentedControl.borderWidth + 1
+            segmentedControl.drawsSegmentIndicatorGradientBackground = true
+            segmentedControl.segmentIndicatorGradientTopColor = segmentedControl.borderColor
+            segmentedControl.segmentIndicatorGradientBottomColor = segmentedControl.borderColor
+            segmentedControl.segmentIndicatorBorderColor = UIColor.clearColor()
+            segmentedControl.segmentIndicatorBorderWidth = 0
+            segmentedControl.usesSpringAnimations = true
         }
     }
     
@@ -212,7 +232,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader(self.view)
             
             // Request
-            DataManager.shared.register(strEmail, strPassword) { responseObject, error in
+            DataManager.shared.register(strEmail, strPassword, self.selectedGender) { responseObject, error in
                 MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
@@ -226,6 +246,12 @@ extension LoginViewController {
                     alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_message"))
                 }
             }
+        }
+    }
+    
+    @IBAction func selectGender(sender: NYSegmentedControl?) {
+        if let segmentedControl = sender {
+            self.selectedGender = FmtString("%d",segmentedControl.selectedSegmentIndex + 1)
         }
     }
 }
@@ -298,5 +324,24 @@ extension LoginViewController {
         if let scrollView = self.scrollView {
             self.updateScrollViewInset(scrollView, 0, false, false)
         }
+    }
+}
+
+// MARK: NYSegmentedControlDataSource
+extension LoginViewController: NYSegmentedControlDataSource {
+    
+    func numberOfSegmentsOfControl(control: NYSegmentedControl!) -> UInt {
+        return 3
+    }
+    
+    func segmentedControl(control: NYSegmentedControl!, titleAtIndex index: Int) -> String! {
+        if index == 0 {
+            return NSLocalizedString("login_vc_gender_secret")
+        } else if index == 1 {
+            return NSLocalizedString("login_vc_gender_female")
+        } else if index == 2 {
+            return NSLocalizedString("login_vc_gender_male")
+        }
+        return ""
     }
 }

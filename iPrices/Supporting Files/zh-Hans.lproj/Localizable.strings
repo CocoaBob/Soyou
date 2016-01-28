@@ -81,6 +81,9 @@
 "login_vc_forget_password_alert_button"="我已收到验证码";
 "login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
 "login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
+"login_vc_gender_secret"="保密";
+"login_vc_gender_female"="女生";
+"login_vc_gender_male"="男生";
 
 /* Settings View Controller */
 "settings_vc_title"="设置";

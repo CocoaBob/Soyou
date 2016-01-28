@@ -92,8 +92,8 @@ class DataManager {
         )
     }
     
-    func register(email: String, _ password: String, _ completion: CompletionClosure?) {
-        RequestManager.shared.register(email, password,
+    func register(email: String, _ password: String, _ gender: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.register(email, password, gender,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
         )

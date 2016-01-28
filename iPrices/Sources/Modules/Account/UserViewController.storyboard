@@ -613,6 +613,10 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="xpd-OR-tkt"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="selectGender:" destination="TuX-cp-8md" eventType="valueChanged" id="SNd-XF-Izb"/>
+                                                    <outlet property="dataSource" destination="TuX-cp-8md" id="tZ7-IX-yEZ"/>
+                                                </connections>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZgD-Oa-nPQ">
                                                 <rect key="frame" x="10" y="204" width="354" height="44"/>
