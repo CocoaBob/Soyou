@@ -142,9 +142,11 @@ class NewsDetailViewController: UIViewController {
         // Remove the corresponding FavoriteNews if it's leaving without favorite status
         if !self.navigationController!.viewControllers.contains(self) {
             if !self.isFavorite {
-                if let news = self.news, let newsID = news.id, let favoriteNews = FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID) {
-                    favoriteNews.MR_deleteEntity()
+                var favoriteNews = self.news
+                if favoriteNews is News {
+                    favoriteNews = (self.news as? News)?.relatedFavoriteNews()
                 }
+                favoriteNews?.MR_deleteEntity()
             }
         }
     }
@@ -386,7 +388,13 @@ extension NewsDetailViewController {
         self.loadPageContent(news)
         
         // Like button
-        if let appIsLiked = news.appIsLiked {
+        var appIsLiked: NSNumber?
+        if news is News {
+            appIsLiked = news.appIsLiked
+        } else if news is FavoriteNews {
+            appIsLiked = (news as? FavoriteNews)?.relatedNews()?.appIsLiked
+        }
+        if let appIsLiked = appIsLiked {
             updateLikeBtnColor(appIsLiked.boolValue)
         }
         initLikeBtnAndFavBtn()
@@ -586,7 +594,11 @@ extension NewsDetailViewController {
     
     func like(sender: UIBarButtonItem) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
+            var originalNews = self.news
+            if self.news is FavoriteNews {
+                originalNews = (self.news as? FavoriteNews)?.relatedNews()
+            }
+            if let localNews = originalNews?.MR_inContext(localContext) {
                 let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
                 
                 DataManager.shared.likeNews(localNews.id!, wasLiked: appIsLiked, { (data: AnyObject?) -> () in
@@ -600,7 +612,7 @@ extension NewsDetailViewController {
                     
                     // Remember if it's liked or not
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localNews = self.news?.MR_inContext(localContext) {
+                        if let localNews = originalNews?.MR_inContext(localContext) {
                             localNews.appIsLiked = NSNumber(bool: !appIsLiked)
                         }
                     })

@@ -143,4 +143,11 @@ class News: BaseNews {
         }
     }
     
+    func relatedFavoriteNews() -> FavoriteNews? {
+        if let newsID = self.id {
+            return FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID)
+        }
+        return nil
+    }
+    
 }
