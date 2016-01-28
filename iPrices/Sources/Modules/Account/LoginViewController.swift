@@ -80,14 +80,14 @@ class LoginViewController: UIViewController {
 //            segmentedControl.titleFont = UIFont.systemFontOfSize(15)
             segmentedControl.titleTextColor = UIColor.lightGrayColor()
 //            segmentedControl.selectedTitleFont = UIFont.systemFontOfSize(15)
-            segmentedControl.selectedTitleTextColor = UIColor.darkGrayColor()
+            segmentedControl.selectedTitleTextColor = UIColor.whiteColor()
             segmentedControl.cornerRadius = 5.0
             segmentedControl.borderColor = UIColor(white: 0.8, alpha: 1)
             segmentedControl.borderWidth = 1 / 2.0//(self.view.window?.screen.scale ?? 1)
             segmentedControl.segmentIndicatorInset = segmentedControl.borderWidth + 1
             segmentedControl.drawsSegmentIndicatorGradientBackground = true
-            segmentedControl.segmentIndicatorGradientTopColor = segmentedControl.borderColor
-            segmentedControl.segmentIndicatorGradientBottomColor = segmentedControl.borderColor
+            segmentedControl.segmentIndicatorGradientTopColor = UIColor.lightGrayColor()
+            segmentedControl.segmentIndicatorGradientBottomColor = UIColor.lightGrayColor()
             segmentedControl.segmentIndicatorBorderColor = UIColor.clearColor()
             segmentedControl.segmentIndicatorBorderWidth = 0
             segmentedControl.usesSpringAnimations = true
