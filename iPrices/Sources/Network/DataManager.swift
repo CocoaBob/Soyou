@@ -18,7 +18,7 @@ class DataManager {
         DLog(error)
     }
     
-    private func getResponseData(responseObject: AnyObject?) -> AnyObject? {
+    class func getResponseData(responseObject: AnyObject?) -> AnyObject? {
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return nil }
         return responseObject["data"]
     }
@@ -61,7 +61,7 @@ class DataManager {
         RequestManager.shared.login(email, password,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? NSDictionary {
+                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                         UserManager.shared.logIn(data["token"]! as! String)
                         for (key, value) in data {
                             UserManager.shared[key as! String] = value
@@ -109,7 +109,7 @@ class DataManager {
         RequestManager.shared.resetPassword(verifyCode, password,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? NSDictionary {
+                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                         UserManager.shared.logIn(data["token"]! as! String)
                         for (key, value) in data {
                             UserManager.shared[key as! String] = value
@@ -166,7 +166,7 @@ class DataManager {
         RequestManager.shared.requestAllBrands(
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
+                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Brand.importDatas(data, true)
                     }
                     // Complete
@@ -225,7 +225,9 @@ class DataManager {
                     for favoriteNews in allFavoritesNews {
                         if let newsID = favoriteNews.id {
                             if let index = favoriteIDs.indexOf(newsID) {
-                                favoriteIDs.removeAtIndex(index)
+                                if favoriteNews.appIsUpdated != nil && favoriteNews.appIsUpdated!.boolValue {
+                                    favoriteIDs.removeAtIndex(index)
+                                }
                             } else {
                                 favoriteNews.MR_deleteEntityInContext(localContext)
                             }
@@ -233,11 +235,13 @@ class DataManager {
                     }
                 }
                 // Request non-existing ones
-                self.requestNews(favoriteIDs, { (responseObject: AnyObject?) -> () in
-                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
-                        FavoriteNews.importDatas(data, true, nil)
-                    }
-                })
+                if favoriteIDs.count > 0 {
+                    self.requestNews(favoriteIDs, { (responseObject: AnyObject?) -> () in
+                        if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                            FavoriteNews.importDatas(data, false, nil)
+                        }
+                    })
+                }
             })
             
             if let completion = completion {
@@ -325,7 +329,7 @@ class DataManager {
         RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
+                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         News.importDatas(data, false, relativeID)
                     }
                     // Complete
@@ -336,21 +340,18 @@ class DataManager {
         );
     }
     
-    func requestNewsByID(id: NSNumber, _ completion: CompletionClosure?) {
+    func requestNewsByID(id: NSNumber, _ completion: DataClosure?) {
         RequestManager.shared.requestNewsByID(id,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? NSDictionary {
-                        News.importData(data, true, nil)
-                    }
                     // Complete
-                    if let completion = completion { completion() }
+                    if let completion = completion { completion(responseObject) }
                 }
             },
             { (error: NSError?) -> () in
                 self.handleError(error)
                 // Complete, to hide ProgressHUD
-                if let completion = completion { completion() }
+                if let completion = completion { completion(nil) }
             }
         );
     }
@@ -432,7 +433,7 @@ class DataManager {
         RequestManager.shared.requestProducts(ids,
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
+                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Product.importDatas(data, true)
                     }
                     // Complete
@@ -451,7 +452,7 @@ class DataManager {
         RequestManager.shared.requestAllProductIDs(
             { (responseObject: AnyObject?) -> () in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = self.getResponseData(responseObject) as? [NSDictionary] {
+                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Product.importDatas(data, false)
                     }
                     // Complete

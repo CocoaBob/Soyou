@@ -65,7 +65,7 @@ class NewsDetailViewController: UIViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: "tapHandler:")
         tapGR.numberOfTapsRequired = 1
         tapGR.numberOfTouchesRequired = 1
-        tapGR.delegate = self
+        tapGR.delegate = self // shouldRecognizeSimultaneouslyWithGestureRecognizer
         self.webView?.addGestureRecognizer(tapGR)
         
         // Status Bar Cover
@@ -106,7 +106,7 @@ class NewsDetailViewController: UIViewController {
         self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, true, true)
         
         // Load content
-        requestNews()
+        self.loadNews()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -140,7 +140,13 @@ class NewsDetailViewController: UIViewController {
         // Set WebView scroll view
         self.scrollView?.delegate = nil
         // Remove the corresponding FavoriteNews if it's leaving without favorite status
-        DLog(self.navigationController?.viewControllers)
+        if !self.navigationController!.viewControllers.contains(self) {
+            if !self.isFavorite {
+                if let news = self.news, let newsID = news.id, let favoriteNews = FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID) {
+                    favoriteNews.MR_deleteEntity()
+                }
+            }
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -332,10 +338,10 @@ extension NewsDetailViewController {
 // MARK: Fav button
 extension NewsDetailViewController {
     
-    private var isFavorite: Bool? {
+    private var isFavorite: Bool {
         set(newValue) {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                if newValue != nil && newValue == true {
+                if newValue == true {
                     self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
                     self.btnFav?.tintColor = self.btnFavActiveColor
                 } else {
@@ -375,7 +381,7 @@ extension NewsDetailViewController {
         }
     }
     
-    private func requestNews(news: BaseNews) {
+    private func loadNews(news: BaseNews) {
         // Load HTML
         self.loadPageContent(news)
         
@@ -409,7 +415,7 @@ extension NewsDetailViewController {
         }
     }
     
-    func requestNews() {
+    func loadNews() {
         var newsID: NSNumber? = nil
         var needToLoad: Bool = false
         
@@ -427,19 +433,28 @@ extension NewsDetailViewController {
         if needToLoad {
             if let newsID = newsID {
                 MBProgressHUD.showLoader(self.view)
-                DataManager.shared.requestNewsByID(newsID, { () -> () in
+                DataManager.shared.requestNewsByID(newsID, { (responseObject: AnyObject?) -> () in
                     MBProgressHUD.hideLoader(self.view)
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localNews = self.news?.MR_inContext(localContext) {
-                            self.requestNews(localNews)
+                    if let responseObject = responseObject {
+                        if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                            if self.news is News {
+                                News.importData(data, true, nil)
+                            } else if self.news is FavoriteNews {
+                                FavoriteNews.importData(data, true, nil)
+                            }
                         }
-                    })
+                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                            if let localNews = self.news?.MR_inContext(localContext) {
+                                self.loadNews(localNews)
+                            }
+                        })
+                    }
                 })
             }
         } else {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 if let localNews = self.news?.MR_inContext(localContext) {
-                    self.requestNews(localNews)
+                    self.loadNews(localNews)
                 }
             })
         }
@@ -504,6 +519,11 @@ extension NewsDetailViewController {
 
 // MARK: UIGestureRecognizerDelegate
 extension NewsDetailViewController: UIGestureRecognizerDelegate {
+    
+    // To allow UIWebView's tap gesture recognizer work
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
@@ -591,17 +611,15 @@ extension NewsDetailViewController {
     
     func star(sender: UIBarButtonItem) {
         if UserManager.shared.isLoggedIn {
-            if let isFavorite = self.isFavorite {
-                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                    if let localNews = self.news?.MR_inContext(localContext) {
-                        DataManager.shared.favoriteNews(localNews.id!, wasFavorite: isFavorite,
-                            { (data: AnyObject?) -> () in
-                                // Toggle the value of isFavorite
-                                self.isFavorite = !isFavorite
-                        })
-                    }
-                })
-            }
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                if let localNews = self.news?.MR_inContext(localContext) {
+                    DataManager.shared.favoriteNews(localNews.id!, wasFavorite: self.isFavorite,
+                        { (data: AnyObject?) -> () in
+                            // Toggle the value of isFavorite
+                            self.isFavorite = !self.isFavorite
+                    })
+                }
+            })
         } else {
             let loginViewController = LoginViewController.instantiate(.Login)
             let navC = UINavigationController(rootViewController: loginViewController)
