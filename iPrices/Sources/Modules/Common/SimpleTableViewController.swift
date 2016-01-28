@@ -90,6 +90,14 @@ class SimpleTableViewController: UIViewController {
         self.tableView.registerNib(UINib(nibName: "TableViewCellSectionHeader", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TableViewCellSectionHeader")
         self.tableView.registerNib(UINib(nibName: "TableViewCellTextField", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TextField")
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let nextTextField = self.findNextTextField(nil, nil) {
+            nextTextField.becomeFirstResponder()
+        }
+    }
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
@@ -198,22 +206,8 @@ extension SimpleTableViewController: UITextFieldDelegate {
         let position = textField.convertPoint(CGPointZero, toView: self.tableView)
         guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return true }
         
-        var nextTextFieldCell: TableViewCellTextField?
-        searchingLoop: for idxSection in indexPath.section..<self.sections.count {
-            for idxRow in indexPath.row..<self.sections[idxSection].rows.count {
-                let row = sections[idxSection].rows[idxRow]
-                if row.type == .TextField {
-                    if let tableViewCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: idxRow, inSection: idxSection)) as? TableViewCellTextField {
-                        if tableViewCell.tfTitle != textField {
-                            nextTextFieldCell = tableViewCell
-                            break searchingLoop
-                        }
-                    }
-                }
-            }
-        }
-        if let nextTextFieldCell = nextTextFieldCell {
-            nextTextFieldCell.tfTitle.becomeFirstResponder()
+        if let nextTextField = self.findNextTextField(textField, indexPath) {
+            nextTextField.becomeFirstResponder()
         } else {
             self.doneAction()
         }
@@ -244,5 +238,25 @@ extension SimpleTableViewController {
 extension SimpleTableViewController {
 
     func rebuildTable() {
+    }
+}
+
+// MARK: Routines
+extension SimpleTableViewController {
+
+    func findNextTextField(textField: UITextField?, _ indexPath: NSIndexPath?) -> UITextField? {
+        for idxSection in (indexPath != nil ? indexPath!.section : 0)..<self.sections.count {
+            for idxRow in (indexPath != nil ? indexPath!.row : 0)..<self.sections[idxSection].rows.count {
+                let row = sections[idxSection].rows[idxRow]
+                if row.type == .TextField {
+                    if let tableViewCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: idxRow, inSection: idxSection)) as? TableViewCellTextField {
+                        if tableViewCell.tfTitle != textField {
+                            return tableViewCell.tfTitle
+                        }
+                    }
+                }
+            }
+        }
+        return nil
     }
 }
