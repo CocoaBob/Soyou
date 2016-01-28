@@ -295,7 +295,9 @@ extension NewsDetailViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
-                    DataManager.shared.loadNewsInfo(newsID, { (data: AnyObject?) -> () in
+                    DataManager.shared.loadNewsInfo(newsID) { responseObject, error in
+                        guard let data = responseObject?["data"] else { return }
+                        
                         if let likeNumber = data?["likeNumber"] as? NSNumber {
                             self.likeBtnNumber = likeNumber.integerValue
                         }
@@ -303,7 +305,7 @@ extension NewsDetailViewController {
                         if let isFavorite = data?["isFavorite"] as? Bool {
                             self.isFavorite = isFavorite
                         }
-                    })
+                    }
                 }
             }
         })
@@ -441,7 +443,7 @@ extension NewsDetailViewController {
         if needToLoad {
             if let newsID = newsID {
                 MBProgressHUD.showLoader(self.view)
-                DataManager.shared.requestNewsByID(newsID, { (responseObject: AnyObject?) -> () in
+                DataManager.shared.requestNewsByID(newsID) { responseObject, error in
                     MBProgressHUD.hideLoader(self.view)
                     if let responseObject = responseObject {
                         if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
@@ -457,7 +459,7 @@ extension NewsDetailViewController {
                             }
                         })
                     }
-                })
+                }
             }
         } else {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
@@ -601,7 +603,9 @@ extension NewsDetailViewController {
             if let localNews = originalNews?.MR_inContext(localContext) {
                 let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
                 
-                DataManager.shared.likeNews(localNews.id!, wasLiked: appIsLiked, { (data: AnyObject?) -> () in
+                DataManager.shared.likeNews(localNews.id!, wasLiked: appIsLiked) { responseObject, error in
+                    guard let data = responseObject?["data"] else { return }
+                    
                     // Update like number
                     if let likeNumber = data as? NSNumber {
                         self.likeBtnNumber = likeNumber.integerValue
@@ -616,7 +620,7 @@ extension NewsDetailViewController {
                             localNews.appIsLiked = NSNumber(bool: !appIsLiked)
                         }
                     })
-                })
+                }
             }
         })
     }
@@ -625,11 +629,10 @@ extension NewsDetailViewController {
         if UserManager.shared.isLoggedIn {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 if let localNews = self.news?.MR_inContext(localContext) {
-                    DataManager.shared.favoriteNews(localNews.id!, wasFavorite: self.isFavorite,
-                        { (data: AnyObject?) -> () in
+                    DataManager.shared.favoriteNews(localNews.id!, wasFavorite: self.isFavorite) { responseObject, error in
                             // Toggle the value of isFavorite
                             self.isFavorite = !self.isFavorite
-                    })
+                    }
                 }
             })
         } else {

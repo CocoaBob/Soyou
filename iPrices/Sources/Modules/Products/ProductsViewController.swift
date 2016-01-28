@@ -65,7 +65,7 @@ class ProductsViewController: BaseViewController {
         }
         
         // Load favorites
-        DataManager.shared.requestProductFavorites(categoryID!) { (data: AnyObject?) -> () in
+        DataManager.shared.requestProductFavorites(categoryID!) { responseObject, error in
             self.reloadData()
         }
     }

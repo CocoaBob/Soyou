@@ -51,7 +51,8 @@ public struct Cons {
 
 typealias DataClosure = (AnyObject?)->()
 typealias ErrorClosure = (NSError?)->()
-typealias CompletionClosure = ()->()
+typealias VoidClosure = ()->()
+typealias CompletionClosure = (AnyObject?, NSError?)->()
 
 func FmtPredicate(fmt: String, _ args: CVarArgType...) -> NSPredicate {
     return NSPredicate(format: fmt, arguments: getVaList(args))

@@ -187,7 +187,7 @@ extension LoginViewController {
             // Strat indicator
             MBProgressHUD.showLoader(self.view)
             
-            DataManager.shared.login(strEmail, strPassword, completion: { (error: NSError?) -> () in
+            DataManager.shared.login(strEmail, strPassword) { responseObject, error in
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     MBProgressHUD.hideLoader(self.view)
                     if let error = error {
@@ -196,7 +196,7 @@ extension LoginViewController {
                         self.dismissSelf()
                     }
                 })
-            })
+            }
         }
     }
 }
@@ -212,7 +212,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader(self.view)
             
             // Request
-            DataManager.shared.register(strEmail, strPassword, completion: { (error: NSError?) -> () in
+            DataManager.shared.register(strEmail, strPassword) { responseObject, error in
                 MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
@@ -225,7 +225,7 @@ extension LoginViewController {
                     alertView.showCloseButton = false
                     alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_message"))
                 }
-            })
+            }
         }
     }
 }
@@ -241,7 +241,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader(self.view)
             
             // Request
-            DataManager.shared.requestVerifyCode(strEmail, completion: { (error: NSError?) -> () in
+            DataManager.shared.requestVerifyCode(strEmail) { responseObject, error in
                 MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
@@ -254,7 +254,7 @@ extension LoginViewController {
                     alertView.showCloseButton = false
                     alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_forget_password_alert_message"))
                 }
-            })
+            }
         }
     }
 }
@@ -270,7 +270,7 @@ extension LoginViewController {
             MBProgressHUD.showLoader(self.view)
             
             // Request
-            DataManager.shared.resetPassword(strVerificationCode, strPassword, completion: { (error: NSError?) -> () in
+            DataManager.shared.resetPassword(strVerificationCode, strPassword) { responseObject, error in
                 MBProgressHUD.hideLoader(self.view)
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
@@ -285,7 +285,7 @@ extension LoginViewController {
                             duration: 3)
                     }
                 }
-            })
+            }
         }
     }
 }

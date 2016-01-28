@@ -158,19 +158,19 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
                 self.isDisplayingTranslatedText = true
                 MBProgressHUD.hideLoader(nil)
             }else {
-                DataManager.shared.translateProduct(self.id!,
-                    { (data: AnyObject?) in
-                        if let data = data {
-                            if let translation = data["descriptions"] as? String {
-                                self.descriptionZH = translation
-                                let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('descriptionZH').innerHTML = '\(translation)';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
-                                webView.stringByEvaluatingJavaScriptFromString(js)
-                            }
+                DataManager.shared.translateProduct(self.id!) { responseObject, error in
+                    guard let data = responseObject?["data"] else { return }
+                    if let data = data {
+                        if let translation = data["descriptions"] as? String {
+                            self.descriptionZH = translation
+                            let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('descriptionZH').innerHTML = '\(translation)';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
+                            webView.stringByEvaluatingJavaScriptFromString(js)
                         }
-                        self.updateWebViewHeight(webView)
-                        self.isDisplayingTranslatedText = true
-                        MBProgressHUD.hideLoader(nil)
-                })
+                    }
+                    self.updateWebViewHeight(webView)
+                    self.isDisplayingTranslatedText = true
+                    MBProgressHUD.hideLoader(nil)
+                }
             }
         }
     }

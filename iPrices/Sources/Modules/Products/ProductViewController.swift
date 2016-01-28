@@ -397,7 +397,9 @@ extension ProductViewController {
             if let localProduct = self.product?.MR_inContext(localContext) {
                 self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
                 if let productID = localProduct.id {
-                    DataManager.shared.loadProductInfo("\(productID)", { (data: AnyObject?) -> () in
+                    DataManager.shared.loadProductInfo("\(productID)") { responseObject, error in
+                        guard let data = responseObject?["data"] else { return }
+                        
                         if let likeNumber = data?["likeNumber"] as? NSNumber {
                             self.likeBtnNumber = likeNumber.integerValue
                         }
@@ -405,7 +407,7 @@ extension ProductViewController {
                         if let isFavorite = data?["isFavorite"] as? Bool {
                             self.isFavorite = isFavorite
                         }
-                    })
+                    }
                 }
             }
         })

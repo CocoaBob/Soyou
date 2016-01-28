@@ -87,7 +87,7 @@ extension NewsViewController {
     }
     
     private func loadData(relativeID: NSNumber?) {
-        DataManager.shared.requestNewsList(relativeID) { () -> () in
+        DataManager.shared.requestNewsList(relativeID) { responseObject, error in
             self.endRefreshing()
             self.resetMoreButtonCell()
         }

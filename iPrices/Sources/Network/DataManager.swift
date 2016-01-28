@@ -18,6 +18,15 @@ class DataManager {
         DLog(error)
     }
     
+    private func completeWithData(data: AnyObject?, completion: CompletionClosure?) {
+        if let completion = completion { completion(data, nil) }
+    }
+    
+    private func completeWithError(error: NSError?, completion: CompletionClosure?) {
+        self.handleError(error)
+        if let completion = completion { completion(nil, error) }
+    }
+    
     class func getResponseData(responseObject: AnyObject?) -> AnyObject? {
         guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return nil }
         return responseObject["data"]
@@ -39,16 +48,10 @@ class DataManager {
     // MARK: Currency
     //////////////////////////////////////
     
-    func requestCurrencies(currencies: [NSDictionary], _ completion: DataClosure?) {
+    func requestCurrencies(currencies: [NSDictionary], _ completion: CompletionClosure?) {
         RequestManager.shared.requestCurrencies(currencies,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion((responseObject?["query"]))
-                }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
@@ -57,9 +60,9 @@ class DataManager {
     // MARK: Authentication
     //////////////////////////////////////
     
-    func login(email: String, _ password: String, completion: ErrorClosure?) {
+    func login(email: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.login(email, password,
-            { (responseObject: AnyObject?) -> () in
+            { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                         UserManager.shared.logIn(data["token"]! as! String)
@@ -67,47 +70,30 @@ class DataManager {
                             UserManager.shared[key as! String] = value
                         }
                     }
-                    // Complete
-                    if let completion = completion { completion(nil) }
+                    self.completeWithData(responseObject, completion: completion)
                 }
             },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete, to hide ProgressHUD
-                if let completion = completion { completion(error) }
-            }
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
-    func register(email: String, _ password: String, completion: ErrorClosure?) {
+    func register(email: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.register(email, password,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion { completion(nil) }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete, to hide ProgressHUD
-                if let completion = completion { completion(error) }
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
-    func requestVerifyCode(email: String, completion: ErrorClosure?) {
+    func requestVerifyCode(email: String, _ completion: CompletionClosure?) {
         RequestManager.shared.requestVerifyCode(email,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion { completion(nil) }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete, to hide ProgressHUD
-                if let completion = completion { completion(error) }
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
-    func resetPassword(verifyCode: String, _ password: String, completion: ErrorClosure?) {
+    func resetPassword(verifyCode: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.resetPassword(verifyCode, password,
-            { (responseObject: AnyObject?) -> () in
+            { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                         UserManager.shared.logIn(data["token"]! as! String)
@@ -115,15 +101,10 @@ class DataManager {
                             UserManager.shared[key as! String] = value
                         }
                     }
-                    // Complete
-                    if let completion = completion { completion(nil) }
+                    self.completeWithData(responseObject, completion: completion)
                 }
             },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete, to hide ProgressHUD
-                if let completion = completion { completion(error) }
-            }
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
@@ -132,29 +113,17 @@ class DataManager {
     // MARK: User
     //////////////////////////////////////
     
-    func modifyEmail(email: String, completion: ErrorClosure?) {
+    func modifyEmail(email: String, _ completion: CompletionClosure?) {
         RequestManager.shared.modifyEmail(email,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion { completion(nil) }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete, to hide ProgressHUD
-                if let completion = completion { completion(error) }
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
-    func modifyUserInfo(field:String, _ value:String, completion: ErrorClosure?) {
+    func modifyUserInfo(field:String, _ value:String, _ completion: CompletionClosure?) {
         RequestManager.shared.modifyUserInfo(field, value,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion { completion(nil) }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete, to hide ProgressHUD
-                if let completion = completion { completion(error) }
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
@@ -164,33 +133,22 @@ class DataManager {
     
     func loadAllBrands(completion: CompletionClosure?){
         RequestManager.shared.requestAllBrands(
-            { (responseObject: AnyObject?) -> () in
+            { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Brand.importDatas(data, true)
                     }
-                    // Complete
-                    if let completion = completion { completion() }
+                    self.completeWithData(responseObject, completion: completion)
                 }
             },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete
-                if let completion = completion { completion() }
-            }
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
-    func loadProductInfo(id: String, _ completion: DataClosure?) {
+    func loadProductInfo(id: String, _ completion: CompletionClosure?) {
         RequestManager.shared.requestProductInfo(id,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion((responseObject?["data"]))
-                }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
@@ -198,20 +156,14 @@ class DataManager {
     // MARK: Favorites News
     //////////////////////////////////////
     
-    func favoriteNews(id: NSNumber, wasFavorite: Bool, _ completion: DataClosure?) {
+    func favoriteNews(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteNews(id, operation: wasFavorite ? "-" : "+",
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion(responseObject?["data"])
-                }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
-    func requestNewsFavorites(completion: DataClosure?) {
+    func requestNewsFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 // Collect all products and favorite ids
@@ -236,7 +188,7 @@ class DataManager {
                 }
                 // Request non-existing ones
                 if favoriteIDs.count > 0 {
-                    self.requestNews(favoriteIDs, { (responseObject: AnyObject?) -> () in
+                    self.requestNews(favoriteIDs, { responseObject, error in
                         if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                             FavoriteNews.importDatas(data, false, nil)
                         }
@@ -244,12 +196,10 @@ class DataManager {
                 }
             })
             
-            if let completion = completion {
-                completion(responseObject?["data"])
-            }
+            self.completeWithData(responseObject, completion: completion)
         }
         let errorHandlerClosure = { (error: NSError?) -> () in
-            self.handleError(error)
+            self.completeWithError(error, completion: completion)
         }
         RequestManager.shared.requestNewsFavorites(responseHandlerClosure, errorHandlerClosure)
     }
@@ -258,7 +208,7 @@ class DataManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func requestProductFavorites(categoryId: NSNumber?, _ completion: DataClosure?) {
+    func requestProductFavorites(categoryId: NSNumber?, _ completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 // Collect all products and favorite ids
@@ -285,13 +235,12 @@ class DataManager {
                 }
             })
             
-            if let completion = completion {
-                completion(responseObject?["data"])
-            }
+            self.completeWithData(responseObject, completion: completion)
         }
         let errorHandlerClosure = { (error: NSError?) -> () in
-            self.handleError(error)
+            self.completeWithError(error, completion: completion)
         }
+        
         if let categoryId = categoryId {
             RequestManager.shared.requestProductFavoritesByCategory(categoryId, responseHandlerClosure, errorHandlerClosure)
         } else {
@@ -299,14 +248,10 @@ class DataManager {
         }
     }
     
-    func favoriteProduct(id: NSNumber, isFavorite: Bool, _ completion: DataClosure?) {
+    func favoriteProduct(id: NSNumber, isFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteProduct(id, operation: isFavorite ? "-" : "+",
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion(responseObject?["data"])
-                }
-            },
-            { (error: NSError?) -> () in self.handleError(error) }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
@@ -314,70 +259,45 @@ class DataManager {
     // MARK: News
     //////////////////////////////////////
     
-    func likeNews(id: NSNumber, wasLiked: Bool, _ completion: DataClosure?) {
+    func likeNews(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeNews(id, operation: wasLiked ? "-" : "+",
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion(responseObject?["data"])
-                }
-            },
-            { (error: NSError?) -> () in self.handleError(error) }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
     func requestNewsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
-            { (responseObject: AnyObject?) -> () in
+            { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         News.importDatas(data, false, relativeID)
                     }
-                    // Complete
-                    if let completion = completion { completion() }
+                    self.completeWithData(responseObject, completion: completion)
                 }
             },
-            { (error: NSError?) -> () in self.handleError(error) }
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
-    func requestNewsByID(id: NSNumber, _ completion: DataClosure?) {
+    func requestNewsByID(id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsByID(id,
-            { (responseObject: AnyObject?) -> () in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    // Complete
-                    if let completion = completion { completion(responseObject) }
-                }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete, to hide ProgressHUD
-                if let completion = completion { completion(nil) }
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
-    func requestNews(ids: [NSNumber], _ completion: DataClosure?) {
+    func requestNews(ids: [NSNumber], _ completion: CompletionClosure?) {
         RequestManager.shared.requestNews(ids,
-            { (responseObject: AnyObject?) -> () in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    // Complete
-                    if let completion = completion { completion(responseObject) }
-                }
-            },
-            { (error: NSError?) -> () in self.handleError(error) }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
-    func loadNewsInfo(id: NSNumber, _ completion: DataClosure?) {
+    func loadNewsInfo(id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsInfo(id,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion((responseObject?["data"]))
-                }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
@@ -387,11 +307,11 @@ class DataManager {
     
     func registerForNotification(deviceToken: String) {
         RequestManager.shared.registerForNotification(UserManager.shared.uuid, deviceToken,
-            { (responseObject: AnyObject?) -> () in
+            { responseObject in
                 UserManager.shared.deviceToken = deviceToken
                 DLog("Push register success")
             },
-            { (error: NSError?) -> () in self.handleError(error) }
+            { error in self.completeWithError(error, completion: nil) }
         );
     }
     
@@ -399,71 +319,45 @@ class DataManager {
     // MARK: Products
     //////////////////////////////////////
     
-    func translateProduct(id: NSNumber, _ completion: DataClosure?) {
+    func translateProduct(id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.translateProduct(id,
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion(responseObject?["data"])
-                }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Completion, to hide ProgressHUD
-                if let completion = completion {
-                    completion(nil)
-                }
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
-    func likeProduct(id: NSNumber, wasLiked: Bool, _ completion: DataClosure?) {
+    func likeProduct(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeProduct(id, operation: wasLiked ? "-" : "+",
-            { (responseObject: AnyObject?) -> () in
-                if let completion = completion {
-                    completion(responseObject?["data"])
-                }
-            },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-            }
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
     func loadProducts(ids: [NSNumber], _ completion: CompletionClosure?) {
         RequestManager.shared.requestProducts(ids,
-            { (responseObject: AnyObject?) -> () in
+            { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Product.importDatas(data, true)
                     }
-                    // Complete
-                    if let completion = completion { completion() }
+                    self.completeWithData(responseObject, completion: completion)
                 }
             },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete
-                if let completion = completion { completion() }
-            }
+            { error in self.completeWithError(error, completion: completion) }
         )
     }
     
     func loadAllProductIDs(completion: CompletionClosure?) {
         RequestManager.shared.requestAllProductIDs(
-            { (responseObject: AnyObject?) -> () in
+            { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Product.importDatas(data, false)
                     }
-                    // Complete
-                    if let completion = completion { completion() }
+                    self.completeWithData(responseObject, completion: completion)
                 }
             },
-            { (error: NSError?) -> () in
-                self.handleError(error)
-                // Complete
-                if let completion = completion { completion() }
-            }
+            { error in self.completeWithError(error, completion: completion) }
         );
     }
     
@@ -486,7 +380,7 @@ class DataManager {
     }
     
     func loadAllProducts(completion: CompletionClosure?) {
-        self.loadAllProductIDs { () -> () in
+        self.loadAllProductIDs { responseObject, error in
             // Collect product ids
             var productIDs = [NSNumber]()
             MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
@@ -526,12 +420,34 @@ class DataManager {
             }
             
             // Preload data
-            DataManager.shared.loadAllBrands({ () -> () in
+            DataManager.shared.loadAllBrands() { responseObject, error in
                 completionClosure()
-            })
-            DataManager.shared.loadAllProducts({ () -> () in
+            }
+            DataManager.shared.loadAllProducts() { responseObject, error in
                 completionClosure()
-            })
+            }
         }
+    }
+    
+    //////////////////////////////////////
+    // MARK: Region
+    //////////////////////////////////////
+    
+    func requestAllRegions(completion: CompletionClosure?) {
+        RequestManager.shared.requestAllRegions(
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
+        )
+    }
+    
+    //////////////////////////////////////
+    // MARK: Store
+    //////////////////////////////////////
+    
+    func requestAllStores(brandID: String?, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestAllStores(brandID,
+            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { error in self.completeWithError(error, completion: completion) }
+        )
     }
 }

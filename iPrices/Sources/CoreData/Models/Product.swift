@@ -112,7 +112,9 @@ class Product: BaseModel {
             if let localProduct = self.MR_inContext(localContext) {
                 let appWasLiked = localProduct.appIsLiked != nil && localProduct.appIsLiked!.boolValue
                 // Update only when response is received
-                DataManager.shared.likeProduct(localProduct.id!, wasLiked: appWasLiked, { (data: AnyObject?) -> () in
+                DataManager.shared.likeProduct(localProduct.id!, wasLiked: appWasLiked) { responseObject, error in
+                    guard let data = responseObject?["data"] else { return }
+                    
                     // Remember if it's liked or not
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         if let localProduct = self.MR_inContext(localContext) {
@@ -123,7 +125,7 @@ class Product: BaseModel {
                     if let completion = completion {
                         completion(data)
                     }
-                })
+                }
             }
         })
     }
@@ -133,7 +135,7 @@ class Product: BaseModel {
             if let localProduct = self.MR_inContext(localContext) {
                 let appIsFavorite = localProduct.appIsFavorite != nil && localProduct.appIsFavorite!.boolValue
                 // Update only when response is received
-                DataManager.shared.favoriteProduct(localProduct.id!, isFavorite: appIsFavorite, { (data: AnyObject?) -> () in
+                DataManager.shared.favoriteProduct(localProduct.id!, isFavorite: appIsFavorite) { responseObject, error in
                     // Remember if it's liked or not
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         if let localProduct = self.MR_inContext(localContext) {
@@ -142,9 +144,9 @@ class Product: BaseModel {
                     })
                     // Completion
                     if let completion = completion {
-                        completion(data)
+                        completion(responseObject)
                     }
-                })
+                }
             }
         })
     }

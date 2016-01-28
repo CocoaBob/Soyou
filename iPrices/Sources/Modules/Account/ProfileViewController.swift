@@ -142,7 +142,7 @@ extension ProfileViewController {
         simpleViewController.completion = { () -> () in
             if let editedText = simpleViewController.editedText {
                 MBProgressHUD.showLoader(nil)
-                DataManager.shared.modifyUserInfo("username", editedText, completion: { (error: NSError?) -> () in
+                DataManager.shared.modifyUserInfo("username", editedText) { responseObject, error in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         MBProgressHUD.hideLoader(nil)
                         if let error = error {
@@ -152,7 +152,7 @@ extension ProfileViewController {
                             simpleViewController.navigationController?.popViewControllerAnimated(true)
                         }
                     })
-                })
+                }
             }
         }
         // Push
@@ -213,7 +213,7 @@ extension ProfileViewController {
             }
             if let editedText = simpleViewController.editedText {
                 MBProgressHUD.showLoader(nil)
-                DataManager.shared.modifyEmail(editedText, completion: { (error: NSError?) -> () in
+                DataManager.shared.modifyEmail(editedText) { responseObject, error in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         MBProgressHUD.hideLoader(nil)
                         if let error = error {
@@ -229,7 +229,7 @@ extension ProfileViewController {
                             alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("profile_vc_change_email_alert_message"))
                         }
                     })
-                })
+                }
             }
         }
         // Push

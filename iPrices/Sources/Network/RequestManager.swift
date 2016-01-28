@@ -182,6 +182,22 @@ class RequestManager {
     }
     
     //////////////////////////////////////
+    // MARK: Region
+    //////////////////////////////////////
+    
+    func requestAllRegions(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/regions/brand", "Region", onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
+    // MARK: Store
+    //////////////////////////////////////
+    
+    func requestAllStores(brandID: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/stores/brand/%@", brandID ?? ""), "Store", onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
     // MARK: User Info
     //////////////////////////////////////
     

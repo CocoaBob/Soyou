@@ -42,11 +42,14 @@ class CurrencyManager {
     
     func updateCurrencyRates(){
         
-        DataManager.shared.requestCurrencies(currencies) { (responseObject: AnyObject?) -> () in
-            if let count = responseObject!["count"] as? Int {
-                if count > 0 {
-                    if let results = responseObject?["results"], let rate = results!["rate"]{
-                        let time = responseObject?["created"] as! String
+        DataManager.shared.requestCurrencies(currencies) { responseObject, error in
+            if let responseObject = responseObject,
+                let query = responseObject["query"] as? NSDictionary,
+                let count = query["count"] as? Int,
+                let time = query["created"] as? String,
+                let results = query["results"] as? NSDictionary,
+                let rate = results["rate"] {
+                    if count > 0 {
                         var currencyRates = [NSDictionary]()
                         if count == 1 { // rate is a dictionary
                             if let currency = self.parseCurrencyRate(rate as! NSDictionary, time: time){
@@ -63,7 +66,6 @@ class CurrencyManager {
                         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                             CurrencyRate.importDatas(currencyRates, false)
                         })
-                    }
                 }
             }
         }
