@@ -52,7 +52,12 @@
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
 "user_vc_cell_favs_products"="Products";
-"user_vc_cell_misc"="Misc.";
+"user_vc_feedback_alert_title"="Feedback";
+"user_vc_feedback_alert_message"="How do you feel about iPrices?";
+"user_vc_feedback_alert_like"="I like it!";
+"user_vc_feedback_alert_suggestion"="I've suggestions!";
+"user_vc_feedback_mail_title"="Test Subject";
+"user_vc_feedback_mail_message_body"="<html>Some <b>HTML</b> <i>text</i></html>";
 
 /* Favorites View Controller */
 "fav_vc_title_news"="Favorite News";
@@ -88,7 +93,7 @@
 /* Settings View Controller */
 "settings_vc_title"="Settings";
 "settings_vc_cell_clean_cache"="Clean caches";
-"settings_vc_cell_about_us"="About us";
+"settings_vc_cell_about_us"="About our team";
 "settings_vc_cell_about_app"="About iPrices";
 "settings_vc_cell_feedback"="Send feedbacks";
 "settings_vc_cell_review"="Write reviews";
@@ -118,6 +123,7 @@
 "alert_title_info"="Info";
 "alert_title_success"="Success";
 "alert_button_ok"="OK";
+"alert_button_close"="Close";
 "unavailable"="Unavailable";
 
 /* Product descriptions */

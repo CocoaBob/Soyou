@@ -52,7 +52,12 @@
 "user_vc_cell_favs"="收藏夹";
 "user_vc_cell_favs_news"="资讯";
 "user_vc_cell_favs_products"="产品";
-"user_vc_cell_misc"="其他";
+"user_vc_feedback_alert_title"="用户反馈";
+"user_vc_feedback_alert_message"="您觉得『包打听』怎么样？";
+"user_vc_feedback_alert_like"="我很喜欢!";
+"user_vc_feedback_alert_suggestion"="我有建议!";
+"user_vc_feedback_mail_title"="测试标题";
+"user_vc_feedback_mail_message_body"="<html>一些<b>HTML</b><i>文本</i></html>";
 
 /* Favorites View Controller */
 "fav_vc_title_news"="收藏的新闻";
@@ -88,7 +93,7 @@
 /* Settings View Controller */
 "settings_vc_title"="设置";
 "settings_vc_cell_clean_cache"="清空缓存";
-"settings_vc_cell_about_us"="关于我们";
+"settings_vc_cell_about_us"="关于我们团队";
 "settings_vc_cell_about_app"="关于『包打听』";
 "settings_vc_cell_feedback"="给我们些建议吧";
 "settings_vc_cell_review"="给我们个好评吧";
@@ -118,6 +123,7 @@
 "alert_title_info"="信息";
 "alert_title_success"="成功";
 "alert_button_ok"="确认";
+"alert_button_close"="关闭";
 "unavailable"="暂无";
 
 /* Product descriptions */

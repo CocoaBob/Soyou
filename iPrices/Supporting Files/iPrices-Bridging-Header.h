@@ -5,6 +5,7 @@
 @import CoreLocation;
 @import Foundation;
 @import MapKit;
+@import MessageUI;
 @import StoreKit;
 @import UIKit;
 

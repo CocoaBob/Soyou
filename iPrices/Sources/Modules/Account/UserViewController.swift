@@ -53,7 +53,9 @@ class UserViewController: SimpleTableViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
         // Check if the user is logged in
-        DataManager.shared.checkToken()
+        if UserManager.shared.isLoggedIn {
+            DataManager.shared.checkToken()
+        }
         // Update login status
         updateUserInfo()
     }
@@ -153,26 +155,14 @@ extension UserViewController {
     }
     
     @IBAction func likeApp(sender: UIBarButtonItem?) {
-        MBProgressHUD.showLoader(self.view)
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        let storeProductViewController = SKStoreProductViewController()
-        storeProductViewController.delegate = self
-        storeProductViewController.loadProductWithParameters([SKStoreProductParameterITunesItemIdentifier: NSNumber(integer: 284882215)]) { (result: Bool, error: NSError?) -> Void in
-            MBProgressHUD.hideLoader(self.view)
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            if result {
-                self.presentViewController(storeProductViewController, animated: true, completion: nil)
-            } else {
-                DLog(error)
-            }
-        }
-    }
-}
-
-// MARK: SKStoreProductViewControllerDelegate
-extension UserViewController: SKStoreProductViewControllerDelegate{
-    
-    func productViewControllerDidFinish(viewController: SKStoreProductViewController) {
-        viewController.dismissSelf()
+        let alertController = UIAlertController(title: NSLocalizedString("user_vc_feedback_alert_title"), message: NSLocalizedString("user_vc_feedback_alert_message"), preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_like"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+            Utils.shared.openAppStorePage()
+        }))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_suggestion"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+            Utils.shared.sendFeedbackEmail(self)
+        }))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_close"), style: UIAlertActionStyle.Cancel, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 }

@@ -109,11 +109,11 @@ extension SettingsViewController {
     }
     
     func sendFeedback() {
-        
+        Utils.shared.sendFeedbackEmail(self)
     }
     
     func review() {
-        
+        Utils.shared.openAppStorePage()
     }
     
     func cleanCache() {
