@@ -497,7 +497,7 @@ extension ProductViewController {
     }
     
     func star(sender: UIBarButtonItem) {
-        if UserManager.shared.isLoggedIn {
+        UserManager.shared.loginOrDo() { () -> () in
             if let isFavorite = self.isFavorite {
                 MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                     if let localProduct = self.product?.MR_inContext(localContext) {
@@ -508,10 +508,6 @@ extension ProductViewController {
                     }
                 })
             }
-        } else {
-            let loginViewController = LoginViewController.instantiate(.Login)
-            let navC = UINavigationController(rootViewController: loginViewController)
-            self.presentViewController(navC, animated: true, completion: nil)
         }
     }
 }

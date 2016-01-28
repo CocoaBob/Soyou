@@ -213,7 +213,7 @@ extension ProductsViewController {
     @IBAction func favProduct(sender: UIButton) {
         let position = sender.convertPoint(CGPointZero, toView: self.collectionView())
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
-        if UserManager.shared.isLoggedIn {
+        UserManager.shared.loginOrDo() { () -> () in
             if let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Product {
                 product.doFavorite({ (data: AnyObject?) -> () in
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
@@ -225,14 +225,6 @@ extension ProductsViewController {
                     })
                 })
             }
-        } else {
-            let loginViewController = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController")
-            loginViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(
-                barButtonSystemItem: .Done,
-                target:loginViewController,
-                action: "dismissSelf")
-            let navC = UINavigationController(rootViewController: loginViewController)
-            self.presentViewController(navC, animated: true, completion: nil)
         }
     }
 }
@@ -253,7 +245,7 @@ class ProductsCollectionViewCell: UICollectionViewCell {
                 } else {
                     self.btnFav.setImage(UIImage(named: "img_heart_shadow"), forState: UIControlState.Normal)
                 }
-            }else{
+            } else{
                 isFavorite = false
             }
         }

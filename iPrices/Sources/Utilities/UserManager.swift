@@ -179,4 +179,12 @@ extension UserManager {
             return NSLocalizedString("user_info_gender_secret")
         }
     }
+    
+    func loginOrDo(completion: VoidClosure?) {
+        if self.isLoggedIn {
+            if let completion = completion { completion() }
+        } else {
+            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(UINavigationController(rootViewController: LoginViewController.instantiate(.Login)), animated: true, completion: nil)
+        }
+    }
 }

@@ -51,6 +51,9 @@ class UserViewController: SimpleTableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // Check if the user is logged in
+        DataManager.shared.checkToken()
         // Update login status
         updateUserInfo()
     }
@@ -112,22 +115,18 @@ extension UserViewController {
 extension UserViewController {
     
     func showNewsFavorites() {
-        if UserManager.shared.isLoggedIn {
+        UserManager.shared.loginOrDo() { () -> () in
             let favoritesViewController = FavoritesViewController.instantiate()
             favoritesViewController.type = .News
             self.navigationController?.pushViewController(favoritesViewController, animated: true)
-        } else {
-            avatarAction()
         }
     }
     
     func showProductsFavorites() {
-        if UserManager.shared.isLoggedIn {
+        UserManager.shared.loginOrDo() { () -> () in
             let favoritesViewController = FavoritesViewController.instantiate()
             favoritesViewController.type = .Products
             self.navigationController?.pushViewController(favoritesViewController, animated: true)
-        } else {
-            avatarAction()
         }
     }
 }
@@ -142,10 +141,8 @@ extension UserViewController {
     }
     
     func avatarAction() {
-        if UserManager.shared.isLoggedIn {
+        UserManager.shared.loginOrDo() { () -> () in
             self.presentViewController(UINavigationController(rootViewController: ProfileViewController.instantiate()), animated: true, completion: nil)
-        } else {
-            self.presentViewController(UINavigationController(rootViewController: LoginViewController.instantiate(.Login)), animated: true, completion: nil)
         }
     }
     

@@ -16,6 +16,14 @@ class DataManager {
     
     private func handleError(error: NSError?) {
         DLog(error)
+        
+        if let response = error?.userInfo[AFNetworkingOperationFailingURLResponseErrorKey],
+            let statusCode = response.statusCode{
+                // If 401 error, logout
+                if statusCode == 401 {
+                    UserManager.shared.logOut()
+                }
+        }
     }
     
     private func completeWithData(data: AnyObject?, completion: CompletionClosure?) {
@@ -52,13 +60,20 @@ class DataManager {
         RequestManager.shared.requestCurrencies(currencies,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     
     //////////////////////////////////////
     // MARK: Authentication
     //////////////////////////////////////
+    
+    func checkToken() {
+        RequestManager.shared.checkToken(
+            { responseObject in self.completeWithData(responseObject, completion: nil) },
+            { error in self.completeWithError(error, completion: nil) }
+        )
+    }
     
     func login(email: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.login(email, password,
@@ -142,14 +157,14 @@ class DataManager {
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     func loadProductInfo(id: String, _ completion: CompletionClosure?) {
         RequestManager.shared.requestProductInfo(id,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     //////////////////////////////////////
@@ -201,7 +216,10 @@ class DataManager {
         let errorHandlerClosure = { (error: NSError?) -> () in
             self.completeWithError(error, completion: completion)
         }
-        RequestManager.shared.requestNewsFavorites(responseHandlerClosure, errorHandlerClosure)
+        
+        if UserManager.shared.isLoggedIn {
+            RequestManager.shared.requestNewsFavorites(responseHandlerClosure, errorHandlerClosure)
+        }
     }
     
     //////////////////////////////////////
@@ -277,28 +295,28 @@ class DataManager {
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     func requestNewsByID(id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsByID(id,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     func requestNews(ids: [NSNumber], _ completion: CompletionClosure?) {
         RequestManager.shared.requestNews(ids,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     func loadNewsInfo(id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsInfo(id,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     //////////////////////////////////////
@@ -312,7 +330,7 @@ class DataManager {
                 DLog("Push register success")
             },
             { error in self.completeWithError(error, completion: nil) }
-        );
+        )
     }
     
     //////////////////////////////////////
@@ -358,7 +376,7 @@ class DataManager {
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
-        );
+        )
     }
     
     // Helper method
@@ -367,7 +385,7 @@ class DataManager {
             return
         }
         let rangeSize = ((index + size) > productIDs.count) ? (productIDs.count - index) : size
-        DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", productIDs.count, index, size, rangeSize));
+        DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", productIDs.count, index, size, rangeSize))
         if rangeSize > 0 {
             let range = productIDs[index..<(index+rangeSize)]
             if index + rangeSize >= productIDs.count {

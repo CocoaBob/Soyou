@@ -626,19 +626,15 @@ extension NewsDetailViewController {
     }
     
     func star(sender: UIBarButtonItem) {
-        if UserManager.shared.isLoggedIn {
+        UserManager.shared.loginOrDo() { () -> () in
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 if let localNews = self.news?.MR_inContext(localContext) {
                     DataManager.shared.favoriteNews(localNews.id!, wasFavorite: self.isFavorite) { responseObject, error in
-                            // Toggle the value of isFavorite
-                            self.isFavorite = !self.isFavorite
+                        // Toggle the value of isFavorite
+                        self.isFavorite = !self.isFavorite
                     }
                 }
             })
-        } else {
-            let loginViewController = LoginViewController.instantiate(.Login)
-            let navC = UINavigationController(rootViewController: loginViewController)
-            self.presentViewController(navC, animated: true, completion: nil)
         }
     }
 }
