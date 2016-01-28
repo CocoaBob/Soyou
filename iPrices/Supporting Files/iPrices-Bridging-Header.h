@@ -2,10 +2,11 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
-@import Foundation;
-@import UIKit;
-@import MapKit;
 @import CoreLocation;
+@import Foundation;
+@import MapKit;
+@import StoreKit;
+@import UIKit;
 
 #import <libWeChatSDK/WXApiObject.h>
 #import <libWeChatSDK/WXApi.h>

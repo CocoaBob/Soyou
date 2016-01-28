@@ -78,7 +78,7 @@ extension UserViewController {
                     Row(type: .LeftTitle,
                         image: nil,
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -87,12 +87,27 @@ extension UserViewController {
                     Row(type: .LeftTitle,
                         image: nil,
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showProductsFavorites()
                     })
+                ]
+            ),
+            Section(
+                title: NSLocalizedString("user_vc_cell_misc"),
+                rows: [
+                    Row(type: .LeftTitle,
+                        image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_review"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
+                        accessoryType: .DisclosureIndicator,
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.likeApp(nil)
+                        }
+                    )
                 ]
             )
         ]
@@ -146,13 +161,33 @@ extension UserViewController {
         }
     }
     
-    @IBAction func showSettingsViewController(sender: UIBarButtonItem) {
+    @IBAction func showSettingsViewController(sender: UIBarButtonItem?) {
         if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController") {
             self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
         }
     }
     
-    @IBAction func likeApp(sender: UIBarButtonItem) {
-        
+    @IBAction func likeApp(sender: UIBarButtonItem?) {
+        MBProgressHUD.showLoader(self.view)
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        let storeProductViewController = SKStoreProductViewController()
+        storeProductViewController.delegate = self
+        storeProductViewController.loadProductWithParameters([SKStoreProductParameterITunesItemIdentifier: NSNumber(integer: 284882215)]) { (result: Bool, error: NSError?) -> Void in
+            MBProgressHUD.hideLoader(self.view)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            if result {
+                self.presentViewController(storeProductViewController, animated: true, completion: nil)
+            } else {
+                DLog(error)
+            }
+        }
+    }
+}
+
+// MARK: SKStoreProductViewControllerDelegate
+extension UserViewController: SKStoreProductViewControllerDelegate{
+    
+    func productViewControllerDidFinish(viewController: SKStoreProductViewController) {
+        viewController.dismissSelf()
     }
 }

@@ -52,6 +52,7 @@
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
 "user_vc_cell_favs_products"="Products";
+"user_vc_cell_misc"="Misc.";
 
 /* Favorites View Controller */
 "fav_vc_title_news"="Favorite News";
@@ -84,8 +85,10 @@
 /* Settings View Controller */
 "settings_vc_title"="Settings";
 "settings_vc_cell_clean_cache"="Clean caches";
-"settings_vc_cell_about"="About";
-"settings_vc_cell_feedback"="Feedback";
+"settings_vc_cell_about_us"="About us";
+"settings_vc_cell_about_app"="About iPrices";
+"settings_vc_cell_feedback"="Send feedbacks";
+"settings_vc_cell_review"="Write reviews";
 
 /* Error Code */
 "invalid_activation_code"="Invalid activation code.";

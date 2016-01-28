@@ -55,7 +55,8 @@ extension ProfileViewController {
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeUsername()
-                    }),
+                        }
+                    ),
                     Row(type: .LeftTitleRightDetail,
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_email"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
@@ -64,7 +65,8 @@ extension ProfileViewController {
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeEmail()
-                    })
+                        }
+                    )
                 ]
             ),
             Section(
@@ -78,7 +80,8 @@ extension ProfileViewController {
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeRegion()
-                    }),
+                        }
+                    ),
                     Row(type: .LeftTitleRightDetail,
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_gender"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
@@ -87,7 +90,8 @@ extension ProfileViewController {
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeGender()
-                    })
+                        }
+                    )
                 ]
             ),
             Section(
@@ -96,12 +100,13 @@ extension ProfileViewController {
                     Row(type: .CenterTitle,
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_logout"), placeholder:nil, color: UIColor.redColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
                         accessoryType:.None,
                         separatorInset:nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.logout()
-                    })
+                        }
+                    )
                 ]
             )
         ]
@@ -132,9 +137,8 @@ extension ProfileViewController {
                         subTitle: nil,
                         accessoryType: .None,
                         separatorInset: nil,
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-
-                    })
+                        didSelect: nil
+                    )
                 ]
             )
         ]
@@ -175,18 +179,16 @@ extension ProfileViewController {
                         subTitle: nil,
                         accessoryType: .None,
                         separatorInset: nil,
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            
-                    }),
+                        didSelect: nil
+                    ),
                     Row(type: .TextField,
                         image: nil,
                         title: Text(text: nil, placeholder: NSLocalizedString("profile_vc_cell_confirm_new_email_placeholder"), color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
                         subTitle: nil,
                         accessoryType: .None,
                         separatorInset: nil,
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            
-                    })
+                        didSelect: nil
+                    )
                 ]
             )
         ]

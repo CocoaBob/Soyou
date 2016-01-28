@@ -38,22 +38,44 @@ extension SettingsViewController {
                 rows: [
                     Row(type: .LeftTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_about"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_about_us"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.showAbout()
-                    }),
+                            self.showAboutUs()
+                        }
+                    ),
+                    Row(type: .LeftTitle,
+                        image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_about_app"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
+                        accessoryType: .DisclosureIndicator,
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.showAboutApp()
+                        }
+                    ),
                     Row(type: .LeftTitle,
                         image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_feedback"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
-                    })
+                        }
+                    ),
+                    Row(type: .LeftTitle,
+                        image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_review"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
+                        accessoryType: .DisclosureIndicator,
+                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.review()
+                        }
+                    )
                 ]
             ),
             Section(
@@ -62,12 +84,13 @@ extension SettingsViewController {
                     Row(type: .CenterTitle,
                         image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_clean_cache"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: nil, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
                         accessoryType: .None,
                         separatorInset: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.cleanCache()
-                    })
+                        }
+                    )
                 ]
             )
         ]
@@ -77,11 +100,19 @@ extension SettingsViewController {
 // MARK: Cell actions
 extension SettingsViewController {
     
-    func showAbout() {
+    func showAboutUs() {
+        
+    }
+    
+    func showAboutApp() {
         
     }
     
     func sendFeedback() {
+        
+    }
+    
+    func review() {
         
     }
     

@@ -52,6 +52,7 @@
 "user_vc_cell_favs"="收藏夹";
 "user_vc_cell_favs_news"="资讯";
 "user_vc_cell_favs_products"="产品";
+"user_vc_cell_misc"="其他";
 
 /* Favorites View Controller */
 "fav_vc_title_news"="收藏的新闻";
@@ -84,8 +85,10 @@
 /* Settings View Controller */
 "settings_vc_title"="设置";
 "settings_vc_cell_clean_cache"="清空缓存";
-"settings_vc_cell_about"="关于我们";
-"settings_vc_cell_feedback"="给我们一些建议吧";
+"settings_vc_cell_about_us"="关于我们";
+"settings_vc_cell_about_app"="关于『包打听』";
+"settings_vc_cell_feedback"="给我们些建议吧";
+"settings_vc_cell_review"="给我们个好评吧";
 
 /* Error Code */
 "invalid_activation_code"="无效激活码。";
