@@ -169,14 +169,23 @@ extension UserManager {
             self["gender"] = newValue
         }
         get {
-            if let gender = self["gender"] as? NSNumber {
-                if gender == 2 {
+            if let gender = self["gender"] as? String {
+                if gender == "2" {
                     return NSLocalizedString("user_info_gender_male")
-                } else if gender == 3 {
+                } else if gender == "3" {
                     return NSLocalizedString("user_info_gender_female")
                 }
             }
             return NSLocalizedString("user_info_gender_secret")
+        }
+    }
+    
+    var genderIndex: Int {
+        get {
+            if let gender = self["gender"] as? String {
+                return (Int(gender) ?? 1) - 1
+            }
+            return 0
         }
     }
     

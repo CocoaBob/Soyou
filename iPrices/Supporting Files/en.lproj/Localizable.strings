@@ -55,7 +55,7 @@
 "user_vc_feedback_alert_title"="Feedback";
 "user_vc_feedback_alert_message"="How do you feel about iPrices?";
 "user_vc_feedback_alert_like"="I like it!";
-"user_vc_feedback_alert_suggestion"="I've suggestions!";
+"user_vc_feedback_alert_feedback"="Send feedbacks";
 "user_vc_feedback_mail_title"="Test Subject";
 "user_vc_feedback_mail_message_body"="<html>Some <b>HTML</b> <i>text</i></html>";
 
@@ -86,9 +86,6 @@
 "login_vc_forget_password_alert_button"="I've got the code";
 "login_vc_forget_password_alert_message"="We've sent you a verfication code, please check your Email to get the code.";
 "login_vc_reset_password_alert_message"="Password has been reset, now you are logged in.";
-"login_vc_gender_secret"="Secret";
-"login_vc_gender_female"="Female";
-"login_vc_gender_male"="Male";
 
 /* Settings View Controller */
 "settings_vc_title"="Settings";

@@ -27,6 +27,7 @@ struct Row {
     var image: UIImage?
     var title: Text?
     var subTitle: Text?
+    var tintColor: UIColor?
     var accessoryType: UITableViewCellAccessoryType
     var separatorInset: UIEdgeInsets?
     var didSelect: ((UITableView, NSIndexPath)->())?
@@ -166,6 +167,9 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         cell.accessoryType = row.accessoryType
         if let separatorInset = row.separatorInset {
             cell.separatorInset = separatorInset
+        }
+        if let tintColor = row.tintColor {
+            cell.tintColor = tintColor
         }
         
         return cell

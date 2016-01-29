@@ -81,6 +81,7 @@ extension UserViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
+                        tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -90,6 +91,7 @@ extension UserViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
+                        tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -159,7 +161,7 @@ extension UserViewController {
         alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_like"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
             Utils.shared.openAppStorePage()
         }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_suggestion"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_feedback"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
             Utils.shared.sendFeedbackEmail(self)
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_close"), style: UIAlertActionStyle.Cancel, handler: nil))

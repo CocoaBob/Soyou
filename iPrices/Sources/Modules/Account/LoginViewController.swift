@@ -82,7 +82,7 @@ class LoginViewController: UIViewController {
 //            segmentedControl.selectedTitleFont = UIFont.systemFontOfSize(15)
             segmentedControl.selectedTitleTextColor = UIColor.whiteColor()
             segmentedControl.cornerRadius = 5.0
-            segmentedControl.borderColor = UIColor(white: 0.8, alpha: 1)
+            segmentedControl.borderColor = UIColor(white: 0.75, alpha: 1)
             segmentedControl.borderWidth = 1 / 2.0//(self.view.window?.screen.scale ?? 1)
             segmentedControl.segmentIndicatorInset = segmentedControl.borderWidth + 1
             segmentedControl.drawsSegmentIndicatorGradientBackground = true
@@ -336,11 +336,11 @@ extension LoginViewController: NYSegmentedControlDataSource {
     
     func segmentedControl(control: NYSegmentedControl!, titleAtIndex index: Int) -> String! {
         if index == 0 {
-            return NSLocalizedString("login_vc_gender_secret")
+            return NSLocalizedString("user_info_gender_secret")
         } else if index == 1 {
-            return NSLocalizedString("login_vc_gender_female")
+            return NSLocalizedString("user_info_gender_male")
         } else if index == 2 {
-            return NSLocalizedString("login_vc_gender_male")
+            return NSLocalizedString("user_info_gender_female")
         }
         return ""
     }

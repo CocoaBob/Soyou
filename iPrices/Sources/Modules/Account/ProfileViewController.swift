@@ -51,6 +51,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_username"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_empty"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -61,6 +62,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_email"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -76,6 +78,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_region"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: UserManager.shared.region, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -86,6 +89,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_gender"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: UserManager.shared.gender, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -101,6 +105,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_logout"), placeholder:nil, color: UIColor.redColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
+                        tintColor: nil,
                         accessoryType:.None,
                         separatorInset:nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -135,6 +140,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: UserManager.shared.username, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
+                        tintColor: nil,
                         accessoryType: .None,
                         separatorInset: nil,
                         didSelect: nil
@@ -177,6 +183,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: nil, placeholder: NSLocalizedString("profile_vc_cell_new_email_placeholder"), color: nil, keyboardType: .EmailAddress, returnKeyType: .Next),
                         subTitle: nil,
+                        tintColor: nil,
                         accessoryType: .None,
                         separatorInset: nil,
                         didSelect: nil
@@ -185,6 +192,7 @@ extension ProfileViewController {
                         image: nil,
                         title: Text(text: nil, placeholder: NSLocalizedString("profile_vc_cell_confirm_new_email_placeholder"), color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
                         subTitle: nil,
+                        tintColor: nil,
                         accessoryType: .None,
                         separatorInset: nil,
                         didSelect: nil
@@ -194,6 +202,7 @@ extension ProfileViewController {
         ]
         // Handler
         simpleViewController.completion = { () -> () in
+            // Validation
             let tfNewEmail = (simpleViewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! TableViewCellTextField).tfTitle
             let tfConfirmNewEmail = (simpleViewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! TableViewCellTextField).tfTitle
             if (tfNewEmail.text != nil &&
@@ -213,9 +222,12 @@ extension ProfileViewController {
                 tfConfirmNewEmail.shake()
                 return
             }
+            
+            // Update email
             if let editedText = simpleViewController.editedText {
                 MBProgressHUD.showLoader(nil)
                 DataManager.shared.modifyEmail(editedText) { responseObject, error in
+                    // Succeeded or Failed
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         MBProgressHUD.hideLoader(nil)
                         if let error = error {
@@ -243,7 +255,68 @@ extension ProfileViewController {
     }
     
     func changeGender() {
-        
+        let simpleViewController = SimpleTableViewController()
+        // UI
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
+        // Update selection closure
+        let updateSelectionClosure = { (selectedIndex: Int) -> () in
+            if var section = simpleViewController.sections.first {
+                var newRows = [Row]()
+                for index in 0..<section.rows.count {
+                    var row = section.rows[index]
+                    row.accessoryType = (index == selectedIndex) ? .Checkmark : .None
+                    newRows.append(row)
+                }
+                section.rows = newRows
+                simpleViewController.sections = [section]
+            }
+        }
+        // Data
+        var rows = [Row]()
+        for titleCode in ["user_info_gender_secret","user_info_gender_male","user_info_gender_female"] {
+            let row = Row(type: .LeftTitle,
+                image: nil,
+                title: Text(text: NSLocalizedString(titleCode), placeholder: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
+                subTitle: nil,
+                tintColor: UIColor(white: 0.15, alpha: 1),
+                accessoryType: .None,
+                separatorInset: nil,
+                didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                    updateSelectionClosure(indexPath.row)
+                    simpleViewController.tableView.reloadData()
+                }
+            )
+            rows.append(row)
+        }
+        simpleViewController.sections = [
+            Section(
+                title: nil,
+                rows: rows
+            )
+        ]
+        updateSelectionClosure(UserManager.shared.genderIndex)
+        // Handler
+        simpleViewController.completion = { () -> () in
+            // Update gender
+            if let selectedRow = simpleViewController.selectedRow {
+                let newGender = "\(selectedRow.row+1)"
+                MBProgressHUD.showLoader(nil)
+                DataManager.shared.modifyUserInfo("gender", newGender) { responseObject, error in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        MBProgressHUD.hideLoader(nil)
+                        if let error = error {
+                            DataManager.showRequestFailedAlert(error)
+                        } else {
+                            UserManager.shared.gender = newGender
+                            simpleViewController.navigationController?.popViewControllerAnimated(true)
+                        }
+                    })
+                }
+            }
+        }
+        // Push
+        self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
 }
 

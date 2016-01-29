@@ -55,7 +55,7 @@
 "user_vc_feedback_alert_title"="用户反馈";
 "user_vc_feedback_alert_message"="您觉得『包打听』怎么样？";
 "user_vc_feedback_alert_like"="我很喜欢!";
-"user_vc_feedback_alert_suggestion"="我有建议!";
+"user_vc_feedback_alert_feedback"="我要反馈!";
 "user_vc_feedback_mail_title"="测试标题";
 "user_vc_feedback_mail_message_body"="<html>一些<b>HTML</b><i>文本</i></html>";
 
@@ -86,9 +86,6 @@
 "login_vc_forget_password_alert_button"="我已收到验证码";
 "login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
 "login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
-"login_vc_gender_secret"="保密";
-"login_vc_gender_female"="女生";
-"login_vc_gender_male"="男生";
 
 /* Settings View Controller */
 "settings_vc_title"="设置";
@@ -139,8 +136,8 @@
 "user_info_username_empty"="空白";
 "user_info_region_unknown"="未知";
 "user_info_gender_secret"="保密";
-"user_info_gender_male"="男";
-"user_info_gender_female"="女";
+"user_info_gender_male"="男生";
+"user_info_gender_female"="女生";
 
 /* Currency Names */
 "currency_name_cny"="人民币";
