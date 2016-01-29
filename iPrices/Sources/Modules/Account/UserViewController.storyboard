@@ -228,7 +228,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="52E-uY-lzB">
-                                            <rect key="frame" x="15" y="7" width="64" height="64"/>
+                                            <rect key="frame" x="8" y="7" width="64" height="64"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="64" id="baA-H9-eoR"/>
                                                 <constraint firstAttribute="width" constant="64" id="okG-93-4bX"/>
@@ -246,7 +246,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTV-92-a7v">
-                                            <rect key="frame" x="87" y="8" width="465" height="64"/>
+                                            <rect key="frame" x="80" y="8" width="472" height="64"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -256,7 +256,7 @@
                                         <constraint firstAttribute="trailing" secondItem="xTV-92-a7v" secondAttribute="trailing" constant="15" id="3nZ-BM-dcg"/>
                                         <constraint firstItem="52E-uY-lzB" firstAttribute="centerY" secondItem="Ofv-7e-403" secondAttribute="centerY" id="NEb-mg-Igw"/>
                                         <constraint firstItem="xTV-92-a7v" firstAttribute="height" secondItem="52E-uY-lzB" secondAttribute="height" id="WhW-zB-ciV"/>
-                                        <constraint firstItem="52E-uY-lzB" firstAttribute="leading" secondItem="Ofv-7e-403" secondAttribute="leading" constant="15" id="XcQ-OJ-ke3"/>
+                                        <constraint firstItem="52E-uY-lzB" firstAttribute="leading" secondItem="Ofv-7e-403" secondAttribute="leadingMargin" id="XcQ-OJ-ke3"/>
                                         <constraint firstItem="xTV-92-a7v" firstAttribute="leading" secondItem="52E-uY-lzB" secondAttribute="trailing" constant="8" id="g9G-7T-31O"/>
                                         <constraint firstItem="xTV-92-a7v" firstAttribute="centerY" secondItem="Ofv-7e-403" secondAttribute="centerY" id="iIj-Vi-qpA"/>
                                     </constraints>
@@ -275,7 +275,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1gz-c1-kFm">
-                                            <rect key="frame" x="15" y="7" width="64" height="64"/>
+                                            <rect key="frame" x="8" y="7" width="64" height="64"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="3gi-76-aKb"/>
                                                 <constraint firstAttribute="height" constant="64" id="i1P-dv-ono"/>
@@ -293,13 +293,13 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Brand" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhn-9F-4gO">
-                                            <rect key="frame" x="87" y="10" width="472" height="18"/>
+                                            <rect key="frame" x="80" y="10" width="479" height="18"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqS-kJ-1Ea" userLabel="Lbl Title">
-                                            <rect key="frame" x="87" y="32" width="472" height="15"/>
+                                            <rect key="frame" x="80" y="32" width="479" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="15" id="byh-nw-Oam"/>
                                             </constraints>
@@ -308,7 +308,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bag-A8-yVP" userLabel="Lbl Price">
-                                            <rect key="frame" x="87" y="51" width="472" height="15"/>
+                                            <rect key="frame" x="80" y="51" width="479" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="15" id="Lhy-Uc-VZW"/>
                                             </constraints>
@@ -323,7 +323,7 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="hhn-9F-4gO" secondAttribute="trailing" id="Ipn-mU-Wxw"/>
                                         <constraint firstItem="1gz-c1-kFm" firstAttribute="centerY" secondItem="117-qk-b0t" secondAttribute="centerY" id="KDi-fM-IOn"/>
                                         <constraint firstItem="bag-A8-yVP" firstAttribute="top" secondItem="SqS-kJ-1Ea" secondAttribute="bottom" constant="4" id="MqD-qr-l3C"/>
-                                        <constraint firstItem="1gz-c1-kFm" firstAttribute="leading" secondItem="117-qk-b0t" secondAttribute="leading" constant="15" id="RZE-R9-Pek"/>
+                                        <constraint firstItem="1gz-c1-kFm" firstAttribute="leading" secondItem="117-qk-b0t" secondAttribute="leadingMargin" id="RZE-R9-Pek"/>
                                         <constraint firstItem="hhn-9F-4gO" firstAttribute="leading" secondItem="1gz-c1-kFm" secondAttribute="trailing" constant="8" id="WAg-ch-1nC"/>
                                         <constraint firstItem="SqS-kJ-1Ea" firstAttribute="top" secondItem="hhn-9F-4gO" secondAttribute="bottom" constant="4" id="Yzc-iO-hWK"/>
                                         <constraint firstItem="SqS-kJ-1Ea" firstAttribute="leading" secondItem="hhn-9F-4gO" secondAttribute="leading" id="hNZ-hJ-Ss8"/>
