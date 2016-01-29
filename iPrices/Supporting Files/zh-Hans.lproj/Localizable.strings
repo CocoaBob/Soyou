@@ -41,7 +41,7 @@
 "product_prices_vc_official_website"="官网直达";
 "product_prices_vc_official_retail"="当地零售价";
 "product_prices_vc_official_equivalent"="折合人民币";
-"product_prices_vc_unavailable"="暂无";
+"product_prices_vc_unavailable"="";
 
 /* Product Descriptions View Controller */
 "product_descriptions_vc_title"="单品描述";
