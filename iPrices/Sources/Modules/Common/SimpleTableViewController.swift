@@ -44,7 +44,7 @@ class SimpleTableViewController: UIViewController {
     
     var sections = [Section]()
     var editedText: String?
-    var selectedRow: NSIndexPath?
+    var selectedIndexPath: NSIndexPath?
     var completion: (() -> ())?
     
     required init?(coder aDecoder: NSCoder) {
@@ -194,12 +194,12 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        self.selectedRow = indexPath
-        
         let row = sections[indexPath.section].rows[indexPath.row]
         if let didSelectClosure = row.didSelect {
             didSelectClosure(tableView, indexPath)
         }
+        
+        self.selectedIndexPath = indexPath
     }
 }
 

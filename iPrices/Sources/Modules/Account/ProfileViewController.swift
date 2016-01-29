@@ -267,7 +267,7 @@ extension ProfileViewController {
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
         simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
         // Data
-        if let regions = Region.MR_findAll() {
+        if let regions = Region.MR_findAllSortedBy("code", ascending: true) {
             let regionCodes = regions.flatMap {($0 as? Region)?.code}
             var rows = [Row]()
             for regionCode in regionCodes {
@@ -282,7 +282,9 @@ extension ProfileViewController {
                         let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
                         simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != UserManager.shared.region)
                         if simpleViewController.updateSelectionCheckmark(indexPath) {
-                            simpleViewController.tableView.reloadData()
+                            simpleViewController.tableView.beginUpdates()
+                            simpleViewController.tableView.reloadRowsAtIndexPaths([simpleViewController.selectedIndexPath!, indexPath], withRowAnimation: .Fade)
+                            simpleViewController.tableView.endUpdates()
                         }
                     }
                 )
@@ -295,15 +297,16 @@ extension ProfileViewController {
                 )
             ]
             if let region = UserManager.shared.region, let index = regionCodes.indexOf(region) {
-                simpleViewController.updateSelectionCheckmark(NSIndexPath(forRow: index, inSection: 0))
+                simpleViewController.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+                simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
             }
         }
         // Handler
         simpleViewController.completion = { () -> () in
             // Update region
-            if let selectedRow = simpleViewController.selectedRow,
+            if let selectedIndexPath = simpleViewController.selectedIndexPath,
                 let rows = simpleViewController.sections.first?.rows {
-                let row = rows[selectedRow.row]
+                let row = rows[selectedIndexPath.row]
                 let regionCode = row.title!.text!
                 MBProgressHUD.showLoader(nil)
                 DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
@@ -346,7 +349,9 @@ extension ProfileViewController {
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (indexPath.row != UserManager.shared.genderIndex)
                     if simpleViewController.updateSelectionCheckmark(indexPath) {
-                        simpleViewController.tableView.reloadData()
+                        simpleViewController.tableView.beginUpdates()
+                        simpleViewController.tableView.reloadRowsAtIndexPaths([simpleViewController.selectedIndexPath!, indexPath], withRowAnimation: .Fade)
+                        simpleViewController.tableView.endUpdates()
                     }
                 }
             )
@@ -358,12 +363,13 @@ extension ProfileViewController {
                 rows: rows
             )
         ]
-        simpleViewController.updateSelectionCheckmark(NSIndexPath(forRow: UserManager.shared.genderIndex, inSection: 0))
+        simpleViewController.selectedIndexPath = NSIndexPath(forRow: UserManager.shared.genderIndex, inSection: 0)
+        simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
         // Handler
         simpleViewController.completion = { () -> () in
             // Update gender
-            if let selectedRow = simpleViewController.selectedRow {
-                let newGender = "\(selectedRow.row+1)"
+            if let selectedIndexPath = simpleViewController.selectedIndexPath {
+                let newGender = "\(selectedIndexPath.row+1)"
                 MBProgressHUD.showLoader(nil)
                 DataManager.shared.modifyUserInfo("gender", newGender) { responseObject, error in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
