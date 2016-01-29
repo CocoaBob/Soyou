@@ -186,7 +186,7 @@ class RequestManager {
     //////////////////////////////////////
     
     func requestAllRegions(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/regions/brand", "Region", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/regions", "Region", onSuccess, onFailure)
     }
     
     //////////////////////////////////////

@@ -263,4 +263,26 @@ extension SimpleTableViewController {
         }
         return nil
     }
+    
+    func updateSelectionCheckmark(indexPath: NSIndexPath) -> Bool {
+        var isChanged = false
+        var newSections = [Section]()
+        for indexSection in 0..<self.sections.count {
+            var section = self.sections[indexSection]
+            var newRows = [Row]()
+            for indexRow in 0..<section.rows.count {
+                var row = section.rows[indexRow]
+                let newAccessoryType = (indexSection == indexPath.section && indexRow == indexPath.row) ? UITableViewCellAccessoryType.Checkmark : .None
+                if row.accessoryType != newAccessoryType {
+                    row.accessoryType = newAccessoryType
+                    isChanged = true
+                }
+                newRows.append(row)
+            }
+            section.rows = newRows
+            newSections.append(section)
+        }
+        self.sections = newSections
+        return isChanged
+    }
 }

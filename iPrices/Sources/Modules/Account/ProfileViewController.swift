@@ -118,7 +118,7 @@ extension ProfileViewController {
     }
 }
 
-// MARK: Cell actions
+// MARK: Logout
 extension ProfileViewController {
     
     func logout() {
@@ -126,6 +126,11 @@ extension ProfileViewController {
         self.dismissSelf()
     }
 
+}
+
+// MARK: Change Username
+extension ProfileViewController {
+    
     func changeUsername() {
         let simpleViewController = SimpleTableViewController()
         // UI
@@ -250,28 +255,84 @@ extension ProfileViewController {
         self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
     
+}
+
+// MARK: Change Region
+extension ProfileViewController {
+    
     func changeRegion() {
-        
+        let simpleViewController = SimpleTableViewController()
+        // UI
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
+        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
+        // Data
+        if let regions = Region.MR_findAll() {
+            let regionCodes = regions.flatMap {($0 as? Region)?.code}
+            var rows = [Row]()
+            for regionCode in regionCodes {
+                let row = Row(type: .LeftTitle,
+                    image: nil,
+                    title: Text(text: regionCode, placeholder: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
+                    subTitle: nil,
+                    tintColor: UIColor(white: 0.15, alpha: 1),
+                    accessoryType: .None,
+                    separatorInset: nil,
+                    didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
+                        simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != UserManager.shared.region)
+                        if simpleViewController.updateSelectionCheckmark(indexPath) {
+                            simpleViewController.tableView.reloadData()
+                        }
+                    }
+                )
+                rows.append(row)
+            }
+            simpleViewController.sections = [
+                Section(
+                    title: nil,
+                    rows: rows
+                )
+            ]
+            if let region = UserManager.shared.region, let index = regionCodes.indexOf(region) {
+                simpleViewController.updateSelectionCheckmark(NSIndexPath(forRow: index, inSection: 0))
+            }
+        }
+        // Handler
+        simpleViewController.completion = { () -> () in
+            // Update region
+            if let selectedRow = simpleViewController.selectedRow,
+                let rows = simpleViewController.sections.first?.rows {
+                let row = rows[selectedRow.row]
+                let regionCode = row.title!.text!
+                MBProgressHUD.showLoader(nil)
+                DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        MBProgressHUD.hideLoader(nil)
+                        if let error = error {
+                            DataManager.showRequestFailedAlert(error)
+                        } else {
+                            UserManager.shared.region = regionCode
+                            simpleViewController.navigationController?.popViewControllerAnimated(true)
+                        }
+                    })
+                }
+            }
+        }
+        // Push
+        self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
+}
+
+// MARK: Change Gender
+extension ProfileViewController {
     
     func changeGender() {
         let simpleViewController = SimpleTableViewController()
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
         simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
-        // Update selection closure
-        let updateSelectionClosure = { (selectedIndex: Int) -> () in
-            if var section = simpleViewController.sections.first {
-                var newRows = [Row]()
-                for index in 0..<section.rows.count {
-                    var row = section.rows[index]
-                    row.accessoryType = (index == selectedIndex) ? .Checkmark : .None
-                    newRows.append(row)
-                }
-                section.rows = newRows
-                simpleViewController.sections = [section]
-            }
-        }
         // Data
         var rows = [Row]()
         for titleCode in ["user_info_gender_secret","user_info_gender_male","user_info_gender_female"] {
@@ -283,8 +344,10 @@ extension ProfileViewController {
                 accessoryType: .None,
                 separatorInset: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                    updateSelectionClosure(indexPath.row)
-                    simpleViewController.tableView.reloadData()
+                    simpleViewController.navigationItem.rightBarButtonItem?.enabled = (indexPath.row != UserManager.shared.genderIndex)
+                    if simpleViewController.updateSelectionCheckmark(indexPath) {
+                        simpleViewController.tableView.reloadData()
+                    }
                 }
             )
             rows.append(row)
@@ -295,7 +358,7 @@ extension ProfileViewController {
                 rows: rows
             )
         ]
-        updateSelectionClosure(UserManager.shared.genderIndex)
+        simpleViewController.updateSelectionCheckmark(NSIndexPath(forRow: UserManager.shared.genderIndex, inSection: 0))
         // Handler
         simpleViewController.completion = { () -> () in
             // Update gender
