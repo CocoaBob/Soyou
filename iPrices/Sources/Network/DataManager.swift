@@ -146,7 +146,7 @@ class DataManager {
     // MARK: Products
     //////////////////////////////////////
     
-    func loadAllBrands(completion: CompletionClosure?){
+    func requestAllBrands(completion: CompletionClosure?){
         RequestManager.shared.requestAllBrands(
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -160,7 +160,7 @@ class DataManager {
         )
     }
     
-    func loadProductInfo(id: String, _ completion: CompletionClosure?) {
+    func requestProductInfo(id: String, _ completion: CompletionClosure?) {
         RequestManager.shared.requestProductInfo(id,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
@@ -312,7 +312,7 @@ class DataManager {
         )
     }
     
-    func loadNewsInfo(id: NSNumber, _ completion: CompletionClosure?) {
+    func requestNewsInfo(id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsInfo(id,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
@@ -365,7 +365,7 @@ class DataManager {
         )
     }
     
-    func loadAllProductIDs(completion: CompletionClosure?) {
+    func requestAllProductIDs(completion: CompletionClosure?) {
         RequestManager.shared.requestAllProductIDs(
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -379,7 +379,7 @@ class DataManager {
         )
     }
     
-    // Helper method
+    // Helper methods for Products
     func loadBunchProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
         if index >= productIDs.count {
             return
@@ -398,7 +398,7 @@ class DataManager {
     }
     
     func loadAllProducts(completion: CompletionClosure?) {
-        self.loadAllProductIDs { responseObject, error in
+        self.requestAllProductIDs { responseObject, error in
             // Collect product ids
             var productIDs = [NSNumber]()
             MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
@@ -416,44 +416,20 @@ class DataManager {
         }
     }
     
-    private var isLoading = false
-    
-    func prefetchData() {
-        var needsToLoad = true
-        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
-            needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 * 24
-        }
-        
-        if needsToLoad && !isLoading {
-            self.isLoading = true
-            var count = 2
-            let completionClosure = {
-                --count
-                DLog("PrefetchData Completion Closure count == \(count)")
-                if count == 0 {
-                    self.isLoading = false
-                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
-                    NSUserDefaults.standardUserDefaults().synchronize()
-                }
-            }
-            
-            // Preload data
-            DataManager.shared.loadAllBrands() { responseObject, error in
-                completionClosure()
-            }
-            DataManager.shared.loadAllProducts() { responseObject, error in
-                completionClosure()
-            }
-        }
-    }
-    
     //////////////////////////////////////
     // MARK: Region
     //////////////////////////////////////
     
     func requestAllRegions(completion: CompletionClosure?) {
         RequestManager.shared.requestAllRegions(
-            { responseObject in self.completeWithData(responseObject, completion: completion) },
+            { responseObject in
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                        Region.importDatas(data)
+                    }
+                    self.completeWithData(responseObject, completion: completion)
+                }
+            },
             { error in self.completeWithError(error, completion: completion) }
         )
     }
@@ -462,10 +438,67 @@ class DataManager {
     // MARK: Store
     //////////////////////////////////////
     
-    func requestAllStores(brandID: String?, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestAllStores(brandID,
-            { responseObject in self.completeWithData(responseObject, completion: completion) },
+    func requestAllStores(timestamp: NSNumber?, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestAllStores(timestamp,
+            { responseObject in
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                        // Save timestamp for next request
+                        if let timestamp = data["timestamp"] {
+                            NSUserDefaults.standardUserDefaults().setObject(timestamp, forKey: Cons.App.lastRequestStoresTimestamp)
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                        }
+                        // Import data
+                        if let stores = data["stores"] as? [NSDictionary] {
+                            Store.importDatas(stores)
+                        }
+                    }
+                    self.completeWithData(responseObject, completion: completion)
+                }
+            },
             { error in self.completeWithError(error, completion: completion) }
         )
+    }
+    
+    //////////////////////////////////////
+    // MARK: Prefetch
+    //////////////////////////////////////
+    
+    private var isLoading = false
+    
+    func prefetchData() {
+        var needsToLoad = true
+        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
+            needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 * 24 // 1 day
+        }
+        
+        if needsToLoad && !isLoading {
+            self.isLoading = true
+            var count = 3
+            let completionClosure = {
+                --count
+                if count == 0 {
+                    self.isLoading = false
+                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                }
+            }
+            
+            // Preload data
+            DataManager.shared.requestAllRegions() { responseObject, error in
+                completionClosure()
+            }
+            DataManager.shared.requestAllBrands() { responseObject, error in
+                completionClosure()
+            }
+            
+            let timestamp = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastRequestStoresTimestamp) as? NSNumber
+            DataManager.shared.requestAllStores(timestamp) { responseObject, error in
+                completionClosure()
+            }
+            DataManager.shared.loadAllProducts() { responseObject, error in
+                completionClosure()
+            }
+        }
     }
 }

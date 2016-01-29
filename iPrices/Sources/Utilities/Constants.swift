@@ -36,6 +36,7 @@ public struct Cons {
         static let deviceToken                          = "deviceToken"
         static let lastVerIntro                         = "lastVerIntro" // The last app version that displayed the introduction view
         static let lastUpdateDate                       = "lastUpdateDate"
+        static let lastRequestStoresTimestamp           = "lastRequestStoresTimestamp"
     }
     
     struct UI {

@@ -397,7 +397,7 @@ extension ProductViewController {
             if let localProduct = self.product?.MR_inContext(localContext) {
                 self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
                 if let productID = localProduct.id {
-                    DataManager.shared.loadProductInfo("\(productID)") { responseObject, error in
+                    DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
                         guard let data = responseObject?["data"] else { return }
                         
                         if let likeNumber = data?["likeNumber"] as? NSNumber {

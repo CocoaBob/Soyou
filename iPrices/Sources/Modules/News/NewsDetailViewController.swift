@@ -295,7 +295,7 @@ extension NewsDetailViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
-                    DataManager.shared.loadNewsInfo(newsID) { responseObject, error in
+                    DataManager.shared.requestNewsInfo(newsID) { responseObject, error in
                         guard let data = responseObject?["data"] else { return }
                         
                         if let likeNumber = data?["likeNumber"] as? NSNumber {
@@ -359,7 +359,6 @@ extension NewsDetailViewController {
         }
     }
 }
-
 
 // MARK: Data
 extension NewsDetailViewController {

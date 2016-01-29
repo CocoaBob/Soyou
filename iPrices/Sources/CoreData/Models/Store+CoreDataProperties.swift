@@ -23,9 +23,7 @@ extension Store {
     @NSManaged var longitude: NSNumber?
     @NSManaged var latitude: NSNumber?
     @NSManaged var brandId: NSNumber?
-    @NSManaged var dateModification: NSDate?
     @NSManaged var id: NSNumber?
-    @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var country: String?
 
 }

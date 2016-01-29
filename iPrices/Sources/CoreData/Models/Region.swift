@@ -12,7 +12,7 @@ import CoreData
 
 class Region: BaseModel {
     
-    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (Region?) {
+    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Region?) {
         var region: Region? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
@@ -46,11 +46,11 @@ class Region: BaseModel {
         return region
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
+    class func importDatas(datas: [NSDictionary]?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {
-                    Region.importData(data, isComplete, localContext)
+                    Region.importData(data, localContext)
                 }
             })
         }

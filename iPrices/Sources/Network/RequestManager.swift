@@ -193,8 +193,8 @@ class RequestManager {
     // MARK: Store
     //////////////////////////////////////
     
-    func requestAllStores(brandID: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/stores/brand/%@", brandID ?? ""), "Store", onSuccess, onFailure)
+    func requestAllStores(timestamp: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/stores/%@", timestamp != nil ? "\(timestamp!)" : ""), "Store", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
