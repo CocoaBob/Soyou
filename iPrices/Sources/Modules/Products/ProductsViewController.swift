@@ -99,7 +99,11 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         cell.lblBrand?.text = product.brandLabel
         if let prices = product.prices as? NSArray {
             if let price = prices.firstObject as! NSDictionary?, priceNumber = price["price"] as? NSNumber {
-                cell.lblPrice?.text = FmtString("%@",priceNumber)
+                var countryCode: String?
+                if let country = price["country"] as? String {
+                    countryCode = CountryCode[country]
+                }
+                cell.lblPrice?.text = Utils.shared.formattedPrice(priceNumber, countryCode, true)
             }
         }
         cell.isFavorite = product.appIsFavorite?.boolValue

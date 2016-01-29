@@ -101,13 +101,15 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         } else {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as! ProductPricesTableViewCellCurrency
             
+            _cell.lblRetail.text = NSLocalizedString("product_prices_vc_official_retail")
+            _cell.lblRetailCurrency.text = Utils.shared.currencyName(CountryCode[country] ?? "")
+            _cell.lblRetailPrice.text = Utils.shared.formattedPrice(price, nil, nil)
+            _cell.lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
             if let sourceCurrencyCode = CurrencyCode[country], rate = self.getRateBySourceCode(sourceCurrencyCode) {
-                    _cell.lblPriceCNY.text = "\(Int(round(price.doubleValue * (rate.rate?.doubleValue)!)))"
+                _cell.lblEquivalentPrice.text = Utils.shared.formattedPrice(NSNumber(double: price.doubleValue * (rate.rate?.doubleValue)!), nil, nil)
             }else{
-                _cell.lblPriceCNY.text = NSLocalizedString("unavailable")
+                _cell.lblEquivalentPrice.text = NSLocalizedString("product_prices_vc_unavailable")
             }
-            
-            _cell.lblPrice.text = "\(price)"
             
             
             cell = _cell
@@ -120,7 +122,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         if indexPath.row == 0 {
             return 40
         } else {
-            return 32
+            return 56
         }
     }
     
@@ -153,9 +155,11 @@ class ProductPricesTableViewCellCountry: UITableViewCell {
 }
 
 class ProductPricesTableViewCellCurrency: UITableViewCell {
-    @IBOutlet var lblPrice: UILabel!
+    @IBOutlet var lblRetail: UILabel!
+    @IBOutlet var lblRetailCurrency: UILabel!
+    @IBOutlet var lblRetailPrice: UILabel!
     @IBOutlet var lblEquivalent: UILabel!
-    @IBOutlet var lblPriceCNY: UILabel!
+    @IBOutlet var lblEquivalentPrice: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -164,7 +168,10 @@ class ProductPricesTableViewCellCurrency: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        lblPrice.text = nil
-        lblPriceCNY.text = nil
+        lblRetail.text = nil
+        lblRetailCurrency.text = nil
+        lblRetailPrice.text = nil
+        lblEquivalent.text = nil
+        lblEquivalentPrice.text = nil
     }
 }

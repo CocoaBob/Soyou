@@ -9,6 +9,7 @@
 import Foundation
 
 class CurrencyManager {
+    
     static let shared = CurrencyManager()
     
     let currencies = [
