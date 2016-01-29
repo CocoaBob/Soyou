@@ -21,7 +21,7 @@ class FavoritesViewController: BaseViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        switch (type) {
+        switch (self.type) {
         case .News:
             return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false", ascending: false)
         case .Products:
@@ -49,7 +49,7 @@ class FavoritesViewController: BaseViewController {
         super.viewDidLoad()
         
         // Title
-        switch (type) {
+        switch (self.type) {
         case .News:
             self.title = NSLocalizedString("fav_vc_title_news")
         case .Products:
@@ -72,7 +72,7 @@ class FavoritesViewController: BaseViewController {
         self.hideToolbar(false);
         
         // Load favorites
-        switch (type) {
+        switch (self.type) {
         case .News:
             DataManager.shared.requestNewsFavorites(nil)
         case .Products:
@@ -108,7 +108,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell?
         
-        switch (type) {
+        switch (self.type) {
         case .News:
             let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteNewsTableViewCell", forIndexPath: indexPath) as! FavoriteNewsTableViewCell
             let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
@@ -132,7 +132,11 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             // Price
             if let prices = product.prices as? NSArray {
                 if let price = prices.firstObject as! NSDictionary?, priceNumber = price["price"] as? NSNumber {
-                    _cell.lblPrice?.text = FmtString("%@",priceNumber)
+                    var countryCode: String?
+                    if let country = price["country"] as? String {
+                        countryCode = CountryCode[country]
+                    }
+                    _cell.lblPrice?.text = Utils.shared.formattedPrice(priceNumber, countryCode, true)
                 }
             }
             // Image
@@ -157,7 +161,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         
         var nextViewController: UIViewController?
         
-        switch (type) {
+        switch (self.type) {
         case .News:
             let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
             // Prepare cover image
@@ -185,6 +189,38 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         // Push view controller
         self.navigationController?.pushViewController(nextViewController!, animated: true)
     }
+    
+    // Delete favorites
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            UserManager.shared.loginOrDo() { () -> () in
+                switch (self.type) {
+                case .News:
+                    let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
+                    MBProgressHUD.showLoader(self.view)
+                    DataManager.shared.favoriteNews(news.id!, wasFavorite: true) { responseObject, error in
+                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                            MBProgressHUD.hideLoader(self.view)
+                            if let localNews = news.MR_inContext(localContext) {
+                                localNews.MR_deleteEntity()
+                            }
+                        })
+                    }
+                case .Products:
+                    let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
+                    MBProgressHUD.showLoader(self.view)
+                    product.doFavorite({ (data: AnyObject?) -> () in
+                        MBProgressHUD.hideLoader(self.view)
+                    })
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: UIGestureRecognizerDelegate

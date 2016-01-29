@@ -499,13 +499,9 @@ extension ProductViewController {
     func star(sender: UIBarButtonItem) {
         UserManager.shared.loginOrDo() { () -> () in
             if let isFavorite = self.isFavorite {
-                MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                    if let localProduct = self.product?.MR_inContext(localContext) {
-                        localProduct.doFavorite({ (data: AnyObject?) -> () in
-                            // Toggle the value of isFavorite
-                            self.isFavorite = !isFavorite
-                        })
-                    }
+                self.product?.doFavorite({ (data: AnyObject?) -> () in
+                    // Toggle the value of isFavorite
+                    self.isFavorite = !isFavorite
                 })
             }
         }
