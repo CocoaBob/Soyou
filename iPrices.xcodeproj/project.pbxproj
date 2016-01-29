@@ -29,6 +29,10 @@
 		45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D111C29954D00026027 /* WeChatSessionActivity.swift */; };
 		4506ED711C221797003B5018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4506ED701C221797003B5018 /* LoginViewController.swift */; };
 		45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243C681C17A514005D476D /* UIViewController+Additions.swift */; };
+		4525C0F71C5B8B4200C26992 /* Store+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F31C5B8B4200C26992 /* Store+CoreDataProperties.swift */; };
+		4525C0F81C5B8B4200C26992 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F41C5B8B4200C26992 /* Store.swift */; };
+		4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */; };
+		4525C0FA1C5B8B4200C26992 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F61C5B8B4200C26992 /* Region.swift */; };
 		4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */; };
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
@@ -135,6 +139,10 @@
 		45034D111C29954D00026027 /* WeChatSessionActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatSessionActivity.swift; sourceTree = "<group>"; };
 		4506ED701C221797003B5018 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		45243C681C17A514005D476D /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
+		4525C0F31C5B8B4200C26992 /* Store+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Store+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4525C0F41C5B8B4200C26992 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Region+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4525C0F61C5B8B4200C26992 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Additions.swift"; sourceTree = "<group>"; };
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
@@ -401,6 +409,10 @@
 				457777811BFCB60100805D79 /* News.swift */,
 				0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */,
 				45016E561C14EC25004034BC /* Product.swift */,
+				4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */,
+				4525C0F61C5B8B4200C26992 /* Region.swift */,
+				4525C0F31C5B8B4200C26992 /* Store+CoreDataProperties.swift */,
+				4525C0F41C5B8B4200C26992 /* Store.swift */,
 				454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */,
 				454ECE9A1C567AE5003A0E94 /* User.swift */,
 			);
@@ -625,6 +637,7 @@
 				45CFA5961C2AAA61007D38F3 /* DataManager.swift in Sources */,
 				45016E581C14EC25004034BC /* Product.swift in Sources */,
 				45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */,
+				4525C0FA1C5B8B4200C26992 /* Region.swift in Sources */,
 				4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */,
 				4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */,
 				4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */,
@@ -637,6 +650,7 @@
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
 				0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */,
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
+				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
 				4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
@@ -650,6 +664,7 @@
 				45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
 				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
+				4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */,
 				4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */,
 				45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
@@ -678,6 +693,7 @@
 				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 				454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */,
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,
+				4525C0F71C5B8B4200C26992 /* Store+CoreDataProperties.swift in Sources */,
 				45034D121C29954D00026027 /* SharingProvider.swift in Sources */,
 				45AE9B491C47C4150081ECBA /* ProductPricesViewController.swift in Sources */,
 			);
