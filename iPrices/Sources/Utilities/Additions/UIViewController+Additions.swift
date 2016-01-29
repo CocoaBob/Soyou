@@ -20,7 +20,11 @@ extension UIViewController {
     func topInset(parallaxHeaderHeight: CGFloat, _ includeStatusBar: Bool) -> CGFloat {
         var topInset: CGFloat = parallaxHeaderHeight
         if includeStatusBar && !UIApplication.sharedApplication().statusBarHidden {
-            topInset += UIApplication.sharedApplication().statusBarFrame.size.height
+            topInset += 20
+//            let statusBarFrame = UIApplication.sharedApplication().keyWindow?.convertRect(UIApplication.sharedApplication().statusBarFrame, fromView: self.view)
+//            if let statusBarHeight = statusBarFrame?.height {
+//                topInset += statusBarHeight
+//            }
         }
         if let navigationController = self.navigationController {
             if !navigationController.navigationBarHidden {
