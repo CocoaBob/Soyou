@@ -15,9 +15,10 @@ class CurrencyManager {
     var allCurrencyRates: [CurrencyRate]?
     
     let displayLocale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents([NSLocaleLanguageCode:NSBundle.mainBundle().preferredLocalizations.first ?? "en_US"]))
+    var countryLocales = [String: NSLocale]()
     var displayLocaleCurrencyFormatter: NSNumberFormatter?
-    var currencyFormatters = [String:NSNumberFormatter]()
-    var currencyFormattersNoUnit = [String:NSNumberFormatter]()
+    var currencyFormatters = [String: NSNumberFormatter]()
+    var currencyFormattersNoUnit = [String: NSNumberFormatter]()
     
     var CurrencyCode: [String:String] = [
         "CN":"CNY",
@@ -152,8 +153,17 @@ class CurrencyManager {
     }
     
     func currencyName(countryCode: String) -> String? {
-        let locale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents([NSLocaleCountryCode:countryCode]))
-        return self.displayLocale.displayNameForKey(NSLocaleCurrencyCode, value: locale.objectForKey(NSLocaleCurrencyCode) ?? "")
+        var countryLocale: NSLocale?
+        if let locale = self.countryLocales[countryCode] {
+            countryLocale = locale
+        } else {
+            countryLocale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents([NSLocaleCountryCode:countryCode]))
+            self.countryLocales[countryCode] = countryLocale
+        }
+        if let countryLocale = countryLocale {
+            return self.displayLocale.displayNameForKey(NSLocaleCurrencyCode, value: countryLocale.objectForKey(NSLocaleCurrencyCode) ?? "")
+        }
+        return nil
     }
     
     func formattedPrice(price: NSNumber, _ languageCode: String?, _ withUnit: Bool?) -> String {

@@ -312,7 +312,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="15" id="Lhy-Uc-VZW"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="14"/>
                                             <color key="textColor" red="1" green="0.72383683919999997" blue="0.29457113150000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>

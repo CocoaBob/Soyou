@@ -88,6 +88,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyName(countryCode ?? "")
             _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, nil)
             _cell.lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
+            _cell.lblEquivalentCurrency.text = CurrencyManager.shared.currencyName("CN")
             if let priceCNY = CurrencyManager.shared.equivalentCNYFromCurrency(countryCode, price: price) {
                 _cell.lblEquivalentPrice.text = CurrencyManager.shared.formattedPrice(priceCNY, nil, nil)
             } else {
@@ -141,6 +142,7 @@ class ProductPricesTableViewCellCurrency: UITableViewCell {
     @IBOutlet var lblRetailCurrency: UILabel!
     @IBOutlet var lblRetailPrice: UILabel!
     @IBOutlet var lblEquivalent: UILabel!
+    @IBOutlet var lblEquivalentCurrency: UILabel!
     @IBOutlet var lblEquivalentPrice: UILabel!
     
     override func awakeFromNib() {
@@ -154,6 +156,7 @@ class ProductPricesTableViewCellCurrency: UITableViewCell {
         lblRetailCurrency.text = nil
         lblRetailPrice.text = nil
         lblEquivalent.text = nil
+        lblEquivalentCurrency.text = nil
         lblEquivalentPrice.text = nil
     }
 }
