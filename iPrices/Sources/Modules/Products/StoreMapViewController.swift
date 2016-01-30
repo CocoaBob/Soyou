@@ -15,6 +15,7 @@ class StoreMapViewController: UIViewController {
     private var mapAnimator: CCHMapAnimator!
     
     var brandID: NSNumber?
+    var brandName: String?
 
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
@@ -23,6 +24,8 @@ class StoreMapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = brandName
         
         // Update user locations
         self.initLocationManager()
@@ -47,10 +50,10 @@ extension StoreMapViewController: CCHMapClusterControllerDelegate {
         self.mapClusterController.delegate = self
         
 //        self.mapClusterController.debuggingEnabled = true
-//        self.mapClusterController.cellSize = 80
+        self.mapClusterController.cellSize = 32
 //        self.mapClusterController.marginFactor = 0.5
         
-        self.mapClusterer = CCHCenterOfMassMapClusterer()
+        self.mapClusterer = CCHNearCenterMapClusterer()
         self.mapClusterController.clusterer = self.mapClusterer
 //        self.mapClusterController.maxZoomLevelForClustering = DBL_MAX
 //        self.mapClusterController.minUniqueLocationsForClustering = 0
@@ -61,15 +64,29 @@ extension StoreMapViewController: CCHMapClusterControllerDelegate {
     
     
     func mapClusterController(mapClusterController: CCHMapClusterController!, titleForMapClusterAnnotation mapClusterAnnotation: CCHMapClusterAnnotation!) -> String! {
-        return "title"
+        let annotationsCount = mapClusterAnnotation.annotations.count
+        if annotationsCount > 1 {
+            return FmtString(NSLocalizedString("brands_root_title_cluster_title"), annotationsCount)
+        } else {
+            let annotation = mapClusterAnnotation.annotations.first as? MKPointAnnotation
+            return annotation?.title ?? ""
+        }
     }
     
     func mapClusterController(mapClusterController: CCHMapClusterController!, subtitleForMapClusterAnnotation mapClusterAnnotation: CCHMapClusterAnnotation!) -> String! {
-        return "subtitle"
+        let annotationsCount = min(mapClusterAnnotation.annotations.count, 5)
+        if annotationsCount > 1 {
+            return ""
+        } else {
+            let annotation = mapClusterAnnotation.annotations.first as? MKPointAnnotation
+            return annotation?.subtitle ?? ""
+        }
     }
     
     func mapClusterController(mapClusterController: CCHMapClusterController!, willReuseMapClusterAnnotation mapClusterAnnotation: CCHMapClusterAnnotation!) {
-        
+        let clusterAnnotationView = self.mapView.viewForAnnotation(mapClusterAnnotation) as? ClusterAnnotationView
+        clusterAnnotationView?.count = mapClusterAnnotation.annotations.count
+        clusterAnnotationView?.isUniqueLocation = mapClusterAnnotation.isUniqueLocation()
     }
 }
 
@@ -110,6 +127,11 @@ extension StoreMapViewController: MKMapViewDelegate {
             clusterAnnotationView?.count = clusterAnnotation.annotations.count
             clusterAnnotationView?.isUniqueLocation = clusterAnnotation.isUniqueLocation()
             
+            // RightCalloutAccessoryView
+            let accessoryButton = UIButton(frame: CGRectMake(0,0,24,24))
+            accessoryButton.setImage(UIImage(named: "img_cell_disclosure"), forState: .Normal)
+            clusterAnnotationView?.rightCalloutAccessoryView = accessoryButton
+            
             returnValue = clusterAnnotationView
         }
         return returnValue
@@ -129,6 +151,7 @@ extension StoreMapViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.first?.coordinate {
             self.mapView?.setRegion(MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.5, 0.5)), animated: false)
+            manager.stopUpdatingLocation()
         }
     }
     

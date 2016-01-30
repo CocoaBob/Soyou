@@ -100,10 +100,15 @@ class BrandViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "StoreMapViewController" {
+        if segue.identifier == "EmbedStoreMapViewController" {
             let storeMapViewController = segue.destinationViewController as! StoreMapViewController
             storeMapViewController.brandID = self.brandID
+        } else if segue.identifier == "PushStoreMapViewController" {
+            let storeMapViewController = segue.destinationViewController as! StoreMapViewController
+            storeMapViewController.brandID = self.brandID
+            storeMapViewController.brandName = self.brandName
         }
+
     }
 }
 

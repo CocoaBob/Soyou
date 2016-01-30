@@ -509,25 +509,23 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dl9-Cy-ocE">
-                                            <rect key="frame" x="15" y="32" width="570" height="200"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                    <real key="value" value="5"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
+                                            <rect key="frame" x="0.0" y="32" width="600" height="200"/>
                                             <connections>
-                                                <segue destination="tbh-av-P5t" kind="embed" identifier="StoreMapViewController" id="eND-Zk-bX6"/>
+                                                <segue destination="tbh-av-P5t" kind="embed" identifier="EmbedStoreMapViewController" id="eND-Zk-bX6"/>
                                             </connections>
                                         </containerView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGM-a0-MjF">
-                                            <rect key="frame" x="15" y="32" width="570" height="200"/>
+                                            <rect key="frame" x="0.0" y="32" width="600" height="200"/>
                                             <state key="normal" image="img_map_button_icon"/>
+                                            <connections>
+                                                <segue destination="tbh-av-P5t" kind="show" identifier="PushStoreMapViewController" id="8h3-jy-NCP"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" red="0.93226033449172974" green="0.91629886627197266" blue="0.89732736349105835" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstItem="fGM-a0-MjF" firstAttribute="leading" secondItem="dl9-Cy-ocE" secondAttribute="leading" id="83z-KU-KQI"/>
-                                        <constraint firstItem="dl9-Cy-ocE" firstAttribute="leading" secondItem="0Lz-YM-TL7" secondAttribute="leading" constant="15" id="8Pg-IQ-2XT"/>
+                                        <constraint firstItem="dl9-Cy-ocE" firstAttribute="leading" secondItem="0Lz-YM-TL7" secondAttribute="leading" id="8Pg-IQ-2XT"/>
                                         <constraint firstAttribute="trailing" secondItem="GxR-5v-1Wh" secondAttribute="trailing" constant="15" id="Bo6-W6-eaO"/>
                                         <constraint firstItem="fGM-a0-MjF" firstAttribute="top" secondItem="dl9-Cy-ocE" secondAttribute="top" id="LQS-9j-cbL"/>
                                         <constraint firstItem="GxR-5v-1Wh" firstAttribute="leading" secondItem="0Lz-YM-TL7" secondAttribute="leading" constant="15" id="WgC-9i-S9U"/>
@@ -535,7 +533,7 @@
                                         <constraint firstItem="fGM-a0-MjF" firstAttribute="bottom" secondItem="dl9-Cy-ocE" secondAttribute="bottom" id="gO7-41-H1h"/>
                                         <constraint firstItem="fGM-a0-MjF" firstAttribute="trailing" secondItem="dl9-Cy-ocE" secondAttribute="trailing" id="lTQ-eV-vjR"/>
                                         <constraint firstAttribute="bottom" secondItem="dl9-Cy-ocE" secondAttribute="bottom" constant="15" id="mFP-k7-6f9"/>
-                                        <constraint firstAttribute="trailing" secondItem="dl9-Cy-ocE" secondAttribute="trailing" constant="15" id="mez-cx-pz5"/>
+                                        <constraint firstAttribute="trailing" secondItem="dl9-Cy-ocE" secondAttribute="trailing" id="mez-cx-pz5"/>
                                         <constraint firstItem="fGM-a0-MjF" firstAttribute="top" secondItem="GxR-5v-1Wh" secondAttribute="bottom" constant="5" id="nEn-0v-RFY"/>
                                     </constraints>
                                 </view>
@@ -661,11 +659,11 @@
                         <viewControllerLayoutGuide type="bottom" id="1Ax-HM-kOx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Tx0-X8-mLT">
-                        <rect key="frame" x="0.0" y="0.0" width="570" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQL-1J-zNo">
-                                <rect key="frame" x="0.0" y="0.0" width="570" height="200"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQL-1J-zNo">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="tbh-av-P5t" id="9ph-nd-Cc7"/>
                                 </connections>
@@ -685,7 +683,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KaS-N8-cx1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="446" y="990"/>
+            <point key="canvasLocation" x="505" y="1073"/>
         </scene>
     </scenes>
     <resources>
@@ -695,4 +693,7 @@
         <image name="img_heart_shadow" width="24" height="22"/>
         <image name="img_map_button_icon" width="46" height="46"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="8h3-jy-NCP"/>
+    </inferredMetricsTieBreakers>
 </document>

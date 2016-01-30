@@ -33,6 +33,7 @@
 "brands_root_cell_all"="All";
 "brands_root_title_categories"="Categories";
 "brands_root_title_stores"="Stores";
+"brands_root_title_cluster_title"="%d stores";
 
 /* Products View Controller */
 "products_vc_title"="Products";
