@@ -282,8 +282,12 @@ extension ProfileViewController {
                         let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
                         simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != UserManager.shared.region)
                         if simpleViewController.updateSelectionCheckmark(indexPath) {
+                            var rowsToReload = [indexPath]
+                            if let selectedIndexPath = simpleViewController.selectedIndexPath {
+                                rowsToReload.append(selectedIndexPath)
+                            }
                             simpleViewController.tableView.beginUpdates()
-                            simpleViewController.tableView.reloadRowsAtIndexPaths([simpleViewController.selectedIndexPath!, indexPath], withRowAnimation: .Fade)
+                            simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
                             simpleViewController.tableView.endUpdates()
                         }
                     }

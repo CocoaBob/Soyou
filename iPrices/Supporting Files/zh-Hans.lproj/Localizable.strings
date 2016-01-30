@@ -48,9 +48,8 @@
 "product_descriptions_vc_empty"="没有描述";
 
 /* User View Controller */
-"user_vc_title"="用户";
 "user_vc_login"="立即登录，同步您的收藏夹";
-"user_vc_tab_title"="用户";
+"user_vc_tab_title"="我";
 "user_vc_cell_favs"="收藏夹";
 "user_vc_cell_favs_news"="资讯";
 "user_vc_cell_favs_products"="产品";

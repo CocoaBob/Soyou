@@ -14,10 +14,7 @@ class UserViewController: SimpleTableViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        // UIViewController
-        self.title = NSLocalizedString("user_vc_title")
-        
+                
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("user_vc_tab_title"), image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
     }
