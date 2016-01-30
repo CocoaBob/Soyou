@@ -196,7 +196,7 @@ extension NewsDetailViewController {
         
         if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
             if let imageURLString: String = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
-                let photoIndex = self.webViewImageURLs.indexOf(imageURLString) {
+                photoIndex = self.webViewImageURLs.indexOf(imageURLString) {
                     let photoBrowser = IDMPhotoBrowser(photos: self.webViewPhotos)
                     photoBrowser.displayToolbar = true
                     photoBrowser.displayActionButton = true
@@ -475,7 +475,7 @@ extension NewsDetailViewController {
     
     func loadAllImagesFromWebView(webView: UIWebView) {
         if let imageURLsJSONString = webView.stringByEvaluatingJavaScriptFromString("(function() {var images=document.querySelectorAll(\"img\");var imageUrls=[];[].forEach.call(images, function(el) { imageUrls[imageUrls.length] = el.src;}); return JSON.stringify(imageUrls);})()"),
-            let imageURLs = GetObjectFromJSONString(imageURLsJSONString) {
+            imageURLs = GetObjectFromJSONString(imageURLsJSONString) {
                 // All URLs
                 self.webViewImageURLs = imageURLs as! [String];
                 

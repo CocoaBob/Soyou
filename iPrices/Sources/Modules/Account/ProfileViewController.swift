@@ -305,21 +305,21 @@ extension ProfileViewController {
         simpleViewController.completion = { () -> () in
             // Update region
             if let selectedIndexPath = simpleViewController.selectedIndexPath,
-                let rows = simpleViewController.sections.first?.rows {
-                let row = rows[selectedIndexPath.row]
-                let regionCode = row.title!.text!
-                MBProgressHUD.showLoader(nil)
-                DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        MBProgressHUD.hideLoader(nil)
-                        if let error = error {
-                            DataManager.showRequestFailedAlert(error)
-                        } else {
-                            UserManager.shared.region = regionCode
-                            simpleViewController.navigationController?.popViewControllerAnimated(true)
-                        }
-                    })
-                }
+                rows = simpleViewController.sections.first?.rows {
+                    let row = rows[selectedIndexPath.row]
+                    let regionCode = row.title!.text!
+                    MBProgressHUD.showLoader(nil)
+                    DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            MBProgressHUD.hideLoader(nil)
+                            if let error = error {
+                                DataManager.showRequestFailedAlert(error)
+                            } else {
+                                UserManager.shared.region = regionCode
+                                simpleViewController.navigationController?.popViewControllerAnimated(true)
+                            }
+                        })
+                    }
             }
         }
         // Push

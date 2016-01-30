@@ -11,7 +11,6 @@ class ProductPricesViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var prices: [[String: AnyObject]]? //[ { "country": "法国", "price": 1450 } ]
-    var currencyRates: [CurrencyRate]?
     
     // Class methods
     class func instantiate() -> ProductPricesViewController {
@@ -25,8 +24,6 @@ class ProductPricesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.currencyRates = CurrencyManager.shared.fetchCurrencyRates()
         
         self.tableView.estimatedRowHeight = 44.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -53,21 +50,6 @@ class ProductPricesViewController: UIViewController {
     }
 }
 
-// MARK: Utility methods
-extension ProductPricesViewController{
-    private func getRateBySourceCode(sourceCode: String) -> CurrencyRate?{
-        for rate in self.currencyRates!{
-            if let code = rate.sourceCode {
-                if sourceCode.caseInsensitiveCompare(code) == .OrderedSame{
-                    return rate
-                }
-            }
-        }
-        
-        return nil
-    }
-}
-
 // MARK: Table View
 extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -85,12 +67,13 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         
         let country = item["country"] as! String
         let price = item["price"] as! NSNumber
+        let countryCode = CountryCode[country]
         var cell: UITableViewCell?
         
         if indexPath.row == 0 {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCountry", forIndexPath: indexPath) as! ProductPricesTableViewCellCountry
             
-            if let countryCode = CountryCode[country], image = UIImage(flagImageWithCountryCode: countryCode) {
+            if let countryCode = countryCode, image = UIImage(flagImageWithCountryCode: countryCode) {
                 _cell.imgView.image = image
             } else {
                 _cell.imgView.image = UIImage(flagImageForSpecialFlag: .World)
@@ -102,15 +85,14 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as! ProductPricesTableViewCellCurrency
             
             _cell.lblRetail.text = NSLocalizedString("product_prices_vc_official_retail")
-            _cell.lblRetailCurrency.text = Utils.shared.currencyName(CountryCode[country] ?? "")
-            _cell.lblRetailPrice.text = Utils.shared.formattedPrice(price, nil, nil)
+            _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyName(countryCode ?? "")
+            _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, nil)
             _cell.lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
-            if let sourceCurrencyCode = CurrencyCode[country], rate = self.getRateBySourceCode(sourceCurrencyCode) {
-                _cell.lblEquivalentPrice.text = Utils.shared.formattedPrice(NSNumber(double: price.doubleValue * (rate.rate?.doubleValue)!), nil, nil)
-            }else{
+            if let priceCNY = CurrencyManager.shared.equivalentCNYFromCurrency(countryCode, price: price) {
+                _cell.lblEquivalentPrice.text = CurrencyManager.shared.formattedPrice(priceCNY, nil, nil)
+            } else {
                 _cell.lblEquivalentPrice.text = NSLocalizedString("product_prices_vc_unavailable")
             }
-            
             
             cell = _cell
         }

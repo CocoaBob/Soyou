@@ -36,7 +36,7 @@ class CurrencyRate: BaseModel {
             
             currencyRate.targetCode = targetCode
                 
-            if let value = data["rate"] as? String, let doubleValue = Double(value){
+            if let value = data["rate"] as? String, let doubleValue = Double(value) {
                 currencyRate.rate = NSNumber(double: doubleValue)
             } else {
                 currencyRate.rate = NSNumber(double: 1)

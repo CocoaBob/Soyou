@@ -18,7 +18,7 @@ class DataManager {
         DLog(error)
         
         if let response = error?.userInfo[AFNetworkingOperationFailingURLResponseErrorKey],
-            let statusCode = response.statusCode{
+            statusCode = response.statusCode {
                 // If 401 error, logout
                 if statusCode == 401 {
                     UserManager.shared.logOut()
@@ -45,10 +45,9 @@ class DataManager {
         DLog(responseObject)
         // Show error
         if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-            let data = responseObject["data"] as? [String],
-            let message = data.first
-        {
-            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message))
+            data = responseObject["data"] as? [String],
+            message = data.first {
+                SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message))
         }
     }
     

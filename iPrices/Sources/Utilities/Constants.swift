@@ -89,18 +89,6 @@ var CountryCode: [String:String] = [
     "美国":"US",
     "加拿大":"CA"]
 
-var CurrencyCode: [String:String] = [
-    "中国":"CNY",
-    "德国":"EUR",
-    "法国":"EUR",
-    "意大利":"EUR",
-    "西班牙":"EUR",
-    "新加坡":"SGD",
-    "英国":"GBP",
-    "香港":"HKD",
-    "日本":"JPY",
-    "美国":"USD"]
-
 /**
  Prints the filename, function name, line number and textual representation of `object` and a newline character into
  the standard output if the build setting for "Other Swift Flags" defines `-D DEBUG`.

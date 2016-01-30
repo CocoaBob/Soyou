@@ -97,15 +97,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         
         cell.lblTitle?.text = product.title
         cell.lblBrand?.text = product.brandLabel
-        if let prices = product.prices as? NSArray {
-            if let price = prices.firstObject as! NSDictionary?, priceNumber = price["price"] as? NSNumber {
-                var countryCode: String?
-                if let country = price["country"] as? String {
-                    countryCode = CountryCode[country]
-                }
-                cell.lblPrice?.text = Utils.shared.formattedPrice(priceNumber, countryCode, true)
-            }
-        }
+        cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
         cell.isFavorite = product.appIsFavorite?.boolValue
 
         if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
@@ -129,8 +121,8 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         productViewController.product = product
         
         if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
-            let imageView = cell.fgImageView,
-            let image = imageView.image {
+            imageView = cell.fgImageView,
+            image = imageView.image {
                 productViewController.firstImage = image
         }
         self.navigationController?.pushViewController(productViewController, animated: true)
@@ -142,8 +134,8 @@ extension ProductsViewController: ZoomTransitionProtocol {
     
     private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
-            let imageView = cell.fgImageView {
+            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
+            imageView = cell.fgImageView {
                 return imageView
         }
         return nil

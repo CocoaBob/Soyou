@@ -169,8 +169,8 @@ extension BrandsViewController: ZoomTransitionProtocol {
     
     private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? BrandsCollectionViewCell,
-            let imageView = cell.fgImageView {
+            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? BrandsCollectionViewCell,
+            imageView = cell.fgImageView {
                 return imageView
         }
         return nil

@@ -41,7 +41,7 @@
 "product_prices_vc_official_website"="Website";
 "product_prices_vc_official_retail"="Retail price";
 "product_prices_vc_official_equivalent"="Equivalent";
-"product_prices_vc_unavailable"="";
+"product_prices_vc_unavailable"="Unavailable";
 
 /* Product Descriptions View Controller */
 "product_descriptions_vc_title"="Descriptions";

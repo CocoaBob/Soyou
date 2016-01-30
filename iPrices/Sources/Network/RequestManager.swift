@@ -169,7 +169,7 @@ class RequestManager {
         
         var _currenciies: [String] = [String]();
         for currency in currencies {
-            if let sourceCode = currency["sourceCode"], let targetCode = currency["targetCode"]{
+            if let sourceCode = currency["sourceCode"], let targetCode = currency["targetCode"] {
                 _currenciies.append("\(sourceCode)\(targetCode)")
             }
         }

@@ -130,15 +130,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             // Brand
             _cell.lblBrand?.text = product.brandLabel
             // Price
-            if let prices = product.prices as? NSArray {
-                if let price = prices.firstObject as! NSDictionary?, priceNumber = price["price"] as? NSNumber {
-                    var countryCode: String?
-                    if let country = price["country"] as? String {
-                        countryCode = CountryCode[country]
-                    }
-                    _cell.lblPrice?.text = Utils.shared.formattedPrice(priceNumber, countryCode, true)
-                }
-            }
+            _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
             // Image
             if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
                 _cell.imgView?.sd_setImageWithURL(imageURL,
