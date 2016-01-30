@@ -9,6 +9,7 @@ use_frameworks!
 pod "ActionSheetPicker-3.0"
 pod "AFNetworking", '~> 2'
 pod "Base64nl"
+pod "CCHMapClusterController"
 pod "CHTCollectionViewWaterfallLayout"
 pod "EAIntroView"
 pod "FCUUID"

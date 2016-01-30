@@ -31,6 +31,8 @@
 
 /* Brand View Controller */
 "brands_root_cell_all"="全部";
+"brands_root_title_categories"="分类";
+"brands_root_title_stores"="店铺";
 
 /* Products View Controller */
 "products_vc_title"="产品";

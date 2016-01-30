@@ -31,6 +31,8 @@
 
 /* Brand View Controller */
 "brands_root_cell_all"="All";
+"brands_root_title_categories"="Categories";
+"brands_root_title_stores"="Stores";
 
 /* Products View Controller */
 "products_vc_title"="Products";

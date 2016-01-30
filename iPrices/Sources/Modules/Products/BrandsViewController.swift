@@ -104,7 +104,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         var imageURLString: String? = nil
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             guard let localBrand = brand.MR_inContext(localContext) else { return }
-            brandViewController.brandID = "\(localBrand.id)"
+            brandViewController.brandID = localBrand.id
             brandViewController.brandName = localBrand.label
             brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?
             imageURLString = localBrand.imageUrl
@@ -199,10 +199,10 @@ class BrandsCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         self.lblTitle?.clipsToBounds = true
-        self.lblTitle?.layer.shadowRadius = 1
-        self.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
-        self.lblTitle?.layer.shadowOpacity = 1
-        self.lblTitle?.layer.shadowOffset = CGSizeZero
+//        self.lblTitle?.layer.shadowRadius = 1
+//        self.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
+//        self.lblTitle?.layer.shadowOpacity = 1
+//        self.lblTitle?.layer.shadowOffset = CGSizeZero
     }
     
     override func prepareForReuse() {

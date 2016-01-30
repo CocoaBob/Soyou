@@ -15,6 +15,7 @@
 @import ActionSheetPicker_3_0;
 @import AFNetworking;
 @import Base64nl;
+@import CCHMapClusterController;
 @import CHTCollectionViewWaterfallLayout;
 @import EAIntroView;
 @import FCUUID;

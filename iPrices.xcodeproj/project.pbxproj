@@ -57,6 +57,8 @@
 		456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */; };
 		456B419A1C597F83001E66EB /* BaseNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41981C597F83001E66EB /* BaseNews.swift */; };
 		456B419C1C5AD155001E66EB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456B419B1C5AD155001E66EB /* MessageUI.framework */; };
+		456BCABC1C5D0ADD00590295 /* StoreMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456BCABB1C5D0ADD00590295 /* StoreMapViewController.swift */; };
+		456BCABE1C5D1AD200590295 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */; };
 		456FC8B61C5A5885003D0DF6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456FC8B51C5A5885003D0DF6 /* StoreKit.framework */; };
 		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundle Resource For IDMPhotoBrowser */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
@@ -170,6 +172,8 @@
 		456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		456B41981C597F83001E66EB /* BaseNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNews.swift; sourceTree = "<group>"; };
 		456B419B1C5AD155001E66EB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		456BCABB1C5D0ADD00590295 /* StoreMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreMapViewController.swift; sourceTree = "<group>"; };
+		456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		456FC8B51C5A5885003D0DF6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = IDMPBLocalizations.bundle; path = ../../Pods/IDMPhotoBrowser/Classes/IDMPBLocalizations.bundle; sourceTree = "<group>"; };
 		457777801BFCB60100805D79 /* News+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "News+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -422,6 +426,7 @@
 		457777921BFCE97D00805D79 /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
+				456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */,
 				4590F8C91C52A1AA00329ECA /* TableViewCells.swift */,
 				4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */,
 				4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */,
@@ -445,6 +450,7 @@
 				45D9B36C1C39B3F600D7E899 /* ProductViewController.swift */,
 				45AE9B481C47C4150081ECBA /* ProductPricesViewController.swift */,
 				45AE9B4A1C47C4310081ECBA /* ProductDescriptionsViewController.swift */,
+				456BCABB1C5D0ADD00590295 /* StoreMapViewController.swift */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -648,6 +654,7 @@
 				45ACD5EA1C2C0F9000CF865F /* UIImage+Additions.swift in Sources */,
 				45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
+				456BCABE1C5D1AD200590295 /* ClusterAnnotationView.swift in Sources */,
 				0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */,
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
@@ -670,6 +677,7 @@
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */,
 				45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */,
+				456BCABC1C5D0ADD00590295 /* StoreMapViewController.swift in Sources */,
 				455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */,
 				4506ED711C221797003B5018 /* LoginViewController.swift in Sources */,
 				454ECE9C1C567AE5003A0E94 /* User.swift in Sources */,

@@ -26,8 +26,8 @@ class ProductsViewController: BaseViewController {
     // Properties
     var selectedIndexPath: NSIndexPath?
     
-    var brandID: String?
-    var brandName: String?
+    var categoryName: String?
+    
     var categoryID: NSNumber?
     
     // Class methods
@@ -45,6 +45,8 @@ class ProductsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = self.categoryName
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.collectionView(), 0, false, false)

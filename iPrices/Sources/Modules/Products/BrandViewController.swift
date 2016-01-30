@@ -20,12 +20,12 @@ class BrandViewController: UIViewController {
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var _mapView: MKMapView?
+    @IBOutlet var lblTitleCategories: UILabel!
+    @IBOutlet var lblTitleStores: UILabel!
     
-    private var _locationManager = CLLocationManager()
     private var _sections = [CategoryItem]()
     
-    var brandID: String?
+    var brandID: NSNumber?
     var brandName: String?
     var brandCategories: [NSDictionary]?
     var brandImageURL: NSURL? {
@@ -60,6 +60,9 @@ class BrandViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.lblTitleCategories.text = NSLocalizedString("brands_root_title_categories")
+        self.lblTitleStores.text = NSLocalizedString("brands_root_title_stores")
+        
         // Layout the subviews (otherwise the tableview will be 600x600 at the very beginning)
         self.view.setNeedsLayout()
         self.view.layoutIfNeeded()
@@ -72,9 +75,6 @@ class BrandViewController: UIViewController {
         
         // Load data
         self.loadData()
-        
-        // Update user locations
-        self.initLocationManager()
         
         // Parallax Header
         self.setupParallaxHeader()
@@ -97,6 +97,13 @@ class BrandViewController: UIViewController {
         super.viewDidDisappear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "StoreMapViewController" {
+            let storeMapViewController = segue.destinationViewController as! StoreMapViewController
+            storeMapViewController.brandID = self.brandID
+        }
     }
 }
 
@@ -308,8 +315,8 @@ extension BrandViewController {
     
     private func presentProductsViewController(indexPath: NSIndexPath) {
         let productsViewController = ProductsViewController.instantiate()
-        productsViewController.brandID = self.brandID
-        productsViewController.brandName = self.brandName
+        let item = itemForIndexPath(indexPath)
+        productsViewController.categoryName = item.label
         productsViewController.categoryID = self.itemForIndexPath(indexPath).id
         self.navigationController?.pushViewController(productsViewController, animated: true)
     }
@@ -318,27 +325,6 @@ extension BrandViewController {
         let position = sender.convertPoint(CGPointZero, toView: self.tableView)
         guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
         self.presentProductsViewController(indexPath)
-    }
-}
-
-// MARK: CLLocationManager
-extension BrandViewController: CLLocationManagerDelegate {
-    
-    private func initLocationManager() {
-        _locationManager.delegate = self
-        _locationManager.requestWhenInUseAuthorization()
-        _locationManager.startUpdatingLocation()
-        _locationManager.requestLocation()
-    }
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let coordinate = locations.first?.coordinate {
-            _mapView?.setRegion(MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.5, 0.5)), animated: false)
-        }
-    }
-    
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        DLog(error)
     }
 }
 

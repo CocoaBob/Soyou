@@ -47,14 +47,15 @@ class Store: BaseModel {
                 if let value = data["phoneNumber"] as? String {
                     store.phoneNumber = value
                 }
-                if let value = data["longitude"] as? NSNumber {
-                    store.longitude = value
-                }
-                if let value = data["latitude"] as? NSNumber {
-                    store.latitude = value
-                }
                 if let value = data["brandId"] as? NSNumber {
                     store.brandId = value
+                }
+                if let longitude = data["longitude"] as? NSNumber,
+                    latitude = data["latitude"] as? NSNumber {
+                        store.longitude = longitude
+                        store.latitude = latitude
+                } else {
+                    store.MR_deleteEntityInContext(context)
                 }
             }
         }
