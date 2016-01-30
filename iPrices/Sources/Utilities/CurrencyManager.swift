@@ -12,7 +12,7 @@ class CurrencyManager {
     
     static let shared = CurrencyManager()
     
-    var fetchedResultController = CurrencyRate.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "sourceCode", ascending: true)
+    var allCurrencyRates: [CurrencyRate]?
     
     let displayLocale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents([NSLocaleLanguageCode:NSBundle.mainBundle().preferredLocalizations.first ?? "en_US"]))
     var displayLocaleCurrencyFormatter: NSNumberFormatter?
@@ -70,7 +70,10 @@ class CurrencyManager {
     }
     
     func currencyRates() -> [CurrencyRate]? {
-        return fetchedResultController.fetchedObjects as? [CurrencyRate]
+        if self.allCurrencyRates == nil || self.allCurrencyRates!.count == 0 {
+            self.allCurrencyRates = CurrencyRate.MR_findAll() as? [CurrencyRate]
+        }
+        return self.allCurrencyRates
     }
     
     func rateFromSourceCode(sourceCode: String) -> CurrencyRate? {
