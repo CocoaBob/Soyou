@@ -44,12 +44,6 @@ class Product: BaseModel {
                 if let value = data["brandLabel"] as? String {
                     product.brandLabel = value
                 }
-                if let value = data["collectionId"] as? NSNumber {
-                    product.collectionId = value
-                }
-                if let value = data["collectionLabel"] as? String {
-                    product.collectionLabel = value
-                }
                 if let value = data["descriptions"] as? String {
                     product.descriptions = value
                 }
@@ -67,9 +61,6 @@ class Product: BaseModel {
                 }
                 if let value = data["reference"] as? String {
                     product.reference = value
-                }
-                if let value = data["rubricId"] as? NSNumber {
-                    product.rubricId = value
                 }
                 if let value = data["surname"] as? String {
                     product.surname = value
