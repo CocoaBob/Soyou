@@ -65,20 +65,19 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         guard let prices = self.prices else { return UITableViewCell() }
         guard let item: [String: AnyObject] = prices[indexPath.section] else { return UITableViewCell() }
         
-        let country = item["country"] as! String
+        let countryCode = item["country"] as! String
         let price = item["price"] as! NSNumber
-        let countryCode = CountryCode[country]
         var cell: UITableViewCell?
         
         if indexPath.row == 0 {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCountry", forIndexPath: indexPath) as! ProductPricesTableViewCellCountry
             
-            if let countryCode = countryCode, image = UIImage(flagImageWithCountryCode: countryCode) {
+            if let image = UIImage(flagImageWithCountryCode: countryCode) {
                 _cell.imgView.image = image
             } else {
                 _cell.imgView.image = UIImage(flagImageForSpecialFlag: .World)
             }
-            let countryNameCode = FmtString("country_name_%@",country)
+            let countryNameCode = FmtString("country_name_%@",countryCode)
             _cell.lblTitle.text = FmtString(NSLocalizedString("product_prices_vc_official_price"), NSLocalizedString(countryNameCode))
             cell = _cell
         } else {

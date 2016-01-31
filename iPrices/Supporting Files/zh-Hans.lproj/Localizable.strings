@@ -165,15 +165,15 @@
 "currency_name_cad"="$";
 
 /* Country Names */
-"country_name_中国"="中国";
-"country_name_香港"="香港";
-"country_name_日本"="日本";
-"country_name_韩国"="韩国";
-"country_name_新加坡"="新加坡";
-"country_name_英国"="英国";
-"country_name_德国"="德国";
-"country_name_法国"="法国";
-"country_name_意大利"="意大利";
-"country_name_西班牙"="西班牙";
-"country_name_美国"="美国";
-"country_name_加拿大"="加拿大";
+"country_name_CN"="中国";
+"country_name_HK"="香港";
+"country_name_JP"="日本";
+"country_name_KR"="韩国";
+"country_name_SG"="新加坡";
+"country_name_GB"="英国";
+"country_name_DE"="德国";
+"country_name_FR"="法国";
+"country_name_IT"="意大利";
+"country_name_ES"="西班牙";
+"country_name_US"="美国";
+"country_name_CA"="加拿大";

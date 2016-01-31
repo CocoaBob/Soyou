@@ -130,9 +130,8 @@ class CurrencyManager {
         var cheapestPriceCNY: NSNumber?
         if let items = items {
             for item in items {
-                if let country = item["country"] as? String,
+                if let countryCode = item["country"] as? String,
                     price = item["price"] as? NSNumber,
-                    countryCode = CountryCode[country],
                     priceCNY = self.equivalentCNYFromCurrency(countryCode, price: price) {
                         if cheapestPriceCNY == nil || cheapestPriceCNY!.doubleValue > priceCNY.doubleValue {
                             cheapestPriceCNY = priceCNY
