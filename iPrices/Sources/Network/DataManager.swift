@@ -468,7 +468,7 @@ class DataManager {
     func prefetchData() {
         var needsToLoad = true
         if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
-            needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 * 24 // 1 day
+            needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 // 1 hour
         }
         
         if needsToLoad && !isLoading {

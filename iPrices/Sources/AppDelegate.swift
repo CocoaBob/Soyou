@@ -49,9 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
         WXApi.registerApp("wx0cb0066522588a9c", withDescription:"包打听")
         
-        // Currency Manager
-        CurrencyManager.shared.updateCurrencyRates()
-        
         return true
     }
 
@@ -61,6 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(application: UIApplication) {
         DataManager.shared.prefetchData()
+        // Currency Manager
+        CurrencyManager.shared.updateCurrencyRates()
     }
 
 }
