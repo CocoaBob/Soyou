@@ -12,7 +12,7 @@ import CoreData
 
 class Region: BaseModel {
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Region?) {
+    class func importData(data: NSDictionary?, _ index: Int, _ context: NSManagedObjectContext?) -> (Region?) {
         var region: Region? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
@@ -26,6 +26,7 @@ class Region: BaseModel {
             
             if let region = region {
                 region.id = id
+                region.appOrder = NSNumber(integer: index)
                 if let value = data["code"] as? String {
                     region.code = value
                 }
@@ -49,8 +50,15 @@ class Region: BaseModel {
     class func importDatas(datas: [NSDictionary]?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                for data in datas {
-                    Region.importData(data, localContext)
+                // Delete all regions
+                if let regions = Region.MR_findAllInContext(localContext) as? [Region] {
+                    for region in regions {
+                        region.MR_deleteEntityInContext(localContext)
+                    }
+                }
+                // Save new regions in order
+                for (index, data) in datas.enumerate() {
+                    Region.importData(data, index, localContext)
                 }
             })
         }

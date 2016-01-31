@@ -48,6 +48,8 @@ class DataManager {
             data = responseObject["data"] as? [String],
             message = data.first {
                 SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message))
+        } else {
+            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: error?.localizedDescription ?? "")
         }
     }
     

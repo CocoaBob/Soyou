@@ -67,8 +67,10 @@ class ProductsViewController: BaseViewController {
         }
         
         // Load favorites
-        DataManager.shared.requestProductFavorites(categoryID!) { responseObject, error in
-            self.reloadData()
+        if UserManager.shared.isLoggedIn {
+            DataManager.shared.requestProductFavorites(categoryID!) { responseObject, error in
+                self.reloadData()
+            }
         }
     }
     
@@ -102,13 +104,17 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
         cell.isFavorite = product.appIsFavorite?.boolValue
 
-        if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
+        if let images = product.images as? NSArray,
+            imageURLString = images.firstObject as? String,
+            imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
                 placeholderImage: UIImage.imageWithRandomColor(nil),
                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                     collectionView.collectionViewLayout.invalidateLayout()
             })
+        } else {
+            DLog((product.images as? NSArray)?.firstObject)
         }
         
         return cell

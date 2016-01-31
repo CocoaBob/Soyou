@@ -72,11 +72,13 @@ class FavoritesViewController: BaseViewController {
         self.hideToolbar(false);
         
         // Load favorites
-        switch (self.type) {
-        case .News:
-            DataManager.shared.requestNewsFavorites(nil)
-        case .Products:
-            DataManager.shared.requestProductFavorites(nil, nil)
+        if UserManager.shared.isLoggedIn {
+            switch (self.type) {
+            case .News:
+                DataManager.shared.requestNewsFavorites(nil)
+            case .Products:
+                DataManager.shared.requestProductFavorites(nil, nil)
+            }
         }
     }
     

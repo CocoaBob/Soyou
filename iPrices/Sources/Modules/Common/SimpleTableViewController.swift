@@ -42,6 +42,8 @@ class SimpleTableViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
+    private var tableStyle: UITableViewStyle?
+    
     var sections = [Section]()
     var editedText: String?
     var selectedIndexPath: NSIndexPath?
@@ -59,21 +61,22 @@ class SimpleTableViewController: UIViewController {
         self.init(nibName:nil, bundle:nil)
     }
     
+    convenience init(tableStyle: UITableViewStyle?) {
+        self.init(nibName:nil, bundle:nil)
+        self.tableStyle = tableStyle
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // In case created programmatically
         if self.tableView == nil {
-            self.tableView = UITableView(frame: self.view.bounds, style: .Grouped)
+            self.tableView = UITableView(frame: self.view.bounds, style: self.tableStyle ?? .Grouped)
             self.tableView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.view.addSubview(self.tableView)
         }
-        
-        // Setup table
-        self.tableView.sectionHeaderHeight = 32;
-        self.tableView.sectionFooterHeight = 0;
         
         // Background Color
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
@@ -185,10 +188,6 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         let section = sections[section]
         cell.lblTitle.text = section.title
         return cell
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 32
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

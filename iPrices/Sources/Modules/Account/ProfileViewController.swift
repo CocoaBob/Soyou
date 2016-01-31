@@ -261,13 +261,13 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     func changeRegion() {
-        let simpleViewController = SimpleTableViewController()
+        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
-        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
+        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_region")
         // Data
-        if let regions = Region.MR_findAllSortedBy("code", ascending: true) {
+        if let regions = Region.MR_findAllSortedBy("appOrder", ascending: true) {
             let regionCodes = regions.flatMap {($0 as? Region)?.code}
             var rows = [Row]()
             for regionCode in regionCodes {
