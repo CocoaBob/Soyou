@@ -43,6 +43,7 @@ extension SettingsViewController {
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showAboutUs()
                         }
@@ -54,6 +55,7 @@ extension SettingsViewController {
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showAboutApp()
                         }
@@ -65,6 +67,7 @@ extension SettingsViewController {
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
                         }
@@ -76,6 +79,7 @@ extension SettingsViewController {
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
                         }
@@ -92,6 +96,7 @@ extension SettingsViewController {
                         tintColor: nil,
                         accessoryType: .None,
                         separatorInset: nil,
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.cleanCache()
                         }

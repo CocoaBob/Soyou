@@ -54,6 +54,7 @@ extension ProfileViewController {
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeUsername()
                         }
@@ -65,6 +66,7 @@ extension ProfileViewController {
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeEmail()
                         }
@@ -77,10 +79,11 @@ extension ProfileViewController {
                     Row(type: .LeftTitleRightDetail,
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_region"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: UserManager.shared.region, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: CurrencyManager.shared.countryName(UserManager.shared.region ?? ""), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeRegion()
                         }
@@ -92,6 +95,7 @@ extension ProfileViewController {
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeGender()
                         }
@@ -108,6 +112,7 @@ extension ProfileViewController {
                         tintColor: nil,
                         accessoryType:.None,
                         separatorInset:nil,
+                        userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.logout()
                         }
@@ -148,6 +153,7 @@ extension ProfileViewController {
                         tintColor: nil,
                         accessoryType: .None,
                         separatorInset: nil,
+                        userInfo: nil,
                         didSelect: nil
                     )
                 ]
@@ -191,6 +197,7 @@ extension ProfileViewController {
                         tintColor: nil,
                         accessoryType: .None,
                         separatorInset: nil,
+                        userInfo: nil,
                         didSelect: nil
                     ),
                     Row(type: .TextField,
@@ -200,6 +207,7 @@ extension ProfileViewController {
                         tintColor: nil,
                         accessoryType: .None,
                         separatorInset: nil,
+                        userInfo: nil,
                         didSelect: nil
                     )
                 ]
@@ -273,11 +281,12 @@ extension ProfileViewController {
             for regionCode in regionCodes {
                 let row = Row(type: .LeftTitle,
                     image: nil,
-                    title: Text(text: regionCode, placeholder: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
+                    title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? "", placeholder: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
                     subTitle: nil,
                     tintColor: UIColor(white: 0.15, alpha: 1),
                     accessoryType: .None,
                     separatorInset: nil,
+                    userInfo: ["code":regionCode],
                     didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                         let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
                         simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != UserManager.shared.region)
@@ -311,18 +320,20 @@ extension ProfileViewController {
             if let selectedIndexPath = simpleViewController.selectedIndexPath,
                 rows = simpleViewController.sections.first?.rows {
                     let row = rows[selectedIndexPath.row]
-                    let regionCode = row.title!.text!
-                    MBProgressHUD.showLoader(nil)
-                    DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            MBProgressHUD.hideLoader(nil)
-                            if let error = error {
-                                DataManager.showRequestFailedAlert(error)
-                            } else {
-                                UserManager.shared.region = regionCode
-                                simpleViewController.navigationController?.popViewControllerAnimated(true)
-                            }
-                        })
+                    if let userInfo = row.userInfo,
+                        regionCode = userInfo["code"] as? String {
+                        MBProgressHUD.showLoader(nil)
+                        DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                MBProgressHUD.hideLoader(nil)
+                                if let error = error {
+                                    DataManager.showRequestFailedAlert(error)
+                                } else {
+                                    UserManager.shared.region = regionCode
+                                    simpleViewController.navigationController?.popViewControllerAnimated(true)
+                                }
+                            })
+                        }
                     }
             }
         }
@@ -350,6 +361,7 @@ extension ProfileViewController {
                 tintColor: UIColor(white: 0.15, alpha: 1),
                 accessoryType: .None,
                 separatorInset: nil,
+                userInfo: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (indexPath.row != UserManager.shared.genderIndex)
                     if simpleViewController.updateSelectionCheckmark(indexPath) {

@@ -17,15 +17,9 @@ class Region: BaseModel {
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
-            guard let id = data["id"] as? NSNumber else { return }
             
-            region = Region.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
-            if region == nil {
-                region = Region.MR_createEntityInContext(context)
-            }
-            
+            region = Region.MR_createEntityInContext(context)
             if let region = region {
-                region.id = id
                 region.appOrder = NSNumber(integer: index)
                 if let value = data["code"] as? String {
                     region.code = value

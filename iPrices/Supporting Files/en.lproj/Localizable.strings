@@ -141,39 +141,3 @@
 "user_info_gender_secret"="Secret";
 "user_info_gender_male"="Male";
 "user_info_gender_female"="Female";
-
-/* Currency Names */
-"currency_name_cny"="CNY";
-"currency_name_hkd"="HKD";
-"currency_name_jpy"="JPY";
-"currency_name_krw"="KRW";
-"currency_name_sgd"="SGD";
-"currency_name_gbp"="GBP";
-"currency_name_eur"="EUR";
-"currency_name_usd"="USD";
-"currency_name_cad"="CAD";
-
-/* Currency Symbols */
-"currency_name_cny"="¥";
-"currency_name_hkd"="$";
-"currency_name_jpy"="¥";
-"currency_name_krw"="₩";
-"currency_name_sgd"="$";
-"currency_name_gbp"="£";
-"currency_name_eur"="€";
-"currency_name_usd"="$";
-"currency_name_cad"="$";
-
-/* Country Names */
-"country_name_CN"="PRC";
-"country_name_HK"="Hong Kong";
-"country_name_JP"="Japan";
-"country_name_KR"="South Korea";
-"country_name_KR"="Singapore";
-"country_name_GB"="UK";
-"country_name_DE"="German";
-"country_name_FR"="France";
-"country_name_IT"="Italie";
-"country_name_ES"="Spain";
-"country_name_US"="USA";
-"country_name_CA"="Canada";

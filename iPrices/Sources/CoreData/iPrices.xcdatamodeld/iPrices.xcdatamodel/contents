@@ -54,7 +54,6 @@
         <attribute name="appOrder" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Store" representedClassName=".Store" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
@@ -84,7 +83,7 @@
         <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="45"/>
         <element name="News" positionX="-63" positionY="-18" width="128" height="60"/>
         <element name="Product" positionX="-63" positionY="54" width="128" height="300"/>
-        <element name="Region" positionX="-63" positionY="135" width="128" height="105"/>
+        <element name="Region" positionX="-63" positionY="135" width="128" height="90"/>
         <element name="Store" positionX="-54" positionY="144" width="128" height="225"/>
         <element name="User" positionX="-63" positionY="135" width="128" height="120"/>
     </elements>

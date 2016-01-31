@@ -30,6 +30,7 @@ struct Row {
     var tintColor: UIColor?
     var accessoryType: UITableViewCellAccessoryType
     var separatorInset: UIEdgeInsets?
+    var userInfo: [String:AnyObject]?
     var didSelect: ((UITableView, NSIndexPath)->())?
 }
 
@@ -75,6 +76,7 @@ class SimpleTableViewController: UIViewController {
             self.tableView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.tableView.delegate = self
             self.tableView.dataSource = self
+            self.tableView.tableFooterView = UIView()
             self.view.addSubview(self.tableView)
         }
         

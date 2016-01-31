@@ -150,7 +150,7 @@ extension StoreMapViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.first?.coordinate {
-            self.mapView?.setRegion(MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.5, 0.5)), animated: false)
+            self.mapView?.setRegion(MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(180, 360)), animated: false)
             manager.stopUpdatingLocation()
         }
     }

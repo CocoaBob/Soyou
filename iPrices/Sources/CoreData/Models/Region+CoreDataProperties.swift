@@ -17,6 +17,4 @@ extension Region {
     @NSManaged var appOrder: NSNumber?
     @NSManaged var code: String?
     @NSManaged var currency: String?
-    @NSManaged var id: NSNumber?
-
 }

@@ -77,8 +77,8 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             } else {
                 _cell.imgView.image = UIImage(flagImageForSpecialFlag: .World)
             }
-            let countryNameCode = FmtString("country_name_%@",countryCode)
-            _cell.lblTitle.text = FmtString(NSLocalizedString("product_prices_vc_official_price"), NSLocalizedString(countryNameCode))
+            let countryName = CurrencyManager.shared.countryName(countryCode)
+            _cell.lblTitle.text = FmtString(NSLocalizedString("product_prices_vc_official_price"), countryName ?? "")
             cell = _cell
         } else {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as! ProductPricesTableViewCellCurrency
