@@ -197,7 +197,7 @@ extension NewsDetailViewController {
         if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
             if let imageURLString: String = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
                 photoIndex = self.webViewImageURLs.indexOf(imageURLString) {
-                    IDMPhotoBrowser.present(self.webViewPhotos, index: UInt(photoIndex), viewVC: self)
+                    IDMPhotoBrowser.present(self.webViewPhotos, index: UInt(photoIndex), view: nil, scaleImage: nil, viewVC: self)
             }
         }
     }

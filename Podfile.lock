@@ -73,7 +73,7 @@ DEPENDENCIES:
   - MXParallaxHeader
   - NYSegmentedControl
   - PageMenu (from `git://github.com/uacaps/PageMenu`, commit `9ed0c136a540ac9f2356a0cc4faddf0987d1af09`)
-  - PFCarouselView (from `git://github.com/PFei-He/PFCarouselView`, commit `2fbb7a1a50ae8c096259f868ced0db0935cea1c2`)
+  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `add88563b2e32858f9325d981cb9779d36926053`)
   - RandomColorSwift
   - SCLAlertView
   - SDWebImage
@@ -91,8 +91,8 @@ EXTERNAL SOURCES:
     :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
     :git: git://github.com/uacaps/PageMenu
   PFCarouselView:
-    :commit: 2fbb7a1a50ae8c096259f868ced0db0935cea1c2
-    :git: git://github.com/PFei-He/PFCarouselView
+    :commit: add88563b2e32858f9325d981cb9779d36926053
+    :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
     :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
@@ -105,8 +105,8 @@ CHECKOUT OPTIONS:
     :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
     :git: git://github.com/uacaps/PageMenu
   PFCarouselView:
-    :commit: 2fbb7a1a50ae8c096259f868ced0db0935cea1c2
-    :git: git://github.com/PFei-He/PFCarouselView
+    :commit: add88563b2e32858f9325d981cb9779d36926053
+    :git: git://github.com/CocoaBob/PFCarouselView
   ZoomInteractiveTransition:
     :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition

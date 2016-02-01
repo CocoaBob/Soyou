@@ -8,8 +8,11 @@
 
 extension IDMPhotoBrowser {
     
-    class func present(photos: [IDMPhoto], index: UInt, viewVC: UIViewController) {
-        let photoBrowser = IDMPhotoBrowser(photos: photos)
+    class func present(photos: [IDMPhoto]!, index: UInt!, view: UIView?, scaleImage: UIImage?, viewVC: UIViewController!) {
+        let photoBrowser = (view != nil) ? IDMPhotoBrowser(photos: photos, animatedFromView: view) : IDMPhotoBrowser(photos: photos)
+        if scaleImage != nil {
+            photoBrowser.scaleImage = scaleImage
+        }
         photoBrowser.displayToolbar = true
         photoBrowser.displayActionButton = true
         photoBrowser.displayArrowButton = true

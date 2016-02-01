@@ -361,7 +361,8 @@ extension ProductViewController: PFCarouselViewDelegate {
     }
     
     func carouselView(carouselView: PFCarouselView!, didSelectViewAtIndex index: Int) {
-        IDMPhotoBrowser.present(self.photos, index: UInt(index), viewVC: self)
+        let imageView = self.imageViews[index]
+        IDMPhotoBrowser.present(self.photos, index: UInt(index), view: imageView, scaleImage: imageView.image, viewVC: self)
     }
 }
 
