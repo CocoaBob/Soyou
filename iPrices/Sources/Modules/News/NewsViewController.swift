@@ -129,10 +129,12 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     placeholderImage: UIImage.imageWithRandomColor(CGSizeMake(3, 2)),
                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                     completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                        UIView.animateWithDuration(0.25, animations: { () -> Void in
-                            collectionView.collectionViewLayout.invalidateLayout()
+                        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
+                            guard let localNews = news.MR_inContext(localContext) else { return }
+                            if image.size.width != 0 {
+                                localNews.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
                             }
-                        )
+                        }
                 })
             }
             returnValue = cell
@@ -226,18 +228,12 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         var size = CGSizeMake(3, 2) // Default size for news
-        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-            guard let localNews = news.MR_inContext(localContext) else { return }
-            if localNews.appIsMore == nil || !localNews.appIsMore!.boolValue {
-                if let imageURLString = localNews.image,
-                    let imageURL = NSURL(string: imageURLString),
-                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL),
-                    let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
-                        size = image.size
-                }
-            } else {
-                size = CGSizeMake(8, 1)
+        if news.appIsMore == nil || !news.appIsMore!.boolValue {
+            if let imageRatio = news.appImageRatio?.doubleValue {
+                size = CGSizeMake(1, CGFloat(imageRatio))
             }
+        } else {
+            size = CGSizeMake(8, 1)
         }
         return size
     }

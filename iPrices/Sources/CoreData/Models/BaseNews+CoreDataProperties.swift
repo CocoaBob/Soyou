@@ -13,8 +13,10 @@ import Foundation
 import CoreData
 
 extension BaseNews {
-
+    
+    @NSManaged var appIsLiked: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
+    @NSManaged var appImageRatio: NSNumber?
     @NSManaged var author: String?
     @NSManaged var content: String?
     @NSManaged var dateModification: NSDate?
@@ -24,6 +26,5 @@ extension BaseNews {
     @NSManaged var isOnline: NSNumber?
     @NSManaged var title: String?
     @NSManaged var url: String?
-    @NSManaged var appIsLiked: NSNumber?
 
 }

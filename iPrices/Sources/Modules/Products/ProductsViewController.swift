@@ -116,10 +116,15 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 placeholderImage: UIImage.imageWithRandomColor(nil),
                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                    collectionView.collectionViewLayout.invalidateLayout()
+                    if image != nil && image.size.width != 0 {
+                        MagicalRecord.saveWithBlock { (localContext: NSManagedObjectContext!) -> Void in
+                            guard let localProduct = product.MR_inContext(localContext) else { return }
+                            localProduct.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+                        }
+                    }
             })
         } else {
-            DLog((product.images as? NSArray)?.firstObject)
+            DLog(FmtString("Product ID = %@, images:\n%@",product.id!,product.images!))
         }
         
         return cell
@@ -202,17 +207,15 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
         
-        if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
-            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-            if let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey) {
-                let bottomMargin: CGFloat = 51.0
-                let cellMargin: CGFloat = 4.0
-                let cellWidth = (collectionView.frame.size.width - cellMargin * 3) / 2.0
-                let cellHeight = cellWidth * image.size.height / image.size.width + bottomMargin
-                return CGSizeMake(cellWidth, cellHeight)
-            }
+        var size = CGSizeMake(1, 1) // Default size for product
+        if let imageRatio = product.appImageRatio?.doubleValue {
+            let bottomMargin: CGFloat = 51.0 // Height of 3 Labels + inner margins
+            let cellMargin: CGFloat = 4.0 // Cell outer margins
+            let cellWidth = (collectionView.frame.size.width - cellMargin * 3) / 2.0
+            let cellHeight = cellWidth * CGFloat(imageRatio) + bottomMargin
+            size = CGSizeMake(cellWidth, cellHeight)
         }
-        return CGSizeMake(1, 1)
+        return size
     }
 }
 

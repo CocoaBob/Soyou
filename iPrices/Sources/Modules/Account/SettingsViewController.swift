@@ -153,7 +153,7 @@ extension SettingsViewController {
     func updateCacheSize(cacheSize: Double?) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             // Size in string
-            let strSize = cacheSize != nil ? FmtString("%.3f MiB", cacheSize! / 1048576.0) : "..."
+            let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1000000.0) : "..."
 
             // Update table
             var row = self.sections[1].rows[0]

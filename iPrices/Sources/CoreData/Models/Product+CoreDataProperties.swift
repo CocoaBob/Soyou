@@ -14,9 +14,10 @@ import CoreData
 
 extension Product {
 
-    @NSManaged var appIsFavorite: NSNumber?
     @NSManaged var appIsLiked: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
+    @NSManaged var appIsFavorite: NSNumber?
+    @NSManaged var appImageRatio: NSNumber?
     @NSManaged var brandId: NSNumber?
     @NSManaged var brandLabel: String?
     @NSManaged var categories: String?
