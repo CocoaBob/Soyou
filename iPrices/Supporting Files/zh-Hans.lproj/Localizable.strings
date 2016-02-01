@@ -93,7 +93,8 @@
 
 /* Settings View Controller */
 "settings_vc_title"="设置";
-"settings_vc_cell_clean_cache"="清空缓存";
+"settings_vc_cell_clear_cache"="清空缓存";
+"settings_vc_cell_clearing_cache"="正在清空...";
 "settings_vc_cell_about_us"="关于我们团队";
 "settings_vc_cell_about_app"="关于『包打听』";
 "settings_vc_cell_feedback"="给我们些建议吧";

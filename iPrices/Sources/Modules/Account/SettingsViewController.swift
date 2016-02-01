@@ -10,6 +10,8 @@ class SettingsViewController: SimpleTableViewController {
     
     @IBOutlet var imgViewAvatar: UIImageView!
     
+    var cacheSize: Double = 0
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -25,6 +27,9 @@ class SettingsViewController: SimpleTableViewController {
         
         // Background Color
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        
+        // Update cache size
+        self.calculateCacheSize()
     }
 }
 
@@ -91,7 +96,7 @@ extension SettingsViewController {
                 rows: [
                     Row(type: .CenterTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_clean_cache"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         tintColor: nil,
                         accessoryType: .None,
@@ -127,22 +132,45 @@ extension SettingsViewController {
     }
     
     func cleanCache() {
-        // MARK: TODO
-//        SDImageCache.sharedImageCache().calculateSizeWithCompletionBlock { (fileCount, totalSize) -> Void in
-//            
-//        }
-//        // Delete expired disk caches
-//        SDImageCache.sharedImageCache().cleanDiskWithCompletionBlock { () -> Void in
-//            
-//        }
-//        // Delete disk caches
-//        SDImageCache.sharedImageCache().clearDiskOnCompletion { () -> Void in
-//            
-//        }
+        self.updateCacheSize(nil)
+        
+        // Delete cached NSURL responses
+        NSURLCache.sharedURLCache().removeAllCachedResponses()
+        
+        // Delete expired disk caches
+        SDImageCache.sharedImageCache().cleanDiskWithCompletionBlock { () -> Void in
+            // Delete disk caches
+            SDImageCache.sharedImageCache().clearDiskOnCompletion { () -> Void in
+                self.calculateCacheSize()
+            }
+        }
     }
 }
 
 // MARK: Routines
 extension SettingsViewController {
     
+    func updateCacheSize(cacheSize: Double?) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            // Size in string
+            let strSize = cacheSize != nil ? FmtString("%.3f MiB", cacheSize! / 1048576.0) : "..."
+
+            // Update table
+            var row = self.sections[1].rows[0]
+            row.title?.text = cacheSize != nil ? (NSLocalizedString("settings_vc_cell_clear_cache") + " (" + strSize + ")") : NSLocalizedString("settings_vc_cell_clearing_cache")
+            self.sections[1].rows = [row]
+            self.tableView.reloadData()
+        })
+    }
+    
+    func calculateCacheSize() {
+        // NSURLCache
+        self.cacheSize = Double(NSURLCache.sharedURLCache().currentDiskUsage)
+        
+        // SDImageCache
+        SDImageCache.sharedImageCache().calculateSizeWithCompletionBlock { (fileCount, totalSize) -> Void in
+            self.cacheSize += Double(totalSize)
+            self.updateCacheSize(self.cacheSize)
+        }
+    }
 }
