@@ -77,6 +77,11 @@ class ProductsViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        DLog("didReceiveMemoryWarning")
+    }
 }
 
 // MARK: - CollectionView Delegate Methods

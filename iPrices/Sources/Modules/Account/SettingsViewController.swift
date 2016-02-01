@@ -127,7 +127,17 @@ extension SettingsViewController {
     }
     
     func cleanCache() {
-        
+//        SDImageCache.sharedImageCache().calculateSizeWithCompletionBlock { (fileCount, totalSize) -> Void in
+//            
+//        }
+//        // Delete expired disk caches
+//        SDImageCache.sharedImageCache().cleanDiskWithCompletionBlock { () -> Void in
+//            
+//        }
+//        // Delete disk caches
+//        SDImageCache.sharedImageCache().clearDiskOnCompletion { () -> Void in
+//            
+//        }
     }
 }
 

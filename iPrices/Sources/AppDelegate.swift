@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
         MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreNamed("iPrices.sqlite")
         
+        // Setup SDWebImage cache
+        SDImageCache.sharedImageCache().shouldDecompressImages = false
+        SDWebImageDownloader.sharedDownloader().shouldDecompressImages = false
+        
         // Setup Push notification
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil))
         application.registerForRemoteNotifications()
@@ -62,6 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CurrencyManager.shared.updateCurrencyRates()
     }
 
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        DLog("applicationDidReceiveMemoryWarning")
+        
+        // Delete memory cache
+        SDImageCache.sharedImageCache().clearMemory()
+        // Delete expired cache
+        SDImageCache.sharedImageCache().cleanDisk()
+    }
 }
 
 // MARK: Notifications
