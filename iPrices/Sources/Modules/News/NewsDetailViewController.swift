@@ -197,20 +197,7 @@ extension NewsDetailViewController {
         if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
             if let imageURLString: String = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
                 photoIndex = self.webViewImageURLs.indexOf(imageURLString) {
-                    let photoBrowser = IDMPhotoBrowser(photos: self.webViewPhotos)
-                    photoBrowser.displayToolbar = true
-                    photoBrowser.displayActionButton = true
-                    photoBrowser.displayArrowButton = true
-                    photoBrowser.displayCounterLabel = true
-                    photoBrowser.displayDoneButton = true
-                    photoBrowser.usePopAnimation = false
-                    photoBrowser.useWhiteBackgroundColor = false
-                    photoBrowser.disableVerticalSwipe = false
-                    photoBrowser.forceHideStatusBar = false
-                    
-                    photoBrowser.setInitialPageIndex(UInt(photoIndex))
-                    
-                    self.presentViewController(photoBrowser, animated: true, completion: nil)
+                    IDMPhotoBrowser.present(self.webViewPhotos, index: UInt(photoIndex), viewVC: self)
             }
         }
     }

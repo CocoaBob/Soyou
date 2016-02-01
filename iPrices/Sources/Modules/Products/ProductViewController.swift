@@ -15,9 +15,12 @@ class ProductViewController: UIViewController {
     @IBOutlet var subViewsContainer: UIView!
 
     var product: Product?
+    // Images for Carousel
     var firstImage: UIImage?
     var imageViews: [UIImageView] = [UIImageView]()
     var imageRatio: CGFloat = 1.1
+    // Photos for IDMPhotoBrowser
+    var photos: [IDMPhoto] = [IDMPhoto]()
     
     var productPricesViewController = ProductPricesViewController.instantiate()
     var productDescriptionsViewController = ProductDescriptionsViewController.instantiate()
@@ -191,24 +194,39 @@ extension ProductViewController {
         }
         if let images = images {
             // Add 1st image
-            if self.firstImage != nil {
-                let firstImageView = UIImageView(image: self.firstImage)
+            if let firstImage = self.firstImage {
+                // ImageView for Carousel
+                let firstImageView = UIImageView(image: firstImage)
                 firstImageView.contentMode = .ScaleAspectFit
                 self.imageViews.append(firstImageView)
+                // Photo for IDMPhotoBrowser
+                self.photos.append(IDMPhoto(image: firstImage))
+            } else {
+                self.firstImage = nil
             }
             // Add other images
-            if images.count > 1 {
-                let count = images.count - 1
-                let restImages = (self.firstImage != nil) ? Array(images[1..<count]) : images
+            if self.firstImage == nil || images.count > 1 {
+                let restImages = (self.firstImage != nil) ? Array(images[1..<images.count]) : images
                 for imageURLString in restImages {
                     if let imageURL = NSURL(string: imageURLString) {
-                        let imageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width))
+                        // ImageView for Carousel
+                        let imageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / self.imageRatio))
                         imageView.contentMode = .ScaleAspectFit
-                        imageView.sd_setImageWithURL(imageURL,
+                        imageView.sd_setImageWithURL(
+                            imageURL,
                             placeholderImage: UIImage.imageWithRandomColor(nil),
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                            completed: nil)
+                            completed: { (image, error, cacheType, url) -> Void in
+                                for (index, photo) in self.photos.enumerate() {
+                                    if photo.underlyingImage() == nil && photo.photoURL == url {
+                                        self.photos[index] = IDMPhoto(image: image)
+                                        return
+                                    }
+                                }
+                        })
                         self.imageViews.append(imageView)
+                        // Photo for IDMPhotoBrowser
+                        self.photos.append(IDMPhoto(URL: imageURL))
                     }
                 }
             }
@@ -343,7 +361,7 @@ extension ProductViewController: PFCarouselViewDelegate {
     }
     
     func carouselView(carouselView: PFCarouselView!, didSelectViewAtIndex index: Int) {
-        DLog("")
+        IDMPhotoBrowser.present(self.photos, index: UInt(index), viewVC: self)
     }
 }
 

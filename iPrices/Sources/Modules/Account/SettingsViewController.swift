@@ -127,6 +127,7 @@ extension SettingsViewController {
     }
     
     func cleanCache() {
+        // MARK: TODO
 //        SDImageCache.sharedImageCache().calculateSizeWithCompletionBlock { (fileCount, totalSize) -> Void in
 //            
 //        }
