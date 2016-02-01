@@ -92,7 +92,12 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if indexPath.row == 0 {
-            
+            guard let prices = self.prices else { return }
+            guard let item: [String: AnyObject] = prices[indexPath.section] else { return }
+            guard let officialUrlString = item["officialUrl"] as? String else { return }
+            guard let officialUrl = NSURL(string: officialUrlString) else { return }
+            let safariViewController = SFSafariViewController(URL: officialUrl, entersReaderIfAvailable: false)
+            self.presentViewController(safariViewController, animated: true, completion: nil)
         } else {
             
         }

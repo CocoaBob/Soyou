@@ -31,6 +31,7 @@
 @import PageMenu;
 @import PFCarouselView;
 @import RandomColorSwift;
+@import SafariServices;
 @import SCLAlertView;
 @import SDWebImage;
 @import UICKeyChainStore;

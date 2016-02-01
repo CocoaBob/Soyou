@@ -61,6 +61,7 @@
 		456BCABC1C5D0ADD00590295 /* StoreMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456BCABB1C5D0ADD00590295 /* StoreMapViewController.swift */; };
 		456BCABE1C5D1AD200590295 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */; };
 		456BCAC01C60117900590295 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCABF1C60117900590295 /* Contacts.framework */; };
+		456BCAC21C6018D600590295 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCAC11C6018D600590295 /* SafariServices.framework */; };
 		456FC8B61C5A5885003D0DF6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456FC8B51C5A5885003D0DF6 /* StoreKit.framework */; };
 		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundle Resource For IDMPhotoBrowser */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
@@ -178,6 +179,7 @@
 		456BCABB1C5D0ADD00590295 /* StoreMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreMapViewController.swift; sourceTree = "<group>"; };
 		456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
 		456BCABF1C60117900590295 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
+		456BCAC11C6018D600590295 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		456FC8B51C5A5885003D0DF6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = IDMPBLocalizations.bundle; path = ../../Pods/IDMPhotoBrowser/Classes/IDMPBLocalizations.bundle; sourceTree = "<group>"; };
 		457777801BFCB60100805D79 /* News+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "News+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				456BCAC21C6018D600590295 /* SafariServices.framework in Frameworks */,
 				456BCAC01C60117900590295 /* Contacts.framework in Frameworks */,
 				456B419C1C5AD155001E66EB /* MessageUI.framework in Frameworks */,
 				456FC8B61C5A5885003D0DF6 /* StoreKit.framework in Frameworks */,
@@ -484,6 +487,7 @@
 		7D6D7E1DE178B710CB3184C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				456BCAC11C6018D600590295 /* SafariServices.framework */,
 				456BCABF1C60117900590295 /* Contacts.framework */,
 				456B419B1C5AD155001E66EB /* MessageUI.framework */,
 				456FC8B51C5A5885003D0DF6 /* StoreKit.framework */,
