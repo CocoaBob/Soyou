@@ -47,6 +47,7 @@ public struct Cons {
         static let colorBG                              = "#EDEAE5"
         static let colorLike                            = "#00B8F4"
         static let colorHeart                           = "#FF5EAA"
+        static let colorStore                           = "#E84917"
     }
 }
 

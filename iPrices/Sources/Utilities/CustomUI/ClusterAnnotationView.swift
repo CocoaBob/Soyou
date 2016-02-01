@@ -14,6 +14,7 @@ class ClusterAnnotationView: MKAnnotationView {
     
     var count: Int? {
         didSet {
+            self.canShowCallout = count == 1
             countLabel.text = "\(count!)"
             self.setNeedsLayout()
         }
@@ -78,24 +79,18 @@ class ClusterAnnotationView: MKAnnotationView {
             countLabelFrame = frame
         } else {
             var suffix: String?
-            if count > 1000 {
+            if count > 200 {
                 suffix = "39"
-            } else if count > 500 {
-                suffix = "38"
-            } else if count > 200 {
-                suffix = "36"
             } else if count > 100 {
-                suffix = "34"
+                suffix = "38"
             } else if count > 50 {
-                suffix = "31"
+                suffix = "36"
             } else if count > 20 {
-                suffix = "28"
+                suffix = "34"
             } else if count > 10 {
-                suffix = "25"
-            } else if count > 5 {
-                suffix = "24"
+                suffix = "31"
             } else {
-                suffix = "21"
+                suffix = "28"
             }
             
             let imageName = "img_map_annotation_circle_" + suffix!
