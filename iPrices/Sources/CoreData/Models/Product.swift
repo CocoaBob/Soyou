@@ -47,6 +47,9 @@ class Product: BaseModel {
                 if let value = data["descriptions"] as? String {
                     product.descriptions = value
                 }
+                if let value = data["dimension"] as? String {
+                    product.dimension = value
+                }
                 if let value = data["images"] as? NSArray {
                     product.images = value
                 }

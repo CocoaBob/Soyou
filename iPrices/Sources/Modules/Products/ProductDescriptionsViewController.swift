@@ -27,6 +27,7 @@ class ProductDescriptionsViewController: UIViewController {
     var id: NSNumber?
     var descriptionZH: String?
     var isDisplayingTranslatedText = false
+    var dimension: String?
     
     // Class methods
     class func instantiate() -> ProductDescriptionsViewController {
@@ -84,7 +85,7 @@ extension ProductDescriptionsViewController {
         }
         
         if let cssContent = cssContent {
-            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__KEY__SURNAME__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__KEY__BRAND__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__KEY__REFERENCE__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__KEY__DESCRIPTION__", withString: NSLocalizedString("product_descriptions"))
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__KEY__SURNAME__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__KEY__BRAND__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__KEY__REFERENCE__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__KEY__DESCRIPTION__", withString: NSLocalizedString("product_descriptions")).stringByReplacingOccurrencesOfString("__KEY__DIMENSION__", withString: NSLocalizedString("product_dimension"))
             
             if let surname = self.surname {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: surname)
@@ -102,6 +103,12 @@ extension ProductDescriptionsViewController {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: reference)
             }else{
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: NSLocalizedString("product_unavailable"))
+            }
+            
+            if let dimension = self.dimension {
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DIMENSION__", withString: dimension)
+            }else{
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DIMENSION__", withString: NSLocalizedString("product_unavailable"))
             }
             
             if let descriptions = self.descriptions {

@@ -2,7 +2,7 @@
 //  Product+CoreDataProperties.swift
 //  iPrices
 //
-//  Created by chenglian on 16/1/31.
+//  Created by chenglian on 16/2/1.
 //  Copyright © 2016年 iPrices. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,10 +14,10 @@ import CoreData
 
 extension Product {
 
+    @NSManaged var appImageRatio: NSNumber?
+    @NSManaged var appIsFavorite: NSNumber?
     @NSManaged var appIsLiked: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
-    @NSManaged var appIsFavorite: NSNumber?
-    @NSManaged var appImageRatio: NSNumber?
     @NSManaged var brandId: NSNumber?
     @NSManaged var brandLabel: String?
     @NSManaged var categories: String?
@@ -32,5 +32,6 @@ extension Product {
     @NSManaged var reference: String?
     @NSManaged var surname: String?
     @NSManaged var title: String?
+    @NSManaged var dimension: String?
 
 }

@@ -135,6 +135,8 @@
 "product_unavailable"="暂无";
 "product_translation"="翻译";
 "product_back"="恢复";
+"product_dimension"="尺寸";
+
 
 /* User Info */
 "user_info_username_empty"="空白";

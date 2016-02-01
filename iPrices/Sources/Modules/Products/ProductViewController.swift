@@ -276,6 +276,7 @@ extension ProductViewController {
             self.productDescriptionsViewController.surname = localProduct.surname
             self.productDescriptionsViewController.brand = localProduct.brandLabel
             self.productDescriptionsViewController.reference = localProduct.reference
+            self.productDescriptionsViewController.dimension = localProduct.dimension
             self.productDescriptionsViewController.id = localProduct.id
             self.productDescriptionsViewController.webViewHeightDelegate = self
             viewControllers.append(self.productDescriptionsViewController)

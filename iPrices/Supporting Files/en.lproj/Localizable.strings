@@ -135,6 +135,7 @@
 "product_unavailable"="Unavailable";
 "product_translation"="Translate";
 "product_back"="Back";
+"product_dimension"="Dimensions";
 
 /* User Info */
 "user_info_username_empty"="Empty";
