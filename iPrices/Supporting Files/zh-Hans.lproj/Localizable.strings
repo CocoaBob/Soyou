@@ -50,6 +50,9 @@
 "product_descriptions_vc_title"="单品描述";
 "product_descriptions_vc_empty"="没有描述";
 
+/* Store Map View Controller */
+"store_map_vc_address_copied"="地址已复制到剪贴板";
+
 /* User View Controller */
 "user_vc_login"="立即登录，同步您的收藏夹";
 "user_vc_tab_title"="我";

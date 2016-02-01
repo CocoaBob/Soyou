@@ -131,23 +131,23 @@ extension StoreMapViewController: MKMapViewDelegate {
                 let tapGR = UITapGestureRecognizer(target: self, action: "tapAnnotation:")
                 clusterAnnotationView?.addGestureRecognizer(tapGR)
                 
+                // Add left accessory button
+                let leftAccessoryButton = UIButton(frame: CGRectMake(0,0,32,52))
+                leftAccessoryButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
+                leftAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
+                leftAccessoryButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
+                clusterAnnotationView?.leftCalloutAccessoryView = leftAccessoryButton
+                
                 // Add right accessory button
-                let accessoryButton = UIButton(frame: CGRectMake(0,0,32,50))
-                accessoryButton.setImage(UIImage(named: "img_callout_disclosure"), forState: .Normal)
-                accessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStore)
-                accessoryButton.addTarget(self, action: "openStore:", forControlEvents: UIControlEvents.TouchUpInside)
-                clusterAnnotationView?.rightCalloutAccessoryView = accessoryButton
+                let rightAccessoryButton = UIButton(frame: CGRectMake(0,0,32,52))
+                rightAccessoryButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
+                rightAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
+                rightAccessoryButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
+                clusterAnnotationView?.rightCalloutAccessoryView = rightAccessoryButton
             }
             
             clusterAnnotationView?.count = clusterAnnotation.annotations.count
             clusterAnnotationView?.isUniqueLocation = clusterAnnotation.isUniqueLocation()
-            
-            // RightCalloutAccessoryView
-            let accessoryButton = clusterAnnotationView?.rightCalloutAccessoryView
-            if let storeMapAnnotation = clusterAnnotation.annotations.first as? StoreMapAnnotation,
-                storeID = storeMapAnnotation.storeID {
-                accessoryButton?.tag = storeID.integerValue
-            }
             
             returnValue = clusterAnnotationView
         }
@@ -180,8 +180,50 @@ extension StoreMapViewController: CLLocationManagerDelegate {
 // MARK: Routines
 extension StoreMapViewController {
     
-    func openStore(sender: UIButton) {
-        DLog(sender.tag)
+    func storeOfSelectedAnnotations(annotations: [StoreMapAnnotation]) -> Store? {
+        if let clusterAnnotation = self.mapView.selectedAnnotations.first as? CCHMapClusterAnnotation,
+            selectedAnnotation = clusterAnnotation.annotations.first as? StoreMapAnnotation,
+            storeID = selectedAnnotation.storeID {
+                return Store.MR_findFirstByAttribute("id", withValue: storeID)
+        }
+        return nil
+    }
+    
+    func copyAddress(sender: UIButton) {
+        if let store = self.storeOfSelectedAnnotations(self.mapView.selectedAnnotations as! [StoreMapAnnotation]) {
+            let address = FmtString("%@\n%@\n%@\n%@\n%@",store.title ?? "", store.address ?? "", store.zipcode ?? "", store.city ?? "", store.country ?? "")
+            let pasteboard = UIPasteboard.generalPasteboard()
+            pasteboard.persistent = true
+            pasteboard.string = address
+            
+            
+            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.mode = MBProgressHUDMode.Text
+            hud.labelText = NSLocalizedString("store_map_vc_address_copied")
+            hud.hide(true, afterDelay: 0.5)
+        }
+        for annotation in self.mapView.selectedAnnotations {
+            self.mapView.deselectAnnotation(annotation, animated: true)
+        }
+    }
+    
+    func openMap(sender: UIButton) {
+        if let store = self.storeOfSelectedAnnotations(self.mapView.selectedAnnotations as! [StoreMapAnnotation]) {
+            let addressDictionary = [String(CNPostalAddressStreetKey): store.address ?? "", String(CNPostalAddressCityKey): store.city ?? "", String(CNPostalAddressPostalCodeKey): store.zipcode ?? "", String(CNPostalAddressCountryKey): store.country ?? ""]
+            let coordinate = CLLocationCoordinate2DMake(CLLocationDegrees(store.latitude?.doubleValue ?? 0), CLLocationDegrees(store.longitude?.doubleValue ?? 0))
+            let placemark = MKPlacemark(
+                coordinate: coordinate,
+                addressDictionary: addressDictionary)
+            let mapItem = MKMapItem(placemark: placemark)
+            mapItem.name = store.title
+            
+            
+            let launchOptions: [String : AnyObject] = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving, MKLaunchOptionsMapTypeKey: MKMapType.Standard.rawValue]
+            mapItem.openInMapsWithLaunchOptions(launchOptions)
+        }
+        for annotation in self.mapView.selectedAnnotations {
+            self.mapView.deselectAnnotation(annotation, animated: true)
+        }
     }
 }
 
