@@ -11,6 +11,10 @@ class ProductsViewController: BaseViewController {
     // Override BaseViewController
     @IBOutlet var _collectionView: UICollectionView!
     
+    let bottomMargin: CGFloat = 51.0 // Height of 3 Labels + inner margins
+    let cellMargin: CGFloat = 4.0 // Cell outer margins
+    var cellWidth: CGFloat = 0
+    
     override func collectionView() -> UICollectionView {
         return _collectionView
     }
@@ -53,6 +57,9 @@ class ProductsViewController: BaseViewController {
         
         // Setups
         setupCollectionView()
+        
+        // Pre-calculate cell width
+        self.cellWidth = (self.collectionView().frame.size.width - cellMargin * 3) / 2.0
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -209,11 +216,8 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         
         var size = CGSizeMake(1, 1) // Default size for product
         if let imageRatio = product.appImageRatio?.doubleValue {
-            let bottomMargin: CGFloat = 51.0 // Height of 3 Labels + inner margins
-            let cellMargin: CGFloat = 4.0 // Cell outer margins
-            let cellWidth = (collectionView.frame.size.width - cellMargin * 3) / 2.0
-            let cellHeight = cellWidth * CGFloat(imageRatio) + bottomMargin
-            size = CGSizeMake(cellWidth, cellHeight)
+            let cellHeight = self.cellWidth * CGFloat(imageRatio) + bottomMargin
+            size = CGSizeMake(self.cellWidth, cellHeight)
         }
         return size
     }

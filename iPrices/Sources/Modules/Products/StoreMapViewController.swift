@@ -14,6 +14,9 @@ class StoreMapViewController: UIViewController {
     private var mapClusterer: CCHMapClusterer!
     private var mapAnimator: CCHMapAnimator!
     
+    let leftAccessoryButton = CalloutButton(frame: CGRectMake(0,0,32,100))
+    let rightAccessoryButton = CalloutButton(frame: CGRectMake(0,0,32,100))
+    
     var brandID: NSNumber?
     var brandName: String?
 
@@ -26,6 +29,14 @@ class StoreMapViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = brandName
+        
+        // Callout buttons
+        self.leftAccessoryButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
+        self.leftAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
+        self.leftAccessoryButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.rightAccessoryButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
+        self.rightAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
+        self.rightAccessoryButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
         
         // Update user locations
         self.initLocationManager()
@@ -131,18 +142,10 @@ extension StoreMapViewController: MKMapViewDelegate {
                 let tapGR = UITapGestureRecognizer(target: self, action: "tapAnnotation:")
                 clusterAnnotationView?.addGestureRecognizer(tapGR)
                 
-                // Add left accessory button
-                let leftAccessoryButton = UIButton(frame: CGRectMake(0,0,32,52))
-                leftAccessoryButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
-                leftAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
-                leftAccessoryButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
+                // Callout left accessory button
                 clusterAnnotationView?.leftCalloutAccessoryView = leftAccessoryButton
                 
-                // Add right accessory button
-                let rightAccessoryButton = UIButton(frame: CGRectMake(0,0,32,52))
-                rightAccessoryButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
-                rightAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
-                rightAccessoryButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
+                // Callout right accessory button
                 clusterAnnotationView?.rightCalloutAccessoryView = rightAccessoryButton
             }
             
@@ -200,7 +203,7 @@ extension StoreMapViewController {
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             hud.mode = MBProgressHUDMode.Text
             hud.labelText = NSLocalizedString("store_map_vc_address_copied")
-            hud.hide(true, afterDelay: 0.5)
+            hud.hide(true, afterDelay: 1)
         }
         for annotation in self.mapView.selectedAnnotations {
             self.mapView.deselectAnnotation(annotation, animated: true)
@@ -231,4 +234,15 @@ extension StoreMapViewController {
 class StoreMapAnnotation: MKPointAnnotation {
     
     var storeID: NSNumber?
+}
+
+// Workaround to fit the accessory views as we don't know the exact height of the callout views.
+class CalloutButton: UIButton {
+    
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        var frame = self.frame
+        frame.origin.y = -(frame.size.height - 52) / 2.0 // 52 is the default height of callout view in iOS 9
+        self.frame = frame
+    }
 }
