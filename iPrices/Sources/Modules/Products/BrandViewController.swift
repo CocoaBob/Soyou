@@ -336,6 +336,7 @@ extension BrandViewController {
         let item = itemForIndexPath(indexPath)
         productsViewController.categoryName = item.label
         productsViewController.categoryID = self.itemForIndexPath(indexPath).id
+        productsViewController.brandID = self.brandID
         self.navigationController?.pushViewController(productsViewController, animated: true)
     }
     
@@ -352,6 +353,7 @@ extension BrandViewController: UISearchControllerDelegate {
     func setupSearchController() {
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
+        searchResultsController.brandID = self.brandID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController?.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")

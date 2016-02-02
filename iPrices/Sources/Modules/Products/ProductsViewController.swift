@@ -26,6 +26,9 @@ class ProductsViewController: BaseViewController {
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         var predicates = [NSPredicate]()
+        if let brandId = self.brandID {
+            predicates.append(FmtPredicate("brandId == %@", brandId))
+        }
         if let categoryID = self.categoryID {
             predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
         }
@@ -43,8 +46,8 @@ class ProductsViewController: BaseViewController {
     var selectedIndexPath: NSIndexPath?
     
     var categoryName: String?
-    
     var categoryID: NSNumber?
+    var brandID: NSNumber?
     
     // Class methods
     class func instantiate() -> ProductsViewController {
@@ -80,16 +83,16 @@ class ProductsViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        if !self.isSearchResultsViewController {
-            self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        }
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
         
-        // Update the selected cell in case if appIsFavorite is changed
-        if let selectedIndexPath = self.selectedIndexPath {
-            self.collectionView().reloadItemsAtIndexPaths([selectedIndexPath])
+        if !self.isSearchResultsViewController {
+            // Update the selected cell in case if appIsFavorite is changed
+            if let selectedIndexPath = self.selectedIndexPath {
+                self.collectionView().reloadItemsAtIndexPaths([selectedIndexPath])
+            }
         }
         
         // Load favorites
@@ -175,7 +178,11 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             image = imageView.image {
                 productViewController.firstImage = image
         }
-        self.navigationController?.pushViewController(productViewController, animated: true)
+        if self.isSearchResultsViewController {
+            self.presentingViewController?.navigationController?.pushViewController(productViewController, animated: true)
+        } else {
+            self.navigationController?.pushViewController(productViewController, animated: true)
+        }
     }
 }
 
@@ -205,6 +212,9 @@ extension ProductsViewController: ZoomTransitionProtocol {
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        if self.isSearchResultsViewController {
+            return false
+        }
         if operation == .Pop && fromVC === self && toVC is BrandViewController {
             return false
         }
@@ -290,6 +300,8 @@ extension ProductsViewController: UISearchControllerDelegate {
     func setupSearchController() {
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
+        searchResultsController.brandID = self.brandID
+        searchResultsController.categoryID = self.categoryID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController?.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"),self.categoryName ?? "")
