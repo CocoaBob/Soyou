@@ -12,7 +12,29 @@ class ProductPricesViewController: UIViewController {
     
     var productViewController: ProductViewController?
     
-    var prices: [[String: AnyObject]]? //[ { "country": "法国", "price": 1450 } ]
+    // //[ { "country": "FR", "price": 1450 } ]
+    var prices: [[String: AnyObject]]? {
+        didSet {
+            if let _prices = prices {
+                for (index, var price) in _prices.enumerate() {
+                    let countryCode = price["country"] as! String
+                    let priceOriginal = price["price"] as! NSNumber
+                    price["priceCNY"] = CurrencyManager.shared.equivalentCNYFromCurrency(countryCode, price: priceOriginal)
+                    prices![index] = price
+                }
+                
+                prices!.sortInPlace({
+                    let item0 = $0 as [String: AnyObject]
+                    let item1 = $1 as [String: AnyObject]
+                    if let price0 = item0["priceCNY"] as? NSNumber,
+                        price1 = item1["priceCNY"] as? NSNumber {
+                            return price0.doubleValue < price1.doubleValue
+                    }
+                    return false
+                })
+            }
+        }
+    }
     
     // Class methods
     class func instantiate() -> ProductPricesViewController {
@@ -46,9 +68,9 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let prices = self.prices else { return UITableViewCell() }
         guard let item: [String: AnyObject] = prices[indexPath.section] else { return UITableViewCell() }
+        guard let countryCode = item["country"] as? String else { return UITableViewCell() }
+        guard let price = item["price"] as? NSNumber else { return UITableViewCell() }
         
-        let countryCode = item["country"] as! String
-        let price = item["price"] as! NSNumber
         var cell: UITableViewCell?
         
         if indexPath.row == 0 {
@@ -70,7 +92,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, nil)
             _cell.lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
             _cell.lblEquivalentCurrency.text = CurrencyManager.shared.currencyName("CN")
-            if let priceCNY = CurrencyManager.shared.equivalentCNYFromCurrency(countryCode, price: price) {
+            if let priceCNY = item["priceCNY"] as? NSNumber {
                 _cell.lblEquivalentPrice.text = CurrencyManager.shared.formattedPrice(priceCNY, nil, nil)
             } else {
                 _cell.lblEquivalentPrice.text = NSLocalizedString("product_prices_vc_unavailable")
