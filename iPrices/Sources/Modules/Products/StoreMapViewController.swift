@@ -116,8 +116,9 @@ extension StoreMapViewController: MKMapViewDelegate {
     
     func tapAnnotation(tapGR: UITapGestureRecognizer) {
         if let clusterAnnotationView = tapGR.view as? ClusterAnnotationView,
-            annotation = clusterAnnotationView.annotation {
-                if clusterAnnotationView.count > 1 {
+            annotation = clusterAnnotationView.annotation,
+            isUniqueLocation = clusterAnnotationView.isUniqueLocation {
+                if !isUniqueLocation {
                     var region = self.mapView.region
                     var span = region.span
                     span.latitudeDelta /= 2.0

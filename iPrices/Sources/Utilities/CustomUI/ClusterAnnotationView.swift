@@ -21,6 +21,9 @@ class ClusterAnnotationView: MKAnnotationView {
     }
     var isUniqueLocation: Bool? {
         didSet {
+            if let isUniqueLocation = isUniqueLocation {
+                self.canShowCallout = isUniqueLocation
+            }
             self.setNeedsLayout()
         }
     }
