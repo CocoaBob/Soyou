@@ -33,7 +33,7 @@ class ProductsViewController: BaseViewController {
             predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
         }
         if let searchText = self.searchText {
-            predicates.append(FmtPredicate("descriptions CONTAINS[cd] %@", searchText))
+            predicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchText))
         }
         return Product.MR_fetchAllGroupedBy(
             nil,

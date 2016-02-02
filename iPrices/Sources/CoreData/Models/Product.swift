@@ -38,14 +38,19 @@ class Product: BaseModel {
                     }
                     product.dateModification = newDateModification
                 }
+                
+                var searchText = ""
+                
                 if let value = data["brandId"] as? NSNumber {
                     product.brandId = value
                 }
                 if let value = data["brandLabel"] as? String {
                     product.brandLabel = value
+                    searchText += normalized(value)
                 }
                 if let value = data["descriptions"] as? String {
                     product.descriptions = value
+                    searchText += normalized(value)
                 }
                 if let value = data["dimension"] as? String {
                     product.dimension = value
@@ -55,6 +60,7 @@ class Product: BaseModel {
                 }
                 if let value = data["keywords"] as? String {
                     product.keywords = value
+                    searchText += normalized(value)
                 }
                 if let value = data["likeNumber"] as? NSNumber {
                     product.likeNumber = value
@@ -64,12 +70,15 @@ class Product: BaseModel {
                 }
                 if let value = data["reference"] as? String {
                     product.reference = value
+                    searchText += normalized(value)
                 }
                 if let value = data["surname"] as? String {
                     product.surname = value
+                    searchText += normalized(value)
                 }
                 if let value = data["title"] as? String {
                     product.title = value
+                    searchText += normalized(value)
                 }
                 if let value = data["categories"] as? String {
                     product.categories = value
@@ -77,6 +86,7 @@ class Product: BaseModel {
                 if let value = data["order"] as? NSNumber {
                     product.order = value
                 }
+                product.appSearchText = searchText
             }
         }
         
@@ -143,5 +153,9 @@ class Product: BaseModel {
                 }
             }
         })
+    }
+    
+    class func normalized(text: String) -> String {
+        return " " + text.componentsSeparatedByCharactersInSet(NSCharacterSet.alphanumericCharacterSet().invertedSet).joinWithSeparator("").lowercaseString
     }
 }
