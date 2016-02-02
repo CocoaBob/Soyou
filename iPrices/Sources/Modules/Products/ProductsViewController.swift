@@ -12,6 +12,7 @@ class ProductsViewController: BaseViewController {
     @IBOutlet var _collectionView: UICollectionView!
     
     var searchController: UISearchController?
+    var searchTimer: NSTimer?
     
     var isSearchResultsViewController: Bool = false
     var searchText: String?
@@ -284,13 +285,30 @@ extension ProductsViewController {
 // MARK: UISearchResultsUpdating
 extension ProductsViewController: UISearchResultsUpdating {
     
+    func startSearchTimer() {
+        stopSearchTimer()
+        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "reloadData", userInfo: nil, repeats: false)
+    }
+    
+    func stopSearchTimer() {
+        self.searchTimer?.invalidate()
+        self.searchTimer = nil
+    }
+    
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        self.stopSearchTimer()
+        
         if searchController.active {
-            self.searchText = searchController.searchBar.text
+            if let searchText = searchController.searchBar.text {
+                self.searchText = Product.normalized(searchText).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            } else {
+                self.searchText = nil
+            }
         } else {
             self.searchText = nil
         }
-        self.reloadData()
+        
+        self.startSearchTimer()
     }
 }
 

@@ -86,7 +86,7 @@ class Product: BaseModel {
                 if let value = data["order"] as? NSNumber {
                     product.order = value
                 }
-                product.appSearchText = searchText
+                product.appSearchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             }
         }
         
