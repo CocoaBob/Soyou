@@ -25,7 +25,8 @@ class SettingsViewController: SimpleTableViewController {
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
         
-        // Background Color
+        // Setup tableview
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
         
         // Update cache size

@@ -26,6 +26,9 @@ class ProfileViewController: SimpleTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Setup tableview
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
     }
@@ -79,7 +82,7 @@ extension ProfileViewController {
                     Row(type: .LeftTitleRightDetail,
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_region"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: CurrencyManager.shared.countryName(UserManager.shared.region ?? ""), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: CurrencyManager.shared.countryName(UserManager.shared.region ?? "") ?? NSLocalizedString("user_info_region_unknown"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),

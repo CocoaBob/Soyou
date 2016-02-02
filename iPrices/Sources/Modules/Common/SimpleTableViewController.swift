@@ -76,7 +76,7 @@ class SimpleTableViewController: UIViewController {
             self.tableView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.tableView.delegate = self
             self.tableView.dataSource = self
-            self.tableView.tableFooterView = UIView()
+            self.tableView.tableFooterView = UIView(frame: CGRectZero)
             self.view.addSubview(self.tableView)
         }
         

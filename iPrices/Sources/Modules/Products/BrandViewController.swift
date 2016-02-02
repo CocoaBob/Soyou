@@ -23,6 +23,8 @@ class BrandViewController: UIViewController {
     @IBOutlet var lblTitleCategories: UILabel!
     @IBOutlet var lblTitleStores: UILabel!
     
+    var searchController: UISearchController?
+    
     private var _sections = [CategoryItem]()
     
     var brandID: NSNumber?
@@ -60,8 +62,8 @@ class BrandViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.lblTitleCategories.text = NSLocalizedString("brands_root_title_categories")
-        self.lblTitleStores.text = NSLocalizedString("brands_root_title_stores")
+        self.lblTitleCategories.text = NSLocalizedString("brand_vc_root_title_categories")
+        self.lblTitleStores.text = NSLocalizedString("brand_vc_root_title_stores")
         
         // Layout the subviews (otherwise the tableview will be 600x600 at the very beginning)
         self.view.setNeedsLayout()
@@ -81,6 +83,9 @@ class BrandViewController: UIViewController {
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height ?? 0, false, false)
+        
+        // Setup Search Controller
+        self.setupSearchController()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -91,6 +96,14 @@ class BrandViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
+        // For navigation bar search bar
+        self.definesPresentationContext = true
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // For navigation bar search bar
+        self.definesPresentationContext = false
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -333,6 +346,20 @@ extension BrandViewController {
     }
 }
 
+// MARK: - SearchControler
+extension BrandViewController: UISearchControllerDelegate {
+    
+    func setupSearchController() {
+        let searchResultsController = ProductsViewController.instantiate()
+        searchResultsController.isSearchResultsViewController = true
+        self.searchController = UISearchController(searchResultsController: searchResultsController)
+        self.searchController?.searchResultsUpdater = searchResultsController
+        self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
+        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.navigationItem.titleView = self.searchController!.searchBar
+    }
+}
+
 // MARK: - Custom cells
 class BrandViewHierarchyListRootCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
@@ -342,7 +369,7 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        btnAccessory.setTitle(NSLocalizedString("brands_root_cell_all"), forState: .Normal)
+        btnAccessory.setTitle(NSLocalizedString("brand_vc_root_cell_all"), forState: .Normal)
     }
     
     override func prepareForReuse() {

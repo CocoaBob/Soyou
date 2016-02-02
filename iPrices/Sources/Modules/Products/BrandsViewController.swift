@@ -11,6 +11,8 @@ class BrandsViewController: BaseViewController {
     // Override BaseViewController
     @IBOutlet var _collectionView: UICollectionView!
     
+    var searchController: UISearchController?
+    
     override func collectionView() -> UICollectionView {
         return _collectionView
     }
@@ -42,7 +44,10 @@ class BrandsViewController: BaseViewController {
         self.updateScrollViewInset(self.collectionView(), 0, false, false)
         
         // Setups
-        setupCollectionView()
+        self.setupCollectionView()
+        
+        // Setup Search Controller
+        self.setupSearchController()
         
         // Transitions
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
@@ -57,6 +62,14 @@ class BrandsViewController: BaseViewController {
         super.viewWillAppear(animated)
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
+        // For navigation bar search bar
+        self.definesPresentationContext = true
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // For navigation bar search bar
+        self.definesPresentationContext = false
     }
 }
 
@@ -187,6 +200,20 @@ extension BrandsViewController: ZoomTransitionProtocol {
             return returnImageView
         }
         return nil
+    }
+}
+
+// MARK: - SearchControler
+extension BrandsViewController: UISearchControllerDelegate {
+    
+    func setupSearchController() {
+        let searchResultsController = ProductsViewController.instantiate()
+        searchResultsController.isSearchResultsViewController = true
+        self.searchController = UISearchController(searchResultsController: searchResultsController)
+        self.searchController?.searchResultsUpdater = searchResultsController
+        self.searchController!.searchBar.placeholder = NSLocalizedString("brands_vc_search_bar_placeholder")
+        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.navigationItem.titleView = self.searchController!.searchBar
     }
 }
 

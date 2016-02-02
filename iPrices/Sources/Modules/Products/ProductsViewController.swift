@@ -11,6 +11,11 @@ class ProductsViewController: BaseViewController {
     // Override BaseViewController
     @IBOutlet var _collectionView: UICollectionView!
     
+    var searchController: UISearchController?
+    
+    var isSearchResultsViewController: Bool = false
+    var searchText: String?
+    
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
     var cellWidth: CGFloat = 0
@@ -20,9 +25,16 @@ class ProductsViewController: BaseViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
+        var predicates = [NSPredicate]()
+        if let categoryID = self.categoryID {
+            predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
+        }
+        if let searchText = self.searchText {
+            predicates.append(FmtPredicate("descriptions CONTAINS[cd] %@", searchText))
+        }
         return Product.MR_fetchAllGroupedBy(
             nil,
-            withPredicate: FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID ?? "")),
+            withPredicate: NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates),
             sortedBy: "order,id",
             ascending: true)
     }
@@ -52,18 +64,25 @@ class ProductsViewController: BaseViewController {
         
         self.title = self.categoryName
         
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.collectionView(), 0, false, false)
+        if !self.isSearchResultsViewController {
+            // Fix scroll view insets
+            self.updateScrollViewInset(self.collectionView(), 0, false, false)
+        }
         
         // Setups
-        setupCollectionView()
+        self.setupCollectionView()
+        
+        // Setup Search Controller
+        self.setupSearchController()
         
         // Pre-calculate cell width
         self.cellWidth = (self.view.frame.size.width - cellMargin * 3) / 2.0
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        if !self.isSearchResultsViewController {
+            self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        }
         super.viewWillAppear(animated)
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
@@ -74,15 +93,21 @@ class ProductsViewController: BaseViewController {
         }
         
         // Load favorites
-        if UserManager.shared.isLoggedIn {
-            DataManager.shared.requestProductFavorites(categoryID!) { responseObject, error in
-                self.reloadData()
+        if let categoryID = self.categoryID {
+            if UserManager.shared.isLoggedIn {
+                DataManager.shared.requestProductFavorites(categoryID) { responseObject, error in
+                    self.reloadData()
+                }
             }
         }
+        // For navigation bar search bar
+        self.definesPresentationContext = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        // For navigation bar search bar
+        self.definesPresentationContext = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -243,6 +268,33 @@ extension ProductsViewController {
                 })
             }
         }
+    }
+}
+
+// MARK: UISearchResultsUpdating
+extension ProductsViewController: UISearchResultsUpdating {
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        if searchController.active {
+            self.searchText = searchController.searchBar.text
+        } else {
+            self.searchText = nil
+        }
+        self.reloadData()
+    }
+}
+
+// MARK: - SearchControler
+extension ProductsViewController: UISearchControllerDelegate {
+    
+    func setupSearchController() {
+        let searchResultsController = ProductsViewController.instantiate()
+        searchResultsController.isSearchResultsViewController = true
+        self.searchController = UISearchController(searchResultsController: searchResultsController)
+        self.searchController?.searchResultsUpdater = searchResultsController
+        self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"),self.categoryName ?? "")
+        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.navigationItem.titleView = self.searchController!.searchBar
     }
 }
 

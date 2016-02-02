@@ -28,15 +28,17 @@
 /* Brands View Controller */
 "brands_vc_title"="品牌";
 "brands_vc_tab_title"="品牌";
+"brands_vc_search_bar_placeholder"="品牌、商品、编号…";
 
 /* Brand View Controller */
-"brands_root_cell_all"="全部";
-"brands_root_title_categories"="分类";
-"brands_root_title_stores"="店铺";
-"brands_root_title_cluster_title"="%d家店铺";
+"brand_vc_root_cell_all"="全部";
+"brand_vc_root_title_categories"="分类";
+"brand_vc_root_title_stores"="店铺";
+"brand_vc_search_bar_placeholder"="%@ 商品、编号…";
 
 /* Products View Controller */
 "products_vc_title"="产品";
+"products_vc_search_bar_placeholder"="%@ 商品、编号…";
 
 /* Product Prices View Controller */
 "product_prices_vc_title"="全球售价";

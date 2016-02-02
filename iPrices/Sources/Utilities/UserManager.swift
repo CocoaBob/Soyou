@@ -151,15 +151,15 @@ extension UserManager {
     
     var region: String? {
         set {
-        self["region"] = newValue
+            self["region"] = newValue
         }
         get {
-        if let value = self["region"] as? String {
-        if value != "" {
-        return value
-        }
-        }
-        return NSLocalizedString("user_info_region_unknown")
+            if let value = self["region"] as? String {
+                if value != "" {
+                    return value
+                }
+            }
+            return nil
         }
     }
     
