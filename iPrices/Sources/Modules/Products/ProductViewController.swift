@@ -13,19 +13,21 @@ class ProductViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var subViewsContainer: UIView!
-
+    @IBOutlet var carouselView: PFCarouselView!
+    @IBOutlet var carouselViewHeight: NSLayoutConstraint?
+    @IBOutlet var viewsContainerHeight: NSLayoutConstraint?
+    
     var product: Product?
     // Images for Carousel
     var firstImage: UIImage?
     var imageViews: [UIImageView] = [UIImageView]()
-    var imageRatio: CGFloat = 1.1
+    var carouselViewRatio: CGFloat = 1.1
     // Photos for IDMPhotoBrowser
     var photos: [IDMPhoto] = [IDMPhoto]()
     
     var productPricesViewController = ProductPricesViewController.instantiate()
     var productDescriptionsViewController = ProductDescriptionsViewController.instantiate()
     var descriptionViewHeight: CGFloat = 0
-    var viewsContainerHeight: NSLayoutConstraint?
     
     // PageMenu
     var pageMenu: CAPSPageMenu?
@@ -66,10 +68,10 @@ class ProductViewController: UIViewController {
         
         // Hide navigation bar at beginning for calculating topInset
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        // Parallax Header & Carousel View
-        self.setupParallaxHeader()
+        // Carousel View
+        self.setupCarouselView()
         // Fix scroll view insets
-        self.updateScrollViewInset(self.scrollView, self.scrollView.parallaxHeader.height ?? 0, false, true)
+        self.updateScrollViewInset(self.scrollView, 0, false, true)
         self.scrollView.contentInset.bottom = 0 // Workaround: Fix contentInset.bottom...
         self.scrollView.scrollIndicatorInsets = UIEdgeInsetsZero // Workaround: Fix scrollIndicatorInsets...
         self.scrollView.scrollIndicatorInsets.top = UIApplication.sharedApplication().statusBarFrame.size.height
@@ -177,10 +179,16 @@ extension ProductViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: Parallax Header & Carousel View
+// MARK: Carousel View
 extension ProductViewController {
     
-    private func setupCarouselView() -> PFCarouselView {
+    private func setupCarouselView() {
+        // Update the frame of carousel view
+        let carouselViewHeight = self.view.frame.size.width / self.carouselViewRatio
+        self.carouselViewHeight?.constant = carouselViewHeight
+        self.view.setNeedsLayout()
+        self.view.layoutIfNeeded()
+        
         // Prepare data
         self.imageViews.removeAll()
         var images: [String]?
@@ -192,12 +200,14 @@ extension ProductViewController {
                 title = localProduct.title
             }
         }
+        let imageViewFrame = CGRectMake(0, 0, self.view.frame.size.width, carouselViewHeight)
         if let images = images {
             // Add 1st image
             if let firstImage = self.firstImage {
                 // ImageView for Carousel
-                let firstImageView = UIImageView(image: firstImage)
+                let firstImageView = UIImageView(frame: imageViewFrame)
                 firstImageView.contentMode = .ScaleAspectFit
+                firstImageView.image = firstImage
                 self.imageViews.append(firstImageView)
                 // Photo for IDMPhotoBrowser
                 self.photos.append(IDMPhoto(image: firstImage))
@@ -210,7 +220,7 @@ extension ProductViewController {
                 for imageURLString in restImages {
                     if let imageURL = NSURL(string: imageURLString) {
                         // ImageView for Carousel
-                        let imageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / self.imageRatio))
+                        let imageView = UIImageView(frame: imageViewFrame)
                         imageView.contentMode = .ScaleAspectFit
                         imageView.sd_setImageWithURL(
                             imageURL,
@@ -233,28 +243,19 @@ extension ProductViewController {
         }
         
         // Setup UI
-        let carouselView = PFCarouselView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width / self.imageRatio))
-        carouselView.delegate = self
+        self.carouselView.delegate = self
         if let title = title {
-            carouselView.textLabel.numberOfLines = 0
-            carouselView.textLabel.font = UIFont.boldSystemFontOfSize(17)
-            carouselView.textLabelShow = true
-            carouselView.textString = title;
-            carouselView.textInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+            self.carouselView.textLabel.numberOfLines = 0
+            self.carouselView.textLabel.font = UIFont.boldSystemFontOfSize(17)
+            self.carouselView.textLabelShow = true
+            self.carouselView.textString = title;
+            self.carouselView.textInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         } else {
-            carouselView.textLabelShow = false
+            self.carouselView.textLabelShow = false
         }
-        carouselView.refresh()
-        
-        return carouselView
+        self.carouselView.refresh()
     }
     
-    private func setupParallaxHeader() {
-        let carouselView = self.setupCarouselView()
-        self.scrollView.parallaxHeader.height = self.view.frame.size.width / self.imageRatio
-        self.scrollView.parallaxHeader.view = carouselView
-        self.scrollView.parallaxHeader.mode = .Bottom
-    }
 }
 
 // MARK: Sub View Controllers
@@ -263,14 +264,17 @@ extension ProductViewController {
     func setupSubViewControllers() {
         guard let product = self.product else { return }
         
+        // Prepare childViewControllers
         var viewControllers = [UIViewController]()
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             guard let localProduct = product.MR_inContext(localContext) else { return }
             // Prices VC
+            self.productPricesViewController.productViewController = self
             self.productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
             self.productPricesViewController.prices = localProduct.prices as? [[String: AnyObject]]
             viewControllers.append(self.productPricesViewController)
             // Descriptions VC
+            self.productDescriptionsViewController.productViewController = self
             self.productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
             self.productDescriptionsViewController.descriptions = localProduct.descriptions
             self.productDescriptionsViewController.surname = localProduct.surname
@@ -311,18 +315,6 @@ extension ProductViewController {
         if let pageMenu = self.pageMenu  {
             pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.subViewsContainer.addSubview(pageMenu.view)
-            // Add the missing height constraint, so the red warning in the InterfaceBuilder will disapplear at running time
-            self.viewsContainerHeight = NSLayoutConstraint(
-                item: self.subViewsContainer,
-                attribute: NSLayoutAttribute.Height,
-                relatedBy: NSLayoutRelation.Equal,
-                toItem: nil,
-                attribute: NSLayoutAttribute.NotAnAttribute,
-                multiplier: 1,
-                constant: 1000)
-            if let constraint = self.viewsContainerHeight {
-                self.subViewsContainer.addConstraint(constraint)
-            }
             pageMenu.view.frame = CGRectMake(0, 0, self.subViewsContainer.frame.size.width, self.subViewsContainer.frame.size.height)
         }
     }
@@ -382,7 +374,7 @@ extension ProductViewController: UIGestureRecognizerDelegate {
 extension ProductViewController: ZoomTransitionProtocol {
     
     func viewForZoomTransition(isSource: Bool) -> UIView? {
-        return self.scrollView.parallaxHeader.view
+        return self.imageViews.first
     }
     
     func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {

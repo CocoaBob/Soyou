@@ -10,11 +10,19 @@
 extension UIViewController {
     
     func hideToolbar(animated: Bool) {
-        self.navigationController?.setToolbarHidden(true, animated: animated)
+        if let navController = self.navigationController {
+            if !navController.toolbarHidden {
+                navController.setToolbarHidden(true, animated: animated)
+            }
+        }
     }
     
     func showToolbar(animated: Bool) {
-        self.navigationController?.setToolbarHidden(false, animated: animated)
+        if let navController = self.navigationController {
+            if navController.toolbarHidden {
+                navController.setToolbarHidden(false, animated: animated)
+            }
+        }
     }
     
     func topInset(parallaxHeaderHeight: CGFloat, _ includeStatusBar: Bool) -> CGFloat {

@@ -412,12 +412,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5C8-cf-oQm">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5C8-cf-oQm">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xL3-tg-kAI">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rAM-ib-ugN" customClass="PFCarouselView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="NoC-2U-wMf"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xL3-tg-kAI">
+                                        <rect key="frame" x="0.0" y="200" width="600" height="400"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="400" id="2EP-KU-Myi"/>
+                                        </constraints>
                                         <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                             <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
                                         </variation>
@@ -425,13 +435,12 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="xL3-tg-kAI" secondAttribute="bottom" id="06c-uQ-y8k"/>
+                                    <constraint firstItem="rAM-ib-ugN" firstAttribute="leading" secondItem="5C8-cf-oQm" secondAttribute="leading" id="2K2-TA-ZPo"/>
+                                    <constraint firstItem="rAM-ib-ugN" firstAttribute="top" secondItem="5C8-cf-oQm" secondAttribute="top" id="9H8-6j-Dyc"/>
                                     <constraint firstAttribute="trailing" secondItem="xL3-tg-kAI" secondAttribute="trailing" id="EaC-VX-cso"/>
-                                    <constraint firstItem="xL3-tg-kAI" firstAttribute="top" secondItem="5C8-cf-oQm" secondAttribute="top" id="YNw-Jr-itU"/>
-                                    <constraint firstAttribute="trailing" secondItem="xL3-tg-kAI" secondAttribute="trailing" id="Ziu-Mp-Gx8"/>
+                                    <constraint firstAttribute="trailing" secondItem="rAM-ib-ugN" secondAttribute="trailing" id="LOX-gl-D1L"/>
                                     <constraint firstItem="xL3-tg-kAI" firstAttribute="leading" secondItem="5C8-cf-oQm" secondAttribute="leading" id="afX-Fp-Km9"/>
-                                    <constraint firstItem="xL3-tg-kAI" firstAttribute="top" secondItem="5C8-cf-oQm" secondAttribute="top" id="ltx-Sg-6q5"/>
-                                    <constraint firstAttribute="bottom" secondItem="xL3-tg-kAI" secondAttribute="bottom" id="tSH-2p-Sux"/>
-                                    <constraint firstItem="xL3-tg-kAI" firstAttribute="leading" secondItem="5C8-cf-oQm" secondAttribute="leading" id="woa-mJ-Y4R"/>
+                                    <constraint firstItem="xL3-tg-kAI" firstAttribute="top" secondItem="rAM-ib-ugN" secondAttribute="bottom" id="lmz-em-emw"/>
                                 </constraints>
                                 <variation key="widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
@@ -444,15 +453,19 @@
                         <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="5C8-cf-oQm" firstAttribute="leading" secondItem="wDJ-sM-AAg" secondAttribute="leading" id="DkL-K3-WtP"/>
-                            <constraint firstItem="5C8-cf-oQm" firstAttribute="top" secondItem="wDJ-sM-AAg" secondAttribute="top" id="a0e-C0-waP"/>
+                            <constraint firstItem="5C8-cf-oQm" firstAttribute="top" secondItem="wDJ-sM-AAg" secondAttribute="top" id="HT5-78-WiQ"/>
+                            <constraint firstItem="rAM-ib-ugN" firstAttribute="width" secondItem="wDJ-sM-AAg" secondAttribute="width" id="T2D-2r-WKq"/>
                             <constraint firstItem="bwy-hx-bOj" firstAttribute="top" secondItem="5C8-cf-oQm" secondAttribute="bottom" id="anh-7y-MsC"/>
                             <constraint firstItem="xL3-tg-kAI" firstAttribute="width" secondItem="wDJ-sM-AAg" secondAttribute="width" id="ipf-5t-UrC"/>
                             <constraint firstAttribute="trailing" secondItem="5C8-cf-oQm" secondAttribute="trailing" id="kVf-WM-aGS"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="carouselView" destination="rAM-ib-ugN" id="sv3-XY-bZ9"/>
+                        <outlet property="carouselViewHeight" destination="NoC-2U-wMf" id="eTx-CM-0IL"/>
                         <outlet property="scrollView" destination="5C8-cf-oQm" id="6Ne-aG-4oP"/>
                         <outlet property="subViewsContainer" destination="xL3-tg-kAI" id="R6w-p2-6oa"/>
+                        <outlet property="viewsContainerHeight" destination="2EP-KU-Myi" id="ZwS-LB-chW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sgS-ft-lZG" userLabel="First Responder" sceneMemberID="firstResponder"/>

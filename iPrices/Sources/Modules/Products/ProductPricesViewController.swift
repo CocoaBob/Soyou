@@ -10,6 +10,8 @@ class ProductPricesViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
+    var productViewController: ProductViewController?
+    
     var prices: [[String: AnyObject]]? //[ { "country": "法国", "price": 1450 } ]
     
     // Class methods
@@ -97,7 +99,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             guard let officialUrlString = item["officialUrl"] as? String else { return }
             guard let officialUrl = NSURL(string: officialUrlString) else { return }
             let safariViewController = SFSafariViewController(URL: officialUrl, entersReaderIfAvailable: false)
-            self.presentViewController(safariViewController, animated: true, completion: nil)
+            self.productViewController?.presentViewController(safariViewController, animated: true, completion: nil)
         } else {
             
         }

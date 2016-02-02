@@ -15,6 +15,8 @@ class ProductDescriptionsViewController: UIViewController {
     @IBOutlet var webView: UIWebView!
     var webViewHeightDelegate: WebViewHeightDelegate?
     
+    var productViewController: ProductViewController?
+    
     var descriptions: String? {
         didSet {
             
@@ -150,20 +152,20 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
     }
     
     private func toggleTranslationState(webView: UIWebView) {
-        MBProgressHUD.showLoader(nil)
+        MBProgressHUD.showLoader(self.productViewController?.view)
         if self.isDisplayingTranslatedText {
             let js = "document.getElementById('descriptionZH').className = 'hide';document.getElementById('description').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_translation"))'"
             webView.stringByEvaluatingJavaScriptFromString(js)
             updateWebViewHeight(webView)
             self.isDisplayingTranslatedText = false
-            MBProgressHUD.hideLoader(nil)
+            MBProgressHUD.hideLoader(self.productViewController?.view)
         }else{
             if let _ = self.descriptionZH {
                 let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
                 webView.stringByEvaluatingJavaScriptFromString(js)
                 updateWebViewHeight(webView)
                 self.isDisplayingTranslatedText = true
-                MBProgressHUD.hideLoader(nil)
+                MBProgressHUD.hideLoader(self.productViewController?.view)
             }else {
                 DataManager.shared.translateProduct(self.id!) { responseObject, error in
                     guard let data = responseObject?["data"] else { return }
@@ -176,7 +178,7 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
                     }
                     self.updateWebViewHeight(webView)
                     self.isDisplayingTranslatedText = true
-                    MBProgressHUD.hideLoader(nil)
+                    MBProgressHUD.hideLoader(self.productViewController?.view)
                 }
             }
         }

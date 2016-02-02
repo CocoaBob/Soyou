@@ -11,7 +11,7 @@ class ProductsViewController: BaseViewController {
     // Override BaseViewController
     @IBOutlet var _collectionView: UICollectionView!
     
-    let bottomMargin: CGFloat = 51.0 // Height of 3 Labels + inner margins
+    let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
     var cellWidth: CGFloat = 0
     
@@ -59,7 +59,7 @@ class ProductsViewController: BaseViewController {
         setupCollectionView()
         
         // Pre-calculate cell width
-        self.cellWidth = (self.collectionView().frame.size.width - cellMargin * 3) / 2.0
+        self.cellWidth = (self.view.frame.size.width - cellMargin * 3) / 2.0
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -196,9 +196,9 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         
         // Change individual layout attributes for the spacing between cells
         layout.itemRenderDirection = .LeftToRight
-        layout.minimumColumnSpacing = 4
-        layout.minimumInteritemSpacing = 4
-        layout.sectionInset = UIEdgeInsetsMake(4, 4, 4, 4)
+        layout.minimumColumnSpacing = cellMargin
+        layout.minimumInteritemSpacing = cellMargin
+        layout.sectionInset = UIEdgeInsetsMake(cellMargin, cellMargin, cellMargin, cellMargin)
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
@@ -218,6 +218,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         if let imageRatio = product.appImageRatio?.doubleValue {
             let cellHeight = self.cellWidth * CGFloat(imageRatio) + bottomMargin
             size = CGSizeMake(self.cellWidth, cellHeight)
+
         }
         return size
     }
