@@ -321,10 +321,19 @@ extension ProductsViewController: UISearchControllerDelegate {
         searchResultsController.brandID = self.brandID
         searchResultsController.categoryID = self.categoryID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
+        self.searchController?.delegate = self
         self.searchController?.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"),self.categoryName ?? "")
         self.searchController?.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar
+    }
+    
+    func willPresentSearchController(searchController: UISearchController) {
+        self.navigationItem.setHidesBackButton(true, animated: true)
+    }
+    
+    func willDismissSearchController(searchController: UISearchController) {
+        self.navigationItem.setHidesBackButton(false, animated: true)
     }
 }
 

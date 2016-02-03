@@ -355,10 +355,19 @@ extension BrandViewController: UISearchControllerDelegate {
         searchResultsController.isSearchResultsViewController = true
         searchResultsController.brandID = self.brandID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
+        self.searchController?.delegate = self
         self.searchController?.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
         self.searchController?.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar
+    }
+    
+    func willPresentSearchController(searchController: UISearchController) {
+        self.navigationItem.setHidesBackButton(true, animated: true)
+    }
+    
+    func willDismissSearchController(searchController: UISearchController) {
+        self.navigationItem.setHidesBackButton(false, animated: true)
     }
 }
 
