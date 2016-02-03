@@ -219,7 +219,7 @@
 		45E67EDE1C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		45E67EDF1C58EB0500806929 /* FavoriteNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteNews.swift; sourceTree = "<group>"; };
 		45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
-		45E7CE0B1BF8C05F00FAB7D6 /* Soyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Soyou.app; path = Soyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		45E7CE0B1BF8C05F00FAB7D6 /* Soyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Soyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EE7A891C3A98D700CC554D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		45EE7A8B1C3AE09D00CC554D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7458EDDD88FC6BECB47245DE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
