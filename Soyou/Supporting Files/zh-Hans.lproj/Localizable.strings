@@ -1,0 +1,151 @@
+/* 
+  Localizable.strings
+  Soyou
+
+  Created by CocoaBob on 18/11/15.
+  Copyright © 2015 Soyou. All rights reserved.
+*/
+
+/* Pull to refresh controls */
+"pull_to_refresh_header_idle"="下拉可以刷新";
+"pull_to_refresh_header_pulling"="松开立即刷新";
+"pull_to_refresh_header_refreshing"="正在刷新数据…";
+"pull_to_refresh_header_last_updated"="最后更新: %@";
+"pull_to_refresh_header_never"="从未";
+"pull_to_refresh_footer_idle"="上拉可以加载更多";
+"pull_to_refresh_footer_pulling"="松开立即加载更多";
+"pull_to_refresh_footer_refreshing"="正在加载更多数据…";
+"pull_to_refresh_no_more_data"="没有更多数据";
+
+/* WeChat */
+"wechat_session" = "微信";
+"wechat_moments" = "朋友圈";
+
+/* News View Controller */
+"news_vc_title"="资讯";
+"news_vc_tab_title"="资讯";
+
+/* Brands View Controller */
+"brands_vc_title"="品牌";
+"brands_vc_tab_title"="品牌";
+"brands_vc_search_bar_placeholder"="品牌、商品、编号…";
+
+/* Brand View Controller */
+"brand_vc_root_cell_all"="全部";
+"brand_vc_root_title_categories"="分类";
+"brand_vc_root_title_stores"="店铺";
+"brand_vc_search_bar_placeholder"="%@ 商品、编号…";
+
+/* Products View Controller */
+"products_vc_title"="产品";
+"products_vc_search_bar_placeholder"="%@ 商品、编号…";
+
+/* Product Prices View Controller */
+"product_prices_vc_title"="全球售价";
+"product_prices_vc_official_price"="%@官方售价";
+"product_prices_vc_official_website"="官网直达";
+"product_prices_vc_official_retail"="当地零售价";
+"product_prices_vc_official_equivalent"="折合人民币";
+"product_prices_vc_unavailable"="暂无";
+
+/* Product Descriptions View Controller */
+"product_descriptions_vc_title"="单品描述";
+"product_descriptions_vc_empty"="没有描述";
+
+/* Store Map View Controller */
+"store_map_vc_address_copied"="地址已复制到剪贴板";
+
+/* User View Controller */
+"user_vc_login"="立即登录，同步您的收藏夹";
+"user_vc_tab_title"="我";
+"user_vc_cell_favs"="收藏夹";
+"user_vc_cell_favs_news"="资讯";
+"user_vc_cell_favs_products"="产品";
+"user_vc_feedback_alert_title"="用户反馈";
+"user_vc_feedback_alert_message"="您觉得『包打听』怎么样？";
+"user_vc_feedback_alert_like"="我很喜欢!";
+"user_vc_feedback_alert_feedback"="我要反馈!";
+"user_vc_feedback_mail_title"="测试标题";
+"user_vc_feedback_mail_message_body"="<html>一些<b>HTML</b><i>文本</i></html>";
+
+/* Favorites View Controller */
+"fav_vc_title_news"="收藏的新闻";
+"fav_vc_title_products"="收藏的产品";
+
+/* Profile View Controller */
+"profile_vc_title"="个人信息";
+"profile_vc_cell_account_username"="用户名";
+"profile_vc_cell_account_email"="邮箱地址";
+"profile_vc_cell_account_email_change"="修改";
+"profile_vc_cell_basics_gender"="性别";
+"profile_vc_cell_basics_region"="地区";
+"profile_vc_cell_logout"="退出登录";
+"profile_vc_modify_title_prefix"="修改";
+"profile_vc_cell_new_email_placeholder"="您的邮箱地址";
+"profile_vc_cell_confirm_new_email_placeholder"="请再次输入您的邮箱地址";
+"profile_vc_change_email_alert_message"="请查收您的邮箱以激活新地址。";
+
+/* Login View Controller */
+"login_vc_login_title"="登录";
+"login_vc_register_title"="注册";
+"login_vc_forget_password_title"="忘记密码";
+"login_vc_reset_password_title"="重设密码";
+"login_vc_register_alert_button"="我已激活";
+"login_vc_register_alert_message"="注册成功！请留意您的收件箱以激活您的账户。";
+"login_vc_forget_password_alert_button"="我已收到验证码";
+"login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
+"login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
+
+/* Settings View Controller */
+"settings_vc_title"="设置";
+"settings_vc_cell_clear_cache"="清空缓存";
+"settings_vc_cell_clearing_cache"="正在清空...";
+"settings_vc_cell_about_us"="关于我们团队";
+"settings_vc_cell_about_app"="关于『包打听』";
+"settings_vc_cell_feedback"="给我们些建议吧";
+"settings_vc_cell_review"="给我们个好评吧";
+
+/* Error Code */
+"invalid_activation_code"="无效激活码。";
+"invalid_verification_code"="无效验证码。";
+"server_error"="服务器错误。";
+"email_unavailable"="邮箱地址不可用。";
+"email_password_cannot_be_empty"="邮箱、密码不能为空。";
+"email_format_incorrect"="错误的邮箱地址格式。";
+"email_can_be_modified_only_once_during_one_day"="邮箱地址在24小时内只能改一次。";
+"verification_password_cannot_be_empty"="第二次密码不能为空。";
+"email_already_exist"="邮箱地址已经存在。";
+"incorrect_email_or_password"="用户名或密码错误。";
+"invalid_login"="无效用户名。";
+"logout_failed"="登录失败。";
+"forbidden"="禁止。";
+"unauthorized"="未授权。";
+"bad_request"="错误请求。";
+"not_found"="未找到。";
+"invalid_operation"="无效操作。";
+
+/* Common */
+"alert_title_failed"="失败";
+"alert_title_error"="错误";
+"alert_title_info"="信息";
+"alert_title_success"="成功";
+"alert_button_ok"="确认";
+"alert_button_close"="关闭";
+
+/* Product descriptions */
+"product_surname"="别名";
+"product_brand"="品牌";
+"product_reference"="编号";
+"product_descriptions"="描述";
+"product_unavailable"="暂无";
+"product_translation"="翻译";
+"product_back"="恢复";
+"product_dimension"="尺寸";
+
+
+/* User Info */
+"user_info_username_empty"="空白";
+"user_info_region_unknown"="未知";
+"user_info_gender_secret"="保密";
+"user_info_gender_male"="男生";
+"user_info_gender_female"="女生";

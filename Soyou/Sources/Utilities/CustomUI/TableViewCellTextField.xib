@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TextField" id="ItH-3z-PbO" customClass="TableViewCellTextField" customModule="Soyou">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ItH-3z-PbO" id="Tgf-4e-clL">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TextField" textAlignment="natural" minimumFontSize="11" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="IMV-KH-xmj">
+                        <rect key="frame" x="8" y="0.0" width="584" height="43"/>
+                        <color key="textColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="IMV-KH-xmj" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leadingMargin" id="6db-fB-xdd"/>
+                    <constraint firstAttribute="bottom" secondItem="IMV-KH-xmj" secondAttribute="bottom" id="9mV-fy-8Ip"/>
+                    <constraint firstItem="IMV-KH-xmj" firstAttribute="trailing" secondItem="Tgf-4e-clL" secondAttribute="trailingMargin" id="Nkj-si-0yE"/>
+                    <constraint firstItem="IMV-KH-xmj" firstAttribute="top" secondItem="Tgf-4e-clL" secondAttribute="top" id="Z7X-IL-5Y3"/>
+                    <constraint firstItem="IMV-KH-xmj" firstAttribute="centerY" secondItem="Tgf-4e-clL" secondAttribute="centerY" id="tnI-Jd-ouW"/>
+                </constraints>
+            </tableViewCellContentView>
+            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="tfTitle" destination="IMV-KH-xmj" id="aoa-6d-PvB"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
