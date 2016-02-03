@@ -30,6 +30,9 @@ class CurrencyManager {
         "GB":"GBP",
         "HK":"HKD",
         "JP":"JPY",
+        "CA":"CAD",
+        "KR":"KRW",
+        "RU":"RUB",
         "US":"USD"]
     
     var LanguageCode: [String:String] = [
@@ -42,6 +45,9 @@ class CurrencyManager {
         "GB":"en_GB",
         "HK":"en_HK",
         "JP":"jp_JP",
+        "KR":"ko",
+        "RU":"ru",
+        "CA":"en_CA",
         "US":"en_US"]
     
     let currencies = [
@@ -51,7 +57,10 @@ class CurrencyManager {
         ["sourceCode": "GBP", "targetCode":"CNY"],
         ["sourceCode": "HKD", "targetCode":"CNY"],
         ["sourceCode": "SGD", "targetCode":"CNY"],
-        ["sourceCode": "CNY", "targetCode":"CNY"]
+        ["sourceCode": "CNY", "targetCode":"CNY"],
+        ["sourceCode": "CAD", "targetCode":"CNY"],
+        ["sourceCode": "RUB", "targetCode":"CNY"],
+        ["sourceCode": "KRW", "targetCode":"CNY"]
     ]
 
     private func parseCurrencyRate(data: NSDictionary, time: String) -> NSDictionary? {
