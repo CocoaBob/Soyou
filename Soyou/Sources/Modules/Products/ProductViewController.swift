@@ -263,7 +263,7 @@ extension ProductViewController {
     
     func setupSubViewControllers() {
         guard let product = self.product else { return }
-        
+        var hasPrices = true
         // Prepare childViewControllers
         var viewControllers = [UIViewController]()
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
@@ -284,6 +284,10 @@ extension ProductViewController {
             self.productDescriptionsViewController.id = localProduct.id
             self.productDescriptionsViewController.webViewHeightDelegate = self
             viewControllers.append(self.productDescriptionsViewController)
+            // Check if prices is empty
+            if localProduct.prices == nil || (localProduct.prices as? [[String: AnyObject]])!.count == 0 {
+                hasPrices = false
+            }
         })
         
         // Customize menu (Optional)
@@ -316,6 +320,11 @@ extension ProductViewController {
             pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.subViewsContainer.addSubview(pageMenu.view)
             pageMenu.view.frame = CGRectMake(0, 0, self.subViewsContainer.frame.size.width, self.subViewsContainer.frame.size.height)
+        }
+        
+        // Preselect sub view
+        if !hasPrices {
+            self.pageMenu?.moveToPage(1)
         }
     }
 }

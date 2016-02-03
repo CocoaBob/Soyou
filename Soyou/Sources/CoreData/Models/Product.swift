@@ -86,7 +86,12 @@ class Product: BaseModel {
                 if let value = data["order"] as? NSNumber {
                     product.order = value
                 }
-                product.appSearchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                if searchText.characters.count > 0 {
+                    product.appSearchText = searchText
+                } else {
+                    product.appSearchText = nil
+                }
             }
         }
         
