@@ -516,9 +516,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		45E7CE0A1BF8C05F00FAB7D6 /* iPrices */ = {
+		45E7CE0A1BF8C05F00FAB7D6 /* Soyou */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPrices" */;
+			buildConfigurationList = 45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "Soyou" */;
 			buildPhases = (
 				EF63E7239B26381139289D4D /* Check Pods Manifest.lock */,
 				45E7CE071BF8C05F00FAB7D6 /* Sources */,
@@ -532,7 +532,7 @@
 			);
 			dependencies = (
 			);
-			name = iPrices;
+			name = Soyou;
 			productName = iPrices;
 			productReference = 45E7CE0B1BF8C05F00FAB7D6 /* iPrices.app */;
 			productType = "com.apple.product-type.application";
@@ -565,7 +565,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				45E7CE0A1BF8C05F00FAB7D6 /* iPrices */,
+				45E7CE0A1BF8C05F00FAB7D6 /* Soyou */,
 			);
 		};
 /* End PBXProject section */
@@ -873,7 +873,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "iPrices" */ = {
+		45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "Soyou" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				45E7CE371BF8C05F00FAB7D6 /* Debug */,

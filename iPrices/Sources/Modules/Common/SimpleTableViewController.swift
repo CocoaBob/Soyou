@@ -120,7 +120,20 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = sections[indexPath.section].rows[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(row.type.rawValue, forIndexPath: indexPath)
+        var cellIdentifier = ""
+        switch row.type {
+        case .CenterTitle:
+            cellIdentifier = "CenterTitle"
+        case .IconTitle:
+            cellIdentifier = "IconTitle"
+        case .LeftTitle:
+            cellIdentifier = "LeftTitle"
+        case .LeftTitleRightDetail:
+            cellIdentifier = "LeftTitleRightDetail"
+        case .TextField:
+            cellIdentifier = "TextField"
+        }
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
         
         switch row.type {
         case .CenterTitle:
