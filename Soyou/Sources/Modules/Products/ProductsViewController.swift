@@ -287,7 +287,7 @@ extension ProductsViewController: UISearchResultsUpdating {
     
     func startSearchTimer() {
         stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "reloadData", userInfo: nil, repeats: false)
+        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "reloadData", userInfo: nil, repeats: false)
     }
     
     func stopSearchTimer() {
