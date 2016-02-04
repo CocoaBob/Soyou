@@ -103,7 +103,7 @@ class NewsDetailViewController: UIViewController {
         // Parallax Header
         self.setupParallaxHeader()
         // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, true, true)
+        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, true, false)
         
         // Load content
         self.loadNews()

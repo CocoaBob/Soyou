@@ -26,7 +26,7 @@ class UserViewController: SimpleTableViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, 0, true, false)
+        self.updateScrollViewInset(self.tableView, 0, false, false, false, true)
         
         // Parallax Header
         self.setupParallaxHeader()

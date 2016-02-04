@@ -82,13 +82,14 @@ class BrandViewController: UIViewController {
         self.setupParallaxHeader()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height ?? 0, false, false)
+        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height ?? 0, true, true, false, false)
         
         // Setup Search Controller
         self.setupSearchController()
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
@@ -359,6 +360,9 @@ extension BrandViewController: UISearchControllerDelegate {
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
         self.searchController?.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar
+        
+        // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
+        let _ = self.searchController?.view // Force loading the view
     }
     
     func willPresentSearchController(searchController: UISearchController) {

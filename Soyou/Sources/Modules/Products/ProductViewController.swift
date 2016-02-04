@@ -66,15 +66,10 @@ class ProductViewController: UIViewController {
         // Status bar
         statusBarCover.backgroundColor = UIColor.whiteColor()
         
-        // Hide navigation bar at beginning for calculating topInset
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         // Carousel View
         self.setupCarouselView()
         // Fix scroll view insets
-        self.updateScrollViewInset(self.scrollView, 0, false, true)
-        self.scrollView.contentInset.bottom = 0 // Workaround: Fix contentInset.bottom...
-        self.scrollView.scrollIndicatorInsets = UIEdgeInsetsZero // Workaround: Fix scrollIndicatorInsets...
-        self.scrollView.scrollIndicatorInsets.top = UIApplication.sharedApplication().statusBarFrame.size.height
+        self.updateScrollViewInset(self.scrollView, 0, true, false, false, false)
         // SubViewControllers
         self.setupSubViewControllers()
         

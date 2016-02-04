@@ -25,32 +25,55 @@ extension UIViewController {
         }
     }
     
-    func topInset(parallaxHeaderHeight: CGFloat, _ includeStatusBar: Bool) -> CGFloat {
+    func topInset(parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool) -> CGFloat {
         var topInset: CGFloat = parallaxHeaderHeight
-        if includeStatusBar && !UIApplication.sharedApplication().statusBarHidden {
+        if statusBarIsVisible {
             topInset += 20
-//            let statusBarFrame = UIApplication.sharedApplication().keyWindow?.convertRect(UIApplication.sharedApplication().statusBarFrame, fromView: self.view)
-//            if let statusBarHeight = statusBarFrame?.height {
-//                topInset += statusBarHeight
+//            if !UIApplication.sharedApplication().statusBarHidden {
+//                let statusBarFrame = UIApplication.sharedApplication().keyWindow?.convertRect(UIApplication.sharedApplication().statusBarFrame, fromView: self.view)
+//                if let statusBarHeight = statusBarFrame?.height {
+//                    topInset += statusBarHeight
+//                }
 //            }
         }
-        if let navigationController = self.navigationController {
-            if !navigationController.navigationBarHidden {
+        if navBarIsVisible {
+            var navigationController: UINavigationController?
+            if let _navigationController = self.navigationController {
+                navigationController = _navigationController
+            }
+            if let _navigationController = self.presentingViewController?.navigationController {
+                navigationController = _navigationController
+            }
+            if let navigationController = navigationController {
                 topInset += navigationController.navigationBar.frame.size.height
             }
         }
         return topInset
     }
     
-    func bottomInset(toolbarIsVisible: Bool) -> CGFloat {
+    func bottomInset(toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) -> CGFloat {
         var bottomInset: CGFloat = 0
         if toolbarIsVisible {
-            if let navigationController = self.navigationController {
+            var navigationController: UINavigationController?
+            if let _navigationController = self.navigationController {
+                navigationController = _navigationController
+            }
+            if let _navigationController = self.presentingViewController?.navigationController {
+                navigationController = _navigationController
+            }
+            if let navigationController = navigationController {
                 bottomInset += navigationController.toolbar.frame.size.height
             }
         }
-        if let tabBarController = self.tabBarController {
-            if !self.hidesBottomBarWhenPushed {
+        if tabBarIsVisible {
+            var tabBarController: UITabBarController?
+            if let _tabBarController = self.tabBarController {
+                tabBarController = _tabBarController
+            }
+            if let _tabBarController = self.presentingViewController?.tabBarController {
+                tabBarController = _tabBarController
+            }            
+            if let tabBarController = tabBarController {
                 let tabBarFrame = tabBarController.tabBar.frame
                 let viewFrame = self.view.frame
                 bottomInset += max(0, (viewFrame.size.height - tabBarFrame.origin.y))
@@ -59,12 +82,12 @@ extension UIViewController {
         return bottomInset
     }
     
-    func updateScrollViewInset(scrollView: UIScrollView, _ parallaxHeaderHeight: CGFloat, _ coverStatusBar: Bool, _ toolbarIsVisible: Bool) {
+    func updateScrollViewInset(scrollView: UIScrollView, _ parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool, _ toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) {
         self.edgesForExtendedLayout = UIRectEdge.All
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
-        let topInset = self.topInset(parallaxHeaderHeight, !coverStatusBar)
-        let bottomInset = self.bottomInset(toolbarIsVisible)
+        let topInset = self.topInset(parallaxHeaderHeight, statusBarIsVisible, navBarIsVisible)
+        let bottomInset = self.bottomInset(toolbarIsVisible, tabBarIsVisible)
         scrollView.contentInset = UIEdgeInsetsMake(topInset, 0, bottomInset, 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, -scrollView.contentInset.top)

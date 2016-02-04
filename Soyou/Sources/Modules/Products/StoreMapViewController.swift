@@ -49,6 +49,7 @@ class StoreMapViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
     }
 }

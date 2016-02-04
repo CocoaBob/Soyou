@@ -68,16 +68,13 @@ class ProductsViewController: BaseViewController {
         
         self.title = self.categoryName
         
-        if !self.isSearchResultsViewController {
-            // Fix scroll view insets
-            self.updateScrollViewInset(self.collectionView(), 0, false, false)
-        }
-        
         // Setups
         self.setupCollectionView()
         
-        // Setup Search Controller
-        self.setupSearchController()
+        if !self.isSearchResultsViewController {
+            // Setup Search Controller
+            self.setupSearchController()
+        }
         
         // Pre-calculate cell width
         self.cellWidth = (self.view.frame.size.width - cellMargin * 3) / 2.0
@@ -86,6 +83,19 @@ class ProductsViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
+        
+        if self.isSearchResultsViewController {
+            var tabBarIsVisible = false
+            if let tabBarIsHidden = self.presentingViewController?.hidesBottomBarWhenPushed {
+                tabBarIsVisible = !tabBarIsHidden
+            }
+            // Fix scroll view insets
+            self.updateScrollViewInset(self.collectionView(), 0, true, true, false, tabBarIsVisible)
+        } else {
+            // Fix scroll view insets
+            self.updateScrollViewInset(self.collectionView(), 0, true, true, false, false)
+        }
+        
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
         
@@ -328,6 +338,9 @@ extension ProductsViewController: UISearchControllerDelegate {
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"),self.categoryName ?? "")
         self.searchController?.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar
+        
+        // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
+        let _ = self.searchController?.view // Force loading the view
     }
     
     func willPresentSearchController(searchController: UISearchController) {

@@ -41,7 +41,7 @@ class BrandsViewController: BaseViewController {
         super.viewDidLoad()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.collectionView(), 0, false, false)
+        self.updateScrollViewInset(self.collectionView(), 0, true, true, false, true)
         
         // Setups
         self.setupCollectionView()
@@ -59,6 +59,7 @@ class BrandsViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
@@ -222,6 +223,9 @@ extension BrandsViewController: UISearchControllerDelegate {
         self.searchController!.searchBar.placeholder = NSLocalizedString("brands_vc_search_bar_placeholder")
         self.searchController?.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar
+        
+        // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
+        let _ = self.searchController?.view // Force loading the view
     }
 }
 
