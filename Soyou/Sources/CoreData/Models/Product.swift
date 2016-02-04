@@ -89,8 +89,6 @@ class Product: BaseModel {
                 searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 if searchText.characters.count > 0 {
                     product.appSearchText = searchText
-                } else {
-                    product.appSearchText = nil
                 }
             }
         }

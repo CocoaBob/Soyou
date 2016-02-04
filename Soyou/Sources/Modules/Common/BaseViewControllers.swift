@@ -31,7 +31,11 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                     controller.delegate = self
                 }
             }
-            return _fetchedResultsController!
+            if _fetchedResultsController != nil {
+                return _fetchedResultsController!
+            } else {
+                return NSFetchedResultsController()
+            }
         }
     }
     

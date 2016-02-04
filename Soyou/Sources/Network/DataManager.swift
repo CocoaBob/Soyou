@@ -413,7 +413,6 @@ class DataManager {
                         }
                 }
             })
-            DLog(productIDs)
             
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 1024, completion: completion)

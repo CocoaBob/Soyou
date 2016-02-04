@@ -355,10 +355,10 @@ extension BrandViewController: UISearchControllerDelegate {
         searchResultsController.isSearchResultsViewController = true
         searchResultsController.brandID = self.brandID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
-        self.searchController?.delegate = self
-        self.searchController?.searchResultsUpdater = searchResultsController
+        self.searchController!.delegate = self
+        self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
-        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.searchController!.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar
         
         // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)

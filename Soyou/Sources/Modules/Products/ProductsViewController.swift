@@ -15,7 +15,7 @@ class ProductsViewController: BaseViewController {
     var searchTimer: NSTimer?
     
     var isSearchResultsViewController: Bool = false
-    var searchText: String?
+    var searchTexts: [String]?
     
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
@@ -26,6 +26,10 @@ class ProductsViewController: BaseViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
+        if (self.isSearchResultsViewController &&
+            (self.searchTexts == nil || (self.searchTexts!.count == 1 && self.searchTexts!.first == ""))) {
+            return nil
+        }
         var predicates = [NSPredicate]()
         if let brandId = self.brandID {
             predicates.append(FmtPredicate("brandId == %@", brandId))
@@ -33,8 +37,16 @@ class ProductsViewController: BaseViewController {
         if let categoryID = self.categoryID {
             predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
         }
-        if let searchText = self.searchText {
-            predicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchText))
+        if let searchTexts = self.searchTexts {
+            var searchTextPredicates = [NSPredicate]()
+            for searchText in searchTexts {
+                if searchText.characters.count > 0 {
+                    searchTextPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchText))
+                }
+            }
+            if searchTextPredicates.count > 0 {
+                predicates.append(NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: searchTextPredicates))
+            }
         }
         return Product.MR_fetchAllGroupedBy(
             nil,
@@ -312,12 +324,13 @@ extension ProductsViewController: UISearchResultsUpdating {
         
         if searchController.active {
             if let searchText = searchController.searchBar.text {
-                self.searchText = Product.normalized(searchText).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                let searchTexts = searchText.componentsSeparatedByString(" ")
+                self.searchTexts = searchTexts.map({Product.normalized($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
             } else {
-                self.searchText = nil
+                self.searchTexts = nil
             }
         } else {
-            self.searchText = nil
+            self.searchTexts = nil
         }
         
         self.startSearchTimer()
@@ -333,10 +346,10 @@ extension ProductsViewController: UISearchControllerDelegate {
         searchResultsController.brandID = self.brandID
         searchResultsController.categoryID = self.categoryID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
-        self.searchController?.delegate = self
-        self.searchController?.searchResultsUpdater = searchResultsController
+        self.searchController!.delegate = self
+        self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"),self.categoryName ?? "")
-        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.searchController!.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar
         
         // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
