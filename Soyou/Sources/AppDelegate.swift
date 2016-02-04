@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup WeChat
         //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
-        WXApi.registerApp("wx0cb0066522588a9c", withDescription:"包打听")
+        WXApi.registerApp("wx177a58c369a712e4", withDescription:"奢有")
         
         return true
     }
