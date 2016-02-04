@@ -54,7 +54,7 @@ class Product: BaseModel {
                 }
                 if let value = data["descriptions"] as? String {
                     product.descriptions = value
-                    searchText += normalized(value)
+                    searchText += value
                 } else {
                     product.descriptions = nil
                 }
