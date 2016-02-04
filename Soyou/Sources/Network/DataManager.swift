@@ -399,6 +399,8 @@ class DataManager {
     }
     
     func loadAllProducts(completion: CompletionClosure?) {
+        // Load all products id and modification date
+        // Mark all modified products.appIsUpdated = false
         self.requestAllProductIDs { responseObject, error in
             // Collect product ids
             var productIDs = [NSNumber]()
@@ -411,6 +413,7 @@ class DataManager {
                         }
                 }
             })
+            DLog(productIDs)
             
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 1024, completion: completion)
