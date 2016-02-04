@@ -62,7 +62,7 @@
 "user_vc_cell_favs_news"="资讯";
 "user_vc_cell_favs_products"="产品";
 "user_vc_feedback_alert_title"="用户反馈";
-"user_vc_feedback_alert_message"="您觉得『包打听』怎么样？";
+"user_vc_feedback_alert_message"="您觉得『奢有』怎么样？";
 "user_vc_feedback_alert_like"="我很喜欢!";
 "user_vc_feedback_alert_feedback"="我要反馈!";
 "user_vc_feedback_mail_title"="测试标题";
@@ -101,7 +101,7 @@
 "settings_vc_cell_clear_cache"="清空缓存";
 "settings_vc_cell_clearing_cache"="正在清空...";
 "settings_vc_cell_about_us"="关于我们团队";
-"settings_vc_cell_about_app"="关于『包打听』";
+"settings_vc_cell_about_app"="关于『奢有』";
 "settings_vc_cell_feedback"="给我们些建议吧";
 "settings_vc_cell_review"="给我们个好评吧";
 
