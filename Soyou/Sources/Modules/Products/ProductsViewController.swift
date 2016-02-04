@@ -216,10 +216,12 @@ extension ProductsViewController: ZoomTransitionProtocol {
         if self.isSearchResultsViewController {
             return false
         }
-        if operation == .Pop && fromVC === self && toVC is BrandViewController {
-            return false
+        // Only available for opening a product from products view controller
+        if ((operation == .Push && fromVC === self && toVC is ProductViewController) ||
+            (operation == .Pop && fromVC is ProductViewController && toVC === self)) {
+                return true
         }
-        return true
+        return false
     }
 }
 

@@ -287,16 +287,15 @@ extension BrandViewController: ZoomTransitionProtocol {
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
-        // No zoom transition from BrandVC to ProductsVC
-        if operation == .Push && fromVC === self && toVC is ProductsViewController {
-            return false
-        }
-        
         // No zoom transition when edge swiping
         if self.isEdgeSwiping {
             return false
         }
-        return true
+        // Only available for opening a brand from brands view controller
+        if operation == .Push && fromVC is BrandsViewController && toVC === self {
+            return true
+        }
+        return false
     }
 }
 

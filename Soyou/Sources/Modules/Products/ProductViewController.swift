@@ -397,16 +397,16 @@ extension ProductViewController: ZoomTransitionProtocol {
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
-        // No zoom transition from ProductVC to ProductsVC
-        if operation == .Push && fromVC === self && toVC is ProductsViewController {
-            return false
-        }
-        
         // No zoom transition when edge swiping
         if self.isEdgeSwiping {
             return false
         }
-        return true
+        // Only available for opening a product from products view controller
+        if ((operation == .Push && fromVC is ProductsViewController && toVC === self) ||
+            (operation == .Pop && fromVC === self && toVC is ProductsViewController)) {
+                return true
+        }
+        return false
     }
 }
 

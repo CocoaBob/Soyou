@@ -201,6 +201,14 @@ extension BrandsViewController: ZoomTransitionProtocol {
         }
         return nil
     }
+    
+    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        if ((operation == .Push && fromVC === self && toVC is BrandViewController) ||
+            (operation == .Pop && fromVC is BrandViewController && toVC === self)) {
+            return true
+        }
+        return false
+    }
 }
 
 // MARK: - SearchControler

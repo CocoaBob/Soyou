@@ -559,7 +559,12 @@ extension NewsDetailViewController: ZoomTransitionProtocol {
         if self.isEdgeSwiping {
             return false
         }
-        return true
+        // Only available for opening/closing a news from/to news view controller
+        if ((operation == .Push && fromVC is NewsViewController && toVC === self) ||
+            (operation == .Pop && fromVC === self && toVC is NewsViewController)) {
+            return true
+        }
+        return false
     }
 }
 

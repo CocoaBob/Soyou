@@ -262,6 +262,15 @@ extension NewsViewController: ZoomTransitionProtocol {
         }
         return nil
     }
+    
+    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        // Only available for opening/closing a news from/to news view controller
+        if ((operation == .Push && fromVC === self && toVC is NewsDetailViewController) ||
+            (operation == .Pop && fromVC is NewsDetailViewController && toVC === self)) {
+                return true
+        }
+        return false
+    }
 }
 
 // MARK: - Refreshing
