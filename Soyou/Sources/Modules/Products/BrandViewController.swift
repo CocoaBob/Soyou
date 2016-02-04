@@ -62,6 +62,8 @@ class BrandViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = self.brandName
+        
         self.lblTitleCategories.text = NSLocalizedString("brand_vc_root_title_categories")
         self.lblTitleStores.text = NSLocalizedString("brand_vc_root_title_stores")
         
@@ -351,7 +353,21 @@ extension BrandViewController {
 // MARK: - SearchControler
 extension BrandViewController: UISearchControllerDelegate {
     
+    func showSearchController() {
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationItem.setRightBarButtonItem(nil, animated: false)
+        self.navigationItem.titleView = self.searchController!.searchBar
+        self.searchController!.searchBar.becomeFirstResponder()
+    }
+    
+    func hideSearchController() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        self.navigationItem.titleView = nil
+    }
+    
     func setupSearchController() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
         searchResultsController.brandID = self.brandID
@@ -360,18 +376,14 @@ extension BrandViewController: UISearchControllerDelegate {
         self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
         self.searchController!.hidesNavigationBarDuringPresentation = false
-        self.navigationItem.titleView = self.searchController!.searchBar
         
         // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
         let _ = self.searchController?.view // Force loading the view
     }
     
-    func willPresentSearchController(searchController: UISearchController) {
-        self.navigationItem.setHidesBackButton(true, animated: true)
-    }
-    
     func willDismissSearchController(searchController: UISearchController) {
-        self.navigationItem.setHidesBackButton(false, animated: true)
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.hideSearchController()
     }
 }
 
