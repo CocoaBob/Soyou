@@ -293,7 +293,8 @@ extension BrandViewController: ZoomTransitionProtocol {
             return false
         }
         // Only available for opening a brand from brands view controller
-        if operation == .Push && fromVC is BrandsViewController && toVC === self {
+        if ((operation == .Push && fromVC is BrandsViewController && toVC === self) ||
+            (operation == .Pop && fromVC === self && toVC is BrandsViewController)) {
             return true
         }
         return false
