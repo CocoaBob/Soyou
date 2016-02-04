@@ -71,7 +71,7 @@ class LoginViewController: UIViewController {
         
         // Scroll View Inset
         if let scrollView = self.scrollView {
-            self.updateScrollViewInset(scrollView, 0, true, false, false, false)
+            self.updateScrollViewInset(scrollView, 0, true, true, false, false)
         }
         
         // Setup NYSegmentedControl
@@ -125,7 +125,7 @@ class LoginViewController: UIViewController {
     override func willMoveToParentViewController(parent: UIViewController?) {
         super.willMoveToParentViewController(parent)
         if let scrollView = self.scrollView {
-            self.updateScrollViewInset(scrollView, 0, true, false, false, false)
+            self.updateScrollViewInset(scrollView, 0, true, true, false, false)
         }
     }
     
@@ -322,7 +322,7 @@ extension LoginViewController {
     override func adjustViewsForKeyboardFrame(keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: NSTimeInterval, _ options: UIViewAnimationOptions) {
         super.adjustViewsForKeyboardFrame(keyboardFrame, isAnimated, duration, options)
         if let scrollView = self.scrollView {
-            self.updateScrollViewInset(scrollView, 0, true, false, false, false)
+            self.updateScrollViewInset(scrollView, 0, true, true, false, false)
         }
     }
 }

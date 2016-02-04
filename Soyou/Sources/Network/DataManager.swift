@@ -24,10 +24,8 @@ class DataManager {
     }
     
     init() {
-        self.statusBarNotification.notificationAnimationInStyle = CWNotificationAnimationStyle.Top
-        self.statusBarNotification.notificationAnimationOutStyle = CWNotificationAnimationStyle.Top
-        self.statusBarNotification.notificationLabelBackgroundColor = UIColor(rgba: Cons.UI.colorBG)
-        self.statusBarNotification.notificationLabelTextColor = UIColor.blackColor()
+        self.statusBarNotification.notificationLabelBackgroundColor = UIColor(rgba: "#0076FF")
+        self.statusBarNotification.notificationLabelTextColor = UIColor.whiteColor()
     }
     
     //////////////////////////////////////
