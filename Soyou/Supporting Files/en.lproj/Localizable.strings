@@ -105,6 +105,9 @@
 "settings_vc_cell_feedback"="Send feedbacks";
 "settings_vc_cell_review"="Write reviews";
 
+/* Data Manager */
+"data_manager_updating_data"="Updating data...";
+
 /* Error Code */
 "invalid_activation_code"="Invalid activation code.";
 "invalid_verification_code"="Invalide verification code.";

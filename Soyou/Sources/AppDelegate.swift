@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        DataManager.shared.prefetchData()
+        DataManager.shared.updateData()
         // Currency Manager
         CurrencyManager.shared.updateCurrencyRates()
     }

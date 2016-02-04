@@ -18,6 +18,7 @@
 @import Base64nl;
 @import CCHMapClusterController;
 @import CHTCollectionViewWaterfallLayout;
+@import CWStatusBarNotification;
 @import EAIntroView;
 @import FCUUID;
 @import FlagKit;

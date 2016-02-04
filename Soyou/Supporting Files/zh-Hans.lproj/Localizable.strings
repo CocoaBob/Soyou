@@ -105,6 +105,9 @@
 "settings_vc_cell_feedback"="给我们些建议吧";
 "settings_vc_cell_review"="给我们个好评吧";
 
+/* Data Manager */
+"data_manager_updating_data"="正在更新数据...";
+
 /* Error Code */
 "invalid_activation_code"="无效激活码。";
 "invalid_verification_code"="无效验证码。";

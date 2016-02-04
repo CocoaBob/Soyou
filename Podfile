@@ -11,6 +11,7 @@ pod "AFNetworking", '~> 2'
 pod "Base64nl"
 pod "CCHMapClusterController"
 pod "CHTCollectionViewWaterfallLayout"
+pod "CWStatusBarNotification"
 pod "EAIntroView"
 pod "FCUUID"
 pod "FlagKit"

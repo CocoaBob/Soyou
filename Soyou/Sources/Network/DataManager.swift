@@ -10,6 +10,26 @@ class DataManager {
     
     static let shared = DataManager()
     
+    let statusBarNotification = CWStatusBarNotification()
+    var isUpdatingData = false {
+        didSet {
+            if isUpdatingData {
+                self.statusBarNotification.displayNotificationWithMessage(NSLocalizedString("data_manager_updating_data")) { () -> Void in
+                    
+                }
+            } else {
+                self.statusBarNotification.dismissNotification()
+            }
+        }
+    }
+    
+    init() {
+        self.statusBarNotification.notificationAnimationInStyle = CWNotificationAnimationStyle.Top
+        self.statusBarNotification.notificationAnimationOutStyle = CWNotificationAnimationStyle.Top
+        self.statusBarNotification.notificationLabelBackgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        self.statusBarNotification.notificationLabelTextColor = UIColor.blackColor()
+    }
+    
     //////////////////////////////////////
     // MARK: General
     //////////////////////////////////////
@@ -464,24 +484,22 @@ class DataManager {
     }
     
     //////////////////////////////////////
-    // MARK: Prefetch
+    // MARK: Update data
     //////////////////////////////////////
     
-    private var isLoading = false
-    
-    func prefetchData() {
+    func updateData() {
         var needsToLoad = true
         if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
             needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 // 1 hour
         }
         
-        if needsToLoad && !isLoading {
-            self.isLoading = true
+        if needsToLoad && !self.isUpdatingData {
+            self.isUpdatingData = true
             var count = 3
             let completionClosure = {
                 --count
                 if count == 0 {
-                    self.isLoading = false
+                    self.isUpdatingData = false
                     NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
                     NSUserDefaults.standardUserDefaults().synchronize()
                 }
