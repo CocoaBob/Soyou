@@ -387,10 +387,10 @@
 				457777921BFCE97D00805D79 /* CustomUI */,
 				45034D0C1C29954D00026027 /* Sharing */,
 				457D1EBB1BFBE0BB00D451D0 /* Constants.swift */,
+				0D28BD711C51749E008CCF80 /* CurrencyManager.swift */,
 				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
 				45B77F091C05A77B002E3385 /* UserManager.swift */,
 				0D783C7B1C3B2098001CC36D /* Utils.swift */,
-				0D28BD711C51749E008CCF80 /* CurrencyManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
