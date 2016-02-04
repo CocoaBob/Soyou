@@ -31,15 +31,23 @@ class Analytic: BaseModel {
         if let analytic = analytic {
             if let value = data["data"] as? String {
                 analytic.data = value
+            } else {
+                analytic.data = nil
             }
             if let value = data["target"] as? NSNumber {
                 analytic.target = value
+            } else {
+                analytic.target = nil
             }
             if let value = data["action"] as? NSNumber {
                 analytic.action = value
+            } else {
+                analytic.action = nil
             }
             if let value = data["operatedAt"] as? NSDate {
                 analytic.operatedAt = value
+            } else {
+                analytic.operatedAt = nil
             }
         }
         

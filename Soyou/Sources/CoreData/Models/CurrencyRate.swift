@@ -43,6 +43,8 @@ class CurrencyRate: BaseModel {
             }
             if let value = data["updatedAt"] as? NSDate {
                 currencyRate.updatedAt = value
+            } else {
+                currencyRate.updatedAt = nil
             }
         }
         

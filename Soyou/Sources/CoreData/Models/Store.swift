@@ -28,27 +28,43 @@ class Store: BaseModel {
                 store.id = id
                 if let value = data["title"] as? String {
                     store.title = value
+                } else {
+                    store.title = nil
                 }
                 if let value = data["division"] as? String {
                     store.division = value
+                } else {
+                    store.division = nil
                 }
                 if let value = data["address"] as? String {
                     store.address = value
+                } else {
+                    store.address = nil
                 }
                 if let value = data["zipcode"] as? String {
                     store.zipcode = value
+                } else {
+                    store.zipcode = nil
                 }
                 if let value = data["city"] as? String {
                     store.city = value
+                } else {
+                    store.city = nil
                 }
                 if let value = data["country"] as? String {
                     store.country = value
+                } else {
+                    store.country = nil
                 }
                 if let value = data["phoneNumber"] as? String {
                     store.phoneNumber = value
+                } else {
+                    store.phoneNumber = nil
                 }
                 if let value = data["brandId"] as? NSNumber {
                     store.brandId = value
+                } else {
+                    store.brandId = nil
                 }
                 if let longitude = data["longitude"] as? NSNumber,
                     latitude = data["latitude"] as? NSNumber {

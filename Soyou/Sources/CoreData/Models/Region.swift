@@ -23,9 +23,13 @@ class Region: BaseModel {
                 region.appOrder = NSNumber(integer: index)
                 if let value = data["code"] as? String {
                     region.code = value
+                } else {
+                    region.code = nil
                 }
                 if let value = data["currency"] as? String {
                     region.currency = value
+                } else {
+                    region.currency = nil
                 }
             }
         }

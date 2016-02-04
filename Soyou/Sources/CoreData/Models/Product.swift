@@ -43,48 +43,74 @@ class Product: BaseModel {
                 
                 if let value = data["brandId"] as? NSNumber {
                     product.brandId = value
+                } else {
+                    product.brandId = nil
                 }
                 if let value = data["brandLabel"] as? String {
                     product.brandLabel = value
                     searchText += normalized(value)
+                } else {
+                    product.brandLabel = nil
                 }
                 if let value = data["descriptions"] as? String {
                     product.descriptions = value
                     searchText += normalized(value)
+                } else {
+                    product.descriptions = nil
                 }
                 if let value = data["dimension"] as? String {
                     product.dimension = value
+                } else {
+                    product.dimension = nil
                 }
                 if let value = data["images"] as? NSArray {
                     product.images = value
+                } else {
+                    product.images = nil
                 }
                 if let value = data["keywords"] as? String {
                     product.keywords = value
                     searchText += normalized(value)
+                } else {
+                    product.keywords = nil
                 }
                 if let value = data["likeNumber"] as? NSNumber {
                     product.likeNumber = value
+                } else {
+                    product.likeNumber = nil
                 }
                 if let value = data["prices"] as? NSArray {
                     product.prices = value
+                } else {
+                    product.prices = nil
                 }
                 if let value = data["reference"] as? String {
                     product.reference = value
                     searchText += normalized(value)
+                } else {
+                    product.reference = nil
                 }
                 if let value = data["surname"] as? String {
                     product.surname = value
                     searchText += normalized(value)
+                } else {
+                    product.surname = nil
                 }
                 if let value = data["title"] as? String {
                     product.title = value
                     searchText += normalized(value)
+                } else {
+                    product.title = nil
                 }
                 if let value = data["categories"] as? String {
                     product.categories = value
+                } else {
+                    product.categories = nil
                 }
                 if let value = data["order"] as? NSNumber {
                     product.order = value
+                } else {
+                    product.order = nil
                 }
                 searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 if searchText.characters.count > 0 {

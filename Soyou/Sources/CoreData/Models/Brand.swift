@@ -31,18 +31,28 @@ class Brand: BaseModel {
             brand.id = id
             if let value = data["label"] as? String {
                 brand.label = value
+            } else {
+                brand.label = nil
             }
             if let value = data["imageUrl"] as? String {
                 brand.imageUrl = value
+            } else {
+                brand.imageUrl = nil
             }
             if let value = data["extra"] as? String {
                 brand.extra = value
+            } else {
+                brand.extra = nil
             }
             if let value = data["order"] as? NSNumber {
                 brand.order = value
+            } else {
+                brand.order = nil
             }
             if let value = data["categories"] as? NSArray {
                 brand.categories = value
+            } else {
+                brand.categories = nil
             }
         }
         
