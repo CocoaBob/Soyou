@@ -61,7 +61,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        DataManager.shared.updateData()
+        var needsToUpdateData = true
+        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
+            needsToUpdateData = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 // 1 hour
+        }
+        if needsToUpdateData {
+            DataManager.shared.updateData(nil)
+        }
         // Currency Manager
         CurrencyManager.shared.updateCurrencyRates()
     }

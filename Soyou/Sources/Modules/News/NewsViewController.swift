@@ -295,7 +295,7 @@ extension NewsViewController {
             let dateString = dateFormatter.stringFromDate(date)
             return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
         }
-        header.lastUpdatedTimeKey = header.lastUpdatedTimeKey
+        header.lastUpdatedTimeKey = "lastUpdatedTimeKeyNewsViewController"
         self.collectionView().mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in

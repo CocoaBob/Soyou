@@ -30,6 +30,9 @@ class BrandsViewController: BaseViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+        // Bars
+        self.hidesBottomBarWhenPushed = false
+        
         // UIViewController
         self.title = NSLocalizedString("brands_vc_title")
         
@@ -45,6 +48,7 @@ class BrandsViewController: BaseViewController {
         
         // Setups
         self.setupCollectionView()
+        self.setupRefreshControls()
         
         // Setup Search Controller
         self.setupSearchController()
@@ -209,6 +213,44 @@ extension BrandsViewController: ZoomTransitionProtocol {
             return true
         }
         return false
+    }
+}
+
+// MARK: - Refreshing
+extension BrandsViewController {
+    
+    func setupRefreshControls() {
+        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+            DataManager.shared.updateData({ (_, _) -> () in
+                self.endRefreshing()
+            })
+            self.beginRefreshing()
+        });
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
+        header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
+            if date == nil {
+                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), NSLocalizedString("pull_to_refresh_header_never"))
+            }
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "MM/dd HH:mm"
+            let dateString = dateFormatter.stringFromDate(date)
+            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
+        }
+        header.lastUpdatedTimeKey = "lastUpdatedTimeKeyBrandsViewController"
+        self.collectionView().mj_header = header
+    }
+    
+    func beginRefreshing() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func endRefreshing() {
+        self.collectionView().mj_header.endRefreshing()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 

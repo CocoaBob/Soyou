@@ -71,6 +71,9 @@ class ProductsViewController: BaseViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+        // Bars
+        self.hidesBottomBarWhenPushed = true
+        
         // UIViewController
         self.title = NSLocalizedString("products_vc_title")
     }

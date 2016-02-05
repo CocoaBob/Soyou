@@ -401,6 +401,7 @@ class DataManager {
     // Helper methods for Products
     func loadBunchProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
         if index >= productIDs.count {
+            if completion != nil { completion!(nil, nil) }
             return
         }
         let rangeSize = ((index + size) > productIDs.count) ? (productIDs.count - index) : size
@@ -433,7 +434,7 @@ class DataManager {
             })
             
             // Load products
-            self.loadBunchProducts(productIDs, index: 0, size: 1024, completion: completion)
+            self.loadBunchProducts(productIDs, index: 0, size: 256, completion: completion)
         }
     }
     
@@ -485,39 +486,34 @@ class DataManager {
     // MARK: Update data
     //////////////////////////////////////
     
-    func updateData() {
-        var needsToLoad = true
-        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
-            needsToLoad = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 // 1 hour
-        }
-        
-        if needsToLoad && !self.isUpdatingData {
+    func updateData(completion: CompletionClosure?) {
+        if !self.isUpdatingData {
             self.isUpdatingData = true
-            var count = 3
-            let completionClosure = {
+            var count = 4
+            var hasError = false
+            
+            let completionClosure: CompletionClosure = { responseObject, error in
+                if error != nil {
+                    hasError = true
+                }
                 --count
                 if count == 0 {
+                    if (completion != nil) { completion!(nil, nil) }
                     self.isUpdatingData = false
-                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
-                    NSUserDefaults.standardUserDefaults().synchronize()
+                    if !hasError {
+                        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                    }
                 }
             }
             
             // Preload data
-            DataManager.shared.requestAllRegions() { responseObject, error in
-                completionClosure()
-            }
-            DataManager.shared.requestAllBrands() { responseObject, error in
-                completionClosure()
-            }
+            DataManager.shared.requestAllRegions(completionClosure)
+            DataManager.shared.requestAllBrands(completionClosure)
             
             let timestamp = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastRequestStoresTimestamp) as? NSNumber
-            DataManager.shared.requestAllStores(timestamp) { responseObject, error in
-                completionClosure()
-            }
-            DataManager.shared.loadAllProducts() { responseObject, error in
-                completionClosure()
-            }
+            DataManager.shared.requestAllStores(timestamp, completionClosure)
+            DataManager.shared.loadAllProducts(completionClosure)
         }
     }
 }

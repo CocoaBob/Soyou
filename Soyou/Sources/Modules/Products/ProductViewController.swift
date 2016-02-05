@@ -69,7 +69,7 @@ class ProductViewController: UIViewController {
         // Carousel View
         self.setupCarouselView()
         // Fix scroll view insets
-        self.updateScrollViewInset(self.scrollView, 0, true, false, true, false)
+        self.updateScrollViewInset(self.scrollView, 0, true, false, false, false)
         // SubViewControllers
         self.setupSubViewControllers()
         

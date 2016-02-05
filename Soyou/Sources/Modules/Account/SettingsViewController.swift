@@ -12,8 +12,12 @@ class SettingsViewController: SimpleTableViewController {
     
     var cacheSize: Double = 0
     
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        // Bars
+        self.hidesBottomBarWhenPushed = true
         
         // UIViewController
         self.title = NSLocalizedString("settings_vc_title")

@@ -19,10 +19,13 @@ class StoreMapViewController: UIViewController {
     
     var brandID: NSNumber?
     var brandName: String?
-
+    
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        // Bars
+        self.hidesBottomBarWhenPushed = true
     }
     
     override func viewDidLoad() {

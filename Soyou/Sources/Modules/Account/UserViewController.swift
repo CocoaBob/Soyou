@@ -12,8 +12,12 @@ class UserViewController: SimpleTableViewController {
     @IBOutlet var viewUserInfo: UIView!
     @IBOutlet var lblUsername: UILabel!
     
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        // Bars
+        self.hidesBottomBarWhenPushed = false
                 
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("user_vc_tab_title"), image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))

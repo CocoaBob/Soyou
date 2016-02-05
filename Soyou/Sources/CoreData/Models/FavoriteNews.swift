@@ -42,32 +42,32 @@ class FavoriteNews: BaseNews {
                 }
                 if let value = data["author"] as? String {
                     news.author = value
-                } else {
+                } else if isComplete {
                     news.author = nil
                 }
                 if let value = data["title"] as? String {
                     news.title = value
-                } else {
+                } else if isComplete {
                     news.title = nil
                 }
                 if let value = data["image"] as? String {
                     news.image = value
-                } else {
+                } else if isComplete {
                     news.image = nil
                 }
                 if let value = data["content"] as? String {
                     news.content = value
-                } else {
+                } else if isComplete {
                     news.content = nil
                 }
                 if let value = data["isOnline"] as? NSNumber {
                     news.isOnline = value
-                } else {
+                } else if isComplete {
                     news.isOnline = nil
                 }
                 if let value = data["url"] as? String {
                     news.url = value
-                } else {
+                } else if isComplete {
                     news.url = nil
                 }
             }
