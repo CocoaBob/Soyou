@@ -51,24 +51,20 @@ extension ProfileViewController {
                 title: nil,
                 rows: [
                     Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_username"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_empty"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        tintColor: nil,
-                        accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeUsername()
                         }
                     ),
                     Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_email"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        tintColor: nil,
-                        accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeEmail()
@@ -80,24 +76,20 @@ extension ProfileViewController {
                 title: nil,
                 rows: [
                     Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_region"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: CurrencyManager.shared.countryName(UserManager.shared.region ?? "") ?? NSLocalizedString("user_info_region_unknown"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        tintColor: nil,
-                        accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeRegion()
                         }
                     ),
                     Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_gender"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: UserManager.shared.gender, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        tintColor: nil,
-                        accessoryType: .DisclosureIndicator,
-                        separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeGender()
@@ -109,12 +101,10 @@ extension ProfileViewController {
                 title: nil,
                 rows: [
                     Row(type: .CenterTitle,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .None, separatorInset: nil),
                         image: nil,
                         title: Text(text: NSLocalizedString("profile_vc_cell_logout"), placeholder:nil, color: UIColor.redColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
-                        tintColor: nil,
-                        accessoryType:.None,
-                        separatorInset:nil,
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.logout()
@@ -150,12 +140,10 @@ extension ProfileViewController {
                 title: nil,
                 rows: [
                     Row(type: .TextField,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .None, separatorInset: nil),
                         image: nil,
                         title: Text(text: UserManager.shared.username, placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
-                        tintColor: nil,
-                        accessoryType: .None,
-                        separatorInset: nil,
                         userInfo: nil,
                         didSelect: nil
                     )
@@ -194,22 +182,18 @@ extension ProfileViewController {
                 title: nil,
                 rows: [
                     Row(type: .TextField,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .None, separatorInset: nil),
                         image: nil,
                         title: Text(text: nil, placeholder: NSLocalizedString("profile_vc_cell_new_email_placeholder"), color: nil, keyboardType: .EmailAddress, returnKeyType: .Next),
                         subTitle: nil,
-                        tintColor: nil,
-                        accessoryType: .None,
-                        separatorInset: nil,
                         userInfo: nil,
                         didSelect: nil
                     ),
                     Row(type: .TextField,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .None, separatorInset: nil),
                         image: nil,
                         title: Text(text: nil, placeholder: NSLocalizedString("profile_vc_cell_confirm_new_email_placeholder"), color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
                         subTitle: nil,
-                        tintColor: nil,
-                        accessoryType: .None,
-                        separatorInset: nil,
                         userInfo: nil,
                         didSelect: nil
                     )
@@ -283,12 +267,10 @@ extension ProfileViewController {
             var rows = [Row]()
             for regionCode in regionCodes {
                 let row = Row(type: .LeftTitle,
+                    cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                     image: nil,
                     title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? "", placeholder: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
                     subTitle: nil,
-                    tintColor: UIColor(white: 0.15, alpha: 1),
-                    accessoryType: .None,
-                    separatorInset: nil,
                     userInfo: ["code":regionCode],
                     didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                         let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
@@ -358,12 +340,10 @@ extension ProfileViewController {
         var rows = [Row]()
         for titleCode in ["user_info_gender_secret","user_info_gender_male","user_info_gender_female"] {
             let row = Row(type: .LeftTitle,
+                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                 image: nil,
                 title: Text(text: NSLocalizedString(titleCode), placeholder: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
                 subTitle: nil,
-                tintColor: UIColor(white: 0.15, alpha: 1),
-                accessoryType: .None,
-                separatorInset: nil,
                 userInfo: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (indexPath.row != UserManager.shared.genderIndex)

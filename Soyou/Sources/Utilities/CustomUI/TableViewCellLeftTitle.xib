@@ -13,8 +13,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAU-pv-qqz">
-                        <rect key="frame" x="15" y="11" width="577" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAU-pv-qqz">
+                        <rect key="frame" x="15" y="8" width="577" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.199981451" green="0.2000103593" blue="0.19997167590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -23,7 +23,9 @@
                 <constraints>
                     <constraint firstItem="QAU-pv-qqz" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leading" constant="15" id="I09-bC-pzh"/>
                     <constraint firstAttribute="trailing" secondItem="QAU-pv-qqz" secondAttribute="trailing" constant="8" id="Lgj-X5-4cM"/>
+                    <constraint firstItem="QAU-pv-qqz" firstAttribute="top" secondItem="Tgf-4e-clL" secondAttribute="top" constant="8" id="P51-Da-WIw"/>
                     <constraint firstItem="QAU-pv-qqz" firstAttribute="centerY" secondItem="Tgf-4e-clL" secondAttribute="centerY" id="nYg-R6-yOG"/>
+                    <constraint firstAttribute="bottom" secondItem="QAU-pv-qqz" secondAttribute="bottom" constant="8" id="sk2-v4-Fv2"/>
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>

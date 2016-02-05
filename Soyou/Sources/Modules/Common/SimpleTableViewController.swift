@@ -22,14 +22,19 @@ struct Text {
     var returnKeyType: UIReturnKeyType?
 }
 
-struct Row {
-    var type: CellType
-    var image: UIImage?
-    var title: Text?
-    var subTitle: Text?
+struct Cell {
+    var height: CGFloat?
     var tintColor: UIColor?
     var accessoryType: UITableViewCellAccessoryType
     var separatorInset: UIEdgeInsets?
+}
+
+struct Row {
+    var type: CellType
+    var cell: Cell
+    var image: UIImage?
+    var title: Text?
+    var subTitle: Text?
     var userInfo: [String:AnyObject]?
     var didSelect: ((UITableView, NSIndexPath)->())?
 }
@@ -70,10 +75,12 @@ class SimpleTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // In case created programmatically
+        // If created programmatically
         if self.tableView == nil {
             self.tableView = UITableView(frame: self.view.bounds, style: self.tableStyle ?? .Grouped)
             self.tableView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+            self.tableView.estimatedRowHeight = 44
+            self.tableView.rowHeight = UITableViewAutomaticDimension
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -169,11 +176,11 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             rowCell.tfTitle.addTarget(self, action: "textFieldDidEdit:", forControlEvents: UIControlEvents.EditingChanged)
         }
         
-        cell.accessoryType = row.accessoryType
-        if let separatorInset = row.separatorInset {
+        cell.accessoryType = row.cell.accessoryType
+        if let separatorInset = row.cell.separatorInset {
             cell.separatorInset = separatorInset
         }
-        if let tintColor = row.tintColor {
+        if let tintColor = row.cell.tintColor {
             cell.tintColor = tintColor
         }
         
@@ -201,6 +208,11 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         }
         
         self.selectedIndexPath = indexPath
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let row = sections[indexPath.section].rows[indexPath.row]
+        return row.cell.height ?? UITableViewAutomaticDimension
     }
 }
 
@@ -274,8 +286,8 @@ extension SimpleTableViewController {
             for indexRow in 0..<section.rows.count {
                 var row = section.rows[indexRow]
                 let newAccessoryType = (indexSection == indexPath.section && indexRow == indexPath.row) ? UITableViewCellAccessoryType.Checkmark : .None
-                if row.accessoryType != newAccessoryType {
-                    row.accessoryType = newAccessoryType
+                if row.cell.accessoryType != newAccessoryType {
+                    row.cell.accessoryType = newAccessoryType
                     isChanged = true
                 }
                 newRows.append(row)
