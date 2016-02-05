@@ -27,7 +27,7 @@
 
 /* Brands View Controller */
 "brands_vc_title"="Brands";
-"brands_vc_tab_title"="Brands";
+"brands_vc_tab_title"="Prices";
 "brands_vc_search_bar_placeholder"="Brands, Products, Refs...";
 
 /* Brand View Controller */
@@ -100,8 +100,8 @@
 "settings_vc_title"="Settings";
 "settings_vc_cell_clear_cache"="Clear caches";
 "settings_vc_cell_clearing_cache"="Clearing...";
-"settings_vc_cell_about_us"="About our team";
-"settings_vc_cell_about_app"="About Soyou";
+"settings_vc_cell_credits"="Credits";
+"settings_vc_cell_about"="About";
 "settings_vc_cell_feedback"="Send feedbacks";
 "settings_vc_cell_review"="Write reviews";
 

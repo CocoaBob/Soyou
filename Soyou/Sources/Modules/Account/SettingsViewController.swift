@@ -48,26 +48,26 @@ extension SettingsViewController {
                 rows: [
                     Row(type: .LeftTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_about_us"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_about"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.showAboutUs()
+                            self.showAbout()
                         }
                     ),
                     Row(type: .LeftTitle,
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_about_app"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_credits"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         tintColor: nil,
                         accessoryType: .DisclosureIndicator,
                         separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.showAboutApp()
+                            self.showCredits()
                         }
                     ),
                     Row(type: .LeftTitle,
@@ -120,11 +120,11 @@ extension SettingsViewController {
 // MARK: Cell actions
 extension SettingsViewController {
     
-    func showAboutUs() {
+    func showCredits() {
         
     }
     
-    func showAboutApp() {
+    func showAbout() {
         
     }
     
