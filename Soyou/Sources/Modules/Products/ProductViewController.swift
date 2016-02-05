@@ -267,6 +267,7 @@ extension ProductViewController {
             self.productPricesViewController.productViewController = self
             self.productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
             self.productPricesViewController.prices = localProduct.prices as? [[String: AnyObject]]
+            self.productPricesViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             viewControllers.append(self.productPricesViewController)
             // Descriptions VC
             self.productDescriptionsViewController.productViewController = self
@@ -278,6 +279,7 @@ extension ProductViewController {
             self.productDescriptionsViewController.dimension = localProduct.dimension
             self.productDescriptionsViewController.id = localProduct.id
             self.productDescriptionsViewController.webViewHeightDelegate = self
+            self.productDescriptionsViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             viewControllers.append(self.productDescriptionsViewController)
             // Check if prices is empty
             if localProduct.prices == nil || (localProduct.prices as? [[String: AnyObject]])!.count == 0 {
@@ -317,6 +319,9 @@ extension ProductViewController {
             pageMenu.view.frame = CGRectMake(0, 0, self.subViewsContainer.frame.size.width, self.subViewsContainer.frame.size.height)
         }
         
+        // Update height
+        self.updateViewsContainerHeight(false)
+        
         // Preselect sub view
         if !hasPrices {
             self.pageMenu?.moveToPage(1)
@@ -329,16 +334,20 @@ extension ProductViewController: WebViewHeightDelegate {
 
     func webView(webView: UIWebView, didChangeHeight height: CGFloat) {
         descriptionViewHeight = height
-        self.updateViewsContainerHeight()
+        self.updateViewsContainerHeight(true)
     }
     
-    func updateViewsContainerHeight() {
+    func updateViewsContainerHeight(animated: Bool) {
         let pricesViewHeight = self.productPricesViewController.tableView.contentSize.height ?? 0
         let descriptionsViewHeight = descriptionViewHeight
         let maxHeight = max(descriptionsViewHeight, pricesViewHeight)
         self.viewsContainerHeight?.constant = maxHeight + self.pageMenuHeight + 20 // Bottom margin 20
         self.view.setNeedsLayout()
-        UIView.animateWithDuration(0.3) { () -> Void in
+        if animated {
+            UIView.animateWithDuration(0.3) { () -> Void in
+                self.view.layoutIfNeeded()
+            }
+        } else {
             self.view.layoutIfNeeded()
         }
     }

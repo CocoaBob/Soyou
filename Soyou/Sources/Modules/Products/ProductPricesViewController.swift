@@ -87,6 +87,15 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             }
             let countryName = CurrencyManager.shared.countryName(countryCode)
             _cell.lblTitle.text = FmtString(NSLocalizedString("product_prices_vc_official_price"), countryName ?? "")
+            
+            // Hide website label if not available
+            if let officialUrlString = item["officialUrl"] as? String,
+                _ = NSURL(string: officialUrlString) {
+                    _cell.lblAccessory.hidden = false
+            } else {
+                _cell.lblAccessory.hidden = true
+            }
+
             cell = _cell
         } else {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as! ProductPricesTableViewCellCurrency

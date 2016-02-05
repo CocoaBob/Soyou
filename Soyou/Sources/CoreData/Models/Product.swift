@@ -48,6 +48,7 @@ class Product: BaseModel {
                     product.images = data["images"] as? NSArray
                     product.likeNumber = data["likeNumber"] as? NSNumber
                     product.prices = data["prices"] as? NSArray
+                    product.appPricesCount = (product.prices as? NSArray)?.count ?? 0
                     product.order = data["order"] as? NSNumber
                     
                     product.brandLabel = data["brandLabel"] as? String

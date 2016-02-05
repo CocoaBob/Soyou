@@ -37,6 +37,7 @@
         <attribute name="appIsFavorite" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appPricesCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="appSearchText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="brandId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="brandLabel" optional="YES" attributeType="String" syncable="YES"/>
@@ -86,7 +87,7 @@
         <element name="CurrencyRate" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="45"/>
         <element name="News" positionX="-63" positionY="-18" width="128" height="60"/>
-        <element name="Product" positionX="-63" positionY="54" width="128" height="345"/>
+        <element name="Product" positionX="-63" positionY="54" width="128" height="360"/>
         <element name="Region" positionX="-63" positionY="135" width="128" height="90"/>
         <element name="Store" positionX="-54" positionY="144" width="128" height="225"/>
         <element name="User" positionX="-63" positionY="135" width="128" height="120"/>

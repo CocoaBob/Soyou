@@ -46,6 +46,8 @@ extension UIViewController {
             }
             if let navigationController = navigationController {
                 topInset += navigationController.navigationBar.frame.size.height
+            } else {
+                topInset += 44
             }
         }
         return topInset
@@ -63,6 +65,8 @@ extension UIViewController {
             }
             if let navigationController = navigationController {
                 bottomInset += navigationController.toolbar.frame.size.height
+            } else {
+                bottomInset += 44
             }
         }
         if tabBarIsVisible {
@@ -77,6 +81,8 @@ extension UIViewController {
                 let tabBarFrame = tabBarController.tabBar.frame
                 let viewFrame = self.view.frame
                 bottomInset += max(0, (viewFrame.size.height - tabBarFrame.origin.y))
+            } else {
+                bottomInset += 49
             }
         }
         return bottomInset

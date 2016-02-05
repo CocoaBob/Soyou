@@ -16,6 +16,7 @@ class ProductsViewController: BaseViewController {
     
     var isSearchResultsViewController: Bool = false
     var searchTexts: [String]?
+    var searchFromViewController: UIViewController?
     
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
@@ -51,7 +52,7 @@ class ProductsViewController: BaseViewController {
         return Product.MR_fetchAllGroupedBy(
             nil,
             withPredicate: NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates),
-            sortedBy: "order,id",
+            sortedBy: self.isSearchResultsViewController ? "appPricesCount:false,order:true,id:true" : "order,id",
             ascending: true)
     }
     
@@ -93,23 +94,22 @@ class ProductsViewController: BaseViewController {
         
         // Pre-calculate cell width
         self.cellWidth = (self.view.frame.size.width - cellMargin * 3) / 2.0
+        
+        // Fix scroll view insets
+        if self.isSearchResultsViewController {
+            var tabBarIsVisible = false
+            if let tabBarIsHidden = self.searchFromViewController?.hidesBottomBarWhenPushed {
+                tabBarIsVisible = !tabBarIsHidden
+            }
+            self.updateScrollViewInset(self.collectionView(), 0, true, true, false, tabBarIsVisible)
+        } else {
+            self.updateScrollViewInset(self.collectionView(), 0, true, true, false, false)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
-        
-        if self.isSearchResultsViewController {
-            var tabBarIsVisible = false
-            if let tabBarIsHidden = self.presentingViewController?.hidesBottomBarWhenPushed {
-                tabBarIsVisible = !tabBarIsHidden
-            }
-            // Fix scroll view insets
-            self.updateScrollViewInset(self.collectionView(), 0, true, true, false, tabBarIsVisible)
-        } else {
-            // Fix scroll view insets
-            self.updateScrollViewInset(self.collectionView(), 0, true, true, false, false)
-        }
         
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
@@ -360,16 +360,17 @@ extension ProductsViewController: UISearchControllerDelegate {
 
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
+        searchResultsController.searchFromViewController = self
         searchResultsController.brandID = self.brandID
         searchResultsController.categoryID = self.categoryID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController!.delegate = self
         self.searchController!.searchResultsUpdater = searchResultsController
-        self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"),self.categoryName ?? "")
+        self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"), self.categoryName ?? "")
         self.searchController!.hidesNavigationBarDuringPresentation = false
         
         // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
-        let _ = self.searchController?.view // Force loading the view
+//        let _ = self.searchController?.view // Force loading the view
     }
     
     func willDismissSearchController(searchController: UISearchController) {

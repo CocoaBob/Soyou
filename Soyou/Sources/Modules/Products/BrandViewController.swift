@@ -370,6 +370,7 @@ extension BrandViewController: UISearchControllerDelegate {
         
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
+        searchResultsController.searchFromViewController = self
         searchResultsController.brandID = self.brandID
         self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController!.delegate = self
@@ -378,7 +379,7 @@ extension BrandViewController: UISearchControllerDelegate {
         self.searchController!.hidesNavigationBarDuringPresentation = false
         
         // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
-        let _ = self.searchController?.view // Force loading the view
+//        let _ = self.searchController?.view // Force loading the view
     }
     
     func willDismissSearchController(searchController: UISearchController) {
