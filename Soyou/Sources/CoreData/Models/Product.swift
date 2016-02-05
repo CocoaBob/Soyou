@@ -23,10 +23,10 @@ class Product: BaseModel {
             product = Product.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
             if product == nil {
                 product = Product.MR_createEntityInContext(context)
+                product?.id = id
             }
             
             if let product = product {
-                product.id = id
                 if let value = data["dateModification"] as? String {
                     let newDateModification = self.dateFormatter.dateFromString(value)
                     if isComplete {
@@ -39,82 +39,38 @@ class Product: BaseModel {
                     product.dateModification = newDateModification
                 }
                 
-                var searchText = ""
-                
-                if let value = data["brandId"] as? NSNumber {
-                    product.brandId = value
-                } else if isComplete {
-                    product.brandId = nil
-                }
-                if let value = data["brandLabel"] as? String {
-                    product.brandLabel = value
-                    searchText += normalized(value)
-                } else if isComplete {
-                    product.brandLabel = nil
-                }
-                if let value = data["descriptions"] as? String {
-                    product.descriptions = value
-                    searchText += value
-                } else if isComplete {
-                    product.descriptions = nil
-                }
-                if let value = data["dimension"] as? String {
-                    product.dimension = value
-                } else if isComplete {
-                    product.dimension = nil
-                }
-                if let value = data["images"] as? NSArray {
-                    product.images = value
-                } else if isComplete {
-                    product.images = nil
-                }
-                if let value = data["keywords"] as? String {
-                    product.keywords = value
-                    searchText += normalized(value)
-                } else if isComplete {
-                    product.keywords = nil
-                }
-                if let value = data["likeNumber"] as? NSNumber {
-                    product.likeNumber = value
-                } else if isComplete {
-                    product.likeNumber = nil
-                }
-                if let value = data["prices"] as? NSArray {
-                    product.prices = value
-                } else if isComplete {
-                    product.prices = nil
-                }
-                if let value = data["reference"] as? String {
-                    product.reference = value
-                    searchText += normalized(value)
-                } else if isComplete {
-                    product.reference = nil
-                }
-                if let value = data["surname"] as? String {
-                    product.surname = value
-                    searchText += normalized(value)
-                } else if isComplete {
-                    product.surname = nil
-                }
-                if let value = data["title"] as? String {
-                    product.title = value
-                    searchText += normalized(value)
-                } else if isComplete {
-                    product.title = nil
-                }
-                if let value = data["categories"] as? String {
-                    product.categories = value
-                } else if !isComplete {
-                    product.categories = nil
-                }
-                if let value = data["order"] as? NSNumber {
-                    product.order = value
-                } else if isComplete {
-                    product.order = nil
-                }
-                searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                if searchText.characters.count > 0 {
-                    product.appSearchText = searchText
+                // Categories only exist in the check phase
+                if !isComplete {
+                    product.categories = data["categories"] as? String
+                } else {
+                    product.brandId = data["brandId"] as? NSNumber
+                    product.dimension = data["dimension"] as? String
+                    product.images = data["images"] as? NSArray
+                    product.likeNumber = data["likeNumber"] as? NSNumber
+                    product.prices = data["prices"] as? NSArray
+                    product.order = data["order"] as? NSNumber
+                    
+                    product.brandLabel = data["brandLabel"] as? String
+                    product.descriptions = data["descriptions"] as? String
+                    product.keywords = data["keywords"] as? String
+                    product.reference = data["reference"] as? String
+                    product.surname = data["surname"] as? String
+                    product.title = data["title"] as? String
+                    
+                    var searchText = ""
+                    searchText += normalized(product.brandLabel)
+                    searchText += product.descriptions ?? ""
+                    searchText += normalized(product.keywords)
+                    searchText += normalized(product.reference)
+                    searchText += normalized(product.surname)
+                    searchText += normalized(product.title)
+                    
+                    searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                    if searchText.characters.count > 0 {
+                        product.appSearchText = searchText
+                    } else {
+                        product.appSearchText = nil
+                    }
                 }
             }
         }
@@ -184,7 +140,11 @@ class Product: BaseModel {
         })
     }
     
-    class func normalized(text: String) -> String {
-        return " " + text.componentsSeparatedByCharactersInSet(NSCharacterSet.alphanumericCharacterSet().invertedSet).joinWithSeparator("").lowercaseString
+    class func normalized(text: String?) -> String {
+        if let text = text {
+            return " " + text.componentsSeparatedByCharactersInSet(NSCharacterSet.alphanumericCharacterSet().invertedSet).joinWithSeparator("").lowercaseString
+        } else {
+            return ""
+        }
     }
 }

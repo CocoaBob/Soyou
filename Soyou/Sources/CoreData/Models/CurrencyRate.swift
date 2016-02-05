@@ -31,20 +31,13 @@ class CurrencyRate: BaseModel {
         }
         
         if let currencyRate = currencyRate {
-            
             currencyRate.sourceCode = sourceCode
-            
             currencyRate.targetCode = targetCode
-                
+            currencyRate.updatedAt = data["updatedAt"] as? NSDate
             if let value = data["rate"] as? String, let doubleValue = Double(value) {
                 currencyRate.rate = NSNumber(double: doubleValue)
             } else {
                 currencyRate.rate = NSNumber(double: 1)
-            }
-            if let value = data["updatedAt"] as? NSDate {
-                currencyRate.updatedAt = value
-            } else {
-                currencyRate.updatedAt = nil
             }
         }
         

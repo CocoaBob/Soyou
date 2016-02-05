@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 class FavoriteNews: BaseNews {
 
     class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
@@ -22,10 +21,10 @@ class FavoriteNews: BaseNews {
             news = FavoriteNews.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
             if news == nil {
                 news = FavoriteNews.MR_createEntityInContext(context)
+                news?.id = id
             }
             
             if let news = news {
-                news.id = id
                 if let value = data["datePublication"] as? String {
                     news.datePublication = self.dateFormatter.dateFromString(value)
                 }
@@ -40,35 +39,14 @@ class FavoriteNews: BaseNews {
                     }
                     news.dateModification = newDateModification
                 }
-                if let value = data["author"] as? String {
-                    news.author = value
-                } else if isComplete {
-                    news.author = nil
-                }
-                if let value = data["title"] as? String {
-                    news.title = value
-                } else if isComplete {
-                    news.title = nil
-                }
-                if let value = data["image"] as? String {
-                    news.image = value
-                } else if isComplete {
-                    news.image = nil
-                }
-                if let value = data["content"] as? String {
-                    news.content = value
-                } else if isComplete {
-                    news.content = nil
-                }
-                if let value = data["isOnline"] as? NSNumber {
-                    news.isOnline = value
-                } else if isComplete {
-                    news.isOnline = nil
-                }
-                if let value = data["url"] as? String {
-                    news.url = value
-                } else if isComplete {
-                    news.url = nil
+                if !isComplete {
+                    news.author = data["author"] as? String
+                    news.title = data["title"] as? String
+                    news.image = data["image"] as? String
+                } else {
+                    news.content = data["content"] as? String
+                    news.isOnline = data["isOnline"] as? NSNumber
+                    news.url = data["url"] as? String
                 }
             }
         }

@@ -10,23 +10,7 @@ class DataManager {
     
     static let shared = DataManager()
     
-    let statusBarNotification = CWStatusBarNotification()
-    var isUpdatingData = false {
-        didSet {
-            if isUpdatingData {
-                self.statusBarNotification.displayNotificationWithMessage(NSLocalizedString("data_manager_updating_data")) { () -> Void in
-                    
-                }
-            } else {
-                self.statusBarNotification.dismissNotification()
-            }
-        }
-    }
-    
-    init() {
-        self.statusBarNotification.notificationLabelBackgroundColor = UIColor(rgba: "#0076FF")
-        self.statusBarNotification.notificationLabelTextColor = UIColor.whiteColor()
-    }
+    var isUpdatingData = false
     
     //////////////////////////////////////
     // MARK: General
@@ -401,7 +385,7 @@ class DataManager {
     // Helper methods for Products
     func loadBunchProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
         if index >= productIDs.count {
-            if completion != nil { completion!(nil, nil) }
+            self.completeWithData(nil, completion: completion)
             return
         }
         let rangeSize = ((index + size) > productIDs.count) ? (productIDs.count - index) : size
@@ -414,6 +398,8 @@ class DataManager {
                 self.loadProducts(Array(range), nil)
                 self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
             }
+        } else {
+            self.completeWithData(nil, completion: completion)
         }
     }
     
@@ -421,17 +407,17 @@ class DataManager {
         // Load all products id and modification date
         // Mark all modified products.appIsUpdated = false
         self.requestAllProductIDs { responseObject, error in
+            if error != nil {
+                self.completeWithError(error, completion: completion)
+                return
+            }
             // Collect product ids
             var productIDs = [NSNumber]()
-            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                if let allNotUpdatedProducts = Product.MR_findAllWithPredicate(
-                    FmtPredicate("appIsUpdated == %@", NSNumber(bool: false)),
-                    inContext: localContext) {
-                        productIDs = allNotUpdatedProducts.map { (product) -> NSNumber in
-                            return (product as! Product).id!
-                        }
+            if let allNotUpdatedProducts = Product.MR_findAllWithPredicate(FmtPredicate("appIsUpdated == %@", NSNumber(bool: false))) {
+                productIDs = allNotUpdatedProducts.map { (product) -> NSNumber in
+                    return (product as! Product).id!
                 }
-            })
+            }
             
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 256, completion: completion)
@@ -498,7 +484,7 @@ class DataManager {
                 }
                 --count
                 if count == 0 {
-                    if (completion != nil) { completion!(nil, nil) }
+                    self.completeWithData(nil, completion: completion)
                     self.isUpdatingData = false
                     if !hasError {
                         NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)

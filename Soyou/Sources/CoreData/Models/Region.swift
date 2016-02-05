@@ -21,16 +21,8 @@ class Region: BaseModel {
             region = Region.MR_createEntityInContext(context)
             if let region = region {
                 region.appOrder = NSNumber(integer: index)
-                if let value = data["code"] as? String {
-                    region.code = value
-                } else {
-                    region.code = nil
-                }
-                if let value = data["currency"] as? String {
-                    region.currency = value
-                } else {
-                    region.currency = nil
-                }
+                region.code = data["code"] as? String
+                region.currency = data["currency"] as? String
             }
         }
         

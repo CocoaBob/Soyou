@@ -22,50 +22,18 @@ class Store: BaseModel {
             store = Store.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
             if store == nil {
                 store = Store.MR_createEntityInContext(context)
+                store?.id = id
             }
             
             if let store = store {
-                store.id = id
-                if let value = data["title"] as? String {
-                    store.title = value
-                } else {
-                    store.title = nil
-                }
-                if let value = data["division"] as? String {
-                    store.division = value
-                } else {
-                    store.division = nil
-                }
-                if let value = data["address"] as? String {
-                    store.address = value
-                } else {
-                    store.address = nil
-                }
-                if let value = data["zipcode"] as? String {
-                    store.zipcode = value
-                } else {
-                    store.zipcode = nil
-                }
-                if let value = data["city"] as? String {
-                    store.city = value
-                } else {
-                    store.city = nil
-                }
-                if let value = data["country"] as? String {
-                    store.country = value
-                } else {
-                    store.country = nil
-                }
-                if let value = data["phoneNumber"] as? String {
-                    store.phoneNumber = value
-                } else {
-                    store.phoneNumber = nil
-                }
-                if let value = data["brandId"] as? NSNumber {
-                    store.brandId = value
-                } else {
-                    store.brandId = nil
-                }
+                store.title = data["title"] as? String
+                store.division = data["division"] as? String
+                store.address = data["address"] as? String
+                store.zipcode = data["zipcode"] as? String
+                store.city = data["city"] as? String
+                store.country = data["country"] as? String
+                store.phoneNumber = data["phoneNumber"] as? String
+                store.brandId = data["brandId"] as? NSNumber
                 if let longitude = data["longitude"] as? NSNumber,
                     latitude = data["latitude"] as? NSNumber {
                         store.longitude = longitude

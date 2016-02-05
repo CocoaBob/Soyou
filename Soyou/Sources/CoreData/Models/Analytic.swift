@@ -26,29 +26,14 @@ class Analytic: BaseModel {
         var analytic: Analytic? = Analytic.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
         if analytic == nil {
             analytic = Analytic.MR_createEntityInContext(context)
+            analytic?.id = id
         }
 
         if let analytic = analytic {
-            if let value = data["data"] as? String {
-                analytic.data = value
-            } else {
-                analytic.data = nil
-            }
-            if let value = data["target"] as? NSNumber {
-                analytic.target = value
-            } else {
-                analytic.target = nil
-            }
-            if let value = data["action"] as? NSNumber {
-                analytic.action = value
-            } else {
-                analytic.action = nil
-            }
-            if let value = data["operatedAt"] as? NSDate {
-                analytic.operatedAt = value
-            } else {
-                analytic.operatedAt = nil
-            }
+            analytic.data = data["data"] as? String
+            analytic.target = data["target"] as? NSNumber
+            analytic.action = data["action"] as? NSNumber
+            analytic.operatedAt = data["operatedAt"] as? NSDate
         }
         
         return analytic

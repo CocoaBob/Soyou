@@ -21,10 +21,10 @@ class News: BaseNews {
             news = News.MR_findFirstWithPredicate(FmtPredicate("id == %@ && (appIsMore == nil || appIsMore == false)", id), inContext: context)
             if news == nil {
                 news = News.MR_createEntityInContext(context)
+                news?.id = id
             }
             
             if let news = news {
-                news.id = id
                 if let value = data["datePublication"] as? String {
                     news.datePublication = self.dateFormatter.dateFromString(value)
                 }
@@ -39,35 +39,14 @@ class News: BaseNews {
                     }
                     news.dateModification = newDateModification
                 }
-                if let value = data["author"] as? String {
-                    news.author = value
-                } else if isComplete {
-                    news.author = nil
-                }
-                if let value = data["title"] as? String {
-                    news.title = value
-                } else if isComplete {
-                    news.title = nil
-                }
-                if let value = data["image"] as? String {
-                    news.image = value
-                } else if isComplete {
-                    news.image = nil
-                }
-                if let value = data["content"] as? String {
-                    news.content = value
-                } else if isComplete {
-                    news.content = nil
-                }
-                if let value = data["isOnline"] as? NSNumber {
-                    news.isOnline = value
-                } else if isComplete {
-                    news.isOnline = nil
-                }
-                if let value = data["url"] as? String {
-                    news.url = value
-                } else if isComplete {
-                    news.url = nil
+                if !isComplete {
+                    news.author = data["author"] as? String
+                    news.title = data["title"] as? String
+                    news.image = data["image"] as? String
+                } else {
+                    news.content = data["content"] as? String
+                    news.isOnline = data["isOnline"] as? NSNumber
+                    news.url = data["url"] as? String
                 }
             }
         }
