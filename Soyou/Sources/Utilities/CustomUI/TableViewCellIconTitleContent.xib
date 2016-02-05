@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="IconTitleContent" id="0iy-gy-Y7Z" customClass="TableViewCellIconTitleContent" customModule="Soyou">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0iy-gy-Y7Z" id="TXx-o4-kaa">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g8R-4P-XTd">
+                        <rect key="frame" x="12" y="4" width="91" height="91"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="g8R-4P-XTd" secondAttribute="height" multiplier="1:1" id="knh-62-ydL"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l09-Ad-iiv">
+                        <rect key="frame" x="111" y="8" width="481" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.199981451" green="0.2000103593" blue="0.19997167590000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TDu-jC-PrS">
+                        <rect key="frame" x="111" y="37" width="481" height="58"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</string>
+                        <color key="textColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="g8R-4P-XTd" firstAttribute="leading" secondItem="TXx-o4-kaa" secondAttribute="leadingMargin" constant="4" id="3Dh-gr-zUm"/>
+                    <constraint firstItem="l09-Ad-iiv" firstAttribute="trailing" secondItem="TXx-o4-kaa" secondAttribute="trailingMargin" id="4O4-WX-dsJ"/>
+                    <constraint firstItem="g8R-4P-XTd" firstAttribute="top" secondItem="TXx-o4-kaa" secondAttribute="top" constant="4" id="JKB-ao-oqq"/>
+                    <constraint firstItem="l09-Ad-iiv" firstAttribute="top" secondItem="TXx-o4-kaa" secondAttribute="top" constant="8" id="OPz-Ek-kQG"/>
+                    <constraint firstItem="TDu-jC-PrS" firstAttribute="leading" secondItem="g8R-4P-XTd" secondAttribute="trailing" constant="8" id="TTs-dC-ZdC"/>
+                    <constraint firstAttribute="bottom" secondItem="g8R-4P-XTd" secondAttribute="bottom" constant="4" id="b2w-IM-hsg"/>
+                    <constraint firstAttribute="trailing" secondItem="TDu-jC-PrS" secondAttribute="trailing" constant="8" id="ldL-Ns-5EE"/>
+                    <constraint firstAttribute="bottom" secondItem="TDu-jC-PrS" secondAttribute="bottom" constant="4" id="mo4-Kv-jAx"/>
+                    <constraint firstItem="l09-Ad-iiv" firstAttribute="leading" secondItem="g8R-4P-XTd" secondAttribute="trailing" constant="8" id="ujj-a6-sCz"/>
+                    <constraint firstItem="TDu-jC-PrS" firstAttribute="top" secondItem="l09-Ad-iiv" secondAttribute="bottom" constant="8" id="xLf-Sv-V4t"/>
+                </constraints>
+            </tableViewCellContentView>
+            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="imgView" destination="g8R-4P-XTd" id="fI3-tR-oew"/>
+                <outlet property="lblTitle" destination="l09-Ad-iiv" id="tk3-C1-BMD"/>
+                <outlet property="tvContent" destination="TDu-jC-PrS" id="EFE-NY-umA"/>
+            </connections>
+            <point key="canvasLocation" x="367" y="454"/>
+        </tableViewCell>
+    </objects>
+</document>

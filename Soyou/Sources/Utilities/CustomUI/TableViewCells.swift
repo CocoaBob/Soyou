@@ -17,6 +17,13 @@ class TableViewCellIconTitle: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
 }
 
+class TableViewCellIconTitleContent: UITableViewCell {
+    
+    @IBOutlet var imgView: UIImageView!
+    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var tvContent: UITextView!
+}
+
 class TableViewCellLeftTitle: UITableViewCell {
     
     @IBOutlet var lblTitle: UILabel!

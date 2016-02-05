@@ -81,7 +81,7 @@ extension UserViewController {
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
-                        title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -90,7 +90,7 @@ extension UserViewController {
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
-                        title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), placeholder:nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in

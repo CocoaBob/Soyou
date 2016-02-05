@@ -9,6 +9,7 @@
 enum CellType: String {
     case CenterTitle
     case IconTitle
+    case IconTitleContent
     case LeftTitle
     case LeftTitleRightDetail
     case TextField
@@ -17,6 +18,7 @@ enum CellType: String {
 struct Text {
     var text: String?
     var placeholder: String?
+    var font: UIFont?
     var color: UIColor?
     var keyboardType: UIKeyboardType?
     var returnKeyType: UIReturnKeyType?
@@ -98,6 +100,7 @@ class SimpleTableViewController: UIViewController {
         // Register custom cells
         self.tableView.registerNib(UINib(nibName: "TableViewCellCenterTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "CenterTitle")
         self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitle")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitleContent", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitleContent")
         self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitle")
         self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitleRightDetail", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitleRightDetail")
         self.tableView.registerNib(UINib(nibName: "TableViewCellSectionHeader", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TableViewCellSectionHeader")
@@ -142,6 +145,17 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
+            }
+        case .IconTitleContent:
+            let rowCell = cell as! TableViewCellIconTitleContent
+            rowCell.imgView.image = row.image
+            rowCell.lblTitle.text = row.title?.text
+            if let color = row.title?.color {
+                rowCell.lblTitle.textColor = color
+            }
+            rowCell.tvContent.text = row.subTitle?.text
+            if let color = row.subTitle?.color {
+                rowCell.tvContent.textColor = color
             }
         case .LeftTitle:
             let rowCell = cell as! TableViewCellLeftTitle
