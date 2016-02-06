@@ -8,49 +8,51 @@
 
 public struct Cons {
     struct Svr {
-        static let minVer                               = "0.0.2"
+        static let minVer                                   = "0.0.2"
         
-        static let baseURL                              = "https://baodating-api.woniu.io:5000"
+        static let baseURL                                  = "https://baodating-api.woniu.io:5000"
         
-        static let apiVersion                           = "v1"
+        static let apiVersion                               = "v1"
         
-        static let shareBaseURL                         = "http://baodating-contents.woniu.io:8090/#"
+        static let shareBaseURL                             = "http://baodating-contents.woniu.io:8090/#"
         
         // Count of News to load for each request
-        static let reqCnt                               = 5
+        static let reqCnt                                   = 5
         
-        static let reqAPIKey                            = "48548598-f079-4c57-bb39-d9ca8344abd7"
-        static let reqAuthorizationKey                  = "reqAuthorizationKey"
+        static let reqAPIKey                                = "48548598-f079-4c57-bb39-d9ca8344abd7"
+        static let reqAuthorizationKey                      = "reqAuthorizationKey"
     }
     
     struct Usr {
-        static let uuid                                 = "uuid"
-        static let token                                = "token"
-        static let deviceToken                          = "deviceToken"
-        static let roleCode                             = "roleCode"
-        static let IsLoggedInDidChangeNotification      = "IsLoggedInDidChangeNotification"
+        static let uuid                                     = "uuid"
+        static let token                                    = "token"
+        static let deviceToken                              = "deviceToken"
+        static let roleCode                                 = "roleCode"
+        static let IsLoggedInDidChangeNotification          = "IsLoggedInDidChangeNotification"
     }
     
     struct App {
-        static let username                             = "username"
-        static let deviceToken                          = "deviceToken"
-        static let lastVerIntro                         = "lastVerIntro" // The last app version that displayed the introduction view
-        static let lastUpdateDate                       = "lastUpdateDate"
-        static let lastRequestStoresTimestamp           = "lastRequestStoresTimestamp"
+        static let username                                 = "username"
+        static let deviceToken                              = "deviceToken"
+        static let lastVerIntro                             = "lastVerIntro" // The last app version that displayed the introduction view
+        static let lastUpdateDate                           = "lastUpdateDate"
+        static let lastRequestTimestampProductIDs           = "lastRequestTimestampProductIDs"
+        static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"
+        static let lastRequestTimestampStores               = "lastRequestTimestampStores"
     }
     
     struct UI {
-        static let colorWindow                          = "#555555"
-        static let colorNavBar                          = "#000000"
-        static let colorToolbar                         = "#A0A0A0"
-        static let colorTab                             = "#666666"
-        static let colorBG                              = "#EDEAE5"
-        static let colorTheme                           = "#FFB94B"
-        static let colorLike                            = "#00B8F4"
-        static let colorHeart                           = "#FF5EAA"
-        static let colorStore                           = "#E84917"
-        static let colorStoreMapCopy                    = "#59C843"
-        static let colorStoreMapOpen                    = "#0095FF"
+        static let colorWindow                              = "#555555"
+        static let colorNavBar                              = "#000000"
+        static let colorToolbar                             = "#A0A0A0"
+        static let colorTab                                 = "#666666"
+        static let colorBG                                  = "#EDEAE5"
+        static let colorTheme                               = "#FFB94B"
+        static let colorLike                                = "#00B8F4"
+        static let colorHeart                               = "#FF5EAA"
+        static let colorStore                               = "#E84917"
+        static let colorStoreMapCopy                        = "#59C843"
+        static let colorStoreMapOpen                        = "#0095FF"
     }
 }
 

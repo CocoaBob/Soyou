@@ -12,7 +12,7 @@ import CoreData
 
 class Product: BaseModel {
     
-    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (Product?) {
+    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Product?) {
         var product: Product? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
@@ -27,51 +27,35 @@ class Product: BaseModel {
             }
             
             if let product = product {
-                if let value = data["dateModification"] as? String {
-                    let newDateModification = self.dateFormatter.dateFromString(value)
-                    if isComplete {
-                        product.appIsUpdated = NSNumber(bool: true)
-                    } else {
-                        if newDateModification != product.dateModification {
-                            product.appIsUpdated = NSNumber(bool: false) // Needs to be updated
-                        }
-                    }
-                    product.dateModification = newDateModification
-                }
+                product.categories = data["categories"] as? String
+                product.brandId = data["brandId"] as? NSNumber
+                product.dimension = data["dimension"] as? String
+                product.images = data["images"] as? NSArray
+                product.likeNumber = data["likeNumber"] as? NSNumber
+                product.prices = data["prices"] as? NSArray
+                product.appPricesCount = (product.prices as? NSArray)?.count ?? 0
+                product.order = data["order"] as? NSNumber
                 
-                // Categories only exist in the check phase
-                if !isComplete {
-                    product.categories = data["categories"] as? String
+                product.brandLabel = data["brandLabel"] as? String
+                product.descriptions = data["descriptions"] as? String
+                product.keywords = data["keywords"] as? String
+                product.reference = data["reference"] as? String
+                product.surname = data["surname"] as? String
+                product.title = data["title"] as? String
+                
+                var searchText = ""
+                searchText += normalized(product.brandLabel)
+                searchText += product.descriptions ?? ""
+                searchText += normalized(product.keywords)
+                searchText += normalized(product.reference)
+                searchText += normalized(product.surname)
+                searchText += normalized(product.title)
+                
+                searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                if searchText.characters.count > 0 {
+                    product.appSearchText = searchText
                 } else {
-                    product.brandId = data["brandId"] as? NSNumber
-                    product.dimension = data["dimension"] as? String
-                    product.images = data["images"] as? NSArray
-                    product.likeNumber = data["likeNumber"] as? NSNumber
-                    product.prices = data["prices"] as? NSArray
-                    product.appPricesCount = (product.prices as? NSArray)?.count ?? 0
-                    product.order = data["order"] as? NSNumber
-                    
-                    product.brandLabel = data["brandLabel"] as? String
-                    product.descriptions = data["descriptions"] as? String
-                    product.keywords = data["keywords"] as? String
-                    product.reference = data["reference"] as? String
-                    product.surname = data["surname"] as? String
-                    product.title = data["title"] as? String
-                    
-                    var searchText = ""
-                    searchText += normalized(product.brandLabel)
-                    searchText += product.descriptions ?? ""
-                    searchText += normalized(product.keywords)
-                    searchText += normalized(product.reference)
-                    searchText += normalized(product.surname)
-                    searchText += normalized(product.title)
-                    
-                    searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                    if searchText.characters.count > 0 {
-                        product.appSearchText = searchText
-                    } else {
-                        product.appSearchText = nil
-                    }
+                    product.appSearchText = nil
                 }
             }
         }
@@ -87,11 +71,11 @@ class Product: BaseModel {
         return product
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool) {
+    class func importDatas(datas: [NSDictionary]?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {
-                    Product.importData(data, isComplete, localContext)
+                    Product.importData(data, localContext)
                 }
             })
         }

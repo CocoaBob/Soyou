@@ -23,7 +23,6 @@ extension Product {
     @NSManaged var brandId: NSNumber?
     @NSManaged var brandLabel: String?
     @NSManaged var categories: String?
-    @NSManaged var dateModification: NSDate?
     @NSManaged var descriptions: String?
     @NSManaged var dimension: String?
     @NSManaged var id: NSNumber?

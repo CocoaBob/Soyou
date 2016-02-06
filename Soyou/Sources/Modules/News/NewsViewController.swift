@@ -131,7 +131,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
                             guard let localNews = news.MR_inContext(localContext) else { return }
-                            if image.size.width != 0 {
+                            if image != nil && image.size.width != 0 {
                                 localNews.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
                             }
                         }

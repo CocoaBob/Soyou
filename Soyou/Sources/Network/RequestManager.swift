@@ -155,8 +155,8 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)", "Products", onSuccess, onFailure)
     }
     
-    func requestAllProductIDs(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", onSuccess, onFailure)
+    func requestModifiedProductIDs(timestamp: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/products/%@", timestamp ?? ""), "Products", onSuccess, onFailure)
     }
     
     func requestProductInfo(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -193,8 +193,8 @@ class RequestManager {
     // MARK: Store
     //////////////////////////////////////
     
-    func requestAllStores(timestamp: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/stores/%@", timestamp != nil ? "\(timestamp!)" : ""), "Store", onSuccess, onFailure)
+    func requestAllStores(timestamp: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/stores/%@", timestamp ?? ""), "Store", onSuccess, onFailure)
     }
     
     //////////////////////////////////////

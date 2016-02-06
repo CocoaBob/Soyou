@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Automatic">
+    <entity name="AppData" representedClassName=".AppData" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="BaseNews" representedClassName=".BaseNews" syncable="YES">
         <attribute name="appImageRatio" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -42,7 +46,6 @@
         <attribute name="brandId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="brandLabel" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="categories" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="dateModification" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="descriptions" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dimension" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -87,9 +90,10 @@
         <element name="CurrencyRate" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="45"/>
         <element name="News" positionX="-63" positionY="-18" width="128" height="60"/>
-        <element name="Product" positionX="-63" positionY="54" width="128" height="360"/>
+        <element name="Product" positionX="-63" positionY="54" width="128" height="345"/>
         <element name="Region" positionX="-63" positionY="135" width="128" height="90"/>
         <element name="Store" positionX="-54" positionY="144" width="128" height="225"/>
         <element name="User" positionX="-63" positionY="135" width="128" height="120"/>
+        <element name="AppData" positionX="-54" positionY="135" width="128" height="75"/>
     </elements>
 </model>

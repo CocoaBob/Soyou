@@ -38,6 +38,8 @@
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
+		454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */; };
+		454499271C6601350075DE82 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499251C6601350075DE82 /* AppData.swift */; };
 		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
 		4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */; };
 		454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */; };
@@ -154,6 +156,8 @@
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		454499251C6601350075DE82 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
 		4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MBProgressHUD+Additions.swift"; sourceTree = "<group>"; };
@@ -412,6 +416,8 @@
 				45016E591C14F043004034BC /* BaseModel.swift */,
 				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
 				0D783C771C3B1DAF001CC36D /* Analytic.swift */,
+				454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */,
+				454499251C6601350075DE82 /* AppData.swift */,
 				456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */,
 				456B41981C597F83001E66EB /* BaseNews.swift */,
 				45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */,
@@ -661,6 +667,7 @@
 				4525C0FA1C5B8B4200C26992 /* Region.swift in Sources */,
 				4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */,
 				4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */,
+				454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */,
 				4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */,
 				4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */,
 				456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */,
@@ -691,6 +698,7 @@
 				45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */,
+				454499271C6601350075DE82 /* AppData.swift in Sources */,
 				45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */,
 				456BCABC1C5D0ADD00590295 /* StoreMapViewController.swift in Sources */,
 				455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */,
