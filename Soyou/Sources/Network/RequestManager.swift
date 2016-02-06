@@ -159,6 +159,10 @@ class RequestManager {
         getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/products/%@", timestamp ?? ""), "Products", onSuccess, onFailure)
     }
     
+    func requestDeletedProductIDs(timestamp: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/products/deleted/%@", timestamp ?? ""), "Products", onSuccess, onFailure)
+    }
+    
     func requestProductInfo(id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/extra", "Products", onSuccess, onFailure)
     }

@@ -374,6 +374,7 @@ class DataManager {
             self.completeWithData(nil, completion: completion)
             return
         }
+        
         let rangeSize = ((index + size) > productIDs.count) ? (productIDs.count - index) : size
         DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", productIDs.count, index, size, rangeSize))
         if rangeSize > 0 {
@@ -389,41 +390,90 @@ class DataManager {
         }
     }
     
+    func handleModifiedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
+        if error != nil {
+            self.completeWithError(error, completion: completion)
+            return
+        }
+        if let productIDs = responseObject?["products"] as? [NSNumber] {
+            DLog(FmtString("Number of modified products = %d",productIDs.count))
+            // Load products
+            self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
+                let timestamp = responseObject?["timestamp"] as? String
+                self.updateTimestamp(timestamp, key: Cons.App.lastRequestTimestampProductIDs)
+                self.completeWithData(nil, completion: completion)
+            })
+        } else {
+            self.completeWithData(nil, completion: completion)
+        }
+    }
+    
     func requestModifiedProductIDs(completion: CompletionClosure?) {
-        var timestamp: String?
-        MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-            if let lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: Cons.App.lastRequestTimestampProductIDs, inContext: localContext) {
-                timestamp = lastRequestTimestamp.value
-            }
-        })
+        let timestamp = self.timestamp(Cons.App.lastRequestTimestampProductIDs)
         RequestManager.shared.requestModifiedProductIDs(
             timestamp,
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                         self.completeWithData(data, completion: completion)
+                        return
                     }
+                    self.completeWithError(FmtError(0, nil), completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
         )
     }
     
-    func requestModifiedProducts(completion: CompletionClosure?) {
-        // Load all products id and modification date
-        // Mark all modified products.appIsUpdated = false
-        self.requestModifiedProductIDs { responseObject, error in
-            if error != nil {
-                self.completeWithError(error, completion: completion)
-                return
-            }
+    func handleDeletedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
+        if error != nil {
+            self.completeWithError(error, completion: completion)
+            return
+        }
+        if let productIDs = responseObject?["products"] as? [NSNumber] {
+            DLog(FmtString("Number of deleted products = %d",productIDs.count))
+            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                if let products = Product.MR_findAllWithPredicate(FmtPredicate("id IN %@", productIDs), inContext: localContext) {
+                    for product in products {
+                        product.MR_deleteEntityInContext(localContext)
+                    }
+                }
+            })
             let timestamp = responseObject?["timestamp"] as? String
-            if let productIDs = responseObject?["products"] as? [NSNumber] {
-                // Load products
-                self.loadBunchProducts(productIDs, index: 0, size: 256, completion: { responseObject, error in
-                    self.completeWithData(timestamp, completion: completion)
-                })
+            self.updateTimestamp(timestamp, key: Cons.App.lastRequestTimestampDeletedProductIDs)
+        }
+        self.completeWithData(nil, completion: completion)
+    }
+    
+    func requestDeletedProductIDs(completion: CompletionClosure?) {
+        let timestamp = self.timestamp(Cons.App.lastRequestTimestampDeletedProductIDs)
+        RequestManager.shared.requestDeletedProductIDs(
+            timestamp,
+            { responseObject in
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                        self.completeWithData(data, completion: completion)
+                        return
+                    }
+                    self.completeWithError(FmtError(0, nil), completion: completion)
+                }
+            },
+            { error in self.completeWithError(error, completion: completion) }
+        )
+    }
+    
+    func updateProducts(completion: CompletionClosure?) {
+        var _error: NSError?
+        self.requestModifiedProductIDs { responseObject, error in
+            self.handleModifiedProductsIDs(responseObject, error) { responseObject, error in
+                _error = error
+                self.requestDeletedProductIDs() { responseObject, error in
+                    self.handleModifiedProductsIDs(responseObject, error, { responseObject, error in
+                        self.completeWithData(_error ?? error, completion: completion)
+                    })
+                }
             }
+            
         }
     }
     
@@ -450,12 +500,7 @@ class DataManager {
     //////////////////////////////////////
     
     func requestAllStores(completion: CompletionClosure?) {
-        var timestamp: String?
-        MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-            if let lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: Cons.App.lastRequestTimestampStores, inContext: localContext) {
-                timestamp = lastRequestTimestamp.value
-            }
-        })
+        let timestamp = self.timestamp(Cons.App.lastRequestTimestampStores)
         RequestManager.shared.requestAllStores(timestamp,
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -465,16 +510,7 @@ class DataManager {
                             Store.importDatas(stores)
                         }
                         // Succeeded to import, save timestamp for next request
-                        if let timestamp = data["timestamp"] as? String {
-                            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                                var lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: Cons.App.lastRequestTimestampStores, inContext: localContext)
-                                if lastRequestTimestamp == nil {
-                                    lastRequestTimestamp = AppData.MR_createEntityInContext(localContext)
-                                    lastRequestTimestamp?.key = Cons.App.lastRequestTimestampStores
-                                }
-                                lastRequestTimestamp?.value = timestamp
-                            })
-                        }
+                        self.updateTimestamp(data["timestamp"] as? String, key: Cons.App.lastRequestTimestampStores)
                     }
                     self.completeWithData(responseObject, completion: completion)
                 }
@@ -513,18 +549,33 @@ class DataManager {
             DataManager.shared.requestAllBrands(completionClosure)
             
             DataManager.shared.requestAllStores(completionClosure)
-            DataManager.shared.requestModifiedProducts({ responseObject, error in
-                // Succeeded to import, save timestamp for next request
-                if let timestamp = responseObject as? String {
-                    MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                        var lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: Cons.App.lastRequestTimestampProductIDs, inContext: localContext)
-                        if lastRequestTimestamp == nil {
-                            lastRequestTimestamp = AppData.MR_createEntityInContext(localContext)
-                            lastRequestTimestamp?.key = Cons.App.lastRequestTimestampProductIDs
-                        }
-                        lastRequestTimestamp?.value = timestamp
-                    })
+            DataManager.shared.updateProducts(completionClosure)
+        }
+    }
+    
+    //////////////////////////////////////
+    // MARK: Helpers
+    //////////////////////////////////////
+    
+    func timestamp(key: String) -> String? {
+        var returnValue: String?
+        MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+            if let lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: key, inContext: localContext) {
+                returnValue = lastRequestTimestamp.value
+            }
+        })
+        return returnValue
+    }
+    
+    func updateTimestamp(timestamp: String?, key: String) {
+        if let timestamp = timestamp {
+            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                var lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: key, inContext: localContext)
+                if lastRequestTimestamp == nil {
+                    lastRequestTimestamp = AppData.MR_createEntityInContext(localContext)
+                    lastRequestTimestamp?.key = key
                 }
+                lastRequestTimestamp?.value = timestamp
             })
         }
     }
