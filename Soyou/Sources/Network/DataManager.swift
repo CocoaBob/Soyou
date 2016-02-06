@@ -395,11 +395,11 @@ class DataManager {
             self.completeWithError(error, completion: completion)
             return
         }
+        let timestamp = responseObject?["timestamp"] as? String
         if let productIDs = responseObject?["products"] as? [NSNumber] {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
-            self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
-                let timestamp = responseObject?["timestamp"] as? String
+            self.loadBunchProducts(productIDs, index: 0, size: 500, completion: { responseObject, error in
                 self.updateTimestamp(timestamp, key: Cons.App.lastRequestTimestampProductIDs)
                 self.completeWithData(nil, completion: completion)
             })
@@ -468,7 +468,7 @@ class DataManager {
             self.handleModifiedProductsIDs(responseObject, error) { responseObject, error in
                 _error = error
                 self.requestDeletedProductIDs() { responseObject, error in
-                    self.handleModifiedProductsIDs(responseObject, error, { responseObject, error in
+                    self.handleDeletedProductsIDs(responseObject, error, { responseObject, error in
                         self.completeWithData(_error ?? error, completion: completion)
                     })
                 }
@@ -507,6 +507,7 @@ class DataManager {
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                         // Import data
                         if let stores = data["stores"] as? [NSDictionary] {
+                            DLog(FmtString("Number of modified stores = %d",stores.count))
                             Store.importDatas(stores)
                         }
                         // Succeeded to import, save timestamp for next request

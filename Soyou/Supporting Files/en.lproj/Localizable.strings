@@ -65,8 +65,8 @@
 "user_vc_feedback_alert_message"="How do you feel about Soyou?";
 "user_vc_feedback_alert_like"="I like it!";
 "user_vc_feedback_alert_feedback"="Send feedbacks";
-"user_vc_feedback_mail_title"="Test Subject";
-"user_vc_feedback_mail_message_body"="<html>Some <b>HTML</b> <i>text</i></html>";
+"user_vc_feedback_mail_title"="Feedbacks of Soyou";
+"user_vc_feedback_mail_message_body"="";
 
 /* Favorites View Controller */
 "fav_vc_title_news"="Favorite News";
@@ -151,3 +151,7 @@
 "user_info_gender_secret"="Secret";
 "user_info_gender_male"="Male";
 "user_info_gender_female"="Female";
+
+/* App */
+"app_about_title"="About Soyou";
+"app_about_content"="Soyou is a luxury goods querying app, gathering official prices of world's top fashion items, sharing global discount information and fashion information, providing shopping guides of brand stores, help you easily grasp the trends of global luxury goods.";

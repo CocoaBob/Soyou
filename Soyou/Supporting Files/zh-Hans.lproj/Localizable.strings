@@ -65,8 +65,8 @@
 "user_vc_feedback_alert_message"="您觉得『奢有』怎么样？";
 "user_vc_feedback_alert_like"="我很喜欢!";
 "user_vc_feedback_alert_feedback"="我要反馈!";
-"user_vc_feedback_mail_title"="测试标题";
-"user_vc_feedback_mail_message_body"="<html>一些<b>HTML</b><i>文本</i></html>";
+"user_vc_feedback_mail_title"="Soyou 用户反馈";
+"user_vc_feedback_mail_message_body"="";
 
 /* Favorites View Controller */
 "fav_vc_title_news"="收藏的新闻";
@@ -102,8 +102,8 @@
 "settings_vc_cell_clearing_cache"="正在清空...";
 "settings_vc_cell_credits"="团队";
 "settings_vc_cell_about"="关于";
-"settings_vc_cell_feedback"="给我们些建议吧";
-"settings_vc_cell_review"="给我们个好评吧";
+"settings_vc_cell_feedback"="联系我们";
+"settings_vc_cell_review"="给个好评";
 
 /* Data Manager */
 "data_manager_updating_data"="正在更新产品数据...";
@@ -152,3 +152,7 @@
 "user_info_gender_secret"="保密";
 "user_info_gender_male"="男生";
 "user_info_gender_female"="女生";
+
+/* App */
+"app_about_title"="关于『奢有』";
+"app_about_content"="『奢有』是一款全球奢侈品查询应用，网罗全球顶级时尚单品官方售价，分享各国折扣信息和时尚资讯，提供品牌专卖店导航指南，让您轻松掌握全球奢侈品动态。";

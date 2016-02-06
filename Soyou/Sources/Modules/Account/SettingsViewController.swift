@@ -124,8 +124,8 @@ extension SettingsViewController {
                     Row(type: .IconTitleContent,
                         cell: Cell(height: nil, tintColor: nil, accessoryType: .None, separatorInset: nil),
                         image: nil,
-                        title: Text(text: "About Soyou", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "Some descriptions, \nmulti-lines", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("app_about_title"), placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: NSLocalizedString("app_about_content"), placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
                     )
@@ -172,8 +172,8 @@ extension SettingsViewController {
                     Row(type: .IconTitleContent,
                         cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_niuniu"),
-                        title: Text(text: "\nNiuniu", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 15), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "Master of ALL", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: "\nNiuniu", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: "Villain Creature", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
                     )
