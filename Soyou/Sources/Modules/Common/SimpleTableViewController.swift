@@ -139,6 +139,9 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
             }
+            if let font = row.title?.font {
+                rowCell.lblTitle.font = font
+            }
         case .IconTitle:
             let rowCell = cell as! TableViewCellIconTitle
             rowCell.imgView.image = row.image
@@ -146,16 +149,31 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
             }
+            if let font = row.title?.font {
+                rowCell.lblTitle.font = font
+            }
         case .IconTitleContent:
             let rowCell = cell as! TableViewCellIconTitleContent
             rowCell.imgView.image = row.image
+            if rowCell.imageRatioConstraint != nil {
+                rowCell.imgView.removeConstraint(rowCell.imageRatioConstraint!)
+            }
+            let ratioConstraint = NSLayoutConstraint(item: rowCell.imgView, attribute: .Height, relatedBy: .Equal, toItem: rowCell.imgView, attribute: .Width, multiplier: (row.image?.size.height ?? 9999) / (row.image?.size.width ?? 1), constant: 0)
+            rowCell.imageRatioConstraint = ratioConstraint
+            rowCell.imgView.addConstraint(ratioConstraint)
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
             }
+            if let font = row.title?.font {
+                rowCell.lblTitle.font = font
+            }
             rowCell.tvContent.text = row.subTitle?.text
             if let color = row.subTitle?.color {
                 rowCell.tvContent.textColor = color
+            }
+            if let font = row.subTitle?.font {
+                rowCell.tvContent.font = font
             }
         case .LeftTitle:
             let rowCell = cell as! TableViewCellLeftTitle
@@ -163,15 +181,24 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
             }
+            if let font = row.title?.font {
+                rowCell.lblTitle.font = font
+            }
         case .LeftTitleRightDetail:
             let rowCell = cell as! TableViewCellLeftTitleRightDetail
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
             }
+            if let font = row.title?.font {
+                rowCell.lblTitle.font = font
+            }
             rowCell.lblSubTitle.text = row.subTitle?.text
             if let color = row.subTitle?.color {
                 rowCell.lblSubTitle.textColor = color
+            }
+            if let font = row.subTitle?.font {
+                rowCell.lblSubTitle.font = font
             }
         case .TextField:
             let rowCell = cell as! TableViewCellTextField
@@ -186,6 +213,9 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             }
             if let color = row.title?.color {
                 rowCell.tfTitle.textColor = color
+            }
+            if let font = row.title?.font {
+                rowCell.tfTitle.font = font
             }
             rowCell.tfTitle.addTarget(self, action: "textFieldDidEdit:", forControlEvents: UIControlEvents.EditingChanged)
         }

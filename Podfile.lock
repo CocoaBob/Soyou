@@ -45,7 +45,7 @@ PODS:
   - NYSegmentedControl (1.0.7)
   - PageMenu (1.2.8)
   - PFCarouselView (0.7.0)
-  - pop (1.0.8)
+  - pop (1.0.9)
   - RandomColorSwift (0.1.0)
   - SCLAlertView (0.5)
   - SDWebImage (3.7.5):
@@ -131,7 +131,7 @@ SPEC CHECKSUMS:
   NYSegmentedControl: 55b4f9eb652767cae9799623ec3e49e50029ef47
   PageMenu: 703e82e173f54a4626ab88fcdca7703ee52e0cbe
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
-  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   RandomColorSwift: b2e95d6d3670def6d2f907ec7b7041138b268ac9
   SCLAlertView: 51a328f3985e13e6bfe8dc77123543480fa615f9
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461

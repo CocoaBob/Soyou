@@ -111,48 +111,69 @@ extension SettingsViewController {
 extension SettingsViewController {
     
     func showAbout() {
-        
+        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        // UI
+        simpleViewController.title = NSLocalizedString("settings_vc_cell_about")
+        let _ = simpleViewController.view
+        simpleViewController.tableView.separatorStyle = .None
+        // Data
+        simpleViewController.sections = [
+            Section(
+                title: " ",
+                rows: [
+                    Row(type: .IconTitleContent,
+                        cell: Cell(height: nil, tintColor: nil, accessoryType: .None, separatorInset: nil),
+                        image: nil,
+                        title: Text(text: "About Soyou", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: "Some descriptions, \nmulti-lines", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
+                        userInfo: nil,
+                        didSelect: nil
+                    )
+                ]
+            )
+        ]
+        // Push
+        self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
     
     func showCredits() {
-        let simpleViewController = SimpleTableViewController()
+        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
         simpleViewController.title = NSLocalizedString("settings_vc_cell_credits")
         // Data
         simpleViewController.sections = [
             Section(
-                title: "Team",
+                title: " ",
                 rows: [
                     Row(type: .IconTitleContent,
                         cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_jiyun"),
-                        title: Text(text: "", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "Jiyun\nGeneral Manager", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: "\nJiyun", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: "General Developer", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
                     ),
                     Row(type: .IconTitleContent,
                         cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_cocoabob"),
-                        title: Text(text: "", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "CocoaBob\nDeveloper", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: "\nCocoaBob", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: "iOS Developer", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
                     ),
                     Row(type: .IconTitleContent,
                         cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_chenglian"),
-                        title: Text(text: "", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "Chenglian\nCreative Director", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: "\nChenglian", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: "Creative Director", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
                     ),
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_niuniu"),
-                        title: Text(text: "", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "Niuniu\nCreative Director", placeholder: nil, font: nil, color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: "\nNiuniu", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 15), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: "Master of ALL", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
                     )
