@@ -32,13 +32,12 @@ public struct Cons {
     }
     
     struct App {
-        static let username                                 = "username"
-        static let deviceToken                              = "deviceToken"
-        static let lastVerIntro                             = "lastVerIntro" // The last app version that displayed the introduction view
-        static let lastUpdateDate                           = "lastUpdateDate"
-        static let lastRequestTimestampProductIDs           = "lastRequestTimestampProductIDs"
-        static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"
-        static let lastRequestTimestampStores               = "lastRequestTimestampStores"
+        static let username                                 = "username"                                // Keychain
+        static let deviceToken                              = "deviceToken"                             // Keychain
+        static let lastInstalledVersion                     = "lastInstalledVersion"                    // Database
+        static let lastRequestTimestampProductIDs           = "lastRequestTimestampProductIDs"          // Database
+        static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"   // Database
+        static let lastRequestTimestampStores               = "lastRequestTimestampStores"              // Database
     }
     
     struct UI {

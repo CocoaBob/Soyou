@@ -61,13 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        var needsToUpdateData = true
-        if let lastUpdateDate = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastUpdateDate) as? NSDate {
-            needsToUpdateData = NSDate().timeIntervalSinceDate(lastUpdateDate) > 60 * 60 // 1 hour
-        }
-        if needsToUpdateData {
-            DataManager.shared.updateData(nil)
-        }
+        DataManager.shared.updateData(nil)
         // Currency Manager
         CurrencyManager.shared.updateCurrencyRates()
     }
@@ -108,7 +102,7 @@ extension AppDelegate {
 extension AppDelegate: EAIntroDelegate {
     
     func showIntroView() {
-        let lastIntroVersion = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastVerIntro) as? String
+        let lastIntroVersion = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastInstalledVersion) as? String
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
         if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
             if lastIntroVersion == currentAppVersion {
@@ -116,7 +110,7 @@ extension AppDelegate: EAIntroDelegate {
             }
         }
         
-        NSUserDefaults.standardUserDefaults().setObject(currentAppVersion, forKey: Cons.App.lastVerIntro)
+        NSUserDefaults.standardUserDefaults().setObject(currentAppVersion, forKey: Cons.App.lastInstalledVersion)
         NSUserDefaults.standardUserDefaults().synchronize()
         
         var introPages = [EAIntroPage]()

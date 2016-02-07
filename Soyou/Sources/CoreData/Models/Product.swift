@@ -107,13 +107,29 @@ class Product: BaseModel {
     func doFavorite(completion: DataClosure?) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localProduct = self.MR_inContext(localContext) {
-                let appIsFavorite = localProduct.appIsFavorite != nil && localProduct.appIsFavorite!.boolValue
+                var appWasFavorite = false
+                if let productID = localProduct.id,
+                    _ = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext) {
+                    appWasFavorite = true
+                }
+                
                 // Update only when response is received
-                DataManager.shared.favoriteProduct(localProduct.id!, isFavorite: appIsFavorite) { responseObject, error in
+                DataManager.shared.favoriteProduct(localProduct.id!, wasFavorite: appWasFavorite) { responseObject, error in
                     // Remember if it's liked or not
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localProduct = self.MR_inContext(localContext) {
-                            localProduct.appIsFavorite = NSNumber(bool: !appIsFavorite)
+                        if let productID = localProduct.id {
+                            var favoriteProduct = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext)
+                            if appWasFavorite {
+                                if let favoriteProduct = favoriteProduct {
+                                    favoriteProduct.MR_deleteEntityInContext(localContext)
+                                }
+                            } else {
+                                if favoriteProduct == nil {
+                                    favoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
+                                    favoriteProduct?.id = productID
+                                }
+                                favoriteProduct?.dateModification = NSDate()
+                            }
                         }
                     })
                     // Completion

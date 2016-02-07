@@ -122,11 +122,9 @@ class ProductsViewController: BaseViewController {
         }
         
         // Load favorites
-        if let categoryID = self.categoryID {
-            if UserManager.shared.isLoggedIn {
-                DataManager.shared.requestProductFavorites(categoryID) { responseObject, error in
-                    self.reloadData()
-                }
+        if UserManager.shared.isLoggedIn {
+            DataManager.shared.requestProductFavorites() { responseObject, error in
+                self.reloadData()
             }
         }
         // For navigation bar search bar
@@ -168,7 +166,14 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         cell.lblTitle?.text = product.title
         cell.lblBrand?.text = product.brandLabel
         cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
-        cell.isFavorite = product.appIsFavorite?.boolValue
+        MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
+            if let productID = product.id,
+                _ = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext) {
+                cell.isFavorite = true
+            } else {
+                cell.isFavorite = false
+            }
+        }
 
         if let images = product.images as? NSArray,
             imageURLString = images.firstObject as? String,
@@ -298,8 +303,13 @@ extension ProductsViewController {
                 product.doFavorite({ (data: AnyObject?) -> () in
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                         if let localProduct = product.MR_inContext(localContext) {
-                            if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell {
-                                cell.isFavorite = localProduct.appIsFavorite?.boolValue
+                            if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
+                                productID = localProduct.id {
+                                if let _ = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext) {
+                                    cell.isFavorite = true
+                                } else {
+                                    cell.isFavorite = false
+                                }
                             }
                         }
                     })

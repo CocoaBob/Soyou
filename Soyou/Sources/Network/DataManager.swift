@@ -229,56 +229,26 @@ class DataManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func requestProductFavorites(categoryId: NSNumber?, _ completion: CompletionClosure?) {
+    func requestProductFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                // Collect all products and favorite ids
-                var allProducts: [Product]?
-                var favoriteIDs = [NSNumber]()
-                
-                // Product Favorites by categories
-                if let categoryId = categoryId {
-                    allProducts = Product.MR_findAllWithPredicate(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryId)), inContext: localContext) as? [Product]
-                    if let data = responseObject?["data"] as? [NSDictionary] {
-                        for dict in data {
-                            favoriteIDs.append(dict["productId"] as! NSNumber)
-                        }
-                    }
-                    
-                    // Update .appIsFavorite
-                    if let allProducts = allProducts {
-                        for product in allProducts {
-                            product.appIsFavorite = NSNumber(bool: favoriteIDs.contains(product.id!))
-                        }
-                    }
-                }
                 // All Product Favorites
-                else {
-                    allProducts = Product.MR_findAllInContext(localContext) as? [Product]
-                    var dateFavorites = [NSNumber: String]()
-                    if let data = responseObject?["data"] as? [NSDictionary] {
-                        for dict in data {
-                            guard let productId = dict["id"] as? NSNumber else { continue }
-                            favoriteIDs.append(productId)
-                            guard let productFavoriteDate = dict["dateModification"] as? String else { continue }
-                            dateFavorites[productId] = productFavoriteDate
+                if let data = responseObject?["data"] as? [NSDictionary] {
+                    if let allFavoriteProducts = FavoriteProduct.MR_findAllInContext(localContext) as? [FavoriteProduct] {
+                        for favoriteProduct in allFavoriteProducts {
+                            favoriteProduct.MR_deleteEntityInContext(localContext)
                         }
                     }
-                    
-                    // Update .appIsFavorite
-                    if let allProducts = allProducts {
-                        for product in allProducts {
-                            if favoriteIDs.contains(product.id!) {
-                                if let dateFavorite = dateFavorites[product.id!] {
-                                    product.appDateFavorite = BaseModel.dateFormatter.dateFromString(dateFavorite)
-                                }
-                                product.appIsFavorite = NSNumber(bool: true)
-                            } else {
-                                product.appIsFavorite = NSNumber(bool: false)
-                            }
+                    for dict in data {
+                        if let productId = dict["id"] as? NSNumber,
+                            dateModification = dict["dateModification"] as? String {
+                                let favoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
+                                favoriteProduct?.id = productId
+                                favoriteProduct?.dateModification = BaseModel.dateFormatter.dateFromString(dateModification)
                         }
                     }
                 }
+                
             })
             
             self.completeWithData(responseObject, completion: completion)
@@ -287,15 +257,11 @@ class DataManager {
             self.completeWithError(error, completion: completion)
         }
         
-        if let categoryId = categoryId {
-            RequestManager.shared.requestProductFavoritesByCategory(categoryId, responseHandlerClosure, errorHandlerClosure)
-        } else {
-            RequestManager.shared.requestProductFavorites(responseHandlerClosure, errorHandlerClosure)
-        }
+        RequestManager.shared.requestProductFavorites(responseHandlerClosure, errorHandlerClosure)
     }
     
-    func favoriteProduct(id: NSNumber, isFavorite: Bool, _ completion: CompletionClosure?) {
-        RequestManager.shared.favoriteProduct(id, operation: isFavorite ? "-" : "+",
+    func favoriteProduct(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+        RequestManager.shared.favoriteProduct(id, operation: wasFavorite ? "-" : "+",
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
         )
@@ -425,7 +391,7 @@ class DataManager {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 500, completion: { responseObject, error in
-                self.updateTimestamp(timestamp, key: Cons.App.lastRequestTimestampProductIDs)
+                self.setAppInfo(timestamp, forKey: Cons.App.lastRequestTimestampProductIDs)
                 self.completeWithData(nil, completion: completion)
             })
         } else {
@@ -434,7 +400,7 @@ class DataManager {
     }
     
     func requestModifiedProductIDs(completion: CompletionClosure?) {
-        let timestamp = self.timestamp(Cons.App.lastRequestTimestampProductIDs)
+        let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampProductIDs)
         RequestManager.shared.requestModifiedProductIDs(
             timestamp,
             { responseObject in
@@ -465,13 +431,13 @@ class DataManager {
                 }
             })
             let timestamp = responseObject?["timestamp"] as? String
-            self.updateTimestamp(timestamp, key: Cons.App.lastRequestTimestampDeletedProductIDs)
+            self.setAppInfo(timestamp, forKey: Cons.App.lastRequestTimestampDeletedProductIDs)
         }
         self.completeWithData(nil, completion: completion)
     }
     
     func requestDeletedProductIDs(completion: CompletionClosure?) {
-        let timestamp = self.timestamp(Cons.App.lastRequestTimestampDeletedProductIDs)
+        let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampDeletedProductIDs)
         RequestManager.shared.requestDeletedProductIDs(
             timestamp,
             { responseObject in
@@ -488,13 +454,11 @@ class DataManager {
     }
     
     func updateProducts(completion: CompletionClosure?) {
-        var _error: NSError?
         self.requestModifiedProductIDs { responseObject, error in
             self.handleModifiedProductsIDs(responseObject, error) { responseObject, error in
-                _error = error
                 self.requestDeletedProductIDs() { responseObject, error in
                     self.handleDeletedProductsIDs(responseObject, error, { responseObject, error in
-                        self.completeWithData(_error ?? error, completion: completion)
+                        self.completeWithData(nil, completion: completion)
                     })
                 }
             }
@@ -525,7 +489,7 @@ class DataManager {
     //////////////////////////////////////
     
     func requestAllStores(completion: CompletionClosure?) {
-        let timestamp = self.timestamp(Cons.App.lastRequestTimestampStores)
+        let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampStores)
         RequestManager.shared.requestAllStores(timestamp,
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -536,7 +500,7 @@ class DataManager {
                             Store.importDatas(stores)
                         }
                         // Succeeded to import, save timestamp for next request
-                        self.updateTimestamp(data["timestamp"] as? String, key: Cons.App.lastRequestTimestampStores)
+                        self.setAppInfo(data["timestamp"] as? String, forKey: Cons.App.lastRequestTimestampStores)
                     }
                     self.completeWithData(responseObject, completion: completion)
                 }
@@ -553,20 +517,12 @@ class DataManager {
         if !self.isUpdatingData {
             self.isUpdatingData = true
             var count = 4
-            var hasError = false
             
             let completionClosure: CompletionClosure = { responseObject, error in
-                if error != nil {
-                    hasError = true
-                }
                 --count
                 if count == 0 {
                     self.completeWithData(nil, completion: completion)
                     self.isUpdatingData = false
-                    if !hasError {
-                        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                    }
                 }
             }
             
@@ -583,7 +539,7 @@ class DataManager {
     // MARK: Helpers
     //////////////////////////////////////
     
-    func timestamp(key: String) -> String? {
+    func getAppInfo(key: String) -> String? {
         var returnValue: String?
         MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
             if let lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: key, inContext: localContext) {
@@ -593,7 +549,7 @@ class DataManager {
         return returnValue
     }
     
-    func updateTimestamp(timestamp: String?, key: String) {
+    func setAppInfo(timestamp: String?, forKey key: String) {
         if let timestamp = timestamp {
             MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                 var lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: key, inContext: localContext)

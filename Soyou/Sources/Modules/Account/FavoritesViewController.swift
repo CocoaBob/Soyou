@@ -25,7 +25,7 @@ class FavoritesViewController: BaseViewController {
         case .News:
             return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false", ascending: false)
         case .Products:
-            return Product.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == %@", NSNumber(bool: true)), sortedBy: "appDateFavorite:false,order:true,id:false", ascending: true)
+            return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateModification", ascending: false)
         }
     }
     
@@ -77,7 +77,7 @@ class FavoritesViewController: BaseViewController {
             case .News:
                 DataManager.shared.requestNewsFavorites(nil)
             case .Products:
-                DataManager.shared.requestProductFavorites(nil, nil)
+                DataManager.shared.requestProductFavorites(nil)
             }
         }
     }
@@ -126,20 +126,26 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             cell = _cell
         case .Products:
             let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteProductsTableViewCell", forIndexPath: indexPath) as! FavoriteProductsTableViewCell
-            let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
-            // Title
-            _cell.lblTitle?.text = product.title
-            // Brand
-            _cell.lblBrand?.text = product.brandLabel
-            // Price
-            _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
-            // Image
-            if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
-                _cell.imgView?.sd_setImageWithURL(imageURL,
-                    placeholderImage: UIImage.imageWithRandomColor(nil),
-                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                    completed: nil)
-            }
+            let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
+            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
+                    localFavoriteProductID = localFavoriteProduct.id,
+                    product = Product.MR_findFirstByAttribute("id", withValue: localFavoriteProductID, inContext: localContext) {
+                    // Title
+                    _cell.lblTitle?.text = product.title
+                    // Brand
+                    _cell.lblBrand?.text = product.brandLabel
+                    // Price
+                    _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
+                    // Image
+                    if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
+                        _cell.imgView?.sd_setImageWithURL(imageURL,
+                            placeholderImage: UIImage.imageWithRandomColor(nil),
+                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                            completed: nil)
+                    }
+                }
+            })
             cell = _cell
         }
         
