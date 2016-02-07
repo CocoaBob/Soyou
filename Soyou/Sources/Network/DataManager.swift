@@ -235,6 +235,8 @@ class DataManager {
                 // Collect all products and favorite ids
                 var allProducts: [Product]?
                 var favoriteIDs = [NSNumber]()
+                
+                // Product Favorites by categories
                 if let categoryId = categoryId {
                     allProducts = Product.MR_findAllWithPredicate(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryId)), inContext: localContext) as? [Product]
                     if let data = responseObject?["data"] as? [NSDictionary] {
@@ -242,16 +244,39 @@ class DataManager {
                             favoriteIDs.append(dict["productId"] as! NSNumber)
                         }
                     }
-                } else {
-                    allProducts = Product.MR_findAllInContext(localContext) as? [Product]
-                    if let data = responseObject?["data"] as? [NSNumber] {
-                        favoriteIDs.appendContentsOf(data)
+                    
+                    // Update .appIsFavorite
+                    if let allProducts = allProducts {
+                        for product in allProducts {
+                            product.appIsFavorite = NSNumber(bool: favoriteIDs.contains(product.id!))
+                        }
                     }
                 }
-                // Update .appIsFavorite
-                if let allProducts = allProducts {
-                    for product in allProducts {
-                        product.appIsFavorite = favoriteIDs.contains(product.id!)
+                // All Product Favorites
+                else {
+                    allProducts = Product.MR_findAllInContext(localContext) as? [Product]
+                    var dateFavorites = [NSNumber: String]()
+                    if let data = responseObject?["data"] as? [NSDictionary] {
+                        for dict in data {
+                            guard let productId = dict["id"] as? NSNumber else { continue }
+                            favoriteIDs.append(productId)
+                            guard let productFavoriteDate = dict["dateModification"] as? String else { continue }
+                            dateFavorites[productId] = productFavoriteDate
+                        }
+                    }
+                    
+                    // Update .appIsFavorite
+                    if let allProducts = allProducts {
+                        for product in allProducts {
+                            if favoriteIDs.contains(product.id!) {
+                                if let dateFavorite = dateFavorites[product.id!] {
+                                    product.appDateFavorite = BaseModel.dateFormatter.dateFromString(dateFavorite)
+                                }
+                                product.appIsFavorite = NSNumber(bool: true)
+                            } else {
+                                product.appIsFavorite = NSNumber(bool: false)
+                            }
+                        }
                     }
                 }
             })

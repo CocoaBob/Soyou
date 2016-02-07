@@ -20,6 +20,7 @@ extension Product {
     @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var appPricesCount: NSNumber?
     @NSManaged var appSearchText: String?
+    @NSManaged var appDateFavorite: NSDate?
     @NSManaged var brandId: NSNumber?
     @NSManaged var brandLabel: String?
     @NSManaged var categories: String?
