@@ -47,7 +47,7 @@ PODS:
   - PFCarouselView (0.7.0)
   - pop (1.0.9)
   - RandomColorSwift (0.1.0)
-  - SCLAlertView (0.5)
+  - SCLAlertView (0.5.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -133,7 +133,7 @@ SPEC CHECKSUMS:
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   RandomColorSwift: b2e95d6d3670def6d2f907ec7b7041138b268ac9
-  SCLAlertView: 51a328f3985e13e6bfe8dc77123543480fa615f9
+  SCLAlertView: 3ac39a863d3e10fc165662b1228b03402297aea9
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
   UIColor_Hex_Swift: a66b9d5f6e8fddbd9fe32996504f0b7e9d20d680

@@ -8,6 +8,8 @@
 
 class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
+    var newVersionAlert: SCLAlertView?
+    
     override init(baseURL url: NSURL?) {
         super.init(baseURL: url)
         
@@ -154,19 +156,31 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     }
     
     private func handleSuccess(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        
         var isAccepted = false
         var verServer: String? = nil
+        let verLocalMin = "|"+Cons.Svr.minVer+"|"
         if let headers: Dictionary = operation.response?.allHeaderFields {
-            if let serverVersion = headers["Server-Version"] as? NSString as? String {
+            if let serverVersion = headers["Server-Version"] as? String {
                 verServer = serverVersion
-                if serverVersion.rangeOfString(Cons.Svr.minVer) != nil{
+                if serverVersion.rangeOfString(verLocalMin) != nil{
                     isAccepted = true
                 }
             }
         }
         if !isAccepted {
-            let error = FmtError(0, "Local version: %@ Server supported version: %@", Cons.Svr.minVer, (verServer != nil ? verServer! : ""))
+            let error = FmtError(0, "Local version: %@ Server supported version: %@", verLocalMin, verServer ?? "")
+            
+            // Show alert to open App Store
+            if self.newVersionAlert == nil {
+                self.newVersionAlert = SCLAlertView()
+                self.newVersionAlert!.addButton(NSLocalizedString("app_new_version_app_store")) { () -> Void in
+                    self.newVersionAlert = nil
+                    Utils.shared.openAppStorePage()
+                }
+                self.newVersionAlert!.showCloseButton = false
+                self.newVersionAlert!.showNotice(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("app_new_version_available"))
+            }
+            
             if let onFailure = onFailure { onFailure(error) }
             return
         }
