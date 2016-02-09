@@ -92,7 +92,6 @@ class FavoriteNews: BaseNews {
             if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
                 for favoriteNews in allFavoritesNews {
                     if let newsID = favoriteNews.id, _ = favoriteIDs.indexOf(newsID) {
-                        continue
                     } else {
                         favoriteNews.MR_deleteEntityInContext(localContext)
                     }
@@ -119,6 +118,16 @@ class FavoriteNews: BaseNews {
                 }
             })
         }
+    }
+    
+    class func deleteAll() {
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
+                for favoriteNews in allFavoritesNews {
+                    favoriteNews.MR_deleteEntityInContext(localContext)
+                }
+            }
+        })
     }
     
     func relatedNews(context: NSManagedObjectContext?) -> News? {

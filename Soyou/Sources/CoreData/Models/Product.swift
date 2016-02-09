@@ -105,7 +105,13 @@ class Product: BaseModel {
     }
     
     func toggleFavorite(completion: DataClosure?) {
-        guard let productID = self.id else { if let completion = completion { completion(nil) }; return}
+        var selfProductID: NSNumber?
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            let localSelf = self.MR_inContext(localContext)
+            selfProductID = localSelf?.id
+        })
+        
+        guard let productID = selfProductID else { if let completion = completion { completion(nil) }; return}
         
         var favoriteProduct: FavoriteProduct?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in

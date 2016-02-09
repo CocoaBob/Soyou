@@ -103,6 +103,8 @@ extension UserManager {
     
     func logOut() {
         self.token = nil
+        FavoriteNews.deleteAll()
+        FavoriteProduct.deleteAll()
     }
     
     var isLoggedIn: Bool {
