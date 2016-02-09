@@ -32,9 +32,11 @@
         <attribute name="targetCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
-    <entity name="FavoriteNews" representedClassName=".FavoriteNews" parentEntity="BaseNews" syncable="YES"/>
+    <entity name="FavoriteNews" representedClassName=".FavoriteNews" parentEntity="BaseNews" syncable="YES">
+        <attribute name="dateFavorite" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
     <entity name="FavoriteProduct" representedClassName=".FavoriteProduct" syncable="YES">
-        <attribute name="dateModification" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dateFavorite" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="News" representedClassName=".News" parentEntity="BaseNews" syncable="YES">
@@ -92,12 +94,12 @@
         <element name="BaseNews" positionX="-63" positionY="135" width="128" height="225"/>
         <element name="Brand" positionX="-63" positionY="135" width="128" height="135"/>
         <element name="CurrencyRate" positionX="-63" positionY="135" width="128" height="105"/>
-        <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="45"/>
+        <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="60"/>
+        <element name="FavoriteProduct" positionX="-54" positionY="135" width="128" height="75"/>
         <element name="News" positionX="-63" positionY="-18" width="128" height="60"/>
         <element name="Product" positionX="-63" positionY="54" width="128" height="330"/>
         <element name="Region" positionX="-63" positionY="135" width="128" height="90"/>
         <element name="Store" positionX="-54" positionY="144" width="128" height="225"/>
         <element name="User" positionX="-63" positionY="135" width="128" height="120"/>
-        <element name="FavoriteProduct" positionX="-54" positionY="135" width="128" height="75"/>
     </elements>
 </model>
