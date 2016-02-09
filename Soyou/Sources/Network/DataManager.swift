@@ -183,37 +183,9 @@ class DataManager {
     
     func requestNewsFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                // Collect all products and favorite ids
-                let allFavoriteNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews]
-                var favoriteIDs = [NSNumber]()
-                if let data = responseObject?["data"] as? [NSNumber] {
-                    favoriteIDs.appendContentsOf(data)
-                }
-                // Filter all existing ones, delete remotely deleted ones.
-                if let allFavoritesNews = allFavoriteNews {
-                    for favoriteNews in allFavoritesNews {
-                        if let newsID = favoriteNews.id {
-                            if let index = favoriteIDs.indexOf(newsID) {
-                                if favoriteNews.appIsUpdated != nil && favoriteNews.appIsUpdated!.boolValue {
-                                    favoriteIDs.removeAtIndex(index)
-                                }
-                            } else {
-                                favoriteNews.MR_deleteEntityInContext(localContext)
-                            }
-                        }
-                    }
-                }
-                // Request non-existing ones
-                if favoriteIDs.count > 0 {
-                    self.requestNews(favoriteIDs, { responseObject, error in
-                        if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                            FavoriteNews.importDatas(data, false, nil)
-                        }
-                    })
-                }
-            })
-            
+            if let data = responseObject?["data"] as? [NSDictionary] {
+                FavoriteNews.updateWithData(data)
+            }
             self.completeWithData(responseObject, completion: completion)
         }
         let errorHandlerClosure = { (error: NSError?) -> () in
@@ -231,26 +203,9 @@ class DataManager {
     
     func requestProductFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                // All Product Favorites
-                if let data = responseObject?["data"] as? [NSDictionary] {
-                    if let allFavoriteProducts = FavoriteProduct.MR_findAllInContext(localContext) as? [FavoriteProduct] {
-                        for favoriteProduct in allFavoriteProducts {
-                            favoriteProduct.MR_deleteEntityInContext(localContext)
-                        }
-                    }
-                    for dict in data {
-                        if let productId = dict["id"] as? NSNumber,
-                            dateModification = dict["dateModification"] as? String {
-                                let favoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
-                                favoriteProduct?.id = productId
-                                favoriteProduct?.dateModification = BaseModel.dateFormatter.dateFromString(dateModification)
-                        }
-                    }
-                }
-                
-            })
-            
+            if let data = responseObject?["data"] as? [NSDictionary] {
+                FavoriteProduct.updateWithData(data)
+            }
             self.completeWithData(responseObject, completion: completion)
         }
         let errorHandlerClosure = { (error: NSError?) -> () in

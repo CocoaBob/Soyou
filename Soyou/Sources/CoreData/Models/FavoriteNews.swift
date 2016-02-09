@@ -9,6 +9,10 @@
 import Foundation
 import CoreData
 
+// FavoriteNews must contains all the data of the original news to show the Favorites News list.
+// Because we can't create the corresponding original news directly
+// otherwise it's to complex to maintain the News list.
+
 class FavoriteNews: BaseNews {
 
     class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
@@ -72,11 +76,59 @@ class FavoriteNews: BaseNews {
         }
     }
     
-    func relatedNews() -> News? {
+    class func updateWithData(data: [NSDictionary]) {
+        // Create a dictionary of all favorite news
+        var favoriteIDs = [NSNumber]()
+        var favoriteDates = [NSNumber: NSDate]()
+        for dict in data {
+            if let newsID = dict["id"] as? NSNumber, dateModification = dict["dateModification"] as? String {
+                favoriteIDs.append(newsID)
+                favoriteDates[newsID] = BaseModel.dateFormatter.dateFromString(dateModification)
+            }
+        }
+        
+        // Filter all existing ones, delete remotely deleted ones.
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
+                for favoriteNews in allFavoritesNews {
+                    if let newsID = favoriteNews.id, _ = favoriteIDs.indexOf(newsID) {
+                        continue
+                    } else {
+                        favoriteNews.MR_deleteEntityInContext(localContext)
+                    }
+                }
+            }
+        })
+        
+        // Request non-existing ones
+        if favoriteIDs.count > 0 {
+            DataManager.shared.requestNews(favoriteIDs, { responseObject, error in
+                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    FavoriteNews.importDatas(data, false, nil)
+                    
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        // Update favorite dates
+                        if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
+                            for favoriteNews in allFavoritesNews {
+                                if let newsID = favoriteNews.id {
+                                    favoriteNews.dateFavorite = favoriteDates[newsID]
+                                }
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    func relatedNews(context: NSManagedObjectContext?) -> News? {
         if let newsID = self.id {
-            return News.MR_findFirstByAttribute("id", withValue: newsID)
+            if let context = context {
+                return News.MR_findFirstByAttribute("id", withValue: newsID, inContext: context)
+            } else {
+                return News.MR_findFirstByAttribute("id", withValue: newsID)
+            }
         }
         return nil
     }
-
 }

@@ -142,11 +142,13 @@ class NewsDetailViewController: UIViewController {
         // Remove the corresponding FavoriteNews if it's leaving without favorite status
         if !self.navigationController!.viewControllers.contains(self) {
             if !self.isFavorite {
-                var favoriteNews = self.news
-                if favoriteNews is News {
-                    favoriteNews = (self.news as? News)?.relatedFavoriteNews()
-                }
-                favoriteNews?.MR_deleteEntity()
+                MagicalRecord.saveWithBlockAndWait({ (localContexts) -> Void in
+                    var favoriteNews = self.news?.MR_inContext(localContexts)
+                    if favoriteNews is News {
+                        favoriteNews = (self.news as? News)?.relatedFavoriteNews(localContexts)
+                    }
+                    favoriteNews?.MR_deleteEntityInContext(localContexts)
+                })
             }
         }
     }
@@ -371,7 +373,7 @@ extension NewsDetailViewController {
         }
     }
     
-    private func loadNews(news: BaseNews) {
+    private func loadNews(news: BaseNews, context: NSManagedObjectContext) {
         // Load HTML
         self.loadPageContent(news)
         
@@ -380,7 +382,7 @@ extension NewsDetailViewController {
         if news is News {
             appIsLiked = news.appIsLiked
         } else if news is FavoriteNews {
-            appIsLiked = (news as? FavoriteNews)?.relatedNews()?.appIsLiked
+            appIsLiked = (news as? FavoriteNews)?.relatedNews(context)?.appIsLiked
         }
         if let appIsLiked = appIsLiked {
             updateLikeBtnColor(appIsLiked.boolValue)
@@ -441,7 +443,7 @@ extension NewsDetailViewController {
                         }
                         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                             if let localNews = self.news?.MR_inContext(localContext) {
-                                self.loadNews(localNews)
+                                self.loadNews(localNews, context: localContext)
                             }
                         })
                     }
@@ -450,7 +452,7 @@ extension NewsDetailViewController {
         } else {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 if let localNews = self.news?.MR_inContext(localContext) {
-                    self.loadNews(localNews)
+                    self.loadNews(localNews, context: localContext)
                 }
             })
         }
@@ -587,11 +589,14 @@ extension NewsDetailViewController {
     
     func like(sender: UIBarButtonItem) {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            var originalNews = self.news
+            // Find the original news
+            var localNews = self.news?.MR_inContext(localContext)
             if self.news is FavoriteNews {
-                originalNews = (self.news as? FavoriteNews)?.relatedNews()
+                localNews = (self.news as? FavoriteNews)?.relatedNews(localContext)
             }
-            if let localNews = originalNews?.MR_inContext(localContext) {
+            
+            // Send request to server, then supdate local data after receving response
+            if let localNews = localNews {
                 let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
                 
                 DataManager.shared.likeNews(localNews.id!, wasLiked: appIsLiked) { responseObject, error in
@@ -607,7 +612,7 @@ extension NewsDetailViewController {
                     
                     // Remember if it's liked or not
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localNews = originalNews?.MR_inContext(localContext) {
+                        if let localNews = self.news?.MR_inContext(localContext) {
                             localNews.appIsLiked = NSNumber(bool: !appIsLiked)
                         }
                     })

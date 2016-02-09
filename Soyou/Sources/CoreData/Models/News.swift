@@ -131,11 +131,14 @@ class News: BaseNews {
         }
     }
     
-    func relatedFavoriteNews() -> FavoriteNews? {
+    func relatedFavoriteNews(context: NSManagedObjectContext?) -> FavoriteNews? {
         if let newsID = self.id {
-            return FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID)
+            if let context = context {
+                return FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID, inContext: context)
+            } else {
+                return FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID)
+            }
         }
         return nil
     }
-    
 }

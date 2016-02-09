@@ -23,9 +23,9 @@ class FavoritesViewController: BaseViewController {
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         switch (self.type) {
         case .News:
-            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false", ascending: false)
+            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
         case .Products:
-            return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateModification", ascending: false)
+            return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
         }
     }
     
@@ -129,8 +129,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
             MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                 if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                    localFavoriteProductID = localFavoriteProduct.id,
-                    product = Product.MR_findFirstByAttribute("id", withValue: localFavoriteProductID, inContext: localContext) {
+                    product = localFavoriteProduct.relatedProduct(localContext) {
                     // Title
                     _cell.lblTitle?.text = product.title
                     // Brand
@@ -178,22 +177,21 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             
             nextViewController = viewController
         case .Products:
-            let viewController = ProductViewController.instantiate()
-            
             let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
             MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                 if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                    localFavoriteProductID = localFavoriteProduct.id,
-                    product = Product.MR_findFirstByAttribute("id", withValue: localFavoriteProductID, inContext: localContext) {
+                    product = localFavoriteProduct.relatedProduct(localContext) {
+                        let viewController = ProductViewController.instantiate()
                         viewController.product = product
+                        nextViewController = viewController
                 }
             })
-        
-            nextViewController = viewController
         }
         
         // Push view controller
-        self.navigationController?.pushViewController(nextViewController!, animated: true)
+        if let nextViewController = nextViewController {
+            self.navigationController?.pushViewController(nextViewController, animated: true)
+        }
     }
     
     // Delete favorites
@@ -222,8 +220,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                         if let
                             localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                            localFavoriteProductID = localFavoriteProduct.id,
-                            product = Product.MR_findFirstByAttribute("id", withValue: localFavoriteProductID, inContext: localContext) {
+                            product = localFavoriteProduct.relatedProduct(localContext) {
                                 product.toggleFavorite({ (data: AnyObject?) -> () in
                                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                         MBProgressHUD.hideLoader(self.view)

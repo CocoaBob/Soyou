@@ -127,7 +127,7 @@ class Product: BaseModel {
                         localFavoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
                         localFavoriteProduct?.id = productID
                     }
-                    localFavoriteProduct?.dateModification = NSDate()
+                    localFavoriteProduct?.dateFavorite = NSDate()
                 }
             })
             // Completion
@@ -143,5 +143,16 @@ class Product: BaseModel {
         } else {
             return ""
         }
+    }
+    
+    func relatedFavoriteProduct(context: NSManagedObjectContext?) -> FavoriteProduct? {
+        if let productID = self.id {
+            if let context = context {
+                return FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: context)
+            } else {
+                return FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID)
+            }
+        }
+        return nil
     }
 }
