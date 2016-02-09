@@ -190,7 +190,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                     }
             })
         } else {
-            DLog(FmtString("Product ID = %@, images:\n%@",product.id!,product.images!))
+            DLog(FmtString("Product ID = %@, images: %@",product.id ?? "?",product.images ?? "?"))
         }
         
         return cell

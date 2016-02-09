@@ -345,7 +345,7 @@ class DataManager {
         if let productIDs = responseObject?["products"] as? [NSNumber] {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
-            self.loadBunchProducts(productIDs, index: 0, size: 500, completion: { responseObject, error in
+            self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
                 self.setAppInfo(timestamp, forKey: Cons.App.lastRequestTimestampProductIDs)
                 self.completeWithData(nil, completion: completion)
             })
