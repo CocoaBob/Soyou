@@ -178,11 +178,17 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             
             nextViewController = viewController
         case .Products:
-            let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
-            
             let viewController = ProductViewController.instantiate()
-            viewController.product = product
             
+            let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
+            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
+                    localFavoriteProductID = localFavoriteProduct.id,
+                    product = Product.MR_findFirstByAttribute("id", withValue: localFavoriteProductID, inContext: localContext) {
+                        viewController.product = product
+                }
+            })
+        
             nextViewController = viewController
         }
         
@@ -211,10 +217,21 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         })
                     }
                 case .Products:
-                    let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
+                    let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
                     MBProgressHUD.showLoader(self.view)
-                    product.doFavorite({ (data: AnyObject?) -> () in
-                        MBProgressHUD.hideLoader(self.view)
+                    MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                        if let
+                            localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
+                            localFavoriteProductID = localFavoriteProduct.id,
+                            product = Product.MR_findFirstByAttribute("id", withValue: localFavoriteProductID, inContext: localContext) {
+                                product.toggleFavorite({ (data: AnyObject?) -> () in
+                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                        MBProgressHUD.hideLoader(self.view)
+                                    })
+                                })
+                        } else {
+                            MBProgressHUD.hideLoader(self.view)
+                        }
                     })
                 }
             }

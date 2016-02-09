@@ -104,41 +104,37 @@ class Product: BaseModel {
         })
     }
     
-    func doFavorite(completion: DataClosure?) {
+    func toggleFavorite(completion: DataClosure?) {
+        guard let productID = self.id else { if let completion = completion { completion(nil) }; return}
+        
+        var favoriteProduct: FavoriteProduct?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localProduct = self.MR_inContext(localContext) {
-                var appWasFavorite = false
-                if let productID = localProduct.id,
-                    _ = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext) {
-                    appWasFavorite = true
-                }
-                
-                // Update only when response is received
-                DataManager.shared.favoriteProduct(localProduct.id!, wasFavorite: appWasFavorite) { responseObject, error in
-                    // Remember if it's liked or not
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let productID = localProduct.id {
-                            var favoriteProduct = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext)
-                            if appWasFavorite {
-                                if let favoriteProduct = favoriteProduct {
-                                    favoriteProduct.MR_deleteEntityInContext(localContext)
-                                }
-                            } else {
-                                if favoriteProduct == nil {
-                                    favoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
-                                    favoriteProduct?.id = productID
-                                }
-                                favoriteProduct?.dateModification = NSDate()
-                            }
-                        }
-                    })
-                    // Completion
-                    if let completion = completion {
-                        completion(responseObject)
-                    }
-                }
-            }
+            favoriteProduct = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext)
         })
+        let appWasFavorite = favoriteProduct != nil
+        
+        // Update local data only when response is received
+        DataManager.shared.favoriteProduct(productID, wasFavorite: appWasFavorite) { responseObject, error in
+            // Remember if it's liked or not
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                var localFavoriteProduct = favoriteProduct?.MR_inContext(localContext)
+                if appWasFavorite {
+                    if let favoriteProduct = localFavoriteProduct {
+                        favoriteProduct.MR_deleteEntityInContext(localContext)
+                    }
+                } else {
+                    if localFavoriteProduct == nil {
+                        localFavoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
+                        localFavoriteProduct?.id = productID
+                    }
+                    localFavoriteProduct?.dateModification = NSDate()
+                }
+            })
+            // Completion
+            if let completion = completion {
+                completion(responseObject)
+            }
+        }
     }
     
     class func normalized(text: String?) -> String {

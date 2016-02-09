@@ -300,19 +300,8 @@ extension ProductsViewController {
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
         UserManager.shared.loginOrDo() { () -> () in
             if let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Product {
-                product.doFavorite({ (data: AnyObject?) -> () in
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localProduct = product.MR_inContext(localContext) {
-                            if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
-                                productID = localProduct.id {
-                                if let _ = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext) {
-                                    cell.isFavorite = true
-                                } else {
-                                    cell.isFavorite = false
-                                }
-                            }
-                        }
-                    })
+                product.toggleFavorite({ (data: AnyObject?) -> () in
+                    self.collectionView().reloadItemsAtIndexPaths([indexPath])
                 })
             }
         }

@@ -1,5 +1,5 @@
 PODS:
-  - ActionSheetPicker-3.0 (2.0.4)
+  - ActionSheetPicker-3.0 (2.0.5)
   - AFNetworking (2.6.3):
     - AFNetworking/NSURLConnection (= 2.6.3)
     - AFNetworking/NSURLSession (= 2.6.3)
@@ -112,7 +112,7 @@ CHECKOUT OPTIONS:
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 SPEC CHECKSUMS:
-  ActionSheetPicker-3.0: 860466cb4a66854e6acb590071ecee404b48f49d
+  ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Base64nl: a497bdcd1c01ea793d36b399016195a8713c0e95
   CCHMapClusterController: d8cd12cd5682ec6cd76d911ac7198f981b6cc1b8

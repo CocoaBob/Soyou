@@ -524,7 +524,7 @@ extension ProductViewController {
     func star(sender: UIBarButtonItem) {
         UserManager.shared.loginOrDo() { () -> () in
             if let isFavorite = self.isFavorite {
-                self.product?.doFavorite({ (data: AnyObject?) -> () in
+                self.product?.toggleFavorite({ (data: AnyObject?) -> () in
                     // Toggle the value of isFavorite
                     self.isFavorite = !isFavorite
                 })
