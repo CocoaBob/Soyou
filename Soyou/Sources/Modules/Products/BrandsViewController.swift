@@ -43,6 +43,9 @@ class BrandsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // To let ProductsViewController's viewWillAppear()/viewDidAppear() be called
+        self.navigationController?.delegate = self
+        
         // Fix scroll view insets
         self.updateScrollViewInset(self.collectionView(), 0, true, true, false, true)
         
@@ -269,6 +272,18 @@ extension BrandsViewController: UISearchControllerDelegate {
         
         // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
 //        let _ = self.searchController?.view // Force loading the view
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+extension BrandsViewController: UINavigationControllerDelegate {
+    
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        viewController.viewWillAppear(animated)
+    }
+    
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+        viewController.viewDidAppear(animated)
     }
 }
 

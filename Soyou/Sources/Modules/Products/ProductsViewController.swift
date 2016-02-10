@@ -114,15 +114,15 @@ class ProductsViewController: BaseViewController {
         // Hide toolbar. No animation because it might need to be shown immediately
         self.hideToolbar(false)
         
-        if !self.isSearchResultsViewController {
-            // Update the selected cell in case if appIsFavorite is changed
-            if let selectedIndexPath = self.selectedIndexPath {
-                self.collectionView().reloadItemsAtIndexPaths([selectedIndexPath])
-            }
-        }
-        
         // For navigation bar search bar
         self.definesPresentationContext = true
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Reload in case if appIsFavorite is changed
+        self.collectionView().reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
