@@ -98,7 +98,7 @@ extension SettingsViewController {
                         subTitle: nil,
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.cleanCache()
+                            self.clearCache()
                         }
                     )
                 ]
@@ -192,18 +192,15 @@ extension SettingsViewController {
         Utils.shared.openAppStorePage()
     }
     
-    func cleanCache() {
+    func clearCache() {
         self.updateCacheSize(nil)
         
         // Delete cached NSURL responses
         NSURLCache.sharedURLCache().removeAllCachedResponses()
         
-        // Delete expired disk caches
-        SDImageCache.sharedImageCache().cleanDiskWithCompletionBlock { () -> Void in
-            // Delete disk caches
-            SDImageCache.sharedImageCache().clearDiskOnCompletion { () -> Void in
-                self.calculateCacheSize()
-            }
+        // Delete disk caches
+        SDImageCache.sharedImageCache().clearDiskOnCompletion { () -> Void in
+            self.calculateCacheSize()
         }
     }
 }

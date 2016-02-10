@@ -155,6 +155,16 @@ class DataManager {
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Brand.importDatas(data, true)
                     }
+                    // Cache all the brand images
+                    MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                        if let brands = Brand.MR_findAllInContext(localContext) as? [Brand] {
+                            for brand in brands {
+                                if let imageURL = brand.imageUrl, url = NSURL(string: imageURL) {
+                                    SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                }
+                            }
+                        }
+                    })
                     self.completeWithData(responseObject, completion: completion)
                 }
             },
@@ -239,6 +249,16 @@ class DataManager {
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         News.importDatas(data, false, relativeID)
                     }
+                    // Cache all the news images
+                    MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                        if let allNews = News.MR_findAllInContext(localContext) as? [News] {
+                            for news in allNews {
+                                if let imageURL = news.image, url = NSURL(string: imageURL) {
+                                    SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                }
+                            }
+                        }
+                    })
                     self.completeWithData(responseObject, completion: completion)
                 }
             },

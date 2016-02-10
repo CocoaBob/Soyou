@@ -61,7 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
+        // Check if there are new Brands/Products/Regions/Stores to download
         DataManager.shared.updateData(nil)
+        
         // Currency Manager
         CurrencyManager.shared.updateCurrencyRates()
         
@@ -74,8 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Delete memory cache
         SDImageCache.sharedImageCache().clearMemory()
-        // Delete expired cache
-        SDImageCache.sharedImageCache().cleanDisk()
     }
 }
 
