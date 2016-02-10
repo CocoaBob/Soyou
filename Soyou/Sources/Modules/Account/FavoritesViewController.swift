@@ -70,16 +70,6 @@ class FavoritesViewController: BaseViewController {
         // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.hideToolbar(false);
-        
-        // Load favorites
-        if UserManager.shared.isLoggedIn {
-            switch (self.type) {
-            case .News:
-                DataManager.shared.requestNewsFavorites(nil)
-            case .Products:
-                DataManager.shared.requestProductFavorites(nil)
-            }
-        }
     }
     
     override func viewDidAppear(animated: Bool) {

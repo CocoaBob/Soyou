@@ -121,12 +121,6 @@ class ProductsViewController: BaseViewController {
             }
         }
         
-        // Load favorites
-        if UserManager.shared.isLoggedIn {
-            DataManager.shared.requestProductFavorites() { responseObject, error in
-                self.reloadData()
-            }
-        }
         // For navigation bar search bar
         self.definesPresentationContext = true
     }

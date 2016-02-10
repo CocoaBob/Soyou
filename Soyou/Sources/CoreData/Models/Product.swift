@@ -12,6 +12,16 @@ import CoreData
 
 class Product: BaseModel {
     
+    func isFavorite() -> Bool {
+        var returnValue = false
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let _ = self.MR_inContext(localContext)?.relatedFavoriteProduct(localContext) {
+                returnValue = true
+            }
+        })
+        return returnValue
+    }
+    
     class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Product?) {
         var product: Product? = nil
         
@@ -105,29 +115,33 @@ class Product: BaseModel {
     }
     
     func toggleFavorite(completion: DataClosure?) {
+        // Product ID
         var selfProductID: NSNumber?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            let localSelf = self.MR_inContext(localContext)
-            selfProductID = localSelf?.id
+            selfProductID = self.MR_inContext(localContext)?.id
         })
+        guard let productID = selfProductID else { return }
         
-        guard let productID = selfProductID else { if let completion = completion { completion(nil) }; return}
-        
+        // Find the favorite product
         var favoriteProduct: FavoriteProduct?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             favoriteProduct = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext)
         })
-        let appWasFavorite = favoriteProduct != nil
+        
+        // Was favorite?
+        let wasFavorite = favoriteProduct != nil
         
         // Update local data only when response is received
-        DataManager.shared.favoriteProduct(productID, wasFavorite: appWasFavorite) { responseObject, error in
-            // Remember if it's liked or not
+        DataManager.shared.favoriteProduct(productID, wasFavorite: wasFavorite) { responseObject, error in
+            if error != nil {
+                return
+            }
+            
+            // Create/Update FavoriteProduct, or delete FavoriteProduct
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 var localFavoriteProduct = favoriteProduct?.MR_inContext(localContext)
-                if appWasFavorite {
-                    if let favoriteProduct = localFavoriteProduct {
-                        favoriteProduct.MR_deleteEntityInContext(localContext)
-                    }
+                if wasFavorite {
+                    favoriteProduct?.MR_deleteEntityInContext(localContext)
                 } else {
                     if localFavoriteProduct == nil {
                         localFavoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)

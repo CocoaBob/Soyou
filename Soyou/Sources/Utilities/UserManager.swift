@@ -99,10 +99,14 @@ extension UserManager {
     
     func logIn(token: String) {
         self.token = token
+        // Load Favorites
+        DataManager.shared.requestNewsFavorites(nil)
+        DataManager.shared.requestProductFavorites(nil)
     }
     
     func logOut() {
         self.token = nil
+        // Delete Favorites
         FavoriteNews.deleteAll()
         FavoriteProduct.deleteAll()
     }

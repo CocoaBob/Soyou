@@ -139,18 +139,6 @@ class NewsDetailViewController: UIViewController {
         MBProgressHUD.hideLoader(self.view)
         // Set WebView scroll view
         self.scrollView?.delegate = nil
-        // Remove the corresponding FavoriteNews if it's leaving without favorite status
-        if !self.navigationController!.viewControllers.contains(self) {
-            if !self.isFavorite {
-                MagicalRecord.saveWithBlockAndWait({ (localContexts) -> Void in
-                    var favoriteNews = self.news?.MR_inContext(localContexts)
-                    if favoriteNews is News {
-                        favoriteNews = (self.news as? News)?.relatedFavoriteNews(localContexts)
-                    }
-                    favoriteNews?.MR_deleteEntityInContext(localContexts)
-                })
-            }
-        }
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -280,7 +268,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
 // MARK: Like button
 extension NewsDetailViewController {
     
-    private func initLikeBtnAndFavBtn() {
+    private func updateLikeNumber() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if let newsID = localNews.id {
@@ -289,10 +277,6 @@ extension NewsDetailViewController {
                         
                         if let likeNumber = data?["likeNumber"] as? NSNumber {
                             self.likeBtnNumber = likeNumber.integerValue
-                        }
-                        
-                        if let isFavorite = data?["isFavorite"] as? Bool {
-                            self.isFavorite = isFavorite
                         }
                     }
                 }
@@ -378,16 +362,11 @@ extension NewsDetailViewController {
         self.loadPageContent(news)
         
         // Like button
-        var appIsLiked: NSNumber?
-        if news is News {
-            appIsLiked = news.appIsLiked
-        } else if news is FavoriteNews {
-            appIsLiked = (news as? FavoriteNews)?.relatedNews(context)?.appIsLiked
-        }
-        if let appIsLiked = appIsLiked {
-            updateLikeBtnColor(appIsLiked.boolValue)
-        }
-        initLikeBtnAndFavBtn()
+        updateLikeBtnColor(news.isLiked())
+        updateLikeNumber()
+        
+        // Favorite button
+        self.isFavorite = news.isFavorite()
         
         // Cover Image
         if let imageURLString = news.image,
@@ -588,49 +567,25 @@ extension NewsDetailViewController {
     }
     
     func like(sender: UIBarButtonItem) {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            // Find the original news
-            var localNews = self.news?.MR_inContext(localContext)
-            if self.news is FavoriteNews {
-                localNews = (self.news as? FavoriteNews)?.relatedNews(localContext)
+        guard let wasLiked = self.news?.isLiked() else { return }
+        
+        self.news?.toggleLike(wasLiked) { (likeNumber: AnyObject?) -> () in
+            // Update like number
+            if let likeNumber = likeNumber as? NSNumber {
+                self.likeBtnNumber = likeNumber.integerValue
             }
             
-            // Send request to server, then supdate local data after receving response
-            if let localNews = localNews {
-                let appIsLiked = localNews.appIsLiked != nil && localNews.appIsLiked!.boolValue
-                
-                DataManager.shared.likeNews(localNews.id!, wasLiked: appIsLiked) { responseObject, error in
-                    guard let data = responseObject?["data"] else { return }
-                    
-                    // Update like number
-                    if let likeNumber = data as? NSNumber {
-                        self.likeBtnNumber = likeNumber.integerValue
-                    }
-                    
-                    // Update like color
-                    self.updateLikeBtnColor(!appIsLiked)
-                    
-                    // Remember if it's liked or not
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localNews = self.news?.MR_inContext(localContext) {
-                            localNews.appIsLiked = NSNumber(bool: !appIsLiked)
-                        }
-                    })
-                }
-            }
-        })
+            // Update like color
+            self.updateLikeBtnColor(!wasLiked)
+        }
     }
     
     func star(sender: UIBarButtonItem) {
         UserManager.shared.loginOrDo() { () -> () in
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                if let localNews = self.news?.MR_inContext(localContext) {
-                    DataManager.shared.favoriteNews(localNews.id!, wasFavorite: self.isFavorite) { responseObject, error in
-                        // Toggle the value of isFavorite
-                        self.isFavorite = !self.isFavorite
-                    }
-                }
-            })
+            self.news?.toggleFavorite() { (_) -> () in
+                // Toggle the value of isFavorite
+                self.isFavorite = !self.isFavorite
+            }
         }
     }
 }

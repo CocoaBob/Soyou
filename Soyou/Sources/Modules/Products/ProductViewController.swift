@@ -101,7 +101,8 @@ class ProductViewController: UIViewController {
         self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
         
         // Load content
-        initLikeBtnAndFavBtn()
+        updateLikeNumber()
+        self.isFavorite = self.product?.isFavorite() ?? false
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -417,7 +418,7 @@ extension ProductViewController: ZoomTransitionProtocol {
 // MARK: Like button
 extension ProductViewController {
     
-    private func initLikeBtnAndFavBtn() {
+    private func updateLikeNumber() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localProduct = self.product?.MR_inContext(localContext) {
                 self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
@@ -427,10 +428,6 @@ extension ProductViewController {
                         
                         if let likeNumber = data?["likeNumber"] as? NSNumber {
                             self.likeBtnNumber = likeNumber.integerValue
-                        }
-                        
-                        if let isFavorite = data?["isFavorite"] as? Bool {
-                            self.isFavorite = isFavorite
                         }
                     }
                 }
@@ -469,16 +466,11 @@ extension ProductViewController {
 // MARK: Fav button
 extension ProductViewController {
     
-    private var isFavorite: Bool? {
+    private var isFavorite: Bool {
         set(newValue) {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                if newValue != nil && newValue == true {
-                    self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
-                    self.btnFav?.tintColor = self.btnFavActiveColor
-                } else {
-                    self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
-                    self.btnFav?.tintColor = self.btnFavInactiveColor
-                }
+                self.btnFav?.setImage(UIImage(named: newValue ? "img_heart_selected" : "img_heart"), forState: .Normal)
+                self.btnFav?.tintColor = newValue ? self.btnFavActiveColor : self.btnFavInactiveColor
             }
         }
         get {
@@ -495,15 +487,22 @@ extension ProductViewController {
     }
     
     func share(sender: UIBarButtonItem) {
+        var productID: NSNumber?
+        var title: String?
+        
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localProduct = self.product?.MR_inContext(localContext) {
-                if let image = self.imageViews.first?.image, let id = localProduct.id {
-                    let activityView = UIActivityViewController(
-                        activityItems: [image, localProduct.title == nil ? "" : localProduct.title!, NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(id)")!], applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-                    activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-                    self.presentViewController(activityView, animated: true, completion: nil)}
-            }
+            let localProduct = self.product?.MR_inContext(localContext)
+            productID = localProduct?.id
+            title = localProduct?.title
         })
+        
+        if let image = self.imageViews.first?.image, productID = productID {
+            let activityView = UIActivityViewController(
+                activityItems: [image, title ?? "", NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)")!],
+                applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
+            self.presentViewController(activityView, animated: true, completion: nil)
+        }
     }
     
     func like(sender: UIBarButtonItem) {
@@ -523,12 +522,10 @@ extension ProductViewController {
     
     func star(sender: UIBarButtonItem) {
         UserManager.shared.loginOrDo() { () -> () in
-            if let isFavorite = self.isFavorite {
-                self.product?.toggleFavorite({ (data: AnyObject?) -> () in
-                    // Toggle the value of isFavorite
-                    self.isFavorite = !isFavorite
-                })
-            }
+            self.product?.toggleFavorite({ (data: AnyObject?) -> () in
+                // Toggle the value of isFavorite
+                self.isFavorite = !self.isFavorite
+            })
         }
     }
 }

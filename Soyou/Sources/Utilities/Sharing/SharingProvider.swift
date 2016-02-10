@@ -11,14 +11,20 @@ import Foundation
 class SharingProvider {
     
     static let excludedActivityTypes = [
+//        UIActivityTypePostToFacebook,
+//        UIActivityTypePostToTwitter,
+//        UIActivityTypePostToWeibo, // SinaWeibo
+        UIActivityTypeMessage,
         UIActivityTypeMail,
+        UIActivityTypePrint,
+        UIActivityTypeCopyToPasteboard,
         UIActivityTypeAssignToContact,
         UIActivityTypeSaveToCameraRoll,
-        UIActivityTypeMessage,
-        UIActivityTypePrint,
-        UIActivityTypeOpenInIBooks,
-        UIActivityTypeCopyToPasteboard,
         UIActivityTypeAddToReadingList,
-        UIActivityTypeAirDrop
+        UIActivityTypePostToFlickr,
+        UIActivityTypePostToVimeo,
+//        UIActivityTypePostToTencentWeibo,
+        UIActivityTypeAirDrop,
+        UIActivityTypeOpenInIBooks
     ]
 }

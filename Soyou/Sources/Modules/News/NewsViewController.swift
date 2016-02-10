@@ -65,9 +65,6 @@ class NewsViewController: BaseViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         self.hideToolbar(false);
-        
-        // Load favorites
-        DataManager.shared.requestNewsFavorites(nil)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
