@@ -34,6 +34,7 @@ public struct Cons {
     struct App {
         static let username                                 = "username"                                // Keychain
         static let deviceToken                              = "deviceToken"                             // Keychain
+        static let lastIntroVersion                         = "lastIntroVersion"                        // Database
         static let lastInstalledVersion                     = "lastInstalledVersion"                    // Database
         static let lastRequestTimestampProductIDs           = "lastRequestTimestampProductIDs"          // Database
         static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"   // Database

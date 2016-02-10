@@ -346,7 +346,7 @@ class DataManager {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
-                self.setAppInfo(timestamp, forKey: Cons.App.lastRequestTimestampProductIDs)
+                self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampProductIDs)
                 self.completeWithData(nil, completion: completion)
             })
         } else {
@@ -386,7 +386,7 @@ class DataManager {
                 }
             })
             let timestamp = responseObject?["timestamp"] as? String
-            self.setAppInfo(timestamp, forKey: Cons.App.lastRequestTimestampDeletedProductIDs)
+            self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampDeletedProductIDs)
         }
         self.completeWithData(nil, completion: completion)
     }
@@ -455,7 +455,8 @@ class DataManager {
                             Store.importDatas(stores)
                         }
                         // Succeeded to import, save timestamp for next request
-                        self.setAppInfo(data["timestamp"] as? String, forKey: Cons.App.lastRequestTimestampStores)
+                        let timestamp = data["timestamp"] as? String
+                        self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampStores)
                     }
                     self.completeWithData(responseObject, completion: completion)
                 }

@@ -98,11 +98,25 @@ extension AppDelegate {
 
 }
 
-// MARK:
+// MARK: Routines
 extension AppDelegate: EAIntroDelegate {
     
+    func checkIfUpgraded() {
+        let lastInstalledVersion = DataManager.shared.getAppInfo(Cons.App.lastInstalledVersion)
+        let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
+        if let lastInstalledVersion = lastInstalledVersion, currentAppVersion = currentAppVersion {
+            if lastInstalledVersion == currentAppVersion {
+                return
+            }
+        }
+        
+        DataManager.shared.setAppInfo(currentAppVersion ?? "", forKey: Cons.App.lastInstalledVersion)
+        
+        // Do something for the new version
+    }
+    
     func showIntroView() {
-        let lastIntroVersion = NSUserDefaults.standardUserDefaults().objectForKey(Cons.App.lastInstalledVersion) as? String
+        let lastIntroVersion = DataManager.shared.getAppInfo(Cons.App.lastIntroVersion)
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
         if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
             if lastIntroVersion == currentAppVersion {
@@ -110,9 +124,19 @@ extension AppDelegate: EAIntroDelegate {
             }
         }
         
-        NSUserDefaults.standardUserDefaults().setObject(currentAppVersion, forKey: Cons.App.lastInstalledVersion)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        DataManager.shared.setAppInfo(currentAppVersion ?? "", forKey: Cons.App.lastIntroVersion)
         
+        // Check if it's main version upgrade
+        if let lastMainVersion = lastIntroVersion?.componentsSeparatedByString(".").first,
+            currMainVersion = currentAppVersion?.componentsSeparatedByString(".").first,
+            lastMainVersionInt = Int(lastMainVersion),
+            currMainVersionInt = Int(currMainVersion) {
+                if lastMainVersionInt >= currMainVersionInt {
+                    return
+                }
+        }
+        
+        // Show Intro View for the new version
         var introPages = [EAIntroPage]()
         for i in 1...4 {
             let introPage = EAIntroPage()
