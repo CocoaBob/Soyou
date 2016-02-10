@@ -61,6 +61,9 @@ class FavoritesViewController: BaseViewController {
         
         // Background Color
         self.tableView().backgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        
+        // Setup refresh controls
+        setupRefreshControls()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -224,7 +227,41 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
+}
+
+// MARK: - Refreshing
+extension FavoritesViewController {
     
+    func setupRefreshControls() {
+        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+            switch (self.type) {
+            case .News:
+                DataManager.shared.requestNewsFavorites() { _, _ -> () in
+                    self.endRefreshing()
+                }
+            case .Products:
+                DataManager.shared.requestProductFavorites() { _, _ -> () in
+                    self.endRefreshing()
+                }
+            }
+            self.beginRefreshing()
+        });
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
+        header.lastUpdatedTimeLabel?.hidden = true
+        self.tableView().mj_header = header
+    }
+    
+    func beginRefreshing() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func endRefreshing() {
+        self.tableView().mj_header.endRefreshing()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
 }
 
 // MARK: UIGestureRecognizerDelegate

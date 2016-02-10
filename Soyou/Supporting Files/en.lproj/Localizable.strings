@@ -10,8 +10,6 @@
 "pull_to_refresh_header_idle"="Pull down to refresh";
 "pull_to_refresh_header_pulling"="Release to refresh";
 "pull_to_refresh_header_refreshing"="Loading…";
-"pull_to_refresh_header_last_updated"="Last Updated: %@";
-"pull_to_refresh_header_never"="Never";
 "pull_to_refresh_footer_idle"="Drag up to load more";
 "pull_to_refresh_footer_pulling"="Release to load more";
 "pull_to_refresh_footer_refreshing"="Loading more…";

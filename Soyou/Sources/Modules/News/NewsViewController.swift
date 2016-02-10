@@ -282,17 +282,7 @@ extension NewsViewController {
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
         header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeText = { (date: NSDate!) -> (String!) in
-            if date == nil {
-                return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), NSLocalizedString("pull_to_refresh_header_never"))
-            }
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "MM/dd HH:mm"
-            let dateString = dateFormatter.stringFromDate(date)
-            return FmtString(NSLocalizedString("pull_to_refresh_header_last_updated"), dateString)
-        }
-        header.lastUpdatedTimeKey = "lastUpdatedTimeKeyNewsViewController"
+        header.lastUpdatedTimeLabel?.hidden = true
         self.collectionView().mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
