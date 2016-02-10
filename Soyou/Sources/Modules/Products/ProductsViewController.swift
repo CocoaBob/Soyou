@@ -160,14 +160,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         cell.lblTitle?.text = product.title
         cell.lblBrand?.text = product.brandLabel
         cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
-        MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-            if let productID = product.id,
-                _ = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext) {
-                cell.isFavorite = true
-            } else {
-                cell.isFavorite = false
-            }
-        }
+        cell.isFavorite = product.isFavorite()
 
         if let images = product.images as? NSArray,
             imageURLString = images.firstObject as? String,
@@ -392,16 +385,5 @@ class ProductsCollectionViewCell: UICollectionViewCell {
                 isFavorite = false
             }
         }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func prepareForReuse() {
-        lblBrand.text = nil
-        lblTitle.text = nil
-        lblPrice.text = nil
-        self.isFavorite = false
     }
 }

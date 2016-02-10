@@ -14,6 +14,7 @@ class BaseNews: BaseModel {
     
     func isFavorite() -> Bool {
         var returnValue = false
+        
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if self is FavoriteNews {
                 returnValue = true
@@ -23,6 +24,7 @@ class BaseNews: BaseModel {
                 }
             }
         })
+        
         return returnValue
     }
     

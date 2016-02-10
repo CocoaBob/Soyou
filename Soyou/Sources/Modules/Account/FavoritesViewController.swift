@@ -15,7 +15,7 @@ class FavoritesViewController: BaseViewController {
     
     // Override BaseViewController
     @IBOutlet var _tableView: UITableView!
-    
+
     override func tableView() -> UITableView {
         return _tableView
     }
@@ -242,6 +242,7 @@ class FavoriteNewsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.prepareForReuse()
     }
     
     override func prepareForReuse() {
@@ -258,6 +259,7 @@ class FavoriteProductsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.prepareForReuse()
     }
     
     override func prepareForReuse() {

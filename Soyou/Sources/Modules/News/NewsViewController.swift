@@ -327,6 +327,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.prepareForReuse()
         
         self.lblTitle.clipsToBounds = true
         self.lblTitle.layer.shadowRadius = 1

@@ -24,6 +24,7 @@ class DataManager {
                 // If 401 error, logout
                 if statusCode == 401 {
                     UserManager.shared.logOut()
+                    UserManager.shared.loginOrDo(nil)
                 }
         }
     }

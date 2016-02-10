@@ -14,6 +14,7 @@ class Product: BaseModel {
     
     func isFavorite() -> Bool {
         var returnValue = false
+        
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let _ = self.MR_inContext(localContext)?.relatedFavoriteProduct(localContext) {
                 returnValue = true

@@ -148,6 +148,7 @@ class ProductPricesTableViewCellCountry: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.prepareForReuse()
         
         lblAccessory.text = NSLocalizedString("product_prices_vc_official_website")
     }
@@ -168,6 +169,7 @@ class ProductPricesTableViewCellCurrency: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.prepareForReuse()
         
         lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
     }

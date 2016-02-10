@@ -396,6 +396,7 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.prepareForReuse()
         
         btnAccessory.setTitle(NSLocalizedString("brand_vc_root_cell_all"), forState: .Normal)
     }
@@ -408,6 +409,11 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
 class BrandViewHierarchyListSubCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var btnAccessory: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.prepareForReuse()
+    }
     
     override func prepareForReuse() {
         lblTitle.text = nil

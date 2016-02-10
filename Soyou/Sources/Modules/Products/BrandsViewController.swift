@@ -294,12 +294,9 @@ class BrandsCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.prepareForReuse()
         
         self.lblTitle?.clipsToBounds = true
-//        self.lblTitle?.layer.shadowRadius = 1
-//        self.lblTitle?.layer.shadowColor = UIColor.blackColor().CGColor
-//        self.lblTitle?.layer.shadowOpacity = 1
-//        self.lblTitle?.layer.shadowOffset = CGSizeZero
     }
     
     override func prepareForReuse() {

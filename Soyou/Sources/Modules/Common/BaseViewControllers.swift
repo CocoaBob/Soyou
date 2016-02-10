@@ -39,6 +39,10 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
         }
     }
     
+    deinit {
+        _fetchedResultsController?.delegate = nil
+    }
+    
     // MARK: UITableView or UICollectionView ?
     func tableView() -> UITableView? {
         return nil
