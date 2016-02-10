@@ -6,7 +6,7 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class UserManager {
+class UserManager: NSObject {
     
     static let shared = UserManager()
     
@@ -113,15 +113,6 @@ extension UserManager {
     
     var isLoggedIn: Bool {
         return self.token != nil && User.MR_findFirst() != nil
-    }
-    
-    func checkTokenValidity(validCompletion validCompletion: () -> Void, failCompletion: () -> Void){
-        RequestManager.shared.checkToken({(responseObject: AnyObject?) -> () in validCompletion() },
-            { (error: NSError?) -> () in
-                self.logOut()
-                failCompletion()
-            }
-        )
     }
 }
 

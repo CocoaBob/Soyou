@@ -64,6 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataManager.shared.updateData(nil)
         // Currency Manager
         CurrencyManager.shared.updateCurrencyRates()
+        
+        // Check if the user token is valid
+        DataManager.shared.checkToken()
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication) {

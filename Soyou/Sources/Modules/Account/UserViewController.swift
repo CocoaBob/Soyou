@@ -12,6 +12,8 @@ class UserViewController: SimpleTableViewController {
     @IBOutlet var viewUserInfo: UIView!
     @IBOutlet var lblUsername: UILabel!
     
+    private var KVOContextUserViewController = 0
+    
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -47,16 +49,19 @@ class UserViewController: SimpleTableViewController {
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
         self.lblUsername.layer.shadowOffset = CGSizeZero
+        
+        // Observe UserManager.shared.token
+        UserManager.shared.addObserver(self, forKeyPath: "token", options: .New, context: &KVOContextUserViewController)
+    }
+    
+    deinit {
+        UserManager.shared.removeObserver(self, forKeyPath: "token")
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        // Check if the user is logged in
-        if UserManager.shared.isLoggedIn {
-            DataManager.shared.checkToken()
-        }
         // Update login status
         updateUserInfo()
     }
@@ -67,6 +72,15 @@ class UserViewController: SimpleTableViewController {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if context == &KVOContextUserViewController {
+            // Update login status
+            updateUserInfo()
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
     }
 }
 
