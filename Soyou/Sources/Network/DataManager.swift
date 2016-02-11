@@ -82,10 +82,10 @@ class DataManager {
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        UserManager.shared.logIn(data["token"]! as! String)
                         for (key, value) in data {
                             UserManager.shared[key as! String] = value
                         }
+                        UserManager.shared.logIn(data["token"]! as! String)
                     }
                     self.completeWithData(responseObject, completion: completion)
                 }

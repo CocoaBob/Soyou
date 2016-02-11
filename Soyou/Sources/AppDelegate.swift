@@ -68,7 +68,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CurrencyManager.shared.updateCurrencyRates()
         
         // Check if the user token is valid
-        DataManager.shared.checkToken()
+        if UserManager.shared.isLoggedIn {
+            DataManager.shared.checkToken()
+        }
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication) {
