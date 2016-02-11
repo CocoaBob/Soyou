@@ -166,7 +166,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             imageURLString = images.firstObject as? String,
             imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
-                placeholderImage: UIImage.imageWithRandomColor(nil),
+                placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                     if image != nil && image.size.width != 0 {

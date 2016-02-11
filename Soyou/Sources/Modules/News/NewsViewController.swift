@@ -123,7 +123,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.lblTitle.text = news.title
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 cell.fgImageView.sd_setImageWithURL(imageURL,
-                    placeholderImage: UIImage.imageWithRandomColor(CGSizeMake(3, 2)),
+                    placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                     completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in

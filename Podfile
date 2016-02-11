@@ -23,7 +23,6 @@ pod "MXParallaxHeader"
 pod "NYSegmentedControl"
 pod "PageMenu", :git => 'git://github.com/uacaps/PageMenu', :commit => '9ed0c136a540ac9f2356a0cc4faddf0987d1af09'
 pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => 'add88563b2e32858f9325d981cb9779d36926053' #PFei-He/PFCarouselView
-pod "RandomColorSwift"
 pod "SCLAlertView"
 pod "SDWebImage"
 pod "UICKeyChainStore"

@@ -220,7 +220,7 @@ extension ProductViewController {
                         imageView.contentMode = .ScaleAspectFit
                         imageView.sd_setImageWithURL(
                             imageURL,
-                            placeholderImage: UIImage.imageWithRandomColor(nil),
+                            placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                             completed: { (image, error, cacheType, url) -> Void in
                                 for (index, photo) in self.photos.enumerate() {

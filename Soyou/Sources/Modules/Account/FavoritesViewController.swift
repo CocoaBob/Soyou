@@ -112,7 +112,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             // Image
             if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
                 _cell.imgView.sd_setImageWithURL(imageURL,
-                    placeholderImage: UIImage.imageWithRandomColor(nil),
+                    placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                     completed: nil)
             }
@@ -132,7 +132,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     // Image
                     if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
                         _cell.imgView?.sd_setImageWithURL(imageURL,
-                            placeholderImage: UIImage.imageWithRandomColor(nil),
+                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                             completed: nil)
                     }
