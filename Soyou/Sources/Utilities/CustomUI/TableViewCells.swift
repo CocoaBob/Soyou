@@ -22,7 +22,7 @@ class TableViewCellIconTitleContent: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var tvContent: UITextView!
-    var imageRatioConstraint: NSLayoutConstraint?
+    @IBOutlet var imageRatioConstraint: NSLayoutConstraint?
 }
 
 class TableViewCellLeftTitle: UITableViewCell {

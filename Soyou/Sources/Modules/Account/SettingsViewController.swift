@@ -134,8 +134,8 @@ extension SettingsViewController {
                     Row(type: .IconTitleContent,
                         cell: Cell(height: nil, tintColor: nil, accessoryType: .None, separatorInset: nil),
                         image: nil,
-                        title: Text(text: NSLocalizedString("app_about_title"), placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: NSLocalizedString("app_about_content"), placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: "\n" + NSLocalizedString("app_about_title"), placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: NSLocalizedString("app_about_content") + "\n", placeholder: nil, font: UIFont.systemFontOfSize(16), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
                     )
