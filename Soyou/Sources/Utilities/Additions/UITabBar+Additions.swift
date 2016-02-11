@@ -26,6 +26,6 @@ extension UITabBar {
             
             return transition
         }
-        return nil
+        return super.actionForLayer(layer, forKey: event)
     }
 }

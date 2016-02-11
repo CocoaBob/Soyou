@@ -11,6 +11,7 @@ extension UIToolbar {
     override public func actionForLayer(layer: CALayer, forKey event: String) -> CAAction? {
         if "position" == event {
             let transition = CATransition()
+            
             transition.duration = 0.25
             transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             transition.type = kCATransitionPush
@@ -18,6 +19,6 @@ extension UIToolbar {
             
             return transition
         }
-        return nil
+        return super.actionForLayer(layer, forKey: event)
     }
 }
