@@ -32,6 +32,16 @@
 				<string>wx0cb0066522588a9c</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Soyou</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>soyou</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
