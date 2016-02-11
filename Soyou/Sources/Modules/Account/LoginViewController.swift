@@ -43,6 +43,8 @@ class LoginViewController: UIViewController {
     @IBOutlet var tfPasswordConfirm: NextResponderTextField?
     @IBOutlet var tfVerificationCode: NextResponderTextField?
     @IBOutlet var btnAction: UIButton?
+    @IBOutlet var btnSignUp: UIButton?
+    @IBOutlet var btnForgetPassword: UIButton?
     
     @IBOutlet var ctlGender: NYSegmentedControl?
     var selectedGender = "1"
@@ -71,6 +73,24 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Translate UI
+        self.tfEmail?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_email")
+        self.tfPassword?.placeholder = NSLocalizedString(self.type == .ResetPassword ? "login_vc_textfield_placeholder_new_password" : "login_vc_textfield_placeholder_password")
+        self.tfPasswordConfirm?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_confirm_password")
+        self.tfVerificationCode?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_verification_code")
+        switch self.type {
+        case .Login:
+            self.btnAction?.setTitle(NSLocalizedString("login_vc_login_action_button"), forState: .Normal)
+            self.btnSignUp?.setTitle(NSLocalizedString("login_vc_register_title"), forState: .Normal)
+            self.btnForgetPassword?.setTitle(NSLocalizedString("login_vc_forget_password_title"), forState: .Normal)
+        case .Register:
+            self.btnAction?.setTitle(NSLocalizedString("login_vc_register_action_button"), forState: .Normal)
+        case .ForgetPassword:
+            self.btnAction?.setTitle(NSLocalizedString("login_vc_forget_password_action_button"), forState: .Normal)
+        case .ResetPassword:
+            self.btnAction?.setTitle(NSLocalizedString("login_vc_reset_password_action_button"), forState: .Normal)
+        }
         
         // Navigation Bar Items
 //        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "dismissSelf")

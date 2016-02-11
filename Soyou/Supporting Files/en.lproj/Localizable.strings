@@ -88,10 +88,24 @@
 "login_vc_register_title"="Sign Up";
 "login_vc_forget_password_title"="Forget Password";
 "login_vc_reset_password_title"="Reset Password";
+
+"login_vc_textfield_placeholder_email"="Email";
+"login_vc_textfield_placeholder_password"="Password";
+"login_vc_textfield_placeholder_confirm_password"="Confirm Password";
+"login_vc_textfield_placeholder_verification_code"="Verification Code";
+"login_vc_textfield_placeholder_new_password"="New Password";
+
+"login_vc_login_action_button"="Login";
+"login_vc_register_action_button"="Sign Up";
+"login_vc_forget_password_action_button"="Send Verification Code";
+"login_vc_reset_password_action_button"="Reset Password";
+
 "login_vc_register_alert_button"="I've activated";
 "login_vc_register_alert_message"="Register successfully! Please check your Email to activate your account.";
+
 "login_vc_forget_password_alert_button"="I've got the code";
 "login_vc_forget_password_alert_message"="We've sent you a verfication code, please check your Email to get the code.";
+
 "login_vc_reset_password_alert_message"="Password has been reset, now you are logged in.";
 
 /* Settings View Controller */

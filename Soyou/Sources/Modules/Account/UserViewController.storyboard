@@ -537,6 +537,8 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnAction" destination="h5t-jV-w5t" id="Zx6-eW-2SG"/>
+                        <outlet property="btnForgetPassword" destination="CGm-w2-31d" id="4K8-SN-Ri2"/>
+                        <outlet property="btnSignUp" destination="1gn-mN-NQT" id="vbX-fl-EwN"/>
                         <outlet property="scrollView" destination="Ab4-DJ-dbQ" id="fbe-Ox-TBC"/>
                         <outlet property="tfEmail" destination="gVH-ka-vgE" id="Vvp-LT-F7y"/>
                         <outlet property="tfPassword" destination="fDF-4h-Sum" id="XRA-9g-ZuA"/>

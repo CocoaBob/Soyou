@@ -190,7 +190,8 @@ extension UserManager {
         if self.isLoggedIn {
             if let completion = completion { completion() }
         } else {
-            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(UINavigationController(rootViewController: LoginViewController.instantiate(.Login)), animated: true, completion: nil)
+            let viewController = LoginViewController.instantiate(.Login)
+            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
         }
     }
 }

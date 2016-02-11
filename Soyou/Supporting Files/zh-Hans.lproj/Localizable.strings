@@ -90,10 +90,24 @@
 "login_vc_register_title"="注册";
 "login_vc_forget_password_title"="忘记密码";
 "login_vc_reset_password_title"="重设密码";
+
+"login_vc_textfield_placeholder_email"="邮箱";
+"login_vc_textfield_placeholder_password"="密码";
+"login_vc_textfield_placeholder_confirm_password"="请再次输入密码";
+"login_vc_textfield_placeholder_verification_code"="验证码";
+"login_vc_textfield_placeholder_new_password"="您的新密码";
+
+"login_vc_login_action_button"="登录";
+"login_vc_register_action_button"="注册";
+"login_vc_forget_password_action_button"="发送验证码";
+"login_vc_reset_password_action_button"="重置密码";
+
 "login_vc_register_alert_button"="我已激活";
 "login_vc_register_alert_message"="注册成功！请留意您的收件箱以激活您的账户。";
+
 "login_vc_forget_password_alert_button"="我已收到验证码";
 "login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
+
 "login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
 
 /* Settings View Controller */
