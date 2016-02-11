@@ -45,7 +45,7 @@ extension Utils: MFMailComposeViewControllerDelegate {
             mailComposeViewController.mailComposeDelegate = self
             mailComposeViewController.setSubject(NSLocalizedString("user_vc_feedback_mail_title"))
             mailComposeViewController.setMessageBody(NSLocalizedString("user_vc_feedback_mail_message_body"), isHTML: true)
-            mailComposeViewController.setToRecipients(["contact@woniu.io"])
+            mailComposeViewController.setToRecipients(["contact@soyou.io"])
             fromViewController.presentViewController(mailComposeViewController, animated: true, completion: nil)
         }
     }
