@@ -22,7 +22,7 @@ class NewsDetailViewController: UIViewController {
     var lastScrollViewOffset: CGFloat = 0
     
     // Status Bar Cover
-    var isStatusBarOverlyingCoverImage = true
+    var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
@@ -118,15 +118,14 @@ class NewsDetailViewController: UIViewController {
         self.isEdgeSwiping = false
         // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        // Update Status Bar Cover
-        self.updateStatusBarCover()
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
+        // Update Status Bar Cover
+        self.updateStatusBarCover()
         // Set WebView scroll view
         self.scrollView?.delegate = self
     }
@@ -149,7 +148,7 @@ class NewsDetailViewController: UIViewController {
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
+        return isStatusBarCoverVisible ? UIStatusBarStyle.Default : UIStatusBarStyle.LightContent
     }
 
 }
@@ -235,16 +234,15 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     
     private func updateStatusBarCover() {
         guard let scrollView = self.scrollView else { return }
-        if isStatusBarOverlyingCoverImage && scrollView.contentOffset.y >= 0 {
-            isStatusBarOverlyingCoverImage = false
+        if !isStatusBarCoverVisible && scrollView.contentOffset.y >= 0 {
             self.addStatusBarCover()
-        } else if !isStatusBarOverlyingCoverImage && scrollView.contentOffset.y < 0 {
-            isStatusBarOverlyingCoverImage = true
+        } else if isStatusBarCoverVisible && scrollView.contentOffset.y < 0 {
             self.removeStatusBarCover()
         }
     }
     
     private func addStatusBarCover() {
+        isStatusBarCoverVisible = true
         self.tabBarController?.view.addSubview(self.statusBarCover)
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
@@ -253,6 +251,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     }
     
     private func removeStatusBarCover() {
+        isStatusBarCoverVisible = false
         UIView.animateWithDuration(0.25, animations:
             { () -> Void in
                 self.setNeedsStatusBarAppearanceUpdate()
@@ -499,6 +498,9 @@ extension NewsDetailViewController: UIGestureRecognizerDelegate {
     
     // To allow UIWebView's tap gesture recognizer work
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
+            return false
+        }
         return true
     }
     

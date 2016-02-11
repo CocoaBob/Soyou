@@ -42,7 +42,7 @@ class ProductViewController: UIViewController {
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
     // Status bar cover
-    var isStatusBarOverlyingCoverImage = true
+    var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
         CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
     )
@@ -133,7 +133,7 @@ class ProductViewController: UIViewController {
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default//isStatusBarOverlyingCoverImage ? UIStatusBarStyle.LightContent : UIStatusBarStyle.Default
+        return UIStatusBarStyle.Default
     }
 }
 
@@ -145,16 +145,15 @@ extension ProductViewController: UIScrollViewDelegate {
     }
     
     private func updateStatusBarCover() {
-        if isStatusBarOverlyingCoverImage && self.scrollView.contentOffset.y >= 0 {
-            isStatusBarOverlyingCoverImage = false
+        if !isStatusBarCoverVisible && self.scrollView.contentOffset.y >= 0 {
             self.addStatusBarCover()
-        } else if !isStatusBarOverlyingCoverImage && self.scrollView.contentOffset.y < 0 {
-            isStatusBarOverlyingCoverImage = true
+        } else if isStatusBarCoverVisible && self.scrollView.contentOffset.y < 0 {
             self.removeStatusBarCover()
         }
     }
     
     private func addStatusBarCover() {
+        isStatusBarCoverVisible = true
         self.tabBarController?.view.addSubview(self.statusBarCover)
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
@@ -163,6 +162,7 @@ extension ProductViewController: UIScrollViewDelegate {
     }
     
     private func removeStatusBarCover() {
+        isStatusBarCoverVisible = false
         UIView.animateWithDuration(0.25, animations:
             { () -> Void in
                 self.setNeedsStatusBarAppearanceUpdate()
