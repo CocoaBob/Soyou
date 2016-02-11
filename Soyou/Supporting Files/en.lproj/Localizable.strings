@@ -98,8 +98,9 @@
 "settings_vc_title"="Settings";
 "settings_vc_cell_clear_cache"="Clear caches";
 "settings_vc_cell_clearing_cache"="Clearing...";
-"settings_vc_cell_credits"="Credits";
+"settings_vc_cell_intro"="Welcome Screen";
 "settings_vc_cell_about"="About";
+"settings_vc_cell_credits"="Credits";
 "settings_vc_cell_feedback"="Send feedbacks";
 "settings_vc_cell_review"="Write reviews";
 

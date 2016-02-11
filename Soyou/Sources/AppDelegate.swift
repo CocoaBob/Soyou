@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         
         // Show Introduction view
-        self.showIntroView()
+        self.checkIfShowIntroView()
         
         // Setup WeChat
         //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
@@ -102,7 +102,7 @@ extension AppDelegate {
 }
 
 // MARK: Routines
-extension AppDelegate: EAIntroDelegate {
+extension AppDelegate {
     
     func checkIfUpgraded() {
         let lastInstalledVersion = DataManager.shared.getAppInfo(Cons.App.lastInstalledVersion)
@@ -118,7 +118,7 @@ extension AppDelegate: EAIntroDelegate {
         // Do something for the new version
     }
     
-    func showIntroView() {
+    func checkIfShowIntroView() {
         let lastIntroVersion = DataManager.shared.getAppInfo(Cons.App.lastIntroVersion)
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
         if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
@@ -139,23 +139,7 @@ extension AppDelegate: EAIntroDelegate {
                 }
         }
         
-        // Show Intro View for the new version
-        var introPages = [EAIntroPage]()
-        for i in 1...4 {
-            let introPage = EAIntroPage()
-            introPage.title = "Introduction Page \(i)"
-            introPage.desc = "Introduction descriptions for Page \(i)"
-            introPage.bgImage = UIImage(named: "bg\(i)")
-            introPage.titleIconView = UIImageView(image: UIImage(named: "title\(i)"))
-            introPages.append(introPage)
-        }
-        let introView = EAIntroView(frame: self.window!.bounds, andPages: introPages)
-        introView.delegate = self
-        
-        introView.showInView(self.window!, animateDuration: 0.3)
-    }
-    
-    func introDidFinish(introView: EAIntroView!) {
-        
+        // Show Intro View
+        IntroViewController.showIntroView()
     }
 }

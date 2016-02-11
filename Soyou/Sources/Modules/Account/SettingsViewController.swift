@@ -49,6 +49,16 @@ extension SettingsViewController {
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_intro"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
+                        userInfo: nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            IntroViewController.showIntroView()
+                        }
+                    ),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_about"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,

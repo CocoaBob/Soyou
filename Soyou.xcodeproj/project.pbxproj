@@ -90,6 +90,7 @@
 		45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */; };
 		45B8233D1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */; };
 		45B8233F1C56C9260034DA98 /* TableViewCellTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */; };
+		45C3AA511C6C99AA00BA7CDE /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */; };
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
 		45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */; };
 		45CFA5961C2AAA61007D38F3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CFA5951C2AAA61007D38F3 /* DataManager.swift */; };
@@ -213,6 +214,7 @@
 		45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellLeftTitle.xib; sourceTree = "<group>"; };
 		45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellLeftTitleRightDetail.xib; sourceTree = "<group>"; };
 		45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellTextField.xib; sourceTree = "<group>"; };
+		45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
 		45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIToolbar+Additions.swift"; sourceTree = "<group>"; };
 		45CFA5951C2AAA61007D38F3 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				4506ED701C221797003B5018 /* LoginViewController.swift */,
 				45640AF31C51A934009984EC /* ProfileViewController.swift */,
 				455D06AE1C0394E200D81ABF /* SettingsViewController.swift */,
+				45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */,
 			);
 			name = User;
 			path = Soyou/Sources/Modules/Account;
@@ -664,6 +667,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45C3AA511C6C99AA00BA7CDE /* IntroViewController.swift in Sources */,
 				45CFA5961C2AAA61007D38F3 /* DataManager.swift in Sources */,
 				45016E581C14EC25004034BC /* Product.swift in Sources */,
 				45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */,
