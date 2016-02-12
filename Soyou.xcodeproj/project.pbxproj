@@ -53,6 +53,7 @@
 		455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06AE1C0394E200D81ABF /* SettingsViewController.swift */; };
 		455D06B41C03950300D81ABF /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06B31C03950300D81ABF /* UserViewController.swift */; };
 		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
+		456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456478F71C6E095C00798EB2 /* 1Password.xcassets */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* Soyou.xcdatamodeld */; };
@@ -174,6 +175,7 @@
 		455D06AE1C0394E200D81ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		455D06B31C03950300D81ABF /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		45640AF31C51A934009984EC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		456478F71C6E095C00798EB2 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = 1Password.xcassets; path = Pods/1PasswordExtension/1Password.xcassets; sourceTree = SOURCE_ROOT; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4568E2981BF90797009A6164 /* Soyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou.xcdatamodel; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 		4568E28E1BF90797009A6164 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				456478F71C6E095C00798EB2 /* 1Password.xcassets */,
 				4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */,
 				4568E28F1BF90797009A6164 /* Assets.xcassets */,
 				45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */,
@@ -600,6 +603,7 @@
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
 				45A4D8321C08CD200000309C /* news.css in Resources */,
+				456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */,
 				0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */,
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,

@@ -13,6 +13,7 @@
 #import <libWeChatSDK/WXApiObject.h>
 #import <libWeChatSDK/WXApi.h>
 
+@import OnePasswordExtension;
 @import ActionSheetPicker_3_0;
 @import AFNetworking;
 @import Base64nl;

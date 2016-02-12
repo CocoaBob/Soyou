@@ -6,6 +6,7 @@ xcodeproj "Soyou"
 inhibit_all_warnings!
 use_frameworks!
 
+pod "1PasswordExtension"
 pod "ActionSheetPicker-3.0"
 pod "AFNetworking", '~> 2'
 pod "Base64nl"
@@ -31,7 +32,6 @@ pod "UIView+Shake"
 pod "ZoomInteractiveTransition", :git => 'git://github.com/DenHeadless/ZoomInteractiveTransition', :commit => '71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd'
 
 # Will be integrated in the future
-#pod "1PasswordExtension"
 #pod "ActionSheetPicker-3.0"
 #pod "CYLTabBarController"
 #pod "GPUImage"

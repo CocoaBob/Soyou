@@ -93,8 +93,10 @@ class LoginViewController: UIViewController {
         }
         
         // Navigation Bar Items
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "dismissSelf")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target:self, action: "dismissSelf")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "dismissSelf")
+        
+        // One Password Extension
+        self.addOnePasswordButton()
         
         // Scroll View Inset
         if let scrollView = self.scrollView {
@@ -131,15 +133,17 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        switch self.type {
-        case .Login:
-            tfEmail?.becomeFirstResponder()
-        case .Register:
-            tfEmail?.becomeFirstResponder()
-        case .ForgetPassword:
-            tfEmail?.becomeFirstResponder()
-        case .ResetPassword:
-            tfVerificationCode?.becomeFirstResponder()
+        if !OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
+            switch self.type {
+            case .Login:
+                tfEmail?.becomeFirstResponder()
+            case .Register:
+                tfEmail?.becomeFirstResponder()
+            case .ForgetPassword:
+                tfEmail?.becomeFirstResponder()
+            case .ResetPassword:
+                tfVerificationCode?.becomeFirstResponder()
+            }
         }
     }
     
@@ -370,5 +374,50 @@ extension LoginViewController: NYSegmentedControlDataSource {
             return NSLocalizedString("user_info_gender_female")
         }
         return ""
+    }
+}
+
+// MARK: 1Password
+extension LoginViewController {
+    
+    func addOnePasswordButton() {
+        if OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
+            let opImage = UIImage(named: "onepassword-navbar")
+            switch self.type {
+            case .Login:
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "findLoginFrom1Password:")
+            case .Register:
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "saveLoginTo1Password:")
+            case .ForgetPassword:
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "findLoginFrom1Password:")
+            case .ResetPassword:
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "changePasswordIn1Password:")
+            }
+        }
+    }
+    
+    func findLoginFrom1Password(sender: AnyObject?) {
+        OnePasswordExtension.sharedExtension().findLoginForURLString("soyou.io", forViewController: self, sender: sender) { loginDictionary, error in
+            self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
+            self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
+            self.validateActionButton()
+        }
+    }
+    
+    func saveLoginTo1Password(sender: AnyObject?) {
+        OnePasswordExtension.sharedExtension().storeLoginForURLString("soyou.io", loginDetails: nil, passwordGenerationOptions: nil, forViewController: self, sender: sender) { loginDictionary, error in
+            self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
+            self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
+            self.tfPasswordConfirm?.text = loginDictionary?[AppExtensionPasswordKey] as? String
+            self.validateActionButton()
+        }
+    }
+    
+    func changePasswordIn1Password(sender: AnyObject?) {
+        OnePasswordExtension.sharedExtension().changePasswordForLoginForURLString("soyou.io", loginDetails: nil, passwordGenerationOptions: nil, forViewController: self, sender: sender) { loginDictionary, error in
+            self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
+            self.tfPasswordConfirm?.text = loginDictionary?[AppExtensionPasswordKey] as? String
+            self.validateActionButton()
+        }
     }
 }

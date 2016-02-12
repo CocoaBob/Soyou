@@ -1,4 +1,5 @@
 PODS:
+  - 1PasswordExtension (1.7)
   - ActionSheetPicker-3.0 (2.0.5)
   - AFNetworking (2.6.3):
     - AFNetworking/NSURLConnection (= 2.6.3)
@@ -56,6 +57,7 @@ PODS:
   - ZoomInteractiveTransition (0.4.0)
 
 DEPENDENCIES:
+  - 1PasswordExtension
   - ActionSheetPicker-3.0
   - AFNetworking (~> 2)
   - Base64nl
@@ -110,6 +112,7 @@ CHECKOUT OPTIONS:
     :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 SPEC CHECKSUMS:
+  1PasswordExtension: a22573ad528dd63bd79c1f3b3813b17c2f86b91b
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Base64nl: a497bdcd1c01ea793d36b399016195a8713c0e95
