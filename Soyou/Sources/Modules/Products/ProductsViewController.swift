@@ -161,7 +161,8 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         cell.lblBrand?.text = product.brandLabel
         cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices as? [NSDictionary])
         cell.isFavorite = product.isFavorite()
-
+        cell.fgImageView.image = nil
+        
         if let images = product.images as? NSArray,
             imageURLString = images.firstObject as? String,
             imageURL = NSURL(string: imageURLString) {

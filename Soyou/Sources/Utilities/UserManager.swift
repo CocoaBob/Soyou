@@ -89,7 +89,6 @@ extension UserManager {
             } else {
                 UICKeyChainStore.removeItemForKey(Cons.Usr.token)
             }
-            NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.IsLoggedInDidChangeNotification, object: self)
         }
     }
 }

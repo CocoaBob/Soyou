@@ -170,3 +170,24 @@
 "app_about_content"="Soyou is your luxury shopping assistant, gathering official prices of world's top fashion items, sharing global discount information and fashion information, providing shopping guides of brand stores, help you easily grasp the trends of global luxury goods.";
 "app_new_version_available"="New version available, please upgrade.";
 "app_new_version_app_store"="Open App Store.";
+
+/* Intro View */
+"intro_vc_skip_button"="Skip";
+"intro_vc_skip_button_done"="Done";
+"intro_vc_enable_notification"="Enable Notifications";
+"intro_vc_enable_location"="Enable Location";
+"intro_vc_image_welcome"="img_intro_welcome_zh";
+"intro_vc_title_welcome"="Welcome to Soyou!";
+"intro_vc_desc_welcome"="Soyou is your best luxury shopping assistant.";
+"intro_vc_image_search"="img_intro_search_zh";
+"intro_vc_title_search"="Search whatever whenever";
+"intro_vc_desc_search"="In Soyou, you can search products with any keyword or ref code, no matter if you are online or offline.";
+"intro_vc_image_prices"="img_intro_prices_zh";
+"intro_vc_title_prices"="Compare global prices";
+"intro_vc_desc_prices"="In Soyou, you can compare global prices easily in the same currency.";
+"intro_vc_image_map"="img_intro_map_zh";
+"intro_vc_title_map"="Find global stores";
+"intro_vc_desc_map"="In Soyou, you can locate brand stores around you or in any corner of the world.";
+"intro_vc_image_news"="img_intro_news_zh";
+"intro_vc_title_news"="Latest fashion information";
+"intro_vc_desc_news"="Soyou will share discount and fashion information with you.";

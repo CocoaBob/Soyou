@@ -167,10 +167,11 @@ extension StoreMapViewController: MKMapViewDelegate {
 extension StoreMapViewController: CLLocationManagerDelegate {
     
     private func initLocationManager() {
-        _locationManager.delegate = self
-        _locationManager.requestWhenInUseAuthorization()
-        _locationManager.startUpdatingLocation()
-        _locationManager.requestLocation()
+        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+            _locationManager.delegate = self
+            _locationManager.startUpdatingLocation()
+            _locationManager.requestLocation()
+        }
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

@@ -24,10 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SDImageCache.sharedImageCache().shouldDecompressImages = false
         SDWebImageDownloader.sharedDownloader().shouldDecompressImages = false
         
-        // Setup Push notification
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil))
-        application.registerForRemoteNotifications()
-        
         // Setup themes
         Themes.setupAppearances()
         
@@ -91,6 +87,8 @@ extension AppDelegate {
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         
         DataManager.shared.registerForNotification(deviceTokenString)
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.DidRegisterForRemoteNotifications, object: nil)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -123,15 +121,18 @@ extension AppDelegate {
     func checkIfShowIntroView() {
         let lastIntroVersion = DataManager.shared.getAppInfo(Cons.App.lastIntroVersion)
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
+        
+        // If versions are same, skip
         if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
             if lastIntroVersion == currentAppVersion {
                 return
             }
         }
         
+        // Remember the current version
         DataManager.shared.setAppInfo(currentAppVersion ?? "", forKey: Cons.App.lastIntroVersion)
         
-        // Check if it's main version upgrade
+        // If main versions are same, skip
         if let lastMainVersion = lastIntroVersion?.componentsSeparatedByString(".").first,
             currMainVersion = currentAppVersion?.componentsSeparatedByString(".").first,
             lastMainVersionInt = Int(lastMainVersion),
@@ -142,6 +143,6 @@ extension AppDelegate {
         }
         
         // Show Intro View
-        IntroViewController.showIntroView()
+        IntroViewController.shared.showIntroView()
     }
 }

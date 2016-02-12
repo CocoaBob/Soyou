@@ -173,3 +173,24 @@
 "app_about_content"="『奢有』是您的奢侈品采购助理，网罗全球顶级时尚单品官方售价，分享各国折扣信息和时尚资讯，提供品牌专卖店导航指南，让您轻松掌握全球奢侈品动态。";
 "app_new_version_available"="有新版本可用，请立即升级。";
 "app_new_version_app_store"="打开 App Store";
+
+/* Intro View */
+"intro_vc_skip_button"="跳过";
+"intro_vc_skip_button_done"="完成";
+"intro_vc_enable_notification"="启用通知";
+"intro_vc_enable_location"="启用定位";
+"intro_vc_image_welcome"="img_intro_welcome_zh";
+"intro_vc_title_welcome"="欢迎使用『奢有』！";
+"intro_vc_desc_welcome"="『奢有』是您的最佳奢侈品采购助理。";
+"intro_vc_image_search"="img_intro_search_zh";
+"intro_vc_title_search"="随时随地搜索";
+"intro_vc_desc_search"="无论您在哪里有没有网络，您都可以搜索关键词或编号来找到您想要的产品。";
+"intro_vc_image_prices"="img_intro_prices_zh";
+"intro_vc_title_prices"="全球比价";
+"intro_vc_desc_prices"="『奢有』自动帮您转换汇率，一眼看尽全球官方售价。";
+"intro_vc_image_map"="img_intro_map_zh";
+"intro_vc_title_map"="全球专卖店";
+"intro_vc_desc_map"="『奢有』帮您轻松定位全球专卖店。无论您在哪里，纽约、巴黎、伦敦，应有尽有。";
+"intro_vc_image_news"="img_intro_news_zh";
+"intro_vc_title_news"="最新时尚资讯";
+"intro_vc_desc_news"="『奢有』将会与您分享最新折扣信息与时尚资讯，与您一起走在时尚前沿。";

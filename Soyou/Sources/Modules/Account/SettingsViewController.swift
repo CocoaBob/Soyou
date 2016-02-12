@@ -53,7 +53,7 @@ extension SettingsViewController {
                         subTitle: nil,
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            IntroViewController.showIntroView()
+                            IntroViewController.shared.showIntroView()
                         }
                     ),
                     Row(type: .LeftTitle,

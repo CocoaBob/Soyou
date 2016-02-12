@@ -28,7 +28,7 @@ public struct Cons {
         static let token                                    = "token"
         static let deviceToken                              = "deviceToken"
         static let roleCode                                 = "roleCode"
-        static let IsLoggedInDidChangeNotification          = "IsLoggedInDidChangeNotification"
+        static let DidRegisterForRemoteNotifications        = "DidRegisterForRemoteNotifications"
     }
     
     struct App {
