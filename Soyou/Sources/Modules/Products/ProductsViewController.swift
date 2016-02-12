@@ -230,7 +230,7 @@ extension ProductsViewController: ZoomTransitionProtocol {
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
-        if self.isSearchResultsViewController {
+        if self.isSearchResultsViewController || self.presentedViewController is UISearchController {
             return false
         }
         // Only available for opening a product from products view controller
