@@ -11,6 +11,7 @@ class UserViewController: SimpleTableViewController {
     @IBOutlet var imgViewAvatar: UIImageView!
     @IBOutlet var viewUserInfo: UIView!
     @IBOutlet var lblUsername: UILabel!
+    @IBOutlet var lblMatricule: UILabel!
     
     private var KVOContextUserViewController = 0
     
@@ -155,6 +156,11 @@ extension UserViewController {
     func updateUserInfo() {
         self.imgViewAvatar.image = UserManager.shared.avatarImage()
         self.lblUsername.text = UserManager.shared.username
+        if let matricule = UserManager.shared.matricule {
+            self.lblMatricule.text = matricule
+        } else {
+            self.lblMatricule.text = nil
+        }
     }
     
     func avatarAction() {

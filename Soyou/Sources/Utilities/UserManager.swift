@@ -145,6 +145,19 @@ extension UserManager {
         }
     }
     
+    var matricule: String? {
+        get {
+            if self.isLoggedIn {
+                if let value = self["matricule"] as? NSNumber {
+                    if value != "" {
+                        return "\(value)"
+                    }
+                }
+            }
+            return nil
+        }
+    }
+    
     var region: String? {
         set {
             self["region"] = newValue

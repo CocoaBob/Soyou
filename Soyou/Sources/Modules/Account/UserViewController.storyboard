@@ -82,6 +82,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="imgViewAvatar" destination="CyA-3f-zIP" id="Opu-fn-1af"/>
+                        <outlet property="lblMatricule" destination="MEc-tw-ibp" id="TEh-x0-YhD"/>
                         <outlet property="lblUsername" destination="CaK-Gp-xgc" id="Hmv-av-Oo2"/>
                         <outlet property="tableView" destination="3NO-BY-JXz" id="tAa-sE-crA"/>
                         <outlet property="viewUserInfo" destination="yFb-LZ-316" id="jUe-X3-g8t"/>
@@ -107,15 +108,22 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </imageView>
-                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaK-Gp-xgc">
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaK-Gp-xgc">
                             <rect key="frame" x="259" y="178" width="83" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MEc-tw-ibp">
+                            <rect key="frame" x="300" y="200" width="0.0" height="0.0"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="MEc-tw-ibp" firstAttribute="centerX" secondItem="yFb-LZ-316" secondAttribute="centerX" id="2hk-fd-7TM"/>
                         <constraint firstAttribute="bottom" secondItem="Lap-td-XWB" secondAttribute="bottom" id="5Ts-1T-onm"/>
                         <constraint firstItem="Lap-td-XWB" firstAttribute="top" secondItem="yFb-LZ-316" secondAttribute="top" id="Had-eQ-IBe"/>
                         <constraint firstAttribute="trailing" secondItem="Lap-td-XWB" secondAttribute="trailing" id="JI6-dg-fpX"/>
@@ -123,6 +131,7 @@
                         <constraint firstItem="CaK-Gp-xgc" firstAttribute="centerX" secondItem="yFb-LZ-316" secondAttribute="centerX" id="Xjd-nv-LgL"/>
                         <constraint firstItem="CyA-3f-zIP" firstAttribute="centerY" secondItem="yFb-LZ-316" secondAttribute="centerY" id="ZDp-sM-AaV"/>
                         <constraint firstItem="CaK-Gp-xgc" firstAttribute="top" secondItem="CyA-3f-zIP" secondAttribute="bottom" constant="16" id="meK-AT-ink"/>
+                        <constraint firstItem="MEc-tw-ibp" firstAttribute="top" secondItem="CaK-Gp-xgc" secondAttribute="bottom" constant="4" id="mik-xN-asY"/>
                         <constraint firstItem="Lap-td-XWB" firstAttribute="leading" secondItem="yFb-LZ-316" secondAttribute="leading" id="vRh-da-sXm"/>
                     </constraints>
                 </view>
