@@ -127,6 +127,10 @@ extension SettingsViewController {
         let _ = simpleViewController.view
         simpleViewController.tableView.separatorStyle = .None
         // Data
+        var title = "\n" + NSLocalizedString("app_about_title")
+        if let versionString = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
+            title += " v" + versionString
+        }
         simpleViewController.sections = [
             Section(
                 title: " ",
@@ -134,7 +138,7 @@ extension SettingsViewController {
                     Row(type: .IconTitleContent,
                         cell: Cell(height: nil, tintColor: nil, accessoryType: .None, separatorInset: nil),
                         image: nil,
-                        title: Text(text: "\n" + NSLocalizedString("app_about_title"), placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: title, placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: NSLocalizedString("app_about_content") + "\n", placeholder: nil, font: UIFont.systemFontOfSize(16), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         didSelect: nil
