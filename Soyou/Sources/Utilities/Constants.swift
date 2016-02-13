@@ -10,11 +10,11 @@ public struct Cons {
     struct Svr {
         static let minVer                                   = "0.0.2"
         
-        static let baseURL                                  = "https://baodating-api.woniu.io:5000"
+        static let baseURL                                  = "https://api.soyou.io:5000"
         
         static let apiVersion                               = "v1"
         
-        static let shareBaseURL                             = "http://baodating-contents.woniu.io:8090/#"
+        static let shareBaseURL                             = "http://share.soyou.io:8090/#"
         
         // Count of News to load for each request
         static let reqCnt                                   = 5
