@@ -524,7 +524,7 @@
                                         </containerView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGM-a0-MjF">
                                             <rect key="frame" x="0.0" y="32" width="600" height="200"/>
-                                            <state key="normal" image="img_map_button_icon"/>
+                                            <state key="highlighted" backgroundImage="img_bg_tile_light_gray_translucent"/>
                                             <connections>
                                                 <segue destination="tbh-av-P5t" kind="show" identifier="PushStoreMapViewController" id="8h3-jy-NCP"/>
                                             </connections>
@@ -695,11 +695,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="img_bg_tile_light_gray_translucent" width="1" height="1"/>
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="9" height="14"/>
         <image name="img_cell_disclosure_title" width="19" height="20"/>
         <image name="img_heart_shadow" width="24" height="22"/>
-        <image name="img_map_button_icon" width="46" height="46"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="8h3-jy-NCP"/>
