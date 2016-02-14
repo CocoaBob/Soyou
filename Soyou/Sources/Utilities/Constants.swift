@@ -10,7 +10,7 @@ public struct Cons {
     struct Svr {
         static let minVer                                   = "0.0.2"
         
-        static let baseURL                                  = "https://api.soyou.io:5000"
+        static let baseURL                                  = "https://api.soyou.io"
         
         static let apiVersion                               = "v1"
         
