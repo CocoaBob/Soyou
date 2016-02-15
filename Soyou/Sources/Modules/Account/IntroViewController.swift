@@ -8,10 +8,10 @@
 
 enum IntroViewPage: Int {
     case Welcome
+    case News
     case Search
     case Prices
     case Map
-    case News
     case Count
 }
 
@@ -59,8 +59,10 @@ class IntroViewController: NSObject {
         self.introView?.bgImage = UIImage(named: "img_bg_user")
         self.introView?.pageControlY = 24
         self.introView?.skipButtonY = 8
-        self.updateSkipButtonTitle(0)
-            
+        self.introView?.skipButton.setTitle(NSLocalizedString("intro_vc_skip_button_done"), forState: .Normal)
+        self.introView?.showSkipButtonOnlyOnLastPage = true
+//        self.introView?.swipeToExit = false
+        
         self.introView?.showInView(keyWindow, animateDuration: 0.3)
     }
 }
@@ -134,7 +136,7 @@ extension IntroViewController: EAIntroDelegate {
     }
     
     func intro(introView: EAIntroView!, pageAppeared page: EAIntroPage!, withIndex pageIndex: UInt) {
-        self.updateSkipButtonTitle(pageIndex)
+        
     }
     
     func intro(introView: EAIntroView!, pageStartScrolling page: EAIntroPage!, withIndex pageIndex: UInt) {
@@ -191,15 +193,5 @@ extension IntroViewController: CLLocationManagerDelegate {
                 self.removeSubviews(page.subviews as! [UIView])
             }
         }
-    }
-}
-
-// MARK: Routines
-extension IntroViewController {
-
-    func updateSkipButtonTitle(pageIndex: UInt) {
-        self.introView?.skipButton.setTitle(
-            NSLocalizedString((pageIndex == UInt(IntroViewPage.Count.rawValue - 1)) ? "intro_vc_skip_button_done" : "intro_vc_skip_button"),
-            forState: .Normal)
     }
 }
