@@ -223,6 +223,9 @@ extension ProductViewController {
                             placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                             completed: { (image, error, cacheType, url) -> Void in
+                                if image == nil {
+                                    return
+                                }
                                 for (index, photo) in self.photos.enumerate() {
                                     if photo.underlyingImage() == nil && photo.photoURL == url {
                                         self.photos[index] = IDMPhoto(image: image)

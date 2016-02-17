@@ -162,15 +162,18 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
             updateWebViewHeight(webView)
             self.isDisplayingTranslatedText = false
             MBProgressHUD.hideLoader(self.productViewController?.view)
-        }else{
+        } else{
             if let _ = self.descriptionZH {
                 let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
                 webView.stringByEvaluatingJavaScriptFromString(js)
                 updateWebViewHeight(webView)
                 self.isDisplayingTranslatedText = true
                 MBProgressHUD.hideLoader(self.productViewController?.view)
-            }else {
+            } else {
                 DataManager.shared.translateProduct(self.id!) { responseObject, error in
+                    defer {
+                        MBProgressHUD.hideLoader(self.productViewController?.view)
+                    }
                     guard let data = responseObject?["data"] else { return }
                     if let data = data {
                         if let translation = data["descriptions"] as? String {
@@ -181,7 +184,6 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
                     }
                     self.updateWebViewHeight(webView)
                     self.isDisplayingTranslatedText = true
-                    MBProgressHUD.hideLoader(self.productViewController?.view)
                 }
             }
         }
