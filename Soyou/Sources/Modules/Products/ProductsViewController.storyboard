@@ -691,7 +691,30 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KaS-N8-cx1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="505" y="1073"/>
+            <point key="canvasLocation" x="463" y="1073"/>
+        </scene>
+        <!--Store Map Search Results View Controller-->
+        <scene sceneID="Jhg-vR-6H7">
+            <objects>
+                <tableViewController storyboardIdentifier="StoreMapSearchResultsViewController" id="pS9-aW-qme" customClass="StoreMapSearchResultsViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="nBT-41-ThB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="R10-0e-v2E">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <connections>
+                            <outlet property="dataSource" destination="pS9-aW-qme" id="FKH-IP-nQu"/>
+                            <outlet property="delegate" destination="pS9-aW-qme" id="tjW-iK-w0q"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f4n-RC-I3g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1161" y="1073"/>
         </scene>
     </scenes>
     <resources>

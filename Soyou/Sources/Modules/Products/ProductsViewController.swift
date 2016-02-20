@@ -330,6 +330,10 @@ extension ProductsViewController: UISearchResultsUpdating {
 // MARK: - SearchControler
 extension ProductsViewController: UISearchControllerDelegate {
     
+    func setupRightBarButtonItem() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+    }
+    
     func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.setRightBarButtonItem(nil, animated: false)
@@ -338,12 +342,12 @@ extension ProductsViewController: UISearchControllerDelegate {
     }
     
     func hideSearchController() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        self.setupRightBarButtonItem()
         self.navigationItem.titleView = nil
     }
     
     func setupSearchController() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        self.setupRightBarButtonItem()
 
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
@@ -355,9 +359,6 @@ extension ProductsViewController: UISearchControllerDelegate {
         self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"), self.categoryName ?? "")
         self.searchController!.hidesNavigationBarDuringPresentation = false
-        
-        // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
-//        let _ = self.searchController?.view // Force loading the view
     }
     
     func willDismissSearchController(searchController: UISearchController) {

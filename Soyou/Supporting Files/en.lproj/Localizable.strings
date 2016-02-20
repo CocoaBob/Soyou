@@ -52,6 +52,7 @@
 
 /* Store Map View Controller */
 "store_map_vc_address_copied"="Address copied to pasteboard";
+"store_map_vc_search_bar_placeholder"="Countries, cities...";
 
 /* User View Controller */
 "user_vc_login"="Login to sync favorites";

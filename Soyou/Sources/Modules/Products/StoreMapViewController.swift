@@ -13,12 +13,16 @@ class StoreMapViewController: UIViewController {
     private var mapClusterController: CCHMapClusterController!
     private var mapClusterer: CCHMapClusterer!
     private var mapAnimator: CCHMapAnimator!
+    private var searchResultAnnotation: MKPointAnnotation?
     
     let leftAccessoryButton = CalloutButton(frame: CGRectMake(0,0,32,100))
     let rightAccessoryButton = CalloutButton(frame: CGRectMake(0,0,32,100))
     
+    var isFullMap: Bool = false
     var brandID: NSNumber?
     var brandName: String?
+    
+    var searchController: UISearchController?
     
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
@@ -48,12 +52,25 @@ class StoreMapViewController: UIViewController {
         self.setupMapClusterController()
         
         // Add annotations
-        self.addAnnotations()
+        self.addStoreAnnotations()
+        
+        // Setup Search Controller
+        if self.isFullMap {
+            self.setupSearchController()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
+        // For navigation bar search bar
+        self.definesPresentationContext = true
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // For navigation bar search bar
+        self.definesPresentationContext = false
     }
 }
 
@@ -98,7 +115,7 @@ extension StoreMapViewController: CCHMapClusterControllerDelegate {
 // MARK: MKMapViewDelegate & Annotations
 extension StoreMapViewController: MKMapViewDelegate {
     
-    func addAnnotations() {
+    func addStoreAnnotations() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
             guard let brandID = self.brandID else { return }
             if let stores = Store.MR_findAllWithPredicate(FmtPredicate("brandId == %@", brandID)) as? [Store] {
@@ -158,7 +175,19 @@ extension StoreMapViewController: MKMapViewDelegate {
             clusterAnnotationView?.isUniqueLocation = clusterAnnotation.isUniqueLocation()
             
             returnValue = clusterAnnotationView
+        } else if annotation is MKPointAnnotation {
+            var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("pinAnnotationView") as? MKPinAnnotationView
+            if let annotationView = pinAnnotationView {
+                annotationView.annotation = annotation
+            } else {
+                pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pinAnnotationView")
+                pinAnnotationView?.animatesDrop = true
+                pinAnnotationView?.canShowCallout = true
+            }
+            
+            returnValue = pinAnnotationView
         }
+
         return returnValue
     }
 }
@@ -167,12 +196,7 @@ extension StoreMapViewController: MKMapViewDelegate {
 extension StoreMapViewController: CLLocationManagerDelegate {
     
     private func initLocationManager() {
-        if CLLocationManager.authorizationStatus() != .AuthorizedWhenInUse {
-            _locationManager.requestWhenInUseAuthorization()
-        }
         _locationManager.delegate = self
-        _locationManager.startUpdatingLocation()
-        _locationManager.requestLocation()
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -184,6 +208,15 @@ extension StoreMapViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         DLog(error)
+    }
+    
+    func locateSelf() {
+        if CLLocationManager.authorizationStatus() != .AuthorizedWhenInUse {
+            _locationManager.requestWhenInUseAuthorization()
+        } else {
+            _locationManager.startUpdatingLocation()
+            _locationManager.requestLocation()
+        }
     }
 }
 
@@ -233,6 +266,80 @@ extension StoreMapViewController {
         }
         for annotation in self.mapView.selectedAnnotations {
             self.mapView.deselectAnnotation(annotation, animated: true)
+        }
+    }
+}
+
+// MARK: - SearchControler
+extension StoreMapViewController: UISearchControllerDelegate {
+    
+    func removeSearchResultAnnotation() {
+        if let searchResultAnnotation = self.searchResultAnnotation {
+            self.mapView.removeAnnotation(searchResultAnnotation)
+        }
+    }
+    
+    func addSearchResultAnnotation(mapItem: MKMapItem) {
+        self.removeSearchResultAnnotation()
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = mapItem.placemark.coordinate
+        annotation.title = mapItem.name
+        annotation.subtitle = mapItem.placemark.addressString()
+        self.mapView.addAnnotation(annotation)
+        self.searchResultAnnotation = annotation
+    }
+    
+    func setupRightBarButtonItem() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+    }
+    
+    func showSearchController() {
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationItem.setRightBarButtonItem(nil, animated: false)
+        self.navigationItem.titleView = self.searchController!.searchBar
+        self.searchController!.searchBar.becomeFirstResponder()
+    }
+    
+    func hideSearchController() {
+        self.removeSearchResultAnnotation()
+        self.setupRightBarButtonItem()
+        self.navigationItem.titleView = nil
+    }
+    
+    func setupSearchController() {
+        self.setupRightBarButtonItem()
+        
+        let storeMapSearchResultsViewController = StoreMapSearchResultsViewController.instantiate()
+        storeMapSearchResultsViewController.delegate = self
+        self.searchController = UISearchController(searchResultsController: storeMapSearchResultsViewController)
+        self.searchController!.delegate = self
+        self.searchController!.searchResultsUpdater = storeMapSearchResultsViewController
+        self.searchController!.searchBar.placeholder = NSLocalizedString("store_map_vc_search_bar_placeholder")
+        self.searchController!.hidesNavigationBarDuringPresentation = false
+    }
+    
+    func willDismissSearchController(searchController: UISearchController) {
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.hideSearchController()
+    }
+}
+
+// MARK: StoreMapSearchResultsViewControllerDelegate
+extension StoreMapViewController: StoreMapSearchResultsViewControllerDelegate {
+    
+    
+    func searchRegion() -> MKCoordinateRegion {
+        return self.mapView.region
+    }
+    
+    func didSelectSearchResult(mapItem: MKMapItem) {
+        DLog(mapItem)
+        if let region = mapItem.placemark.region as? CLCircularRegion {
+            self.searchController?.active = false
+            let mapRegion = MKCoordinateRegionMakeWithDistance(region.center, region.radius, region.radius)
+            self.mapView.setRegion(self.mapView.regionThatFits(mapRegion), animated: true)
+            self.addSearchResultAnnotation(mapItem)
         }
     }
 }

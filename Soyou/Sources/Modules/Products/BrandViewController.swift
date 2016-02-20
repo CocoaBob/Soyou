@@ -123,6 +123,7 @@ class BrandViewController: UIViewController {
             let storeMapViewController = segue.destinationViewController as! StoreMapViewController
             storeMapViewController.brandID = self.brandID
             storeMapViewController.brandName = self.brandName
+            storeMapViewController.isFullMap = true
         }
 
     }
@@ -353,6 +354,10 @@ extension BrandViewController {
 // MARK: - SearchControler
 extension BrandViewController: UISearchControllerDelegate {
     
+    func setupRightBarButtonItem() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+    }
+    
     func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.setRightBarButtonItem(nil, animated: false)
@@ -361,25 +366,22 @@ extension BrandViewController: UISearchControllerDelegate {
     }
     
     func hideSearchController() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        self.setupRightBarButtonItem()
         self.navigationItem.titleView = nil
     }
     
     func setupSearchController() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        self.setupRightBarButtonItem()
         
-        let searchResultsController = ProductsViewController.instantiate()
-        searchResultsController.isSearchResultsViewController = true
-        searchResultsController.searchFromViewController = self
-        searchResultsController.brandID = self.brandID
-        self.searchController = UISearchController(searchResultsController: searchResultsController)
+        let productsViewController = ProductsViewController.instantiate()
+        productsViewController.isSearchResultsViewController = true
+        productsViewController.searchFromViewController = self
+        productsViewController.brandID = self.brandID
+        self.searchController = UISearchController(searchResultsController: productsViewController)
         self.searchController!.delegate = self
-        self.searchController!.searchResultsUpdater = searchResultsController
+        self.searchController!.searchResultsUpdater = productsViewController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
         self.searchController!.hidesNavigationBarDuringPresentation = false
-        
-        // Workaround of warning: Attempting to load the view of a view controller while it is deallocating is not allowed and may result in undefined behavior (<UISearchController: 0x7f9307f11ff0>)
-//        let _ = self.searchController?.view // Force loading the view
     }
     
     func willDismissSearchController(searchController: UISearchController) {
