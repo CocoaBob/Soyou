@@ -9,6 +9,7 @@
 class StoreMapViewController: UIViewController {
 
     @IBOutlet var mapView: MKMapView!
+    @IBOutlet var btnLocate: UIButton!
     private var _locationManager = CLLocationManager()
     private var mapClusterController: CCHMapClusterController!
     private var mapClusterer: CCHMapClusterer!
@@ -57,6 +58,8 @@ class StoreMapViewController: UIViewController {
         // Setup Search Controller
         if self.isFullMap {
             self.setupSearchController()
+        } else {
+            self.btnLocate.hidden = true
         }
     }
     
@@ -207,7 +210,7 @@ extension StoreMapViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.first?.coordinate {
-            self.mapView?.setRegion(MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.5, 0.5)), animated: false)
+            self.mapView?.setCenterCoordinate(coordinate, animated: true)
             manager.stopUpdatingLocation()
         }
     }
@@ -216,7 +219,7 @@ extension StoreMapViewController: CLLocationManagerDelegate {
         DLog(error)
     }
     
-    func locateSelf() {
+    @IBAction func locateSelf() {
         if CLLocationManager.authorizationStatus() != .AuthorizedWhenInUse {
             _locationManager.requestWhenInUseAuthorization()
         } else {

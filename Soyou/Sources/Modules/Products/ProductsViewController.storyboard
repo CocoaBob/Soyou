@@ -676,6 +676,17 @@
                                     <outlet property="delegate" destination="tbh-av-P5t" id="9ph-nd-Cc7"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4B-C8-WGg">
+                                <rect key="frame" x="525" y="525" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="a8I-Hf-23S"/>
+                                    <constraint firstAttribute="height" constant="60" id="kQQ-cQ-Ja1"/>
+                                </constraints>
+                                <state key="normal" image="img_map_locate_fg" backgroundImage="img_map_locate_bg"/>
+                                <connections>
+                                    <action selector="locateSelf" destination="tbh-av-P5t" eventType="touchUpInside" id="Tyz-Sj-4HR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -683,9 +694,12 @@
                             <constraint firstItem="1Ax-HM-kOx" firstAttribute="top" secondItem="SQL-1J-zNo" secondAttribute="bottom" id="bWD-kE-3ok"/>
                             <constraint firstItem="SQL-1J-zNo" firstAttribute="top" secondItem="Tx0-X8-mLT" secondAttribute="top" id="bxz-9O-y7H"/>
                             <constraint firstItem="SQL-1J-zNo" firstAttribute="leading" secondItem="Tx0-X8-mLT" secondAttribute="leading" id="vAg-WP-2FY"/>
+                            <constraint firstItem="1Ax-HM-kOx" firstAttribute="top" secondItem="y4B-C8-WGg" secondAttribute="bottom" constant="15" id="ws9-em-AGc"/>
+                            <constraint firstAttribute="trailing" secondItem="y4B-C8-WGg" secondAttribute="trailing" constant="15" id="zZh-pW-ZTe"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnLocate" destination="y4B-C8-WGg" id="Ylu-up-b1h"/>
                         <outlet property="mapView" destination="SQL-1J-zNo" id="Wrl-D3-9ky"/>
                     </connections>
                 </viewController>
@@ -723,6 +737,8 @@
         <image name="img_cell_disclosure" width="9" height="14"/>
         <image name="img_cell_disclosure_title" width="19" height="20"/>
         <image name="img_heart_shadow" width="24" height="22"/>
+        <image name="img_map_locate_bg" width="48" height="48"/>
+        <image name="img_map_locate_fg" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="8h3-jy-NCP"/>
