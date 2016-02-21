@@ -124,10 +124,14 @@ extension StoreMapViewController: MKMapViewDelegate {
                     let annotation = StoreMapAnnotation()
                     annotation.storeID = store.id
                     annotation.coordinate = CLLocationCoordinate2DMake(store.latitude!.doubleValue, store.longitude!.doubleValue)
-                    annotation.title = store.title ?? ""
+                    annotation.title = store.title
                     annotation.subtitle = (store.address != nil ? (store.address! + "\n") : "") +
                         (store.zipcode != nil ? (store.zipcode! + "\n") : "") +
                         (store.phoneNumber != nil ? (store.phoneNumber!) : "")
+                    if annotation.title == nil {
+                        annotation.title = annotation.subtitle
+                        annotation.subtitle = nil
+                    }
                     annotations.append(annotation)
                 }
                 self.mapClusterController.addAnnotations(annotations, withCompletionHandler: nil)
@@ -169,6 +173,8 @@ extension StoreMapViewController: MKMapViewDelegate {
                 
                 // Callout right accessory button
                 clusterAnnotationView?.rightCalloutAccessoryView = rightAccessoryButton
+                
+                clusterAnnotationView?.canShowCallout = true
             }
             
             clusterAnnotationView?.count = clusterAnnotation.annotations.count
