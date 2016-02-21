@@ -89,11 +89,12 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             _cell.lblTitle.text = FmtString(NSLocalizedString("product_prices_vc_official_price"), countryName ?? "")
             
             // Hide website label if not available
-            if let officialUrlString = item["officialUrl"] as? String,
-                _ = NSURL(string: officialUrlString) {
-                    _cell.lblAccessory.hidden = false
+            if let officialUrlString = item["officialUrl"] as? String {
+                _cell.lblAccessory.hidden = officialUrlString.characters.count == 0
+                _cell.accessoryType = _cell.lblAccessory.hidden ? .None : .Checkmark
             } else {
                 _cell.lblAccessory.hidden = true
+                _cell.accessoryType = .None
             }
 
             cell = _cell
@@ -132,6 +133,9 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             guard let prices = self.prices else { return }
             guard let item: [String: AnyObject] = prices[indexPath.section] else { return }
             guard let officialUrlString = item["officialUrl"] as? String else { return }
+            if officialUrlString.characters.count == 0 {
+                return
+            }
             guard let officialUrl = NSURL(string: officialUrlString) else { return }
             let safariViewController = SFSafariViewController(URL: officialUrl, entersReaderIfAvailable: false)
             self.productViewController?.presentViewController(safariViewController, animated: true, completion: nil)
