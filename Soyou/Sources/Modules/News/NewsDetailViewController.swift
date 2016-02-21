@@ -18,9 +18,6 @@ class NewsDetailViewController: UIViewController {
     let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
-    // To hide toolbar
-    var lastScrollViewOffset: CGFloat = 0
-    
     // Status Bar Cover
     var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
@@ -198,38 +195,6 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         // Update Status Bar Cover
         self.updateStatusBarCover()
-        
-        // To hide toolbar
-        if (scrollView.contentOffset.y > self.lastScrollViewOffset) {
-            // Only if the header+content height is obviously larger than the scrollView height
-            if (scrollView.contentInset.top + scrollView.contentSize.height - scrollView.frame.height > 64) {
-                self.hideToolbar(true)
-                scrollView.contentInset.bottom = 0
-                scrollView.scrollIndicatorInsets = scrollView.contentInset
-            }
-        } else if (scrollView.contentOffset.y < 0) {
-            self.showToolbar(true)
-            if let toolbar = self.navigationController?.toolbar {
-                scrollView.contentInset.bottom = toolbar.frame.size.height
-                scrollView.scrollIndicatorInsets = scrollView.contentInset
-            }
-        }
-    }
-    
-    // To hide toolbar
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if (decelerate && scrollView.contentOffset.y < self.lastScrollViewOffset) {
-            self.showToolbar(true)
-            if let toolbar = self.navigationController?.toolbar {
-                scrollView.contentInset.bottom = toolbar.frame.size.height
-                scrollView.scrollIndicatorInsets = scrollView.contentInset
-            }
-        }
-    }
-    
-    // To hide toolbar
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        self.lastScrollViewOffset = scrollView.contentOffset.y
     }
     
     private func updateStatusBarCover() {
