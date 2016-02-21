@@ -9,9 +9,13 @@
 private class CategoryItem: AnyObject {
     var id: NSNumber = 0.0
     var label: String = ""
+    var level: Int = 0
     var parent: CategoryItem?
     var children: [CategoryItem] = [CategoryItem]()
     var childrenIsVisible: Bool = false
+    func isLeaf() -> Bool {
+        return children.count == 0
+    }
 }
 
 class BrandViewController: UIViewController {
@@ -169,6 +173,12 @@ extension BrandViewController {
                     item.label = dict["label"] as! String
                     item.parent = parentItem
                     parentItem.children.append(item)
+                    // Calculate level
+                    var parent = item.parent
+                    while parent != nil {
+                        item.level += 1
+                        parent = parent?.parent
+                    }
                     categories.removeAtIndex(categories.indexOf(dict)!)
                 }
             }
@@ -224,7 +234,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         let item = itemForIndexPath(indexPath)
         var cell: UITableViewCell?
         
-        if isRootItem(indexPath) {
+        if isRootItem(indexPath) && !item.isLeaf() {
             let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListRootCell", forIndexPath: indexPath) as! BrandViewHierarchyListRootCell
             
             _cell.lblTitle!.text = item.label
@@ -236,6 +246,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
             let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListSubCell", forIndexPath: indexPath) as! BrandViewHierarchyListSubCell
             
             _cell.lblTitle!.text = item.label
+            _cell.level = item.level
             
             cell = _cell
         }
@@ -246,10 +257,11 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if isRootItem(indexPath) {
+        let item = itemForIndexPath(indexPath)
+        if isRootItem(indexPath) && !item.isLeaf() {
             self.toggleHierarchyListRootItem(indexPath)
         } else {
-            self.presentProductsViewController(indexPath)
+            self.presentProductsViewController(item)
         }
     }
 }
@@ -335,11 +347,10 @@ extension BrandViewController {
         self.tableView.reloadSections(indexSet, withRowAnimation: UITableViewRowAnimation.Fade)
     }
     
-    private func presentProductsViewController(indexPath: NSIndexPath) {
+    private func presentProductsViewController(item: CategoryItem) {
         let productsViewController = ProductsViewController.instantiate()
-        let item = itemForIndexPath(indexPath)
         productsViewController.categoryName = item.label
-        productsViewController.categoryID = self.itemForIndexPath(indexPath).id
+        productsViewController.categoryID = item.id
         productsViewController.brandID = self.brandID
         self.navigationController?.pushViewController(productsViewController, animated: true)
     }
@@ -347,7 +358,7 @@ extension BrandViewController {
     @IBAction func didTapAccessoryButton(sender: UIButton) {
         let position = sender.convertPoint(CGPointZero, toView: self.tableView)
         guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
-        self.presentProductsViewController(indexPath)
+        self.presentProductsViewController(self.itemForIndexPath(indexPath))
     }
 }
 
@@ -411,6 +422,21 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
 class BrandViewHierarchyListSubCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var btnAccessory: UIButton!
+    @IBOutlet var leftMargin: NSLayoutConstraint!
+    
+    var level: Int = 0 {
+        didSet {
+            if level == 0 {
+                leftMargin.constant = 15.0
+                self.backgroundColor = UIColor.whiteColor()
+                self.lblTitle.textColor = UIColor(white: 0.25, alpha: 1)
+            } else {
+                leftMargin.constant = CGFloat(32 + 15 * level)
+                self.backgroundColor = UIColor(white: 0.96, alpha: 1)
+                self.lblTitle.textColor = UIColor(white: 0.33, alpha: 1)
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -625,9 +625,9 @@
                                                 <constraint firstItem="A1e-6K-WaM" firstAttribute="centerY" secondItem="xE1-sk-UTi" secondAttribute="centerY" id="zBw-5S-7Lf"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.95999999999999996" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="lblTitle" destination="A1e-6K-WaM" id="vdr-Ep-PJN"/>
+                                            <outlet property="leftMargin" destination="tzY-9B-a52" id="weq-2d-eOS"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
