@@ -426,14 +426,15 @@ class BrandViewHierarchyListSubCell: UITableViewCell {
     
     var level: Int = 0 {
         didSet {
+            leftMargin.constant = CGFloat(32 + 15 * level)
             if level == 0 {
-                leftMargin.constant = 15.0
                 self.backgroundColor = UIColor.whiteColor()
                 self.lblTitle.textColor = UIColor(white: 0.25, alpha: 1)
+                self.lblTitle.font = UIFont.boldSystemFontOfSize(16)
             } else {
-                leftMargin.constant = CGFloat(32 + 15 * level)
                 self.backgroundColor = UIColor(white: 0.96, alpha: 1)
                 self.lblTitle.textColor = UIColor(white: 0.33, alpha: 1)
+                self.lblTitle.font = UIFont.systemFontOfSize(16)
             }
         }
     }

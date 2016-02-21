@@ -58,8 +58,8 @@ class DataManager {
     // MARK: Currency
     //////////////////////////////////////
     
-    func requestCurrencies(currencies: [NSDictionary], _ completion: CompletionClosure?) {
-        RequestManager.shared.requestCurrencies(currencies,
+    func requestCurrencyChanges(currencies: [NSDictionary], _ completion: CompletionClosure?) {
+        RequestManager.shared.requestCurrencyChanges(currencies,
             { responseObject in self.completeWithData(responseObject, completion: completion) },
             { error in self.completeWithError(error, completion: completion) }
         )
@@ -451,6 +451,8 @@ class DataManager {
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         Region.importDatas(data)
                     }
+                    // Update all currencies based on all regions
+                    CurrencyManager.shared.updateCurrencyRates()
                     self.completeWithData(responseObject, completion: completion)
                 }
             },
