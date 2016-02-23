@@ -9,12 +9,19 @@
 public struct Cons {
     struct Svr {
         static let minVer                                   = "0.0.2"
-        
+#if DEBUG
+        static let baseURL                                  = "https://test-api.soyou.io"
+#else
         static let baseURL                                  = "https://api.soyou.io"
+#endif
         
         static let apiVersion                               = "v1"
         
+#if DEBUG
+        static let shareBaseURL                             = "http://test-share.soyou.io:8090/#"
+#else
         static let shareBaseURL                             = "http://share.soyou.io:8090/#"
+#endif
         
         // Count of News to load for each request
         static let reqCnt                                   = 5
