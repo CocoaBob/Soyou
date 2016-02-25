@@ -15,6 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        // Exclude from iCloud backup
+        let appSupportDir = FileManager.appSupportDir.URLByAppendingPathComponent("Soyou")
+        FileManager.excludeFromBackup(appSupportDir)
+        
         // Setup Database
         MagicalRecord.setLoggingLevel(.Error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)

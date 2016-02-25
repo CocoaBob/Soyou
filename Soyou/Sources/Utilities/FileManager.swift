@@ -12,6 +12,19 @@ class FileManager: NSObject {
     
     static var docDir: NSURL = {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls.last!
+        return urls.first!
     }()
+    
+    static var appSupportDir: NSURL = {
+        let urls = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
+        return urls.first!
+    }()
+    
+    static func excludeFromBackup(pathURL: NSURL) -> Bool {
+        if let _ = try? pathURL.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
