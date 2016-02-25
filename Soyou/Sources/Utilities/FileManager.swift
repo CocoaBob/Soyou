@@ -20,6 +20,22 @@ class FileManager: NSObject {
         return urls.first!
     }()
     
+    static var oldAppDataDir: NSURL = {
+        return FileManager.appSupportDir.URLByAppendingPathComponent("Soyou")
+    }()
+    
+    static var appDataDir: NSURL = {
+        let url = FileManager.appSupportDir.URLByAppendingPathComponent("SoyouData")
+        if !NSFileManager.defaultManager().fileExistsAtPath(url.path!) {
+            do {
+                try NSFileManager.defaultManager().createDirectoryAtPath(url.path!, withIntermediateDirectories: true, attributes: nil)
+            } catch _ {
+                
+            }
+        }
+        return url
+    }()
+    
     static func excludeFromBackup(pathURL: NSURL) -> Bool {
         if let _ = try? pathURL.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey) {
             return true
