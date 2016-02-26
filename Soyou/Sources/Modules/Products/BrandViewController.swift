@@ -9,12 +9,31 @@
 private class CategoryItem: AnyObject {
     var id: NSNumber = 0.0
     var label: String = ""
+    var order: NSNumber = 0
     var level: Int = 0
     var parent: CategoryItem?
     var children: [CategoryItem] = [CategoryItem]()
     var childrenIsVisible: Bool = false
     func isLeaf() -> Bool {
         return children.count == 0
+    }
+}
+
+extension CategoryItem: Equatable {
+}
+
+private func == (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
+    return (lhs.id.integerValue == rhs.id.integerValue)
+}
+
+extension CategoryItem: Comparable {
+}
+
+private func < (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
+    if (lhs.order.integerValue < rhs.order.integerValue) {
+        return true
+    } else {
+        return (lhs.label.compare(rhs.label, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: nil, locale: NSLocale(localeIdentifier: "zh_CN")) == .OrderedAscending)
     }
 }
 
@@ -147,7 +166,14 @@ extension BrandViewController {
         return nil
     }
     
-    private func loadData() {
+    private func sortCategories(categories: [CategoryItem]) ->[CategoryItem] {
+        for category in categories {
+            category.children = self.sortCategories(category.children)
+        }
+        return categories.sort(<)
+    }
+    
+    private func prepareCategories() {
         guard var categories = self.brandCategories else { return }
         
         // Prepare empty array
@@ -159,6 +185,7 @@ extension BrandViewController {
                 let item = CategoryItem()
                 item.id = dict["id"] as! NSNumber
                 item.label = dict["label"] as! String
+                item.order = dict["order"] as! NSNumber
                 _sections.append(item)
                 categories.removeAtIndex(categories.indexOf(dict)!)
             }
@@ -171,6 +198,7 @@ extension BrandViewController {
                     let item = CategoryItem()
                     item.id = dict["id"] as! NSNumber
                     item.label = dict["label"] as! String
+                    item.order = dict["order"] as! NSNumber
                     item.parent = parentItem
                     parentItem.children.append(item)
                     // Calculate level
@@ -183,6 +211,13 @@ extension BrandViewController {
                 }
             }
         }
+        
+        // Sort categories
+        _sections = self.sortCategories(_sections)
+    }
+    
+    private func loadData() {
+        self.prepareCategories()
         
         // Reload table
         self.tableView.reloadData()
