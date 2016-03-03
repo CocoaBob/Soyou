@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.7)
+  - 1PasswordExtension (1.8)
   - ActionSheetPicker-3.0 (2.0.5)
   - AFNetworking (2.6.3):
     - AFNetworking/NSURLConnection (= 2.6.3)
@@ -44,7 +44,7 @@ PODS:
   - MJRefresh (3.1.0)
   - MXParallaxHeader (0.4.3)
   - NYSegmentedControl (1.0.7)
-  - PageMenu (1.2.8)
+  - PageMenu (1.2.9)
   - PFCarouselView (0.7.0)
   - pop (1.0.9)
   - SCLAlertView (0.5.1)
@@ -52,7 +52,7 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - UICKeyChainStore (1.0.5)
-  - UIColor_Hex_Swift (1.8)
+  - UIColor_Hex_Swift (1.9)
   - UIView+Shake (1.1.3)
   - ZoomInteractiveTransition (0.4.0)
 
@@ -73,46 +73,33 @@ DEPENDENCIES:
   - MJRefresh
   - MXParallaxHeader
   - NYSegmentedControl
-  - PageMenu (from `git://github.com/uacaps/PageMenu`, commit `9ed0c136a540ac9f2356a0cc4faddf0987d1af09`)
+  - PageMenu
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `add88563b2e32858f9325d981cb9779d36926053`)
   - SCLAlertView
   - SDWebImage
   - UICKeyChainStore
   - UIColor_Hex_Swift
   - UIView+Shake
-  - ZoomInteractiveTransition (from `git://github.com/DenHeadless/ZoomInteractiveTransition`,
-    commit `71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd`)
+  - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
-  PageMenu:
-    :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
-    :git: git://github.com/uacaps/PageMenu
   PFCarouselView:
     :commit: add88563b2e32858f9325d981cb9779d36926053
     :git: git://github.com/CocoaBob/PFCarouselView
-  ZoomInteractiveTransition:
-    :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
-    :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 CHECKOUT OPTIONS:
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
-  PageMenu:
-    :commit: 9ed0c136a540ac9f2356a0cc4faddf0987d1af09
-    :git: git://github.com/uacaps/PageMenu
   PFCarouselView:
     :commit: add88563b2e32858f9325d981cb9779d36926053
     :git: git://github.com/CocoaBob/PFCarouselView
-  ZoomInteractiveTransition:
-    :commit: 71d3f28a4bfccdf69cee9f9a30d2ae51739d94dd
-    :git: git://github.com/DenHeadless/ZoomInteractiveTransition
 
 SPEC CHECKSUMS:
-  1PasswordExtension: a22573ad528dd63bd79c1f3b3813b17c2f86b91b
+  1PasswordExtension: 627d5aecf210c7636968faf5a4c3546c9531385b
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Base64nl: a497bdcd1c01ea793d36b399016195a8713c0e95
@@ -130,13 +117,13 @@ SPEC CHECKSUMS:
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MXParallaxHeader: 96d9e7c392a26b29b97ddc34bff904a9c0baef27
   NYSegmentedControl: 55b4f9eb652767cae9799623ec3e49e50029ef47
-  PageMenu: 703e82e173f54a4626ab88fcdca7703ee52e0cbe
+  PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SCLAlertView: 3ac39a863d3e10fc165662b1228b03402297aea9
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
-  UIColor_Hex_Swift: a66b9d5f6e8fddbd9fe32996504f0b7e9d20d680
+  UIColor_Hex_Swift: 2ee747c0fed8b72b2135ef474b80a6921e489daa
   UIView+Shake: a7ea3fd810a64297cb56b7cbdbd2b0fd5f964a6e
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
