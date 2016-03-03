@@ -20,12 +20,8 @@ class FileManager: NSObject {
         return urls.first!
     }()
     
-    static var oldAppDataDir: NSURL = {
-        return FileManager.appSupportDir.URLByAppendingPathComponent("Soyou")
-    }()
-    
     static var appDataDir: NSURL = {
-        let url = FileManager.appSupportDir.URLByAppendingPathComponent("SoyouData")
+        let url = FileManager.appSupportDir.URLByAppendingPathComponent("Soyou")
         if !NSFileManager.defaultManager().fileExistsAtPath(url.path!) {
             do {
                 try NSFileManager.defaultManager().createDirectoryAtPath(url.path!, withIntermediateDirectories: true, attributes: nil)

@@ -15,13 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Exclude from iCloud backup
-        FileManager.excludeFromBackup(FileManager.oldAppDataDir)
+        // Exclude database from iCloud backup
+        FileManager.excludeFromBackup(FileManager.appDataDir)
         
         // Setup Database
         MagicalRecord.setLoggingLevel(.Error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
-        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreNamed("Soyou.sqlite")
+        let urlDatabase = FileManager.appDataDir.URLByAppendingPathComponent("Soyou.sqlite")
+        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(urlDatabase)
         
         // Setup SDWebImage cache
         SDImageCache.sharedImageCache().shouldDecompressImages = false
