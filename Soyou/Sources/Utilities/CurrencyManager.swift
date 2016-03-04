@@ -102,7 +102,7 @@ class CurrencyManager {
                         }
                         
                         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                            CurrencyRate.importDatas(currencyRates, false)
+                            CurrencyRate.importDatas(currencyRates)
                         })
                 }
             }

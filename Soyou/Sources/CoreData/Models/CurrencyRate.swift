@@ -44,7 +44,7 @@ class CurrencyRate: BaseModel {
         return currencyRate
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ deleteNonExisting: Bool) {
+    class func importDatas(datas: [NSDictionary]?) {
         if let datas = datas {
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 
