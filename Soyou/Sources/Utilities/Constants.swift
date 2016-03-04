@@ -9,24 +9,20 @@
 public struct Cons {
     struct Svr {
         static let minVer                                   = "0.0.2"
-#if DEBUG
-        static let baseURL                                  = "https://test-api.soyou.io"
-#else
-        static let baseURL                                  = "https://api.soyou.io"
-#endif
-        
         static let apiVersion                               = "v1"
         
 #if DEBUG
+        static let baseURL                                  = "https://test-api.soyou.io"
         static let shareBaseURL                             = "http://test-share.soyou.io:8090/#"
 #else
+        static let baseURL                                  = "https://api.soyou.io"
         static let shareBaseURL                             = "http://share.soyou.io:8090/#"
 #endif
         
         // Count of News to load for each request
         static let reqCnt                                   = 5
         
-        static let reqAPIKey                                = "48548598-f079-4c57-bb39-d9ca8344abd7"
+        static let reqAPIKey                                = "\(1155919*2*3*7)"+"-f079-4c57-bb39-d9ca8344abd7"
         static let reqAuthorizationKey                      = "reqAuthorizationKey"
     }
     
