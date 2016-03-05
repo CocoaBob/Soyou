@@ -29,8 +29,10 @@ PODS:
   - EAIntroView (2.8.1):
     - EARestrictedScrollView (~> 0.2.0)
   - EARestrictedScrollView (0.2.0)
-  - FCUUID (1.1.5):
-    - UICKeyChainStore (~> 1.0.5)
+  - EncryptedCoreData (3.0):
+    - SQLCipher (~> 3.3.0)
+  - FCUUID (1.2.0):
+    - UICKeyChainStore (~> 2.1.0)
   - FlagKit (1.0.7)
   - IDMPhotoBrowser (1.8.1):
     - DACircularProgress
@@ -51,7 +53,12 @@ PODS:
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
-  - UICKeyChainStore (1.0.5)
+  - SQLCipher (3.3.1):
+    - SQLCipher/standard (= 3.3.1)
+  - SQLCipher/common (3.3.1)
+  - SQLCipher/standard (3.3.1):
+    - SQLCipher/common
+  - UICKeyChainStore (2.1.0)
   - UIColor_Hex_Swift (1.9)
   - UIView+Shake (1.1.3)
   - ZoomInteractiveTransition (0.4.0)
@@ -64,6 +71,8 @@ DEPENDENCIES:
   - CCHMapClusterController
   - CHTCollectionViewWaterfallLayout
   - EAIntroView
+  - EncryptedCoreData (from `git://github.com/project-imas/encrypted-core-data`, commit
+    `663e392943b9a38c539ae337a3dd8143850bdea4`)
   - FCUUID
   - FlagKit
   - IDMPhotoBrowser
@@ -83,6 +92,9 @@ DEPENDENCIES:
   - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
+  EncryptedCoreData:
+    :commit: 663e392943b9a38c539ae337a3dd8143850bdea4
+    :git: git://github.com/project-imas/encrypted-core-data
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
@@ -91,6 +103,9 @@ EXTERNAL SOURCES:
     :git: git://github.com/CocoaBob/PFCarouselView
 
 CHECKOUT OPTIONS:
+  EncryptedCoreData:
+    :commit: 663e392943b9a38c539ae337a3dd8143850bdea4
+    :git: git://github.com/project-imas/encrypted-core-data
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
@@ -108,7 +123,8 @@ SPEC CHECKSUMS:
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   EAIntroView: 73abfa89caa311f450af876421d950b96679e845
   EARestrictedScrollView: f86d61e16c61d3e93c84f8e96e83122a2a3b7631
-  FCUUID: a9108673d64a4585a4bb89ea5d4c69b002edadb3
+  EncryptedCoreData: ed01d9cafe16d94ba5ff7a14a69f1d8dbc2c2d95
+  FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FlagKit: dffc62b4c5db33043c89bbda0bda897077d521e5
   IDMPhotoBrowser: 99eccfe6431e182f64e2fe57ac654316fbf81576
   libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
@@ -122,7 +138,8 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SCLAlertView: 3ac39a863d3e10fc165662b1228b03402297aea9
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
-  UICKeyChainStore: e81dc3b58d56ffaed61ab6669eb97071e53fc377
+  SQLCipher: d490d2effe735895d2204d25a154b1e722278421
+  UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
   UIColor_Hex_Swift: 2ee747c0fed8b72b2135ef474b80a6921e489daa
   UIView+Shake: a7ea3fd810a64297cb56b7cbdbd2b0fd5f964a6e
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f

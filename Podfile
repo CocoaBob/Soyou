@@ -13,6 +13,7 @@ pod "Base64nl"
 pod "CCHMapClusterController"
 pod "CHTCollectionViewWaterfallLayout"
 pod "EAIntroView"
+pod "EncryptedCoreData", :git => 'git://github.com/project-imas/encrypted-core-data', :commit => '663e392943b9a38c539ae337a3dd8143850bdea4'
 pod "FCUUID"
 pod "FlagKit"
 pod "IDMPhotoBrowser"

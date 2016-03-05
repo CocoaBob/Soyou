@@ -20,6 +20,7 @@
 @import CCHMapClusterController;
 @import CHTCollectionViewWaterfallLayout;
 @import EAIntroView;
+@import EncryptedCoreData;
 @import FCUUID;
 @import FlagKit;
 @import IDMPhotoBrowser;
