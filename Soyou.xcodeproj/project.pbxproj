@@ -551,6 +551,7 @@
 				ADB037464555006649303388 /* Embed Pods Frameworks */,
 				64F38153BB338306A7FF94EB /* Copy Pods Resources */,
 				4570A5831C43DDA1004274DE /* Copy Bundle Resource For IDMPhotoBrowser */,
+				45BED0921C8A66E7002E375B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -631,6 +632,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		45BED0921C8A66E7002E375B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nif [ ${CONFIGURATION} == \"Release\" ]; then\nbuildNumber=$(git rev-list HEAD | wc -l | tr -d ' ')\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\nfi;";
+		};
 		64F38153BB338306A7FF94EB /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
