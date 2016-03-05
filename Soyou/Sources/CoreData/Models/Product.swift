@@ -30,6 +30,7 @@ class Product: BaseModel {
             guard let data = data else { return }
             
             guard let id = data["id"] as? NSNumber else { return }
+            guard let sku = data["sku"] as? String else { return }
             
             if checkExisting {
                 product = Product.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
@@ -37,6 +38,7 @@ class Product: BaseModel {
             if product == nil {
                 product = Product.MR_createEntityInContext(context)
                 product?.id = id
+                product?.sku = sku
             }
             
             if let product = product {

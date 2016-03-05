@@ -490,18 +490,18 @@ extension ProductViewController {
     }
     
     func share(sender: UIBarButtonItem) {
-        var productID: NSNumber?
+        var sku: String?
         var title: String?
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = self.product?.MR_inContext(localContext)
-            productID = localProduct?.id
+            sku = localProduct?.sku
             title = localProduct?.title
         })
         
-        if let image = self.imageViews.first?.image, productID = productID {
+        if let image = self.imageViews.first?.image, sku = sku {
             let activityView = UIActivityViewController(
-                activityItems: [image, title ?? "", NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)")!],
+                activityItems: [image, title ?? "", NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(sku)")!],
                 applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
             activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
             self.presentViewController(activityView, animated: true, completion: nil)

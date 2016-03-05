@@ -25,6 +25,7 @@ extension Product {
     @NSManaged var descriptions: String?
     @NSManaged var dimension: String?
     @NSManaged var id: NSNumber?
+    @NSManaged var sku: String?
     @NSManaged var images: NSObject?
     @NSManaged var keywords: String?
     @NSManaged var likeNumber: NSNumber?
