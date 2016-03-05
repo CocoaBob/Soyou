@@ -65,6 +65,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
         request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
+        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate()), forHTTPHeaderField: "request-time")
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -124,6 +125,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
         request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
+        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate()), forHTTPHeaderField: "request-time")
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
