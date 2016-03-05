@@ -84,25 +84,30 @@ class CurrencyManager {
                 count = query["count"] as? Int,
                 time = query["created"] as? String,
                 results = query["results"] as? NSDictionary,
-                rate = results["rate"] {
-                    if count > 0 {
-                        var currencyRates = [NSDictionary]()
-                        var rates: [NSDictionary]?
-                        if let rate = rate as? NSDictionary {
-                            rates = [rate]
-                        } else if let rate = rate as? [NSDictionary] {
-                            rates = rate
-                        }
-                        if let rates = rates {
-                            for rate in rates {
-                                if let currency = self.parseCurrencyRate(rate, time: time) {
-                                    currencyRates.append(currency);
-                                }
+                rate = results["rate"]
+            {
+                if count > 0 {
+                    var currencyRates = [NSDictionary]()
+                    var rates: [NSDictionary]?
+                    if let rate = rate as? NSDictionary {
+                        rates = [rate]
+                    } else if let rate = rate as? [NSDictionary] {
+                        rates = rate
+                    }
+                    if let rates = rates {
+                        for rate in rates {
+                            if let currency = self.parseCurrencyRate(rate, time: time) {
+                                currencyRates.append(currency);
                             }
                         }
-                        
-                        CurrencyRate.importDatas(currencyRates, completion)
+                    }
+                    
+                    CurrencyRate.importDatas(currencyRates, completion)
+                } else {
+                    if let completion = completion { completion(nil, nil) }
                 }
+            } else {
+                if let completion = completion { completion(nil, nil) }
             }
         }
     }

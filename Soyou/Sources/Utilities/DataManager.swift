@@ -80,15 +80,13 @@ class DataManager {
     func login(email: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.login(email, password,
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        for (key, value) in data {
-                            UserManager.shared[key as! String] = value
-                        }
-                        UserManager.shared.logIn(data["token"]! as! String)
+                if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                    for (key, value) in data {
+                        UserManager.shared[key as! String] = value
                     }
-                    self.completeWithData(responseObject, completion: completion)
+                    UserManager.shared.logIn(data["token"]! as! String)
                 }
+                self.completeWithData(responseObject, completion: completion)
             },
             { error in self.completeWithError(error, completion: completion) }
         )
@@ -111,15 +109,13 @@ class DataManager {
     func resetPassword(verifyCode: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.resetPassword(verifyCode, password,
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        UserManager.shared.logIn(data["token"]! as! String)
-                        for (key, value) in data {
-                            UserManager.shared[key as! String] = value
-                        }
+                if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                    UserManager.shared.logIn(data["token"]! as! String)
+                    for (key, value) in data {
+                        UserManager.shared[key as! String] = value
                     }
-                    self.completeWithData(responseObject, completion: completion)
                 }
+                self.completeWithData(responseObject, completion: completion)
             },
             { error in self.completeWithError(error, completion: completion) }
         )
@@ -151,23 +147,23 @@ class DataManager {
     func requestAllBrands(completion: CompletionClosure?){
         RequestManager.shared.requestAllBrands(
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        Brand.importDatas(data, true, { (_, _) -> () in
-                            // After importing, cache all brand images
-                            MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                                if let brands = Brand.MR_findAllInContext(localContext) as? [Brand] {
-                                    for brand in brands {
-                                        if let imageURL = brand.imageUrl, url = NSURL(string: imageURL) {
-                                            SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
-                                        }
+                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    Brand.importDatas(data, true, { (_, _) -> () in
+                        // After importing, cache all brand images
+                        MagicalRecord.saveWithBlock({ (localContext) -> Void in
+                            if let brands = Brand.MR_findAllInContext(localContext) as? [Brand] {
+                                for brand in brands {
+                                    if let imageURL = brand.imageUrl, url = NSURL(string: imageURL) {
+                                        SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
                                     }
                                 }
-                                }, completion: { (_, _) -> Void in
-                                    self.completeWithData(responseObject, completion: completion)
-                            })
+                            }
+                            }, completion: { (_, _) -> Void in
+                                self.completeWithData(responseObject, completion: completion)
                         })
-                    }
+                    })
+                } else {
+                    self.completeWithData(responseObject, completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -194,10 +190,10 @@ class DataManager {
     
     func requestNewsFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
-            if let data = responseObject?["data"] as? [NSDictionary] {
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 FavoriteNews.updateWithData(data, completion)
             } else {
-                if let completion = completion { completion(nil, nil) }
+                self.completeWithError(FmtError(0, nil), completion: completion)
             }
         }
         let errorHandlerClosure = { (error: NSError?) -> () in
@@ -247,23 +243,23 @@ class DataManager {
     func requestNewsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID,
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        News.importDatas(data, false, relativeID, { (_, _) -> () in
-                            // After importing, cache all news images
-                            MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                                if let allNews = News.MR_findAllInContext(localContext) as? [News] {
-                                    for news in allNews {
-                                        if let imageURL = news.image, url = NSURL(string: imageURL) {
-                                            SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
-                                        }
+                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    News.importDatas(data, false, relativeID, { (_, _) -> () in
+                        // After importing, cache all news images
+                        MagicalRecord.saveWithBlock({ (localContext) -> Void in
+                            if let allNews = News.MR_findAllInContext(localContext) as? [News] {
+                                for news in allNews {
+                                    if let imageURL = news.image, url = NSURL(string: imageURL) {
+                                        SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
                                     }
                                 }
-                                }, completion: { (_, _) -> Void in
-                                    self.completeWithData(responseObject, completion: completion)
-                            })
+                            }
+                            }, completion: { (_, _) -> Void in
+                                self.completeWithData(responseObject, completion: completion)
                         })
-                    }
+                    })
+                } else {
+                    self.completeWithError(FmtError(0, nil), completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -326,11 +322,11 @@ class DataManager {
     func loadProducts(ids: [NSNumber], _ completion: CompletionClosure?) {
         RequestManager.shared.requestProducts(ids,
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        let checkExisting: Bool = (Product.MR_findAll()?.count > 0) ?? false
-                        Product.importDatas(data, checkExisting, completion)
-                    }
+                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    let checkExisting: Bool = (Product.MR_findAll()?.count > 0) ?? false
+                    Product.importDatas(data, checkExisting, completion)
+                } else {
+                    self.completeWithError(FmtError(0, nil), completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -340,7 +336,7 @@ class DataManager {
     // Helper methods for Products
     func loadBunchProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
         if index >= productIDs.count {
-            self.completeWithData(nil, completion: completion)
+            self.completeWithError(FmtError(0, nil), completion: completion)
             return
         }
         
@@ -355,7 +351,7 @@ class DataManager {
                 self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
             }
         } else {
-            self.completeWithData(nil, completion: completion)
+            self.completeWithError(FmtError(0, nil), completion: completion)
         }
     }
     
@@ -382,11 +378,9 @@ class DataManager {
         RequestManager.shared.requestModifiedProductIDs(
             timestamp,
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        self.completeWithData(data, completion: completion)
-                        return
-                    }
+                if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                    self.completeWithData(data, completion: completion)
+                } else {
                     self.completeWithError(FmtError(0, nil), completion: completion)
                 }
             },
@@ -401,17 +395,20 @@ class DataManager {
         }
         if let productIDs = responseObject?["products"] as? [NSNumber] {
             DLog(FmtString("Number of deleted products = %d",productIDs.count))
-            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+            let timestamp = responseObject?["timestamp"] as? String
+            self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampDeletedProductIDs)
+            MagicalRecord.saveWithBlock({ (localContext) -> Void in
                 if let products = Product.MR_findAllWithPredicate(FmtPredicate("id IN %@", productIDs), inContext: localContext) {
                     for product in products {
                         product.MR_deleteEntityInContext(localContext)
                     }
                 }
+                }, completion: { (_, _) -> Void in
+                    self.completeWithData(nil, completion: completion)
             })
-            let timestamp = responseObject?["timestamp"] as? String
-            self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampDeletedProductIDs)
+        } else {
+            self.completeWithError(FmtError(0, nil), completion: completion)
         }
-        self.completeWithData(nil, completion: completion)
     }
     
     func requestDeletedProductIDs(completion: CompletionClosure?) {
@@ -419,11 +416,9 @@ class DataManager {
         RequestManager.shared.requestDeletedProductIDs(
             timestamp,
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        self.completeWithData(data, completion: completion)
-                        return
-                    }
+                if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                    self.completeWithData(data, completion: completion)
+                } else {
                     self.completeWithError(FmtError(0, nil), completion: completion)
                 }
             },
@@ -449,13 +444,13 @@ class DataManager {
     func requestAllRegions(completion: CompletionClosure?) {
         RequestManager.shared.requestAllRegions(
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        Region.importDatas(data, { (_, _) -> () in
-                            // Update all currencies based on all regions
-                            CurrencyManager.shared.updateCurrencyRates(completion)
-                        })
-                    }
+                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    Region.importDatas(data, { (_, _) -> () in
+                        // Update all currencies based on all regions
+                        CurrencyManager.shared.updateCurrencyRates(completion)
+                    })
+                } else {
+                    self.completeWithError(FmtError(0, nil), completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -470,19 +465,19 @@ class DataManager {
         let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampStores)
         RequestManager.shared.requestAllStores(timestamp,
             { responseObject in
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        // Import data
-                        if let stores = data["stores"] as? [NSDictionary] {
-                            DLog(FmtString("Number of modified stores = %d",stores.count))
-                            Store.importDatas(stores, { (_, _) -> () in
-                                // Succeeded to import, save timestamp for next request
-                                let timestamp = data["timestamp"] as? String
-                                self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampStores)
-                            })
-                        }
-                    }
-                    self.completeWithData(responseObject, completion: completion)
+                if let data = DataManager.getResponseData(responseObject) as? NSDictionary,
+                    let stores = data["stores"] as? [NSDictionary]
+                {
+                    // Import data
+                    DLog(FmtString("Number of modified stores = %d",stores.count))
+                    Store.importDatas(stores, { (_, _) -> () in
+                        // Succeeded to import, save timestamp for next request
+                        let timestamp = data["timestamp"] as? String
+                        self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampStores)
+                        self.completeWithData(responseObject, completion: completion)
+                    })
+                } else {
+                    self.completeWithError(FmtError(0, nil), completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }

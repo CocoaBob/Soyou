@@ -55,6 +55,8 @@ class Region: BaseModel {
                 }, completion: { (_, _) -> Void in
                     if let completion = completion { completion(nil, nil) }
             })
+        } else {
+            if let completion = completion { completion(nil, nil) }
         }
     }
 }
