@@ -39,9 +39,9 @@ class Analytic: BaseModel {
         return analytic
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ deleteNonExisting: Bool) {
+    class func importDatas(datas: [NSDictionary]?, _ deleteNonExisting: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 var ids = [NSNumber]()
                 
                 // Import new data
@@ -57,6 +57,9 @@ class Analytic: BaseModel {
                         analytic.MR_deleteEntityInContext(localContext)
                     }
                 }
+                
+                }, completion: { (_, _) -> Void in
+                    if let completion = completion { completion(nil, nil) }
             })
         }
     }

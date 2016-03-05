@@ -23,7 +23,7 @@ class FavoriteProduct: NSManagedObject {
         })
     }
     
-    class func updateWithData(data: [NSDictionary]) {
+    class func updateWithData(data: [NSDictionary], _ completion: CompletionClosure?) {
         // Create a dictionary of all favorite news
         var favoriteIDs = [NSNumber]()
         var favoriteDates = [NSNumber: NSDate]()
@@ -35,7 +35,7 @@ class FavoriteProduct: NSManagedObject {
         }
         
         // Filter all existing ones, delete remotely deleted ones.
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
             if let allFavoriteProducts = FavoriteProduct.MR_findAllInContext(localContext) as? [FavoriteProduct] {
                 for favoriteProduct in allFavoriteProducts {
                     if let newsID = favoriteProduct.id, index = favoriteIDs.indexOf(newsID) {
@@ -53,6 +53,9 @@ class FavoriteProduct: NSManagedObject {
                 favoriteProduct?.id = productID
                 favoriteProduct?.dateFavorite = favoriteDates[productID]
             }
+            
+            // Completion
+            if let completion = completion { completion(nil, nil) }
         })
     }
     

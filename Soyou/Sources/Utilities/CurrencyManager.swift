@@ -69,7 +69,7 @@ class CurrencyManager {
         return Array(allCurrencies)
     }
     
-    func updateCurrencyRates() {
+    func updateCurrencyRates(completion: CompletionClosure?) {
         var currencyChanges = [NSDictionary]()
         for currency in self.allCurrencies() {
             let dict = NSMutableDictionary()
@@ -101,9 +101,7 @@ class CurrencyManager {
                             }
                         }
                         
-                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                            CurrencyRate.importDatas(currencyRates)
-                        })
+                        CurrencyRate.importDatas(currencyRates, completion)
                 }
             }
         }

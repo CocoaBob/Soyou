@@ -242,7 +242,9 @@ extension BrandsViewController {
     }
     
     func endRefreshing() {
-        self.collectionView().mj_header.endRefreshing()
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.collectionView().mj_header.endRefreshing()
+        })
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }

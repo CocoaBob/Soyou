@@ -37,19 +37,23 @@ class Region: BaseModel {
         return region
     }
     
-    class func importDatas(datas: [NSDictionary]?) {
+    class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 // Delete all regions
                 if let regions = Region.MR_findAllInContext(localContext) as? [Region] {
                     for region in regions {
                         region.MR_deleteEntityInContext(localContext)
                     }
                 }
+                
                 // Save new regions in order
                 for (index, data) in datas.enumerate() {
                     Region.importData(data, index, localContext)
                 }
+                
+                }, completion: { (_, _) -> Void in
+                    if let completion = completion { completion(nil, nil) }
             })
         }
     }

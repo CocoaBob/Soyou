@@ -44,14 +44,17 @@ class CurrencyRate: BaseModel {
         return currencyRate
     }
     
-    class func importDatas(datas: [NSDictionary]?) {
+    class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 
                 // Import new data
                 for data in datas {
                     CurrencyRate.importData(data, localContext)
                 }
+
+                }, completion: { (_, _) -> Void in
+                    if let completion = completion { completion(nil, nil) }
             })
         }
     }

@@ -23,7 +23,7 @@ class Product: BaseModel {
         return returnValue
     }
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Product?) {
+    class func importData(data: NSDictionary?, _ checkExisting: Bool, _ context: NSManagedObjectContext?) -> (Product?) {
         var product: Product? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
@@ -31,7 +31,9 @@ class Product: BaseModel {
             
             guard let id = data["id"] as? NSNumber else { return }
             
-            product = Product.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            if checkExisting {
+                product = Product.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            }
             if product == nil {
                 product = Product.MR_createEntityInContext(context)
                 product?.id = id
@@ -82,12 +84,15 @@ class Product: BaseModel {
         return product
     }
     
-    class func importDatas(datas: [NSDictionary]?) {
+    class func importDatas(datas: [NSDictionary]?, _ checkExisting: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlock({ (localContext) -> Void in
                 for data in datas {
-                    Product.importData(data, localContext)
+                    Product.importData(data, checkExisting, localContext)
                 }
+                
+                }, completion: { (_, _) -> Void in
+                    if let completion = completion { completion(nil, nil) }
             })
         }
     }

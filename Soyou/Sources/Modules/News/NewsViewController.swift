@@ -303,8 +303,10 @@ extension NewsViewController {
     }
     
     func endRefreshing() {
-        self.collectionView().mj_header.endRefreshing()
-        self.collectionView().mj_footer.endRefreshing()
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.collectionView().mj_header.endRefreshing()
+            self.collectionView().mj_footer.endRefreshing()
+        })
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }

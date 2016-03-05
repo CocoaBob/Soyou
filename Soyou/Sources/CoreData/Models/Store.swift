@@ -55,12 +55,15 @@ class Store: BaseModel {
         return store
     }
     
-    class func importDatas(datas: [NSDictionary]?) {
+    class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {
                     Store.importData(data, localContext)
                 }
+                
+                }, completion: { (_, _) -> Void in
+                    if let completion = completion { completion(nil, nil) }
             })
         }
     }

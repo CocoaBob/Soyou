@@ -62,9 +62,9 @@ class News: BaseNews {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
+    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 // Prepare data
                 let newestNews = News.MR_findFirstOrderedByAttribute("datePublication", ascending: false, inContext: localContext)
                 let moreItems = News.MR_findAllSortedBy("datePublication", ascending: false, withPredicate: FmtPredicate("appIsMore == true"), inContext: localContext) ?? []
@@ -127,6 +127,9 @@ class News: BaseNews {
                         }
                     }
                 }
+                
+                }, completion: { (_, _) -> Void in
+                    if let completion = completion { completion(nil, nil) }
             })
         }
     }

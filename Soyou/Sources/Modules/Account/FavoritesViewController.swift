@@ -256,7 +256,9 @@ extension FavoritesViewController {
     }
     
     func endRefreshing() {
-        self.tableView().mj_header.endRefreshing()
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.tableView().mj_header.endRefreshing()
+        })
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }

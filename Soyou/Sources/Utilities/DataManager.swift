@@ -10,7 +10,7 @@ class DataManager {
     
     static let shared = DataManager()
     
-    var isUpdatingData = false
+    private var isUpdatingData = false
     
     //////////////////////////////////////
     // MARK: General
@@ -153,19 +153,21 @@ class DataManager {
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        Brand.importDatas(data, true)
-                    }
-                    // Cache all the brand images
-                    MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                        if let brands = Brand.MR_findAllInContext(localContext) as? [Brand] {
-                            for brand in brands {
-                                if let imageURL = brand.imageUrl, url = NSURL(string: imageURL) {
-                                    SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                        Brand.importDatas(data, true, { (_, _) -> () in
+                            // After importing, cache all brand images
+                            MagicalRecord.saveWithBlock({ (localContext) -> Void in
+                                if let brands = Brand.MR_findAllInContext(localContext) as? [Brand] {
+                                    for brand in brands {
+                                        if let imageURL = brand.imageUrl, url = NSURL(string: imageURL) {
+                                            SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    })
-                    self.completeWithData(responseObject, completion: completion)
+                                }, completion: { (_, _) -> Void in
+                                    self.completeWithData(responseObject, completion: completion)
+                            })
+                        })
+                    }
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -193,9 +195,10 @@ class DataManager {
     func requestNewsFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
             if let data = responseObject?["data"] as? [NSDictionary] {
-                FavoriteNews.updateWithData(data)
+                FavoriteNews.updateWithData(data, completion)
+            } else {
+                if let completion = completion { completion(nil, nil) }
             }
-            self.completeWithData(responseObject, completion: completion)
         }
         let errorHandlerClosure = { (error: NSError?) -> () in
             self.completeWithError(error, completion: completion)
@@ -213,9 +216,8 @@ class DataManager {
     func requestProductFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
             if let data = responseObject?["data"] as? [NSDictionary] {
-                FavoriteProduct.updateWithData(data)
+                FavoriteProduct.updateWithData(data, completion)
             }
-            self.completeWithData(responseObject, completion: completion)
         }
         let errorHandlerClosure = { (error: NSError?) -> () in
             self.completeWithError(error, completion: completion)
@@ -247,19 +249,21 @@ class DataManager {
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        News.importDatas(data, false, relativeID)
-                    }
-                    // Cache all the news images
-                    MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                        if let allNews = News.MR_findAllInContext(localContext) as? [News] {
-                            for news in allNews {
-                                if let imageURL = news.image, url = NSURL(string: imageURL) {
-                                    SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                        News.importDatas(data, false, relativeID, { (_, _) -> () in
+                            // After importing, cache all news images
+                            MagicalRecord.saveWithBlock({ (localContext) -> Void in
+                                if let allNews = News.MR_findAllInContext(localContext) as? [News] {
+                                    for news in allNews {
+                                        if let imageURL = news.image, url = NSURL(string: imageURL) {
+                                            SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    })
-                    self.completeWithData(responseObject, completion: completion)
+                                }, completion: { (_, _) -> Void in
+                                    self.completeWithData(responseObject, completion: completion)
+                            })
+                        })
+                    }
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -324,9 +328,9 @@ class DataManager {
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        Product.importDatas(data)
+                        let checkExisting: Bool = (Product.MR_findAll()?.count > 0) ?? false
+                        Product.importDatas(data, checkExisting, completion)
                     }
-                    self.completeWithData(responseObject, completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -431,9 +435,7 @@ class DataManager {
         self.requestModifiedProductIDs { responseObject, error in
             self.handleModifiedProductsIDs(responseObject, error) { responseObject, error in
                 self.requestDeletedProductIDs() { responseObject, error in
-                    self.handleDeletedProductsIDs(responseObject, error, { responseObject, error in
-                        self.completeWithData(nil, completion: completion)
-                    })
+                    self.handleDeletedProductsIDs(responseObject, error, completion)
                 }
             }
             
@@ -449,11 +451,11 @@ class DataManager {
             { responseObject in
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        Region.importDatas(data)
+                        Region.importDatas(data, { (_, _) -> () in
+                            // Update all currencies based on all regions
+                            CurrencyManager.shared.updateCurrencyRates(completion)
+                        })
                     }
-                    // Update all currencies based on all regions
-                    CurrencyManager.shared.updateCurrencyRates()
-                    self.completeWithData(responseObject, completion: completion)
                 }
             },
             { error in self.completeWithError(error, completion: completion) }
@@ -473,11 +475,12 @@ class DataManager {
                         // Import data
                         if let stores = data["stores"] as? [NSDictionary] {
                             DLog(FmtString("Number of modified stores = %d",stores.count))
-                            Store.importDatas(stores)
+                            Store.importDatas(stores, { (_, _) -> () in
+                                // Succeeded to import, save timestamp for next request
+                                let timestamp = data["timestamp"] as? String
+                                self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampStores)
+                            })
                         }
-                        // Succeeded to import, save timestamp for next request
-                        let timestamp = data["timestamp"] as? String
-                        self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampStores)
                     }
                     self.completeWithData(responseObject, completion: completion)
                 }

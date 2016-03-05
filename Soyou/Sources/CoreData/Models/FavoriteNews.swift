@@ -66,17 +66,20 @@ class FavoriteNews: BaseNews {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?) {
+    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {
                     FavoriteNews.importData(data, isComplete, localContext)
                 }
+                
+                }, completion: { (_, _) -> Void in
+                    if let completion = completion { completion(nil, nil) }
             })
         }
     }
     
-    class func updateWithData(data: [NSDictionary]) {
+    class func updateWithData(data: [NSDictionary], _ completion: CompletionClosure?) {
         // Create a dictionary of all favorite news
         var favoriteIDs = [NSNumber]()
         var favoriteDates = [NSNumber: NSDate]()
@@ -88,7 +91,7 @@ class FavoriteNews: BaseNews {
         }
         
         // Filter all existing ones, delete remotely deleted ones.
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
             if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
                 for favoriteNews in allFavoritesNews {
                     if let newsID = favoriteNews.id, _ = favoriteIDs.indexOf(newsID) {
@@ -97,27 +100,32 @@ class FavoriteNews: BaseNews {
                     }
                 }
             }
-        })
-        
-        // Request non-existing ones
-        if favoriteIDs.count > 0 {
-            DataManager.shared.requestNews(favoriteIDs, { responseObject, error in
-                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                    FavoriteNews.importDatas(data, false, nil)
-                    
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        // Update favorite dates
-                        if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
-                            for favoriteNews in allFavoritesNews {
-                                if let newsID = favoriteNews.id {
-                                    favoriteNews.dateFavorite = favoriteDates[newsID]
+            
+            // Request non-existing ones
+            if favoriteIDs.count > 0 {
+                DataManager.shared.requestNews(favoriteIDs, { responseObject, error in
+                    if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                        FavoriteNews.importDatas(data, false, nil, { (_, _) -> () in
+                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                                // Update favorite dates
+                                if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
+                                    for favoriteNews in allFavoritesNews {
+                                        if let newsID = favoriteNews.id {
+                                            favoriteNews.dateFavorite = favoriteDates[newsID]
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    })
-                }
-            })
-        }
+                                if let completion = completion { completion(nil, nil) }
+                            })
+                        })
+                    } else {
+                        if let completion = completion { completion(nil, nil) }
+                    }
+                })
+            } else {
+                if let completion = completion { completion(nil, nil) }
+            }
+        })
     }
     
     class func deleteAll() {
