@@ -399,6 +399,7 @@ extension ProductViewController: ZoomTransitionProtocol {
             let imageView = self.imageViews[0]
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode
+            returnImageView.clipsToBounds = imageView.clipsToBounds
             return returnImageView
         }
         return nil

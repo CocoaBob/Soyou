@@ -235,6 +235,7 @@ extension BrandViewController {
         // Header View
         let headerView = UIImageView(image: image)
         headerView.contentMode = .ScaleAspectFill
+        headerView.clipsToBounds = true
         // Parallax View
         let scrollView = self.tableView
         scrollView.parallaxHeader.height = headerHeight
@@ -332,6 +333,7 @@ extension BrandViewController: ZoomTransitionProtocol {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode
+            returnImageView.clipsToBounds = imageView.clipsToBounds
             return returnImageView
         }
         return nil

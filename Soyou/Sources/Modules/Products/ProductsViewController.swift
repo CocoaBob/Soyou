@@ -225,6 +225,7 @@ extension ProductsViewController: ZoomTransitionProtocol {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = .ScaleAspectFit
+            returnImageView.clipsToBounds = true
             return returnImageView
         }
         return nil

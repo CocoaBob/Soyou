@@ -205,6 +205,7 @@ extension BrandsViewController: ZoomTransitionProtocol {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode
+            returnImageView.clipsToBounds = imageView.clipsToBounds
             return returnImageView
         }
         return nil

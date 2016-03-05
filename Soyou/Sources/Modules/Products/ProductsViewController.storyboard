@@ -50,7 +50,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="133" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ke3-8t-hNW" userLabel="Foreground Image View">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ke3-8t-hNW" userLabel="Foreground Image View">
                                                     <rect key="frame" x="0.0" y="0.0" width="133" height="100"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0B1-bE-mve">
@@ -737,7 +737,7 @@
         <image name="img_cell_disclosure" width="9" height="14"/>
         <image name="img_cell_disclosure_title" width="19" height="20"/>
         <image name="img_heart_shadow" width="24" height="22"/>
-        <image name="img_map_locate_bg" width="48" height="48"/>
+        <image name="img_map_locate_bg" width="60" height="60"/>
         <image name="img_map_locate_fg" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
