@@ -166,17 +166,17 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         if let images = product.images as? NSArray,
             imageURLString = images.firstObject as? String,
             imageURL = NSURL(string: imageURLString) {
-            cell.fgImageView?.sd_setImageWithURL(imageURL,
-                placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
-                options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                    if image != nil && image.size.width != 0 {
-                        MagicalRecord.saveWithBlock { (localContext: NSManagedObjectContext!) -> Void in
-                            guard let localProduct = product.MR_inContext(localContext) else { return }
-                            localProduct.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+                cell.fgImageView?.sd_setImageWithURL(imageURL,
+                    placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
+                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                        if image != nil && image.size.width != 0 {
+                            MagicalRecord.saveWithBlock { (localContext: NSManagedObjectContext!) -> Void in
+                                guard let localProduct = product.MR_inContext(localContext) else { return }
+                                localProduct.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+                            }
                         }
-                    }
-            })
+                })
         } else {
             DLog(FmtString("Product ID = %@, images: %@",product.id ?? "?",product.images ?? "?"))
         }

@@ -323,8 +323,7 @@ class DataManager {
         RequestManager.shared.requestProducts(ids,
             { responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                    let checkExisting: Bool = (Product.MR_findAll()?.count > 0) ?? false
-                    Product.importDatas(data, checkExisting, completion)
+                    Product.importDatas(data, completion)
                 } else {
                     self.completeWithError(FmtError(0, nil), completion: completion)
                 }
