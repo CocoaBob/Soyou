@@ -22,20 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.setLoggingLevel(.Error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
         let urlDatabase = FileManager.appDataDir.URLByAppendingPathComponent("Soyou.sqlite")
-        
-        #if true
-            MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(urlDatabase)
-        #else
-            let model = NSManagedObjectModel.MR_defaultManagedObjectModel()
-            
-//            let psc = NSPersistentStoreCoordinator(managedObjectModel: model!)
-            
-            let options = [EncryptedStorePassphraseKey:"Ey9WSwRwVz4cB4X2KuA1",EncryptedStoreDatabaseLocation:urlDatabase]
-            let psc = EncryptedStore.makeStoreWithOptions(options, managedObjectModel: model)
-            
-            NSPersistentStoreCoordinator.MR_setDefaultStoreCoordinator(psc)
-            NSManagedObjectContext.MR_initializeDefaultContextWithCoordinator(psc)
-        #endif
+        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(urlDatabase)
         
         // Setup SDWebImage cache
         SDImageCache.sharedImageCache().shouldDecompressImages = false
