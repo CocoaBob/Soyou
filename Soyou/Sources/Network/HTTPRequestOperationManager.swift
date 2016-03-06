@@ -177,7 +177,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                 self.newVersionAlert = SCLAlertView()
                 self.newVersionAlert!.addButton(NSLocalizedString("app_new_version_app_store")) { () -> Void in
                     self.newVersionAlert = nil
-                    Utils.shared.openAppStorePage()
+                    Utils.openAppStorePage()
                 }
                 self.newVersionAlert!.showCloseButton = false
                 self.newVersionAlert!.showNotice(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("app_new_version_available"))

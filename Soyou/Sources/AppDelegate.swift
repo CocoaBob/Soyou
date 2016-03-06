@@ -16,13 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Exclude database from iCloud backup
-        FileManager.excludeFromBackup(FileManager.appDataDir)
+        FileManager.excludeFromBackup(FileManager.dbDir)
+        
+        // Check upgrades
+        checkIfUpgraded()
         
         // Setup Database
         MagicalRecord.setLoggingLevel(.Error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
-        let urlDatabase = FileManager.appDataDir.URLByAppendingPathComponent("Soyou.sqlite")
-        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(urlDatabase)
+        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
         
         // Setup SDWebImage cache
         SDImageCache.sharedImageCache().shouldDecompressImages = false
@@ -109,7 +111,8 @@ extension AppDelegate {
 extension AppDelegate {
     
     func checkIfUpgraded() {
-        let lastInstalledVersion = DataManager.shared.getAppInfo(Cons.App.lastInstalledVersion)
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let lastInstalledVersion = userDefaults.objectForKey(Cons.App.lastInstalledVersion) as? String
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
         if let lastInstalledVersion = lastInstalledVersion, currentAppVersion = currentAppVersion {
             if lastInstalledVersion == currentAppVersion {
@@ -117,9 +120,17 @@ extension AppDelegate {
             }
         }
         
-        DataManager.shared.setAppInfo(currentAppVersion ?? "", forKey: Cons.App.lastInstalledVersion)
+        userDefaults.setObject(currentAppVersion, forKey: Cons.App.lastInstalledVersion)
         
-        // Do something for the new version
+        // Based on the version, do something
+        // Database schema changed, delete old database
+        if lastInstalledVersion == nil || Int(lastInstalledVersion ?? "0") < 417 {
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(FileManager.dbURL)
+            } catch {
+                DLog(error)
+            }
+        }
     }
     
     func checkIfShowIntroView() {

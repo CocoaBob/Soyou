@@ -38,7 +38,7 @@ public struct Cons {
         static let username                                 = "username"                                // Keychain
         static let deviceToken                              = "deviceToken"                             // Keychain
         static let lastIntroVersion                         = "lastIntroVersion"                        // Database
-        static let lastInstalledVersion                     = "lastInstalledVersion"                    // Database
+        static let lastInstalledVersion                     = "lastInstalledVersion"                    // NSUserDefaults
         static let lastRequestTimestampProductIDs           = "lastRequestTimestampProductIDs"          // Database
         static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"   // Database
         static let lastRequestTimestampStores               = "lastRequestTimestampStores"              // Database

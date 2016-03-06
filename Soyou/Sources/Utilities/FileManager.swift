@@ -20,16 +20,20 @@ class FileManager: NSObject {
         return urls.first!
     }()
     
-    static var appDataDir: NSURL = {
+    static var dbDir: NSURL = {
         let url = FileManager.appSupportDir.URLByAppendingPathComponent("Soyou")
         if !NSFileManager.defaultManager().fileExistsAtPath(url.path!) {
             do {
                 try NSFileManager.defaultManager().createDirectoryAtPath(url.path!, withIntermediateDirectories: true, attributes: nil)
-            } catch _ {
-                
+            } catch {
+                DLog(error)
             }
         }
         return url
+    }()
+    
+    static var dbURL: NSURL = {
+        return FileManager.dbDir.URLByAppendingPathComponent("Soyou.sqlite")
     }()
     
     static func excludeFromBackup(pathURL: NSURL) -> Bool {

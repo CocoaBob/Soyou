@@ -178,7 +178,7 @@ extension UserViewController {
     @IBAction func likeApp(sender: UIBarButtonItem?) {
         let alertController = UIAlertController(title: NSLocalizedString("user_vc_feedback_alert_title"), message: NSLocalizedString("user_vc_feedback_alert_message"), preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_like"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-            Utils.shared.openAppStorePage()
+            Utils.openAppStorePage()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_feedback"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
             Utils.shared.sendFeedbackEmail(self)

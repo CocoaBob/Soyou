@@ -31,7 +31,7 @@ class Utils: NSObject {
 // MARK: Open AppStore page
 extension Utils {
     
-    func openAppStorePage() {
+    class func openAppStorePage() {
         UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8")!)
     }
 }
@@ -52,5 +52,24 @@ extension Utils: MFMailComposeViewControllerDelegate {
     
     func mailComposeController(viewController: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         viewController.dismissSelf()
+    }
+}
+
+// MARK: Encryption / Decryption
+extension Utils {
+    
+    class func encrypt(object: AnyObject) -> NSData {
+        let objectData = NSKeyedArchiver.archivedDataWithRootObject(object)
+        return RNCryptor.encryptData(objectData, password: "wWnpTbe4S9vfgyp824oI")
+    }
+    
+    class func decrypt(data: NSData) -> AnyObject? {
+        do {
+            let objectData = try RNCryptor.decryptData(data, password: "wWnpTbe4S9vfgyp824oI")
+            return NSKeyedUnarchiver.unarchiveObjectWithData(objectData)
+        } catch {
+            DLog(error)
+        }
+        return nil
     }
 }

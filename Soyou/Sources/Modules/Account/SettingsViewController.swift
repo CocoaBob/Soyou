@@ -203,7 +203,7 @@ extension SettingsViewController {
     }
     
     func review() {
-        Utils.shared.openAppStorePage()
+        Utils.openAppStorePage()
     }
     
     func clearCache() {

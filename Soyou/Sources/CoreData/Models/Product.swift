@@ -36,7 +36,7 @@ class Product: BaseModel {
             if product == nil {
                 product = Product.MR_createEntityInContext(context)
                 product?.id = id
-                product?.sku = sku
+                product?.sku = Utils.encrypt(sku)
             }
             
             if let product = product {
@@ -45,8 +45,13 @@ class Product: BaseModel {
                 product.dimension = data["dimension"] as? String
                 product.images = data["images"] as? NSArray
                 product.likeNumber = data["likeNumber"] as? NSNumber
-                product.prices = data["prices"] as? NSArray
-                product.appPricesCount = (product.prices as? NSArray)?.count ?? 0
+                if let prices = data["prices"] as? NSArray {
+                    product.prices = Utils.encrypt(prices)
+                    product.appPricesCount = prices.count
+                } else {
+                    product.prices = nil
+                    product.appPricesCount = 0
+                }
                 product.order = data["order"] as? NSNumber
                 
                 product.brandLabel = data["brandLabel"] as? String

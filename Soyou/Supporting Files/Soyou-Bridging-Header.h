@@ -31,6 +31,7 @@
 @import NYSegmentedControl;
 @import PageMenu;
 @import PFCarouselView;
+@import RNCryptor;
 @import SafariServices;
 @import SCLAlertView;
 @import SDWebImage;

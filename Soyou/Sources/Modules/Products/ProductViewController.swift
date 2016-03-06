@@ -270,7 +270,9 @@ extension ProductViewController {
             // Prices VC
             self.productPricesViewController.productViewController = self
             self.productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
-            self.productPricesViewController.prices = localProduct.prices as? [[String: AnyObject]]
+            if let objectData = localProduct.prices, let object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
+                self.productPricesViewController.prices = object
+            }
             self.productPricesViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             viewControllers.append(self.productPricesViewController)
             // Descriptions VC
@@ -286,7 +288,7 @@ extension ProductViewController {
             self.productDescriptionsViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             viewControllers.append(self.productDescriptionsViewController)
             // Check if prices is empty
-            if localProduct.prices == nil || (localProduct.prices as? [[String: AnyObject]])!.count == 0 {
+            if self.productPricesViewController.prices == nil || self.productPricesViewController.prices!.count == 0 {
                 hasPrices = false
             }
         })
@@ -496,7 +498,9 @@ extension ProductViewController {
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = self.product?.MR_inContext(localContext)
-            sku = localProduct?.sku
+            if let objectData = localProduct?.sku, let object = Utils.decrypt(objectData) as? String {
+                sku = object
+            }
             title = localProduct?.title
         })
         

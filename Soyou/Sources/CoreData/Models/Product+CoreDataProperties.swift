@@ -2,7 +2,7 @@
 //  Product+CoreDataProperties.swift
 //  Soyou
 //
-//  Created by CocoaBob on 05/02/16.
+//  Created by CocoaBob on 06/03/16.
 //  Copyright © 2016 Soyou. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -25,13 +25,13 @@ extension Product {
     @NSManaged var descriptions: String?
     @NSManaged var dimension: String?
     @NSManaged var id: NSNumber?
-    @NSManaged var sku: String?
     @NSManaged var images: NSObject?
     @NSManaged var keywords: String?
     @NSManaged var likeNumber: NSNumber?
     @NSManaged var order: NSNumber?
-    @NSManaged var prices: NSObject?
+    @NSManaged var prices: NSData?
     @NSManaged var reference: String?
+    @NSManaged var sku: NSData?
     @NSManaged var surname: String?
     @NSManaged var title: String?
 

@@ -119,7 +119,11 @@ class CurrencyManager {
         return nil
     }
     
-    func cheapestFormattedPriceInCHY(items: [NSDictionary]?) -> String? {
+    func cheapestFormattedPriceInCHY(pricesData: NSData?) -> String? {
+        var items: [NSDictionary]?
+        if let objectData = pricesData, let object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
+            items = object
+        }
         var cheapestPriceCNY: NSNumber?
         if let items = items {
             for item in items {
