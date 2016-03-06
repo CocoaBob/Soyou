@@ -128,8 +128,11 @@ extension SettingsViewController {
         simpleViewController.tableView.separatorStyle = .None
         // Data
         var title = "\n" + NSLocalizedString("app_about_title")
-        if let versionString = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
-            title += " v" + versionString
+        if let shortVersionString = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String {
+            title += " v" + shortVersionString
+        }
+        if let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
+            title += "(\(version))"
         }
         simpleViewController.sections = [
             Section(

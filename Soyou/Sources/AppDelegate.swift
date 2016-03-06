@@ -112,19 +112,19 @@ extension AppDelegate {
     
     func checkIfUpgraded() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        let lastInstalledVersion = userDefaults.objectForKey(Cons.App.lastInstalledVersion) as? String
-        let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
-        if let lastInstalledVersion = lastInstalledVersion, currentAppVersion = currentAppVersion {
+        let lastInstalledBuild = userDefaults.objectForKey(Cons.App.lastInstalledBuild) as? String
+        let currentAppBuild = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
+        if let lastInstalledVersion = lastInstalledBuild, currentAppVersion = currentAppBuild {
             if lastInstalledVersion == currentAppVersion {
                 return
             }
         }
         
-        userDefaults.setObject(currentAppVersion, forKey: Cons.App.lastInstalledVersion)
+        userDefaults.setObject(currentAppBuild, forKey: Cons.App.lastInstalledBuild)
         
         // Based on the version, do something
         // Database schema changed, delete old database
-        if lastInstalledVersion == nil || Int(lastInstalledVersion ?? "0") < 417 {
+        if lastInstalledBuild == nil || Int(lastInstalledBuild ?? "0") < 417 {
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(FileManager.dbURL)
             } catch {
@@ -135,7 +135,7 @@ extension AppDelegate {
     
     func checkIfShowIntroView() {
         let lastIntroVersion = DataManager.shared.getAppInfo(Cons.App.lastIntroVersion)
-        let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
+        let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String
         
         // If versions are same, skip
         if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
