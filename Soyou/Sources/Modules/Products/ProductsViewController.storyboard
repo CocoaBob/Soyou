@@ -504,7 +504,7 @@
                                     </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="0Lz-YM-TL7">
-                                    <rect key="frame" x="0.0" y="148" width="600" height="247"/>
+                                    <rect key="frame" x="0.0" y="192" width="600" height="247"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stores" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GxR-5v-1Wh">
@@ -553,6 +553,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cell_closed" translatesAutoresizingMaskIntoConstraints="NO" id="iJ6-CO-Qe9">
+                                                    <rect key="frame" x="15" y="18" width="9" height="9"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="9" id="Qf1-iP-lOe"/>
+                                                        <constraint firstAttribute="height" constant="9" id="lCh-82-jJK"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ou2-Iw-hmH">
                                                     <rect key="frame" x="32" y="12" width="503" height="20"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -571,17 +578,10 @@
                                                         <action selector="didTapAccessoryButton:" destination="awE-AE-gSx" eventType="touchUpInside" id="Vx0-2r-Aax"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cell_closed" translatesAutoresizingMaskIntoConstraints="NO" id="iJ6-CO-Qe9">
-                                                    <rect key="frame" x="15" y="18" width="9" height="9"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="9" id="Qf1-iP-lOe"/>
-                                                        <constraint firstAttribute="height" constant="9" id="lCh-82-jJK"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="BpE-3M-b7n" secondAttribute="trailing" constant="15" id="5n8-Np-sqk"/>
                                                 <constraint firstItem="iJ6-CO-Qe9" firstAttribute="leading" secondItem="Eil-f2-Aec" secondAttribute="leading" constant="15" id="BIh-mE-UNa"/>
-                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="trailing" secondItem="Eil-f2-Aec" secondAttribute="trailingMargin" constant="-7" id="CsF-nr-B0S"/>
                                                 <constraint firstItem="Ou2-Iw-hmH" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="FGB-z5-pwj"/>
                                                 <constraint firstItem="BpE-3M-b7n" firstAttribute="leading" secondItem="Ou2-Iw-hmH" secondAttribute="trailing" constant="8" id="JfX-Is-Mv0"/>
                                                 <constraint firstItem="iJ6-CO-Qe9" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="MrT-rR-bod"/>
@@ -592,12 +592,62 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="btnAccessory" destination="BpE-3M-b7n" id="L9g-Hi-7yG"/>
-                                            <outlet property="imgView" destination="iJ6-CO-Qe9" id="eeX-7W-oCD"/>
+                                            <outlet property="imgTriangle" destination="iJ6-CO-Qe9" id="FvE-pk-0FO"/>
                                             <outlet property="lblTitle" destination="Ou2-Iw-hmH" id="s1l-W3-lTG"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BrandViewHierarchyListSubCell" id="HbE-s3-azG" customClass="BrandViewHierarchyListSubCell" customModule="Soyou" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BrandViewHierarchyListChildCell" id="3T3-HY-Meh" customClass="BrandViewHierarchyListChildCell" customModule="Soyou" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="104" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3T3-HY-Meh" id="c9r-I3-4g6">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhy-CV-8GA">
+                                                    <rect key="frame" x="47" y="12" width="488" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" white="0.33000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cell_closed" translatesAutoresizingMaskIntoConstraints="NO" id="ad6-ng-8N8">
+                                                    <rect key="frame" x="30" y="17" width="9" height="9"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="9" id="cab-fG-p6I"/>
+                                                        <constraint firstAttribute="height" constant="9" id="x9Z-mL-o46"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgc-eQ-0Sw">
+                                                    <rect key="frame" x="543" y="12" width="42" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="ORV-f1-8s2"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                    <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="19" maxY="0.0"/>
+                                                    <state key="normal" title="All" backgroundImage="img_cell_disclosure_title"/>
+                                                    <connections>
+                                                        <action selector="didTapAccessoryButton:" destination="awE-AE-gSx" eventType="touchUpInside" id="dm5-IX-Od4"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="uhy-CV-8GA" firstAttribute="centerY" secondItem="c9r-I3-4g6" secondAttribute="centerY" id="Aef-YX-42I"/>
+                                                <constraint firstItem="wgc-eQ-0Sw" firstAttribute="centerY" secondItem="c9r-I3-4g6" secondAttribute="centerY" id="Bwm-sd-vXi"/>
+                                                <constraint firstItem="wgc-eQ-0Sw" firstAttribute="leading" secondItem="uhy-CV-8GA" secondAttribute="trailing" constant="8" id="Lcz-8k-VIM"/>
+                                                <constraint firstItem="ad6-ng-8N8" firstAttribute="leading" secondItem="c9r-I3-4g6" secondAttribute="leading" constant="30" id="MfR-Ss-mzq"/>
+                                                <constraint firstItem="ad6-ng-8N8" firstAttribute="centerY" secondItem="c9r-I3-4g6" secondAttribute="centerY" id="TAz-1J-XaP"/>
+                                                <constraint firstAttribute="trailing" secondItem="wgc-eQ-0Sw" secondAttribute="trailing" constant="15" id="WAU-nY-gd5"/>
+                                                <constraint firstItem="uhy-CV-8GA" firstAttribute="leading" secondItem="ad6-ng-8N8" secondAttribute="trailing" constant="8" id="ZYz-oH-d1n"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnAccessory" destination="wgc-eQ-0Sw" id="mwR-Co-crk"/>
+                                            <outlet property="imgTriangle" destination="ad6-ng-8N8" id="dGB-Qd-neB"/>
+                                            <outlet property="lblTitle" destination="uhy-CV-8GA" id="kA3-3P-x1q"/>
+                                            <outlet property="leftMargin" destination="MfR-Ss-mzq" id="chp-Cp-Gw0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BrandViewHierarchyListLeafCell" id="HbE-s3-azG" customClass="BrandViewHierarchyListLeafCell" customModule="Soyou" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="148" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HbE-s3-azG" id="xE1-sk-UTi">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>

@@ -6,7 +6,8 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-private class CategoryItem: AnyObject {
+// MARK: CategoryItem
+private class CategoryItem {
     var id: NSNumber = 0.0
     var label: String = ""
     var order: NSNumber = 0
@@ -19,14 +20,11 @@ private class CategoryItem: AnyObject {
     }
 }
 
-extension CategoryItem: Equatable {
+extension CategoryItem: Equatable, Comparable {
 }
 
 private func == (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
     return (lhs.id.integerValue == rhs.id.integerValue)
-}
-
-extension CategoryItem: Comparable {
 }
 
 private func < (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
@@ -37,6 +35,18 @@ private func < (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
     }
 }
 
+// MARK: BrandTableViewItem
+private class BrandTableViewItem {
+    
+    var categoryItem: CategoryItem!
+    
+    convenience init(categoryItem: CategoryItem) {
+        self.init()
+        self.categoryItem = categoryItem
+    }
+}
+
+// MARK: BrandViewController
 class BrandViewController: UIViewController {
     
     // Properties
@@ -48,7 +58,8 @@ class BrandViewController: UIViewController {
     
     var searchController: UISearchController?
     
-    private var _sections = [CategoryItem]()
+    private var _categoryItems = [CategoryItem]()
+    private var _tableViewItems = [BrandTableViewItem]()
     
     var brandID: NSNumber?
     var brandName: String?
@@ -101,7 +112,11 @@ class BrandViewController: UIViewController {
         self.updateFooterView()
         
         // Load data
-        self.loadData()
+        self.prepareCategories()
+        self.loadTableViewItems(nil)
+        
+        // Reload table
+        self.tableView.reloadData()
         
         // Parallax Header
         self.setupParallaxHeader()
@@ -177,7 +192,7 @@ extension BrandViewController {
         guard var categories = self.brandCategories else { return }
         
         // Prepare empty array
-        _sections = [CategoryItem]()
+        _categoryItems = [CategoryItem]()
         
         // Add sections
         for dict in categories {
@@ -186,7 +201,7 @@ extension BrandViewController {
                 item.id = dict["id"] as! NSNumber
                 item.label = dict["label"] as! String
                 item.order = dict["order"] as! NSNumber
-                _sections.append(item)
+                _categoryItems.append(item)
                 categories.removeAtIndex(categories.indexOf(dict)!)
             }
         }
@@ -194,7 +209,7 @@ extension BrandViewController {
         // Add children
         while categories.count > 0 {
             for dict in categories {
-                if let parentItem = findCategoryItemWithID(_sections, searchingID: dict["parentId"] as! NSNumber) {
+                if let parentItem = findCategoryItemWithID(_categoryItems, searchingID: dict["parentId"] as! NSNumber) {
                     let item = CategoryItem()
                     item.id = dict["id"] as! NSNumber
                     item.label = dict["label"] as! String
@@ -213,14 +228,43 @@ extension BrandViewController {
         }
         
         // Sort categories
-        _sections = self.sortCategories(_sections)
+        _categoryItems = self.sortCategories(_categoryItems)
     }
     
-    private func loadData() {
-        self.prepareCategories()
+    // Load category items into _tableViewItems
+    private func loadCategoryItems(categoryItems: [CategoryItem]) {
+        for categoryItem in categoryItems {
+            _tableViewItems.append(BrandTableViewItem(categoryItem: categoryItem))
+            if categoryItem.childrenIsVisible {
+                self.loadCategoryItems(categoryItem.children)
+            }
+        }
+    }
+    
+    private func closeChildren(categoryItems: [CategoryItem]) {
+        for categoryItem in categoryItems {
+            categoryItem.childrenIsVisible = false
+            self.closeChildren(categoryItem.children)
+        }
+    }
+    
+    private func openParent(categoryItem: CategoryItem?) {
+        if let categoryItem = categoryItem {
+            categoryItem.childrenIsVisible = true
+            self.openParent(categoryItem.parent)
+        }
+    }
+    
+    private func loadTableViewItems(lastOpenItem: CategoryItem?) {
+        // Close all
+        self.closeChildren(_categoryItems)
         
-        // Reload table
-        self.tableView.reloadData()
+        // Open the parent tree for the last open item
+        self.openParent(lastOpenItem)
+        
+        // Collect the items
+        _tableViewItems.removeAll()
+        self.loadCategoryItems(_categoryItems)
     }
 }
 
@@ -258,12 +302,11 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return _sections.count
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let item = _sections[section]
-        return 1 + (item.childrenIsVisible ? _sections[section].children.count : 0)
+        return _tableViewItems.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -275,16 +318,30 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
             
             _cell.lblTitle!.text = item.label
             
-            _cell.imgView.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
+            _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
             
             cell = _cell
         } else {
-            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListSubCell", forIndexPath: indexPath) as! BrandViewHierarchyListSubCell
-            
-            _cell.lblTitle!.text = item.label
-            _cell.level = item.level
-            
-            cell = _cell
+            // Has children
+            if !item.isLeaf() {
+                let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListChildCell", forIndexPath: indexPath) as! BrandViewHierarchyListChildCell
+                
+                _cell.lblTitle!.text = item.label
+                _cell.level = item.level
+                
+                _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
+                
+                cell = _cell
+            }
+            // Leaf item
+            else {
+                let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListLeafCell", forIndexPath: indexPath) as! BrandViewHierarchyListLeafCell
+                
+                _cell.lblTitle!.text = item.label
+                _cell.level = item.level
+                
+                cell = _cell
+            }
         }
         
         return cell!
@@ -293,11 +350,11 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let item = itemForIndexPath(indexPath)
-        if isRootItem(indexPath) && !item.isLeaf() {
-            self.toggleHierarchyListRootItem(indexPath)
+        let categoryItem = itemForIndexPath(indexPath)
+        if !categoryItem.isLeaf() {
+            self.toggleChildrenVisibility(indexPath)
         } else {
-            self.presentProductsViewController(item)
+            self.presentProductsViewController(categoryItem)
         }
     }
 }
@@ -356,32 +413,29 @@ extension BrandViewController: ZoomTransitionProtocol {
 // MARK: - Hierarchy List
 extension BrandViewController {
     
-    private func isRootItem(indexPath: NSIndexPath) -> Bool {
-        return indexPath.row == 0
-    }
-    
     private func itemForIndexPath(indexPath: NSIndexPath) -> CategoryItem {
-        return isRootItem(indexPath) ? _sections[indexPath.section] : _sections[indexPath.section].children[indexPath.row - 1]
+        return _tableViewItems[indexPath.row].categoryItem
     }
     
-    private func toggleHierarchyListRootItem(indexPath: NSIndexPath) {
-        var lastOpenedSection: Int = NSNotFound
-        for (index, item) in _sections.enumerate() {
-            if index != indexPath.section && item.childrenIsVisible {
-                item.childrenIsVisible = false
-                lastOpenedSection = index
+    private func indexForItem(categoryItem: CategoryItem) -> Int {
+        for (index, tableViewItem) in _tableViewItems.enumerate() {
+            if tableViewItem.categoryItem == categoryItem {
+                return index
             }
         }
-        
-        let item = itemForIndexPath(indexPath)
-        item.childrenIsVisible = !item.childrenIsVisible
-        
-        let indexSet = NSMutableIndexSet(index: indexPath.section)
-        if lastOpenedSection != NSNotFound {
-            indexSet.addIndex(lastOpenedSection)
-        }
-        
-        self.tableView.reloadSections(indexSet, withRowAnimation: UITableViewRowAnimation.Fade)
+        return NSNotFound
+    }
+    
+    private func isRootItem(indexPath: NSIndexPath) -> Bool {
+        return self.itemForIndexPath(indexPath).parent == nil
+    }
+    
+    private func toggleChildrenVisibility(indexPath: NSIndexPath) {
+        let categoryItem = itemForIndexPath(indexPath)
+        let wasVisible = categoryItem.childrenIsVisible
+        self.loadTableViewItems(wasVisible ? categoryItem.parent : categoryItem)
+
+        self.tableView.reloadData()
     }
     
     private func presentProductsViewController(item: CategoryItem) {
@@ -440,8 +494,8 @@ extension BrandViewController: UISearchControllerDelegate {
 
 // MARK: - Custom cells
 class BrandViewHierarchyListRootCell: UITableViewCell {
+    @IBOutlet var imgTriangle: UIImageView!
     @IBOutlet var lblTitle: UILabel!
-    @IBOutlet var imgView: UIImageView!
     @IBOutlet var btnAccessory: UIButton!
     
     override func awakeFromNib() {
@@ -458,12 +512,11 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
 
 class BrandViewHierarchyListSubCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
-    @IBOutlet var btnAccessory: UIButton!
     @IBOutlet var leftMargin: NSLayoutConstraint!
     
     var level: Int = 0 {
         didSet {
-            leftMargin.constant = CGFloat(32 + 15 * level)
+            leftMargin.constant = CGFloat(self.leftMarginMin() + 15 * level)
             if level == 0 {
                 self.backgroundColor = UIColor.whiteColor()
                 self.lblTitle.textColor = UIColor(white: 0.25, alpha: 1)
@@ -484,4 +537,28 @@ class BrandViewHierarchyListSubCell: UITableViewCell {
     override func prepareForReuse() {
         lblTitle.text = nil
     }
+    
+    func leftMarginMin() -> Int {
+        return 32
+    }
+}
+
+class BrandViewHierarchyListChildCell: BrandViewHierarchyListSubCell {
+    @IBOutlet var imgTriangle: UIImageView!
+    @IBOutlet var btnAccessory: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.prepareForReuse()
+        
+        btnAccessory.setTitle(NSLocalizedString("brand_vc_root_cell_all"), forState: .Normal)
+    }
+    
+    override func leftMarginMin() -> Int {
+        return 15
+    }
+}
+
+class BrandViewHierarchyListLeafCell: BrandViewHierarchyListSubCell {
+    
 }
