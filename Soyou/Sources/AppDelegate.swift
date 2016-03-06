@@ -122,8 +122,7 @@ extension AppDelegate {
         
         userDefaults.setObject(currentAppBuild, forKey: Cons.App.lastInstalledBuild)
         
-        // Based on the version, do something
-        // Database schema changed, delete old database
+        // Database schema changed in commit 417, delete old database
         if lastInstalledBuild == nil || Int(lastInstalledBuild ?? "0") < 417 {
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(FileManager.dbURL)
