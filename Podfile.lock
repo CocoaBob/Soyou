@@ -47,7 +47,6 @@ PODS:
   - PageMenu (1.2.9)
   - PFCarouselView (0.7.0)
   - pop (1.0.9)
-  - RNCryptor (4.0.0)
   - SCLAlertView (0.5.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
@@ -76,7 +75,6 @@ DEPENDENCIES:
   - NYSegmentedControl
   - PageMenu
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `add88563b2e32858f9325d981cb9779d36926053`)
-  - RNCryptor
   - SCLAlertView
   - SDWebImage
   - UICKeyChainStore
@@ -122,7 +120,6 @@ SPEC CHECKSUMS:
   PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  RNCryptor: 59d6483908115af5c12b884db23392024e52a5fe
   SCLAlertView: 3ac39a863d3e10fc165662b1228b03402297aea9
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432

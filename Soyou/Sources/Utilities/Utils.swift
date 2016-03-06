@@ -58,18 +58,24 @@ extension Utils: MFMailComposeViewControllerDelegate {
 // MARK: Encryption / Decryption
 extension Utils {
     
+    private class func addRandomPrefix(data: NSData) -> NSData {
+        let mutableData = NSMutableData(data: data)
+        let randomData = NSData(bytes: [UInt8(arc4random_uniform(256))], length: 1)
+        mutableData.appendData(randomData)
+        return mutableData
+    }
+    
+    private class func removeRandomPrefix(data: NSData) -> NSData {
+        return NSData(bytes: data.bytes, length: data.length - 1)
+    }
+    
     class func encrypt(object: AnyObject) -> NSData {
         let objectData = NSKeyedArchiver.archivedDataWithRootObject(object)
-        return RNCryptor.encryptData(objectData, password: "wWnpTbe4S9vfgyp824oI")
+        return addRandomPrefix(objectData)
     }
     
     class func decrypt(data: NSData) -> AnyObject? {
-        do {
-            let objectData = try RNCryptor.decryptData(data, password: "wWnpTbe4S9vfgyp824oI")
-            return NSKeyedUnarchiver.unarchiveObjectWithData(objectData)
-        } catch {
-            DLog(error)
-        }
-        return nil
+        let objectData = removeRandomPrefix(data)
+        return NSKeyedUnarchiver.unarchiveObjectWithData(objectData)
     }
 }
