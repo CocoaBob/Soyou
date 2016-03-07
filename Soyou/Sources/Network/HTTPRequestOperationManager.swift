@@ -160,7 +160,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     private func handleSuccess(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         var isAccepted = false
         var verServer: String? = nil
-        let verLocalMin = "|"+Cons.Svr.minVer+"|"
+        let verLocalMin = "|"+Cons.Svr.serverVersion+"|"
         if let headers: Dictionary = operation.response?.allHeaderFields {
             if let serverVersion = headers["Server-Version"] as? String {
                 verServer = serverVersion
