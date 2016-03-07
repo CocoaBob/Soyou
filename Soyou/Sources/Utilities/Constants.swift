@@ -8,7 +8,7 @@
 
 public struct Cons {
     struct Svr {
-        static let minVer                                   = "0.0.2"
+        static let minVer                                   = "1.0.0"
         static let apiVersion                               = "v1"
         
 #if DEBUG

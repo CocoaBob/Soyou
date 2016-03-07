@@ -30,16 +30,19 @@ class Product: BaseModel {
             guard let data = data else { return }
             
             guard let id = data["id"] as? NSNumber else { return }
-            guard let sku = data["sku"] as? String else { return }
             
             product = Product.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
             if product == nil {
                 product = Product.MR_createEntityInContext(context)
                 product?.id = id
-                product?.sku = Utils.encrypt(sku)
             }
             
             if let product = product {
+                if let sku = data["sku"] as? String {
+                    product.sku = Utils.encrypt(sku)
+                } else {
+                    product.sku = nil
+                }
                 product.categories = data["categories"] as? String
                 product.brandId = data["brandId"] as? NSNumber
                 product.dimension = data["dimension"] as? String
