@@ -10,7 +10,11 @@ class DataManager {
     
     static let shared = DataManager()
     
-    private var isUpdatingData = false
+    private var isUpdatingData = false {
+        didSet {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = isUpdatingData
+        }
+    }
     
     //////////////////////////////////////
     // MARK: General
@@ -148,6 +152,7 @@ class DataManager {
         RequestManager.shared.requestAllBrands(
             { responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     Brand.importDatas(data, true, { (_, _) -> () in
                         // After importing, cache all brand images
                         MagicalRecord.saveWithBlock({ (localContext) -> Void in
@@ -323,6 +328,7 @@ class DataManager {
         RequestManager.shared.requestProducts(ids,
             { responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     Product.importDatas(data, completion)
                 } else {
                     self.completeWithError(FmtError(0, nil), completion: completion)
@@ -444,6 +450,7 @@ class DataManager {
         RequestManager.shared.requestAllRegions(
             { responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     Region.importDatas(data, { (_, _) -> () in
                         // Update all currencies based on all regions
                         CurrencyManager.shared.updateCurrencyRates(completion)
@@ -469,6 +476,7 @@ class DataManager {
                 {
                     // Import data
                     DLog(FmtString("Number of modified stores = %d",stores.count))
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     Store.importDatas(stores, { (_, _) -> () in
                         // Succeeded to import, save timestamp for next request
                         let timestamp = data["timestamp"] as? String
@@ -494,6 +502,7 @@ class DataManager {
             
             let completionClosure: CompletionClosure = { responseObject, error in
                 --count
+                DLog(count)
                 if count == 0 {
                     self.completeWithData(nil, completion: completion)
                     self.isUpdatingData = false

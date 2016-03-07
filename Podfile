@@ -9,6 +9,8 @@ use_frameworks!
 pod "1PasswordExtension"
 pod "ActionSheetPicker-3.0"
 pod "AFNetworking", '~> 2'
+#pod "Alamofire"
+#pod "AlamofireNetworkActivityIndicator"
 pod "Base64nl"
 pod "CCHMapClusterController"
 pod "CHTCollectionViewWaterfallLayout"
@@ -33,7 +35,5 @@ pod "ZoomInteractiveTransition"
 
 # Will be integrated in the future
 #pod "ActionSheetPicker-3.0"
-#pod "CYLTabBarController"
-#pod "GPUImage"
 #pod "JSQMessagesViewController"
 #pod "UIImage-ResizeMagick"
