@@ -551,7 +551,8 @@
 				ADB037464555006649303388 /* Embed Pods Frameworks */,
 				64F38153BB338306A7FF94EB /* Copy Pods Resources */,
 				4570A5831C43DDA1004274DE /* Copy Bundle Resource For IDMPhotoBrowser */,
-				45BED0921C8A66E7002E375B /* ShellScript */,
+				45BED0921C8A66E7002E375B /* Update CFBundleVersion */,
+				456123731C8F12C5008BEA82 /* Show warnings for TODO:FIXME: */,
 			);
 			buildRules = (
 			);
@@ -632,13 +633,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		45BED0921C8A66E7002E375B /* ShellScript */ = {
+		456123731C8F12C5008BEA82 /* Show warnings for TODO:FIXME: */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Show warnings for TODO:FIXME:";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"";
+		};
+		45BED0921C8A66E7002E375B /* Update CFBundleVersion */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update CFBundleVersion";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
