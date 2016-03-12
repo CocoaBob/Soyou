@@ -2,6 +2,7 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
+@import AddressBook;
 @import Contacts;
 @import CoreLocation;
 @import Foundation;
@@ -34,6 +35,7 @@
 @import SafariServices;
 @import SCLAlertView;
 @import SDWebImage;
+@import SVWebViewController;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
 @import UIView_Shake;

@@ -25,6 +25,6 @@ class SharingProvider {
         UIActivityTypePostToVimeo,
 //        UIActivityTypePostToTencentWeibo,
         UIActivityTypeAirDrop,
-        UIActivityTypeOpenInIBooks
+//        UIActivityTypeOpenInIBooks
     ]
 }

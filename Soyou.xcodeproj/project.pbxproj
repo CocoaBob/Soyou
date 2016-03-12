@@ -40,6 +40,7 @@
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
+		4537F0701C945EC2002AF33E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537F06F1C945EC2002AF33E /* AddressBook.framework */; };
 		454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */; };
 		454499271C6601350075DE82 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499251C6601350075DE82 /* AppData.swift */; };
 		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
@@ -163,6 +164,7 @@
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		4537F06F1C945EC2002AF33E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454499251C6601350075DE82 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4537F0701C945EC2002AF33E /* AddressBook.framework in Frameworks */,
 				456BCAC21C6018D600590295 /* SafariServices.framework in Frameworks */,
 				456BCAC01C60117900590295 /* Contacts.framework in Frameworks */,
 				456B419C1C5AD155001E66EB /* MessageUI.framework in Frameworks */,
@@ -511,6 +514,7 @@
 		7D6D7E1DE178B710CB3184C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4537F06F1C945EC2002AF33E /* AddressBook.framework */,
 				456BCAC11C6018D600590295 /* SafariServices.framework */,
 				456BCABF1C60117900590295 /* Contacts.framework */,
 				456B419B1C5AD155001E66EB /* MessageUI.framework */,
@@ -904,6 +908,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "Soyou/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -921,6 +926,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = "Soyou/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";
 				PRODUCT_NAME = "$(TARGET_NAME)";

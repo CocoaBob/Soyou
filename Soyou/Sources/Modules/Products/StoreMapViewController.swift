@@ -224,7 +224,6 @@ extension StoreMapViewController: CLLocationManagerDelegate {
             _locationManager.requestWhenInUseAuthorization()
         } else {
             _locationManager.startUpdatingLocation()
-            _locationManager.requestLocation()
         }
     }
 }
@@ -261,7 +260,18 @@ extension StoreMapViewController {
     
     func openMap(sender: UIButton) {
         if let store = self.storeOfSelectedAnnotations(self.mapView.selectedAnnotations as! [StoreMapAnnotation]) {
-            let addressDictionary = [String(CNPostalAddressStreetKey): store.address ?? "", String(CNPostalAddressCityKey): store.city ?? "", String(CNPostalAddressPostalCodeKey): store.zipcode ?? "", String(CNPostalAddressCountryKey): store.country ?? ""]
+            var addressDictionary = [String: String]()
+            if #available(iOS 9.0, *) {
+                addressDictionary[CNPostalAddressStreetKey] = store.address ?? ""
+                addressDictionary[CNPostalAddressCityKey] = store.city ?? ""
+                addressDictionary[CNPostalAddressPostalCodeKey] = store.zipcode ?? ""
+                addressDictionary[CNPostalAddressCountryKey] = store.country ?? ""
+            } else {
+                addressDictionary[kABPersonAddressStreetKey as String] = store.address ?? ""
+                addressDictionary[kABPersonAddressCityKey as String] = store.city ?? ""
+                addressDictionary[kABPersonAddressZIPKey as String] = store.zipcode ?? ""
+                addressDictionary[kABPersonAddressCountryKey as String] = store.country ?? ""
+            }
             let coordinate = CLLocationCoordinate2DMake(CLLocationDegrees(store.latitude?.doubleValue ?? 0), CLLocationDegrees(store.longitude?.doubleValue ?? 0))
             let placemark = MKPlacemark(
                 coordinate: coordinate,
