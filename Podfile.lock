@@ -51,6 +51,7 @@ PODS:
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
+  - SMCalloutView (2.1.5)
   - SVWebViewController (1.0)
   - UICKeyChainStore (2.1.0)
   - UIColor_Hex_Swift (1.9)
@@ -78,6 +79,7 @@ DEPENDENCIES:
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `add88563b2e32858f9325d981cb9779d36926053`)
   - SCLAlertView
   - SDWebImage
+  - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
   - SVWebViewController
   - UICKeyChainStore
   - UIColor_Hex_Swift
@@ -91,6 +93,9 @@ EXTERNAL SOURCES:
   PFCarouselView:
     :commit: add88563b2e32858f9325d981cb9779d36926053
     :git: git://github.com/CocoaBob/PFCarouselView
+  SMCalloutView:
+    :commit: bad0864b06019d764519dab9a53409de889c87fc
+    :git: git://github.com/CocoaBob/calloutview
 
 CHECKOUT OPTIONS:
   libWeChatSDK:
@@ -99,6 +104,9 @@ CHECKOUT OPTIONS:
   PFCarouselView:
     :commit: add88563b2e32858f9325d981cb9779d36926053
     :git: git://github.com/CocoaBob/PFCarouselView
+  SMCalloutView:
+    :commit: bad0864b06019d764519dab9a53409de889c87fc
+    :git: git://github.com/CocoaBob/calloutview
 
 SPEC CHECKSUMS:
   1PasswordExtension: 627d5aecf210c7636968faf5a4c3546c9531385b
@@ -124,6 +132,7 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SCLAlertView: 3ac39a863d3e10fc165662b1228b03402297aea9
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
   UIColor_Hex_Swift: 2ee747c0fed8b72b2135ef474b80a6921e489daa

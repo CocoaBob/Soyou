@@ -14,16 +14,16 @@ class ClusterAnnotationView: MKAnnotationView {
     
     var count: Int? {
         didSet {
-            self.canShowCallout = count == 1
+//            self.canShowCallout = count == 1
             countLabel.text = "\(count!)"
             self.setNeedsLayout()
         }
     }
     var isUniqueLocation: Bool? {
         didSet {
-            if let isUniqueLocation = isUniqueLocation {
-                self.canShowCallout = isUniqueLocation
-            }
+//            if let isUniqueLocation = isUniqueLocation {
+//                self.canShowCallout = isUniqueLocation
+//            }
             self.setNeedsLayout()
         }
     }

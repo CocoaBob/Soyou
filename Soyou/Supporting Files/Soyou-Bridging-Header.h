@@ -35,6 +35,7 @@
 @import SafariServices;
 @import SCLAlertView;
 @import SDWebImage;
+@import SMCalloutView;
 @import SVWebViewController;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;

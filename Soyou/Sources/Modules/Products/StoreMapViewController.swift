@@ -8,16 +8,14 @@
 
 class StoreMapViewController: UIViewController {
 
-    @IBOutlet var mapView: MKMapView!
+    @IBOutlet var mapView: CustomMapView!
     @IBOutlet var btnLocate: UIButton!
     private var _locationManager = CLLocationManager()
     private var mapClusterController: CCHMapClusterController!
     private var mapClusterer: CCHMapClusterer!
     private var mapAnimator: CCHMapAnimator!
     private var searchResultAnnotation: MKPointAnnotation?
-    
-    let leftAccessoryButton = CalloutButton(frame: CGRectMake(0,0,32,100))
-    let rightAccessoryButton = CalloutButton(frame: CGRectMake(0,0,32,100))
+    private var calloutView: SMCalloutView!
     
     var isFullMap: Bool = false
     var brandID: NSNumber?
@@ -38,13 +36,22 @@ class StoreMapViewController: UIViewController {
         
         self.title = brandName
         
-        // Callout buttons
-        self.leftAccessoryButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
-        self.leftAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
-        self.leftAccessoryButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.rightAccessoryButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
-        self.rightAccessoryButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
-        self.rightAccessoryButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
+        // Callout view
+        self.calloutView = SMCalloutView.platformCalloutView()
+        self.mapView.calloutView = self.calloutView
+        
+        let leftButton = UIButton(frame: CGRectMake(0,0,32,128))
+        leftButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
+        leftButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
+        leftButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.calloutView.leftAccessoryView = leftButton
+        
+        let rightButton = UIButton(frame: CGRectMake(0,0,32,128))
+        rightButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
+        rightButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
+        rightButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.calloutView.rightAccessoryView = rightButton
+
         
         // Update user locations
         self.initLocationManager()
@@ -142,21 +149,6 @@ extension StoreMapViewController: MKMapViewDelegate {
         }
     }
     
-    func tapAnnotation(tapGR: UITapGestureRecognizer) {
-        if let clusterAnnotationView = tapGR.view as? ClusterAnnotationView,
-            annotation = clusterAnnotationView.annotation,
-            isUniqueLocation = clusterAnnotationView.isUniqueLocation {
-                if !isUniqueLocation {
-                    var region = self.mapView.region
-                    var span = region.span
-                    span.latitudeDelta /= 2.0
-                    span.longitudeDelta /= 2.0
-                    region = MKCoordinateRegionMake(annotation.coordinate, span)
-                    self.mapView.setRegion(region, animated: true)
-                }
-        }
-    }
-    
     // MARK: MKMapViewDelegate
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var returnValue: MKAnnotationView?
@@ -168,16 +160,7 @@ extension StoreMapViewController: MKMapViewDelegate {
             } else {
                 // Create new annotation view
                 clusterAnnotationView = ClusterAnnotationView(annotation: clusterAnnotation, reuseIdentifier: "clusterAnnotation")
-                let tapGR = UITapGestureRecognizer(target: self, action: "tapAnnotation:")
-                clusterAnnotationView?.addGestureRecognizer(tapGR)
-                
-                // Callout left accessory button
-                clusterAnnotationView?.leftCalloutAccessoryView = leftAccessoryButton
-                
-                // Callout right accessory button
-                clusterAnnotationView?.rightCalloutAccessoryView = rightAccessoryButton
-                
-                clusterAnnotationView?.canShowCallout = true
+                clusterAnnotationView?.canShowCallout = false
             }
             
             clusterAnnotationView?.count = clusterAnnotation.annotations.count
@@ -191,13 +174,47 @@ extension StoreMapViewController: MKMapViewDelegate {
             } else {
                 pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pinAnnotationView")
                 pinAnnotationView?.animatesDrop = true
-                pinAnnotationView?.canShowCallout = true
+                pinAnnotationView?.canShowCallout = false
             }
             
             returnValue = pinAnnotationView
         }
 
         return returnValue
+    }
+    
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        // Zoom in for cluster annotation
+        if let annotation = view.annotation {
+            if (annotation is CCHMapClusterAnnotation &&
+                !(annotation as! CCHMapClusterAnnotation).isUniqueLocation()) {
+                    var region = self.mapView.region
+                    var span = region.span
+                    span.latitudeDelta /= 2.0
+                    span.longitudeDelta /= 2.0
+                    region = MKCoordinateRegionMake(annotation.coordinate, span)
+                    self.mapView.setRegion(region, animated: true)
+                    return
+            }
+        }
+        
+        // apply the MKAnnotationView's basic properties
+        if let title = view.annotation?.title {
+            self.calloutView.title = title
+        }
+        if let subtitle = view.annotation?.subtitle {
+            self.calloutView.subtitle = subtitle
+        }
+        
+        // Apply the MKAnnotationView's desired calloutOffset (from the top-middle of the view)
+        self.calloutView.calloutOffset = view.calloutOffset
+                
+        // This does all the magic.
+        self.calloutView.presentCalloutFromRect(view.bounds, inView: view, constrainedToView: self.mapView, animated: true)
+    }
+    
+    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
+        self.calloutView.dismissCalloutAnimated(true)
     }
 }
 
@@ -347,7 +364,6 @@ extension StoreMapViewController: UISearchControllerDelegate {
 // MARK: StoreMapSearchResultsViewControllerDelegate
 extension StoreMapViewController: StoreMapSearchResultsViewControllerDelegate {
     
-    
     func searchRegion() -> MKCoordinateRegion {
         return self.mapView.region
     }
@@ -369,13 +385,17 @@ class StoreMapAnnotation: MKPointAnnotation {
     var storeID: NSNumber?
 }
 
-// Workaround to fit the accessory views as we don't know the exact height of the callout views.
-class CalloutButton: UIButton {
+
+// MARK: CustomMapView
+class CustomMapView: MKMapView {
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        var frame = self.frame
-        frame.origin.y = -(frame.size.height - 52) / 2.0 // 52 is the default height of callout view in iOS 9
-        self.frame = frame
+    var calloutView: SMCalloutView?
+    
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        if let convertedPoint = self.calloutView?.convertPoint(point, fromView: self),
+            let calloutMaybe = self.calloutView?.hitTest(convertedPoint, withEvent: event) {
+            return calloutMaybe
+        }
+        return super.hitTest(point, withEvent: event)
     }
 }
