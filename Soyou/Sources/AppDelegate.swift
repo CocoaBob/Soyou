@@ -124,10 +124,15 @@ extension AppDelegate {
         
         // Database schema changed in commit 417, delete old database
         if lastInstalledBuild == nil || Int(lastInstalledBuild ?? "0") < 417 {
-            do {
-                try NSFileManager.defaultManager().removeItemAtURL(FileManager.dbURL)
-            } catch {
-                DLog(error)
+            guard let dbPath = FileManager.dbURL.path else {
+                return
+            }
+            if NSFileManager.defaultManager().fileExistsAtPath(dbPath) {
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(FileManager.dbURL)
+                } catch {
+                    DLog(error)
+                }
             }
         }
     }
