@@ -112,9 +112,16 @@ class CurrencyManager {
         }
     }
     
-    func equivalentCNYFromCurrency(countryCode: String?, price: NSNumber) -> NSNumber? {
-        if let countryCode = countryCode, currencyCode = self.currencyCode(countryCode), rate = self.rateFromSourceCode(currencyCode) {
-            return NSNumber(double: price.doubleValue * (rate.rate?.doubleValue ?? 1))
+    func referenceCNYFromCurrency(countryCode: String?, price: NSNumber) -> NSNumber? {
+        if let countryCode = countryCode,
+            currencyCode = self.currencyCode(countryCode),
+            rate = self.rateFromSourceCode(currencyCode),
+            rateValue = rate.rate?.doubleValue {
+                var referencePrice = price.doubleValue * rateValue
+                if currencyCode != "CNY" {
+                    referencePrice *= 1.05
+                }
+                return NSNumber(double: referencePrice)
         }
         return nil
     }
@@ -129,7 +136,7 @@ class CurrencyManager {
             for item in items {
                 if let countryCode = item["country"] as? String,
                     price = item["price"] as? NSNumber,
-                    priceCNY = self.equivalentCNYFromCurrency(countryCode, price: price) {
+                    priceCNY = self.referenceCNYFromCurrency(countryCode, price: price) {
                         if cheapestPriceCNY == nil || cheapestPriceCNY!.doubleValue > priceCNY.doubleValue {
                             cheapestPriceCNY = priceCNY
                         }

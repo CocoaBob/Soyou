@@ -19,7 +19,7 @@ class ProductPricesViewController: UIViewController {
                 for (index, var price) in _prices.enumerate() {
                     let countryCode = price["country"] as! String
                     let priceOriginal = price["price"] as! NSNumber
-                    price["priceCNY"] = CurrencyManager.shared.equivalentCNYFromCurrency(countryCode, price: priceOriginal)
+                    price["priceCNY"] = CurrencyManager.shared.referenceCNYFromCurrency(countryCode, price: priceOriginal)
                     prices![index] = price
                 }
                 
