@@ -348,7 +348,9 @@ extension ProductsViewController {
                     }
                 }
             }
-            self._loadingIndicator.text = NSLocalizedString("products_vc_no_data")
+            if self.searchTexts != nil {
+                self._loadingIndicator.text = NSLocalizedString("products_vc_no_data")
+            }
             self.isLoadingIndicatorVisible = true
         }
     }
