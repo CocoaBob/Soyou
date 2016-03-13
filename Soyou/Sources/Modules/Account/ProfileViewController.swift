@@ -269,7 +269,7 @@ extension ProfileViewController {
                 let row = Row(type: .LeftTitle,
                     cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                     image: nil,
-                    title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
+                    title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
                     subTitle: nil,
                     userInfo: ["code":regionCode],
                     didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -342,7 +342,7 @@ extension ProfileViewController {
             let row = Row(type: .LeftTitle,
                 cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                 image: nil,
-                title: Text(text: NSLocalizedString(titleCode), placeholder: nil, font: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
+                title: Text(text: NSLocalizedString(titleCode), placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
                 subTitle: nil,
                 userInfo: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in

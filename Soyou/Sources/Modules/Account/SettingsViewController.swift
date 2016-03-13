@@ -95,6 +95,16 @@ extension SettingsViewController {
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
                         }
+                    ),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_language"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
+                        userInfo: nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeLanguage()
+                        }
                     )
                 ]
             ),
@@ -209,6 +219,78 @@ extension SettingsViewController {
         Utils.openAppStorePage()
     }
     
+    func changeLanguage() {
+        var currentLanguageSelection: String?
+        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        // UI
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
+        simpleViewController.title = NSLocalizedString("settings_vc_cell_language")
+        // Data
+        let langCode = ["zh-Hans", "en-US"]
+        // Prepare rows
+        var rows = [Row]()
+        for langCode in langCode {
+            let row = Row(type: .LeftTitle,
+                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                image: nil,
+                title: Text(text: CurrencyManager.shared.languageName(langCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
+                subTitle: nil,
+                userInfo: ["language":langCode],
+                didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                    let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
+                    simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != currentLanguageSelection)
+                    if simpleViewController.updateSelectionCheckmark(indexPath) {
+                        var rowsToReload = [indexPath]
+                        if let selectedIndexPath = simpleViewController.selectedIndexPath {
+                            rowsToReload.append(selectedIndexPath)
+                        }
+                        simpleViewController.tableView.beginUpdates()
+                        simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
+                        simpleViewController.tableView.endUpdates()
+                    }
+                }
+            )
+            rows.append(row)
+        }
+        simpleViewController.sections = [
+            Section(
+                title: nil,
+                rows: rows
+            )
+        ]
+        if let currentLanguageCode = NSLocale.preferredLanguages().first {
+            DLog(currentLanguageCode)
+            let selectedRow = currentLanguageCode.hasPrefix("zh") ? 0 : 1
+            simpleViewController.selectedIndexPath = NSIndexPath(forRow: selectedRow, inSection: 0)
+            currentLanguageSelection = simpleViewController.sections.first?.rows[selectedRow].title?.text
+            simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
+        }
+        
+        // Handler
+        simpleViewController.completion = { () -> () in
+            if let selectedIndexPath = simpleViewController.selectedIndexPath,
+                rows = simpleViewController.sections.first?.rows {
+                    let row = rows[selectedIndexPath.row]
+                    if let userInfo = row.userInfo,
+                        regionCode = userInfo["language"] as? String {
+                            // Set language
+                            NSUserDefaults.standardUserDefaults().setObject([regionCode], forKey: "AppleLanguages")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            
+                            let alertView = SCLAlertView()
+                            alertView.addButton(NSLocalizedString("settings_vc_cell_language_set_done")) { () -> Void in
+                                self.navigationController?.popViewControllerAnimated(true)
+                            }
+                            alertView.showCloseButton = false
+                            alertView.showSuccess(NSLocalizedString("settings_vc_cell_language_set_title"), subTitle: NSLocalizedString("settings_vc_cell_language_set_subtitle"))
+                    }
+            }
+        }
+        // Push
+        self.navigationController?.pushViewController(simpleViewController, animated: true)
+    }
+    
     func clearCache() {
         self.updateCacheSize(nil)
         
@@ -228,7 +310,7 @@ extension SettingsViewController {
     func updateCacheSize(cacheSize: Double?) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             // Size in string
-            let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1000000.0) : "..."
+            let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1048576.0) : "..."
 
             // Update table
             var row = self.sections[1].rows[0]

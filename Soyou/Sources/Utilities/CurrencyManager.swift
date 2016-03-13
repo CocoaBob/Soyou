@@ -144,6 +144,7 @@ class CurrencyManager {
         }
     }
     
+    // countryCode = FR/GB/CN/US/etc...
     func countryLocale(countryCode: String) -> NSLocale {
         if let locale = self.countryLocales[countryCode] {
             return locale
@@ -157,6 +158,12 @@ class CurrencyManager {
     // Country Code -> Country Name, eg: CN -> China/中国
     func countryName(countryCode: String) -> String? {
         return self.displayLocale.displayNameForKey(NSLocaleCountryCode, value: countryCode)
+    }
+    
+    // Country Code -> Language Name, eg: en-US/zh-CN -> English/简体中文
+    func languageName(languageCode: String) -> String? {
+        let locale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents([NSLocaleLanguageCode:languageCode]))
+        return locale.displayNameForKey(NSLocaleLanguageCode, value: languageCode)
     }
     
     // Country Code -> Currency Code, eg: CN -> CNY
