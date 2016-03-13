@@ -15,7 +15,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         requestSerializer = AFJSONRequestSerializer()
         responseSerializer = AFJSONResponseSerializer()
-        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.None)
         self.securityPolicy.validatesDomainName = false
         self.securityPolicy.allowInvalidCertificates = true
         

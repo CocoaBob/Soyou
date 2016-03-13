@@ -169,7 +169,7 @@ class RequestManager {
     
     func requestCurrencyChanges(currencies: [NSDictionary], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         
-        let url = "http://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.xchange where pair in (\"__CURRENCIES__\")&format=json&env=store://datatables.org/alltableswithkeys"
+        let url = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.xchange where pair in (\"__CURRENCIES__\")&format=json&env=store://datatables.org/alltableswithkeys"
         
         var _currenciies: [String] = [String]();
         for currency in currencies {
