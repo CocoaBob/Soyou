@@ -20,12 +20,29 @@ class FavoritesViewController: BaseViewController {
         return _tableView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        switch (self.type) {
-        case .News:
-            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
-        case .Products:
-            return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
+    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
+        if self.type == .News {
+            let request = FavoriteNews.MR_requestAllSortedBy(
+                "dateFavorite",
+                ascending: false,
+                withPredicate: nil,
+                inContext: context)
+            return FavoriteNews.MR_fetchController(request,
+                delegate: self,
+                useFileCache: false,
+                groupedBy: nil,
+                inContext: context)
+        } else {
+            let request = FavoriteProduct.MR_requestAllSortedBy(
+                "dateFavorite",
+                ascending: false,
+                withPredicate: nil,
+                inContext: context)
+            return FavoriteProduct.MR_fetchController(request,
+                delegate: self,
+                useFileCache: false,
+                groupedBy: nil,
+                inContext: context)
         }
     }
     
@@ -61,6 +78,9 @@ class FavoritesViewController: BaseViewController {
         
         // Setup refresh controls
         setupRefreshControls()
+        
+        // Load data
+        self.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -86,7 +106,7 @@ class FavoritesViewController: BaseViewController {
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if let sections = self.fetchedResultsController.sections {
+        if let sections = self.fetchedResultsController?.sections {
             return sections.count
         } else {
             return 0
@@ -94,7 +114,11 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.fetchedResultsController.sections![section].numberOfObjects
+        if let returnValue = self.fetchedResultsController?.sections?[section].numberOfObjects {
+            return returnValue
+        } else {
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -103,38 +127,44 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         switch (self.type) {
         case .News:
             let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteNewsTableViewCell", forIndexPath: indexPath) as! FavoriteNewsTableViewCell
-            let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
-            // Title
-            _cell.lblTitle.text = news.title
-            // Image
-            if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                _cell.imgView.sd_setImageWithURL(imageURL,
-                    placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                    completed: nil)
+            
+            if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
+                // Title
+                _cell.lblTitle.text = news.title
+                // Image
+                if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                    _cell.imgView.sd_setImageWithURL(imageURL,
+                        placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
+                        completed: nil)
+                }
             }
+            
             cell = _cell
         case .Products:
             let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteProductsTableViewCell", forIndexPath: indexPath) as! FavoriteProductsTableViewCell
-            let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
-            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                    product = localFavoriteProduct.relatedProduct(localContext) {
-                    // Title
-                    _cell.lblTitle?.text = product.title
-                    // Brand
-                    _cell.lblBrand?.text = product.brandLabel
-                    // Price
-                    _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices)
-                    // Image
-                    if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
-                        _cell.imgView?.sd_setImageWithURL(imageURL,
-                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                            completed: nil)
+            
+            if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
+                MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                    if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
+                        product = localFavoriteProduct.relatedProduct(localContext) {
+                            // Title
+                            _cell.lblTitle?.text = product.title
+                            // Brand
+                            _cell.lblBrand?.text = product.brandLabel
+                            // Price
+                            _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices)
+                            // Image
+                            if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
+                                _cell.imgView?.sd_setImageWithURL(imageURL,
+                                    placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                                    completed: nil)
+                            }
                     }
-                }
-            })
+                })
+            }
+            
             cell = _cell
         }
         
@@ -152,30 +182,32 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch (self.type) {
         case .News:
-            let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
-            // Prepare cover image
-            var image: UIImage?
-            if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-            }
-            
-            // Prepare view controller
-            let viewController = NewsDetailViewController.instantiate()
-            viewController.news = news
-            viewController.headerImage = image
-            
-            nextViewController = viewController
-        case .Products:
-            let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
-            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                    product = localFavoriteProduct.relatedProduct(localContext) {
-                        let viewController = ProductViewController.instantiate()
-                        viewController.product = product
-                        nextViewController = viewController
+            if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
+                // Prepare cover image
+                var image: UIImage?
+                if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                    image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
                 }
-            })
+                
+                // Prepare view controller
+                let viewController = NewsDetailViewController.instantiate()
+                viewController.news = news
+                viewController.headerImage = image
+                
+                nextViewController = viewController
+            }
+        case .Products:
+            if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
+                MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
+                    if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
+                        product = localFavoriteProduct.relatedProduct(localContext) {
+                            let viewController = ProductViewController.instantiate()
+                            viewController.product = product
+                            nextViewController = viewController
+                    }
+                })
+            }
         }
         
         // Push view controller
@@ -194,7 +226,9 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             UserManager.shared.loginOrDo() { () -> () in
                 switch (self.type) {
                 case .News:
-                    let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteNews
+                    guard let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews else {
+                        return
+                    }
                     MBProgressHUD.showLoader(self.view)
                     DataManager.shared.favoriteNews(news.id!, wasFavorite: true) { responseObject, error in
                         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
@@ -205,7 +239,9 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         })
                     }
                 case .Products:
-                    let favoriteProduct = self.fetchedResultsController.objectAtIndexPath(indexPath) as! FavoriteProduct
+                    guard let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct else {
+                        return
+                    }
                     MBProgressHUD.showLoader(self.view)
                     MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                         if let

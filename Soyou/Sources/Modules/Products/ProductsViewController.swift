@@ -10,13 +10,21 @@ class ProductsViewController: BaseViewController {
     
     // Override BaseViewController
     @IBOutlet var _collectionView: UICollectionView!
+    @IBOutlet var _loadingView: UIView!
+    @IBOutlet var _loadingIndicator: UILabel!
     
     var searchController: UISearchController?
     var searchTimer: NSTimer?
     
     var isSearchResultsViewController: Bool = false
+//    var isQuickSearch: Bool = true
     var searchTexts: [String]?
     var searchFromViewController: UIViewController?
+    var isLoadingIndicatorVisible: Bool = true {
+        didSet {
+            self._loadingView.hidden = !isLoadingIndicatorVisible
+        }
+    }
     
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
@@ -26,7 +34,7 @@ class ProductsViewController: BaseViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
+    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
         if (self.isSearchResultsViewController &&
             (self.searchTexts == nil || (self.searchTexts!.count == 1 && self.searchTexts!.first == ""))) {
             return nil
@@ -40,20 +48,33 @@ class ProductsViewController: BaseViewController {
         }
         if let searchTexts = self.searchTexts {
             var searchTextPredicates = [NSPredicate]()
-            for searchText in searchTexts {
-                if searchText.characters.count > 0 {
-                    searchTextPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchText))
+//            if self.isQuickSearch {
+//                let searchString = searchTexts.joinWithSeparator(" ")
+//                if searchString.characters.count > 0 {
+//                    searchTextPredicates.append(FmtPredicate("title BEGINSWITH[cd] %@", searchString))
+//                }
+//            } else {
+                for searchText in searchTexts {
+                    if searchText.characters.count > 0 {
+                        searchTextPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchText))
+                    }
                 }
-            }
+//            }
             if searchTextPredicates.count > 0 {
                 predicates.append(NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: searchTextPredicates))
             }
         }
-        return Product.MR_fetchAllGroupedBy(
-            nil,
+        
+        let request = Product.MR_requestAllSortedBy(
+            self.isSearchResultsViewController ? "appPricesCount:false,order:true,id:true" : "order,id",
+            ascending: true,
             withPredicate: NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates),
-            sortedBy: self.isSearchResultsViewController ? "appPricesCount:false,order:true,id:true" : "order,id",
-            ascending: true)
+            inContext: context)
+        return Product.MR_fetchController(request,
+            delegate: self,
+            useFileCache: false,
+            groupedBy: nil,
+            inContext: context)
     }
     
     // Properties
@@ -105,6 +126,9 @@ class ProductsViewController: BaseViewController {
         } else {
             self.updateScrollViewInset(self.collectionView(), 0, true, true, false, false)
         }
+        
+        // Load data
+        self.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -141,7 +165,7 @@ class ProductsViewController: BaseViewController {
 extension ProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let sections = self.fetchedResultsController.sections {
+        if let sections = self.fetchedResultsController?.sections {
             return sections.count
         } else {
             return 0
@@ -149,36 +173,40 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.fetchedResultsController.sections![section].numberOfObjects
+        if let returnValue = self.fetchedResultsController?.sections![section].numberOfObjects {
+            return returnValue
+        } else {
+            return 0
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductsCollectionViewCell", forIndexPath: indexPath) as! ProductsCollectionViewCell
         
-        let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
-        
-        cell.lblTitle?.text = product.title
-        cell.lblBrand?.text = product.brandLabel
-        cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices)
-        cell.isFavorite = product.isFavorite()
-        cell.fgImageView.image = nil
-        
-        if let images = product.images as? NSArray,
-            imageURLString = images.firstObject as? String,
-            imageURL = NSURL(string: imageURLString) {
-                cell.fgImageView?.sd_setImageWithURL(imageURL,
-                    placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
-                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                        if image != nil && image.size.width != 0 {
-                            MagicalRecord.saveWithBlock { (localContext: NSManagedObjectContext!) -> Void in
-                                guard let localProduct = product.MR_inContext(localContext) else { return }
-                                localProduct.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+        if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
+            cell.lblTitle?.text = product.title
+            cell.lblBrand?.text = product.brandLabel
+            cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices)
+            cell.isFavorite = product.isFavorite()
+            cell.fgImageView.image = nil
+            
+            if let images = product.images as? NSArray,
+                imageURLString = images.firstObject as? String,
+                imageURL = NSURL(string: imageURLString) {
+                    cell.fgImageView?.sd_setImageWithURL(imageURL,
+                        placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
+                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                            if image != nil && image.size.width != 0 {
+                                MagicalRecord.saveWithBlock { (localContext: NSManagedObjectContext!) -> Void in
+                                    guard let localProduct = product.MR_inContext(localContext) else { return }
+                                    localProduct.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+                                }
                             }
-                        }
-                })
-        } else {
-            DLog(FmtString("Product ID = %@, images: %@",product.id ?? "?",product.images ?? "?"))
+                    })
+            } else {
+                DLog(FmtString("Product ID = %@, images: %@",product.id ?? "?",product.images ?? "?"))
+            }
         }
         
         return cell
@@ -187,8 +215,10 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
-        
+        guard let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product else {
+            return
+        }
+            
         let productViewController = ProductViewController.instantiate()
         productViewController.product = product
         
@@ -269,13 +299,13 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Product
-        
         var size = CGSizeMake(1, 1) // Default size for product
-        if let imageRatio = product.appImageRatio?.doubleValue {
-            let cellHeight = self.cellWidth * CGFloat(imageRatio) + bottomMargin
-            size = CGSizeMake(self.cellWidth, cellHeight)
-
+        if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
+            if let imageRatio = product.appImageRatio?.doubleValue {
+                let cellHeight = self.cellWidth * CGFloat(imageRatio) + bottomMargin
+                size = CGSizeMake(self.cellWidth, cellHeight)
+                
+            }
         }
         return size
     }
@@ -288,11 +318,38 @@ extension ProductsViewController {
         let position = sender.convertPoint(CGPointZero, toView: self.collectionView())
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
         UserManager.shared.loginOrDo() { () -> () in
-            if let product = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Product {
+            if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
                 product.toggleFavorite({ (data: AnyObject?) -> () in
                     self.collectionView().reloadItemsAtIndexPaths([indexPath])
                 })
             }
+        }
+    }
+}
+
+// MARK: - Reload data
+extension ProductsViewController {
+    
+    override func reloadData() {
+        // Show indicator
+        _loadingIndicator.text = NSLocalizedString("products_vc_loading")
+        self.isLoadingIndicatorVisible = true
+        
+        // Reload Data
+        super.reloadData()
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            if let sections = self.fetchedResultsController?.sections {
+                if sections.count > 0 {
+                    if let rows = self.fetchedResultsController?.sections?[0].numberOfObjects {
+                        if rows > 0 {
+                            self.isLoadingIndicatorVisible = false
+                            return
+                        }
+                    }
+                }
+            }
+            self._loadingIndicator.text = NSLocalizedString("products_vc_no_data")
+            self.isLoadingIndicatorVisible = true
         }
     }
 }
@@ -302,7 +359,7 @@ extension ProductsViewController: UISearchResultsUpdating {
     
     func startSearchTimer() {
         stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "reloadData", userInfo: nil, repeats: false)
+        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "reloadData", userInfo: nil, repeats: false)
     }
     
     func stopSearchTimer() {
@@ -314,17 +371,34 @@ extension ProductsViewController: UISearchResultsUpdating {
         self.stopSearchTimer()
         
         if searchController.active {
-            if let searchText = searchController.searchBar.text {
-                let searchTexts = searchText.componentsSeparatedByString(" ")
-                self.searchTexts = searchTexts.map({Product.normalized($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
-            } else {
-                self.searchTexts = nil
-            }
+            _loadingIndicator.text = NSLocalizedString("products_vc_loading")
+            self.isLoadingIndicatorVisible = true
+//            self.isQuickSearch = false
+            self.searchSearchBarText(searchController.searchBar)
         } else {
             self.searchTexts = nil
         }
         
         self.startSearchTimer()
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension ProductsViewController: UISearchBarDelegate {
+    
+    func searchSearchBarText(searchBar: UISearchBar) {
+        if let searchText = searchBar.text {
+            let searchTexts = searchText.componentsSeparatedByString(" ")
+            self.searchTexts = searchTexts.map({Product.normalized($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
+        } else {
+            self.searchTexts = nil
+        }
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+//        self.isQuickSearch = true
+        self.searchSearchBarText(searchBar)
+        self.reloadData()
     }
 }
 
@@ -358,6 +432,7 @@ extension ProductsViewController: UISearchControllerDelegate {
         self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController!.delegate = self
         self.searchController!.searchResultsUpdater = searchResultsController
+        self.searchController!.searchBar.delegate = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"), self.categoryName ?? "")
         self.searchController!.hidesNavigationBarDuringPresentation = false
     }

@@ -8,6 +8,8 @@
 
 class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
+    let context = NSManagedObjectContext.MR_defaultContext()
+    
     var fetchedResultsChangesInsert: [NSIndexPath]?
     var fetchedResultsChangesDelete: [NSIndexPath]?
     var fetchedResultsChangesUpdate: [NSIndexPath]?
@@ -15,32 +17,16 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     // MARK: NSFetchedResultsController
     
-    private var _fetchedResultsController : NSFetchedResultsController? = nil
-    
-    // Should be overridden by sub-class
-    func createFetchedResultsController() -> NSFetchedResultsController? {
-        assert(false);
-        return nil
-    }
-    
-    var fetchedResultsController: NSFetchedResultsController {
-        get {
-            if _fetchedResultsController == nil {
-                _fetchedResultsController = createFetchedResultsController()
-                if let controller = _fetchedResultsController {
-                    controller.delegate = self
-                }
-            }
-            if _fetchedResultsController != nil {
-                return _fetchedResultsController!
-            } else {
-                return NSFetchedResultsController()
-            }
-        }
-    }
+    var fetchedResultsController : NSFetchedResultsController?
     
     deinit {
-        _fetchedResultsController?.delegate = nil
+        self.fetchedResultsController?.delegate = nil
+    }
+    
+    // Should be overridden by sub-class
+    func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
+        assert(false);
+        return nil
     }
     
     // MARK: UITableView or UICollectionView ?
@@ -55,11 +41,31 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     // MARK: Routines
     
     func reloadData() {
-        _fetchedResultsController = nil
-        if let tableView = self.tableView() {
-            tableView.reloadData()
-        } else if let collectionView = self.collectionView() {
-            collectionView.reloadData()
+        // Recreate FRC
+        self.fetchedResultsController = self.createFetchedResultsController(self.context)
+        self.fetchedResultsController?.delegate = self
+//        self.context.performBlock({ () -> Void in
+//            do {
+//                try self.fetchedResultsController?.performFetch()
+//            } catch {
+//                
+//            }
+//        })
+        
+        // Fetch in background than reload display in main thread
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            do {
+                try self.fetchedResultsController?.performFetch()
+            } catch {
+                
+            }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if let tableView = self.tableView() {
+                    tableView.reloadData()
+                } else if let collectionView = self.collectionView() {
+                    collectionView.reloadData()
+                }
+            })
         }
     }
     
@@ -121,6 +127,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        
         if let tableView = self.tableView() {
             switch(type) {
             case .Insert:
@@ -134,6 +141,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        
         if let tableView = self.tableView() {
             tableView.endUpdates()
         } else if let collectionView = self.collectionView() {

@@ -475,13 +475,14 @@ extension BrandViewController: UISearchControllerDelegate {
     func setupSearchController() {
         self.setupRightBarButtonItem()
         
-        let productsViewController = ProductsViewController.instantiate()
-        productsViewController.isSearchResultsViewController = true
-        productsViewController.searchFromViewController = self
-        productsViewController.brandID = self.brandID
-        self.searchController = UISearchController(searchResultsController: productsViewController)
+        let searchResultsController = ProductsViewController.instantiate()
+        searchResultsController.isSearchResultsViewController = true
+        searchResultsController.searchFromViewController = self
+        searchResultsController.brandID = self.brandID
+        self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController!.delegate = self
-        self.searchController!.searchResultsUpdater = productsViewController
+        self.searchController!.searchResultsUpdater = searchResultsController
+        self.searchController!.searchBar.delegate = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
         self.searchController!.hidesNavigationBarDuringPresentation = false
     }

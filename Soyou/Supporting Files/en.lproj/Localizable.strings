@@ -37,6 +37,8 @@
 /* Products View Controller */
 "products_vc_title"="Products";
 "products_vc_search_bar_placeholder"="Products, Refs in %@";
+"products_vc_loading"="Loading...";
+"products_vc_no_data"="No data";
 
 /* Product Prices View Controller */
 "product_prices_vc_title"="Global Prices";

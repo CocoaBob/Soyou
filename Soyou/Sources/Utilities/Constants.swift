@@ -8,16 +8,16 @@
 
 public struct Cons {
     struct Svr {
-        static let serverVersion                            = "1.0.0"
+        static let serverVersion                            = "0.0.3"
         static let apiVersion                               = "v1"
         
-#if DEBUG
-        static let baseURL                                  = "https://test-api.soyou.io"
-        static let shareBaseURL                             = "http://test-share.soyou.io:8090/#"
-#else
+//#if DEBUG
+//        static let baseURL                                  = "https://test-api.soyou.io"
+//        static let shareBaseURL                             = "http://test-share.soyou.io:8090/#"
+//#else
         static let baseURL                                  = "https://api.soyou.io"
         static let shareBaseURL                             = "http://share.soyou.io:8090/#"
-#endif
+//#endif
         
         // Count of News to load for each request
         static let reqCnt                                   = 5

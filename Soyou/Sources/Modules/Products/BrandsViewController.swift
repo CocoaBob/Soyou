@@ -17,8 +17,17 @@ class BrandsViewController: BaseViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "order", ascending: true)
+    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
+        let request = Brand.MR_requestAllSortedBy(
+            "order",
+            ascending: true,
+            withPredicate: nil,
+            inContext: context)
+        return Brand.MR_fetchController(request,
+            delegate: self,
+            useFileCache: false,
+            groupedBy: nil,
+            inContext: context)
     }
     
     // Properties
@@ -56,6 +65,9 @@ class BrandsViewController: BaseViewController {
         // Setup Search Controller
         self.setupSearchController()
         
+        // Load data
+        self.reloadData()
+        
         // Transitions
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
         self.transition?.handleEdgePanBackGesture = false
@@ -85,7 +97,7 @@ class BrandsViewController: BaseViewController {
 extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let sections = self.fetchedResultsController.sections {
+        if let sections = self.fetchedResultsController?.sections {
             return sections.count
         } else {
             return 0
@@ -93,22 +105,27 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.fetchedResultsController.sections![section].numberOfObjects
+        if let returnValue = self.fetchedResultsController?.sections?[section].numberOfObjects {
+            return returnValue
+        } else {
+            return 0
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as! BrandsCollectionViewCell
         
-        let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
-        
-        if let label = brand.label {
-            cell.lblTitle?.text = label
-        }
-
-        if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
-            cell.fgImageView?.sd_setImageWithURL(imageURL,
-                placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
-                options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .DelayPlaceholder])
+        if let brand = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand {
+            
+            if let label = brand.label {
+                cell.lblTitle?.text = label
+            }
+            
+            if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
+                cell.fgImageView?.sd_setImageWithURL(imageURL,
+                    placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
+                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .DelayPlaceholder])
+            }
         }
 
         return cell
@@ -117,7 +134,9 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        let brand = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Brand
+        guard let brand = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand else {
+            return
+        }
         
         let brandViewController = BrandViewController.instantiate()
         
@@ -259,6 +278,7 @@ extension BrandsViewController: UISearchControllerDelegate {
         searchResultsController.searchFromViewController = self
         self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController!.searchResultsUpdater = searchResultsController
+        self.searchController!.searchBar.delegate = searchResultsController
         self.searchController!.searchBar.placeholder = NSLocalizedString("brands_vc_search_bar_placeholder")
         self.searchController!.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = self.searchController!.searchBar

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YMb-yX-kGc">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -212,13 +213,33 @@
                                     <outlet property="delegate" destination="yPF-cR-cYy" id="6Ot-TL-E6E"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bCV-SG-stb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJI-Hw-e2w">
+                                        <rect key="frame" x="253" y="288" width="95" height="24"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.93226033450000001" green="0.91629886630000001" blue="0.89732736349999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="kJI-Hw-e2w" firstAttribute="centerY" secondItem="bCV-SG-stb" secondAttribute="centerY" id="Ic0-rs-BGO"/>
+                                    <constraint firstItem="kJI-Hw-e2w" firstAttribute="centerX" secondItem="bCV-SG-stb" secondAttribute="centerX" id="a2s-em-ab5"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="bCV-SG-stb" secondAttribute="bottom" id="2YS-sf-eP5"/>
                             <constraint firstItem="LND-O0-Vpm" firstAttribute="leading" secondItem="kZq-G4-NDI" secondAttribute="leading" id="8Rj-oR-1kA"/>
+                            <constraint firstItem="bCV-SG-stb" firstAttribute="leading" secondItem="kZq-G4-NDI" secondAttribute="leading" id="G1G-D0-Sn2"/>
                             <constraint firstItem="LND-O0-Vpm" firstAttribute="top" secondItem="kZq-G4-NDI" secondAttribute="top" id="Gg1-1s-QFc"/>
                             <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="LND-O0-Vpm" secondAttribute="bottom" id="ImV-pP-DEn"/>
+                            <constraint firstAttribute="trailing" secondItem="bCV-SG-stb" secondAttribute="trailing" id="KAQ-ef-iNj"/>
                             <constraint firstAttribute="trailing" secondItem="LND-O0-Vpm" secondAttribute="trailing" id="aMQ-Lf-vz0"/>
+                            <constraint firstItem="bCV-SG-stb" firstAttribute="top" secondItem="kZq-G4-NDI" secondAttribute="top" id="yQK-ox-7Mv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uz4-Jr-Q0j">
@@ -226,6 +247,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="_collectionView" destination="LND-O0-Vpm" id="tax-Cd-fzf"/>
+                        <outlet property="_loadingIndicator" destination="kJI-Hw-e2w" id="i19-Qq-FyO"/>
+                        <outlet property="_loadingView" destination="bCV-SG-stb" id="ngo-DU-2aT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P2c-m4-Et7" userLabel="First Responder" sceneMemberID="firstResponder"/>

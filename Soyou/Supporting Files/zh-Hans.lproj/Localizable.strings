@@ -39,6 +39,8 @@
 /* Products View Controller */
 "products_vc_title"="产品";
 "products_vc_search_bar_placeholder"="%@ 商品、编号…";
+"products_vc_loading"="努力加载中...";
+"products_vc_no_data"="没有数据";
 
 /* Product Prices View Controller */
 "product_prices_vc_title"="全球售价";

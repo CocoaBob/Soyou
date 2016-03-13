@@ -15,8 +15,17 @@ class NewsViewController: BaseViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
+        let request = News.MR_requestAllSortedBy(
+            "datePublication:false,id:false,appIsMore:true",
+            ascending: false,
+            withPredicate: nil,
+            inContext: context)
+        return News.MR_fetchController(request,
+            delegate: self,
+            useFileCache: false,
+            groupedBy: nil,
+            inContext: context)
     }
     
     // Properties
@@ -51,6 +60,7 @@ class NewsViewController: BaseViewController {
         
         // Data
         loadData(nil)
+        self.reloadData()
         
         // Transitions
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
@@ -96,7 +106,7 @@ extension NewsViewController {
 extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let sections = self.fetchedResultsController.sections {
+        if let sections = self.fetchedResultsController?.sections {
             return sections.count
         } else {
             return 0
@@ -104,37 +114,46 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.fetchedResultsController.sections![section].numberOfObjects
+        if let returnValue = self.fetchedResultsController?.sections?[section].numberOfObjects {
+            return returnValue
+        } else {
+            return 0
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
-        
         var returnValue: UICollectionViewCell?
-        if news.appIsMore != nil && news.appIsMore!.boolValue {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
-            
-            cell.indicator.hidden = true
-            cell.moreImage.hidden = false
-            returnValue = cell
-        } else {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
-            
-            cell.lblTitle.text = news.title
-            if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                cell.fgImageView.sd_setImageWithURL(imageURL,
-                    placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-                            guard let localNews = news.MR_inContext(localContext) else { return }
-                            if image != nil && image.size.width != 0 {
-                                localNews.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+    
+        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
+            if news.appIsMore != nil && news.appIsMore!.boolValue {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
+                
+                cell.indicator.hidden = true
+                cell.moreImage.hidden = false
+                returnValue = cell
+            } else {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
+                
+                cell.lblTitle.text = news.title
+                if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                    cell.fgImageView.sd_setImageWithURL(imageURL,
+                        placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
+                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
+                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                            MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
+                                guard let localNews = news.MR_inContext(localContext) else { return }
+                                if image != nil && image.size.width != 0 {
+                                    localNews.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+                                }
                             }
-                        }
-                })
+                    })
+                }
+                returnValue = cell
             }
-            returnValue = cell
+        }
+        
+        if returnValue == nil {
+            returnValue = UICollectionViewCell()
         }
         
         return returnValue!
@@ -143,7 +162,9 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
+        guard let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News else {
+            return
+        }
         
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             guard let localNews = news.MR_inContext(localContext) else { return }
@@ -223,15 +244,18 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        let news = self.fetchedResultsController.objectAtIndexPath(indexPath) as! News
         var size = CGSizeMake(3, 2) // Default size for news
-        if news.appIsMore == nil || !news.appIsMore!.boolValue {
-            if let imageRatio = news.appImageRatio?.doubleValue {
-                size = CGSizeMake(1, CGFloat(imageRatio))
+        
+        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
+            if news.appIsMore == nil || !news.appIsMore!.boolValue {
+                if let imageRatio = news.appImageRatio?.doubleValue {
+                    size = CGSizeMake(1, CGFloat(imageRatio))
+                }
+            } else {
+                size = CGSizeMake(8, 1)
             }
-        } else {
-            size = CGSizeMake(8, 1)
         }
+        
         return size
     }
 }
@@ -286,7 +310,7 @@ extension NewsViewController {
         self.collectionView().mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
-            let lastNews = self.fetchedResultsController.fetchedObjects?.last as? News
+            let lastNews = self.fetchedResultsController?.fetchedObjects?.last as? News
             self.loadData(lastNews?.id)
             self.beginRefreshing()
         });
