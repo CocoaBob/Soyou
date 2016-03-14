@@ -44,7 +44,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>434</string>
+	<string>439</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -145,6 +145,25 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>img_shortcut_search</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_search</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut.search</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>img_shortcut_heart</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_favorites</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut.favorites</string>
+		</dict>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIStatusBarStyle</key>

@@ -6,5 +6,7 @@
   Copyright © 2015 Soyou. All rights reserved.
 */
 
-"CFBundleDisplayName" = "奢有";
-"CFBundleName" = "奢有";
+"CFBundleDisplayName"="奢有";
+"CFBundleName"="奢有";
+"shortcut_search"="搜索产品";
+"shortcut_favorites"="我的收藏夹";

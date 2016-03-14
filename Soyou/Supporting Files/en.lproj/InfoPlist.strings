@@ -6,5 +6,7 @@
   Copyright © 2015 Soyou. All rights reserved.
 */
 
-"CFBundleDisplayName" = "Soyou";
-"CFBundleName" = "Soyou";
+"CFBundleDisplayName"="Soyou";
+"CFBundleName"="Soyou";
+"shortcut_search"="Search a product";
+"shortcut_favorites"="My favorites";

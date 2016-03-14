@@ -88,6 +88,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Delete memory cache
         SDImageCache.sharedImageCache().clearMemory()
     }
+    
+    @available(iOS 9.0, *)
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+        if shortcutItem.type == "shortcut.search" {
+            self.showSearchView()
+        } else if shortcutItem.type == "shortcut.favorites" {
+            self.showFavoritesView()
+        }
+    }
 }
 
 // MARK: Notifications
@@ -170,5 +179,28 @@ extension AppDelegate {
         
         // Show Intro View
         IntroViewController.shared.showIntroView()
+    }
+    
+    func showSearchView() {
+        if let tabBarController = self.window?.rootViewController as? UITabBarController,
+            navController = tabBarController.viewControllers?[1] as? UINavigationController,
+            brandsViewController = navController.viewControllers.first as? BrandsViewController
+        {
+            tabBarController.selectedIndex = 1
+            navController.popToRootViewControllerAnimated(false)
+            let _ = brandsViewController.view
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                brandsViewController.searchController?.searchBar.becomeFirstResponder()
+            })
+        }
+    }
+    
+    func showFavoritesView() {
+        if let tabBarController = self.window?.rootViewController as? UITabBarController,
+            navController = tabBarController.viewControllers?[2] as? UINavigationController
+        {
+            tabBarController.selectedIndex = 2
+            navController.popToRootViewControllerAnimated(false)
+        }
     }
 }
