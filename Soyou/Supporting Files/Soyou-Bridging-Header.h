@@ -41,3 +41,7 @@
 @import UIColor_Hex_Swift;
 @import UIView_Shake;
 @import ZoomInteractiveTransition;
+
+// Continuous Integration
+@import Fabric;
+@import Crashlytics;

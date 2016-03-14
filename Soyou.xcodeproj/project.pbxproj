@@ -557,6 +557,7 @@
 				4570A5831C43DDA1004274DE /* Copy Bundle Resource For IDMPhotoBrowser */,
 				45BED0921C8A66E7002E375B /* Update CFBundleVersion */,
 				456123731C8F12C5008BEA82 /* Show warnings for TODO:FIXME: */,
+				45D5BAF41C96BEF600BA30D3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -664,6 +665,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(git rev-list HEAD | wc -l | tr -d ' ')\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+		};
+		45D5BAF41C96BEF600BA30D3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" bb9a1b614552f237cf9c6f497919f19c12708541 395376f978f23154d811845547095d84ab7394c223a939fbc83894972fc8a484 ";
 		};
 		64F38153BB338306A7FF94EB /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

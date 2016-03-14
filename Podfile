@@ -35,6 +35,10 @@ pod "UIColor_Hex_Swift"
 pod "UIView+Shake"
 pod "ZoomInteractiveTransition"
 
+#Continuous Integration
+pod "Fabric"
+pod "Crashlytics"
+
 # Will be integrated in the future
 #pod "ActionSheetPicker-3.0"
 #pod "JSQMessagesViewController"
