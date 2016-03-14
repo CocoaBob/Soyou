@@ -17,17 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Continuous Integration
         Fabric.with([Crashlytics.self])
+        Crashlytics.sharedInstance().setUserIdentifier(UIDevice.currentDevice().identifierForVendor?.UUIDString)
 
         // Exclude database from iCloud backup
         FileManager.excludeFromBackup(FileManager.dbDir)
         
-        // Check upgrades
+        // Check upgrades, may change database
         checkIfUpgraded()
         
         // Setup Database
         MagicalRecord.setLoggingLevel(.Error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
         MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
+        
+        // Get Username from database
+        Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
         
         // Setup SDWebImage cache
         SDImageCache.sharedImageCache().shouldDecompressImages = false

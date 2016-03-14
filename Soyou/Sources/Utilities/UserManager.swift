@@ -32,6 +32,9 @@ class UserManager: NSObject {
                     if let user = user {
                         if !(newValue is NSNull) {
                             user.setValue(newValue, forKey: key)
+                            if key == "username" {
+                                Crashlytics.sharedInstance().setUserName(newValue as? String)
+                            }
                         } else {
                             if attDesc.attributeType == .StringAttributeType {
                                 user.setValue("", forKey: key)
