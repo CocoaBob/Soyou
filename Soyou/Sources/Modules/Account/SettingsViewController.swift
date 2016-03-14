@@ -49,6 +49,32 @@ extension SettingsViewController {
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_language"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
+                        userInfo: nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeLanguage()
+                        }
+                    ),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_my_currency"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: nil,
+                        userInfo: nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeMyCurrency()
+                        }
+                    )
+                    
+                ]
+            ),
+            Section(
+                title: nil,
+                rows: [
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_intro"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
@@ -96,16 +122,6 @@ extension SettingsViewController {
                             self.review()
                         }
                     ),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_language"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.changeLanguage()
-                        }
-                    )
                 ]
             ),
             Section(
@@ -291,6 +307,10 @@ extension SettingsViewController {
         self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
     
+    func changeMyCurrency() {
+        
+    }
+    
     func clearCache() {
         self.updateCacheSize(nil)
         
@@ -313,9 +333,9 @@ extension SettingsViewController {
             let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1048576.0) : "..."
 
             // Update table
-            var row = self.sections[1].rows[0]
+            var row = self.sections[2].rows[0]
             row.title?.text = cacheSize != nil ? (NSLocalizedString("settings_vc_cell_clear_cache") + " (" + strSize + ")") : NSLocalizedString("settings_vc_cell_clearing_cache")
-            self.sections[1].rows = [row]
+            self.sections[2].rows = [row]
             self.tableView.reloadData()
         })
     }

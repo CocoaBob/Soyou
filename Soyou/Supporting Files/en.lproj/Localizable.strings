@@ -127,6 +127,7 @@
 "settings_vc_cell_language_set_title"="设置成功";
 "settings_vc_cell_language_set_subtitle"="新语言将在应用重启后生效。\n重启方法：双击主键打开多任务界面，上滑 Soyou 退出应用，然后再在桌面点击『奢有』。";
 "settings_vc_cell_language_set_done"="完成";
+"settings_vc_cell_my_currency"="My currency";
 
 /* Data Manager */
 "data_manager_updating_data"="Updating products data...";
