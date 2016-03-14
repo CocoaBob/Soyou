@@ -66,8 +66,11 @@
 "user_vc_cell_favs_products"="产品";
 "user_vc_feedback_alert_title"="用户反馈";
 "user_vc_feedback_alert_message"="您觉得『奢有』怎么样？";
-"user_vc_feedback_alert_like"="我很喜欢!";
-"user_vc_feedback_alert_feedback"="我要反馈!";
+"user_vc_feedback_alert_like"="我很喜欢！";
+"user_vc_feedback_alert_feedback"="我要反馈！";
+"user_vc_feedback_alert_share"="分享给朋友";
+"user_vc_feedback_alert_share_title"="奢有 Soyou";
+"user_vc_feedback_alert_share_description"="奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航和最新时尚资讯。";
 "user_vc_feedback_mail_title"="Soyou 用户反馈";
 "user_vc_feedback_mail_message_body"="";
 

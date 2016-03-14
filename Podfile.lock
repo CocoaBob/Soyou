@@ -58,7 +58,8 @@ PODS:
   - SVWebViewController (1.0)
   - UICKeyChainStore (2.1.0)
   - UIColor_Hex_Swift (1.9)
-  - UIView+Shake (1.1.3)
+  - UIImage-ResizeMagick (0.0.1)
+  - UIView+Shake (1.1.4)
   - ZoomInteractiveTransition (0.4.0)
 
 DEPENDENCIES:
@@ -88,6 +89,7 @@ DEPENDENCIES:
   - SVWebViewController
   - UICKeyChainStore
   - UIColor_Hex_Swift
+  - UIImage-ResizeMagick
   - UIView+Shake
   - ZoomInteractiveTransition
 
@@ -143,7 +145,8 @@ SPEC CHECKSUMS:
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
   UIColor_Hex_Swift: 2ee747c0fed8b72b2135ef474b80a6921e489daa
-  UIView+Shake: a7ea3fd810a64297cb56b7cbdbd2b0fd5f964a6e
+  UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
+  UIView+Shake: eb0e1906c5667d73025967fe9bd96c436399df26
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
 COCOAPODS: 0.39.0

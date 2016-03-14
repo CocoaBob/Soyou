@@ -42,6 +42,7 @@
 @import SVWebViewController;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
+@import UIImage_ResizeMagick;
 @import UIView_Shake;
 @import ZoomInteractiveTransition;
 

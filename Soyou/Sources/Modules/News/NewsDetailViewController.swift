@@ -524,13 +524,40 @@ extension NewsDetailViewController {
     }
     
     func share(sender: UIBarButtonItem) {
-        if let headerImage = self.headerImage, newsTitle = self.newsTitle, newsID = self.newsId {
-            let activityView = UIActivityViewController(
-                activityItems: [headerImage, newsTitle, NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)")!],
-                applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-            self.presentViewController(activityView, animated: true, completion: nil)
+        var descriptions: String?
+        if let htmlString = self.webView?.stringByEvaluatingJavaScriptFromString("document.body.innerHTML"),
+            htmlData = htmlString.dataUsingEncoding(NSUTF8StringEncoding) {
+                do {
+                    let attributedString = try NSAttributedString(data: htmlData,
+                        options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
+                            NSCharacterEncodingDocumentAttribute:NSNumber(unsignedInteger: NSUTF8StringEncoding)],
+                        documentAttributes: nil)
+                    var contentString = attributedString.string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                    if contentString.characters.count > 64 {
+                        contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(63))
+                    }
+                    descriptions = contentString
+                } catch {
+                    
+                }
         }
+        var items = [AnyObject]()
+        if let item = self.headerImage {
+            items.append(item)
+        }
+        if let item = self.newsTitle {
+            items.append(item)
+        }
+        if let item = self.newsId {
+            items.append(item)
+        }
+        if let item = descriptions {
+            items.append(item)
+        }
+        if let newsID = self.newsId, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)") {
+            items.append(item)
+        }
+        Utils.shareItems(items)
     }
     
     func like(sender: UIBarButtonItem) {

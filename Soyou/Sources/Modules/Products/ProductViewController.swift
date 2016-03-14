@@ -495,6 +495,7 @@ extension ProductViewController {
     func share(sender: UIBarButtonItem) {
         var productID: String?
         var title: String?
+        var htmlString: String?
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = self.product?.MR_inContext(localContext)
@@ -504,16 +505,52 @@ extension ProductViewController {
             if let objectData = localProduct?.sku, let object = Utils.decrypt(objectData) as? String {
                 productID = object
             }
+            if let descriptions = self.product?.descriptions {
+                htmlString = descriptions
+            }
             title = localProduct?.title
         })
         
-        if let image = self.imageViews.first?.image, productID = productID {
-            let activityView = UIActivityViewController(
-                activityItems: [image, title ?? "", NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)")!],
-                applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-            self.presentViewController(activityView, animated: true, completion: nil)
+        // Descriptions
+        var descriptions: String?
+        if let htmlString = htmlString,
+            htmlData = htmlString.dataUsingEncoding(NSUTF8StringEncoding) {
+                do {
+                    let attributedString = try NSAttributedString(data: htmlData,
+                        options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
+                            NSCharacterEncodingDocumentAttribute:NSNumber(unsignedInteger: NSUTF8StringEncoding)],
+                        documentAttributes: nil)
+                    var contentString = attributedString.string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                    if contentString.characters.count > 64 {
+                        contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(64))
+                    }
+                    descriptions = contentString
+                } catch {
+                    
+                }
         }
+        
+        // Title
+        if let strTitle = title {
+            if strTitle.characters.count > 32 {
+                title = strTitle.substringToIndex(strTitle.startIndex.advancedBy(32))
+            }
+        }
+        
+        var items = [AnyObject]()
+        if let item = self.imageViews.first?.image {
+            items.append(item)
+        }
+        if let item = title {
+            items.append(item)
+        }
+        if let item = descriptions {
+            items.append(item)
+        }
+        if let productID = productID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)") {
+            items.append(item)
+        }
+        Utils.shareItems(items)
     }
     
     func like(sender: UIBarButtonItem) {

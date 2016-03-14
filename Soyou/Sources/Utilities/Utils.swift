@@ -36,6 +36,16 @@ extension Utils {
     }
 }
 
+// MARK: Share
+extension Utils {
+    
+    class func shareItems(items: [AnyObject]) {
+        let activityView = UIActivityViewController(activityItems: items, applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+        activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(activityView, animated: true, completion: nil)
+    }
+}
+
 // MARK: Send feedback email and MFMailComposeViewControllerDelegate
 extension Utils: MFMailComposeViewControllerDelegate {
     

@@ -66,6 +66,9 @@
 "user_vc_feedback_alert_message"="How do you feel about Soyou?";
 "user_vc_feedback_alert_like"="I like it!";
 "user_vc_feedback_alert_feedback"="Send feedbacks";
+"user_vc_feedback_alert_share"="Share with your friends";
+"user_vc_feedback_alert_share_title"="Soyou";
+"user_vc_feedback_alert_share_description"="Soyou is your luxury shopping assistant, gathering official prices of world's top fashion brands, sharing global discount and fashion information, providing shopping guides, helping you easily catch the trends of global luxury goods.";
 "user_vc_feedback_mail_title"="Feedbacks of Soyou";
 "user_vc_feedback_mail_message_body"="";
 
@@ -174,7 +177,7 @@
 
 /* App */
 "app_about_title"="Soyou";
-"app_about_content"="Soyou is your luxury shopping assistant, gathering official prices of world's top fashion items, sharing global discount information and fashion information, providing shopping guides of brand stores, help you easily grasp the trends of global luxury goods.";
+"app_about_content"="Soyou is your luxury shopping assistant, gathering official prices of world's top fashion brands, sharing global discount and fashion information, providing shopping guides, helping you easily catch the trends of global luxury goods.";
 "app_new_version_available"="New version available, please upgrade.";
 "app_new_version_app_store"="Open App Store.";
 

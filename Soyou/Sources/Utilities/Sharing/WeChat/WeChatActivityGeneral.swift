@@ -9,9 +9,10 @@
 import UIKit
 
 class WeChatActivityGeneral: UIActivity {
-    var text:String!
-    var url:NSURL?
-    var image:UIImage!
+    var title: String?
+    var url: NSURL?
+    var image: UIImage?
+    var descriptions: String?
     var isSessionScene = true
     
     override func canPerformWithActivityItems(activityItems: [AnyObject]) -> Bool {
@@ -34,10 +35,14 @@ class WeChatActivityGeneral: UIActivity {
     override func prepareWithActivityItems(activityItems: [AnyObject]) {
         for item in activityItems {
             if item is UIImage {
-                image = item as! UIImage
+                image = item as? UIImage
             }
             if item is String {
-                text = item as! String
+                if (item as! String).characters.count > 32 {
+                    descriptions = item as? String
+                } else {
+                    title = item as? String
+                }
             }
             if item is NSURL {
                 url = item as? NSURL
@@ -48,26 +53,24 @@ class WeChatActivityGeneral: UIActivity {
     override func performActivity() {
         let message = WXMediaMessage()
         
-        message.title = text
-        message.description = ""
+        message.title = title
+        message.description = descriptions
         
-        if url !== nil {// set link url
+        if let url = url {// set link url
             let urlObject =  WXWebpageObject()
-            urlObject.webpageUrl = url!.absoluteString
+            urlObject.webpageUrl = url.absoluteString
             message.mediaObject = urlObject
-        } else {// set image
-            let imageObject = WXImageObject()
-            imageObject.imageData = UIImageJPEGRepresentation(image, 1)
-            message.mediaObject = imageObject
         }
         
-        // set the size of thumbnail image from original UIImage data
-        let width = 240.0 as CGFloat
-        let height = width*image.size.height/image.size.width
-        UIGraphicsBeginImageContext(CGSizeMake(width, height))
-        image.drawInRect(CGRectMake(0, 0, width, height))
-        message.setThumbImage(UIGraphicsGetImageFromCurrentImageContext())
-        UIGraphicsEndImageContext()
+        if let image = image {
+            if url == nil {
+                let imageObject = WXImageObject()
+                imageObject.imageData = UIImageJPEGRepresentation(image, 1)
+                message.mediaObject = imageObject
+            }
+            
+            message.setThumbImage(image.resizedImageByMagick("200x200#"))
+        }
         
         let req =  SendMessageToWXReq()
         req.bText = false
