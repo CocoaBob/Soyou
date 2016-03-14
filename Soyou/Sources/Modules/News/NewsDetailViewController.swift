@@ -524,8 +524,14 @@ extension NewsDetailViewController {
     }
     
     func share(sender: UIBarButtonItem) {
+        var htmlString: String?
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            if let localNews = self.news?.MR_inContext(localContext) {
+                htmlString = localNews.content
+            }
+        })
         var descriptions: String?
-        if let htmlString = self.webView?.stringByEvaluatingJavaScriptFromString("document.body.innerHTML"),
+        if let htmlString = htmlString,
             htmlData = htmlString.dataUsingEncoding(NSUTF8StringEncoding) {
                 do {
                     let attributedString = try NSAttributedString(data: htmlData,
@@ -533,8 +539,8 @@ extension NewsDetailViewController {
                             NSCharacterEncodingDocumentAttribute:NSNumber(unsignedInteger: NSUTF8StringEncoding)],
                         documentAttributes: nil)
                     var contentString = attributedString.string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                    if contentString.characters.count > 64 {
-                        contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(63))
+                    if contentString.characters.count > 256 {
+                        contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(256))
                     }
                     descriptions = contentString
                 } catch {
@@ -545,7 +551,10 @@ extension NewsDetailViewController {
         if let item = self.headerImage {
             items.append(item)
         }
-        if let item = self.newsTitle {
+        if var item = self.newsTitle {
+            if item.characters.count > 128 {
+                item = item.substringToIndex(item.startIndex.advancedBy(128))
+            }
             items.append(item)
         }
         if let item = self.newsId {

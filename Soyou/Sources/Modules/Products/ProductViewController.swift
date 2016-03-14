@@ -521,8 +521,8 @@ extension ProductViewController {
                             NSCharacterEncodingDocumentAttribute:NSNumber(unsignedInteger: NSUTF8StringEncoding)],
                         documentAttributes: nil)
                     var contentString = attributedString.string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                    if contentString.characters.count > 64 {
-                        contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(64))
+                    if contentString.characters.count > 256 {
+                        contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(256))
                     }
                     descriptions = contentString
                 } catch {
@@ -532,8 +532,8 @@ extension ProductViewController {
         
         // Title
         if let strTitle = title {
-            if strTitle.characters.count > 32 {
-                title = strTitle.substringToIndex(strTitle.startIndex.advancedBy(32))
+            if strTitle.characters.count > 128 {
+                title = strTitle.substringToIndex(strTitle.startIndex.advancedBy(128))
             }
         }
         

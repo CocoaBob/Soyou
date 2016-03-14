@@ -38,7 +38,7 @@ class WeChatActivityGeneral: UIActivity {
                 image = item as? UIImage
             }
             if item is String {
-                if (item as! String).characters.count > 32 {
+                if (item as! String).characters.count > 128 {
                     descriptions = item as? String
                 } else {
                     title = item as? String
