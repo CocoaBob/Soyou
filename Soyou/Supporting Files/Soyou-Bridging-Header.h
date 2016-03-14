@@ -11,6 +11,9 @@
 @import StoreKit;
 @import UIKit;
 
+// To get device info
+#include <sys/utsname.h>
+
 #import <libWeChatSDK/WXApiObject.h>
 #import <libWeChatSDK/WXApi.h>
 
