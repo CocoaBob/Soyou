@@ -47,7 +47,12 @@ class CurrencyRate: BaseModel {
     class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                
+                // Delete old data
+                if let allCurrencyRates = CurrencyRate.MR_findAllInContext(localContext) {
+                    for currencyRate in allCurrencyRates {
+                        currencyRate.MR_deleteEntityInContext(localContext)
+                    }
+                }
                 // Import new data
                 for data in datas {
                     CurrencyRate.importData(data, localContext)

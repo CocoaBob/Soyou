@@ -186,7 +186,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
             cell.lblTitle?.text = product.title
             cell.lblBrand?.text = product.brandLabel
-            cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInCHY(product.prices)
+            cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
             cell.isFavorite = product.isFavorite()
             cell.fgImageView.image = nil
             

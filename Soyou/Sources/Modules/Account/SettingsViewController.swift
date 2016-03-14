@@ -308,7 +308,61 @@ extension SettingsViewController {
     }
     
     func changeMyCurrency() {
-        
+        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        // UI
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
+        simpleViewController.title = NSLocalizedString("settings_vc_cell_choose_my_currency")
+        // Data
+        var rows = [Row]()
+        let allCurrencyCodes = CurrencyManager.shared.allCurrencyCodes()
+        for currencyCode in allCurrencyCodes {
+            let row = Row(type: .LeftTitle,
+                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                image: nil,
+                title: Text(text: CurrencyManager.shared.currencyNameFromCurrencyCode(currencyCode), placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
+                subTitle: nil,
+                userInfo: nil,
+                didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                    simpleViewController.navigationItem.rightBarButtonItem?.enabled = (allCurrencyCodes[indexPath.row] != CurrencyManager.shared.userCurrency)
+                    if simpleViewController.updateSelectionCheckmark(indexPath) {
+                        var rowsToReload = [indexPath]
+                        if let selectedIndexPath = simpleViewController.selectedIndexPath {
+                            rowsToReload.append(selectedIndexPath)
+                        }
+                        simpleViewController.tableView.beginUpdates()
+                        simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
+                        simpleViewController.tableView.endUpdates()
+                    }
+                }
+            )
+            rows.append(row)
+        }
+        simpleViewController.sections = [
+            Section(
+                title: nil,
+                rows: rows
+            )
+        ]
+        if let index = allCurrencyCodes.indexOf(CurrencyManager.shared.userCurrency) {
+            simpleViewController.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+            simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
+        }
+        // Handler
+        simpleViewController.completion = { () -> () in
+            if let selectedIndexPath = simpleViewController.selectedIndexPath {
+                let currency = allCurrencyCodes[selectedIndexPath.row]
+                // Set user currency
+                MBProgressHUD.showLoader(nil)
+                CurrencyManager.shared.userCurrency = currency
+                CurrencyManager.shared.updateCurrencyRates({ (_, _) -> () in
+                    MBProgressHUD.hideLoader(nil)
+                    simpleViewController.navigationController?.popViewControllerAnimated(true)
+                })
+            }
+        }
+        // Push
+        self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
     
     func clearCache() {

@@ -19,15 +19,15 @@ class ProductPricesViewController: UIViewController {
                 for (index, var price) in _prices.enumerate() {
                     let countryCode = price["country"] as! String
                     let priceOriginal = price["price"] as! NSNumber
-                    price["priceCNY"] = CurrencyManager.shared.referenceCNYFromCurrency(countryCode, price: priceOriginal)
+                    price["priceUserCurrency"] = CurrencyManager.shared.userCurrencyFromCurrency(countryCode, price: priceOriginal)
                     prices![index] = price
                 }
                 
                 prices!.sortInPlace({
                     let item0 = $0 as [String: AnyObject]
                     let item1 = $1 as [String: AnyObject]
-                    if let price0 = item0["priceCNY"] as? NSNumber,
-                        price1 = item1["priceCNY"] as? NSNumber {
+                    if let price0 = item0["priceUserCurrency"] as? NSNumber,
+                        price1 = item1["priceUserCurrency"] as? NSNumber {
                             return price0.doubleValue < price1.doubleValue
                     }
                     return false
@@ -103,11 +103,11 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             
             _cell.lblRetail.text = NSLocalizedString("product_prices_vc_official_retail")
             _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyName(countryCode ?? "")
-            _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, nil)
-            _cell.lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
-            _cell.lblEquivalentCurrency.text = CurrencyManager.shared.currencyName("CN")
-            if let priceCNY = item["priceCNY"] as? NSNumber {
-                _cell.lblEquivalentPrice.text = CurrencyManager.shared.formattedPrice(priceCNY, nil, nil)
+            _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, false)
+            _cell.lblEquivalent.text = FmtString(NSLocalizedString("product_prices_vc_official_equivalent"), CurrencyManager.shared.userCurrencyName)
+            _cell.lblEquivalentCurrency.text = CurrencyManager.shared.currencyNameFromCurrencyCode(CurrencyManager.shared.userCurrency)
+            if let priceUserCurrency = item["priceUserCurrency"] as? NSNumber {
+                _cell.lblEquivalentPrice.text = CurrencyManager.shared.formattedPrice(priceUserCurrency, nil, false)
             } else {
                 _cell.lblEquivalentPrice.text = NSLocalizedString("product_prices_vc_unavailable")
             }
@@ -181,7 +181,7 @@ class ProductPricesTableViewCellCurrency: UITableViewCell {
         super.awakeFromNib()
         self.prepareForReuse()
         
-        lblEquivalent.text = NSLocalizedString("product_prices_vc_official_equivalent")
+        lblEquivalent.text = FmtString(NSLocalizedString("product_prices_vc_official_equivalent"), CurrencyManager.shared.userCurrencyName)
     }
     
     override func prepareForReuse() {

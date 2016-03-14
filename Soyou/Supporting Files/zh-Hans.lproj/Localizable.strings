@@ -47,7 +47,7 @@
 "product_prices_vc_official_price"="%@";
 "product_prices_vc_official_website"="官网直达";
 "product_prices_vc_official_retail"="当地零售价";
-"product_prices_vc_official_equivalent"="折合人民币";
+"product_prices_vc_official_equivalent"="折合%@";
 "product_prices_vc_unavailable"="暂无";
 
 /* Product Descriptions View Controller */
@@ -130,6 +130,7 @@
 "settings_vc_cell_language_set_subtitle"="Please relaunch Soyou to activate the new language.";
 "settings_vc_cell_language_set_done"="Done";
 "settings_vc_cell_my_currency"="我的货币";
+"settings_vc_cell_choose_my_currency"="选择我的货币";
 
 /* Data Manager */
 "data_manager_updating_data"="正在更新产品数据...";
