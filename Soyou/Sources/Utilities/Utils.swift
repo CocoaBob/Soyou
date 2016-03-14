@@ -41,11 +41,58 @@ extension Utils: MFMailComposeViewControllerDelegate {
     
     func sendFeedbackEmail(fromViewController: UIViewController) {
         if MFMailComposeViewController.canSendMail() {
+            // Prepare info
+            var appVersion  = ""
+            if let shortVersionString = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String {
+                appVersion  += shortVersionString
+            }
+            if let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
+                appVersion  += "(\(version))"
+            }
+            let appLanguage = NSLocale.preferredLanguages().first ?? "Unknown"
+            let device = UIDevice.currentDevice()
+            let deviceName = device.name ?? "Unknown"
+            let deviceModel = device.model ?? "Unknown"
+            let deviceSystemName = device.systemName ?? "Unknown"
+            let deviceSystemVersion = device.systemVersion ?? "Unknown"
+            let deviceUUID = device.identifierForVendor?.UUIDString ?? "Unknown"
+            let screenSize = NSStringFromCGSize(UIScreen.mainScreen().bounds.size)
+            let screenScale = "\(UIScreen.mainScreen().scale)"
+            
+            // Get device machine name http://stackoverflow.com/a/25380129/886215
+            var sysInfo: [CChar] = Array(count: sizeof(utsname), repeatedValue: 0)
+            let machine = sysInfo.withUnsafeMutableBufferPointer { (inout ptr: UnsafeMutableBufferPointer<CChar>) -> String in
+                uname(UnsafeMutablePointer<utsname>(ptr.baseAddress))
+                let machinePtr = ptr.baseAddress.advancedBy(Int(_SYS_NAMELEN * 4))
+                var buf: [CChar] = Array<CChar>(count: Int(_SYS_NAMELEN) + 1, repeatedValue: 0);
+                return buf.withUnsafeMutableBufferPointer({ (inout bufPtr: UnsafeMutableBufferPointer<CChar>) -> String in
+                    strncpy(bufPtr.baseAddress, machinePtr, Int(_SYS_NAMELEN))
+                    return String.fromCString(bufPtr.baseAddress)!
+                })
+            }
+            
+            // Prepare data
+            let diagnosticString =
+                "AppVersion : \(appVersion)\n" +
+                "AppLanguage : \(appLanguage)\n" +
+                "DeviceName : \(deviceName)\n" +
+                "DeviceModel : \(deviceModel)\n" +
+                "DeviceType : \(machine)\n" +
+                "DeviceSystemName : \(deviceSystemName)\n" +
+                "DeviceSystemVersion : \(deviceSystemVersion)\n" +
+                "DeviceUUID : \(deviceUUID)\n" +
+                "ScreenSize : \(screenSize)\n" +
+                "ScreenScale : \(screenScale)\n"
+            
+            // Send email
             let mailComposeViewController = MFMailComposeViewController()
             mailComposeViewController.mailComposeDelegate = self
             mailComposeViewController.setSubject(NSLocalizedString("user_vc_feedback_mail_title"))
             mailComposeViewController.setMessageBody(NSLocalizedString("user_vc_feedback_mail_message_body"), isHTML: true)
             mailComposeViewController.setToRecipients(["contact@soyou.io"])
+            if let diagnosticData = diagnosticString.dataUsingEncoding(NSUTF8StringEncoding) {
+                mailComposeViewController.addAttachmentData(diagnosticData, mimeType: "TEXT/XML", fileName: "DiagnosticData.txt")
+            }
             fromViewController.presentViewController(mailComposeViewController, animated: true, completion: nil)
         }
     }
