@@ -42,7 +42,7 @@ class NewsViewController: BaseViewController {
         self.title = NSLocalizedString("news_vc_title")
 
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("news_vc_tab_title"), image: UIImage(named: "img_tab_globe"), selectedImage: UIImage(named: "img_tab_globe_selected"))
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("news_vc_tab_title"), image: UIImage(named: "img_tab_news"), selectedImage: UIImage(named: "img_tab_news_selected"))
         
         // Bars
         self.hidesBottomBarWhenPushed = false
