@@ -127,8 +127,8 @@
 "settings_vc_cell_language_set_title"="Set successfully";
 "settings_vc_cell_language_set_subtitle"="Please relaunch Soyou to activate the new language.";
 "settings_vc_cell_language_set_done"="Done";
-"settings_vc_cell_my_currency"="我的货币";
-"settings_vc_cell_choose_my_currency"="选择我的货币";
+"settings_vc_cell_currency"="货币";
+"settings_vc_cell_choose_currency"="选择货币";
 
 /* Data Manager */
 "data_manager_updating_data"="正在更新产品数据...";

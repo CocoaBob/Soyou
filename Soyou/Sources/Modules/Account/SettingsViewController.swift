@@ -59,7 +59,7 @@ extension SettingsViewController {
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_my_currency"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_currency"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -312,7 +312,7 @@ extension SettingsViewController {
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
-        simpleViewController.title = NSLocalizedString("settings_vc_cell_choose_my_currency")
+        simpleViewController.title = NSLocalizedString("settings_vc_cell_choose_currency")
         // Data
         var rows = [Row]()
         let allCurrencyCountryPairs = CurrencyManager.shared.allCurrencyCountryPairs()
