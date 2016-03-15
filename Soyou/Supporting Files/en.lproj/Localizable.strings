@@ -44,8 +44,6 @@
 "product_prices_vc_title"="Global Prices";
 "product_prices_vc_official_price"="Official price in %@";
 "product_prices_vc_official_website"="Website";
-"product_prices_vc_official_retail"="Retail price";
-"product_prices_vc_official_equivalent"="Equivalent %@";
 "product_prices_vc_unavailable"="Unavailable";
 
 /* Product Descriptions View Controller */
@@ -159,6 +157,7 @@
 "alert_title_success"="Success";
 "alert_button_ok"="OK";
 "alert_button_close"="Close";
+"currency_unknown"="Unknown Currency";
 
 /* Product descriptions */
 "product_surname"="Surname";

@@ -266,9 +266,9 @@ extension ProfileViewController {
             let regionCodes = regions.flatMap {($0 as? Region)?.code}
             var rows = [Row]()
             for regionCode in regionCodes {
-                let row = Row(type: .LeftTitle,
+                let row = Row(type: .IconTitle,
                     cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                    image: nil,
+                    image: UIImage(flagImageWithCountryCode: regionCode),
                     title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
                     subTitle: nil,
                     userInfo: ["code":regionCode],

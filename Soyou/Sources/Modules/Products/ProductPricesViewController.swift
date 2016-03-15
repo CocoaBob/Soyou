@@ -101,11 +101,9 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         } else {
             let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as! ProductPricesTableViewCellCurrency
             
-            _cell.lblRetail.text = NSLocalizedString("product_prices_vc_official_retail")
             _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyName(countryCode ?? "")
             _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, false)
-            _cell.lblEquivalent.text = FmtString(NSLocalizedString("product_prices_vc_official_equivalent"), CurrencyManager.shared.userCurrencyName)
-            _cell.lblEquivalentCurrency.text = CurrencyManager.shared.currencyNameFromCurrencyCode(CurrencyManager.shared.userCurrency)
+            _cell.lblEquivalentCurrency.text = CurrencyManager.shared.currencyNameFromCurrencyCode(CurrencyManager.shared.userCurrency) ?? NSLocalizedString("currency_unknown")
             if let priceUserCurrency = item["priceUserCurrency"] as? NSNumber {
                 _cell.lblEquivalentPrice.text = CurrencyManager.shared.formattedPrice(priceUserCurrency, nil, false)
             } else {
@@ -170,25 +168,19 @@ class ProductPricesTableViewCellCountry: UITableViewCell {
 }
 
 class ProductPricesTableViewCellCurrency: UITableViewCell {
-    @IBOutlet var lblRetail: UILabel!
     @IBOutlet var lblRetailCurrency: UILabel!
     @IBOutlet var lblRetailPrice: UILabel!
-    @IBOutlet var lblEquivalent: UILabel!
     @IBOutlet var lblEquivalentCurrency: UILabel!
     @IBOutlet var lblEquivalentPrice: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.prepareForReuse()
-        
-        lblEquivalent.text = FmtString(NSLocalizedString("product_prices_vc_official_equivalent"), CurrencyManager.shared.userCurrencyName)
     }
     
     override func prepareForReuse() {
-        lblRetail.text = nil
         lblRetailCurrency.text = nil
         lblRetailPrice.text = nil
-        lblEquivalent.text = nil
         lblEquivalentCurrency.text = nil
         lblEquivalentPrice.text = nil
     }

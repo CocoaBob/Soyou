@@ -316,71 +316,49 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="123,456.79" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Adq-Ip-CdI">
-                                            <rect key="frame" x="262" y="9" width="310" height="14"/>
+                                            <rect key="frame" x="154" y="9" width="418" height="14"/>
                                             <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="12"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Canadian dollar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVu-A9-15k">
-                                            <rect key="frame" x="151" y="8" width="95" height="16"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retail price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dOd-tu-pBs">
-                                            <rect key="frame" x="55" y="8" width="80" height="16"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="80" id="fHX-s7-96L"/>
-                                            </constraints>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Euro" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dOd-tu-pBs">
+                                            <rect key="frame" x="55" y="8" width="83" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="987,654,32" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9J-B2-C5j">
-                                            <rect key="frame" x="262" y="33" width="310" height="14"/>
+                                            <rect key="frame" x="154" y="33" width="418" height="14"/>
                                             <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="12"/>
                                             <color key="textColor" red="1" green="0.72383683919999997" blue="0.29457113150000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Equivalent" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zDm-Nb-2sa">
-                                            <rect key="frame" x="55" y="32" width="80" height="16"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Chinese yan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jN6-ap-xgQ">
-                                            <rect key="frame" x="151" y="32" width="95" height="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Chinese Yuan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zDm-Nb-2sa">
+                                            <rect key="frame" x="55" y="32" width="83" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="bVu-A9-15k" firstAttribute="baseline" secondItem="dOd-tu-pBs" secondAttribute="baseline" id="CVi-5b-CuQ"/>
                                         <constraint firstItem="dOd-tu-pBs" firstAttribute="top" secondItem="pXK-qz-JC2" secondAttribute="topMargin" id="FjX-Qr-P9Q"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Adq-Ip-CdI" secondAttribute="trailing" constant="20" id="IbL-oa-2YD"/>
-                                        <constraint firstItem="jN6-ap-xgQ" firstAttribute="leading" secondItem="zDm-Nb-2sa" secondAttribute="trailing" constant="16" id="Owa-Tm-iua"/>
+                                        <constraint firstItem="b9J-B2-C5j" firstAttribute="leading" secondItem="zDm-Nb-2sa" secondAttribute="trailing" constant="16" id="On2-uu-dWt"/>
+                                        <constraint firstItem="zDm-Nb-2sa" firstAttribute="leading" secondItem="pXK-qz-JC2" secondAttribute="leading" constant="55" id="P9W-sp-Zr9"/>
                                         <constraint firstItem="zDm-Nb-2sa" firstAttribute="top" secondItem="dOd-tu-pBs" secondAttribute="bottom" constant="8" id="Qwi-DD-Qbt"/>
-                                        <constraint firstItem="bVu-A9-15k" firstAttribute="leading" secondItem="dOd-tu-pBs" secondAttribute="trailing" constant="16" id="T7a-rG-tUs"/>
                                         <constraint firstItem="b9J-B2-C5j" firstAttribute="trailing" secondItem="Adq-Ip-CdI" secondAttribute="trailing" id="Tdq-qF-u4S"/>
                                         <constraint firstItem="b9J-B2-C5j" firstAttribute="leading" secondItem="Adq-Ip-CdI" secondAttribute="leading" id="ZxO-D0-bfY"/>
-                                        <constraint firstItem="jN6-ap-xgQ" firstAttribute="baseline" secondItem="zDm-Nb-2sa" secondAttribute="baseline" id="bmA-oq-chL"/>
-                                        <constraint firstItem="dOd-tu-pBs" firstAttribute="leading" secondItem="pXK-qz-JC2" secondAttribute="leading" priority="750" constant="55" id="eSE-he-6lx"/>
+                                        <constraint firstItem="dOd-tu-pBs" firstAttribute="leading" secondItem="pXK-qz-JC2" secondAttribute="leading" constant="55" id="eSE-he-6lx"/>
                                         <constraint firstItem="Adq-Ip-CdI" firstAttribute="baseline" secondItem="dOd-tu-pBs" secondAttribute="baseline" id="egD-CC-tv3"/>
-                                        <constraint firstItem="zDm-Nb-2sa" firstAttribute="leading" secondItem="dOd-tu-pBs" secondAttribute="leading" id="enx-Ff-Gea"/>
-                                        <constraint firstItem="b9J-B2-C5j" firstAttribute="leading" secondItem="jN6-ap-xgQ" secondAttribute="trailing" constant="16" id="jdF-a0-6hn"/>
-                                        <constraint firstItem="Adq-Ip-CdI" firstAttribute="leading" secondItem="bVu-A9-15k" secondAttribute="trailing" constant="16" id="pbX-AM-brk"/>
-                                        <constraint firstItem="zDm-Nb-2sa" firstAttribute="trailing" secondItem="dOd-tu-pBs" secondAttribute="trailing" id="rSO-E6-I6a"/>
+                                        <constraint firstItem="Adq-Ip-CdI" firstAttribute="leading" secondItem="dOd-tu-pBs" secondAttribute="trailing" constant="16" id="tuf-LW-mhd"/>
                                         <constraint firstItem="b9J-B2-C5j" firstAttribute="baseline" secondItem="zDm-Nb-2sa" secondAttribute="baseline" id="vS0-ww-DvA"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
-                                    <outlet property="lblEquivalent" destination="zDm-Nb-2sa" id="wqp-uV-nSe"/>
-                                    <outlet property="lblEquivalentCurrency" destination="jN6-ap-xgQ" id="oSB-iy-if5"/>
+                                    <outlet property="lblEquivalentCurrency" destination="zDm-Nb-2sa" id="gMA-hq-qvs"/>
                                     <outlet property="lblEquivalentPrice" destination="b9J-B2-C5j" id="kDN-Zd-XZq"/>
-                                    <outlet property="lblRetail" destination="dOd-tu-pBs" id="iew-JV-yBl"/>
-                                    <outlet property="lblRetailCurrency" destination="bVu-A9-15k" id="lwW-TZ-fWr"/>
+                                    <outlet property="lblRetailCurrency" destination="dOd-tu-pBs" id="LPP-JG-7p3"/>
                                     <outlet property="lblRetailPrice" destination="Adq-Ip-CdI" id="xmo-ot-2zE"/>
                                 </connections>
                             </tableViewCell>

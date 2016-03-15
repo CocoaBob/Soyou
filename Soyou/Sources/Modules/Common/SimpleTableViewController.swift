@@ -145,6 +145,13 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         case .IconTitle:
             let rowCell = cell as! TableViewCellIconTitle
             rowCell.imgView.image = row.image
+            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.size.width ||
+                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height)
+            {
+                rowCell.imgView.contentMode = .ScaleAspectFit
+            } else {
+                rowCell.imgView.contentMode = .Center
+            }
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
@@ -162,6 +169,13 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             rowCell.imageRatioConstraint = ratioConstraint
             rowCell.imgView.addConstraint(ratioConstraint)
             rowCell.lblTitle.text = row.title?.text
+            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.size.width ||
+                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height)
+            {
+                rowCell.imgView.contentMode = .ScaleAspectFit
+            } else {
+                rowCell.imgView.contentMode = .Center
+            }
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
             }

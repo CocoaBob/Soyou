@@ -10,6 +10,43 @@ import Foundation
 
 class CurrencyManager {
     
+    static let currencyLanguageDict: [String:String] = [
+        "EUR":"en",
+        "QAR":"ar",
+        "VND":"vi",
+        "CAD":"en", // fr
+        "DKK":"kl", // da
+        "ARS":"es",
+        "GBP":"en", // cy, kw, gd
+        "PHP":"en", // fil, es
+        "PLN":"en", // pl
+        "MMK":"my",
+        "SGD":"en", // ta, ms_Latn, zh_Hans
+        "BRL":"pt",
+        "JPY":"ja",
+        "RUB":"ru", // en, sah, os
+        "SEK":"en", // se
+        "USD":"en", // es, chr, haw
+        "NZD":"en",
+        "TWD":"zh", // zh_Hant
+        "UYU":"es", // es
+        "HKD":"en", // zh_Hans, zh_Hant
+        "MXN":"es",
+        "UZS":"uz", // uz_Latn, uz_Latn
+        "MOP":"en", // pt, zh_Hans, zh_Hant
+        "INR":"en", // bn, as, kn, ml, bo, pa_Guru, ta, ne, or, brx, te, ur, hi, kok, gu, mr, ks_Arab,
+        "KRW":"ko",
+        "NOK":"en", // nn, se, nb
+        "IDR":"id",
+        "CHF":"en", // it, de, rm, wae, fr, gsw
+        "THB":"th",
+        "CNY":"zh",
+        "CLP":"es",
+        "COP":"es",
+        "AUD":"en",
+        "PKR":"en" // ur, pa_Arab
+    ]
+    
     static let shared = CurrencyManager()
     
     var allCurrencyRates: [CurrencyRate]?
@@ -26,7 +63,7 @@ class CurrencyManager {
         get {
             if _userCurrency == nil {
                 if let storedUserCurrency = NSUserDefaults.standardUserDefaults().stringForKey(Cons.App.userCurrency) {
-                    _userCurrency = storedUserCurrency
+                    _userCurrency = (storedUserCurrency == "") ? "CNY" : storedUserCurrency
                 } else {
                     _userCurrency = "CNY"
                 }
@@ -35,7 +72,10 @@ class CurrencyManager {
         }
         set {
             _userCurrency = newValue
-            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: Cons.App.userCurrency)
+            if _userCurrency == "" {
+                _userCurrency = "CNY"
+            }
+            NSUserDefaults.standardUserDefaults().setObject(_userCurrency, forKey: Cons.App.userCurrency)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
@@ -44,7 +84,7 @@ class CurrencyManager {
     var userCurrencyName: String {
         get {
             if _userCurrencyName == nil {
-                _userCurrencyName = self.currencyNameFromCurrencyCode(self.userCurrency)
+                _userCurrencyName = self.currencyNameFromCurrencyCode(self.userCurrency) ?? NSLocalizedString("currency_unknown")
             }
             return _userCurrencyName!
         }
@@ -85,38 +125,61 @@ class CurrencyManager {
         return nil
     }
     
-//    func allLanguageCodes() -> [String] {
-//        var allLanguages = Set<String>()
-//        MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-//            if let allRegions = Region.MR_findAllInContext(localContext) as? [Region] {
-//                for region in allRegions {
-//                    if let currency = region.currency {
-//                        allLanguages.insert(currency)
-//                    }
-//                }
-//            }
-//        }
-//        return Array(allLanguages)
-//    }
-    
+    var _allCurrencyCodes: [String]?
     func allCurrencyCodes() -> [String] {
-        var allCurrencies = Set<String>()
-        MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-            if let allRegions = Region.MR_findAllInContext(localContext) as? [Region] {
-                for region in allRegions {
-                    if let currency = region.currency {
-                        allCurrencies.insert(currency)
+        if _allCurrencyCodes == nil {
+            var allCurrencies = Set<String>()
+            MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
+                if let allRegions = Region.MR_findAllInContext(localContext) as? [Region] {
+                    for region in allRegions {
+                        if let currency = region.currency {
+                            allCurrencies.insert(currency)
+                        }
                     }
                 }
             }
+            _allCurrencyCodes = Array(allCurrencies)
         }
-        return Array(allCurrencies)
+        return _allCurrencyCodes!
+    }
+    
+    var _allCurrencyCountryPairs: [String:String]?
+    func allCurrencyCountryPairs() -> [String:String] {
+        if _allCurrencyCountryPairs == nil {
+            // Collect distinct currencies
+            var currencyCountryDict = [String:String]()
+            MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
+                if let allRegions = Region.MR_findAllInContext(localContext) as? [Region] {
+                    for region in allRegions {
+                        if let currency = region.currency, country = region.code {
+                            if currency.uppercaseString == "EUR" {
+                                currencyCountryDict["EUR"] = "EU"
+                            } else if currency.uppercaseString == "DKK" {
+                                currencyCountryDict["DKK"] = "DK"
+                            } else if currency.uppercaseString == "CHF" {
+                                currencyCountryDict["CHF"] = "CH"
+                            } else if currency.uppercaseString == "USD" {
+                                currencyCountryDict["USD"] = "US"
+                            } else if currency.uppercaseString == "INR" {
+                                currencyCountryDict["INR"] = "IN"
+                            } else {
+                                currencyCountryDict[currency] = country
+                            }
+                        }
+                    }
+                }
+            }
+            
+            _allCurrencyCountryPairs = currencyCountryDict
+        }
+        return _allCurrencyCountryPairs!
     }
     
     func updateCurrencyRates(completion: CompletionClosure?) {
         // Reset data
         _userCurrency = nil
         _userCurrencyName = nil
+        _allCurrencyCodes = nil
         self.allCurrencyRates = nil
         
         // Prepare request
@@ -217,7 +280,12 @@ class CurrencyManager {
         if let locale = self.currencyLocales[currencyCode] {
             return locale
         } else {
-            let currencyLocale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents([NSLocaleCurrencyCode:currencyCode]))
+            var components = [String: String]()
+            components[NSLocaleCurrencyCode] = currencyCode
+            if let languageCode = CurrencyManager.currencyLanguageDict[currencyCode] {
+                components[NSLocaleLanguageCode] = languageCode
+            }
+            let currencyLocale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents(components))
             self.currencyLocales[currencyCode] = currencyLocale
             return currencyLocale
         }
@@ -262,7 +330,12 @@ class CurrencyManager {
                 formatter = NSNumberFormatter()
                 formatter!.numberStyle = .CurrencyStyle
                 formatter!.maximumFractionDigits = 0
-                formatter!.locale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents([NSLocaleCurrencyCode:currencyCode]))
+                var components = [String: String]()
+                components[NSLocaleCurrencyCode] = currencyCode
+                if let languageCode = CurrencyManager.currencyLanguageDict[currencyCode] {
+                    components[NSLocaleLanguageCode] = languageCode
+                }
+                formatter!.locale = NSLocale(localeIdentifier: NSLocale.localeIdentifierFromComponents(components))
                 if withUnit {
                     self.currencyFormatters[currencyCode] = formatter
                 } else {

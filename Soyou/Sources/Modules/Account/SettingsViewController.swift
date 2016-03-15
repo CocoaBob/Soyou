@@ -243,13 +243,13 @@ extension SettingsViewController {
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
         simpleViewController.title = NSLocalizedString("settings_vc_cell_language")
         // Data
-        let langCode = ["zh-Hans", "en-US"]
+        let langCode = [("zh-Hans", "CN"), ("en-US", "GB")]
         // Prepare rows
         var rows = [Row]()
-        for langCode in langCode {
-            let row = Row(type: .LeftTitle,
+        for (langCode, countryCode) in langCode {
+            let row = Row(type: .IconTitle,
                 cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                image: nil,
+                image: UIImage(flagImageWithCountryCode: countryCode),
                 title: Text(text: CurrencyManager.shared.languageName(langCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
                 subTitle: nil,
                 userInfo: ["language":langCode],
@@ -315,16 +315,48 @@ extension SettingsViewController {
         simpleViewController.title = NSLocalizedString("settings_vc_cell_choose_my_currency")
         // Data
         var rows = [Row]()
+        let allCurrencyCountryPairs = CurrencyManager.shared.allCurrencyCountryPairs()
         let allCurrencyCodes = CurrencyManager.shared.allCurrencyCodes()
+        var allCurrencyNameCodePairs = [String:String]()
         for currencyCode in allCurrencyCodes {
-            let row = Row(type: .LeftTitle,
+            if let currencyName = CurrencyManager.shared.currencyNameFromCurrencyCode(currencyCode) {
+                allCurrencyNameCodePairs[currencyName] = currencyCode
+            }
+        }
+        var sortedCurrencyNames: [String] = allCurrencyNameCodePairs.map { $0.0 }
+        // TODO
+        sortedCurrencyNames.sortInPlace {
+            $0.compare($1, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: nil, locale: CurrencyManager.shared.displayLocale) == .OrderedAscending
+        }
+        
+        for currencyName in sortedCurrencyNames {
+            var countryCode: String?
+            if let currencyCode = allCurrencyNameCodePairs[currencyName] {
+                countryCode = allCurrencyCountryPairs[currencyCode]
+            }
+            var image: UIImage?
+            if let countryCode = countryCode {
+                if countryCode == "EU" {
+                    image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.EuropeanUnion)
+                } else {
+                    image = UIImage(flagImageWithCountryCode: countryCode)
+                }
+            }
+            let row = Row(type: .IconTitle,
                 cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                image: nil,
-                title: Text(text: CurrencyManager.shared.currencyNameFromCurrencyCode(currencyCode), placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
+                image: image,
+                title: Text(
+                    text: currencyName,
+                    placeholder: nil,
+                    font: nil,
+                    color: nil,
+                    keyboardType: .Default,
+                    returnKeyType: .Default),
                 subTitle: nil,
                 userInfo: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                    simpleViewController.navigationItem.rightBarButtonItem?.enabled = (allCurrencyCodes[indexPath.row] != CurrencyManager.shared.userCurrency)
+                    let selectedCurrencyName = sortedCurrencyNames[indexPath.row]
+                    simpleViewController.navigationItem.rightBarButtonItem?.enabled = (selectedCurrencyName != CurrencyManager.shared.userCurrencyName)
                     if simpleViewController.updateSelectionCheckmark(indexPath) {
                         var rowsToReload = [indexPath]
                         if let selectedIndexPath = simpleViewController.selectedIndexPath {
@@ -344,17 +376,18 @@ extension SettingsViewController {
                 rows: rows
             )
         ]
-        if let index = allCurrencyCodes.indexOf(CurrencyManager.shared.userCurrency) {
+        
+        if let index = sortedCurrencyNames.indexOf(CurrencyManager.shared.userCurrencyName) {
             simpleViewController.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
             simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
         }
         // Handler
         simpleViewController.completion = { () -> () in
             if let selectedIndexPath = simpleViewController.selectedIndexPath {
-                let currency = allCurrencyCodes[selectedIndexPath.row]
+                let selectedCurrencyCode = allCurrencyNameCodePairs[sortedCurrencyNames[selectedIndexPath.row]]
                 // Set user currency
                 MBProgressHUD.showLoader(nil)
-                CurrencyManager.shared.userCurrency = currency
+                CurrencyManager.shared.userCurrency = selectedCurrencyCode ?? ""
                 CurrencyManager.shared.updateCurrencyRates({ (_, _) -> () in
                     MBProgressHUD.hideLoader(nil)
                     simpleViewController.navigationController?.popViewControllerAnimated(true)
