@@ -16,7 +16,7 @@ pod "CCHMapClusterController"
 pod "CHTCollectionViewWaterfallLayout"
 pod "EAIntroView"
 pod "FCUUID"
-pod "FlagKit"
+pod "FlagKit", :git => 'git://github.com/basvankuijck/FlagKit', :commit => '990e966221a956897a76b3fa34d24c5b626f0e2a'
 pod "IDMPhotoBrowser"
 pod "libWeChatSDK", :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
 pod "MagicalRecord", '~> 2.3'

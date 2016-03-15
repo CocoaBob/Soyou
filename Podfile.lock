@@ -73,7 +73,7 @@ DEPENDENCIES:
   - EAIntroView
   - Fabric
   - FCUUID
-  - FlagKit
+  - FlagKit (from `git://github.com/basvankuijck/FlagKit`, commit `990e966221a956897a76b3fa34d24c5b626f0e2a`)
   - IDMPhotoBrowser
   - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `bb4387498ef2974189e8270928f62a1cd3a8ef62`)
   - MagicalRecord (~> 2.3)
@@ -94,6 +94,9 @@ DEPENDENCIES:
   - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
+  FlagKit:
+    :commit: 990e966221a956897a76b3fa34d24c5b626f0e2a
+    :git: git://github.com/basvankuijck/FlagKit
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
@@ -105,6 +108,9 @@ EXTERNAL SOURCES:
     :git: git://github.com/CocoaBob/calloutview
 
 CHECKOUT OPTIONS:
+  FlagKit:
+    :commit: 990e966221a956897a76b3fa34d24c5b626f0e2a
+    :git: git://github.com/basvankuijck/FlagKit
   libWeChatSDK:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
@@ -128,7 +134,7 @@ SPEC CHECKSUMS:
   EARestrictedScrollView: f86d61e16c61d3e93c84f8e96e83122a2a3b7631
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
-  FlagKit: dffc62b4c5db33043c89bbda0bda897077d521e5
+  FlagKit: ede020f33c7bc105ab52bf189b4e5b5d46c94a4c
   IDMPhotoBrowser: 99eccfe6431e182f64e2fe57ac654316fbf81576
   libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
