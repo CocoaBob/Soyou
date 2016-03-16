@@ -113,7 +113,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as! BrandsCollectionViewCell
+        let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as? BrandsCollectionViewCell)!
         
         if let brand = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand {
             
@@ -146,7 +146,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             guard let localBrand = brand.MR_inContext(localContext) else { return }
             brandViewController.brandID = localBrand.id
             brandViewController.brandName = localBrand.label
-            brandViewController.brandCategories = localBrand.categories as! [NSDictionary]?
+            brandViewController.brandCategories = localBrand.categories as? [NSDictionary]
             imageURLString = localBrand.imageUrl
         })
         
@@ -188,7 +188,7 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
         
-        (self.collectionView().collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = 2
+        (self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout)?.columnCount = 2
         
         // Collection view attributes
         self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
@@ -200,7 +200,7 @@ extension BrandsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        return CGSizeMake(3, 2)
+        return CGSize(width: 3, height: 2)
     }
 }
 
@@ -248,7 +248,7 @@ extension BrandsViewController {
                 self.endRefreshing()
             })
             self.beginRefreshing()
-        });
+        })
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)

@@ -19,7 +19,7 @@ class BaseNews: BaseModel {
             if self is FavoriteNews {
                 returnValue = true
             } else {
-                if let _ = (self as! News).MR_inContext(localContext)?.relatedFavoriteNews(localContext) {
+                if let news = self as? News, _ = news.MR_inContext(localContext)?.relatedFavoriteNews(localContext) {
                     returnValue = true
                 }
             }
@@ -41,11 +41,15 @@ class BaseNews: BaseModel {
         var favoriteNews: FavoriteNews?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if self is FavoriteNews {
-                favoriteNews = (self as! FavoriteNews).MR_inContext(localContext)
-                originalNews = favoriteNews?.relatedNews(localContext)
+                if let news = self as? FavoriteNews {
+                    favoriteNews = news
+                    originalNews = news.MR_inContext(localContext)?.relatedNews(localContext)
+                }
             } else {
-                originalNews = (self as! News).MR_inContext(localContext)
-                favoriteNews = originalNews?.relatedFavoriteNews(localContext)
+                if let news = self as? News {
+                    originalNews = news
+                    favoriteNews = news.MR_inContext(localContext)?.relatedFavoriteNews(localContext)
+                }
             }
         })
 
@@ -101,11 +105,15 @@ class BaseNews: BaseModel {
             var originalNews: News?
             var favoriteNews: FavoriteNews?
             if self is FavoriteNews {
-                favoriteNews = (self as! FavoriteNews).MR_inContext(localContext)
-                originalNews = favoriteNews?.relatedNews(localContext)
+                if let news = self as? FavoriteNews {
+                    favoriteNews = news
+                    originalNews = news.MR_inContext(localContext)?.relatedNews(localContext)
+                }
             } else {
-                originalNews = (self as! News).MR_inContext(localContext)
-                favoriteNews = originalNews?.relatedFavoriteNews(localContext)
+                if let news = self as? News {
+                    originalNews = news
+                    favoriteNews = news.MR_inContext(localContext)?.relatedFavoriteNews(localContext)
+                }
             }
             
             // If any one of them is true, set both to true
@@ -142,11 +150,15 @@ class BaseNews: BaseModel {
                 var originalNews: News?
                 var favoriteNews: FavoriteNews?
                 if self is FavoriteNews {
-                    favoriteNews = (self as! FavoriteNews).MR_inContext(localContext)
-                    originalNews = favoriteNews?.relatedNews(localContext)
+                    if let news = self as? FavoriteNews {
+                        favoriteNews = news
+                        originalNews = news.MR_inContext(localContext)?.relatedNews(localContext)
+                    }
                 } else {
-                    originalNews = (self as! News).MR_inContext(localContext)
-                    favoriteNews = originalNews?.relatedFavoriteNews(localContext)
+                    if let news = self as? News {
+                        originalNews = news
+                        favoriteNews = news.MR_inContext(localContext)?.relatedFavoriteNews(localContext)
+                    }
                 }
 
                 originalNews?.appIsLiked = NSNumber(bool: !wasLiked)

@@ -40,13 +40,13 @@ class StoreMapViewController: UIViewController {
         self.calloutView = SMCalloutView.platformCalloutView()
         self.mapView.calloutView = self.calloutView
         
-        let leftButton = UIButton(frame: CGRectMake(0,0,32,128))
+        let leftButton = UIButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
         leftButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
         leftButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
         leftButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
         self.calloutView.leftAccessoryView = leftButton
         
-        let rightButton = UIButton(frame: CGRectMake(0,0,32,128))
+        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
         rightButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
         rightButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
         rightButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -153,20 +153,21 @@ extension StoreMapViewController: MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var returnValue: MKAnnotationView?
         if annotation is CCHMapClusterAnnotation {
-            let clusterAnnotation = annotation as! CCHMapClusterAnnotation
-            var clusterAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("clusterAnnotation") as? ClusterAnnotationView
-            if let annotationView = clusterAnnotationView {
-                annotationView.annotation = clusterAnnotation
-            } else {
-                // Create new annotation view
-                clusterAnnotationView = ClusterAnnotationView(annotation: clusterAnnotation, reuseIdentifier: "clusterAnnotation")
-                clusterAnnotationView?.canShowCallout = false
+            if let clusterAnnotation = annotation as? CCHMapClusterAnnotation {
+                var clusterAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("clusterAnnotation") as? ClusterAnnotationView
+                if let annotationView = clusterAnnotationView {
+                    annotationView.annotation = clusterAnnotation
+                } else {
+                    // Create new annotation view
+                    clusterAnnotationView = ClusterAnnotationView(annotation: clusterAnnotation, reuseIdentifier: "clusterAnnotation")
+                    clusterAnnotationView?.canShowCallout = false
+                }
+                
+                clusterAnnotationView?.count = clusterAnnotation.annotations.count
+                clusterAnnotationView?.isUniqueLocation = clusterAnnotation.isUniqueLocation()
+                
+                returnValue = clusterAnnotationView
             }
-            
-            clusterAnnotationView?.count = clusterAnnotation.annotations.count
-            clusterAnnotationView?.isUniqueLocation = clusterAnnotation.isUniqueLocation()
-            
-            returnValue = clusterAnnotationView
         } else if annotation is MKPointAnnotation {
             var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("pinAnnotationView") as? MKPinAnnotationView
             if let annotationView = pinAnnotationView {
@@ -186,8 +187,8 @@ extension StoreMapViewController: MKMapViewDelegate {
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         // Zoom in for cluster annotation
         if let annotation = view.annotation {
-            if (annotation is CCHMapClusterAnnotation &&
-                !(annotation as! CCHMapClusterAnnotation).isUniqueLocation()) {
+            if let annotation = annotation as? CCHMapClusterAnnotation {
+                if (annotation.isUniqueLocation()) {
                     var region = self.mapView.region
                     var span = region.span
                     span.latitudeDelta /= 2.0
@@ -195,6 +196,7 @@ extension StoreMapViewController: MKMapViewDelegate {
                     region = MKCoordinateRegionMake(annotation.coordinate, span)
                     self.mapView.setRegion(region, animated: true)
                     return
+                }
             }
         }
         
@@ -258,7 +260,8 @@ extension StoreMapViewController {
     }
     
     func copyAddress(sender: UIButton) {
-        if let store = self.storeOfSelectedAnnotations(self.mapView.selectedAnnotations as! [StoreMapAnnotation]) {
+        if let selectedAnnotations = self.mapView.selectedAnnotations as? [StoreMapAnnotation],
+            store = self.storeOfSelectedAnnotations(selectedAnnotations) {
             let address = FmtString("%@\n%@\n%@\n%@\n%@",store.title ?? "", store.address ?? "", store.zipcode ?? "", store.city ?? "", store.country ?? "")
             let pasteboard = UIPasteboard.generalPasteboard()
             pasteboard.persistent = true
@@ -276,7 +279,8 @@ extension StoreMapViewController {
     }
     
     func openMap(sender: UIButton) {
-        if let store = self.storeOfSelectedAnnotations(self.mapView.selectedAnnotations as! [StoreMapAnnotation]) {
+        if let selectedAnnotations = self.mapView.selectedAnnotations as? [StoreMapAnnotation],
+            store = self.storeOfSelectedAnnotations(selectedAnnotations) {
             var addressDictionary = [String: String]()
             if #available(iOS 9.0, *) {
                 addressDictionary[CNPostalAddressStreetKey] = store.address ?? ""

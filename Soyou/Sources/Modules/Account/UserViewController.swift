@@ -49,7 +49,7 @@ class UserViewController: SimpleTableViewController {
         self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).CGColor
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
-        self.lblUsername.layer.shadowOffset = CGSizeZero
+        self.lblUsername.layer.shadowOffset = CGSize.zero
         
         // Observe UserManager.shared.token
         UserManager.shared.addObserver(self, forKeyPath: "token", options: .New, context: &KVOContextUserViewController)

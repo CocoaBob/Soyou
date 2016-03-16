@@ -30,7 +30,7 @@ class SettingsViewController: SimpleTableViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
         
         // Setup tableview
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
         
         // Update cache size
@@ -51,16 +51,14 @@ extension SettingsViewController {
                         subTitle: Text(text: CurrencyManager.shared.userCurrencyName),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeMyCurrency()
-                        }
-                    ),
+                        }),
                     Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_language")),
                         subTitle: Text(text: CurrencyManager.shared.languageName(NSLocale.preferredLanguages().first ?? "")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeLanguage()
-                        }
-                    )
+                        })
                 ]
             ),
             Section(
@@ -70,36 +68,31 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_intro")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             IntroViewController.shared.showIntroView()
-                        }
-                    ),
+                        }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_about")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showAbout()
-                        }
-                    ),
+                        }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_credits")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showCredits()
-                        }
-                    ),
+                        }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_feedback")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
-                        }
-                    ),
+                        }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_review")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
-                        }
-                    ),
+                        }),
                 ]
             ),
             Section(
@@ -109,8 +102,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.clearCache()
-                        }
-                    )
+                        })
                 ]
             )
         ]
@@ -227,8 +219,7 @@ extension SettingsViewController {
                         simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
                         simpleViewController.tableView.endUpdates()
                     }
-                }
-            )
+                })
             rows.append(row)
         }
         simpleViewController.sections = [
@@ -284,7 +275,6 @@ extension SettingsViewController {
             }
         }
         var sortedCurrencyNames: [String] = allCurrencyNameCodePairs.map { $0.0 }
-        // TODO
         sortedCurrencyNames.sortInPlace {
             $0.compare($1, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], locale: CurrencyManager.shared.displayLocale) == .OrderedAscending
         }
@@ -318,8 +308,7 @@ extension SettingsViewController {
                         simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
                         simpleViewController.tableView.endUpdates()
                     }
-                }
-            )
+                })
             rows.append(row)
         }
         simpleViewController.sections = [

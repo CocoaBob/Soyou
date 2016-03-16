@@ -96,7 +96,7 @@ extension UIViewController {
         let bottomInset = self.bottomInset(toolbarIsVisible, tabBarIsVisible)
         scrollView.contentInset = UIEdgeInsetsMake(topInset, 0, bottomInset, 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
-        scrollView.contentOffset = CGPointMake(-scrollView.contentInset.left, -scrollView.contentInset.top)
+        scrollView.contentOffset = CGPoint(x: -scrollView.contentInset.left, y: -scrollView.contentInset.top)
     }
 }
 
@@ -134,19 +134,16 @@ extension UIViewController {
     // Called on iOS >= 8 from
     // viewWillTransitionToSize:withTransitionCoordinator:
     func keyboardControlRotateWithTransitionCoordinator(coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition(
-            { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
-                // called on step: #2
-                __rotationAnimationDuration = context.transitionDuration()
-                var option = context.completionCurve()
-                option = UIViewAnimationCurve(rawValue: option.rawValue | (option.rawValue << 16))!
-                __rotationAnimationOptions = UIViewAnimationOptions(rawValue: UInt(option.rawValue))
-                __isRotationAnimation = true
-            }, completion:
-            { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
+        coordinator.animateAlongsideTransition({ (context: UIViewControllerTransitionCoordinatorContext) -> Void in
+            // called on step: #2
+            __rotationAnimationDuration = context.transitionDuration()
+            var option = context.completionCurve()
+            option = UIViewAnimationCurve(rawValue: option.rawValue | (option.rawValue << 16))!
+            __rotationAnimationOptions = UIViewAnimationOptions(rawValue: UInt(option.rawValue))
+            __isRotationAnimation = true
+            }, completion: { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
                 __isRotationAnimation = false
-            }
-        )
+        })
     }
     
     // MARK: Overridden by subclasses
@@ -329,8 +326,7 @@ extension UIViewController {
                     newChildViewController.didMoveToParentViewController(self)
                     
                     completionClosure(newChildViewController)
-                }
-            )
+            })
         } else {
             self.addChildViewController(newChildViewController)
             newChildViewController.view.frame = self.view.bounds

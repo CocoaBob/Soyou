@@ -74,7 +74,7 @@ class NewsViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
-        self.hideToolbar(false);
+        self.hideToolbar(false)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -126,29 +126,29 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
         if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
             if news.appIsMore != nil && news.appIsMore!.boolValue {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as! NewsCollectionViewCellMore
-                
-                cell.indicator.hidden = true
-                cell.moreImage.hidden = false
-                returnValue = cell
-            } else {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as! NewsCollectionViewCell
-                
-                cell.lblTitle.text = news.title
-                if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
-                    cell.fgImageView.sd_setImageWithURL(imageURL,
-                        placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                            MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-                                guard let localNews = news.MR_inContext(localContext) else { return }
-                                if image != nil && image.size.width != 0 {
-                                    localNews.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
-                                }
-                            }
-                    })
+                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as? NewsCollectionViewCellMore {
+                    cell.indicator.hidden = true
+                    cell.moreImage.hidden = false
+                    returnValue = cell
                 }
-                returnValue = cell
+            } else {
+                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as? NewsCollectionViewCell {
+                    cell.lblTitle.text = news.title
+                    if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                        cell.fgImageView.sd_setImageWithURL(imageURL,
+                            placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
+                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
+                            completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                                MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
+                                    guard let localNews = news.MR_inContext(localContext) else { return }
+                                    if image != nil && image.size.width != 0 {
+                                        localNews.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
+                                    }
+                                }
+                        })
+                    }
+                    returnValue = cell
+                }
             }
         }
         
@@ -230,7 +230,7 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func updateColumnCount(count: Int) {
         // Update column count
-        (self.collectionView().collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = max(count, 1)
+        (self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout)?.columnCount = max(count, 1)
         
         // Update margins
         if let layout = self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout {
@@ -244,15 +244,15 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        var size = CGSizeMake(3, 2) // Default size for news
+        var size = CGSize(width: 3, height: 2) // Default size for news
         
         if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
             if news.appIsMore == nil || !news.appIsMore!.boolValue {
                 if let imageRatio = news.appImageRatio?.doubleValue {
-                    size = CGSizeMake(1, CGFloat(imageRatio))
+                    size = CGSize(width: 1, height: CGFloat(imageRatio))
                 }
             } else {
-                size = CGSizeMake(8, 1)
+                size = CGSize(width: 8, height: 1)
             }
         }
         
@@ -301,7 +301,7 @@ extension NewsViewController {
         let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             self.loadData(nil)
             self.beginRefreshing()
-        });
+        })
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
@@ -313,7 +313,7 @@ extension NewsViewController {
             let lastNews = self.fetchedResultsController?.fetchedObjects?.last as? News
             self.loadData(lastNews?.id)
             self.beginRefreshing()
-        });
+        })
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
@@ -349,7 +349,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.lblTitle.layer.shadowRadius = 1
         self.lblTitle.layer.shadowColor = UIColor.blackColor().CGColor
         self.lblTitle.layer.shadowOpacity = 1
-        self.lblTitle.layer.shadowOffset = CGSizeZero
+        self.lblTitle.layer.shadowOffset = CGSize.zero
     }
     
     override func prepareForReuse() {

@@ -12,7 +12,7 @@ class ProfileViewController: SimpleTableViewController {
     
     // Class methods
     class func instantiate() -> ProfileViewController {
-        return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController)!
     }
     
     // Life cycle
@@ -27,7 +27,7 @@ class ProfileViewController: SimpleTableViewController {
         super.viewDidLoad()
         
         // Setup tableview
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
@@ -55,16 +55,14 @@ extension ProfileViewController {
                         subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_empty")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeUsername()
-                        }
-                    ),
+                        }),
                     Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_email")),
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeEmail()
-                        }
-                    )
+                        })
                 ]
             ),
             Section(
@@ -75,16 +73,14 @@ extension ProfileViewController {
                         subTitle: Text(text: CurrencyManager.shared.countryName(UserManager.shared.region ?? "") ?? NSLocalizedString("user_info_region_unknown")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeRegion()
-                        }
-                    ),
+                        }),
                     Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_gender")),
                         subTitle: Text(text: UserManager.shared.gender),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeGender()
-                        }
-                    )
+                        })
                 ]
             ),
             Section(
@@ -94,8 +90,7 @@ extension ProfileViewController {
                         title: Text(text: NSLocalizedString("profile_vc_cell_logout"), color: UIColor.redColor()),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.logout()
-                        }
-                    )
+                        })
                 ]
             )
         ]
@@ -175,12 +170,11 @@ extension ProfileViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             // Validation
-            let tfNewEmail = (simpleViewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! TableViewCellTextField).tfTitle
-            let tfConfirmNewEmail = (simpleViewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as! TableViewCellTextField).tfTitle
+            guard let tfNewEmail = (simpleViewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? TableViewCellTextField)?.tfTitle else { return }
+            guard let tfConfirmNewEmail = (simpleViewController.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? TableViewCellTextField)?.tfTitle else { return }
             if (tfNewEmail.text != nil &&
                 tfNewEmail.text == tfConfirmNewEmail.text &&
-                tfNewEmail.text!.isEmail())
-            {
+                tfNewEmail.text!.isEmail()) {
                 tfNewEmail.enabled = false
                 tfConfirmNewEmail.enabled = false
                 tfNewEmail.textColor = UIColor(white: 0.15, alpha: 1)
@@ -255,8 +249,7 @@ extension ProfileViewController {
                             simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
                             simpleViewController.tableView.endUpdates()
                         }
-                    }
-                )
+                    })
                 rows.append(row)
             }
             simpleViewController.sections = [
@@ -272,26 +265,24 @@ extension ProfileViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             if let selectedIndexPath = simpleViewController.selectedIndexPath,
-                rows = simpleViewController.sections.first?.rows
-            {
-                let row = rows[selectedIndexPath.row]
-                if let userInfo = row.userInfo,
-                    regionCode = userInfo["code"] as? String
-                {
-                    // Update region
-                    MBProgressHUD.showLoader(nil)
-                    DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            MBProgressHUD.hideLoader(nil)
-                            if let error = error {
-                                DataManager.showRequestFailedAlert(error)
-                            } else {
-                                UserManager.shared.region = regionCode
-                                simpleViewController.navigationController?.popViewControllerAnimated(true)
+                rows = simpleViewController.sections.first?.rows {
+                    let row = rows[selectedIndexPath.row]
+                    if let userInfo = row.userInfo,
+                        regionCode = userInfo["code"] as? String {
+                            // Update region
+                            MBProgressHUD.showLoader(nil)
+                            DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    MBProgressHUD.hideLoader(nil)
+                                    if let error = error {
+                                        DataManager.showRequestFailedAlert(error)
+                                    } else {
+                                        UserManager.shared.region = regionCode
+                                        simpleViewController.navigationController?.popViewControllerAnimated(true)
+                                    }
+                                })
                             }
-                        })
                     }
-                }
             }
         }
         // Push
@@ -321,8 +312,7 @@ extension ProfileViewController {
                         simpleViewController.tableView.reloadRowsAtIndexPaths([simpleViewController.selectedIndexPath!, indexPath], withRowAnimation: .Fade)
                         simpleViewController.tableView.endUpdates()
                     }
-                }
-            )
+                })
             rows.append(row)
         }
         simpleViewController.sections = [

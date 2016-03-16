@@ -10,7 +10,7 @@ import UIKit
 
 class WeChatSessionActivity: WeChatActivityGeneral {
     
-    override class func activityCategory() -> UIActivityCategory{
+    override class func activityCategory() -> UIActivityCategory {
         return UIActivityCategory.Share
     }
     

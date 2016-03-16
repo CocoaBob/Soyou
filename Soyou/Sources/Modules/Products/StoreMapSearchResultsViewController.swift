@@ -22,7 +22,7 @@ class StoreMapSearchResultsViewController: UITableViewController {
     
     // Class methods
     class func instantiate() -> StoreMapSearchResultsViewController {
-        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("StoreMapSearchResultsViewController") as! StoreMapSearchResultsViewController
+        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("StoreMapSearchResultsViewController") as? StoreMapSearchResultsViewController)!
     }
     
 }

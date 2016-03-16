@@ -76,7 +76,7 @@ class ClusterAnnotationView: MKAnnotationView {
         if isUniqueLocation! {
             let imageName = "img_map_annotation_square"
             image = UIImage(named: imageName)
-            centerOffset = CGPointMake(0, image!.size.height * 0.5)
+            centerOffset = CGPoint(x: 0, y: image!.size.height * 0.5)
             var frame: CGRect = self.bounds
             frame.origin.y -= 2
             countLabelFrame = frame
@@ -99,7 +99,7 @@ class ClusterAnnotationView: MKAnnotationView {
             let imageName = "img_map_annotation_circle_" + suffix!
             image = UIImage(named: imageName)
             
-            centerOffset = CGPointZero
+            centerOffset = CGPoint.zero
             countLabelFrame = self.bounds
         }
         

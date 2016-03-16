@@ -17,7 +17,7 @@ extension UITabBar {
             } else if layer.position.y > layer.bounds.size.height {
                 transition.subtype = kCATransitionFromBottom
             } else {
-                return nil;
+                return nil
             }
             
             transition.type = kCATransitionPush

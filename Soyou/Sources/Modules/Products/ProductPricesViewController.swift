@@ -17,10 +17,11 @@ class ProductPricesViewController: UIViewController {
         didSet {
             if let _prices = prices {
                 for (index, var price) in _prices.enumerate() {
-                    let countryCode = price["country"] as! String
-                    let priceOriginal = price["price"] as! NSNumber
-                    price["priceUserCurrency"] = CurrencyManager.shared.userCurrencyFromCurrency(countryCode, price: priceOriginal)
-                    prices![index] = price
+                    if let countryCode = price["country"] as? String,
+                        priceOriginal = price["price"] as? NSNumber {
+                            price["priceUserCurrency"] = CurrencyManager.shared.userCurrencyFromCurrency(countryCode, price: priceOriginal)
+                            prices![index] = price
+                    }
                 }
                 
                 prices!.sortInPlace({
@@ -38,7 +39,7 @@ class ProductPricesViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> ProductPricesViewController {
-        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductPricesViewController") as! ProductPricesViewController
+        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController)!
     }
     
     // Life cycle
@@ -54,7 +55,7 @@ class ProductPricesViewController: UIViewController {
         
         self.tableView.estimatedRowHeight = 44.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 }
 
@@ -78,7 +79,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         var cell: UITableViewCell?
         
         if indexPath.row == 0 {
-            let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCountry", forIndexPath: indexPath) as! ProductPricesTableViewCellCountry
+            let _cell = (tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCountry", forIndexPath: indexPath) as? ProductPricesTableViewCellCountry)!
             
             if let image = UIImage(flagImageWithCountryCode: countryCode) {
                 _cell.imgView.image = image
@@ -90,7 +91,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             
             // Hide website label if not available
             if let officialUrlString = item["officialUrl"] as? String {
-                _cell.lblAccessory.hidden = officialUrlString.characters.count == 0
+                _cell.lblAccessory.hidden = officialUrlString.characters.isEmpty
                 _cell.accessoryType = _cell.lblAccessory.hidden ? .None : .DisclosureIndicator
             } else {
                 _cell.lblAccessory.hidden = true
@@ -99,7 +100,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
 
             cell = _cell
         } else {
-            let _cell = tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as! ProductPricesTableViewCellCurrency
+            let _cell = (tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as? ProductPricesTableViewCellCurrency)!
             
             _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyName(countryCode ?? "")
             _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, false)
@@ -131,7 +132,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             guard let prices = self.prices else { return }
             guard let item: [String: AnyObject] = prices[indexPath.section] else { return }
             guard let officialUrlString = item["officialUrl"] as? String else { return }
-            if officialUrlString.characters.count == 0 {
+            if officialUrlString.characters.isEmpty {
                 return
             }
             guard let officialUrl = NSURL(string: officialUrlString) else { return }

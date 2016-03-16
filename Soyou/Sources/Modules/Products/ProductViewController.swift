@@ -49,7 +49,7 @@ class ProductViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> ProductViewController {
-        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
+        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController)!
     }
     
     // Life cycle
@@ -80,13 +80,13 @@ class ProductViewController: UIViewController {
         self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
         self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
         self.btnLike?.backgroundColor = UIColor.clearColor()
-        self.btnLike?.frame = CGRectMake(0, 0, 64, 32)
+        self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
         self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnLike?.addTarget(self, action: "like:", forControlEvents: .TouchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clearColor()
-        self.btnFav?.frame = CGRectMake(0, 0, 64, 32)
+        self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
         self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnFav?.addTarget(self, action: "star:", forControlEvents: .TouchUpInside)
@@ -163,15 +163,12 @@ extension ProductViewController: UIScrollViewDelegate {
     
     private func removeStatusBarCover() {
         isStatusBarCoverVisible = false
-        UIView.animateWithDuration(0.25, animations:
-            { () -> Void in
-                self.setNeedsStatusBarAppearanceUpdate()
-                self.statusBarCover.alpha = 0
-            }, completion:
-            { (finished) -> Void in
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.statusBarCover.alpha = 0
+            }, completion: { (finished) -> Void in
                 self.statusBarCover.removeFromSuperview()
-            }
-        )
+        })
     }
 }
 
@@ -196,7 +193,7 @@ extension ProductViewController {
                 title = localProduct.title
             }
         }
-        let imageViewFrame = CGRectMake(0, 0, self.view.frame.size.width, carouselViewHeight)
+        let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: carouselViewHeight)
         if let images = images {
             // Add 1st image
             if let firstImage = self.firstImage {
@@ -247,7 +244,7 @@ extension ProductViewController {
             self.carouselView.textLabel.numberOfLines = 0
             self.carouselView.textLabel.font = UIFont.boldSystemFontOfSize(17)
             self.carouselView.textLabelShow = true
-            self.carouselView.textString = title;
+            self.carouselView.textString = title
             self.carouselView.textInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         } else {
             self.carouselView.textLabelShow = false
@@ -288,7 +285,7 @@ extension ProductViewController {
             self.productDescriptionsViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             viewControllers.append(self.productDescriptionsViewController)
             // Check if prices is empty
-            if self.productPricesViewController.prices == nil || self.productPricesViewController.prices!.count == 0 {
+            if self.productPricesViewController.prices == nil || self.productPricesViewController.prices!.isEmpty {
                 hasPrices = false
             }
         })
@@ -317,12 +314,12 @@ extension ProductViewController {
         // Add page menu to the scroll view's subViewsContainer
         self.pageMenu = CAPSPageMenu(
             viewControllers: viewControllers,
-            frame: CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height),
+            frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height),
             pageMenuOptions: parameters)
-        if let pageMenu = self.pageMenu  {
+        if let pageMenu = self.pageMenu {
             pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             self.subViewsContainer.addSubview(pageMenu.view)
-            pageMenu.view.frame = CGRectMake(0, 0, self.subViewsContainer.frame.size.width, self.subViewsContainer.frame.size.height)
+            pageMenu.view.frame = CGRect(x: 0, y: 0, width: self.subViewsContainer.frame.size.width, height: self.subViewsContainer.frame.size.height)
         }
         
         // Update height
@@ -397,7 +394,7 @@ extension ProductViewController: ZoomTransitionProtocol {
     }
     
     func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
-        if (self.imageViews.count > 0) {
+        if (!self.imageViews.isEmpty) {
             let imageView = self.imageViews[0]
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode

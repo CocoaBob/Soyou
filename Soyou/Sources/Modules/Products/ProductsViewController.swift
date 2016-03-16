@@ -50,17 +50,17 @@ class ProductsViewController: BaseViewController {
             var searchTextPredicates = [NSPredicate]()
 //            if self.isQuickSearch {
 //                let searchString = searchTexts.joinWithSeparator(" ")
-//                if searchString.characters.count > 0 {
+//                if !searchString.characters.isEmpty {
 //                    searchTextPredicates.append(FmtPredicate("title BEGINSWITH[cd] %@", searchString))
 //                }
 //            } else {
                 for searchText in searchTexts {
-                    if searchText.characters.count > 0 {
+                    if !searchText.characters.isEmpty {
                         searchTextPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchText))
                     }
                 }
 //            }
-            if searchTextPredicates.count > 0 {
+            if !searchTextPredicates.isEmpty {
                 predicates.append(NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: searchTextPredicates))
             }
         }
@@ -86,7 +86,7 @@ class ProductsViewController: BaseViewController {
     
     // Class methods
     class func instantiate() -> ProductsViewController {
-        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductsViewController") as! ProductsViewController
+        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController)!
     }
     
     // Life cycle
@@ -181,7 +181,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductsCollectionViewCell", forIndexPath: indexPath) as! ProductsCollectionViewCell
+        let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("ProductsCollectionViewCell", forIndexPath: indexPath) as? ProductsCollectionViewCell)!
         
         if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
             cell.lblTitle?.text = product.title
@@ -290,7 +290,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
         
-        (self.collectionView().collectionViewLayout as! CHTCollectionViewWaterfallLayout).columnCount = 2
+        (self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout)?.columnCount = 2
         
         // Collection view attributes
         self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
@@ -299,11 +299,11 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        var size = CGSizeMake(1, 1) // Default size for product
+        var size = CGSize(width: 1, height: 1) // Default size for product
         if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
             if let imageRatio = product.appImageRatio?.doubleValue {
                 let cellHeight = self.cellWidth * CGFloat(imageRatio) + bottomMargin
-                size = CGSizeMake(self.cellWidth, cellHeight)
+                size = CGSize(width: self.cellWidth, height: cellHeight)
                 
             }
         }
@@ -315,7 +315,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
 extension ProductsViewController {
     
     @IBAction func favProduct(sender: UIButton) {
-        let position = sender.convertPoint(CGPointZero, toView: self.collectionView())
+        let position = sender.convertPoint(CGPoint.zero, toView: self.collectionView())
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
         UserManager.shared.loginOrDo() { () -> () in
             if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
@@ -339,7 +339,7 @@ extension ProductsViewController {
         super.reloadData()
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
             if let sections = self.fetchedResultsController?.sections {
-                if sections.count > 0 {
+                if !sections.isEmpty {
                     if let rows = self.fetchedResultsController?.sections?[0].numberOfObjects {
                         if rows > 0 {
                             self.isLoadingIndicatorVisible = false
@@ -461,7 +461,7 @@ class ProductsCollectionViewCell: UICollectionViewCell {
                 } else {
                     self.btnFav.setImage(UIImage(named: "img_heart_shadow"), forState: UIControlState.Normal)
                 }
-            } else{
+            } else {
                 isFavorite = false
             }
         }

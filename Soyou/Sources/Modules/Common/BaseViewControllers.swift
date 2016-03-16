@@ -25,7 +25,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     // Should be overridden by sub-class
     func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
-        assert(false);
+        assert(false)
         return nil
     }
     
@@ -101,7 +101,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 }
             case .Update:
                 if let indexPath = indexPath {
-                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade);
+                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 }
             }
         } else if let _ = self.collectionView() {
@@ -145,8 +145,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
         if let tableView = self.tableView() {
             tableView.endUpdates()
         } else if let collectionView = self.collectionView() {
-            collectionView.performBatchUpdates(
-                { () -> Void in
+            collectionView.performBatchUpdates({ () -> Void in
                     if let fetchedResultsChangesInsert = self.fetchedResultsChangesInsert {
                         collectionView.insertItemsAtIndexPaths(fetchedResultsChangesInsert)
                     }
@@ -162,14 +161,12 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                         }
                     }
                 },
-                completion:
-                { (finished: Bool) -> Void in
+                completion: { (finished: Bool) -> Void in
                     self.fetchedResultsChangesInsert = nil
                     self.fetchedResultsChangesDelete = nil
                     self.fetchedResultsChangesUpdate = nil
                     self.fetchedResultsChangesMove = nil
-                }
-            )
+                })
         }
     }
     
@@ -183,7 +180,7 @@ class BaseTableViewController: UITableViewController, NSFetchedResultsController
     
     // Should be overridden by sub-class
     func createFetchedResultsController() -> NSFetchedResultsController? {
-        assert(false);
+        assert(false)
         return nil
     }
     
@@ -224,7 +221,7 @@ class BaseTableViewController: UITableViewController, NSFetchedResultsController
             }
         case .Update:
             if let indexPath = indexPath {
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade);
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             }
         case .Move:
             if let indexPath = indexPath, newIndexPath = newIndexPath {

@@ -53,13 +53,13 @@ class LoginViewController: UIViewController {
     class func instantiate(type: LoginType) -> LoginViewController {
         switch type {
         case .Login:
-            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController)!
         case .Register:
-            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("RegisterViewController") as! LoginViewController
+            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("RegisterViewController") as? LoginViewController)!
         case .ForgetPassword:
-            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ForgetPasswordViewController") as! LoginViewController
+            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ForgetPasswordViewController") as? LoginViewController)!
         case .ResetPassword:
-            return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ResetPasswordViewController") as! LoginViewController
+            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ResetPasswordViewController") as? LoginViewController)!
         }
     }
     
@@ -188,7 +188,7 @@ extension LoginViewController: UITextFieldDelegate {
                 self.forgetPassword(nil)
             }
         case .ResetPassword:
-            if textField == tfPasswordConfirm{
+            if textField == tfPasswordConfirm {
                 self.resetPassword(nil)
             }
         }

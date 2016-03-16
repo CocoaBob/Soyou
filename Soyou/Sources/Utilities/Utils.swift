@@ -74,7 +74,7 @@ extension Utils: MFMailComposeViewControllerDelegate {
             let machine = sysInfo.withUnsafeMutableBufferPointer { (inout ptr: UnsafeMutableBufferPointer<CChar>) -> String in
                 uname(UnsafeMutablePointer<utsname>(ptr.baseAddress))
                 let machinePtr = ptr.baseAddress.advancedBy(Int(_SYS_NAMELEN * 4))
-                var buf: [CChar] = Array<CChar>(count: Int(_SYS_NAMELEN) + 1, repeatedValue: 0);
+                var buf: [CChar] = Array<CChar>(count: Int(_SYS_NAMELEN) + 1, repeatedValue: 0)
                 return buf.withUnsafeMutableBufferPointer({ (inout bufPtr: UnsafeMutableBufferPointer<CChar>) -> String in
                     strncpy(bufPtr.baseAddress, machinePtr, Int(_SYS_NAMELEN))
                     return String.fromCString(bufPtr.baseAddress)!

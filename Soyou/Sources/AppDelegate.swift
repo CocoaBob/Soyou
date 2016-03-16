@@ -42,8 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup view controllers
         let storyboardNames = ["NewsViewController", "ProductsViewController", "UserViewController"]
-        let viewControllers = storyboardNames.map { (storyboardName) -> UINavigationController in
-            return UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController() as! UINavigationController
+        let viewControllers = storyboardNames.flatMap {
+            UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
         }
         
         // Setup the tab bar controller
@@ -184,8 +184,7 @@ extension AppDelegate {
     func showSearchView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
             navController = tabBarController.viewControllers?[1] as? UINavigationController,
-            brandsViewController = navController.viewControllers.first as? BrandsViewController
-        {
+            brandsViewController = navController.viewControllers.first as? BrandsViewController {
             tabBarController.selectedIndex = 1
             navController.popToRootViewControllerAnimated(false)
             let _ = brandsViewController.view
@@ -197,8 +196,7 @@ extension AppDelegate {
     
     func showFavoritesView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
-            navController = tabBarController.viewControllers?[2] as? UINavigationController
-        {
+            navController = tabBarController.viewControllers?[2] as? UINavigationController {
             tabBarController.selectedIndex = 2
             navController.popToRootViewControllerAnimated(false)
         }

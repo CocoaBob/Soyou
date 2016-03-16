@@ -164,7 +164,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         if let headers: Dictionary = operation.response?.allHeaderFields {
             if let serverVersion = headers["Server-Version"] as? String {
                 verServer = serverVersion
-                if serverVersion.rangeOfString(verLocalMin) != nil{
+                if serverVersion.rangeOfString(verLocalMin) != nil {
                     isAccepted = true
                 }
             }

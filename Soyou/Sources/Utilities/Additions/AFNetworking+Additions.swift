@@ -10,8 +10,7 @@ func AFNetworkingGetResponseObjectFromError(error: NSError?) -> AnyObject? {
     
     if let error = error,
         userInfo = error.userInfo as? Dictionary<String, AnyObject>,
-        responseData = userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? NSData
-    {
+        responseData = userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? NSData {
         return GetObjectFromJSONData(responseData)
     } else {
         return nil

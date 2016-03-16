@@ -104,7 +104,7 @@ class FavoriteNews: BaseNews {
             }
             
             // Request non-existing ones
-            if favoriteIDs.count > 0 {
+            if !favoriteIDs.isEmpty {
                 DataManager.shared.requestNews(favoriteIDs, { responseObject, error in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         FavoriteNews.importDatas(data, false, nil, { (responseObject, error) -> () in

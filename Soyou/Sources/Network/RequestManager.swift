@@ -64,7 +64,7 @@ class RequestManager {
     // MARK: Brands
     //////////////////////////////////////
     
-    func requestAllBrands(onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
+    func requestAllBrands(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/brands", "Brands", onSuccess, onFailure)
     }
     
@@ -127,11 +127,11 @@ class RequestManager {
     // MARK: Notification
     //////////////////////////////////////
     
-    func registerForMonitoring(deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
+    func registerForMonitoring(deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/notification/register-monitor", "Notifications", ["deviceToken": deviceToken],onSuccess, onFailure)
     }
     
-    func registerForNotification(uuid: String, _ deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?){
+    func registerForNotification(uuid: String, _ deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/notifications/register", "Notifications", ["uuid": uuid, "deviceToken": deviceToken],onSuccess, onFailure)
     }
     
@@ -171,16 +171,16 @@ class RequestManager {
         
         let url = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.xchange where pair in (\"__CURRENCIES__\")&format=json&env=store://datatables.org/alltableswithkeys"
         
-        var _currenciies: [String] = [String]();
+        var _currenciies: [String] = [String]()
         for currency in currencies {
             if let sourceCode = currency["sourceCode"], let targetCode = currency["targetCode"] {
                 _currenciies.append("\(sourceCode)\(targetCode)")
             }
         }
         
-        if _currenciies.count == 0{
-            if let onFailure = onFailure { onFailure(nil) };
-        }else{
+        if _currenciies.isEmpty {
+            if let onFailure = onFailure { onFailure(nil) }
+        } else {
             getAsyncExternal(url.stringByReplacingOccurrencesOfString("__CURRENCIES__", withString: _currenciies.joinWithSeparator(",")), "", onSuccess, onFailure)
         }
     }

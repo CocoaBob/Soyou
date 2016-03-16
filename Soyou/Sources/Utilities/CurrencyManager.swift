@@ -91,8 +91,8 @@ class CurrencyManager {
     }
 
     private func parseCurrencyRate(data: NSDictionary, time: String) -> NSDictionary? {
-        if let name = data["Name"] as? String{
-            let codes = name.characters.split{$0 == "/"}.map(String.init)
+        if let name = data["Name"] as? String {
+            let codes = name.characters.split {$0 == "/"}.map(String.init)
             let result: NSDictionary = [
                 "rate": (data["Rate"] as? String)!,
                 "updatedAt": time,
@@ -107,7 +107,7 @@ class CurrencyManager {
     }
     
     func currencyRates() -> [CurrencyRate]? {
-        if self.allCurrencyRates == nil || self.allCurrencyRates!.count == 0 {
+        if self.allCurrencyRates == nil || self.allCurrencyRates!.isEmpty {
             self.allCurrencyRates = CurrencyRate.MR_findAll() as? [CurrencyRate]
         }
         return self.allCurrencyRates
@@ -117,7 +117,7 @@ class CurrencyManager {
         guard let currencyRates = self.currencyRates() else { return nil }
         for rate in currencyRates {
             if let code = rate.sourceCode {
-                if sourceCode.caseInsensitiveCompare(code) == .OrderedSame{
+                if sourceCode.caseInsensitiveCompare(code) == .OrderedSame {
                     return rate
                 }
             }
@@ -194,12 +194,11 @@ class CurrencyManager {
         DataManager.shared.requestCurrencyChanges(currencyChanges) { responseObject, error in
             if let responseObject = responseObject,
                 query = responseObject["query"] as? NSDictionary,
-                count = query["count"] as? Int,
+                cnt = query["count"] as? Int,
                 time = query["created"] as? String,
                 results = query["results"] as? NSDictionary,
-                rate = results["rate"]
-            {
-                if count > 0 {
+                rate = results["rate"] {
+                if cnt > 0 {
                     var currencyRates = [NSDictionary]()
                     var rates: [NSDictionary]?
                     if let rate = rate as? NSDictionary {
@@ -210,7 +209,7 @@ class CurrencyManager {
                     if let rates = rates {
                         for rate in rates {
                             if let currency = self.parseCurrencyRate(rate, time: time) {
-                                currencyRates.append(currency);
+                                currencyRates.append(currency)
                             }
                         }
                     }
@@ -365,5 +364,3 @@ class CurrencyManager {
         return formatter?.stringFromNumber(price) ?? "\(price)"
     }
 }
-
-

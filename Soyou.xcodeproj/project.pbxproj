@@ -549,6 +549,7 @@
 			buildConfigurationList = 45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "Soyou" */;
 			buildPhases = (
 				EF63E7239B26381139289D4D /* Check Pods Manifest.lock */,
+				455078891C99F64B005412C4 /* Run Script Swiftlint */,
 				45E7CE071BF8C05F00FAB7D6 /* Sources */,
 				45E7CE081BF8C05F00FAB7D6 /* Frameworks */,
 				45E7CE091BF8C05F00FAB7D6 /* Resources */,
@@ -557,7 +558,7 @@
 				4570A5831C43DDA1004274DE /* Copy Bundle Resource For IDMPhotoBrowser */,
 				45BED0921C8A66E7002E375B /* Update CFBundleVersion */,
 				456123731C8F12C5008BEA82 /* Show warnings for TODO:FIXME: */,
-				45D5BAF41C96BEF600BA30D3 /* ShellScript */,
+				45D5BAF41C96BEF600BA30D3 /* Run Script Fabric */,
 			);
 			buildRules = (
 			);
@@ -638,6 +639,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		455078891C99F64B005412C4 /* Run Script Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script Swiftlint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
 		456123731C8F12C5008BEA82 /* Show warnings for TODO:FIXME: */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -666,13 +681,14 @@
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(git rev-list HEAD | wc -l | tr -d ' ')\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
 		};
-		45D5BAF41C96BEF600BA30D3 /* ShellScript */ = {
+		45D5BAF41C96BEF600BA30D3 /* Run Script Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script Fabric";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

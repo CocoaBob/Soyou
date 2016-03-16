@@ -44,7 +44,7 @@ class NewsDetailViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> NewsDetailViewController {
-        return UIStoryboard(name: "NewsViewController", bundle: nil).instantiateViewControllerWithIdentifier("NewsDetailViewController") as! NewsDetailViewController
+        return (UIStoryboard(name: "NewsViewController", bundle: nil).instantiateViewControllerWithIdentifier("NewsDetailViewController") as? NewsDetailViewController)!
     }
     
     // Lif cycle
@@ -75,13 +75,13 @@ class NewsDetailViewController: UIViewController {
         self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
         self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
         self.btnLike?.backgroundColor = UIColor.clearColor()
-        self.btnLike?.frame = CGRectMake(0, 0, 64, 32)
+        self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
         self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnLike?.addTarget(self, action: "like:", forControlEvents: .TouchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clearColor()
-        self.btnFav?.frame = CGRectMake(0, 0, 64, 32)
+        self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
         self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnFav?.addTarget(self, action: "star:", forControlEvents: .TouchUpInside)
@@ -159,13 +159,13 @@ extension NewsDetailViewController {
         }
         
         var touchPoint = tapGR.locationInView(self.webView)
-        var offset = CGPointZero
+        var offset = CGPoint.zero
         if let xOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageXOffset"),
             yOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageYOffset") {
                 offset.x = CGFloat((xOffset as NSString).doubleValue)
                 offset.y = CGFloat((yOffset as NSString).doubleValue)
         }
-        var windowSize = CGSizeZero
+        var windowSize = CGSize.zero
         if let width = webView.stringByEvaluatingJavaScriptFromString("window.innerWidth"),
             height = webView.stringByEvaluatingJavaScriptFromString("window.innerHeight") {
                 windowSize.width = CGFloat((width as NSString).doubleValue)
@@ -217,15 +217,12 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     
     private func removeStatusBarCover() {
         isStatusBarCoverVisible = false
-        UIView.animateWithDuration(0.25, animations:
-            { () -> Void in
-                self.setNeedsStatusBarAppearanceUpdate()
-                self.statusBarCover.alpha = 0
-            }, completion:
-            { (finished) -> Void in
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.statusBarCover.alpha = 0
+            }, completion: { (finished) -> Void in
                 self.statusBarCover.removeFromSuperview()
-            }
-        )
+        })
     }
 }
 
@@ -350,8 +347,7 @@ extension NewsDetailViewController {
                                     self.loadPageContent(localNews)
                                 }
                             })
-                        }
-                    )
+                        })
                 }
         }
     }
@@ -409,7 +405,9 @@ extension NewsDetailViewController {
         if let imageURLsJSONString = webView.stringByEvaluatingJavaScriptFromString("(function() {var images=document.querySelectorAll(\"img\");var imageUrls=[];[].forEach.call(images, function(el) { imageUrls[imageUrls.length] = el.src;}); return JSON.stringify(imageUrls);})()"),
             imageURLs = GetObjectFromJSONString(imageURLsJSONString) {
                 // All URLs
-                self.webViewImageURLs = imageURLs as! [String];
+                if let imageURLs = imageURLs as? [String] {
+                    self.webViewImageURLs = imageURLs
+                }
                 
                 // All IDMPhotos
                 var webViewPhotos = [IDMPhoto]()

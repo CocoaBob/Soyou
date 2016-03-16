@@ -16,7 +16,7 @@ private class CategoryItem {
     var children: [CategoryItem] = [CategoryItem]()
     var childrenIsVisible: Bool = false
     func isLeaf() -> Bool {
-        return children.count == 0
+        return children.isEmpty
     }
 }
 
@@ -74,15 +74,14 @@ class BrandViewController: UIViewController {
                 },
                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
                     self.brandImage = image
-                }
-            )
+            })
         }
     }
     var brandImage: UIImage?
     
     // Class methods
     class func instantiate() -> BrandViewController {
-        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("BrandViewController") as! BrandViewController
+        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("BrandViewController") as? BrandViewController)!
     }
     
     // Life cycle
@@ -155,13 +154,15 @@ class BrandViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "EmbedStoreMapViewController" {
-            let storeMapViewController = segue.destinationViewController as! StoreMapViewController
-            storeMapViewController.brandID = self.brandID
+            if let storeMapViewController = segue.destinationViewController as? StoreMapViewController {
+                storeMapViewController.brandID = self.brandID
+            }
         } else if segue.identifier == "PushStoreMapViewController" {
-            let storeMapViewController = segue.destinationViewController as! StoreMapViewController
-            storeMapViewController.brandID = self.brandID
-            storeMapViewController.brandName = self.brandName
-            storeMapViewController.isFullMap = true
+            if let storeMapViewController = segue.destinationViewController as? StoreMapViewController {
+                storeMapViewController.brandID = self.brandID
+                storeMapViewController.brandName = self.brandName
+                storeMapViewController.isFullMap = true
+            }
         }
 
     }
@@ -181,7 +182,7 @@ extension BrandViewController {
         return nil
     }
     
-    private func sortCategories(categories: [CategoryItem]) ->[CategoryItem] {
+    private func sortCategories(categories: [CategoryItem]) -> [CategoryItem] {
         for category in categories {
             category.children = self.sortCategories(category.children)
         }
@@ -196,33 +197,41 @@ extension BrandViewController {
         
         // Add sections
         for dict in categories {
-            if let parentID = dict["parentId"] where parentID is NSNull {
-                let item = CategoryItem()
-                item.id = dict["id"] as! NSNumber
-                item.label = dict["label"] as! String
-                item.order = dict["order"] as! NSNumber
-                _categoryItems.append(item)
-                categories.removeAtIndex(categories.indexOf(dict)!)
+            if let parentID = dict["parentId"] where parentID is NSNull,
+                let id = dict["id"] as? NSNumber,
+                label = dict["label"] as? String,
+                order = dict["order"] as? NSNumber {
+                    let item = CategoryItem()
+                    item.id = id
+                    item.label = label
+                    item.order = order
+                    _categoryItems.append(item)
+                    categories.removeAtIndex(categories.indexOf(dict)!)
             }
         }
         
         // Add children
-        while categories.count > 0 {
+        while !categories.isEmpty {
             for dict in categories {
-                if let parentItem = findCategoryItemWithID(_categoryItems, searchingID: dict["parentId"] as! NSNumber) {
-                    let item = CategoryItem()
-                    item.id = dict["id"] as! NSNumber
-                    item.label = dict["label"] as! String
-                    item.order = dict["order"] as! NSNumber
-                    item.parent = parentItem
-                    parentItem.children.append(item)
-                    // Calculate level
-                    var parent = item.parent
-                    while parent != nil {
-                        item.level += 1
-                        parent = parent?.parent
-                    }
-                    categories.removeAtIndex(categories.indexOf(dict)!)
+                if let parentID = dict["parentId"] as? NSNumber,
+                    parentItem = findCategoryItemWithID(_categoryItems, searchingID: parentID),
+                    id = dict["id"] as? NSNumber,
+                    label = dict["label"] as? String,
+                    order = dict["order"] as? NSNumber {
+                        let item = CategoryItem()
+                        item.id = id
+                        item.label = label
+                        item.order = order
+                        item.parent = parentItem
+                        parentItem.children.append(item)
+                        // Calculate level
+                        var parent = item.parent
+                        while parent != nil {
+                            item.level += 1
+                            parent = parent?.parent
+                        }
+                        categories.removeAtIndex(categories.indexOf(dict)!)
+                        
                 }
             }
         }
@@ -297,7 +306,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         footerView.layoutMargins = UIEdgeInsetsMake(15, 15, 15, 15)
         let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
         let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
-        footerView.frame = CGRectMake(0, 0, viewWidth, (viewWidth - marginH) * 0.5 + marginV)
+        footerView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: (viewWidth - marginH) * 0.5 + marginV)
         self.tableView.tableFooterView = footerView // Reset footer view to update the frame
     }
     
@@ -314,33 +323,28 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         var cell: UITableViewCell?
         
         if isRootItem(indexPath) && !item.isLeaf() {
-            let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListRootCell", forIndexPath: indexPath) as! BrandViewHierarchyListRootCell
-            
-            _cell.lblTitle!.text = item.label
-            
-            _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
-            
-            cell = _cell
+            if let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListRootCell", forIndexPath: indexPath) as? BrandViewHierarchyListRootCell {
+                _cell.lblTitle!.text = item.label
+                _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
+                cell = _cell
+            }
         } else {
             // Has children
             if !item.isLeaf() {
-                let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListChildCell", forIndexPath: indexPath) as! BrandViewHierarchyListChildCell
-                
-                _cell.lblTitle!.text = item.label
-                _cell.level = item.level
-                
-                _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
-                
-                cell = _cell
+                if let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListChildCell", forIndexPath: indexPath) as? BrandViewHierarchyListChildCell {
+                    _cell.lblTitle!.text = item.label
+                    _cell.level = item.level
+                    _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
+                    cell = _cell
+                }
             }
             // Leaf item
             else {
-                let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListLeafCell", forIndexPath: indexPath) as! BrandViewHierarchyListLeafCell
-                
-                _cell.lblTitle!.text = item.label
-                _cell.level = item.level
-                
-                cell = _cell
+                if let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListLeafCell", forIndexPath: indexPath) as? BrandViewHierarchyListLeafCell {
+                    _cell.lblTitle!.text = item.label
+                    _cell.level = item.level   
+                    cell = _cell
+                }
             }
         }
         
@@ -447,7 +451,7 @@ extension BrandViewController {
     }
     
     @IBAction func didTapAccessoryButton(sender: UIButton) {
-        let position = sender.convertPoint(CGPointZero, toView: self.tableView)
+        let position = sender.convertPoint(CGPoint.zero, toView: self.tableView)
         guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
         self.presentProductsViewController(self.itemForIndexPath(indexPath))
     }

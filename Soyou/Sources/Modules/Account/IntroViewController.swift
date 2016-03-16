@@ -76,7 +76,7 @@ extension IntroViewController {
         introPage.desc = NSLocalizedString(descID)
         introPage.titleIconView = UIImageView(image: UIImage(named: NSLocalizedString(imageID)))
         introPage.titleIconView.contentMode = .ScaleAspectFit
-        introPage.titleIconView.frame = CGRectMake(0, 0, viewSize.width, viewSize.height - 220) // -160-8-44-8
+        introPage.titleIconView.frame = CGRect(x: 0, y: 0, width: viewSize.width, height: viewSize.height - 220) // -160-8-44-8
         return introPage
     }
     
@@ -99,7 +99,7 @@ extension IntroViewController {
         let introPage = self.newIntroPage("intro_vc_title_map", "intro_vc_desc_map", "intro_vc_image_map", viewSize)
         
         if CLLocationManager.authorizationStatus() == .NotDetermined {
-            let actionButton = UIButton(frame: CGRectMake((viewSize.width - 240)/2.0, viewSize.height - 50 - 44, 240, 44))
+            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 50 - 44, width: 240, height: 44))
             actionButton.borderColor = UIColor.whiteColor()
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
@@ -115,7 +115,7 @@ extension IntroViewController {
         let introPage = self.newIntroPage("intro_vc_title_news", "intro_vc_desc_news", "intro_vc_image_news", viewSize)
         
         if !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() {
-            let actionButton = UIButton(frame: CGRectMake((viewSize.width - 240)/2.0, viewSize.height - 50 - 44, 240, 44))
+            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 50 - 44, width: 240, height: 44))
             actionButton.borderColor = UIColor.whiteColor()
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
@@ -182,7 +182,9 @@ extension IntroViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
             if let page = self.introView?.pages[IntroViewPage.Map.rawValue] as? EAIntroPage {
-                self.removeSubviews(page.subviews as! [UIView])
+                if let subViews = page.subviews as? [UIView] {
+                    self.removeSubviews(subViews)
+                }
             }
         }
     }
@@ -190,7 +192,9 @@ extension IntroViewController: CLLocationManagerDelegate {
     func didRegisterForRemoteNotifications() {
         if UIApplication.sharedApplication().isRegisteredForRemoteNotifications() {
             if let page = self.introView?.pages[IntroViewPage.News.rawValue] as? EAIntroPage {
-                self.removeSubviews(page.subviews as! [UIView])
+                if let subViews = page.subviews as? [UIView] {
+                    self.removeSubviews(subViews)
+                }
             }
         }
     }

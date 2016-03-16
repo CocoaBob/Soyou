@@ -51,7 +51,7 @@ class FavoritesViewController: BaseViewController {
     
     // Class methods
     class func instantiate() -> FavoritesViewController {
-        return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("FavoritesViewController") as! FavoritesViewController
+        return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("FavoritesViewController") as? FavoritesViewController)!
     }
     
     // Life cycle
@@ -71,7 +71,7 @@ class FavoritesViewController: BaseViewController {
         }
         
         // Setup table
-        self.tableView().tableFooterView = UIView(frame: CGRectZero)
+        self.tableView().tableFooterView = UIView(frame: CGRect.zero)
         
         // Background Color
         self.tableView().backgroundColor = UIColor(rgba: Cons.UI.colorBG)
@@ -89,7 +89,7 @@ class FavoritesViewController: BaseViewController {
         
         // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        self.hideToolbar(false);
+        self.hideToolbar(false)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -126,7 +126,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch (self.type) {
         case .News:
-            let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteNewsTableViewCell", forIndexPath: indexPath) as! FavoriteNewsTableViewCell
+            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteNewsTableViewCell", forIndexPath: indexPath) as? FavoriteNewsTableViewCell else { break }
             
             if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
                 // Title
@@ -142,7 +142,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             
             cell = _cell
         case .Products:
-            let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteProductsTableViewCell", forIndexPath: indexPath) as! FavoriteProductsTableViewCell
+            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteProductsTableViewCell", forIndexPath: indexPath) as? FavoriteProductsTableViewCell else { break }
             
             if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
                 MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
@@ -168,7 +168,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             cell = _cell
         }
         
-        return cell!
+        return (cell)!
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -278,7 +278,7 @@ extension FavoritesViewController {
                 }
             }
             self.beginRefreshing()
-        });
+        })
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)

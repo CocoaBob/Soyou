@@ -75,7 +75,7 @@ class News: BaseNews {
                 if let newestNews = newestNews {
                     var lastBeginDate = newestNews.datePublication!
                     for i in 0..<moreItems.count {
-                        let moreItem = moreItems[i] as! News
+                        guard let moreItem = moreItems[i] as? News else { continue }
                         allSections += [lastBeginDate]
                         
                         // Find the news after the more button
@@ -83,9 +83,8 @@ class News: BaseNews {
                             FmtPredicate("datePublication < %@ && (appIsMore == nil || appIsMore == false)", moreItem.datePublication!),
                             sortedBy: "datePublication",
                             ascending: false,
-                            inContext: localContext)
-                        {
-                            lastBeginDate = newsAfterMoreItem.datePublication!;
+                            inContext: localContext) {
+                            lastBeginDate = newsAfterMoreItem.datePublication!
                         }
                         
                         // Check if we should remove the more button
@@ -104,7 +103,7 @@ class News: BaseNews {
                     // The 1st and last new news
                     if let news = news {
                         if oldestNewNews == nil || news.datePublication! < oldestNewNews!.datePublication! {
-                            oldestNewNews = news;
+                            oldestNewNews = news
                         }
                     }
                 }

@@ -29,8 +29,7 @@ struct Text {
         font: UIFont? = nil,
         color: UIColor? = nil,
         keyboardType: UIKeyboardType? = nil,
-        returnKeyType: UIReturnKeyType? = nil)
-    {
+        returnKeyType: UIReturnKeyType? = nil) {
         self.text = text
         self.placeholder = placeholder
         self.font = font
@@ -50,8 +49,7 @@ struct Cell {
         height: CGFloat? = nil,
         tintColor: UIColor? = nil,
         accessoryType: UITableViewCellAccessoryType = .None,
-        separatorInset: UIEdgeInsets? = nil)
-    {
+        separatorInset: UIEdgeInsets? = nil) {
         self.height = height
         self.tintColor = tintColor
         self.accessoryType = accessoryType
@@ -77,8 +75,7 @@ struct Row {
         subTitle: Text? = nil,
         userInfo: [String:AnyObject]? = nil,
         setupCell: ((UITableView, UITableViewCell, NSIndexPath)->())? = nil,
-        didSelect: ((UITableView, NSIndexPath)->())? = nil)
-    {
+        didSelect: ((UITableView, NSIndexPath)->())? = nil) {
         self.type = type
         self.cell = cell
         self.image = image
@@ -96,8 +93,7 @@ struct Section {
     
     init(
         title: String? = nil,
-        rows: [Row])
-    {
+        rows: [Row]) {
         self.title = title
         self.rows = rows
     }
@@ -123,10 +119,6 @@ class SimpleTableViewController: UIViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    convenience init() {
-        self.init(nibName:nil, bundle:nil)
-    }
-    
     convenience init(tableStyle: UITableViewStyle?) {
         self.init(nibName:nil, bundle:nil)
         self.tableStyle = tableStyle
@@ -143,7 +135,7 @@ class SimpleTableViewController: UIViewController {
             self.tableView.rowHeight = UITableViewAutomaticDimension
             self.tableView.delegate = self
             self.tableView.dataSource = self
-            self.tableView.tableFooterView = UIView(frame: CGRectZero)
+            self.tableView.tableFooterView = UIView(frame: CGRect.zero)
             self.view.addSubview(self.tableView)
         }
         
@@ -151,7 +143,7 @@ class SimpleTableViewController: UIViewController {
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
         
         // Setup table data
-        if sections.count == 0 {
+        if sections.isEmpty {
             self.rebuildTable()
         }
         
@@ -192,7 +184,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         
         switch row.type {
         case .CenterTitle:
-            let rowCell = cell as! TableViewCellCenterTitle
+            guard let rowCell = cell as? TableViewCellCenterTitle else { break }
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
@@ -201,11 +193,10 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
                 rowCell.lblTitle.font = font
             }
         case .IconTitle:
-            let rowCell = cell as! TableViewCellIconTitle
+            guard let rowCell = cell as? TableViewCellIconTitle else { break }
             rowCell.imgView.image = row.image
             if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.size.width ||
-                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height)
-            {
+                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height) {
                 rowCell.imgView.contentMode = .ScaleAspectFit
             } else {
                 rowCell.imgView.contentMode = .Center
@@ -218,7 +209,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
                 rowCell.lblTitle.font = font
             }
         case .IconTitleContent:
-            let rowCell = cell as! TableViewCellIconTitleContent
+            guard let rowCell = cell as? TableViewCellIconTitleContent else { break }
             rowCell.imgView.image = row.image
             if rowCell.imageRatioConstraint != nil {
                 rowCell.imgView.removeConstraint(rowCell.imageRatioConstraint!)
@@ -228,8 +219,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             rowCell.imgView.addConstraint(ratioConstraint)
             rowCell.lblTitle.text = row.title?.text
             if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.size.width ||
-                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height)
-            {
+                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height) {
                 rowCell.imgView.contentMode = .ScaleAspectFit
             } else {
                 rowCell.imgView.contentMode = .Center
@@ -248,7 +238,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
                 rowCell.tvContent.font = font
             }
         case .LeftTitle:
-            let rowCell = cell as! TableViewCellLeftTitle
+            guard let rowCell = cell as? TableViewCellLeftTitle else { break }
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
@@ -257,7 +247,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
                 rowCell.lblTitle.font = font
             }
         case .LeftTitleRightDetail:
-            let rowCell = cell as! TableViewCellLeftTitleRightDetail
+            guard let rowCell = cell as? TableViewCellLeftTitleRightDetail else { break }
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
@@ -273,7 +263,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
                 rowCell.lblSubTitle.font = font
             }
         case .TextField:
-            let rowCell = cell as! TableViewCellTextField
+            guard let rowCell = cell as? TableViewCellTextField else { break }
             rowCell.tfTitle.delegate = self
             rowCell.tfTitle.text = row.title?.text
             rowCell.tfTitle.placeholder = row.title?.placeholder
@@ -313,7 +303,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCellSectionHeader") as! TableViewCellSectionHeader
+        guard let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCellSectionHeader") as? TableViewCellSectionHeader else { return nil }
         let section = sections[section]
         cell.lblTitle.text = section.title
         return cell
@@ -340,7 +330,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
 extension SimpleTableViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        let position = textField.convertPoint(CGPointZero, toView: self.tableView)
+        let position = textField.convertPoint(CGPoint.zero, toView: self.tableView)
         guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return true }
         
         if let nextTextField = self.findNextTextField(textField, indexPath) {
@@ -358,7 +348,7 @@ extension SimpleTableViewController {
     
     func textFieldDidEdit(textField: UITextField) {
         self.editedText = textField.text
-        let position = textField.convertPoint(CGPointZero, toView: self.tableView)
+        let position = textField.convertPoint(CGPoint.zero, toView: self.tableView)
         guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
         let row = sections[indexPath.section].rows[indexPath.row]
         textField.textColor = row.title?.color

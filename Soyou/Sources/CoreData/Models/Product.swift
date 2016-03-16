@@ -73,10 +73,10 @@ class Product: BaseModel {
                 searchText += normalized(product.title)
                 
                 searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                if searchText.characters.count > 0 {
-                    product.appSearchText = searchText
-                } else {
+                if searchText.characters.isEmpty {
                     product.appSearchText = nil
+                } else {
+                    product.appSearchText = searchText
                 }
             }
         }

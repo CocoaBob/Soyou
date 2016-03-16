@@ -33,7 +33,7 @@ class ProductDescriptionsViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> ProductDescriptionsViewController {
-        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as! ProductDescriptionsViewController
+        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductDescriptionsViewController") as? ProductDescriptionsViewController)!
     }
     
     // Life cycle
@@ -94,31 +94,31 @@ extension ProductDescriptionsViewController {
             
             if let surname = self.surname {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: surname)
-            }else{
+            } else {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: NSLocalizedString("product_unavailable"))
             }
             
             if let brand = self.brand {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__BRAND__", withString: brand)
-            }else{
+            } else {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__BRAND__", withString: NSLocalizedString("product_unavailable"))
             }
             
             if let reference = self.reference {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: reference)
-            }else{
+            } else {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: NSLocalizedString("product_unavailable"))
             }
             
             if let dimension = self.dimension {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DIMENSION__", withString: dimension)
-            }else{
+            } else {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DIMENSION__", withString: NSLocalizedString("product_unavailable"))
             }
             
             if let descriptions = self.descriptions {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: descriptions).stringByReplacingOccurrencesOfString("__BTN_TRANSLATION__", withString: "<div><button id=\"btn-translation\">\(NSLocalizedString("product_translation"))</button></div>")
-            }else{
+            } else {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: NSLocalizedString("product_unavailable"))
             }
             
@@ -137,7 +137,7 @@ extension ProductDescriptionsViewController {
 // MARK: UIWebViewDelegate
 extension ProductDescriptionsViewController: UIWebViewDelegate {
     
-    private func updateWebViewHeight(webView: UIWebView){
+    private func updateWebViewHeight(webView: UIWebView) {
         if let heightStr = webView.stringByEvaluatingJavaScriptFromString("document.getElementById('main').offsetHeight") {
             let heightFloat = CGFloat((heightStr as NSString).floatValue)
             if let delegate = self.webViewHeightDelegate {
@@ -147,7 +147,7 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        let js = "document.getElementById('btn-translation').addEventListener('click', function(){ window.location.href = 'inapp://translate'});"
+        let js = "document.getElementById('btn-translation').addEventListener('click', function() { window.location.href = 'inapp://translate'});"
         webView.stringByEvaluatingJavaScriptFromString(js)
         
         // Update web view height
@@ -162,7 +162,7 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
             updateWebViewHeight(webView)
             self.isDisplayingTranslatedText = false
             MBProgressHUD.hideLoader(self.productViewController?.view)
-        } else{
+        } else {
             if let _ = self.descriptionZH {
                 let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
                 webView.stringByEvaluatingJavaScriptFromString(js)
@@ -189,11 +189,11 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
         }
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool{
-        if let url = request.URL{
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        if let url = request.URL {
             if "inapp".caseInsensitiveCompare(url.scheme) == .OrderedSame {
                 if "translate".caseInsensitiveCompare(url.host!) == .OrderedSame {
-                    toggleTranslationState(webView);
+                    toggleTranslationState(webView)
                 }
                 
                 return false
