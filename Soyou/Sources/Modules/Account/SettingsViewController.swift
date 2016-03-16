@@ -44,26 +44,19 @@ extension SettingsViewController {
     override func rebuildTable() {
         self.sections = [
             Section(
-                title: nil,
                 rows: [
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_currency"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: CurrencyManager.shared.userCurrencyName, placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_currency")),
+                        subTitle: Text(text: CurrencyManager.shared.userCurrencyName),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeMyCurrency()
                         }
                     ),
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_language"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: CurrencyManager.shared.languageName(NSLocale.preferredLanguages().first ?? ""), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_language")),
+                        subTitle: Text(text: CurrencyManager.shared.languageName(NSLocale.preferredLanguages().first ?? "")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeLanguage()
                         }
@@ -71,59 +64,38 @@ extension SettingsViewController {
                 ]
             ),
             Section(
-                title: nil,
                 rows: [
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_intro"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_intro")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             IntroViewController.shared.showIntroView()
                         }
                     ),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_about"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_about")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showAbout()
                         }
                     ),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_credits"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_credits")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showCredits()
                         }
                     ),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_feedback"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_feedback")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
                         }
                     ),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_review"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_review")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
                         }
@@ -131,15 +103,10 @@ extension SettingsViewController {
                 ]
             ),
             Section(
-                title: nil,
                 rows: [
                     Row(type: .CenterTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .None, separatorInset: nil),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        setupCell: nil,
+                        cell: Cell(height: 44, accessoryType: .None),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.clearCache()
                         }
@@ -172,13 +139,9 @@ extension SettingsViewController {
                 title: " ",
                 rows: [
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: nil, tintColor: nil, accessoryType: .None, separatorInset: nil),
-                        image: nil,
-                        title: Text(text: title, placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: NSLocalizedString("app_about_content") + "\n", placeholder: nil, font: UIFont.systemFontOfSize(16), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
-                        userInfo: nil,
-                        setupCell: nil,
-                        didSelect: nil
+                        cell: Cell(accessoryType: .None),
+                        title: Text(text: title, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGrayColor()),
+                        subTitle: Text(text: NSLocalizedString("app_about_content") + "\n", font: UIFont.systemFontOfSize(16), color: UIColor.grayColor())
                     )
                 ]
             )
@@ -197,40 +160,28 @@ extension SettingsViewController {
                 title: " ",
                 rows: [
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_jiyun"),
-                        title: Text(text: "\nJiyun", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "General Developer", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
-                        userInfo: nil,
-                        setupCell: nil,
-                        didSelect: nil
+                        title: Text(text: "\nJiyun", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
+                        subTitle: Text(text: "General Developer", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
                     ),
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_cocoabob"),
-                        title: Text(text: "\nCocoaBob", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "iOS Developer", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
-                        userInfo: nil,
-                        setupCell: nil,
-                        didSelect: nil
+                        title: Text(text: "\nCocoaBob", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
+                        subTitle: Text(text: "iOS Developer", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
                     ),
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_chenglian"),
-                        title: Text(text: "\nChenglian", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "Creative Director", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
-                        userInfo: nil,
-                        setupCell: nil,
-                        didSelect: nil
+                        title: Text(text: "\nChenglian", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
+                        subTitle: Text(text: "Creative Director", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
                     ),
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, tintColor: nil, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 0)),
                         image: UIImage(named: "img_credits_niuniu"),
-                        title: Text(text: "\nNiuniu", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
-                        subTitle: Text(text: "Villain Creature", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
-                        userInfo: nil,
-                        setupCell: nil,
-                        didSelect: nil
+                        title: Text(text: "\nNiuniu", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
+                        subTitle: Text(text: "Villain Creature", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
                     )
                 ]
             )
@@ -262,10 +213,8 @@ extension SettingsViewController {
             let row = Row(type: .IconTitle,
                 cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                 image: UIImage(flagImageWithCountryCode: countryCode),
-                title: Text(text: CurrencyManager.shared.languageName(langCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
-                subTitle: nil,
+                title: Text(text: CurrencyManager.shared.languageName(langCode) ?? ""),
                 userInfo: ["language":langCode],
-                setupCell: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != currentLanguageSelection)
@@ -284,7 +233,6 @@ extension SettingsViewController {
         }
         simpleViewController.sections = [
             Section(
-                title: nil,
                 rows: rows
             )
         ]
@@ -338,7 +286,7 @@ extension SettingsViewController {
         var sortedCurrencyNames: [String] = allCurrencyNameCodePairs.map { $0.0 }
         // TODO
         sortedCurrencyNames.sortInPlace {
-            $0.compare($1, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: nil, locale: CurrencyManager.shared.displayLocale) == .OrderedAscending
+            $0.compare($1, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], locale: CurrencyManager.shared.displayLocale) == .OrderedAscending
         }
         
         for currencyName in sortedCurrencyNames {
@@ -357,16 +305,7 @@ extension SettingsViewController {
             let row = Row(type: .IconTitle,
                 cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                 image: image,
-                title: Text(
-                    text: currencyName,
-                    placeholder: nil,
-                    font: nil,
-                    color: nil,
-                    keyboardType: .Default,
-                    returnKeyType: .Default),
-                subTitle: nil,
-                userInfo: nil,
-                setupCell: nil,
+                title: Text(text: currencyName),
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     let selectedCurrencyName = sortedCurrencyNames[indexPath.row]
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (selectedCurrencyName != CurrencyManager.shared.userCurrencyName)
@@ -385,7 +324,6 @@ extension SettingsViewController {
         }
         simpleViewController.sections = [
             Section(
-                title: nil,
                 rows: rows
             )
         ]

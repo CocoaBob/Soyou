@@ -22,6 +22,22 @@ struct Text {
     var color: UIColor?
     var keyboardType: UIKeyboardType?
     var returnKeyType: UIReturnKeyType?
+    
+    init(
+        text: String? = nil,
+        placeholder: String? = nil,
+        font: UIFont? = nil,
+        color: UIColor? = nil,
+        keyboardType: UIKeyboardType? = nil,
+        returnKeyType: UIReturnKeyType? = nil)
+    {
+        self.text = text
+        self.placeholder = placeholder
+        self.font = font
+        self.color = color
+        self.keyboardType = keyboardType
+        self.returnKeyType = returnKeyType
+    }
 }
 
 struct Cell {
@@ -29,6 +45,18 @@ struct Cell {
     var tintColor: UIColor?
     var accessoryType: UITableViewCellAccessoryType
     var separatorInset: UIEdgeInsets?
+    
+    init(
+        height: CGFloat? = nil,
+        tintColor: UIColor? = nil,
+        accessoryType: UITableViewCellAccessoryType = .None,
+        separatorInset: UIEdgeInsets? = nil)
+    {
+        self.height = height
+        self.tintColor = tintColor
+        self.accessoryType = accessoryType
+        self.separatorInset = separatorInset
+    }
 }
 
 struct Row {
@@ -40,11 +68,40 @@ struct Row {
     var userInfo: [String:AnyObject]?
     var setupCell: ((UITableView, UITableViewCell, NSIndexPath)->())?
     var didSelect: ((UITableView, NSIndexPath)->())?
+    
+    init(
+        type: CellType = .CenterTitle,
+        cell: Cell,
+        image: UIImage? = nil,
+        title: Text? = nil,
+        subTitle: Text? = nil,
+        userInfo: [String:AnyObject]? = nil,
+        setupCell: ((UITableView, UITableViewCell, NSIndexPath)->())? = nil,
+        didSelect: ((UITableView, NSIndexPath)->())? = nil)
+    {
+        self.type = type
+        self.cell = cell
+        self.image = image
+        self.title = title
+        self.subTitle = subTitle
+        self.userInfo = userInfo
+        self.setupCell = setupCell
+        self.didSelect = didSelect
+    }
 }
 
 struct Section {
     var title: String?
     var rows: [Row]
+    
+    init(
+        title: String? = nil,
+        rows: [Row])
+    {
+        self.title = title
+        self.rows = rows
+    }
+
 }
 
 class SimpleTableViewController: UIViewController {
