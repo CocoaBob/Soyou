@@ -56,6 +56,7 @@ extension ProfileViewController {
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_username"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_empty"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeUsername()
                         }
@@ -66,6 +67,7 @@ extension ProfileViewController {
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_email"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeEmail()
                         }
@@ -81,6 +83,7 @@ extension ProfileViewController {
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_region"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: CurrencyManager.shared.countryName(UserManager.shared.region ?? "") ?? NSLocalizedString("user_info_region_unknown"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeRegion()
                         }
@@ -91,6 +94,7 @@ extension ProfileViewController {
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_gender"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: UserManager.shared.gender, placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeGender()
                         }
@@ -106,6 +110,7 @@ extension ProfileViewController {
                         title: Text(text: NSLocalizedString("profile_vc_cell_logout"), placeholder:nil, font: nil, color: UIColor.redColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.logout()
                         }
@@ -145,6 +150,7 @@ extension ProfileViewController {
                         title: Text(text: UserManager.shared.username, placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     )
                 ]
@@ -187,6 +193,7 @@ extension ProfileViewController {
                         title: Text(text: nil, placeholder: NSLocalizedString("profile_vc_cell_new_email_placeholder"), font: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Next),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     ),
                     Row(type: .TextField,
@@ -195,6 +202,7 @@ extension ProfileViewController {
                         title: Text(text: nil, placeholder: NSLocalizedString("profile_vc_cell_confirm_new_email_placeholder"), font: nil, color: nil, keyboardType: .EmailAddress, returnKeyType: .Send),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     )
                 ]
@@ -272,6 +280,7 @@ extension ProfileViewController {
                     title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
                     subTitle: nil,
                     userInfo: ["code":regionCode],
+                    setupCell: nil,
                     didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                         let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
                         simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != UserManager.shared.region)
@@ -347,6 +356,7 @@ extension ProfileViewController {
                 title: Text(text: NSLocalizedString(titleCode), placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
                 subTitle: nil,
                 userInfo: nil,
+                setupCell: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (indexPath.row != UserManager.shared.genderIndex)
                     if simpleViewController.updateSelectionCheckmark(indexPath) {

@@ -52,6 +52,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_language"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeLanguage()
                         }
@@ -62,11 +63,11 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_currency"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeMyCurrency()
                         }
                     )
-                    
                 ]
             ),
             Section(
@@ -78,6 +79,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_intro"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             IntroViewController.shared.showIntroView()
                         }
@@ -88,6 +90,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_about"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showAbout()
                         }
@@ -98,6 +101,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_credits"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showCredits()
                         }
@@ -108,6 +112,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_feedback"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
                         }
@@ -118,6 +123,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_review"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
                         }
@@ -133,6 +139,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.clearCache()
                         }
@@ -170,6 +177,7 @@ extension SettingsViewController {
                         title: Text(text: title, placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: NSLocalizedString("app_about_content") + "\n", placeholder: nil, font: UIFont.systemFontOfSize(16), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     )
                 ]
@@ -194,6 +202,7 @@ extension SettingsViewController {
                         title: Text(text: "\nJiyun", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: "General Developer", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     ),
                     Row(type: .IconTitleContent,
@@ -202,6 +211,7 @@ extension SettingsViewController {
                         title: Text(text: "\nCocoaBob", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: "iOS Developer", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     ),
                     Row(type: .IconTitleContent,
@@ -210,6 +220,7 @@ extension SettingsViewController {
                         title: Text(text: "\nChenglian", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: "Creative Director", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     ),
                     Row(type: .IconTitleContent,
@@ -218,6 +229,7 @@ extension SettingsViewController {
                         title: Text(text: "\nNiuniu", placeholder: nil, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor(), keyboardType: nil, returnKeyType: nil),
                         subTitle: Text(text: "Villain Creature", placeholder: nil, font: UIFont.systemFontOfSize(13), color: UIColor.grayColor(), keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: nil
                     )
                 ]
@@ -253,6 +265,7 @@ extension SettingsViewController {
                 title: Text(text: CurrencyManager.shared.languageName(langCode) ?? "", placeholder: nil, font: nil, color: nil, keyboardType: .Default, returnKeyType: .Default),
                 subTitle: nil,
                 userInfo: ["language":langCode],
+                setupCell: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != currentLanguageSelection)
@@ -354,6 +367,7 @@ extension SettingsViewController {
                     returnKeyType: .Default),
                 subTitle: nil,
                 userInfo: nil,
+                setupCell: nil,
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     let selectedCurrencyName = sortedCurrencyNames[indexPath.row]
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (selectedCurrencyName != CurrencyManager.shared.userCurrencyName)

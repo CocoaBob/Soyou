@@ -99,6 +99,7 @@ extension UserViewController {
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_news"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showNewsFavorites()
                     }),
@@ -108,6 +109,7 @@ extension UserViewController {
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_products"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         subTitle: nil,
                         userInfo: nil,
+                        setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showProductsFavorites()
                     })

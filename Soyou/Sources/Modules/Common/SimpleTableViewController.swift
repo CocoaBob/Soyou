@@ -38,6 +38,7 @@ struct Row {
     var title: Text?
     var subTitle: Text?
     var userInfo: [String:AnyObject]?
+    var setupCell: ((UITableView, UITableViewCell, NSIndexPath)->())?
     var didSelect: ((UITableView, NSIndexPath)->())?
 }
 
@@ -240,6 +241,10 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         }
         if let tintColor = row.cell.tintColor {
             cell.tintColor = tintColor
+        }
+        
+        if let setupCell = row.setupCell {
+            setupCell(tableView, cell, indexPath)
         }
         
         return cell
