@@ -78,8 +78,13 @@ func FmtString(fmt: String, _ args: [CVarArgType]) -> String {
     return String(format: fmt, arguments: args)
 }
 
+var _emptyError = NSError(domain: "SoyouError", code: 0, userInfo: nil)
 func FmtError(code: Int, _ msg: String?, _ args: CVarArgType...) -> NSError {
-    return NSError(domain: "SoyouError", code: code, userInfo: ((msg != nil) ? [NSLocalizedDescriptionKey:FmtString(msg!, args)] : nil))
+    if code == 0 && msg == nil {
+        return _emptyError
+    } else {
+        return NSError(domain: "SoyouError", code: code, userInfo: ((msg != nil) ? [NSLocalizedDescriptionKey:FmtString(msg!, args)] : nil))
+    }
 }
 
 func NSLocalizedString(key: String) -> String {

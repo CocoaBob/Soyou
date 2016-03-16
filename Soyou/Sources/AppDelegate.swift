@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataManager.shared.updateData(nil)
         
         // Currency Manager
-        CurrencyManager.shared.updateCurrencyRates(nil)
+        CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, nil)
         
         // Check if the user token is valid
         if UserManager.shared.isLoggedIn {

@@ -453,7 +453,7 @@ class DataManager {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     Region.importDatas(data, { (_, _) -> () in
                         // Update all currencies based on all regions
-                        CurrencyManager.shared.updateCurrencyRates(completion)
+                        CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, completion)
                     })
                 } else {
                     self.completeWithError(FmtError(0, nil), completion: completion)

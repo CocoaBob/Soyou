@@ -73,11 +73,11 @@ class FavoriteNews: BaseNews {
                     FavoriteNews.importData(data, isComplete, localContext)
                 }
                 
-                }, completion: { (_, _) -> Void in
-                    if let completion = completion { completion(nil, nil) }
+                }, completion: { (responseObject, error) -> Void in
+                    if let completion = completion { completion(responseObject, error) }
             })
         } else {
-            if let completion = completion { completion(nil, nil) }
+            if let completion = completion { completion(nil, FmtError(0, nil)) }
         }
     }
     
@@ -107,7 +107,7 @@ class FavoriteNews: BaseNews {
             if favoriteIDs.count > 0 {
                 DataManager.shared.requestNews(favoriteIDs, { responseObject, error in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        FavoriteNews.importDatas(data, false, nil, { (_, _) -> () in
+                        FavoriteNews.importDatas(data, false, nil, { (responseObject, error) -> () in
                             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                                 // Update favorite dates
                                 if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
@@ -117,15 +117,15 @@ class FavoriteNews: BaseNews {
                                         }
                                     }
                                 }
-                                if let completion = completion { completion(nil, nil) }
+                                if let completion = completion { completion(responseObject, error) }
                             })
                         })
                     } else {
-                        if let completion = completion { completion(nil, nil) }
+                        if let completion = completion { completion(nil, FmtError(0, nil)) }
                     }
                 })
             } else {
-                if let completion = completion { completion(nil, nil) }
+                if let completion = completion { completion(nil, FmtError(0, nil)) }
             }
         })
     }

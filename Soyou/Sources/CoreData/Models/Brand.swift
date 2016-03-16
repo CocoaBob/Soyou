@@ -58,11 +58,11 @@ class Brand: BaseModel {
                     }
                 }
                 
-                }, completion: { (_, _) -> Void in
-                    if let completion = completion { completion(nil, nil) }
+                }, completion: { (responseObject, error) -> Void in
+                    if let completion = completion { completion(responseObject, error) }
             })
         } else {
-            if let completion = completion { completion(nil, nil) }
+            if let completion = completion { completion(nil, FmtError(0, nil)) }
         }
     }
 }

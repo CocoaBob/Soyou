@@ -175,7 +175,7 @@ class CurrencyManager {
         return _allCurrencyCountryPairs!
     }
     
-    func updateCurrencyRates(completion: CompletionClosure?) {
+    func updateCurrencyRates(targetCurrencyCode: String, _ completion: CompletionClosure?) {
         // Reset data
         _userCurrency = nil
         _userCurrencyName = nil
@@ -187,7 +187,7 @@ class CurrencyManager {
         for currency in self.allCurrencyCodes() {
             let dict = NSMutableDictionary()
             dict.setObject(currency, forKey: "sourceCode")
-            dict.setObject(self.userCurrency, forKey: "targetCode")
+            dict.setObject(targetCurrencyCode, forKey: "targetCode")
             currencyChanges.append(dict)
         }
         
@@ -217,10 +217,10 @@ class CurrencyManager {
                     
                     CurrencyRate.importDatas(currencyRates, completion)
                 } else {
-                    if let completion = completion { completion(nil, nil) }
+                    if let completion = completion { completion(responseObject, error) }
                 }
             } else {
-                if let completion = completion { completion(nil, nil) }
+                if let completion = completion { completion(responseObject, error) }
             }
         }
     }

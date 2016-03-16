@@ -384,14 +384,23 @@ extension SettingsViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             if let selectedIndexPath = simpleViewController.selectedIndexPath {
-                let selectedCurrencyCode = allCurrencyNameCodePairs[sortedCurrencyNames[selectedIndexPath.row]]
+                guard let selectedCurrencyCode = allCurrencyNameCodePairs[sortedCurrencyNames[selectedIndexPath.row]] else {
+                    return
+                }
+                
                 // Set user currency
                 MBProgressHUD.showLoader(nil)
-                CurrencyManager.shared.userCurrency = selectedCurrencyCode ?? ""
-                CurrencyManager.shared.updateCurrencyRates({ (_, _) -> () in
-                    MBProgressHUD.hideLoader(nil)
-                    simpleViewController.navigationController?.popViewControllerAnimated(true)
-                })
+                CurrencyManager.shared.updateCurrencyRates(selectedCurrencyCode) { (responseObject, error) -> () in
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        MBProgressHUD.hideLoader(nil)
+                        if let error = error {
+                            DataManager.showRequestFailedAlert(error)
+                        } else {
+                            CurrencyManager.shared.userCurrency = selectedCurrencyCode ?? ""
+                            simpleViewController.navigationController?.popViewControllerAnimated(true)
+                        }
+                    })
+                }
             }
         }
         // Push
