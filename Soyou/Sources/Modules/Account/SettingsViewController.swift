@@ -46,26 +46,26 @@ extension SettingsViewController {
             Section(
                 title: nil,
                 rows: [
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
-                        image: nil,
-                        title: Text(text: NSLocalizedString("settings_vc_cell_language"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
-                        userInfo: nil,
-                        setupCell: nil,
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.changeLanguage()
-                        }
-                    ),
-                    Row(type: .LeftTitle,
+                    Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         image: nil,
                         title: Text(text: NSLocalizedString("settings_vc_cell_currency"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
-                        subTitle: nil,
+                        subTitle: Text(text: CurrencyManager.shared.userCurrencyName, placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
                         userInfo: nil,
                         setupCell: nil,
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeMyCurrency()
+                        }
+                    ),
+                    Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, tintColor: nil, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        image: nil,
+                        title: Text(text: NSLocalizedString("settings_vc_cell_language"), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        subTitle: Text(text: CurrencyManager.shared.languageName(NSLocale.preferredLanguages().first ?? ""), placeholder:nil, font: nil, color: nil, keyboardType: nil, returnKeyType: nil),
+                        userInfo: nil,
+                        setupCell: nil,
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.changeLanguage()
                         }
                     )
                 ]
@@ -289,7 +289,6 @@ extension SettingsViewController {
             )
         ]
         if let currentLanguageCode = NSLocale.preferredLanguages().first {
-            DLog(currentLanguageCode)
             let selectedRow = currentLanguageCode.hasPrefix("zh") ? 0 : 1
             simpleViewController.selectedIndexPath = NSIndexPath(forRow: selectedRow, inSection: 0)
             currentLanguageSelection = simpleViewController.sections.first?.rows[selectedRow].title?.text
