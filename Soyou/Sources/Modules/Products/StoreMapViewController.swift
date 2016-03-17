@@ -40,13 +40,13 @@ class StoreMapViewController: UIViewController {
         self.calloutView = SMCalloutView.platformCalloutView()
         self.mapView.calloutView = self.calloutView
         
-        let leftButton = UIButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
+        let leftButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
         leftButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
         leftButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
         leftButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
         self.calloutView.leftAccessoryView = leftButton
         
-        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
+        let rightButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
         rightButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
         rightButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
         rightButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -185,10 +185,10 @@ extension StoreMapViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        // Zoom in for cluster annotation
-        if let annotation = view.annotation {
-            if let annotation = annotation as? CCHMapClusterAnnotation {
-                if (annotation.isUniqueLocation()) {
+        if view is ClusterAnnotationView {
+            // Zoom in for cluster annotation
+            if let annotation = view.annotation as? CCHMapClusterAnnotation {
+                if (!annotation.isUniqueLocation()) {
                     var region = self.mapView.region
                     var span = region.span
                     span.latitudeDelta /= 2.0
@@ -197,22 +197,25 @@ extension StoreMapViewController: MKMapViewDelegate {
                     self.mapView.setRegion(region, animated: true)
                     return
                 }
-            }
-        }
-        
-        // apply the MKAnnotationView's basic properties
-        if let title = view.annotation?.title {
-            self.calloutView.title = title
-        }
-        if let subtitle = view.annotation?.subtitle {
-            self.calloutView.subtitle = subtitle
-        }
-        
-        // Apply the MKAnnotationView's desired calloutOffset (from the top-middle of the view)
-        self.calloutView.calloutOffset = view.calloutOffset
                 
-        // This does all the magic.
-        self.calloutView.presentCalloutFromRect(view.bounds, inView: view, constrainedToView: self.mapView, animated: true)
+                (self.calloutView.leftAccessoryView as? StoreMapAnnotationCalloutButton)?.annotation = annotation
+                (self.calloutView.rightAccessoryView as? StoreMapAnnotationCalloutButton)?.annotation = annotation
+            }
+            
+            // apply the MKAnnotationView's basic properties
+            if let title = view.annotation?.title {
+                self.calloutView.title = title
+            }
+            if let subtitle = view.annotation?.subtitle {
+                self.calloutView.subtitle = subtitle
+            }
+            
+            // Apply the MKAnnotationView's desired calloutOffset (from the top-middle of the view)
+            self.calloutView.calloutOffset = view.calloutOffset
+            
+            // This does all the magic.
+            self.calloutView.presentCalloutFromRect(view.bounds, inView: view, constrainedToView: self.mapView, animated: true)
+        }
     }
     
     func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
@@ -250,9 +253,8 @@ extension StoreMapViewController: CLLocationManagerDelegate {
 // MARK: Routines
 extension StoreMapViewController {
     
-    func storeOfSelectedAnnotations(annotations: [StoreMapAnnotation]) -> Store? {
-        if let clusterAnnotation = self.mapView.selectedAnnotations.first as? CCHMapClusterAnnotation,
-            selectedAnnotation = clusterAnnotation.annotations.first as? StoreMapAnnotation,
+    func storeOfSelectedAnnotation(annotation: CCHMapClusterAnnotation) -> Store? {
+        if let selectedAnnotation = annotation.annotations.first as? StoreMapAnnotation,
             storeID = selectedAnnotation.storeID {
                 return Store.MR_findFirstByAttribute("id", withValue: storeID)
         }
@@ -260,8 +262,8 @@ extension StoreMapViewController {
     }
     
     func copyAddress(sender: UIButton) {
-        if let selectedAnnotations = self.mapView.selectedAnnotations as? [StoreMapAnnotation],
-            store = self.storeOfSelectedAnnotations(selectedAnnotations) {
+        if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
+            store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             let address = FmtString("%@\n%@\n%@\n%@\n%@",store.title ?? "", store.address ?? "", store.zipcode ?? "", store.city ?? "", store.country ?? "")
             let pasteboard = UIPasteboard.generalPasteboard()
             pasteboard.persistent = true
@@ -279,8 +281,8 @@ extension StoreMapViewController {
     }
     
     func openMap(sender: UIButton) {
-        if let selectedAnnotations = self.mapView.selectedAnnotations as? [StoreMapAnnotation],
-            store = self.storeOfSelectedAnnotations(selectedAnnotations) {
+        if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
+            store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             var addressDictionary = [String: String]()
             if #available(iOS 9.0, *) {
                 addressDictionary[CNPostalAddressStreetKey] = store.address ?? ""
@@ -402,4 +404,9 @@ class CustomMapView: MKMapView {
         }
         return super.hitTest(point, withEvent: event)
     }
+}
+
+class StoreMapAnnotationCalloutButton: UIButton {
+    
+    var annotation: MKAnnotation?
 }
