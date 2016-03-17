@@ -64,7 +64,7 @@
 "user_vc_feedback_alert_message"="How do you feel about Soyou?";
 "user_vc_feedback_alert_like"="I like it!";
 "user_vc_feedback_alert_feedback"="Send feedbacks";
-"user_vc_feedback_alert_share"="Share with your friends";
+"user_vc_feedback_alert_share"="Share with friends";
 "user_vc_feedback_alert_share_title"="Soyou";
 "user_vc_feedback_alert_share_description"="Soyou is your luxury shopping assistant, gathering official prices of world's top fashion brands, sharing global discount and fashion information, providing shopping guides, helping you easily catch the trends of global luxury goods.";
 "user_vc_feedback_mail_title"="Feedbacks of Soyou";
@@ -121,6 +121,7 @@
 "settings_vc_cell_credits"="Credits";
 "settings_vc_cell_feedback"="Send feedbacks";
 "settings_vc_cell_review"="Write reviews";
+"settings_vc_cell_share"="Share with friends";
 "settings_vc_cell_language"="Language";
 "settings_vc_cell_language_set_title"="设置成功";
 "settings_vc_cell_language_set_subtitle"="新语言将在应用重启后生效。\n重启方法：双击主键打开多任务界面，上滑 Soyou 退出应用，然后再在桌面点击『奢有』。";

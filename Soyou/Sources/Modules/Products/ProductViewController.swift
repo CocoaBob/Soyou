@@ -490,6 +490,8 @@ extension ProductViewController {
     }
     
     func share(sender: UIBarButtonItem) {
+        MBProgressHUD.showLoader(self.view)
+        
         var productID: String?
         var title: String?
         var htmlString: String?
@@ -547,7 +549,9 @@ extension ProductViewController {
         if let productID = productID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)") {
             items.append(item)
         }
-        Utils.shareItems(items)
+        Utils.shareItems(items, completion: { () -> Void in
+            MBProgressHUD.hideLoader(self.view)
+        })
     }
     
     func like(sender: UIBarButtonItem) {

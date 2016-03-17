@@ -123,6 +123,7 @@
 "settings_vc_cell_credits"="团队";
 "settings_vc_cell_feedback"="联系我们";
 "settings_vc_cell_review"="给个好评";
+"settings_vc_cell_share"="分享给朋友";
 "settings_vc_cell_language"="语言";
 "settings_vc_cell_language_set_title"="Set successfully";
 "settings_vc_cell_language_set_subtitle"="Please relaunch Soyou to activate the new language.";

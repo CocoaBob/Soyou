@@ -178,9 +178,7 @@ extension UserViewController {
             Utils.shared.sendFeedbackEmail(self)
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_share"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-            if let image = UIImage(named: "img_share_icon"), url = NSURL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
-                Utils.shareItems([image, NSLocalizedString("user_vc_feedback_alert_share_title"), NSLocalizedString("user_vc_feedback_alert_share_description"), url])
-            }
+            Utils.shareApp()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_close"), style: UIAlertActionStyle.Cancel, handler: nil))
         self.presentViewController(alertController, animated: true, completion: nil)

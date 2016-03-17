@@ -39,10 +39,30 @@ extension Utils {
 // MARK: Share
 extension Utils {
     
-    class func shareItems(items: [AnyObject]) {
+    class func shareItems(items: [AnyObject], completion: (() -> Void)?) {
+        guard let keyWindow = UIApplication.sharedApplication().keyWindow else { return }
         let activityView = UIActivityViewController(activityItems: items, applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
         activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(activityView, animated: true, completion: nil)
+        let rootVC = keyWindow.rootViewController
+        if let presentedVC = rootVC?.presentedViewController {
+            presentedVC.presentViewController(activityView, animated: true, completion: completion)
+        } else {
+            rootVC?.presentViewController(activityView, animated: true, completion: completion)
+        }
+    }
+    
+    class func shareApp() {
+        guard let keyWindow = UIApplication.sharedApplication().keyWindow else { return }
+        MBProgressHUD.showLoader(keyWindow)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            if let image = UIImage(named: "img_share_icon"), url = NSURL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
+                Utils.shareItems(
+                    [image, NSLocalizedString("user_vc_feedback_alert_share_title"), NSLocalizedString("user_vc_feedback_alert_share_description"), url],
+                    completion: { () -> Void in
+                    MBProgressHUD.hideLoader(keyWindow)
+                })
+            }
+        }
     }
 }
 

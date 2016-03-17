@@ -522,6 +522,8 @@ extension NewsDetailViewController {
     }
     
     func share(sender: UIBarButtonItem) {
+        MBProgressHUD.showLoader(self.view)
+        
         var htmlString: String?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
@@ -564,7 +566,9 @@ extension NewsDetailViewController {
         if let newsID = self.newsId, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)") {
             items.append(item)
         }
-        Utils.shareItems(items)
+        Utils.shareItems(items, completion: { () -> Void in
+            MBProgressHUD.hideLoader(self.view)
+        })
     }
     
     func like(sender: UIBarButtonItem) {

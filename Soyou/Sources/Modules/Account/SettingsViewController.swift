@@ -36,6 +36,14 @@ class SettingsViewController: SimpleTableViewController {
         // Update cache size
         self.calculateCacheSize()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Reload table in case UserInfo is updated
+        rebuildTable()
+        self.tableView.reloadData()
+    }
 }
 
 // MARK: Build hierarchy
@@ -51,14 +59,14 @@ extension SettingsViewController {
                         subTitle: Text(text: CurrencyManager.shared.userCurrencyName),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeMyCurrency()
-                        }),
+                    }),
                     Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_language")),
                         subTitle: Text(text: CurrencyManager.shared.languageName(NSLocale.preferredLanguages().first ?? "")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeLanguage()
-                        })
+                    })
                 ]
             ),
             Section(
@@ -68,31 +76,37 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_intro")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             IntroViewController.shared.showIntroView()
-                        }),
+                    }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_about")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showAbout()
-                        }),
+                    }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_credits")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showCredits()
-                        }),
+                    }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_feedback")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
-                        }),
+                    }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
                         title: Text(text: NSLocalizedString("settings_vc_cell_review")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
-                        }),
+                    }),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_share")),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.share()
+                    }),
                 ]
             ),
             Section(
@@ -102,7 +116,7 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.clearCache()
-                        })
+                    })
                 ]
             )
         ]
@@ -190,6 +204,10 @@ extension SettingsViewController {
         Utils.openAppStorePage()
     }
     
+    func share() {
+        Utils.shareApp()
+    }
+    
     func changeLanguage() {
         var currentLanguageSelection: String?
         let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
@@ -219,7 +237,7 @@ extension SettingsViewController {
                         simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
                         simpleViewController.tableView.endUpdates()
                     }
-                })
+            })
             rows.append(row)
         }
         simpleViewController.sections = [
@@ -308,7 +326,7 @@ extension SettingsViewController {
                         simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
                         simpleViewController.tableView.endUpdates()
                     }
-                })
+            })
             rows.append(row)
         }
         simpleViewController.sections = [
@@ -336,8 +354,8 @@ extension SettingsViewController {
                         if let error = error {
                             DataManager.showRequestFailedAlert(error)
                         } else {
-                            CurrencyManager.shared.userCurrency = selectedCurrencyCode ?? ""
                             simpleViewController.navigationController?.popViewControllerAnimated(true)
+                            CurrencyManager.shared.userCurrency = selectedCurrencyCode ?? ""
                         }
                     })
                 }
@@ -367,7 +385,7 @@ extension SettingsViewController {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             // Size in string
             let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1048576.0) : "..."
-
+            
             // Update table
             var row = self.sections[2].rows[0]
             row.title?.text = cacheSize != nil ? (NSLocalizedString("settings_vc_cell_clear_cache") + " (" + strSize + ")") : NSLocalizedString("settings_vc_cell_clearing_cache")
