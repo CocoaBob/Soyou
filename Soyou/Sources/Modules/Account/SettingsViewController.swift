@@ -54,14 +54,14 @@ extension SettingsViewController {
             Section(
                 rows: [
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_currency")),
                         subTitle: Text(text: CurrencyManager.shared.userCurrencyName),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeMyCurrency()
                     }),
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_language")),
                         subTitle: Text(text: CurrencyManager.shared.languageName(NSLocale.preferredLanguages().first ?? "")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -71,38 +71,56 @@ extension SettingsViewController {
             ),
             Section(
                 rows: [
+                    Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? .None : . Default),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_notification")),
+                        subTitle: Text(text: NSLocalizedString(UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? "settings_vc_cell_notification_enabled" : "settings_vc_cell_notification_not_enabled")),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.openSettings()
+                    }),
+                    Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: (CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) ? .None : . Default),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_localization")),
+                        subTitle: Text(text: NSLocalizedString((CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) ? "settings_vc_cell_localization_enabled" : "settings_vc_cell_localization_not_enabled")),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.openSettings()
+                    })
+                ]
+            ),
+            Section(
+                rows: [
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_intro")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             IntroViewController.shared.showIntroView()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_about")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showAbout()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_credits")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showCredits()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_feedback")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_review")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_share")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.share()
@@ -221,7 +239,7 @@ extension SettingsViewController {
         var rows = [Row]()
         for (langCode, countryCode) in langCode {
             let row = Row(type: .IconTitle,
-                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None),
                 image: UIImage(flagImageWithCountryCode: countryCode),
                 title: Text(text: CurrencyManager.shared.languageName(langCode) ?? ""),
                 userInfo: ["language":langCode],
@@ -311,7 +329,7 @@ extension SettingsViewController {
                 }
             }
             let row = Row(type: .IconTitle,
-                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None),
                 image: image,
                 title: Text(text: currencyName),
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -365,6 +383,12 @@ extension SettingsViewController {
         self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
     
+    func openSettings() {
+        if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+    
     func clearCache() {
         self.updateCacheSize(nil)
         
@@ -387,9 +411,9 @@ extension SettingsViewController {
             let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1048576.0) : "..."
             
             // Update table
-            var row = self.sections[2].rows[0]
+            var row = self.sections[3].rows[0]
             row.title?.text = cacheSize != nil ? (NSLocalizedString("settings_vc_cell_clear_cache") + " (" + strSize + ")") : NSLocalizedString("settings_vc_cell_clearing_cache")
-            self.sections[2].rows = [row]
+            self.sections[3].rows = [row]
             self.tableView.reloadData()
         })
     }

@@ -129,6 +129,12 @@
 "settings_vc_cell_language_set_done"="完成";
 "settings_vc_cell_currency"="My currency";
 "settings_vc_cell_choose_currency"="Choose my currency";
+"settings_vc_cell_notification"="Push Notifications";
+"settings_vc_cell_notification_enabled"="Enabled";
+"settings_vc_cell_notification_not_enabled"="Not enabled";
+"settings_vc_cell_localization"="Location service";
+"settings_vc_cell_localization_enabled"="Enabled";
+"settings_vc_cell_localization_not_enabled"="Not enabled";
 
 /* Data Manager */
 "data_manager_updating_data"="Updating products data...";

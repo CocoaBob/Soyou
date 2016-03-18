@@ -114,11 +114,11 @@ extension AppDelegate {
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        DLog("userInfo=\(error.localizedDescription)")
+        DLog(error)
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        DLog("userInfo=\(userInfo)")
+        DLog(userInfo)
     }
 
 }

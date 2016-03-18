@@ -189,6 +189,8 @@ extension IntroViewController: CLLocationManagerDelegate {
         }
     }
     
+    // Notifications
+    // Cons.Usr.DidRegisterForRemoteNotifications
     func didRegisterForRemoteNotifications() {
         if UIApplication.sharedApplication().isRegisteredForRemoteNotifications() {
             if let page = self.introView?.pages[IntroViewPage.News.rawValue] as? EAIntroPage {

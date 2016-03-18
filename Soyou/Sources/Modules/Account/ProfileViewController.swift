@@ -50,14 +50,14 @@ extension ProfileViewController {
             Section(
                 rows: [
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_username")),
                         subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_empty")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeUsername()
                         }),
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_email")),
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -68,14 +68,14 @@ extension ProfileViewController {
             Section(
                 rows: [
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_region")),
                         subTitle: Text(text: CurrencyManager.shared.countryName(UserManager.shared.region ?? "") ?? NSLocalizedString("user_info_region_unknown")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeRegion()
                         }),
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("profile_vc_cell_basics_gender")),
                         subTitle: Text(text: UserManager.shared.gender),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
@@ -233,7 +233,7 @@ extension ProfileViewController {
             var rows = [Row]()
             for regionCode in regionCodes {
                 let row = Row(type: .IconTitle,
-                    cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                    cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None),
                     image: UIImage(flagImageWithCountryCode: regionCode),
                     title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? ""),
                     userInfo: ["code":regionCode],
@@ -303,7 +303,7 @@ extension ProfileViewController {
         var rows = [Row]()
         for titleCode in ["user_info_gender_secret","user_info_gender_male","user_info_gender_female"] {
             let row = Row(type: .LeftTitle,
-                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None),
                 title: Text(text: NSLocalizedString(titleCode)),
                 didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                     simpleViewController.navigationItem.rightBarButtonItem?.enabled = (indexPath.row != UserManager.shared.genderIndex)

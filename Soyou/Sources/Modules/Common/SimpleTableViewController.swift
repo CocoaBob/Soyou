@@ -42,18 +42,21 @@ struct Text {
 struct Cell {
     var height: CGFloat?
     var tintColor: UIColor?
-    var accessoryType: UITableViewCellAccessoryType
     var separatorInset: UIEdgeInsets?
+    var accessoryType: UITableViewCellAccessoryType
+    var selectionStyle: UITableViewCellSelectionStyle
     
     init(
         height: CGFloat? = nil,
         tintColor: UIColor? = nil,
+        separatorInset: UIEdgeInsets? = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
         accessoryType: UITableViewCellAccessoryType = .None,
-        separatorInset: UIEdgeInsets? = nil) {
-        self.height = height
-        self.tintColor = tintColor
-        self.accessoryType = accessoryType
-        self.separatorInset = separatorInset
+        selectionStyle: UITableViewCellSelectionStyle = .Default) {
+            self.height = height
+            self.tintColor = tintColor
+            self.separatorInset = separatorInset
+            self.accessoryType = accessoryType
+            self.selectionStyle = selectionStyle
     }
 }
 
@@ -283,6 +286,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         }
         
         cell.accessoryType = row.cell.accessoryType
+        cell.selectionStyle = row.cell.selectionStyle
         if let separatorInset = row.cell.separatorInset {
             cell.separatorInset = separatorInset
         }

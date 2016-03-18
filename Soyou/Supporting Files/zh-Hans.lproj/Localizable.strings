@@ -131,6 +131,12 @@
 "settings_vc_cell_language_set_done"="Done";
 "settings_vc_cell_currency"="货币";
 "settings_vc_cell_choose_currency"="选择货币";
+"settings_vc_cell_notification"="推送通知";
+"settings_vc_cell_notification_enabled"="已启用";
+"settings_vc_cell_notification_not_enabled"="未启用";
+"settings_vc_cell_localization"="定位服务";
+"settings_vc_cell_localization_enabled"="已启用";
+"settings_vc_cell_localization_not_enabled"="未启用";
 
 /* Data Manager */
 "data_manager_updating_data"="正在更新产品数据...";

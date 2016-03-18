@@ -94,13 +94,13 @@ extension UserViewController {
                 title: NSLocalizedString("user_vc_cell_favs"),
                 rows: [
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_news")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showNewsFavorites()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, separatorInset: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_products")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.showProductsFavorites()
