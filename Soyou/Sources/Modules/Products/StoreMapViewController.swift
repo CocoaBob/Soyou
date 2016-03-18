@@ -40,13 +40,13 @@ class StoreMapViewController: UIViewController {
         self.calloutView = SMCalloutView.platformCalloutView()
         self.mapView.calloutView = self.calloutView
         
-        let leftButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
+        let leftButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
         leftButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
         leftButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
         leftButton.addTarget(self, action: "copyAddress:", forControlEvents: UIControlEvents.TouchUpInside)
         self.calloutView.leftAccessoryView = leftButton
         
-        let rightButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 32, height: 128))
+        let rightButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
         rightButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
         rightButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
         rightButton.addTarget(self, action: "openMap:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -185,10 +185,13 @@ extension StoreMapViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        if view is ClusterAnnotationView {
+        if (view is ClusterAnnotationView || view is MKPinAnnotationView) {
             // Zoom in for cluster annotation
             if let annotation = view.annotation as? CCHMapClusterAnnotation {
-                if (!annotation.isUniqueLocation()) {
+                if (annotation.isUniqueLocation()) {
+                    (self.calloutView.leftAccessoryView as? StoreMapAnnotationCalloutButton)?.annotation = annotation
+                    (self.calloutView.rightAccessoryView as? StoreMapAnnotationCalloutButton)?.annotation = annotation
+                } else {
                     var region = self.mapView.region
                     var span = region.span
                     span.latitudeDelta /= 2.0
@@ -197,9 +200,6 @@ extension StoreMapViewController: MKMapViewDelegate {
                     self.mapView.setRegion(region, animated: true)
                     return
                 }
-                
-                (self.calloutView.leftAccessoryView as? StoreMapAnnotationCalloutButton)?.annotation = annotation
-                (self.calloutView.rightAccessoryView as? StoreMapAnnotationCalloutButton)?.annotation = annotation
             }
             
             // apply the MKAnnotationView's basic properties
