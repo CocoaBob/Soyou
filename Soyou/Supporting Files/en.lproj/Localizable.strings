@@ -73,6 +73,7 @@
 /* Favorites View Controller */
 "fav_vc_title_news"="Favorite News";
 "fav_vc_title_products"="Favorite Products";
+"fav_vc_empty_label"="No favorite yet";
 
 /* Profile View Controller */
 "profile_vc_title"="Profile";

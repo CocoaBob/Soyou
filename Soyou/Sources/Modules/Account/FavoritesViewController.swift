@@ -15,6 +15,14 @@ class FavoritesViewController: BaseViewController {
     
     // Override BaseViewController
     @IBOutlet var _tableView: UITableView!
+    @IBOutlet var _emptyView: UIView!
+    @IBOutlet var _emptyViewLabel: UILabel!
+    
+    var isEmptyViewVisible: Bool = true {
+        didSet {
+            self._emptyView.hidden = !isEmptyViewVisible
+        }
+    }
 
     override func tableView() -> UITableView {
         return _tableView
@@ -69,6 +77,7 @@ class FavoritesViewController: BaseViewController {
         case .Products:
             self.title = NSLocalizedString("fav_vc_title_products")
         }
+        _emptyViewLabel.text = NSLocalizedString("fav_vc_empty_label")
         
         // Setup table
         self.tableView().tableFooterView = UIView(frame: CGRect.zero)
@@ -106,19 +115,21 @@ class FavoritesViewController: BaseViewController {
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        var returnValue = 0
         if let sections = self.fetchedResultsController?.sections {
-            return sections.count
-        } else {
-            return 0
+            returnValue = sections.count
         }
+        self.isEmptyViewVisible = returnValue == 0
+        return returnValue
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let returnValue = self.fetchedResultsController?.sections?[section].numberOfObjects {
-            return returnValue
-        } else {
-            return 0
+        var returnValue = 0
+        if let rows = self.fetchedResultsController?.sections?[section].numberOfObjects {
+            returnValue = rows
         }
+        self.isEmptyViewVisible = returnValue == 0
+        return returnValue
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
