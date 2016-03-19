@@ -12,6 +12,8 @@ class SettingsViewController: SimpleTableViewController {
     
     var cacheSize: Double = 0
     
+    private var locationManager: CLLocationManager?
+    
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -76,14 +78,22 @@ extension SettingsViewController {
                         title: Text(text: NSLocalizedString("settings_vc_cell_notification")),
                         subTitle: Text(text: NSLocalizedString(UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? "settings_vc_cell_notification_enabled" : "settings_vc_cell_notification_not_enabled")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil))
+                            UIApplication.sharedApplication().registerForRemoteNotifications()
                             self.openSettings()
                     }),
                     Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: (CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) ? .None : . Default),
                         title: Text(text: NSLocalizedString("settings_vc_cell_localization")),
-                        subTitle: Text(text: NSLocalizedString((CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) ? "settings_vc_cell_localization_enabled" : "settings_vc_cell_localization_not_enabled")),
+                        subTitle: Text(text: self.locationServiceStatus()),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.openSettings()
+                            if CLLocationManager.authorizationStatus() == .NotDetermined {
+                                self.locationManager = CLLocationManager()
+                                self.locationManager?.delegate = self
+                                self.locationManager?.requestWhenInUseAuthorization()
+                            } else {
+                                self.openSettings()
+                            }
                     })
                 ]
             ),
@@ -414,7 +424,7 @@ extension SettingsViewController {
             var row = self.sections[3].rows[0]
             row.title?.text = cacheSize != nil ? (NSLocalizedString("settings_vc_cell_clear_cache") + " (" + strSize + ")") : NSLocalizedString("settings_vc_cell_clearing_cache")
             self.sections[3].rows = [row]
-            self.tableView.reloadData()
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 3)], withRowAnimation: .Fade)
         })
     }
     
@@ -426,6 +436,21 @@ extension SettingsViewController {
         SDImageCache.sharedImageCache().calculateSizeWithCompletionBlock { (fileCount, totalSize) -> Void in
             self.cacheSize += Double(totalSize)
             self.updateCacheSize(self.cacheSize)
+        }
+    }
+}
+
+// MARK: Location Service
+extension SettingsViewController: CLLocationManagerDelegate {
+    
+    func locationServiceStatus() -> String {
+        return NSLocalizedString((CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) ? "settings_vc_cell_localization_enabled" : "settings_vc_cell_localization_not_enabled")
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.rebuildTable()
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 1)], withRowAnimation: .Fade)
         }
     }
 }
