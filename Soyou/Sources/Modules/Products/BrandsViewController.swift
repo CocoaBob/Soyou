@@ -60,7 +60,7 @@ class BrandsViewController: BaseViewController {
         
         // Setups
         self.setupCollectionView()
-        self.setupRefreshControls()
+//        self.setupRefreshControls()
         
         // Setup Search Controller
         self.setupSearchController()
