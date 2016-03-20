@@ -288,8 +288,7 @@ extension SettingsViewController {
                     if let userInfo = row.userInfo,
                         regionCode = userInfo["language"] as? String {
                             // Set language
-                            NSUserDefaults.standardUserDefaults().setObject([regionCode], forKey: "AppleLanguages")
-                            NSUserDefaults.standardUserDefaults().synchronize()
+                            UserDefaults.setObject([regionCode], forKey: "AppleLanguages")
                             
                             let alertView = SCLAlertView()
                             alertView.addButton(NSLocalizedString("settings_vc_cell_language_set_done")) { () -> Void in

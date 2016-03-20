@@ -371,6 +371,7 @@ class DataManager {
     
     func requestModifiedProductIDs(completion: CompletionClosure?) {
         let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampProductIDs)
+        DLog(FmtString("lastRequestTimestampProductIDs = %@",timestamp ?? ""))
         RequestManager.shared.requestModifiedProductIDs(
             timestamp, { responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
@@ -408,6 +409,7 @@ class DataManager {
     
     func requestDeletedProductIDs(completion: CompletionClosure?) {
         let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampDeletedProductIDs)
+        DLog(FmtString("lastRequestTimestampDeletedProductIDs = %@",timestamp ?? ""))
         RequestManager.shared.requestDeletedProductIDs(
             timestamp, { responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
@@ -457,6 +459,7 @@ class DataManager {
     
     func requestAllStores(completion: CompletionClosure?) {
         let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampStores)
+        DLog(FmtString("lastRequestTimestampStores = %@",timestamp ?? ""))
         RequestManager.shared.requestAllStores(timestamp, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary,
                 let stores = data["stores"] as? [NSDictionary] {
@@ -482,6 +485,12 @@ class DataManager {
     //////////////////////////////////////
     
     func updateData(completion: CompletionClosure?) {
+        if let lastUpdateDate = UserDefaults.objectForKey(Cons.App.lastUpdateDate) as? NSDate {
+            if NSDate().timeIntervalSinceDate(lastUpdateDate) < Cons.App.updateInterval {
+                return
+            }
+        }
+        
         if !self.isUpdatingData {
             self.isUpdatingData = true
             var cnt = 4
@@ -492,6 +501,7 @@ class DataManager {
                 if cnt == 0 {
                     self.completeWithData(nil, completion: completion)
                     self.isUpdatingData = false
+                    UserDefaults.setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
                 }
             }
             

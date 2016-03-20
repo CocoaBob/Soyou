@@ -62,7 +62,7 @@ class CurrencyManager {
     var userCurrency: String {
         get {
             if _userCurrency == nil {
-                if let storedUserCurrency = NSUserDefaults.standardUserDefaults().stringForKey(Cons.App.userCurrency) {
+                if let storedUserCurrency = UserDefaults.stringForKey(Cons.App.userCurrency) {
                     _userCurrency = (storedUserCurrency == "") ? "CNY" : storedUserCurrency
                 } else {
                     _userCurrency = "CNY"
@@ -75,8 +75,7 @@ class CurrencyManager {
             if _userCurrency == "" {
                 _userCurrency = "CNY"
             }
-            NSUserDefaults.standardUserDefaults().setObject(_userCurrency, forKey: Cons.App.userCurrency)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.setObject(_userCurrency, forKey: Cons.App.userCurrency)
         }
     }
     

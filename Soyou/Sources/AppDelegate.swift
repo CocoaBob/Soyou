@@ -127,8 +127,7 @@ extension AppDelegate {
 extension AppDelegate {
     
     func checkIfUpgraded() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let lastInstalledBuild = userDefaults.objectForKey(Cons.App.lastInstalledBuild) as? String
+        let lastInstalledBuild = UserDefaults.stringForKey(Cons.App.lastInstalledBuild)
         let currentAppBuild = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
         if let lastInstalledVersion = lastInstalledBuild, currentAppVersion = currentAppBuild {
             if lastInstalledVersion == currentAppVersion {
@@ -136,7 +135,7 @@ extension AppDelegate {
             }
         }
         
-        userDefaults.setObject(currentAppBuild, forKey: Cons.App.lastInstalledBuild)
+        UserDefaults.setObject(currentAppBuild, forKey: Cons.App.lastInstalledBuild)
         
         // Database schema changed in commit 417, delete old database
         if lastInstalledBuild == nil || Int(lastInstalledBuild ?? "0") < 417 {
