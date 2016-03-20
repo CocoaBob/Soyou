@@ -307,9 +307,14 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCellSectionHeader") as? TableViewCellSectionHeader else { return nil }
         let section = sections[section]
-        cell.lblTitle.text = section.title
+        guard let sectionTitle = section.title else {
+            return nil
+        }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCellSectionHeader") as? TableViewCellSectionHeader else {
+            return nil
+        }
+        cell.lblTitle.text = sectionTitle
         return cell
     }
     
