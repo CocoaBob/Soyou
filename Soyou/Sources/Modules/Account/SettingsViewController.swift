@@ -42,6 +42,18 @@ class SettingsViewController: SimpleTableViewController {
         rebuildTable()
         self.tableView.reloadData()
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        // Register notification
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshUI", name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Unregister notification
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
 }
 
 // MARK: Build hierarchy
@@ -430,6 +442,11 @@ extension SettingsViewController {
             self.cacheSize += Double(totalSize)
             self.updateCacheSize(self.cacheSize)
         }
+    }
+    
+    func refreshUI() {
+        self.rebuildTable()
+        self.tableView.reloadData()
     }
 }
 
