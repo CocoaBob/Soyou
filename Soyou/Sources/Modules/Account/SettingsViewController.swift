@@ -31,10 +31,6 @@ class SettingsViewController: SimpleTableViewController {
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
         
-        // Setup tableview
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
-        
         // Update cache size
         self.calculateCacheSize()
     }
@@ -170,7 +166,6 @@ extension SettingsViewController {
         }
         simpleViewController.sections = [
             Section(
-                title: " ",
                 rows: [
                     Row(type: .IconTitleContent,
                         cell: Cell(accessoryType: .None),
@@ -191,7 +186,6 @@ extension SettingsViewController {
         // Data
         simpleViewController.sections = [
             Section(
-                title: " ",
                 rows: [
                     Row(type: .IconTitleContent,
                         cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),

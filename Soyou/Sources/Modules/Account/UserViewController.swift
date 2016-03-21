@@ -91,7 +91,7 @@ extension UserViewController {
     override func rebuildTable() {
         self.sections = [
             Section(
-                title: NSLocalizedString("user_vc_cell_favs"),
+                headerTitle: NSLocalizedString("user_vc_cell_favs"),
                 rows: [
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator),

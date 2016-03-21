@@ -91,14 +91,17 @@ struct Row {
 }
 
 struct Section {
-    var title: String?
+    var headerTitle: String?
+    var footerTitle: String?
     var rows: [Row]
     
     init(
-        title: String? = nil,
+        headerTitle: String? = nil,
+        footerTitle: String? = nil,
         rows: [Row]) {
-        self.title = title
-        self.rows = rows
+            self.headerTitle = headerTitle
+            self.footerTitle = footerTitle
+            self.rows = rows
     }
 
 }
@@ -134,21 +137,22 @@ class SimpleTableViewController: UIViewController {
         if self.tableView == nil {
             self.tableView = UITableView(frame: self.view.bounds, style: self.tableStyle ?? .Grouped)
             self.tableView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
-            self.tableView.estimatedRowHeight = 44
-            self.tableView.rowHeight = UITableViewAutomaticDimension
             self.tableView.delegate = self
             self.tableView.dataSource = self
-            self.tableView.tableFooterView = UIView(frame: CGRect.zero)
             self.view.addSubview(self.tableView)
         }
         
+        self.tableView.estimatedRowHeight = 44
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+//        self.tableView.estimatedSectionHeaderHeight = 15
+//        self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+//        self.tableView.estimatedSectionFooterHeight = 5
+//        self.tableView.sectionFooterHeight = UITableViewAutomaticDimension
+//        self.tableView.tableHeaderView = UIView(frame: CGRect.zero)
+//        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
         // Background Color
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
-        
-        // Setup table data
-        if sections.isEmpty {
-            self.rebuildTable()
-        }
         
         // Register custom cells
         self.tableView.registerNib(UINib(nibName: "TableViewCellCenterTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "CenterTitle")
@@ -156,8 +160,12 @@ class SimpleTableViewController: UIViewController {
         self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitleContent", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitleContent")
         self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitle")
         self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitleRightDetail", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitleRightDetail")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellSectionHeader", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TableViewCellSectionHeader")
         self.tableView.registerNib(UINib(nibName: "TableViewCellTextField", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TextField")
+        
+        // Setup table data
+        if sections.isEmpty {
+            self.rebuildTable()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -301,21 +309,33 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         return cell
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let row = sections[indexPath.section].rows[indexPath.row]
+        return row.cell.height ?? UITableViewAutomaticDimension
+    }
+    
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = sections[section]
-        return section.title
+        return sections[section].headerTitle
+    }
+        
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return (sections[section].headerTitle != nil) ? UITableViewAutomaticDimension : 15
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let section = sections[section]
-        guard let sectionTitle = section.title else {
-            return nil
-        }
-        guard let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCellSectionHeader") as? TableViewCellSectionHeader else {
-            return nil
-        }
-        cell.lblTitle.text = sectionTitle
-        return cell
+        return nil
+    }
+    
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return sections[section].footerTitle
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return (sections[section].footerTitle != nil) ? UITableViewAutomaticDimension : 5
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return nil
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -327,11 +347,6 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         }
         
         self.selectedIndexPath = indexPath
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let row = sections[indexPath.section].rows[indexPath.row]
-        return row.cell.height ?? UITableViewAutomaticDimension
     }
 }
 
