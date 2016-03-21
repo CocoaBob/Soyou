@@ -24,5 +24,8 @@ class Themes {
         // UIToolbar
         UIToolbar.appearance().translucent = true
         UIToolbar.appearance().tintColor = UIColor(rgba: Cons.UI.colorToolbar)
+        
+        // UITableViewHeaderFooterView
+        UITableViewHeaderFooterView.appearance().tintColor = UIColor.clearColor()
     }
 }
