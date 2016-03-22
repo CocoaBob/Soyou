@@ -35,7 +35,7 @@ PODS:
   - FCUUID (1.2.0):
     - UICKeyChainStore (~> 2.1.0)
   - FlagKit (1.0.7)
-  - IDMPhotoBrowser (1.8.1):
+  - IDMPhotoBrowser (1.8.2):
     - DACircularProgress
     - pop
     - SDWebImage
@@ -57,9 +57,9 @@ PODS:
   - SMCalloutView (2.1.5)
   - SVWebViewController (1.0)
   - UICKeyChainStore (2.1.0)
-  - UIColor_Hex_Swift (1.9)
+  - UIColor_Hex_Swift (2.0)
   - UIImage-ResizeMagick (0.0.1)
-  - UIView+Shake (1.1.4)
+  - UIView+Shake (1.1.5)
   - ZoomInteractiveTransition (0.4.0)
 
 DEPENDENCIES:
@@ -135,7 +135,7 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FlagKit: ede020f33c7bc105ab52bf189b4e5b5d46c94a4c
-  IDMPhotoBrowser: 99eccfe6431e182f64e2fe57ac654316fbf81576
+  IDMPhotoBrowser: 52ac15203a73da002a7501ac7c6651a4cd761b4e
   libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
@@ -150,9 +150,9 @@ SPEC CHECKSUMS:
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
-  UIColor_Hex_Swift: 2ee747c0fed8b72b2135ef474b80a6921e489daa
+  UIColor_Hex_Swift: 07130bb5cc010905acc970609255edf4d80f06c8
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
-  UIView+Shake: eb0e1906c5667d73025967fe9bd96c436399df26
+  UIView+Shake: 2d2185006d38ee5daed07f14c0989f703f86682f
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
 COCOAPODS: 0.39.0
