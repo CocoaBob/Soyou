@@ -30,6 +30,7 @@ pod "SCLAlertView"
 pod "SDWebImage"
 pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :commit => 'bad0864b06019d764519dab9a53409de889c87fc'
 pod "SVWebViewController"
+#pod "SwiftyJSON"
 pod "UICKeyChainStore"
 pod "UIColor_Hex_Swift"
 pod "UIImage-ResizeMagick"

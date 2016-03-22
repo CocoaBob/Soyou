@@ -18,6 +18,7 @@
 #import <libWeChatSDK/WXApi.h>
 
 @import OnePasswordExtension;
+//@import Alamofire;
 @import ActionSheetPicker_3_0;
 @import AFNetworking;
 @import Base64nl;
@@ -40,6 +41,7 @@
 @import SDWebImage;
 @import SMCalloutView;
 @import SVWebViewController;
+//@import SwiftyJSON;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
 @import UIImage_ResizeMagick;
