@@ -106,7 +106,7 @@ func NSLocalizedString(key: String) -> String {
  :param: function The name of the function, defaults to the function within which the call is made.
  :param: line     The line number, defaults to the line number within the file that the call is made.
  */
-func DLog<T>(@autoclosure object: () -> T, _ file: String = __FILE__, _ function: String = __FUNCTION__, _ line: Int = __LINE__) {
+func DLog<T>(@autoclosure object: () -> T, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
         

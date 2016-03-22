@@ -361,7 +361,7 @@ extension ProductsViewController: UISearchResultsUpdating {
     
     func startSearchTimer() {
         stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "reloadData", userInfo: nil, repeats: false)
+        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(BaseViewController.reloadData), userInfo: nil, repeats: false)
     }
     
     func stopSearchTimer() {
@@ -408,7 +408,7 @@ extension ProductsViewController: UISearchBarDelegate {
 extension ProductsViewController: UISearchControllerDelegate {
     
     func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: #selector(ProductsViewController.showSearchController))
     }
     
     func showSearchController() {

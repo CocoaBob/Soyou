@@ -68,7 +68,7 @@ extension StoreMapSearchResultsViewController: UISearchResultsUpdating {
     
     func startSearchTimer() {
         stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "searchAddress", userInfo: nil, repeats: false)
+        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(StoreMapSearchResultsViewController.searchAddress), userInfo: nil, repeats: false)
     }
     
     func stopSearchTimer() {

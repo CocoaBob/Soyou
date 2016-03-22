@@ -461,7 +461,7 @@ extension BrandViewController {
 extension BrandViewController: UISearchControllerDelegate {
     
     func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showSearchController")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: #selector(BrandViewController.showSearchController))
     }
     
     func showSearchController() {

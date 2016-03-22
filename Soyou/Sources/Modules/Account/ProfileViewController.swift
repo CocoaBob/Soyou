@@ -27,7 +27,7 @@ class ProfileViewController: SimpleTableViewController {
         super.viewDidLoad()
         
         // Navigation Bar Items
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(UIViewController.dismissSelf))
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -110,7 +110,7 @@ extension ProfileViewController {
     func changeUsername() {
         let simpleViewController = SimpleTableViewController()
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_account_username")
         // Data
         simpleViewController.sections = [
@@ -147,7 +147,7 @@ extension ProfileViewController {
     func changeEmail() {
         let simpleViewController = SimpleTableViewController()
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_account_email")
         // Data
         simpleViewController.sections = [
@@ -221,7 +221,7 @@ extension ProfileViewController {
     func changeRegion() {
         let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
         simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_region")
         // Data
@@ -293,7 +293,7 @@ extension ProfileViewController {
     func changeGender() {
         let simpleViewController = SimpleTableViewController()
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
         simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
         // Data

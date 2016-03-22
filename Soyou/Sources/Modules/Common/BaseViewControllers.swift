@@ -52,7 +52,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
 //            }
 //        })
         
-        // Fetch in background than reload display in main thread
+        // Fetch in background then reload display in main thread
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
             do {
                 try self.fetchedResultsController?.performFetch()

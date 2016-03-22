@@ -116,10 +116,10 @@ extension UIViewController {
     
     // Should be called in viewWillAppear:
     func keyboardControlInstall() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillChangeFrame:", name: UIKeyboardWillChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidChangeFrame:", name: UIKeyboardDidChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillChangeFrame(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardDidChangeFrame(_:)), name: UIKeyboardDidChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     // Should be called in viewDidDisappear:
@@ -212,7 +212,7 @@ extension UIViewController {
             objc_setAssociatedObject(self, &__originalRightBarButtonItemKey, navigationItem.rightBarButtonItem, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             objc_setAssociatedObject(self, &__originalRightBarButtonItemsKey, navigationItem.rightBarButtonItems, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             UIView.setAnimationsEnabled(false)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .Plain, target: self, action: "dismissKeyboard")
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .Plain, target: self, action: #selector(UIViewController.dismissKeyboard))
             navigationItem.rightBarButtonItem?.tag = __dismissKeyboardBarButtonItemTag
             UIView.setAnimationsEnabled(true)
         }

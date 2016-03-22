@@ -217,7 +217,8 @@ class DataManager {
     
     func requestProductFavorites(completion: CompletionClosure?) {
         let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
-            if let data = responseObject?["data"] as? [NSDictionary] {
+            if let responseObject = responseObject as? [String:AnyObject],
+                data = responseObject["data"] as? [NSDictionary] {
                 FavoriteProduct.updateWithData(data, completion)
             }
         }
@@ -356,8 +357,9 @@ class DataManager {
             self.completeWithError(error, completion: completion)
             return
         }
-        let timestamp = responseObject?["timestamp"] as? String
-        if let productIDs = responseObject?["products"] as? [NSNumber] {
+        if let responseObject = responseObject as? [String:AnyObject],
+            timestamp = responseObject["timestamp"] as? String,
+            productIDs = responseObject["products"] as? [NSNumber] {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
@@ -389,9 +391,10 @@ class DataManager {
             self.completeWithError(error, completion: completion)
             return
         }
-        if let productIDs = responseObject?["products"] as? [NSNumber] {
+        if let responseObject = responseObject as? [String:AnyObject],
+            productIDs = responseObject["products"] as? [NSNumber] {
             DLog(FmtString("Number of deleted products = %d",productIDs.count))
-            let timestamp = responseObject?["timestamp"] as? String
+            let timestamp = responseObject["timestamp"] as? String
             self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampDeletedProductIDs)
             MagicalRecord.saveWithBlock({ (localContext) -> Void in
                 if let products = Product.MR_findAllWithPredicate(FmtPredicate("id IN %@", productIDs), inContext: localContext) {
@@ -496,7 +499,7 @@ class DataManager {
             var cnt = 4
             
             let completionClosure: CompletionClosure = { responseObject, error in
-                --cnt
+                cnt -= 1
                 DLog(cnt)
                 if cnt == 0 {
                     self.completeWithData(nil, completion: completion)

@@ -191,7 +191,7 @@ class CurrencyManager {
         }
         
         DataManager.shared.requestCurrencyChanges(currencyChanges) { responseObject, error in
-            if let responseObject = responseObject,
+            if let responseObject = responseObject as? [String:AnyObject],
                 query = responseObject["query"] as? NSDictionary,
                 cnt = query["count"] as? Int,
                 time = query["created"] as? String,

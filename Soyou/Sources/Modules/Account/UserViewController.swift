@@ -42,8 +42,8 @@ class UserViewController: SimpleTableViewController {
         self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
         
         // Setup avatar action
-        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "avatarAction"))
-        self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "avatarAction"))
+        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
+        self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
         
         // Username shadow
         self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).CGColor

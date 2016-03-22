@@ -93,7 +93,7 @@ class LoginViewController: UIViewController {
         }
         
         // Navigation Bar Items
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "dismissSelf")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(UIViewController.dismissSelf))
         
         // One Password Extension
         self.addOnePasswordButton()
@@ -385,13 +385,13 @@ extension LoginViewController {
             let opImage = UIImage(named: "onepassword-navbar")
             switch self.type {
             case .Login:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "findLoginFrom1Password:")
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.findLoginFrom1Password(_:)))
             case .Register:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "saveLoginTo1Password:")
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.saveLoginTo1Password(_:)))
             case .ForgetPassword:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "findLoginFrom1Password:")
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.findLoginFrom1Password(_:)))
             case .ResetPassword:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: "changePasswordIn1Password:")
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.changePasswordIn1Password(_:)))
             }
         }
     }

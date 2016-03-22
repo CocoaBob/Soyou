@@ -29,7 +29,7 @@ class SettingsViewController: SimpleTableViewController {
         super.viewDidLoad()
         
         // Navigation Bar Items
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissSelf")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(UIViewController.dismissSelf))
         
         // Update cache size
         self.calculateCacheSize()
@@ -46,7 +46,7 @@ class SettingsViewController: SimpleTableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         // Register notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshUI", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsViewController.refreshUI), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -246,7 +246,7 @@ extension SettingsViewController {
         var currentLanguageSelection: String?
         let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
         simpleViewController.title = NSLocalizedString("settings_vc_cell_language")
         // Data
@@ -312,7 +312,7 @@ extension SettingsViewController {
     func changeMyCurrency() {
         let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: "doneAction")
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
         simpleViewController.title = NSLocalizedString("settings_vc_cell_choose_currency")
         // Data

@@ -290,7 +290,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             if let font = row.title?.font {
                 rowCell.tfTitle.font = font
             }
-            rowCell.tfTitle.addTarget(self, action: "textFieldDidEdit:", forControlEvents: UIControlEvents.EditingChanged)
+            rowCell.tfTitle.addTarget(self, action: #selector(SimpleTableViewController.textFieldDidEdit(_:)), forControlEvents: UIControlEvents.EditingChanged)
         }
         
         cell.accessoryType = row.cell.accessoryType

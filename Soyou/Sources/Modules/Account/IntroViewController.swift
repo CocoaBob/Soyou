@@ -24,7 +24,7 @@ class IntroViewController: NSObject {
     
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRegisterForRemoteNotifications", name: Cons.Usr.DidRegisterForRemoteNotifications, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IntroViewController.didRegisterForRemoteNotifications), name: Cons.Usr.DidRegisterForRemoteNotifications, object: nil)
     }
     
     deinit {
@@ -104,7 +104,7 @@ extension IntroViewController {
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
             actionButton.setTitle(NSLocalizedString("intro_vc_enable_location"), forState: .Normal)
-            actionButton.addTarget(self, action: "enableLocation:", forControlEvents: .TouchUpInside)
+            actionButton.addTarget(self, action: #selector(IntroViewController.enableLocation(_:)), forControlEvents: .TouchUpInside)
             introPage.subviews = [actionButton]
         }
         
@@ -120,7 +120,7 @@ extension IntroViewController {
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
             actionButton.setTitle(NSLocalizedString("intro_vc_enable_notification"), forState: .Normal)
-            actionButton.addTarget(self, action: "enableNotification:", forControlEvents: .TouchUpInside)
+            actionButton.addTarget(self, action: #selector(IntroViewController.enableNotification(_:)), forControlEvents: .TouchUpInside)
             introPage.subviews = [actionButton]
         }
         

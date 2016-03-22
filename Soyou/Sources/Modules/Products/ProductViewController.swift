@@ -83,19 +83,19 @@ class ProductViewController: UIViewController {
         self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
         self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
-        self.btnLike?.addTarget(self, action: "like:", forControlEvents: .TouchUpInside)
+        self.btnLike?.addTarget(self, action: #selector(ProductViewController.like(_:)), forControlEvents: .TouchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clearColor()
         self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
         self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
-        self.btnFav?.addTarget(self, action: "star:", forControlEvents: .TouchUpInside)
+        self.btnFav?.addTarget(self, action: #selector(ProductViewController.star(_:)), forControlEvents: .TouchUpInside)
         
-        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
-        let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: "back:")
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
+        let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: #selector(ProductViewController.back(_:)))
         let like = UIBarButtonItem(customView: self.btnLike!)
         let fav = UIBarButtonItem(customView: self.btnFav!)
-        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: "share:")
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: #selector(ProductViewController.share(_:)))
         (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
         
         self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
@@ -427,9 +427,9 @@ extension ProductViewController {
                 self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
                 if let productID = localProduct.id {
                     DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
-                        guard let data = responseObject?["data"] else { return }
-                        
-                        if let likeNumber = data?["likeNumber"] as? NSNumber {
+                        if let responseObject = responseObject as? [String:AnyObject],
+                            data = responseObject["data"] as? [String:AnyObject],
+                            likeNumber = data["likeNumber"] as? NSNumber {
                             self.likeBtnNumber = likeNumber.integerValue
                         }
                     }
