@@ -17,7 +17,6 @@ extension Product {
     @NSManaged var appImageRatio: NSNumber?
     @NSManaged var appIsLiked: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
-    @NSManaged var appPricesCount: NSNumber?
     @NSManaged var appSearchText: String?
     @NSManaged var brandId: NSNumber?
     @NSManaged var brandLabel: String?

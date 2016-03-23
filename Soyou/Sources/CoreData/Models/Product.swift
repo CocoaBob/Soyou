@@ -50,10 +50,8 @@ class Product: BaseModel {
                 product.likeNumber = data["likeNumber"] as? NSNumber
                 if let prices = data["prices"] as? NSArray {
                     product.prices = Utils.encrypt(prices)
-                    product.appPricesCount = prices.count
                 } else {
                     product.prices = nil
-                    product.appPricesCount = 0
                 }
                 product.order = data["order"] as? NSNumber
                 
@@ -65,12 +63,12 @@ class Product: BaseModel {
                 product.title = data["title"] as? String
                 
                 var searchText = ""
-                searchText += normalized(product.brandLabel)
+                searchText += normalizedSearchText(product.brandLabel)
                 searchText += product.descriptions ?? ""
-                searchText += normalized(product.keywords)
-                searchText += normalized(product.reference)
-                searchText += normalized(product.surname)
-                searchText += normalized(product.title)
+                searchText += normalizedSearchText(product.keywords)
+                searchText += normalizedSearchText(product.reference)
+                searchText += normalizedSearchText(product.surname)
+                searchText += normalizedSearchText(product.title)
                 
                 searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 if searchText.characters.isEmpty {
@@ -173,7 +171,8 @@ class Product: BaseModel {
         }
     }
     
-    class func normalized(text: String?) -> String {
+    // Remove all characters that are not alphabets/syllabaries/ideographs/digits
+    class func normalizedSearchText(text: String?) -> String {
         if let text = text {
             return " " + text.componentsSeparatedByCharactersInSet(NSCharacterSet.alphanumericCharacterSet().invertedSet).joinWithSeparator("").lowercaseString
         } else {

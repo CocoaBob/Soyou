@@ -66,7 +66,7 @@ class ProductsViewController: BaseViewController {
         }
         
         let request = Product.MR_requestAllSortedBy(
-            self.isSearchResultsViewController ? "appPricesCount:false,order:true,id:true" : "order,id",
+            "order,id",
             ascending: true,
             withPredicate: NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates),
             inContext: context)
@@ -332,11 +332,12 @@ extension ProductsViewController {
     
     override func reloadData() {
         // Show indicator
-        _loadingIndicator.text = NSLocalizedString("products_vc_loading")
-        self.isLoadingIndicatorVisible = true
+        self.showLoadingIndicator()
         
         // Reload Data
         super.reloadData()
+        
+        // After searching is completed
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
             if let sections = self.fetchedResultsController?.sections {
                 if !sections.isEmpty {
@@ -349,15 +350,24 @@ extension ProductsViewController {
                 }
             }
             if self.searchTexts != nil {
-                self._loadingIndicator.text = NSLocalizedString("products_vc_no_data")
+                self.showNoDataIndicator()
             }
-            self.isLoadingIndicatorVisible = true
         }
     }
 }
 
 // MARK: UISearchResultsUpdating
 extension ProductsViewController: UISearchResultsUpdating {
+    
+    func showNoDataIndicator() {
+        _loadingIndicator.text = NSLocalizedString("products_vc_no_data")
+        self.isLoadingIndicatorVisible = true
+    }
+    
+    func showLoadingIndicator() {
+        _loadingIndicator.text = NSLocalizedString("products_vc_loading")
+        self.isLoadingIndicatorVisible = true
+    }
     
     func startSearchTimer() {
         stopSearchTimer()
@@ -372,34 +382,53 @@ extension ProductsViewController: UISearchResultsUpdating {
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         self.stopSearchTimer()
         
+        var newSearchTexts: [String]?
         if searchController.active {
-            _loadingIndicator.text = NSLocalizedString("products_vc_loading")
-            self.isLoadingIndicatorVisible = true
 //            self.isQuickSearch = false
-            self.searchSearchBarText(searchController.searchBar)
+            newSearchTexts = self.splittedSearchTexts(searchController.searchBar.text)
         } else {
-            self.searchTexts = nil
+            newSearchTexts = nil
         }
         
-        self.startSearchTimer()
+        let oldSearchTexts = self.searchTexts
+        self.searchTexts = newSearchTexts
+        
+        if newSearchTexts == nil && oldSearchTexts == nil {
+            // Same, no need to search
+            return
+        } else if let newSearchTexts = newSearchTexts, oldSearchTexts = oldSearchTexts {
+            if newSearchTexts == oldSearchTexts {
+                // Same, no need to search
+                return
+            }
+        }
+        
+        // Ready to search
+        self.showLoadingIndicator()
+        
+        if newSearchTexts == nil {
+            self.reloadData()
+        } else {
+            self.startSearchTimer()
+        }
     }
 }
 
 // MARK: - UISearchBarDelegate
 extension ProductsViewController: UISearchBarDelegate {
     
-    func searchSearchBarText(searchBar: UISearchBar) {
-        if let searchText = searchBar.text {
-            let searchTexts = searchText.componentsSeparatedByString(" ")
-            self.searchTexts = searchTexts.map({Product.normalized($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
+    func splittedSearchTexts(searchText: String?) -> [String]? {
+        if let searchText = searchText {
+            let searchTexts = searchText.characters.split() { $0 == " " }.flatMap() { String($0) }
+            return searchTexts.map({Product.normalizedSearchText($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
         } else {
-            self.searchTexts = nil
+            return nil
         }
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 //        self.isQuickSearch = true
-        self.searchSearchBarText(searchBar)
+        self.searchTexts = self.splittedSearchTexts(searchBar.text)
         self.reloadData()
     }
 }
