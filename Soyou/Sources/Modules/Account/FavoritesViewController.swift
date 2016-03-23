@@ -89,7 +89,7 @@ class FavoritesViewController: BaseViewController {
         setupRefreshControls()
         
         // Load data
-        self.reloadData()
+        self.reloadData(nil)
     }
     
     override func viewWillAppear(animated: Bool) {

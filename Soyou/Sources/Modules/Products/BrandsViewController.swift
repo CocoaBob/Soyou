@@ -66,7 +66,7 @@ class BrandsViewController: BaseViewController {
         self.setupSearchController()
         
         // Load data
-        self.reloadData()
+        self.reloadData(nil)
         
         // Transitions
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)

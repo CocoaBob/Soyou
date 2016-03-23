@@ -60,7 +60,7 @@ class NewsViewController: BaseViewController {
         
         // Data
         loadData(nil)
-        self.reloadData()
+        self.reloadData(nil)
         
         // Transitions
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)

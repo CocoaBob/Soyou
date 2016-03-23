@@ -18,7 +18,7 @@ class ProductsViewController: BaseViewController {
     
     var isSearchResultsViewController: Bool = false
 //    var isQuickSearch: Bool = true
-    var searchTexts: [String]?
+    var searchKeywords: [String]?
     var searchFromViewController: UIViewController?
     var isLoadingIndicatorVisible: Bool = true {
         didSet {
@@ -36,7 +36,7 @@ class ProductsViewController: BaseViewController {
     
     override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
         if (self.isSearchResultsViewController &&
-            (self.searchTexts == nil || (self.searchTexts!.count == 1 && self.searchTexts!.first == ""))) {
+            (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))) {
             return nil
         }
         var predicates = [NSPredicate]()
@@ -46,22 +46,22 @@ class ProductsViewController: BaseViewController {
         if let categoryID = self.categoryID {
             predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
         }
-        if let searchTexts = self.searchTexts {
-            var searchTextPredicates = [NSPredicate]()
+        if let searchKeywords = self.searchKeywords {
+            var searchKeywordsPredicates = [NSPredicate]()
 //            if self.isQuickSearch {
-//                let searchString = searchTexts.joinWithSeparator(" ")
+//                let searchString = searchKeywords.joinWithSeparator(" ")
 //                if !searchString.characters.isEmpty {
-//                    searchTextPredicates.append(FmtPredicate("title BEGINSWITH[cd] %@", searchString))
+//                    searchKeywordsPredicates.append(FmtPredicate("title BEGINSWITH[cd] %@", searchString))
 //                }
 //            } else {
-                for searchText in searchTexts {
-                    if !searchText.characters.isEmpty {
-                        searchTextPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchText))
+                for searchKeyword in searchKeywords {
+                    if !searchKeyword.characters.isEmpty {
+                        searchKeywordsPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchKeyword))
                     }
                 }
 //            }
-            if !searchTextPredicates.isEmpty {
-                predicates.append(NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: searchTextPredicates))
+            if !searchKeywordsPredicates.isEmpty {
+                predicates.append(NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: searchKeywordsPredicates))
             }
         }
         
@@ -128,7 +128,7 @@ class ProductsViewController: BaseViewController {
         }
         
         // Load data
-        self.reloadData()
+        self.reloadData(nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -330,15 +330,13 @@ extension ProductsViewController {
 // MARK: - Reload data
 extension ProductsViewController {
     
-    override func reloadData() {
+    override func reloadData(completion: (() -> Void)?) {
         // Show indicator
         self.showLoadingIndicator()
         
         // Reload Data
-        super.reloadData()
-        
-        // After searching is completed
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+        super.reloadData() {
+            // After searching is completed
             if let sections = self.fetchedResultsController?.sections {
                 if !sections.isEmpty {
                     if let rows = self.fetchedResultsController?.sections?[0].numberOfObjects {
@@ -349,7 +347,7 @@ extension ProductsViewController {
                     }
                 }
             }
-            if self.searchTexts != nil {
+            if self.searchKeywords != nil {
                 self.showNoDataIndicator()
             }
         }
@@ -371,7 +369,7 @@ extension ProductsViewController: UISearchResultsUpdating {
     
     func startSearchTimer() {
         stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(BaseViewController.reloadData), userInfo: nil, repeats: false)
+        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(BaseViewController.reloadData(_:)), userInfo: nil, repeats: false)
     }
     
     func stopSearchTimer() {
@@ -379,25 +377,29 @@ extension ProductsViewController: UISearchResultsUpdating {
         self.searchTimer = nil
     }
     
+    func searchKeywords(keyWords: [String]?) {
+        
+    }
+    
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         self.stopSearchTimer()
         
-        var newSearchTexts: [String]?
+        var newSearchKeywords: [String]?
         if searchController.active {
 //            self.isQuickSearch = false
-            newSearchTexts = self.splittedSearchTexts(searchController.searchBar.text)
+            newSearchKeywords = self.getSearchKeywords(searchController.searchBar.text)
         } else {
-            newSearchTexts = nil
+            newSearchKeywords = nil
         }
         
-        let oldSearchTexts = self.searchTexts
-        self.searchTexts = newSearchTexts
+        let oldSearchKeywords = self.searchKeywords
+        self.searchKeywords = newSearchKeywords
         
-        if newSearchTexts == nil && oldSearchTexts == nil {
+        if newSearchKeywords == nil && oldSearchKeywords == nil {
             // Same, no need to search
             return
-        } else if let newSearchTexts = newSearchTexts, oldSearchTexts = oldSearchTexts {
-            if newSearchTexts == oldSearchTexts {
+        } else if let newSearchKeywords = newSearchKeywords, oldSearchKeywords = oldSearchKeywords {
+            if newSearchKeywords == oldSearchKeywords {
                 // Same, no need to search
                 return
             }
@@ -406,8 +408,8 @@ extension ProductsViewController: UISearchResultsUpdating {
         // Ready to search
         self.showLoadingIndicator()
         
-        if newSearchTexts == nil {
-            self.reloadData()
+        if newSearchKeywords == nil {
+            self.reloadData(nil)
         } else {
             self.startSearchTimer()
         }
@@ -417,10 +419,10 @@ extension ProductsViewController: UISearchResultsUpdating {
 // MARK: - UISearchBarDelegate
 extension ProductsViewController: UISearchBarDelegate {
     
-    func splittedSearchTexts(searchText: String?) -> [String]? {
+    func getSearchKeywords(searchText: String?) -> [String]? {
         if let searchText = searchText {
-            let searchTexts = searchText.characters.split() { $0 == " " }.flatMap() { String($0) }
-            return searchTexts.map({Product.normalizedSearchText($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
+            let searchKeywords = searchText.characters.split() { $0 == " " }.flatMap() { String($0) }
+            return searchKeywords.map({Product.normalizedSearchText($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
         } else {
             return nil
         }
@@ -428,8 +430,8 @@ extension ProductsViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 //        self.isQuickSearch = true
-        self.searchTexts = self.splittedSearchTexts(searchBar.text)
-        self.reloadData()
+        self.searchKeywords = self.getSearchKeywords(searchBar.text)
+        self.reloadData(nil)
     }
 }
 
