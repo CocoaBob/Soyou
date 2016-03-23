@@ -14,9 +14,10 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     var fetchedResultsChangesMove: [(NSIndexPath,NSIndexPath)]?
     
     // MARK: NSFetchedResultsController
-    let globalDispatchQueue = dispatch_queue_create(String(self.dynamicType) + "Queue", nil)
+    let fetchedResultsControllerQueue = dispatch_queue_create("FetchedResultsControllerQueue", DISPATCH_QUEUE_SERIAL)
     var fetchedResultsControllerContext: NSManagedObjectContext?
     var fetchedResultsController : NSFetchedResultsController?
+    let fetchedResultsControllerUpdateUIQueue = dispatch_queue_create("FetchedResultsControllerUpdateUIQueue", DISPATCH_QUEUE_SERIAL)
     
     deinit {
         self.fetchedResultsController?.delegate = nil
@@ -41,7 +42,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     func reloadData(completion: (() -> Void)?) {
         // Fetch in background then reload display in main thread
-        dispatch_async(globalDispatchQueue) { () -> Void in
+        dispatch_async(fetchedResultsControllerQueue) { () -> Void in
             // Context
             if self.fetchedResultsControllerContext == nil {
                 self.fetchedResultsControllerContext = NSManagedObjectContext.MR_context()
@@ -75,7 +76,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     // All the delegate methods will be called in the background thread
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        let closure = { () -> () in
             if let tableView = self.tableView() {
                 tableView.beginUpdates()
             } else if let _ = self.collectionView() {
@@ -84,11 +85,16 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 self.fetchedResultsChangesUpdate = [NSIndexPath]()
                 self.fetchedResultsChangesMove = [(NSIndexPath,NSIndexPath)]()
             }
-        })
+        }
+        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                closure()
+            })
+        }
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        let closure = { () -> () in
             if let tableView = self.tableView() {
                 switch(type) {
                 case .Insert:
@@ -129,11 +135,16 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                     }
                 }
             }
-        })
+        }
+        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                closure()
+            })
+        }
     }
     
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        let closure = { () -> () in
             if let tableView = self.tableView() {
                 switch(type) {
                 case .Insert:
@@ -144,11 +155,16 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                     break
                 }
             }
-        })
+        }
+        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                closure()
+            })
+        }
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        let closure = { () -> () in
             if let tableView = self.tableView() {
                 tableView.endUpdates()
             } else if let collectionView = self.collectionView() {
@@ -175,7 +191,11 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                         self.fetchedResultsChangesMove = nil
                 })
             }
-        })
+        }
+        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                closure()
+            })
+        }
     }
-    
 }
