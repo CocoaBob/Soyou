@@ -16,8 +16,8 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     // MARK: NSFetchedResultsController
     let fetchedResultsControllerQueue = dispatch_queue_create("FetchedResultsControllerQueue", DISPATCH_QUEUE_SERIAL)
     var fetchedResultsControllerContext: NSManagedObjectContext?
-    var fetchedResultsController : NSFetchedResultsController?
-    let fetchedResultsControllerUpdateUIQueue = dispatch_queue_create("FetchedResultsControllerUpdateUIQueue", DISPATCH_QUEUE_SERIAL)
+    var fetchedResultsController: NSFetchedResultsController?
+    private var fetchedResultsControllerForFetching: NSFetchedResultsController?
     
     deinit {
         self.fetchedResultsController?.delegate = nil
@@ -30,10 +30,13 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     // MARK: UITableView or UICollectionView ?
+    
+    // Should be overridden by sub-class
     func tableView() -> UITableView? {
         return nil
     }
     
+    // Should be overridden by sub-class
     func collectionView() -> UICollectionView? {
         return nil
     }
@@ -50,17 +53,20 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
             }
             // Re-create NSFetchedResultsController
             if let context = self.fetchedResultsControllerContext {
-                self.fetchedResultsController = self.createFetchedResultsController(context)
-                self.fetchedResultsController?.delegate = self
+                self.fetchedResultsControllerForFetching = self.createFetchedResultsController(context)
             }
             // Do search
             do {
-                try self.fetchedResultsController?.performFetch()
+                try self.fetchedResultsControllerForFetching?.performFetch()
             } catch {
                 
             }
+            
             // After searching
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.fetchedResultsController = self.fetchedResultsControllerForFetching
+                self.fetchedResultsController?.delegate = self
+                
                 if let tableView = self.tableView() {
                     tableView.reloadData()
                 } else if let collectionView = self.collectionView() {
@@ -72,7 +78,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     // MARK: NSFetchedResultsControllerDelegate
-    // As the NSFetchedResultsControllerContext is created in background thread
+    // As the NSFetchedResultsControllerContext is created in a background thread
     // All the delegate methods will be called in the background thread
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
@@ -86,11 +92,9 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 self.fetchedResultsChangesMove = [(NSIndexPath,NSIndexPath)]()
             }
         }
-        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                closure()
-            })
-        }
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            closure()
+        })
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
@@ -136,11 +140,9 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 }
             }
         }
-        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                closure()
-            })
-        }
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            closure()
+        })
     }
     
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
@@ -156,11 +158,9 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 }
             }
         }
-        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                closure()
-            })
-        }
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            closure()
+        })
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
@@ -192,10 +192,8 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
                 })
             }
         }
-        dispatch_async(fetchedResultsControllerUpdateUIQueue) {
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                closure()
-            })
-        }
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            closure()
+        })
     }
 }

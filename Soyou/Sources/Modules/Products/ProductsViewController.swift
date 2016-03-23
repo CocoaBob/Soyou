@@ -300,6 +300,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         var size = CGSize(width: 1, height: 1) // Default size for product
+        
         if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
             if let imageRatio = product.appImageRatio?.doubleValue {
                 let cellHeight = self.cellWidth * CGFloat(imageRatio) + bottomMargin
@@ -336,6 +337,9 @@ extension ProductsViewController {
         
         // Reload Data
         super.reloadData() {
+            // Original completion
+            if let completion = completion { completion() }
+            
             // After searching is completed
             if let sections = self.fetchedResultsController?.sections {
                 if !sections.isEmpty {
@@ -351,6 +355,10 @@ extension ProductsViewController {
                 self.showNoDataIndicator()
             }
         }
+    }
+    
+    func reloadDataWithIndicators() {
+        self.reloadData(nil)
     }
 }
 
@@ -369,7 +377,7 @@ extension ProductsViewController: UISearchResultsUpdating {
     
     func startSearchTimer() {
         stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(BaseViewController.reloadData(_:)), userInfo: nil, repeats: false)
+        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(ProductsViewController.reloadDataWithIndicators), userInfo: nil, repeats: false)
     }
     
     func stopSearchTimer() {
