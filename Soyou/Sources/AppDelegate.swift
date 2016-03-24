@@ -30,6 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
         MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
         
+        // Load current user
+        UserManager.shared.loadCurrentUser(false)
+        
         // Get Username from database
         Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
         

@@ -9,6 +9,7 @@
 class UserManager: NSObject {
     
     static let shared = UserManager()
+    private var currentUser: User?
     
     subscript(key: String) -> AnyObject? {
         get {
@@ -23,13 +24,13 @@ class UserManager: NSObject {
             return returnValue
         }
         set(newValue) {
+            if self.currentUser == nil {
+                self.loadCurrentUser(true)
+            }
             MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-                var user = User.MR_findFirstInContext(localContext)
-                if user == nil {
-                    user = User.MR_createEntityInContext(localContext)
-                }
-                if let attDesc = user?.entity.attributesByName[key] {
-                    if let user = user {
+                let localUser = self.currentUser?.MR_inContext(localContext)
+                if let user = localUser {
+                    if let attDesc = user.entity.attributesByName[key] {
                         if !(newValue is NSNull) {
                             user.setValue(newValue, forKey: key)
                             if key == "username" {
@@ -99,6 +100,15 @@ extension UserManager {
 // Login/Logout
 extension UserManager {
     
+    func loadCurrentUser(createIfNecessary: Bool) {
+        MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
+            self.currentUser = User.MR_findFirstInContext(localContext)
+            if createIfNecessary && self.currentUser == nil {
+                self.currentUser = User.MR_createEntityInContext(localContext)
+            }
+        }
+    }
+    
     func logIn(token: String) {
         self.token = token
         // Load Favorites
@@ -108,13 +118,14 @@ extension UserManager {
     
     func logOut() {
         self.token = nil
+        self.currentUser = nil
         // Delete Favorites
         FavoriteNews.deleteAll()
         FavoriteProduct.deleteAll()
     }
     
     var isLoggedIn: Bool {
-        return self.token != nil && User.MR_findFirst() != nil
+        return self.token != nil && self.currentUser != nil
     }
 }
 
