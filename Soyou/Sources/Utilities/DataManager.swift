@@ -344,8 +344,13 @@ class DataManager {
             if index + rangeSize >= productIDs.count {
                 self.loadProducts(Array(range), completion)
             } else {
-                self.loadProducts(Array(range), { (_, _) in
-                    self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
+                self.loadProducts(Array(range), { (responseObject, error) in
+                    // If any error occurs, stop loading
+                    if error != nil {
+                        self.completeWithError(FmtError(0, nil), completion: completion)
+                    } else {
+                        self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
+                    }
                 })
             }
         } else {
@@ -364,7 +369,10 @@ class DataManager {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
-                self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampProductIDs)
+                // If there's no error, save the last request timestamp
+                if error == nil {
+                    self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampProductIDs)
+                }
                 self.completeWithData(nil, completion: completion)
             })
         } else {
@@ -498,14 +506,22 @@ class DataManager {
         if !self.isUpdatingData {
             self.isUpdatingData = true
             var cnt = 4
-            
+            var hasError = false
             let completionClosure: CompletionClosure = { responseObject, error in
                 cnt -= 1
                 DLog(cnt)
+                if error != nil {
+                    hasError = true
+                }
                 if cnt == 0 {
+                    // Completed
                     self.completeWithData(nil, completion: completion)
                     self.isUpdatingData = false
-                    UserDefaults.setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+                    
+                    // If there was no error
+                    if !hasError {
+                        UserDefaults.setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+                    }
                 }
             }
             
