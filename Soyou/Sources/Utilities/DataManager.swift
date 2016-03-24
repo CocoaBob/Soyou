@@ -344,8 +344,9 @@ class DataManager {
             if index + rangeSize >= productIDs.count {
                 self.loadProducts(Array(range), completion)
             } else {
-                self.loadProducts(Array(range), nil)
-                self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
+                self.loadProducts(Array(range), { (_, _) in
+                    self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
+                })
             }
         } else {
             self.completeWithError(FmtError(0, nil), completion: completion)
