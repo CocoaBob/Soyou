@@ -162,7 +162,7 @@ class ProductsViewController: BaseViewController {
 }
 
 // MARK: - CollectionView Delegate Methods
-extension ProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
+extension ProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         if let sections = self.fetchedResultsController?.sections {
@@ -197,7 +197,11 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                         placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
                         options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                         completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                            if image != nil && self.collectionView().indexPathsForVisibleItems().contains(indexPath) {
+                            // Update cell size if it's not scrolling
+                            if (image != nil &&
+                                !self.collectionView().dragging &&
+                                !self.collectionView().decelerating &&
+                                self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
                                 self.collectionView().reloadItemsAtIndexPaths([indexPath])
                             }
                     })
@@ -229,6 +233,22 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             self.navigationController?.pushViewController(productViewController, animated: true)
         }
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+// Update cell size
+// TODO: Update favorites
+extension ProductsViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
     }
 }
 

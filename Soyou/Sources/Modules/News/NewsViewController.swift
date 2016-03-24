@@ -103,7 +103,7 @@ extension NewsViewController {
 }
 
 // MARK: - CollectionView Delegate Methods
-extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
+extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         if let sections = self.fetchedResultsController?.sections {
@@ -139,7 +139,10 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                             placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                             completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                                if image != nil && self.collectionView().indexPathsForVisibleItems().contains(indexPath) {
+                                if (image != nil &&
+                                    !self.collectionView().dragging &&
+                                    !self.collectionView().decelerating &&
+                                    self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
                                     self.collectionView().reloadItemsAtIndexPaths([indexPath])
                                 }
                         })
@@ -201,7 +204,21 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-//MARK: - CollectionView Waterfall Layout
+// MARK: - UIScrollViewDelegate
+extension NewsViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+    }
+}
+
+// MARK: - CollectionView Waterfall Layout
 extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
