@@ -197,11 +197,8 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                         placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
                         options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                         completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                            if image != nil && image.size.width != 0 {
-                                MagicalRecord.saveWithBlock { (localContext: NSManagedObjectContext!) -> Void in
-                                    guard let localProduct = product.MR_inContext(localContext) else { return }
-                                    localProduct.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
-                                }
+                            if image != nil && self.collectionView().indexPathsForVisibleItems().contains(indexPath) {
+                                self.collectionView().reloadItemsAtIndexPaths([indexPath])
                             }
                     })
             } else {
@@ -301,11 +298,15 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         var size = CGSize(width: 1, height: 1) // Default size for product
         
-        if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
-            if let imageRatio = product.appImageRatio?.doubleValue {
-                let cellHeight = self.cellWidth * CGFloat(imageRatio) + bottomMargin
+        if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product,
+            images = product.images as? NSArray,
+            imageURLString = images.firstObject as? String,
+            imageURL = NSURL(string: imageURLString) {
+            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+            let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+            if image != nil {
+                let cellHeight = self.cellWidth * image.size.height / image.size.width + bottomMargin
                 size = CGSize(width: self.cellWidth, height: cellHeight)
-                
             }
         }
         return size

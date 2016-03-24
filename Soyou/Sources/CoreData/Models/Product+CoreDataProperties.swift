@@ -14,7 +14,6 @@ import CoreData
 
 extension Product {
 
-    @NSManaged var appImageRatio: NSNumber?
     @NSManaged var appIsLiked: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var appSearchText: String?

@@ -139,11 +139,8 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                             placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                             completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                                MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-                                    guard let localNews = news.MR_inContext(localContext) else { return }
-                                    if image != nil && image.size.width != 0 {
-                                        localNews.appImageRatio = NSNumber(double: Double(image.size.height / image.size.width))
-                                    }
+                                if image != nil && self.collectionView().indexPathsForVisibleItems().contains(indexPath) {
+                                    self.collectionView().reloadItemsAtIndexPaths([indexPath])
                                 }
                         })
                     }
@@ -248,8 +245,12 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         
         if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
             if news.appIsMore == nil || !news.appIsMore!.boolValue {
-                if let imageRatio = news.appImageRatio?.doubleValue {
-                    size = CGSize(width: 1, height: CGFloat(imageRatio))
+                if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
+                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                    let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+                    if image != nil {
+                        size = CGSize(width: image.size.width, height: image.size.height)
+                    }
                 }
             } else {
                 size = CGSize(width: 8, height: 1)

@@ -84,7 +84,6 @@ class BaseNews: BaseModel {
                             
                             localFavoriteNews?.appIsLiked = localNews.appIsLiked
                             localFavoriteNews?.appIsUpdated = localNews.appIsUpdated
-                            localFavoriteNews?.appImageRatio = localNews.appImageRatio
                         }
                     }
                     localFavoriteNews?.dateFavorite = NSDate()
