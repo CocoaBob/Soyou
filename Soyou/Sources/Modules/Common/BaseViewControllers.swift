@@ -21,6 +21,7 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     deinit {
         self.fetchedResultsController?.delegate = nil
+        self.fetchedResultsControllerContext?.MR_stopObservingContext(NSManagedObjectContext.MR_rootSavingContext())
     }
     
     // Should be overridden by sub-class
@@ -49,10 +50,13 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
             // Context
             if self.fetchedResultsControllerContext == nil {
                 self.fetchedResultsControllerContext = NSManagedObjectContext.MR_context()
-                self.fetchedResultsControllerContext?.MR_observeContext(NSManagedObjectContext.MR_rootSavingContext())
             }
             // Re-create NSFetchedResultsController
             if let context = self.fetchedResultsControllerContext {
+                // Stop updating fetched results
+                context.MR_stopObservingContext(NSManagedObjectContext.MR_rootSavingContext())
+                self.fetchedResultsController?.delegate = nil
+                // Create new FRC
                 self.fetchedResultsControllerForFetching = self.createFetchedResultsController(context)
             }
             // Do search
@@ -65,13 +69,16 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
             // After searching
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.fetchedResultsController = self.fetchedResultsControllerForFetching
+                // Start updating fetched results
                 self.fetchedResultsController?.delegate = self
-                
+                self.fetchedResultsControllerContext?.MR_observeContext(NSManagedObjectContext.MR_rootSavingContext())
+                // Reload table/collection view
                 if let tableView = self.tableView() {
                     tableView.reloadData()
                 } else if let collectionView = self.collectionView() {
                     collectionView.reloadData()
                 }
+                // Completed
                 if let completion = completion { completion() }
             })
         }
