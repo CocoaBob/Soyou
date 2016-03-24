@@ -187,7 +187,8 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             cell.lblTitle?.text = product.title
             cell.lblBrand?.text = product.brandLabel
             cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
-            cell.isFavorite = product.isFavorite()
+            // TODO: Improve favorites
+//            cell.isFavorite = product.isFavorite()
             cell.fgImageView.image = nil
             
             if let images = product.images as? NSArray,
