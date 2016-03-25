@@ -80,6 +80,14 @@ func FmtString(fmt: String, _ args: [CVarArgType]) -> String {
     return String(format: fmt, arguments: args)
 }
 
+func CompoundAndPredicate(predicates: [NSPredicate]) -> NSCompoundPredicate {
+    return NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates)
+}
+
+func CompoundOrPredicate(predicates: [NSPredicate]) -> NSCompoundPredicate {
+    return NSCompoundPredicate(type: NSCompoundPredicateType.OrPredicateType, subpredicates: predicates)
+}
+
 var _emptyError = NSError(domain: "SoyouError", code: 0, userInfo: nil)
 func FmtError(code: Int, _ msg: String?, _ args: CVarArgType...) -> NSError {
     if code == 0 && msg == nil {

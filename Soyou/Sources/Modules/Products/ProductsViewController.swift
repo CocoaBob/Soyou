@@ -61,15 +61,16 @@ class ProductsViewController: BaseViewController {
                 }
 //            }
             if !searchKeywordsPredicates.isEmpty {
-                predicates.append(NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: searchKeywordsPredicates))
+                predicates.append(CompoundAndPredicate(searchKeywordsPredicates))
             }
         }
 
-        return Product.MR_fetchAllGroupedBy(
-            nil,
-            withPredicate: NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates),
-            sortedBy: "order",
-            ascending: true)
+        let fetchedResultsController = Product.MR_fetchAllGroupedBy(nil,
+                                                                    withPredicate: CompoundAndPredicate(predicates),
+                                                                    sortedBy: nil,//"order",
+                                                                    ascending: true)
+        fetchedResultsController.fetchRequest.fetchBatchSize = 16
+        return fetchedResultsController
     }
     
     // Properties
