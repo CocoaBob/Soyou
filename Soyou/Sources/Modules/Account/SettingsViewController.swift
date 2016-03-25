@@ -25,6 +25,14 @@ class SettingsViewController: SimpleTableViewController {
         self.title = NSLocalizedString("settings_vc_title")
     }
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    convenience init() {
+        self.init(nibName:nil, bundle:nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

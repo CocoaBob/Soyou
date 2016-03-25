@@ -10,17 +10,20 @@ class ProfileViewController: SimpleTableViewController {
     
     @IBOutlet var imgViewAvatar: UIImageView!
     
-    // Class methods
-    class func instantiate() -> ProfileViewController {
-        return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController)!
-    }
-    
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         // UIViewController
         self.title = NSLocalizedString("profile_vc_title")
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    convenience init() {
+        self.init(nibName:nil, bundle:nil)
     }
     
     override func viewDidLoad() {

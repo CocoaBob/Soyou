@@ -130,6 +130,10 @@ class SimpleTableViewController: UIViewController {
         self.tableStyle = tableStyle
     }
     
+    convenience init() {
+        self.init(nibName:nil, bundle:nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

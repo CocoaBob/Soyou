@@ -159,14 +159,12 @@ extension UserViewController {
     
     func avatarAction() {
         UserManager.shared.loginOrDo() { () -> () in
-            self.presentViewController(UINavigationController(rootViewController: ProfileViewController.instantiate()), animated: true, completion: nil)
+            self.presentViewController(UINavigationController(rootViewController: ProfileViewController()), animated: true, completion: nil)
         }
     }
     
     @IBAction func showSettingsViewController(sender: UIBarButtonItem?) {
-        if let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController") {
-            self.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
-        }
+        self.presentViewController(UINavigationController(rootViewController: SettingsViewController()), animated: true, completion: nil)
     }
     
     @IBAction func likeApp(sender: UIBarButtonItem?) {
