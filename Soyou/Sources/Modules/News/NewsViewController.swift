@@ -15,17 +15,8 @@ class NewsViewController: BaseViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
-        let request = News.MR_requestAllSortedBy(
-            "datePublication:false,id:false,appIsMore:true",
-            ascending: false,
-            withPredicate: nil,
-            inContext: context)
-        return News.MR_fetchController(request,
-            delegate: self,
-            useFileCache: false,
-            groupedBy: nil,
-            inContext: context)
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
     }
     
     // Properties

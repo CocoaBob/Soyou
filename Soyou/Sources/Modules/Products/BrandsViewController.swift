@@ -17,17 +17,8 @@ class BrandsViewController: BaseViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
-        let request = Brand.MR_requestAllSortedBy(
-            "order",
-            ascending: true,
-            withPredicate: nil,
-            inContext: context)
-        return Brand.MR_fetchController(request,
-            delegate: self,
-            useFileCache: false,
-            groupedBy: nil,
-            inContext: context)
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "order", ascending: true)
     }
     
     // Properties

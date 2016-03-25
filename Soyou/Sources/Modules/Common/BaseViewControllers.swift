@@ -6,7 +6,7 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class BaseViewController: UIViewController {
     
     var fetchedResultsChangesInsert: [NSIndexPath]?
     var fetchedResultsChangesDelete: [NSIndexPath]?
@@ -14,21 +14,45 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     var fetchedResultsChangesMove: [(NSIndexPath,NSIndexPath)]?
     
     // MARK: NSFetchedResultsController
-    var fetchedResultsControllerContext: NSManagedObjectContext?
     var fetchedResultsController: NSFetchedResultsController?
-    private var fetchedResultsControllerForFetching: NSFetchedResultsController?
     
     deinit {
-        self.stopObserving()
+        self.fetchedResultsController?.delegate = nil
     }
     
+    // MARK: Routines
+    func reloadData(completion: (() -> Void)?) {
+        // Create NSFetchedResultsController
+        self.fetchedResultsController = self.createFetchedResultsController()
+        self.fetchedResultsController?.delegate = self
+        // Do search
+        do {
+            try self.fetchedResultsController?.performFetch()
+        } catch {
+            
+        }
+        // After searching
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            // Reload table/collection view
+            if let tableView = self.tableView() {
+                tableView.reloadData()
+            } else if let collectionView = self.collectionView() {
+                collectionView.reloadData()
+            }
+            // Completed
+            if let completion = completion { completion() }
+        })
+    }
+}
+
+// MARK: Subclass methods
+extension BaseViewController {
+    
     // Should be overridden by sub-class
-    func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
+    func createFetchedResultsController() -> NSFetchedResultsController? {
         assert(false)
         return nil
     }
-    
-    // MARK: UITableView or UICollectionView ?
     
     // Should be overridden by sub-class
     func tableView() -> UITableView? {
@@ -39,58 +63,10 @@ class BaseViewController: UIViewController, NSFetchedResultsControllerDelegate {
     func collectionView() -> UICollectionView? {
         return nil
     }
-    
-    // MARK: Routines
-    
-    func reloadData(completion: (() -> Void)?) {
-        // Create a background context
-        if self.fetchedResultsControllerContext == nil {
-            self.fetchedResultsControllerContext = NSManagedObjectContext.MR_context()
-        }
-        // Stop previous observation
-        self.stopObserving()
-        // Create NSFetchedResultsController
-        if let context = self.fetchedResultsControllerContext {
-            // Create new FRC
-            self.fetchedResultsControllerForFetching = self.createFetchedResultsController(context)
-        }
-        // Run searching in background
-        self.fetchedResultsControllerForFetching?.managedObjectContext.performBlock({
-            // Do search
-            do {
-                try self.fetchedResultsControllerForFetching?.performFetch()
-            } catch {
-                
-            }
-            // After searching
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.fetchedResultsController = self.fetchedResultsControllerForFetching
-                self.startObserving()
-                // Reload table/collection view
-                if let tableView = self.tableView() {
-                    tableView.reloadData()
-                } else if let collectionView = self.collectionView() {
-                    collectionView.reloadData()
-                }
-                // Completed
-                if let completion = completion { completion() }
-            })
-        })
-    }
-    
-    func startObserving() {
-        self.fetchedResultsController?.managedObjectContext.MR_observeContext(NSManagedObjectContext.MR_rootSavingContext())
-        self.fetchedResultsController?.delegate = self
-    }
-    
-    func stopObserving() {
-        self.fetchedResultsController?.managedObjectContext.MR_stopObservingContext(NSManagedObjectContext.MR_rootSavingContext())
-        self.fetchedResultsController?.delegate = nil
-    }
-    
-    // MARK: NSFetchedResultsControllerDelegate
-    // As the NSFetchedResultsControllerContext is created in a background thread
-    // All the delegate methods will be called in the background thread
+}
+
+// MARK: NSFetchedResultsControllerDelegate
+extension BaseViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         let closure = { () -> () in

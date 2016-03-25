@@ -34,7 +34,7 @@ class ProductsViewController: BaseViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
         if (self.isSearchResultsViewController &&
             (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))) {
             return nil
@@ -64,17 +64,12 @@ class ProductsViewController: BaseViewController {
                 predicates.append(NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: searchKeywordsPredicates))
             }
         }
-        
-        let request = Product.MR_requestAllSortedBy(
-            "order,id",
-            ascending: true,
+
+        return Product.MR_fetchAllGroupedBy(
+            nil,
             withPredicate: NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates),
-            inContext: context)
-        return Product.MR_fetchController(request,
-            delegate: self,
-            useFileCache: false,
-            groupedBy: nil,
-            inContext: context)
+            sortedBy: "order",
+            ascending: true)
     }
     
     // Properties

@@ -28,29 +28,12 @@ class FavoritesViewController: BaseViewController {
         return _tableView
     }
     
-    override func createFetchedResultsController(context: NSManagedObjectContext) -> NSFetchedResultsController? {
-        if self.type == .News {
-            let request = FavoriteNews.MR_requestAllSortedBy(
-                "dateFavorite",
-                ascending: false,
-                withPredicate: nil,
-                inContext: context)
-            return FavoriteNews.MR_fetchController(request,
-                delegate: self,
-                useFileCache: false,
-                groupedBy: nil,
-                inContext: context)
-        } else {
-            let request = FavoriteProduct.MR_requestAllSortedBy(
-                "dateFavorite",
-                ascending: false,
-                withPredicate: nil,
-                inContext: context)
-            return FavoriteProduct.MR_fetchController(request,
-                delegate: self,
-                useFileCache: false,
-                groupedBy: nil,
-                inContext: context)
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        switch (self.type) {
+        case .News:
+            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
+        case .Products:
+            return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
         }
     }
     
