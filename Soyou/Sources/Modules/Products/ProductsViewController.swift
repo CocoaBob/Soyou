@@ -17,7 +17,6 @@ class ProductsViewController: FetchedResultsViewController {
     var searchTimer: NSTimer?
     
     var isSearchResultsViewController: Bool = false
-//    var isQuickSearch: Bool = true
     var searchKeywords: [String]?
     var searchFromViewController: UIViewController?
     var isLoadingIndicatorVisible: Bool = true {
@@ -48,18 +47,11 @@ class ProductsViewController: FetchedResultsViewController {
         }
         if let searchKeywords = self.searchKeywords {
             var searchKeywordsPredicates = [NSPredicate]()
-//            if self.isQuickSearch {
-//                let searchString = searchKeywords.joinWithSeparator(" ")
-//                if !searchString.characters.isEmpty {
-//                    searchKeywordsPredicates.append(FmtPredicate("title BEGINSWITH[cd] %@", searchString))
-//                }
-//            } else {
-                for searchKeyword in searchKeywords {
-                    if !searchKeyword.characters.isEmpty {
-                        searchKeywordsPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchKeyword))
-                    }
+            for searchKeyword in searchKeywords {
+                if !searchKeyword.characters.isEmpty {
+                    searchKeywordsPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchKeyword))
                 }
-//            }
+            }
             if !searchKeywordsPredicates.isEmpty {
                 predicates.append(CompoundAndPredicate(searchKeywordsPredicates))
             }
@@ -401,7 +393,6 @@ extension ProductsViewController: UISearchResultsUpdating {
         
         var newSearchKeywords: [String]?
         if searchController.active {
-//            self.isQuickSearch = false
             newSearchKeywords = self.getSearchKeywords(searchController.searchBar.text)
         } else {
             newSearchKeywords = nil
@@ -444,7 +435,6 @@ extension ProductsViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-//        self.isQuickSearch = true
         self.searchKeywords = self.getSearchKeywords(searchBar.text)
         self.reloadData(nil)
     }

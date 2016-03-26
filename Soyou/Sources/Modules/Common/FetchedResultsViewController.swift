@@ -14,7 +14,7 @@ class FetchedResultsViewController: UIViewController {
     var fetchedResultsChangesMove: [(NSIndexPath,NSIndexPath)]?
     
     // MARK: NSAsynchronousFetchRequest
-    let asyncFetchContext: NSManagedObjectContext = NSManagedObjectContext.MR_defaultContext()
+    var asyncFetchContext: NSManagedObjectContext!
     var asyncFetchRequest: NSAsynchronousFetchRequest?
     var asyncFetchResult: NSAsynchronousFetchResult?
     var fetchedResults: [AnyObject]?
@@ -26,6 +26,14 @@ class FetchedResultsViewController: UIViewController {
         self.asyncFetchResult?.progress?.cancel()
         self.asyncFetchResult = nil
         self.asyncFetchRequest = nil
+        // Create background context
+        if self.asyncFetchContext == nil {
+            MagicalRecord.saveWithBlockAndWait({ (localContext) in
+                self.asyncFetchContext = localContext
+            })
+        } else {
+            self.asyncFetchContext.reset()
+        }
         // Create NSAsynchronousFetchRequest
         guard let fetchRequest = self.createFetchRequest(self.asyncFetchContext) else { return }
         self.asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest,
