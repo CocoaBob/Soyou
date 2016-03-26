@@ -100,6 +100,12 @@ class FavoritesViewController: FetchedResultsViewController {
             self.navigationController?.setNavigationBarHidden(false, animated: false)
         }
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Stop caching images
+        SDWebImageManager.sharedManager().cancelAll()
+    }
 }
 
 // MARK: Table View

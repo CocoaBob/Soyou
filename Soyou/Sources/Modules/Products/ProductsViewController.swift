@@ -142,6 +142,8 @@ class ProductsViewController: FetchedResultsViewController {
         super.viewWillDisappear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = false
+        // Stop caching images
+        SDWebImageManager.sharedManager().cancelAll()
     }
     
     override func didReceiveMemoryWarning() {
