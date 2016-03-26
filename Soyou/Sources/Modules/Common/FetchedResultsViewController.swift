@@ -6,7 +6,7 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class BaseViewController: UIViewController {
+class FetchedResultsViewController: UIViewController {
     
     var fetchedResultsChangesInsert: [NSIndexPath]?
     var fetchedResultsChangesDelete: [NSIndexPath]?
@@ -46,7 +46,7 @@ class BaseViewController: UIViewController {
 }
 
 // MARK: Subclass methods
-extension BaseViewController {
+extension FetchedResultsViewController {
     
     // Should be overridden by sub-class
     func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -66,7 +66,7 @@ extension BaseViewController {
 }
 
 // MARK: NSFetchedResultsControllerDelegate
-extension BaseViewController: NSFetchedResultsControllerDelegate {
+extension FetchedResultsViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         let closure = { () -> () in

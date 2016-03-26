@@ -11,9 +11,9 @@ enum FavoriteType: Int {
     case Products
 }
 
-class FavoritesViewController: BaseViewController {
+class FavoritesViewController: FetchedResultsViewController {
     
-    // Override BaseViewController
+    // Override FetchedResultsViewController
     @IBOutlet var _tableView: UITableView!
     @IBOutlet var _emptyView: UIView!
     @IBOutlet var _emptyViewLabel: UILabel!

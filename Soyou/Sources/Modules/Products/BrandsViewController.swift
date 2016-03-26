@@ -6,9 +6,9 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class BrandsViewController: BaseViewController {
+class BrandsViewController: FetchedResultsViewController {
     
-    // Override BaseViewController
+    // Override FetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     
     var searchController: UISearchController?

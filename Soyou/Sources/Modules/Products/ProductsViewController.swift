@@ -6,9 +6,9 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class ProductsViewController: BaseViewController {
+class ProductsViewController: FetchedResultsViewController {
     
-    // Override BaseViewController
+    // Override FetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     @IBOutlet var _loadingView: UIView!
     @IBOutlet var _loadingIndicator: UILabel!

@@ -6,9 +6,9 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class NewsViewController: BaseViewController {
+class NewsViewController: FetchedResultsViewController {
     
-    // Override BaseViewController
+    // Override FetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     
     override func collectionView() -> UICollectionView {
