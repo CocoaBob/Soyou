@@ -59,7 +59,7 @@
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* Soyou.xcdatamodeld */; };
 		4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E29B1BF90797009A6164 /* NewsViewController.swift */; };
-		4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* BaseViewControllers.swift */; };
+		4568E2F61BF92182009A6164 /* FetchedResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* FetchedResultsViewController.swift */; };
 		4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2FB1BF938C9009A6164 /* FileManager.swift */; };
 		456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */; };
 		456B419A1C597F83001E66EB /* BaseNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41981C597F83001E66EB /* BaseNews.swift */; };
@@ -186,7 +186,7 @@
 		4568E2981BF90797009A6164 /* Soyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou.xcdatamodel; sourceTree = "<group>"; };
 		4568E29B1BF90797009A6164 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		4568E29D1BF90797009A6164 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4568E2F51BF92182009A6164 /* BaseViewControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewControllers.swift; sourceTree = "<group>"; };
+		4568E2F51BF92182009A6164 /* FetchedResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsViewController.swift; sourceTree = "<group>"; };
 		4568E2F71BF922B7009A6164 /* Soyou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Soyou-Bridging-Header.h"; sourceTree = "<group>"; };
 		4568E2FB1BF938C9009A6164 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -422,7 +422,7 @@
 		4568E2F41BF92171009A6164 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				4568E2F51BF92182009A6164 /* BaseViewControllers.swift */,
+				4568E2F51BF92182009A6164 /* FetchedResultsViewController.swift */,
 				4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */,
 			);
 			path = Common;
@@ -757,7 +757,7 @@
 				4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */,
 				4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */,
 				454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */,
-				4568E2F61BF92182009A6164 /* BaseViewControllers.swift in Sources */,
+				4568E2F61BF92182009A6164 /* FetchedResultsViewController.swift in Sources */,
 				4568E2A71BF90797009A6164 /* NewsViewController.swift in Sources */,
 				456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */,
 				4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */,

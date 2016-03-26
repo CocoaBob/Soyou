@@ -28,12 +28,20 @@ class FavoritesViewController: FetchedResultsViewController {
         return _tableView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
+    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
         switch (self.type) {
         case .News:
-            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
+            return FavoriteNews.MR_requestAllSortedBy(
+                "dateFavorite",
+                ascending: false,
+                withPredicate: nil,
+                inContext: context)
         case .Products:
-            return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
+            return FavoriteProduct.MR_requestAllSortedBy(
+                "dateFavorite",
+                ascending: false,
+                withPredicate: nil,
+                inContext: context)
         }
     }
     
@@ -98,19 +106,13 @@ class FavoritesViewController: FetchedResultsViewController {
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        var returnValue = 0
-        if let sections = self.fetchedResultsController?.sections {
-            returnValue = sections.count
-        }
+        let returnValue = (self.fetchedResults != nil) ? 1 : 0
         self.isEmptyViewVisible = returnValue == 0
         return returnValue
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var returnValue = 0
-        if let rows = self.fetchedResultsController?.sections?[section].numberOfObjects {
-            returnValue = rows
-        }
+        let returnValue = self.fetchedResults?.count ?? 0
         self.isEmptyViewVisible = returnValue == 0
         return returnValue
     }
@@ -122,7 +124,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         case .News:
             guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteNewsTableViewCell", forIndexPath: indexPath) as? FavoriteNewsTableViewCell else { break }
             
-            if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
+            if let news = self.fetchedResults?[indexPath.row] as? FavoriteNews {
                 // Title
                 _cell.lblTitle.text = news.title
                 // Image
@@ -138,7 +140,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         case .Products:
             guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteProductsTableViewCell", forIndexPath: indexPath) as? FavoriteProductsTableViewCell else { break }
             
-            if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
+            if let favoriteProduct = self.fetchedResults?[indexPath.row] as? FavoriteProduct {
                 MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                     if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
                         product = localFavoriteProduct.relatedProduct(localContext) {
@@ -176,7 +178,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch (self.type) {
         case .News:
-            if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
+            if let news = self.fetchedResults?[indexPath.row] as? FavoriteNews {
                 // Prepare cover image
                 var image: UIImage?
                 if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
@@ -192,7 +194,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 nextViewController = viewController
             }
         case .Products:
-            if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
+            if let favoriteProduct = self.fetchedResults?[indexPath.row] as? FavoriteProduct {
                 MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                     if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
                         product = localFavoriteProduct.relatedProduct(localContext) {
@@ -220,7 +222,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             UserManager.shared.loginOrDo() { () -> () in
                 switch (self.type) {
                 case .News:
-                    guard let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews else {
+                    guard let news = self.fetchedResults?[indexPath.row] as? FavoriteNews else {
                         return
                     }
                     MBProgressHUD.showLoader(self.view)
@@ -233,7 +235,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         })
                     }
                 case .Products:
-                    guard let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct else {
+                    guard let favoriteProduct = self.fetchedResults?[indexPath.row] as? FavoriteProduct else {
                         return
                     }
                     MBProgressHUD.showLoader(self.view)

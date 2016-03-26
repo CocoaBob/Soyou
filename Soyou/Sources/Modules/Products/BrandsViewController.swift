@@ -17,8 +17,12 @@ class BrandsViewController: FetchedResultsViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Brand.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "order", ascending: true)
+    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
+        return Brand.MR_requestAllSortedBy(
+            "order",
+            ascending: true,
+            withPredicate: nil,
+            inContext: context)
     }
     
     // Properties
@@ -88,25 +92,17 @@ class BrandsViewController: FetchedResultsViewController {
 extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let sections = self.fetchedResultsController?.sections {
-            return sections.count
-        } else {
-            return 0
-        }
+        return (self.fetchedResults != nil) ? 1 : 0
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let returnValue = self.fetchedResultsController?.sections?[section].numberOfObjects {
-            return returnValue
-        } else {
-            return 0
-        }
+        return self.fetchedResults?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as? BrandsCollectionViewCell)!
         
-        if let brand = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand {
+        if let brand = self.fetchedResults?[indexPath.row] as? Brand {
             
             if let label = brand.label {
                 cell.lblTitle?.text = label
@@ -125,7 +121,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        guard let brand = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand else {
+        guard let brand = self.fetchedResults?[indexPath.row] as? Brand else {
             return
         }
         

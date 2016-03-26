@@ -15,8 +15,13 @@ class NewsViewController: FetchedResultsViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
+        let request = News.MR_requestAllSortedBy(
+            "datePublication:false,id:false,appIsMore:true",
+            ascending: false,
+            withPredicate: nil,
+            inContext: context)
+        return request
     }
     
     // Properties
@@ -97,25 +102,17 @@ extension NewsViewController {
 extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let sections = self.fetchedResultsController?.sections {
-            return sections.count
-        } else {
-            return 0
-        }
+        return (self.fetchedResults != nil) ? 1 : 0
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let returnValue = self.fetchedResultsController?.sections?[section].numberOfObjects {
-            return returnValue
-        } else {
-            return 0
-        }
+        return self.fetchedResults?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var returnValue: UICollectionViewCell?
     
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
+        if let news = self.fetchedResults?[indexPath.row] as? News {
             if news.appIsMore != nil && news.appIsMore!.boolValue {
                 if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as? NewsCollectionViewCellMore {
                     cell.indicator.hidden = true
@@ -153,7 +150,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        guard let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News else {
+        guard let news = self.fetchedResults?[indexPath.row] as? News else {
             return
         }
         
@@ -251,7 +248,7 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         var size = CGSize(width: 3, height: 2) // Default size for news
         
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
+        if let news = self.fetchedResults?[indexPath.row] as? News {
             if news.appIsMore == nil || !news.appIsMore!.boolValue {
                 if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
                     let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
@@ -319,7 +316,7 @@ extension NewsViewController {
         self.collectionView().mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
-            let lastNews = self.fetchedResultsController?.fetchedObjects?.last as? News
+            let lastNews = self.fetchedResults?.last as? News
             self.loadData(lastNews?.id)
             self.beginRefreshing()
         })

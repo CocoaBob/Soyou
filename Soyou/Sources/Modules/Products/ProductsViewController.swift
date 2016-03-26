@@ -34,7 +34,7 @@ class ProductsViewController: FetchedResultsViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
+    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
         if (self.isSearchResultsViewController &&
             (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))) {
             return nil
@@ -64,13 +64,14 @@ class ProductsViewController: FetchedResultsViewController {
                 predicates.append(CompoundAndPredicate(searchKeywordsPredicates))
             }
         }
-
-        let fetchedResultsController = Product.MR_fetchAllGroupedBy(nil,
-                                                                    withPredicate: CompoundAndPredicate(predicates),
-                                                                    sortedBy: nil,//"order",
-                                                                    ascending: true)
-        fetchedResultsController.fetchRequest.fetchBatchSize = 16
-        return fetchedResultsController
+        
+        let request = Product.MR_requestAllSortedBy(
+            "order,id",
+            ascending: true,
+            withPredicate: CompoundAndPredicate(predicates),
+            inContext: context)
+        request.fetchBatchSize = 16
+        return request
     }
     
     // Properties
@@ -161,25 +162,17 @@ class ProductsViewController: FetchedResultsViewController {
 extension ProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let sections = self.fetchedResultsController?.sections {
-            return sections.count
-        } else {
-            return 0
-        }
+        return (self.fetchedResults != nil) ? 1 : 0
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let returnValue = self.fetchedResultsController?.sections![section].numberOfObjects {
-            return returnValue
-        } else {
-            return 0
-        }
+        return self.fetchedResults?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("ProductsCollectionViewCell", forIndexPath: indexPath) as? ProductsCollectionViewCell)!
         
-        if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
+        if let product = self.fetchedResults?[indexPath.row] as? Product {
             cell.lblTitle?.text = product.title
             cell.lblBrand?.text = product.brandLabel
             cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
@@ -213,7 +206,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        guard let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product else {
+        guard let product = self.fetchedResults?[indexPath.row] as? Product else {
             return
         }
             
@@ -315,7 +308,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         var size = CGSize(width: 1, height: 1) // Default size for product
         
-        if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product,
+        if let product = self.fetchedResults?[indexPath.row] as? Product,
             images = product.images as? NSArray,
             imageURLString = images.firstObject as? String,
             imageURL = NSURL(string: imageURLString) {
@@ -337,7 +330,7 @@ extension ProductsViewController {
         let position = sender.convertPoint(CGPoint.zero, toView: self.collectionView())
         guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
         UserManager.shared.loginOrDo() { () -> () in
-            if let product = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Product {
+            if let product = self.fetchedResults?[indexPath.row] as? Product {
                 product.toggleFavorite({ (data: AnyObject?) -> () in
                     self.collectionView().reloadItemsAtIndexPaths([indexPath])
                 })
@@ -358,17 +351,13 @@ extension ProductsViewController {
             // Original completion
             if let completion = completion { completion() }
             
-            // After searching is completed
-            if let sections = self.fetchedResultsController?.sections {
-                if !sections.isEmpty {
-                    if let rows = self.fetchedResultsController?.sections?[0].numberOfObjects {
-                        if rows > 0 {
-                            self.isLoadingIndicatorVisible = false
-                            return
-                        }
-                    }
-                }
+            // After searching is completed, if there are results, hide the indicator
+            if self.fetchedResults?.count ?? 0 > 0 {
+                self.isLoadingIndicatorVisible = false
+                return
             }
+            
+            // If it's not searching but there's no data, it means data isn't ready
             if self.searchKeywords != nil {
                 self.showNoDataIndicator()
             }
