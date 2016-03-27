@@ -14,7 +14,6 @@ class ProductsViewController: FetchedResultsViewController {
     @IBOutlet var _loadingIndicator: UILabel!
     
     var searchController: UISearchController?
-    var searchTimer: NSTimer?
     
     var isSearchResultsViewController: Bool = false
     var searchKeywords: [String]?
@@ -101,7 +100,7 @@ class ProductsViewController: FetchedResultsViewController {
         super.viewDidAppear(animated)
         
         // Reload in case if appIsFavorite is changed
-        // TODO:
+        // TODO: Favorite
         self.collectionView().reloadData()
     }
     
@@ -127,8 +126,7 @@ extension ProductsViewController {
     override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
         // If it's search results view controller
         // If search keywords is empty
-        if (self.isSearchResultsViewController &&
-            (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))) {
+        if (self.isSearchResultsViewController && self.searchKeywordsIsEmpty()) {
             return nil
         }
         
@@ -387,7 +385,11 @@ extension ProductsViewController {
             SDWebImageManager.sharedManager().cancelAll()
         }
         // Show indicator
-        self.showLoadingIndicator()
+        if self.searchKeywordsIsEmpty() {
+            self.showTapSearch()
+        } else {
+            self.showLoadingIndicator()
+        }
         
         // Reload Data
         super.reloadData() {
@@ -406,14 +408,19 @@ extension ProductsViewController {
             }
         }
     }
-    
-    func reloadDataWithIndicators() {
-        self.reloadData(nil)
-    }
 }
 
 // MARK: UISearchResultsUpdating
 extension ProductsViewController: UISearchResultsUpdating {
+    
+    func searchKeywordsIsEmpty() -> Bool {
+        return (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))
+    }
+    
+    func showTapSearch() {
+        _loadingIndicator.text = NSLocalizedString("products_vc_tap_search")
+        self.isLoadingIndicatorVisible = true
+    }
     
     func showNoDataIndicator() {
         _loadingIndicator.text = NSLocalizedString("products_vc_no_data")
@@ -425,23 +432,11 @@ extension ProductsViewController: UISearchResultsUpdating {
         self.isLoadingIndicatorVisible = true
     }
     
-    func startSearchTimer() {
-        stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(ProductsViewController.reloadDataWithIndicators), userInfo: nil, repeats: false)
-    }
-    
-    func stopSearchTimer() {
-        self.searchTimer?.invalidate()
-        self.searchTimer = nil
-    }
-    
     func searchKeywords(keyWords: [String]?) {
         
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        self.stopSearchTimer()
-        
         var newSearchKeywords: [String]?
         if searchController.active {
             newSearchKeywords = self.getSearchKeywords(searchController.searchBar.text)
@@ -462,13 +457,8 @@ extension ProductsViewController: UISearchResultsUpdating {
             }
         }
         
-        // Ready to search
-        self.showLoadingIndicator()
-        
         if newSearchKeywords == nil {
             self.reloadData(nil)
-        } else {
-            self.startSearchTimer()
         }
     }
 }

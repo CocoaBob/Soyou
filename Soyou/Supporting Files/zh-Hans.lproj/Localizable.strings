@@ -39,6 +39,7 @@
 /* Products View Controller */
 "products_vc_title"="产品";
 "products_vc_search_bar_placeholder"="%@ 商品、编号…";
+"products_vc_tap_search"="点击『搜索』开始查找...";
 "products_vc_loading"="努力加载中...";
 "products_vc_no_data"="没有数据";
 
