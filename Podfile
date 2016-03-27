@@ -35,6 +35,7 @@ pod "UICKeyChainStore"
 pod "UIColor_Hex_Swift"
 pod "UIImage-ResizeMagick"
 pod "UIView+Shake"
+pod "WTStatusBar"
 pod "ZoomInteractiveTransition"
 
 #Continuous Integration

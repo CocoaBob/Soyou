@@ -46,6 +46,7 @@
 @import UIColor_Hex_Swift;
 @import UIImage_ResizeMagick;
 @import UIView_Shake;
+@import WTStatusBar;
 @import ZoomInteractiveTransition;
 
 // Continuous Integration
