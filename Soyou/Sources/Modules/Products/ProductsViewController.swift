@@ -142,8 +142,6 @@ class ProductsViewController: FetchedResultsViewController {
         super.viewWillDisappear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = false
-        // Stop caching images
-        SDWebImageManager.sharedManager().cancelAll()
     }
     
     override func didReceiveMemoryWarning() {
@@ -337,6 +335,11 @@ extension ProductsViewController {
 extension ProductsViewController {
     
     override func reloadData(completion: (() -> Void)?) {
+        // If the results were not empty
+        if self.fetchedResults?.count ?? 0 > 0 {
+            // Stop image caching, as all the cells are reloaded, the old completion block will reload non-existing cells
+            SDWebImageManager.sharedManager().cancelAll()
+        }
         // Show indicator
         self.showLoadingIndicator()
         

@@ -73,12 +73,6 @@ class NewsViewController: FetchedResultsViewController {
         self.hideToolbar(false)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        // Stop caching images
-        SDWebImageManager.sharedManager().cancelAll()
-    }
-    
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         updateColumnCount(Int(floor(size.width / 240)))
     }
