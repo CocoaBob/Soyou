@@ -22,49 +22,13 @@ class ProductsViewController: FetchedResultsViewController {
     var isLoadingIndicatorVisible: Bool = true {
         didSet {
             self._loadingView.hidden = !isLoadingIndicatorVisible
+            self.collectionView().mj_footer.hidden = isLoadingIndicatorVisible
         }
     }
     
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
     var cellWidth: CGFloat = 0
-    
-    override func collectionView() -> UICollectionView {
-        return _collectionView
-    }
-    
-    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
-        if (self.isSearchResultsViewController &&
-            (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))) {
-            return nil
-        }
-        var predicates = [NSPredicate]()
-        if let brandId = self.brandID {
-            predicates.append(FmtPredicate("brandId == %@", brandId))
-        }
-        if let categoryID = self.categoryID {
-            predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
-        }
-        if let searchKeywords = self.searchKeywords {
-            var searchKeywordsPredicates = [NSPredicate]()
-            for searchKeyword in searchKeywords {
-                if !searchKeyword.characters.isEmpty {
-                    searchKeywordsPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchKeyword))
-                }
-            }
-            if !searchKeywordsPredicates.isEmpty {
-                predicates.append(CompoundAndPredicate(searchKeywordsPredicates))
-            }
-        }
-        
-        let request = Product.MR_requestAllSortedBy(
-            "order,id",
-            ascending: true,
-            withPredicate: CompoundAndPredicate(predicates),
-            inContext: context)
-        request.fetchBatchSize = 16
-        return request
-    }
     
     // Properties
     var selectedIndexPath: NSIndexPath?
@@ -96,7 +60,9 @@ class ProductsViewController: FetchedResultsViewController {
         
         // Setups
         self.setupCollectionView()
+        self.setupLoadMoreControl()
         
+        // If it's not another VC's search results VC, setup its search controller
         if !self.isSearchResultsViewController {
             // Setup Search Controller
             self.setupSearchController()
@@ -135,6 +101,7 @@ class ProductsViewController: FetchedResultsViewController {
         super.viewDidAppear(animated)
         
         // Reload in case if appIsFavorite is changed
+        // TODO:
         self.collectionView().reloadData()
     }
     
@@ -147,6 +114,55 @@ class ProductsViewController: FetchedResultsViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         DLog("didReceiveMemoryWarning")
+    }
+}
+
+// MARK: FetchedResultsViewController
+extension ProductsViewController {
+    
+    override func collectionView() -> UICollectionView {
+        return _collectionView
+    }
+    
+    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
+        // If it's search results view controller
+        // If search keywords is empty
+        if (self.isSearchResultsViewController &&
+            (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))) {
+            return nil
+        }
+        
+        // Prepare predicates
+        var predicates = [NSPredicate]()
+        if let brandId = self.brandID {
+            predicates.append(FmtPredicate("brandId == %@", brandId))
+        }
+        if let categoryID = self.categoryID {
+            predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
+        }
+        if let searchKeywords = self.searchKeywords {
+            var searchKeywordsPredicates = [NSPredicate]()
+            for searchKeyword in searchKeywords {
+                if !searchKeyword.characters.isEmpty {
+                    searchKeywordsPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchKeyword))
+                }
+            }
+            if !searchKeywordsPredicates.isEmpty {
+                predicates.append(CompoundAndPredicate(searchKeywordsPredicates))
+            }
+        }
+        
+        // Create fetch request
+        let request = Product.MR_requestAllSortedBy(
+            "order,id",
+            ascending: true,
+            withPredicate: CompoundAndPredicate(predicates),
+            inContext: context)
+        
+        // Setup fetch request
+        self.fetchLimit = 32
+        
+        return request
     }
 }
 
@@ -312,6 +328,36 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
             }
         }
         return size
+    }
+}
+
+// MARK: - Refreshing
+extension ProductsViewController {
+    
+    func setupLoadMoreControl() {        
+        let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+            self.loadMore({ 
+                self.endRefreshing()
+            })
+            self.beginRefreshing()
+        })
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
+        footer.automaticallyHidden = false
+        self.collectionView().mj_footer = footer
+    }
+    
+    func beginRefreshing() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func endRefreshing() {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.collectionView().mj_footer.endRefreshing()
+        })
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 

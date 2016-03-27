@@ -51,8 +51,8 @@ class NewsViewController: FetchedResultsViewController {
         self.updateScrollViewInset(self.collectionView(), 0, true, true, false, true)
         
         // Setups
-        setupCollectionView()
-        setupRefreshControls()
+        self.setupCollectionView()
+        self.setupRefreshControls()
         
         // Data
         loadData(nil)
