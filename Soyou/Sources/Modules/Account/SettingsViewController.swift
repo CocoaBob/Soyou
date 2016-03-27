@@ -38,17 +38,12 @@ class SettingsViewController: SimpleTableViewController {
         
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(UIViewController.dismissSelf))
-        
-        // Update cache size
-        self.calculateCacheSize()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Reload table in case UserInfo is updated
-        rebuildTable()
-        self.tableView.reloadData()
+        self.refreshUI()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -453,8 +448,12 @@ extension SettingsViewController {
     }
     
     func refreshUI() {
-        self.rebuildTable()
+        // Reload table in case UserInfo is updated
+        rebuildTable()
         self.tableView.reloadData()
+        
+        // Update cache size
+        self.calculateCacheSize()
     }
 }
 
