@@ -94,8 +94,14 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     }
     
     func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: AnyObject?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        DLog("--> \"\(path)\"")
-        guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+        let languageCode = NSLocale.preferredLanguages().first ?? "zh"
+        var languageCountryCode = "zh-CN"
+        if languageCode.hasPrefix("en") {
+            languageCountryCode = "en-US"
+        }
+        let newPath = path + "?lang=" + languageCountryCode
+        DLog("--> \"\(newPath)\"")
+        guard let path = newPath.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
             let error = FmtError(0, "Failed to encode URL")
             if let onFailure = onFailure { onFailure(error) }
             return
