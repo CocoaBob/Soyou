@@ -109,7 +109,7 @@ class ProductsViewController: FetchedResultsViewController {
         
         // Reload in case if appIsFavorite is changed
         // TODO: Favorite
-        self.collectionView().reloadData()
+        self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
     }
     
     override func viewWillDisappear(animated: Bool) {

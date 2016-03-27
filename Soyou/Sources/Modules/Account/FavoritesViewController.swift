@@ -78,9 +78,6 @@ class FavoritesViewController: FetchedResultsViewController {
         
         // Setup refresh controls
         setupRefreshControls()
-        
-        // Load data
-        self.reloadData(nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -90,6 +87,11 @@ class FavoritesViewController: FetchedResultsViewController {
         // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.hideToolbar(false)
+        
+        // Reload data
+        self.reloadData {
+            self.tableView().reloadData()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -98,11 +100,6 @@ class FavoritesViewController: FetchedResultsViewController {
         // Workaround to make sure navigation bar is visible even the slide-back gesture is cancelled.
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.navigationController?.setNavigationBarHidden(false, animated: false)
-        }
-        
-        // Reload data
-        self.reloadData { 
-            self.tableView().reloadData()
         }
     }
 }

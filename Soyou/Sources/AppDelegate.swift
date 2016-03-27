@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup the tab bar controller
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = viewControllers
+        tabBarController.delegate = self
         
         // Setup the window
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -202,5 +203,14 @@ extension AppDelegate {
             tabBarController.selectedIndex = 2
             navController.popToRootViewControllerAnimated(false)
         }
+    }
+}
+
+// MARK: UITabBarControllerDelegate
+extension AppDelegate: UITabBarControllerDelegate {
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        let toppestViewController = viewController.toppestViewController()
+        toppestViewController?.viewDidAppear(false)
     }
 }

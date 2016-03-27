@@ -366,3 +366,29 @@ extension UIViewController {
         }
     }
 }
+
+// MARK: Find top view controller
+extension UIViewController {
+    
+    func toppestViewController(base: UIViewController?) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return toppestViewController(nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return toppestViewController(selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return toppestViewController(presented)
+        }
+        if let searchController = base as? UISearchController {
+            return toppestViewController(searchController.searchResultsController)
+        }
+        return base
+    }
+    
+    func toppestViewController() -> UIViewController? {
+        return self.toppestViewController(self)
+    }
+}
