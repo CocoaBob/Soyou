@@ -108,8 +108,7 @@ class ProductsViewController: FetchedResultsViewController {
         super.viewDidAppear(animated)
         
         // Reload in case if appIsFavorite is changed
-        // TODO: Favorite
-        self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+        self.reloadVisibleCells()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -172,7 +171,7 @@ extension ProductsViewController {
     }
 }
 
-// MARK: - CollectionView Delegate Methods
+// MARK: CollectionView Delegate Methods
 extension ProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -190,7 +189,6 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             cell.lblTitle?.text = product.title
             cell.lblBrand?.text = product.brandLabel
             cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
-            // TODO: Improve favorites
             cell.isFavorite = product.isFavorite()
             cell.fgImageView.image = nil
             
@@ -203,8 +201,6 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                         completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                             // Update cell size if it's not scrolling
                             if (image != nil &&
-                                !self.collectionView().dragging &&
-                                !self.collectionView().decelerating &&
                                 self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
                                 self.collectionView().reloadItemsAtIndexPaths([indexPath])
                             }
@@ -237,22 +233,6 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             self.navigationController?.pushViewController(productViewController, animated: true)
         }
-    }
-}
-
-// MARK: - UIScrollViewDelegate
-// Update cell size
-// TODO: Update favorites
-extension ProductsViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
     }
 }
 
@@ -295,7 +275,7 @@ extension ProductsViewController: ZoomTransitionProtocol {
     }
 }
 
-//MARK: - CollectionView Waterfall Layout
+// MARK: CollectionView Waterfall Layout
 extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
@@ -337,7 +317,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     }
 }
 
-// MARK: - Refreshing
+// MARK: Pull to load more
 extension ProductsViewController {
     
     func setupLoadMoreControl() {        
@@ -367,7 +347,7 @@ extension ProductsViewController {
     }
 }
 
-//MARK: - Actions
+// MARK: Actions
 extension ProductsViewController {
     
     @IBAction func favProduct(sender: UIButton) {
@@ -383,7 +363,7 @@ extension ProductsViewController {
     }
 }
 
-// MARK: - Reload data
+// MARK: FetchedResultsController
 extension ProductsViewController {
     
     override func reloadData(completion: (() -> Void)?) {
@@ -422,7 +402,9 @@ extension ProductsViewController {
 extension ProductsViewController: UISearchResultsUpdating {
     
     func searchKeywordsIsEmpty() -> Bool {
-        return (self.searchKeywords == nil || (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))
+        return (self.searchKeywords == nil ||
+            self.searchKeywords!.isEmpty ||
+            (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))
     }
     
     func showTapSearch() {
@@ -471,7 +453,7 @@ extension ProductsViewController: UISearchResultsUpdating {
     }
 }
 
-// MARK: - UISearchBarDelegate
+// MARK: UISearchBarDelegate
 extension ProductsViewController: UISearchBarDelegate {
     
     func getSearchKeywords(searchText: String?) -> [String]? {
@@ -489,7 +471,7 @@ extension ProductsViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - SearchControler
+// MARK: SearchControler
 extension ProductsViewController: UISearchControllerDelegate {
     
     func setupRightBarButtonItem() {
@@ -530,7 +512,19 @@ extension ProductsViewController: UISearchControllerDelegate {
     }
 }
 
-// MARK: - Custom cells
+// MARK: Routines
+extension ProductsViewController {
+    
+    func reloadVisibleCells() {
+        // If it isn't search results view controller
+        // If search keywords isn't empty
+        if (!self.isSearchResultsViewController || !self.searchKeywordsIsEmpty()) {
+            self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+        }
+    }
+}
+
+// MARK: Custom cells
 class ProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView!
     @IBOutlet var lblBrand: UILabel!
