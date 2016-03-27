@@ -99,6 +99,11 @@ class FavoritesViewController: FetchedResultsViewController {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.navigationController?.setNavigationBarHidden(false, animated: false)
         }
+        
+        // Reload data
+        self.reloadData { 
+            self.tableView().reloadData()
+        }
     }
 }
 
@@ -222,16 +227,26 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             UserManager.shared.loginOrDo() { () -> () in
                 switch (self.type) {
                 case .News:
-                    guard let news = self.fetchedResults?[indexPath.row] as? FavoriteNews else {
+                    guard let favoriteNews = self.fetchedResults?[indexPath.row] as? FavoriteNews else {
                         return
                     }
                     MBProgressHUD.showLoader(self.view)
-                    DataManager.shared.favoriteNews(news.id!, wasFavorite: true) { responseObject, error in
+                    DataManager.shared.favoriteNews(favoriteNews.id!, wasFavorite: true) { responseObject, error in
+                        // If any error
+                        if error != nil {
+                            return
+                        }
+                        // If succeeded to delete
                         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                            MBProgressHUD.hideLoader(self.view)
-                            if let localNews = news.MR_inContext(localContext) {
-                                localNews.MR_deleteEntity()
+                            if let localFavoriteNews = favoriteNews.MR_inContext(localContext) {
+                                localFavoriteNews.MR_deleteEntityInContext(localContext)
                             }
+                        })
+                        self.reloadData({
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                tableView.reloadData()
+                                MBProgressHUD.hideLoader(self.view)
+                            })
                         })
                     }
                 case .Products:
@@ -240,14 +255,17 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                     MBProgressHUD.showLoader(self.view)
                     MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                        if let
-                            localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
+                        if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
                             product = localFavoriteProduct.relatedProduct(localContext) {
-                                product.toggleFavorite({ (data: AnyObject?) -> () in
+                            product.toggleFavorite({ (data: AnyObject?) -> () in
+                                // If succeeded to delete
+                                self.reloadData({
                                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                        tableView.reloadData()
                                         MBProgressHUD.hideLoader(self.view)
                                     })
                                 })
+                            })
                         } else {
                             MBProgressHUD.hideLoader(self.view)
                         }

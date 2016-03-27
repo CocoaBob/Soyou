@@ -191,7 +191,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             cell.lblBrand?.text = product.brandLabel
             cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
             // TODO: Improve favorites
-//            cell.isFavorite = product.isFavorite()
+            cell.isFavorite = product.isFavorite()
             cell.fgImageView.image = nil
             
             if let images = product.images as? NSArray,
@@ -393,7 +393,7 @@ extension ProductsViewController {
             SDWebImageManager.sharedManager().cancelAll()
         }
         // Show indicator
-        if self.searchKeywordsIsEmpty() {
+        if self.isSearchResultsViewController && self.searchKeywordsIsEmpty() {
             self.showTapSearch()
         } else {
             self.showLoadingIndicator()
