@@ -35,17 +35,24 @@ public struct Cons {
     }
     
     struct App {
-        static let username                                 = "username"                                // Keychain
-        static let deviceToken                              = "deviceToken"                             // Keychain
-        static let lastIntroVersion                         = "lastIntroVersion"                        // Database
-        static let lastRequestTimestampProductIDs           = "lastRequestTimestampProductIDs"          // Database
-        static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"   // Database
-        static let lastRequestTimestampStores               = "lastRequestTimestampStores"              // Database
-        static let lastInstalledVersion                     = "lastInstalledVersion"                    // NSUserDefaults
-        static let lastInstalledBuild                       = "lastInstalledBuild"                      // NSUserDefaults
-        static let userCurrency                             = "userCurrency"                            // NSUserDefaults
-        static let lastUpdateDate                           = "lastUpdateDate"                          // NSUserDefaults
+        static let username                                 = "username"                                // Stored in keychain
+        static let deviceToken                              = "deviceToken"                             // Stored in keychain
+        static let lastIntroVersion                         = "lastIntroVersion"                        // Stored in database
+        static let lastInstalledVersion                     = "lastInstalledVersion"                    // Stored in NSUserDefaults
+        static let lastInstalledBuild                       = "lastInstalledBuild"                      // Stored in NSUserDefaults
+        static let userCurrency                             = "userCurrency"                            // Stored in NSUserDefaults
+        static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
         static let updateInterval                           = 86400.0                                   // 1 day
+    }
+    
+    struct DB {
+        static let lastRequestTimestampProductIDs           = "lastRequestTimestampProductIDs"          // Stored in database
+        static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"   // Stored in database
+        static let lastRequestTimestampStores               = "lastRequestTimestampStores"              // Stored in database
+        
+        static let newsUpdatingDidFinishNotification        = "newsUpdatingDidFinishNotification"       // Notification to reload News
+        static let brandsUpdatingDidFinishNotification      = "brandsUpdatingDidFinishNotification"     // Notification to reload Brands
+        static let productsUpdatingDidFinishNotification    = "productsUpdatingDidFinishNotification"   // Notification to reload Products
     }
     
     struct UI {

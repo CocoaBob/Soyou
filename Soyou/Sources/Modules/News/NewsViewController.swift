@@ -43,6 +43,11 @@ class NewsViewController: FetchedResultsViewController {
         // Bars
         self.hidesBottomBarWhenPushed = false
     }
+    
+    deinit {
+        // Stop observing data updating
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,8 +59,11 @@ class NewsViewController: FetchedResultsViewController {
         self.setupCollectionView()
         self.setupRefreshControls()
         
+        // Observe data updating
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewsViewController.reloadDataWithoutCompletion), name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
+        
         // Data
-        loadData(nil)
+        self.loadData(nil)
         self.reloadData(nil)
         
         // Transitions

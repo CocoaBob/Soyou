@@ -52,6 +52,11 @@ class ProductsViewController: FetchedResultsViewController {
         self.title = NSLocalizedString("products_vc_title")
     }
     
+    deinit {
+        // Stop observing data updating
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.productsUpdatingDidFinishNotification, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -80,6 +85,9 @@ class ProductsViewController: FetchedResultsViewController {
         } else {
             self.updateScrollViewInset(self.collectionView(), 0, true, true, false, false)
         }
+        
+        // Observe data updating
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductsViewController.reloadDataWithoutCompletion), name: Cons.DB.productsUpdatingDidFinishNotification, object: nil)
         
         // Load data
         self.reloadData(nil)

@@ -44,6 +44,11 @@ class BrandsViewController: FetchedResultsViewController {
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("brands_vc_tab_title"), image: UIImage(named: "img_tab_tag"), selectedImage: UIImage(named: "img_tab_tag_selected"))
     }
     
+    deinit {
+        // Stop observing data updating
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.brandsUpdatingDidFinishNotification, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,6 +64,9 @@ class BrandsViewController: FetchedResultsViewController {
         
         // Setup Search Controller
         self.setupSearchController()
+        
+        // Observe data updating
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BrandsViewController.reloadDataWithoutCompletion), name: Cons.DB.brandsUpdatingDidFinishNotification, object: nil)
         
         // Load data
         self.reloadData(nil)

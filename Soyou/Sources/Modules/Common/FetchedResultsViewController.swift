@@ -100,6 +100,10 @@ extension FetchedResultsViewController {
         self.fetch(completion)
     }
     
+    func reloadDataWithoutCompletion() {
+        self.reloadData(nil)
+    }
+    
     func loadMore(completion: (() -> Void)?) {
         // Fetch offset
         self.fetchOffset += self.fetchLimit

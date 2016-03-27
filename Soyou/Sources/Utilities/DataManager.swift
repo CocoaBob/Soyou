@@ -169,6 +169,8 @@ class DataManager {
                             }, completion: { (_, _) -> Void in
                                 self.completeWithData(responseObject, completion: completion)
                         })
+                        // Notify observers
+                        NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.brandsUpdatingDidFinishNotification, object: nil)
                     })
                 } else {
                     self.completeWithData(responseObject, completion: completion)
@@ -261,6 +263,8 @@ class DataManager {
                         }, completion: { (_, _) -> Void in
                             self.completeWithData(responseObject, completion: completion)
                     })
+                    // Notify observers
+                    NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.newsUpdatingDidFinishNotification, object: nil)
                 })
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
@@ -371,7 +375,7 @@ class DataManager {
             self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
                 // If there's no error, save the last request timestamp
                 if error == nil {
-                    self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampProductIDs)
+                    self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampProductIDs)
                 }
                 self.completeWithData(nil, completion: completion)
             })
@@ -381,7 +385,7 @@ class DataManager {
     }
     
     func requestModifiedProductIDs(completion: CompletionClosure?) {
-        let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampProductIDs)
+        let timestamp = self.getAppInfo(Cons.DB.lastRequestTimestampProductIDs)
         DLog(FmtString("lastRequestTimestampProductIDs = %@",timestamp ?? ""))
         RequestManager.shared.requestModifiedProductIDs(
             timestamp, { responseObject in
@@ -404,7 +408,7 @@ class DataManager {
             productIDs = responseObject["products"] as? [NSNumber] {
             DLog(FmtString("Number of deleted products = %d",productIDs.count))
             let timestamp = responseObject["timestamp"] as? String
-            self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampDeletedProductIDs)
+            self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampDeletedProductIDs)
             MagicalRecord.saveWithBlock({ (localContext) -> Void in
                 if let products = Product.MR_findAllWithPredicate(FmtPredicate("id IN %@", productIDs), inContext: localContext) {
                     for product in products {
@@ -413,6 +417,8 @@ class DataManager {
                 }
                 }, completion: { (_, _) -> Void in
                     self.completeWithData(nil, completion: completion)
+                    // Notify observers
+                    NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.productsUpdatingDidFinishNotification, object: nil)
             })
         } else {
             self.completeWithError(FmtError(0, nil), completion: completion)
@@ -420,7 +426,7 @@ class DataManager {
     }
     
     func requestDeletedProductIDs(completion: CompletionClosure?) {
-        let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampDeletedProductIDs)
+        let timestamp = self.getAppInfo(Cons.DB.lastRequestTimestampDeletedProductIDs)
         DLog(FmtString("lastRequestTimestampDeletedProductIDs = %@",timestamp ?? ""))
         RequestManager.shared.requestDeletedProductIDs(
             timestamp, { responseObject in
@@ -470,7 +476,7 @@ class DataManager {
     //////////////////////////////////////
     
     func requestAllStores(completion: CompletionClosure?) {
-        let timestamp = self.getAppInfo(Cons.App.lastRequestTimestampStores)
+        let timestamp = self.getAppInfo(Cons.DB.lastRequestTimestampStores)
         DLog(FmtString("lastRequestTimestampStores = %@",timestamp ?? ""))
         RequestManager.shared.requestAllStores(timestamp, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary,
@@ -481,7 +487,7 @@ class DataManager {
                 Store.importDatas(stores, { (_, _) -> () in
                     // Succeeded to import, save timestamp for next request
                     let timestamp = data["timestamp"] as? String
-                    self.setAppInfo(timestamp ?? "", forKey: Cons.App.lastRequestTimestampStores)
+                    self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampStores)
                     self.completeWithData(responseObject, completion: completion)
                 })
             } else {
