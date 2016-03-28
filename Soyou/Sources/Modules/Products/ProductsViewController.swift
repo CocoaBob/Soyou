@@ -422,11 +422,12 @@ extension ProductsViewController: UISearchResultsUpdating {
         self.isLoadingIndicatorVisible = true
     }
     
-    func searchKeywords(keyWords: [String]?) {
-        
-    }
-    
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        // Avoid hiding the searchResultsController if search text field is empty
+        if self.fetchedResults?.count ?? 0 > 0 {
+            searchController.searchResultsController?.view.hidden = false
+        }
+        
         var newSearchKeywords: [String]?
         if searchController.active {
             newSearchKeywords = self.getSearchKeywords(searchController.searchBar.text)
