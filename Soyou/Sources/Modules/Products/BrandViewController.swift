@@ -110,12 +110,16 @@ class BrandViewController: UIViewController {
         // Update footer view size
         self.updateFooterView()
         
-        // Load data
-        self.prepareCategories()
-        self.loadTableViewItems(nil)
-        
-        // Reload table
-        self.tableView.reloadData()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            // Load categories data
+            self.prepareCategories()
+            self.loadTableViewItems(nil)
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                // Reload table
+                self.tableView.reloadData()
+            })
+        }
         
         // Parallax Header
         self.setupParallaxHeader()
