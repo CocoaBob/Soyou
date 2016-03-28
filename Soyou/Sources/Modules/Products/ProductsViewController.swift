@@ -17,7 +17,7 @@ class ProductsViewController: FetchedResultsViewController {
     
     var isSearchResultsViewController: Bool = false
     var searchKeywords: [String]?
-    var searchFromViewController: UIViewController?
+    weak var searchFromViewController: UIViewController?
     var isLoadingIndicatorVisible: Bool = true {
         didSet {
             self._loadingView.hidden = !isLoadingIndicatorVisible

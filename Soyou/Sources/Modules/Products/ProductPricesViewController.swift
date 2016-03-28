@@ -10,7 +10,7 @@ class ProductPricesViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    var productViewController: ProductViewController?
+    weak var productViewController: ProductViewController?
     
     // //[ { "country": "FR", "price": 1450 } ]
     var prices: [[String: AnyObject]]? {

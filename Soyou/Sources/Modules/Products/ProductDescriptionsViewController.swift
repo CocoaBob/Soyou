@@ -15,7 +15,7 @@ class ProductDescriptionsViewController: UIViewController {
     @IBOutlet var webView: UIWebView!
     var webViewHeightDelegate: WebViewHeightDelegate?
     
-    var productViewController: ProductViewController?
+    weak var productViewController: ProductViewController?
     
     var descriptions: String? {
         didSet {
