@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YMb-yX-kGc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YMb-yX-kGc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -213,6 +213,24 @@
                                     <outlet property="delegate" destination="yPF-cR-cYy" id="6Ot-TL-E6E"/>
                                 </connections>
                             </collectionView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vre-aN-uWk" userLabel="Swip Up Indicator">
+                                <rect key="frame" x="0.0" y="568" width="600" height="32"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_swipe_up_indicator" translatesAutoresizingMaskIntoConstraints="NO" id="d7k-Ob-iX5">
+                                        <rect key="frame" x="282" y="10" width="36" height="11"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="36" id="1dN-AC-RDa"/>
+                                            <constraint firstAttribute="height" constant="11" id="CBk-bw-Yuo"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="1Rf-2c-GNx"/>
+                                    <constraint firstItem="d7k-Ob-iX5" firstAttribute="centerX" secondItem="Vre-aN-uWk" secondAttribute="centerX" id="fPg-aA-yBU"/>
+                                    <constraint firstItem="d7k-Ob-iX5" firstAttribute="centerY" secondItem="Vre-aN-uWk" secondAttribute="centerY" id="ibA-Xf-hc1"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bCV-SG-stb">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
@@ -233,12 +251,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="bCV-SG-stb" secondAttribute="bottom" id="2YS-sf-eP5"/>
+                            <constraint firstItem="Vre-aN-uWk" firstAttribute="leading" secondItem="kZq-G4-NDI" secondAttribute="leading" id="5lm-WW-s7n"/>
                             <constraint firstItem="LND-O0-Vpm" firstAttribute="leading" secondItem="kZq-G4-NDI" secondAttribute="leading" id="8Rj-oR-1kA"/>
                             <constraint firstItem="bCV-SG-stb" firstAttribute="leading" secondItem="kZq-G4-NDI" secondAttribute="leading" id="G1G-D0-Sn2"/>
                             <constraint firstItem="LND-O0-Vpm" firstAttribute="top" secondItem="kZq-G4-NDI" secondAttribute="top" id="Gg1-1s-QFc"/>
                             <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="LND-O0-Vpm" secondAttribute="bottom" id="ImV-pP-DEn"/>
                             <constraint firstAttribute="trailing" secondItem="bCV-SG-stb" secondAttribute="trailing" id="KAQ-ef-iNj"/>
+                            <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="Vre-aN-uWk" secondAttribute="bottom" id="Un8-hh-tI5"/>
                             <constraint firstAttribute="trailing" secondItem="LND-O0-Vpm" secondAttribute="trailing" id="aMQ-Lf-vz0"/>
+                            <constraint firstAttribute="trailing" secondItem="Vre-aN-uWk" secondAttribute="trailing" id="vIz-qu-jgd"/>
                             <constraint firstItem="bCV-SG-stb" firstAttribute="top" secondItem="kZq-G4-NDI" secondAttribute="top" id="yQK-ox-7Mv"/>
                         </constraints>
                     </view>
@@ -249,6 +270,8 @@
                         <outlet property="_collectionView" destination="LND-O0-Vpm" id="tax-Cd-fzf"/>
                         <outlet property="_loadingIndicator" destination="kJI-Hw-e2w" id="i19-Qq-FyO"/>
                         <outlet property="_loadingView" destination="bCV-SG-stb" id="ngo-DU-2aT"/>
+                        <outlet property="_swipeUpIndicator" destination="Vre-aN-uWk" id="BoM-es-v19"/>
+                        <outlet property="_swipeUpIndicatorBottomConstraint" destination="Un8-hh-tI5" id="qed-It-Uhe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P2c-m4-Et7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -790,6 +813,7 @@
         <image name="img_heart_shadow" width="24" height="22"/>
         <image name="img_map_locate_bg" width="60" height="60"/>
         <image name="img_map_locate_fg" width="22" height="22"/>
+        <image name="img_swipe_up_indicator" width="36" height="11"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="8h3-jy-NCP"/>

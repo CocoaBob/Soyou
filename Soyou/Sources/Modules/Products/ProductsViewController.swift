@@ -9,9 +9,14 @@
 class ProductsViewController: FetchedResultsViewController {
     
     // Override FetchedResultsViewController
-    @IBOutlet var _collectionView: UICollectionView!
-    @IBOutlet var _loadingView: UIView!
-    @IBOutlet var _loadingIndicator: UILabel!
+    @IBOutlet private var _collectionView: UICollectionView!
+    
+    @IBOutlet private var _swipeUpIndicator: UIView!
+    @IBOutlet private var _swipeUpIndicatorBottomConstraint: NSLayoutConstraint!
+    private var _swipeUpIndicatorIsVisible = true
+    
+    @IBOutlet private var _loadingView: UIView!
+    @IBOutlet private var _loadingIndicator: UILabel!
     
     var searchController: UISearchController?
     
@@ -85,6 +90,12 @@ class ProductsViewController: FetchedResultsViewController {
         } else {
             self.updateScrollViewInset(self.collectionView(), 0, true, true, false, false)
         }
+        
+        // Setup swipe up indicator
+        _swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom
+        // Reset swipe up indicator
+        _swipeUpIndicatorIsVisible = false
+        _swipeUpIndicator.hidden = true
         
         // Observe data updating
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductsViewController.reloadDataWithoutCompletion), name: Cons.DB.productsUpdatingDidFinishNotification, object: nil)
@@ -232,6 +243,36 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             self.presentingViewController?.navigationController?.pushViewController(productViewController, animated: true)
         } else {
             self.navigationController?.pushViewController(productViewController, animated: true)
+        }
+    }
+}
+
+// MARK: UIScrollViewDelegate
+extension ProductsViewController {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        // If indicator invisible
+        if (!_swipeUpIndicatorIsVisible &&
+            // If it's the end of the scroll view
+            scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.size.height - scrollView.contentInset.bottom)) {
+            // If it isn't no more data status
+            if self.collectionView().mj_footer.state != .NoMoreData {
+                _swipeUpIndicatorIsVisible = true
+                self._swipeUpIndicator.alpha = 0
+                self._swipeUpIndicator.hidden = false
+                UIView.animateWithDuration(0.3, animations: {
+                    self._swipeUpIndicator.alpha = 1
+                    }, completion: { (_) in
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                            UIView.animateWithDuration(0.3, animations: {
+                                self._swipeUpIndicator.alpha = 0
+                                }, completion: { (_) in
+                                    self._swipeUpIndicator.hidden = true
+                                    self._swipeUpIndicatorIsVisible = false
+                            })
+                        }
+                })
+            }
         }
     }
 }
