@@ -572,16 +572,19 @@ extension NewsDetailViewController {
     }
     
     func like(sender: UIBarButtonItem) {
-        guard let wasLiked = self.news?.isLiked() else { return }
-        
-        self.news?.toggleLike(wasLiked) { (likeNumber: AnyObject?) -> () in
+        self.news?.toggleLike() { (likeNumber: AnyObject?) -> () in
             // Update like number
             if let likeNumber = likeNumber as? NSNumber {
                 self.likeBtnNumber = likeNumber.integerValue
             }
             
             // Update like color
-            self.updateLikeBtnColor(!wasLiked)
+            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                let isLiked = self.news?.MR_inContext(localContext)?.isLiked()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.updateLikeBtnColor(isLiked)
+                })
+            })
         }
     }
     

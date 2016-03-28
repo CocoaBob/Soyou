@@ -132,16 +132,21 @@ class BaseNews: BaseModel {
         return returnValue
     }
     
-    func toggleLike(wasLiked: Bool, completion: DataClosure?) {
-        var selfNewsID: NSNumber?
+    func toggleLike(completion: DataClosure?) {
+        var _wasLiked: Bool?
+        var _newsID: NSNumber?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            selfNewsID = self.MR_inContext(localContext)?.id
+            let localSelf = self.MR_inContext(localContext)
+            _newsID = localSelf?.id
+            _wasLiked = localSelf?.isLiked()
         })
+        guard let wasLiked = _wasLiked else { return }
+        guard let newsID = _newsID else { return }
         
         // Send request to server, then update local data after receving response
-        guard let newsID = selfNewsID else { return }
         DataManager.shared.likeNews(newsID, wasLiked: wasLiked) { responseObject, error in
-            guard let data = responseObject?["data"] else { return }
+            guard let responseObject = responseObject as? [String: AnyObject] else { return }
+            guard let data = responseObject["data"] else { return }
             
             // Remember if it's liked or not
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
@@ -150,12 +155,12 @@ class BaseNews: BaseModel {
                 var favoriteNews: FavoriteNews?
                 if self is FavoriteNews {
                     if let news = self as? FavoriteNews {
-                        favoriteNews = news
+                        favoriteNews = news.MR_inContext(localContext)
                         originalNews = news.MR_inContext(localContext)?.relatedNews(localContext)
                     }
                 } else {
                     if let news = self as? News {
-                        originalNews = news
+                        originalNews = news.MR_inContext(localContext)
                         favoriteNews = news.MR_inContext(localContext)?.relatedFavoriteNews(localContext)
                     }
                 }

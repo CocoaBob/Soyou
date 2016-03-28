@@ -141,7 +141,8 @@
 
 /* Data Manager */
 "data_manager_updating_data"="正在更新数据...";
-"data_manager_data_updated"="数据更新完毕！";
+"data_manager_data_update_succeeded"="数据更新成功！";
+"data_manager_data_update_failed"="数据更新失败！";
 
 /* Error Code */
 "invalid_activation_code"="无效激活码。";

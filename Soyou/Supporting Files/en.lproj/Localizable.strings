@@ -139,7 +139,8 @@
 
 /* Data Manager */
 "data_manager_updating_data"="Updating data...";
-"data_manager_data_updated"="Data updated!";
+"data_manager_data_update_succeeded"="Succeeded to update data!";
+"data_manager_data_update_failed"="Failed to update data!";
 
 /* Error Code */
 "invalid_activation_code"="Invalid activation code.";

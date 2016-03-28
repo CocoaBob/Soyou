@@ -42,7 +42,7 @@ public struct Cons {
         static let lastInstalledBuild                       = "lastInstalledBuild"                      // Stored in NSUserDefaults
         static let userCurrency                             = "userCurrency"                            // Stored in NSUserDefaults
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
-        static let updateInterval                           = 0.0                                   // 1 day
+        static let updateInterval                           = 86400.0                                   // 1 day
     }
     
     struct DB {

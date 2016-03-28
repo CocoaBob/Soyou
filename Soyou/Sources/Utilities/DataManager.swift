@@ -382,7 +382,7 @@ class DataManager {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
-                self.updateProductsProgress(1, total: 1)
+                self.updateProductsProgress((error != nil ? -1 : 1), total: 1)
                 if error == nil {
                     // If no error, save the last request timestamp
                     self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampProductIDs)
@@ -519,13 +519,14 @@ class DataManager {
     //////////////////////////////////////
     
     func updateData(completion: CompletionClosure?) {
-        if let lastUpdateDate = UserDefaults.objectForKey(Cons.App.lastUpdateDate) as? NSDate {
-            if NSDate().timeIntervalSinceDate(lastUpdateDate) < Cons.App.updateInterval {
-                return
-            }
-        }
-        
         if !self.isUpdatingData {
+            // If it's more than 1 day since the last update
+            if let lastUpdateDate = UserDefaults.objectForKey(Cons.App.lastUpdateDate) as? NSDate {
+                if NSDate().timeIntervalSinceDate(lastUpdateDate) < Cons.App.updateInterval {
+                    return
+                }
+            }
+            
             self.isUpdatingData = true
             var cnt = 4
             var hasError = false
@@ -561,16 +562,23 @@ class DataManager {
         WTStatusBar.setBackgroundColor(UIColor(rgba: Cons.UI.colorBGNavBar))
         WTStatusBar.setProgressBarColor(UIColor(rgba: Cons.UI.colorTheme))
         WTStatusBar.setTextColor(UIColor.darkGrayColor())
-        let progress = CGFloat(current) / CGFloat(total)
-        if progress < 1 {
-            if !_isWTStatusBarVisible {
-                _isWTStatusBarVisible = true
-                WTStatusBar.setStatusText(NSLocalizedString("data_manager_updating_data"))
+        if current == -1 {
+            if (_isWTStatusBarVisible) {
+                WTStatusBar.setStatusText(NSLocalizedString("data_manager_data_update_failed"), timeout: 1, animated: true)
+                _isWTStatusBarVisible = false
             }
+        } else {
+            let progress = CGFloat(current) / CGFloat(total)
             WTStatusBar.setProgress(progress, animated: true)
-        } else if (_isWTStatusBarVisible) {
-            WTStatusBar.setStatusText(NSLocalizedString("data_manager_data_updated"), timeout: 1, animated: true)
-            WTStatusBar.setProgress(1, animated: true)
+            if progress < 1 {
+                if !_isWTStatusBarVisible {
+                    _isWTStatusBarVisible = true
+                    WTStatusBar.setStatusText(NSLocalizedString("data_manager_updating_data"))
+                }
+            } else if (_isWTStatusBarVisible) {
+                WTStatusBar.setStatusText(NSLocalizedString("data_manager_data_update_succeeded"), timeout: 1, animated: true)
+                _isWTStatusBarVisible = false
+            }
         }
     }
     
