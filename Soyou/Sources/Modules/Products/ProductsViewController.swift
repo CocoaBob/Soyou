@@ -322,8 +322,8 @@ extension ProductsViewController {
     
     func setupLoadMoreControl() {        
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
-            self.loadMore({ 
-                self.endRefreshing()
+            self.loadMore({ resultCount in
+                self.endRefreshing(resultCount)
             })
             self.beginRefreshing()
         })
@@ -331,7 +331,7 @@ extension ProductsViewController {
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        footer.automaticallyHidden = false
+        footer.automaticallyHidden = true
         self.collectionView().mj_footer = footer
     }
     
@@ -339,11 +339,19 @@ extension ProductsViewController {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
-    func endRefreshing() {
+    func endRefreshing(resultCount: Int) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.collectionView().mj_footer.endRefreshing()
+            if resultCount > 0 {
+                self.collectionView().mj_footer.endRefreshing()
+            } else {
+                self.collectionView().mj_footer.endRefreshingWithNoMoreData()
+            }
         })
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+    
+    func resetNoMoreDataStatus() {
+        self.collectionView().mj_footer.resetNoMoreData()
     }
 }
 
@@ -366,7 +374,7 @@ extension ProductsViewController {
 // MARK: FetchedResultsController
 extension ProductsViewController {
     
-    override func reloadData(completion: (() -> Void)?) {
+    override func reloadData(completion: ((Int) -> Void)?) {
         // If the results were not empty
         if self.fetchedResults?.count ?? 0 > 0 {
             // Stop image caching, as all the cells are reloaded, the old completion block will reload non-existing cells
@@ -380,9 +388,14 @@ extension ProductsViewController {
         }
         
         // Reload Data
-        super.reloadData() {
+        super.reloadData() { resultCount in
+            // New search, reset no more data status
+            self.resetNoMoreDataStatus()
+            // Scrolls to top
+            self.collectionView().setContentOffset(CGPoint(x: 0, y: -self.collectionView().contentInset.top), animated: false)
+            
             // Original completion
-            if let completion = completion { completion() }
+            if let completion = completion { completion(resultCount) }
             
             // After searching is completed, if there are results, hide the indicator
             if self.fetchedResults?.count ?? 0 > 0 {

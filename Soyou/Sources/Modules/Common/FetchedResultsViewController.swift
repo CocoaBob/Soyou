@@ -45,7 +45,7 @@ extension FetchedResultsViewController {
 // MARK: Reqests
 extension FetchedResultsViewController {
     
-    func fetch(completion: (() -> Void)?) {
+    func fetch(completion: ((Int) -> Void)?) {
         // Get fetch request
         guard let fetchRequest = self.createFetchRequest(self.asyncFetchContext) else { return }
         fetchRequest.fetchLimit = self.fetchLimit
@@ -69,7 +69,7 @@ extension FetchedResultsViewController {
                 // Reload UI
                 self.reloadUI()
                 // Completed
-                if let completion = completion { completion() }
+                if let completion = completion { completion(result.finalResult?.count ?? 0) }
             })
         }
         
@@ -89,7 +89,7 @@ extension FetchedResultsViewController {
         }
     }
     
-    func reloadData(completion: (() -> Void)?) {
+    func reloadData(completion: ((Int) -> Void)?) {
         // Clear last fetch
         self.clearFetchResults()
         
@@ -104,7 +104,7 @@ extension FetchedResultsViewController {
         self.reloadData(nil)
     }
     
-    func loadMore(completion: (() -> Void)?) {
+    func loadMore(completion: ((Int) -> Void)?) {
         // Fetch offset
         self.fetchOffset += self.fetchLimit
         

@@ -89,7 +89,7 @@ class FavoritesViewController: FetchedResultsViewController {
         self.hideToolbar(false)
         
         // Reload data
-        self.reloadData {
+        self.reloadData { resultCount in
             self.tableView().reloadData()
         }
     }
@@ -239,7 +239,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                                 localFavoriteNews.MR_deleteEntityInContext(localContext)
                             }
                         })
-                        self.reloadData({
+                        self.reloadData({ resultCount in
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 tableView.reloadData()
                                 MBProgressHUD.hideLoader(self.view)
@@ -256,7 +256,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             product = localFavoriteProduct.relatedProduct(localContext) {
                             product.toggleFavorite({ (data: AnyObject?) -> () in
                                 // If succeeded to delete
-                                self.reloadData({
+                                self.reloadData({ resultCount in
                                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                         tableView.reloadData()
                                         MBProgressHUD.hideLoader(self.view)
