@@ -57,7 +57,7 @@ PODS:
   - SMCalloutView (2.1.5)
   - SVWebViewController (1.0)
   - UICKeyChainStore (2.1.0)
-  - UIColor_Hex_Swift (2.0)
+  - UIColor_Hex_Swift (2.1)
   - UIImage-ResizeMagick (0.0.1)
   - UIView+Shake (1.1.5)
   - WTStatusBar (0.0.5)
@@ -152,7 +152,7 @@ SPEC CHECKSUMS:
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
-  UIColor_Hex_Swift: 07130bb5cc010905acc970609255edf4d80f06c8
+  UIColor_Hex_Swift: e91dc51f6bf252ec7bf74c8704ceedeeb7640c1c
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
   UIView+Shake: 2d2185006d38ee5daed07f14c0989f703f86682f
   WTStatusBar: 2803d0d84937a1ec82fbe17ae7a2d1b76b192396

@@ -42,7 +42,7 @@ public struct Cons {
         static let lastInstalledBuild                       = "lastInstalledBuild"                      // Stored in NSUserDefaults
         static let userCurrency                             = "userCurrency"                            // Stored in NSUserDefaults
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
-        static let updateInterval                           = 86400.0                                   // 1 day
+        static let updateInterval                           = 0.0                                   // 1 day
     }
     
     struct DB {
@@ -60,6 +60,7 @@ public struct Cons {
         static let colorNavBar                              = "#000000"
         static let colorToolbar                             = "#A0A0A0"
         static let colorTab                                 = "#666666"
+        static let colorBGNavBar                            = "#F5F4F2"
         static let colorBG                                  = "#EDEAE5"
         static let colorTheme                               = "#FFB94B"
         static let colorLike                                = "#00B8F4"

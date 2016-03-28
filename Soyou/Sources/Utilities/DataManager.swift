@@ -336,27 +336,36 @@ class DataManager {
     
     // Helper methods for Products
     func loadBunchProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
-        if index >= productIDs.count {
+        let totalCount = productIDs.count
+        if index >= totalCount {
             self.completeWithError(FmtError(0, nil), completion: completion)
             return
         }
         
-        let rangeSize = ((index + size) > productIDs.count) ? (productIDs.count - index) : size
-        DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", productIDs.count, index, size, rangeSize))
+        // Update progress
+        self.updateProductsProgress(index, total: totalCount)
+        
+        // Calculate range size
+        let rangeSize = ((index + size) > totalCount) ? (totalCount - index) : size
+        DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", totalCount, index, size, rangeSize))
         if rangeSize > 0 {
-            let range = productIDs[index..<(index+rangeSize)]
-            if index + rangeSize >= productIDs.count {
-                self.loadProducts(Array(range), completion)
-            } else {
-                self.loadProducts(Array(range), { (responseObject, error) in
-                    // If any error occurs, stop loading
-                    if error != nil {
-                        self.completeWithError(FmtError(0, nil), completion: completion)
-                    } else {
+            // Get the IDs in this range
+            let rangeIDs = productIDs[index..<(index+rangeSize)]
+            // Load products
+            self.loadProducts(Array(rangeIDs), { (responseObject, error) in
+                // If any error occurs, stop loading
+                if error != nil {
+                    self.completeWithError(FmtError(0, nil), completion: completion)
+                } else {
+                    if index + rangeSize < totalCount {
+                        // If there are more IDs to load
                         self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
+                    } else {
+                        // Finished
+                        self.completeWithData(nil, completion: completion)
                     }
-                })
-            }
+                }
+            })
         } else {
             self.completeWithError(FmtError(0, nil), completion: completion)
         }
@@ -373,14 +382,17 @@ class DataManager {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
             self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
-                // If there's no error, save the last request timestamp
+                self.updateProductsProgress(1, total: 1)
                 if error == nil {
+                    // If no error, save the last request timestamp
                     self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampProductIDs)
+                    self.completeWithData(nil, completion: completion)
+                } else {
+                    self.completeWithError(error, completion: completion)
                 }
-                self.completeWithData(nil, completion: completion)
             })
         } else {
-            self.completeWithData(nil, completion: completion)
+            self.completeWithData(FmtError(0, nil), completion: completion)
         }
     }
     
@@ -425,7 +437,11 @@ class DataManager {
         }
     }
     
-    func requestDeletedProductIDs(completion: CompletionClosure?) {
+    func requestDeletedProductIDs(error: NSError?, _ completion: CompletionClosure?) {
+        if error != nil {
+            self.completeWithError(error, completion: completion)
+            return
+        }
         let timestamp = self.getAppInfo(Cons.DB.lastRequestTimestampDeletedProductIDs)
         DLog(FmtString("lastRequestTimestampDeletedProductIDs = %@",timestamp ?? ""))
         RequestManager.shared.requestDeletedProductIDs(
@@ -443,7 +459,7 @@ class DataManager {
     func updateProducts(completion: CompletionClosure?) {
         self.requestModifiedProductIDs { responseObject, error in
             self.handleModifiedProductsIDs(responseObject, error) { responseObject, error in
-                self.requestDeletedProductIDs() { responseObject, error in
+                self.requestDeletedProductIDs(error) { responseObject, error in
                     self.handleDeletedProductsIDs(responseObject, error, completion)
                 }
             }
@@ -537,6 +553,24 @@ class DataManager {
             
             DataManager.shared.requestAllStores(completionClosure)
             DataManager.shared.updateProducts(completionClosure)
+        }
+    }
+    
+    var _isWTStatusBarVisible = false
+    func updateProductsProgress(current: Int, total: Int) {
+        WTStatusBar.setBackgroundColor(UIColor(rgba: Cons.UI.colorBGNavBar))
+        WTStatusBar.setProgressBarColor(UIColor(rgba: Cons.UI.colorTheme))
+        WTStatusBar.setTextColor(UIColor.darkGrayColor())
+        let progress = CGFloat(current) / CGFloat(total)
+        if progress < 1 {
+            if !_isWTStatusBarVisible {
+                _isWTStatusBarVisible = true
+                WTStatusBar.setStatusText(NSLocalizedString("data_manager_updating_database"))
+            }
+            WTStatusBar.setProgress(progress, animated: true)
+        } else if (_isWTStatusBarVisible) {
+            WTStatusBar.setStatusText(NSLocalizedString("data_manager_database_updated"), timeout: 1, animated: true)
+            WTStatusBar.setProgress(1, animated: true)
         }
     }
     
