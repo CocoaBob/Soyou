@@ -140,8 +140,8 @@
 "settings_vc_cell_localization_not_enabled"="未启用";
 
 /* Data Manager */
-"data_manager_updating_database"="正在更新数据库...";
-"data_manager_database_updated"="数据库更新完毕！";
+"data_manager_updating_data"="正在更新数据...";
+"data_manager_data_updated"="数据更新完毕！";
 
 /* Error Code */
 "invalid_activation_code"="无效激活码。";

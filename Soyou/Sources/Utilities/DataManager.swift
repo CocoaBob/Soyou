@@ -565,11 +565,11 @@ class DataManager {
         if progress < 1 {
             if !_isWTStatusBarVisible {
                 _isWTStatusBarVisible = true
-                WTStatusBar.setStatusText(NSLocalizedString("data_manager_updating_database"))
+                WTStatusBar.setStatusText(NSLocalizedString("data_manager_updating_data"))
             }
             WTStatusBar.setProgress(progress, animated: true)
         } else if (_isWTStatusBarVisible) {
-            WTStatusBar.setStatusText(NSLocalizedString("data_manager_database_updated"), timeout: 1, animated: true)
+            WTStatusBar.setStatusText(NSLocalizedString("data_manager_data_updated"), timeout: 1, animated: true)
             WTStatusBar.setProgress(1, animated: true)
         }
     }
