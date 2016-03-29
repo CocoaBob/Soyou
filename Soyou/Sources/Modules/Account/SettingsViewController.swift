@@ -13,6 +13,7 @@ class SettingsViewController: SimpleTableViewController {
     var cacheSize: Double = 0
     
     private var locationManager: CLLocationManager?
+    private var registerPushNotificationTimer: NSTimer?
     
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
@@ -49,13 +50,15 @@ class SettingsViewController: SimpleTableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         // Register notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsViewController.refreshUI), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsViewController.applicationWillResignActiveNotification), name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsViewController.applicationDidBecomeActiveNotification), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         // Unregister notification
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
 }
 
@@ -63,6 +66,26 @@ class SettingsViewController: SimpleTableViewController {
 extension SettingsViewController {
     
     override func rebuildTable() {
+        let application = UIApplication.sharedApplication()
+        // Gether info about Push Notifications
+        let registeredTypes = application.currentUserNotificationSettings()?.types
+        let isRegisteredForNotifications = application.isRegisteredForRemoteNotifications()
+        var notificationTypes = [String]()
+        if registeredTypes?.contains(UIUserNotificationType.Badge) == true {
+            notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_badge"))
+        }
+        if registeredTypes?.contains(UIUserNotificationType.Sound) == true {
+            notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_sound"))
+        }
+        if registeredTypes?.contains(UIUserNotificationType.Alert) == true {
+            notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_banner"))
+        }
+        let notificationTypesString = notificationTypes.joinWithSeparator(",")
+        var notificationSubTitle = isRegisteredForNotifications ? NSLocalizedString("settings_vc_cell_notification_enabled") : NSLocalizedString("settings_vc_cell_notification_not_enabled")
+        if isRegisteredForNotifications && notificationTypes.count != 3 {
+            notificationSubTitle = notificationTypesString
+        }
+        // Create datasource
         self.sections = [
             Section(
                 rows: [
@@ -85,26 +108,18 @@ extension SettingsViewController {
             Section(
                 rows: [
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? .None : . Default),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: .Default),
                         title: Text(text: NSLocalizedString("settings_vc_cell_notification")),
-                        subTitle: Text(text: NSLocalizedString(UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? "settings_vc_cell_notification_enabled" : "settings_vc_cell_notification_not_enabled")),
+                        subTitle: Text(text: notificationSubTitle),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil))
-                            UIApplication.sharedApplication().registerForRemoteNotifications()
-                            self.openSettings()
+                            self.registerPushNotification()
                     }),
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: (CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) ? .None : . Default),
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: .Default),
                         title: Text(text: NSLocalizedString("settings_vc_cell_localization")),
                         subTitle: Text(text: self.locationServiceStatus()),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            if CLLocationManager.authorizationStatus() == .NotDetermined {
-                                self.locationManager = CLLocationManager()
-                                self.locationManager?.delegate = self
-                                self.locationManager?.requestWhenInUseAuthorization()
-                            } else {
-                                self.openSettings()
-                            }
+                            self.requestLocationServicePermission()
                     })
                 ]
             ),
@@ -416,6 +431,39 @@ extension SettingsViewController {
         // Delete disk caches
         SDImageCache.sharedImageCache().clearDiskOnCompletion { () -> Void in
             self.calculateCacheSize()
+        }
+    }
+}
+
+// MARK: Request permissions
+extension SettingsViewController {
+    
+    func registerPushNotification() {
+        self.registerPushNotificationTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: #selector(SettingsViewController.finishedRequestingNotifications), userInfo: nil, repeats: false)
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
+        UIApplication.sharedApplication().registerForRemoteNotifications()
+    }
+    
+    func applicationWillResignActiveNotification() {
+        self.registerPushNotificationTimer?.invalidate()
+    }
+    
+    func applicationDidBecomeActiveNotification() {
+        self.refreshUI()
+    }
+    
+    func finishedRequestingNotifications() {
+        self.registerPushNotificationTimer?.invalidate()
+        self.openSettings()
+    }
+    
+    func requestLocationServicePermission() {
+        if CLLocationManager.authorizationStatus() == .NotDetermined {
+            self.locationManager = CLLocationManager()
+            self.locationManager?.delegate = self
+            self.locationManager?.requestWhenInUseAuthorization()
+        } else {
+            self.openSettings()
         }
     }
 }

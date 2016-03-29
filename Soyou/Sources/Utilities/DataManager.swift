@@ -296,13 +296,20 @@ class DataManager {
     // MARK: Notification
     //////////////////////////////////////
     
-    func registerForNotification(deviceToken: String) {
-        RequestManager.shared.registerForNotification(UserManager.shared.uuid, deviceToken, { responseObject in
-            UserManager.shared.deviceToken = deviceToken
-            DLog("Push register success")
-            }, { error in
-                self.completeWithError(error, completion: nil)
-        })
+    func registerForNotification() {
+        // If hasn't registered
+        if !UserDefaults.boolForKey(Cons.App.hasRegisteredForNotification) {
+            // Get the last device token
+            if let deviceToken = UserManager.shared.deviceToken {
+                // Register to server
+                RequestManager.shared.registerForNotification(UserManager.shared.uuid, deviceToken, { responseObject in
+                    UserDefaults.setBool(true, forKey: Cons.App.hasRegisteredForNotification)
+                    }, { error in
+                        UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
+                        self.completeWithError(error, completion: nil)
+                })
+            }
+        }
     }
     
     //////////////////////////////////////

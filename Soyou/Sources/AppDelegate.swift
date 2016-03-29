@@ -66,6 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
         WXApi.registerApp("wxe3346afe30577009", withDescription:"奢有")
         
+        // In case if it hasn't been registered on the server
+        DataManager.shared.registerForNotification()
+        
         return true
     }
 
@@ -107,12 +110,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
-        let deviceTokenString: String = ( deviceToken.description as NSString )
-            .stringByTrimmingCharactersInSet( characterSet )
-            .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+        let characterSet: NSCharacterSet = NSCharacterSet(charactersInString:"<>")
+        let pushNotificationDeviceTokenString = deviceToken.description.stringByTrimmingCharactersInSet(characterSet).stringByReplacingOccurrencesOfString(" ", withString:"")
+        if pushNotificationDeviceTokenString != UserManager.shared.deviceToken {
+            UserManager.shared.deviceToken = pushNotificationDeviceTokenString
+            UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
+        }
         
-        DataManager.shared.registerForNotification(deviceTokenString)
+        DataManager.shared.registerForNotification()
         
         NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.DidRegisterForRemoteNotifications, object: nil)
     }

@@ -35,7 +35,7 @@ PODS:
   - FCUUID (1.2.0):
     - UICKeyChainStore (~> 2.1.0)
   - FlagKit (1.0.7)
-  - IDMPhotoBrowser (1.8.2):
+  - IDMPhotoBrowser (1.8.3):
     - DACircularProgress
     - pop
     - SDWebImage
@@ -137,7 +137,7 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FlagKit: ede020f33c7bc105ab52bf189b4e5b5d46c94a4c
-  IDMPhotoBrowser: 52ac15203a73da002a7501ac7c6651a4cd761b4e
+  IDMPhotoBrowser: a9a548910f24a6db53775fa6b6a6101262b20d63
   libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1

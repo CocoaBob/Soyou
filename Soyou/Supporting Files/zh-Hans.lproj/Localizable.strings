@@ -135,6 +135,9 @@
 "settings_vc_cell_notification"="推送通知";
 "settings_vc_cell_notification_enabled"="已启用";
 "settings_vc_cell_notification_not_enabled"="未启用";
+"settings_vc_cell_notification_badge"="标记";
+"settings_vc_cell_notification_sound"="声音";
+"settings_vc_cell_notification_banners"="横幅";
 "settings_vc_cell_localization"="定位服务";
 "settings_vc_cell_localization_enabled"="已启用";
 "settings_vc_cell_localization_not_enabled"="未启用";

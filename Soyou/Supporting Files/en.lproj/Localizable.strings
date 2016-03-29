@@ -133,6 +133,9 @@
 "settings_vc_cell_notification"="Push Notifications";
 "settings_vc_cell_notification_enabled"="Enabled";
 "settings_vc_cell_notification_not_enabled"="Not enabled";
+"settings_vc_cell_notification_badge"="Badge";
+"settings_vc_cell_notification_sound"="Sound";
+"settings_vc_cell_notification_banner"="Banner";
 "settings_vc_cell_localization"="Location service";
 "settings_vc_cell_localization_enabled"="Enabled";
 "settings_vc_cell_localization_not_enabled"="Not enabled";

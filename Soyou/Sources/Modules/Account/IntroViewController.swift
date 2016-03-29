@@ -158,7 +158,7 @@ extension IntroViewController {
     }
     
     func enableNotification(sender: UIButton) {
-        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil))
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
         UIApplication.sharedApplication().registerForRemoteNotifications()
     }
 }
