@@ -54,6 +54,9 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ke3-8t-hNW" userLabel="Foreground Image View">
                                                     <rect key="frame" x="0.0" y="0.0" width="133" height="100"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_bg_text" translatesAutoresizingMaskIntoConstraints="NO" id="EqP-nD-dxy">
+                                                    <rect key="frame" x="0.0" y="60" width="133" height="40"/>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0B1-bE-mve">
                                                     <rect key="frame" x="8" y="71" width="117" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -64,13 +67,17 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="EqP-nD-dxy" secondAttribute="trailing" id="7ss-Xv-XW8"/>
+                                            <constraint firstItem="0B1-bE-mve" firstAttribute="top" secondItem="EqP-nD-dxy" secondAttribute="top" constant="11" id="Fuc-8O-YMQ"/>
                                             <constraint firstAttribute="trailing" secondItem="ke3-8t-hNW" secondAttribute="trailing" id="Lh2-QY-EOT"/>
                                             <constraint firstItem="0B1-bE-mve" firstAttribute="bottom" secondItem="bym-H1-TJ1" secondAttribute="bottomMargin" id="Lts-9z-ii9"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="0B1-bE-mve" secondAttribute="trailing" id="O0P-Ce-P8f"/>
                                             <constraint firstItem="0B1-bE-mve" firstAttribute="leading" secondItem="bym-H1-TJ1" secondAttribute="leadingMargin" id="Tpe-DK-lRZ"/>
+                                            <constraint firstAttribute="bottom" secondItem="EqP-nD-dxy" secondAttribute="bottom" id="a7Z-0e-M2h"/>
                                             <constraint firstItem="ke3-8t-hNW" firstAttribute="leading" secondItem="bym-H1-TJ1" secondAttribute="leading" id="d2d-xv-2gk"/>
                                             <constraint firstAttribute="bottom" secondItem="ke3-8t-hNW" secondAttribute="bottom" id="kcR-Zs-8Uo"/>
                                             <constraint firstItem="ke3-8t-hNW" firstAttribute="top" secondItem="bym-H1-TJ1" secondAttribute="top" id="ufS-8K-IFp"/>
+                                            <constraint firstItem="EqP-nD-dxy" firstAttribute="leading" secondItem="bym-H1-TJ1" secondAttribute="leading" id="x7e-VE-rcC"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="fgImageView" destination="ke3-8t-hNW" id="zmi-9Q-6Fp"/>
@@ -806,6 +813,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="img_bg_text" width="1" height="40"/>
         <image name="img_bg_tile_light_gray_translucent" width="1" height="1"/>
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="9" height="14"/>
