@@ -133,6 +133,14 @@ extension ProductDescriptionsViewController {
     }
 }
 
+// MARK: Routines
+extension ProductDescriptionsViewController {
+    
+    func reloadData() {
+        self.loadContent()
+    }
+}
+
 
 // MARK: UIWebViewDelegate
 extension ProductDescriptionsViewController: UIWebViewDelegate {

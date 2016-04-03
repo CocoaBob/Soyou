@@ -200,9 +200,11 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                     if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
                         product = localFavoriteProduct.relatedProduct(localContext) {
-                            let viewController = ProductViewController.instantiate()
-                            viewController.product = product
-                            nextViewController = viewController
+                        let viewController = ProductViewController.instantiate()
+                        viewController.product = product
+                        viewController.productIndex = indexPath.row
+                        viewController.delegate = self
+                        nextViewController = viewController
                     }
                 })
             }
@@ -315,6 +317,31 @@ extension FavoritesViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+// MARK: ProductViewControllerDelegate
+extension FavoritesViewController: ProductViewControllerDelegate {
+    
+    func getNextProduct(currentIndex: Int?) -> Product? {
+        guard let fetchedResults = self.fetchedResults else { return nil }
+        
+        var currentProductIndex = -1
+        if let currentIndex = currentIndex {
+            currentProductIndex = currentIndex
+        }
+        
+        if currentProductIndex + 1 < fetchedResults.count {
+            if let favoriteProduct =  fetchedResults[currentProductIndex+1] as? FavoriteProduct {
+                return favoriteProduct.relatedProduct(nil)
+            }
+        }
+        
+        return nil
+    }
+    
+    func didShowNextProduct(product: Product, index: Int) {
+        self.tableView().scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
     }
 }
 

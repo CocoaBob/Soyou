@@ -150,6 +150,14 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
     }
 }
 
+// MARK: Routines
+extension ProductPricesViewController {
+    
+    func reloadData() {
+        self.tableView.reloadData()
+    }
+}
+
 class ProductPricesTableViewCellCountry: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var lblTitle: UILabel!

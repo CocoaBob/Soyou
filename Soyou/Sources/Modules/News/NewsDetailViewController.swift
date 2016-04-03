@@ -87,7 +87,7 @@ class NewsDetailViewController: UIViewController {
         self.btnFav?.addTarget(self, action: #selector(NewsDetailViewController.star(_:)), forControlEvents: .TouchUpInside)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
-        let back = UIBarButtonItem(image: UIImage(named:"img_nav_back"), style: .Plain, target: self, action: #selector(NewsDetailViewController.back(_:)))
+        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .Plain, target: self, action: #selector(NewsDetailViewController.back(_:)))
         let like = UIBarButtonItem(customView: self.btnLike!)
         let fav = UIBarButtonItem(customView: self.btnFav!)
         let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: #selector(NewsDetailViewController.share(_:)))
