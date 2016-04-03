@@ -57,10 +57,10 @@ public struct Cons {
     }
     
     struct UI {
-        static let colorWindow                              = "#555555"
+        static let colorWindow                              = "#545454"
         static let colorNavBar                              = "#000000"
-        static let colorToolbar                             = "#A0A0A0"
-        static let colorTab                                 = "#666666"
+        static let colorToolbar                             = "#545454"
+        static let colorTab                                 = "#545454"
         static let colorBGNavBar                            = "#F5F4F2"
         static let colorBG                                  = "#EDEAE5"
         static let colorTheme                               = "#FFB94B"
