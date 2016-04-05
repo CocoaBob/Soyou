@@ -117,7 +117,7 @@ extension ProductDescriptionsViewController {
             }
             
             if let descriptions = self.descriptions {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: descriptions).stringByReplacingOccurrencesOfString("__BTN_TRANSLATION__", withString: "<div><button id=\"btn-translation\">\(NSLocalizedString("product_translation"))</button></div>")
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: descriptions).stringByReplacingOccurrencesOfString("__BTN_TRANSLATION__", withString: "")
             } else {
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: NSLocalizedString("product_unavailable"))
             }
