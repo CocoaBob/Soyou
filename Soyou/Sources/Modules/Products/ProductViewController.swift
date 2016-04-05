@@ -116,7 +116,7 @@ class ProductViewController: UIViewController {
         self.toolbarItems = items
         
         // Load content
-        self.loadProduct()
+        self.loadProduct(false)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -154,13 +154,13 @@ class ProductViewController: UIViewController {
 // MARK: Load products
 extension ProductViewController {
     
-    func loadProduct() {
+    func loadProduct(isNext: Bool) {
         // Setup images for carousel View
         self.setupCarouselView()
         // Fix scroll view insets
         self.updateScrollViewInset(self.scrollView, 0, true, false, false, false)
         // SubViewControllers
-        self.setupSubViewControllers()
+        self.setupSubViewControllers(isNext)
         // Like button status
         updateLikeNumber()
         // Favorite button status
@@ -177,7 +177,7 @@ extension ProductViewController {
             self.firstImage = nil
             let nextProductIndex = (self.productIndex ?? 0) + 1
             self.productIndex = nextProductIndex
-            self.loadProduct()
+            self.loadProduct(true)
             self.delegate?.didShowNextProduct(nextProduct, index: nextProductIndex)
         }
     }
@@ -298,7 +298,7 @@ extension ProductViewController {
 // MARK: Sub View Controllers
 extension ProductViewController {
     
-    func setupSubViewControllers() {
+    func setupSubViewControllers(isNext: Bool) {
         guard let product = self.product else { return }
         
         // Add page menu to the scroll view's subViewsContainer
@@ -374,8 +374,10 @@ extension ProductViewController {
         let _ = self.productDescriptionsViewController.view
         
         // Reload data
-        self.productPricesViewController.reloadData()
-        self.productDescriptionsViewController.reloadData()
+        if isNext {
+            self.productPricesViewController.reloadData()
+            self.productDescriptionsViewController.reloadData()
+        }
         
         // Preselect sub view
         if let noPrices = self.productPricesViewController.prices?.isEmpty {
