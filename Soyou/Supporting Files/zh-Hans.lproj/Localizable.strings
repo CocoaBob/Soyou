@@ -109,10 +109,10 @@
 "login_vc_reset_password_action_button"="重置密码";
 
 "login_vc_register_alert_button"="我已激活";
-"login_vc_register_alert_message"="注册成功！请留意您的收件箱以激活您的账户。";
+"login_vc_register_alert_message"="注册成功！稍等之后您将会收到验证邮件以激活账户。";
 
 "login_vc_forget_password_alert_button"="我已收到验证码";
-"login_vc_forget_password_alert_message"="我们给您发送了一个验证码，请查收您的邮箱。";
+"login_vc_forget_password_alert_message"="我们给您发送了一个验证码，稍等之后您将会收到邮件。";
 
 "login_vc_reset_password_alert_message"="密码已重置，现在您已登录。";
 
