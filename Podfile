@@ -25,7 +25,7 @@ pod "MJRefresh"
 pod "MXParallaxHeader"
 pod "NYSegmentedControl"
 pod "PageMenu"
-pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => 'add88563b2e32858f9325d981cb9779d36926053' #PFei-He/PFCarouselView
+pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '880826c7f361c3065ca23a4696a4d19d7e1da6d3' #PFei-He/PFCarouselView
 pod "SCLAlertView"
 pod "SDWebImage"
 pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :commit => 'bad0864b06019d764519dab9a53409de889c87fc'

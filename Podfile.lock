@@ -83,7 +83,7 @@ DEPENDENCIES:
   - MXParallaxHeader
   - NYSegmentedControl
   - PageMenu
-  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `add88563b2e32858f9325d981cb9779d36926053`)
+  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `880826c7f361c3065ca23a4696a4d19d7e1da6d3`)
   - SCLAlertView
   - SDWebImage
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
@@ -103,7 +103,7 @@ EXTERNAL SOURCES:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
   PFCarouselView:
-    :commit: add88563b2e32858f9325d981cb9779d36926053
+    :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
   SMCalloutView:
     :commit: bad0864b06019d764519dab9a53409de889c87fc
@@ -117,7 +117,7 @@ CHECKOUT OPTIONS:
     :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
     :git: git://github.com/CocoaBob/libWeChatSDK
   PFCarouselView:
-    :commit: add88563b2e32858f9325d981cb9779d36926053
+    :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
   SMCalloutView:
     :commit: bad0864b06019d764519dab9a53409de889c87fc

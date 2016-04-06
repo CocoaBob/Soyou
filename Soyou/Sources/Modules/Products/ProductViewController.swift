@@ -261,17 +261,16 @@ extension ProductViewController {
                         // Photo for IDMPhotoBrowser
                         self.photos.append(IDMPhoto(URL: imageURL))
                         // ImageView for Carousel
+                        let placeholder = UIImage(named: "img_placeholder_1_1_m")
                         let imageView = UIImageView(frame: imageViewFrame)
                         imageView.contentMode = .ScaleAspectFit
                         imageView.sd_setImageWithURL(
                             imageURL,
-                            placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
+                            placeholderImage: placeholder,
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                             completed: { (image, error, cacheType, url) -> Void in
-                                if image == nil {
-                                    return
-                                }
-                                self.photos[index] = IDMPhoto(image: image)
+                                let photo = IDMPhoto(image: image ?? placeholder)
+                                self.photos[index] = photo
                         })
                         self.imageViews.append(imageView)
                     }
