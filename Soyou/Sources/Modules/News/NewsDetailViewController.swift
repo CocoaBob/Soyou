@@ -42,12 +42,12 @@ class NewsDetailViewController: UIViewController {
     var news: BaseNews? {
         didSet {
             self.newsTitle = self.news?.title ?? ""
-            self.newsId = self.news?.id as? Int ?? -1
+            self.newsID = self.news?.id as? Int ?? -1
         }
     }
     var headerImage: UIImage?
     var newsTitle: String!
-    var newsId: Int!
+    var newsID: NSNumber!
     var webViewImageURLs: [String] = [String]()
     var webViewPhotos: [IDMPhoto] = [IDMPhoto]()
     
@@ -245,19 +245,13 @@ extension NewsDetailViewController: UIScrollViewDelegate {
 extension NewsDetailViewController {
     
     private func updateLikeNumber() {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
-                if let newsID = localNews.id {
-                    DataManager.shared.requestNewsInfo(newsID) { responseObject, error in
-                        if let responseObject = responseObject as? [String:AnyObject],
-                            data = responseObject["data"] as? [String:AnyObject],
-                            likeNumber = data["likeNumber"] as? NSNumber {
-                            self.likeBtnNumber = likeNumber.integerValue
-                        }
-                    }
-                }
+        DataManager.shared.requestNewsInfo(self.newsID) { responseObject, error in
+            if let responseObject = responseObject as? [String:AnyObject],
+                data = responseObject["data"] as? [String:AnyObject],
+                likeNumber = data["likeNumber"] as? NSNumber {
+                self.likeBtnNumber = likeNumber.integerValue
             }
-        })
+        }
     }
     
     private func updateLikeBtnColor(appIsLiked: Bool?) {
@@ -376,7 +370,6 @@ extension NewsDetailViewController {
     }
     
     func loadNews() {
-        var newsID: NSNumber? = nil
         var needToLoad: Bool = false
         
         self.webView?.loadHTMLString("<html></html>", baseURL: nil)
@@ -384,31 +377,28 @@ extension NewsDetailViewController {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localNews = self.news?.MR_inContext(localContext) {
                 if localNews.appIsUpdated == nil || !localNews.appIsUpdated!.boolValue {
-                    newsID = localNews.id
                     needToLoad = true
                 }
             }
         })
         
         if needToLoad {
-            if let newsID = newsID {
-                MBProgressHUD.showLoader(self.view)
-                DataManager.shared.requestNewsByID(newsID) { responseObject, error in
-                    MBProgressHUD.hideLoader(self.view)
-                    if let responseObject = responseObject {
-                        if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                            if self.news is News {
-                                News.importData(data, true, nil)
-                            } else if self.news is FavoriteNews {
-                                FavoriteNews.importData(data, true, nil)
-                            }
+            MBProgressHUD.showLoader(self.view)
+            DataManager.shared.requestNewsByID(self.newsID) { responseObject, error in
+                MBProgressHUD.hideLoader(self.view)
+                if let responseObject = responseObject {
+                    if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                        if self.news is News {
+                            News.importData(data, true, nil)
+                        } else if self.news is FavoriteNews {
+                            FavoriteNews.importData(data, true, nil)
                         }
-                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                            if let localNews = self.news?.MR_inContext(localContext) {
-                                self.loadNews(localNews, context: localContext)
-                            }
-                        })
                     }
+                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        if let localNews = self.news?.MR_inContext(localContext) {
+                            self.loadNews(localNews, context: localContext)
+                        }
+                    })
                 }
             }
         } else {
@@ -610,13 +600,13 @@ extension NewsDetailViewController {
             }
             items.append(item)
         }
-        if let item = self.newsId {
+        if let item = self.newsID {
             items.append(item)
         }
         if let item = descriptions {
             items.append(item)
         }
-        if let newsID = self.newsId, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)") {
+        if let newsID = self.newsID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(newsID)") {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
@@ -643,7 +633,7 @@ extension NewsDetailViewController {
     
     func star(sender: UIBarButtonItem) {
         UserManager.shared.loginOrDo() { () -> () in
-            self.news?.toggleFavorite() { (_) -> () in
+            BaseNews.toggleFavorite(self.newsID) { (_) -> () in
                 // Toggle the value of isFavorite
                 self.isFavorite = !self.isFavorite
             }

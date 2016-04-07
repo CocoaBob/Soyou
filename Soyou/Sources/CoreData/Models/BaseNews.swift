@@ -28,30 +28,10 @@ class BaseNews: BaseModel {
         return returnValue
     }
     
-    func toggleFavorite(completion: DataClosure?) {
-        // News ID
-        var selfNewsID: NSNumber?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            selfNewsID = self.MR_inContext(localContext)?.id
-        })
-        guard let newsID = selfNewsID else { return }
-        
+    class func toggleFavorite(newsID: NSNumber, completion: DataClosure?) {
         // Find the original news and favorite news
-        var originalNews: News?
-        var favoriteNews: FavoriteNews?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if self is FavoriteNews {
-                if let news = self as? FavoriteNews {
-                    favoriteNews = news
-                    originalNews = news.MR_inContext(localContext)?.relatedNews(localContext)
-                }
-            } else {
-                if let news = self as? News {
-                    originalNews = news
-                    favoriteNews = news.MR_inContext(localContext)?.relatedFavoriteNews(localContext)
-                }
-            }
-        })
+        let originalNews: News? = News.MR_findFirstByAttribute("id", withValue: newsID)
+        let favoriteNews: FavoriteNews? = FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID)
 
         // Was favorite?
         let wasFavorite = favoriteNews != nil
