@@ -185,7 +185,7 @@ extension ProductsViewController {
 // MARK: ProductViewControllerDelegate
 extension ProductsViewController: ProductViewControllerDelegate {
     
-    func getNextProduct(currentIndex: Int?) -> Product? {
+    func getNextProduct(currentIndex: Int?) -> (Int?, Product?)? {
         guard let fetchedResults = self.fetchedResults else { return nil }
         
         var currentProductIndex = -1
@@ -193,8 +193,10 @@ extension ProductsViewController: ProductViewControllerDelegate {
             currentProductIndex = currentIndex
         }
         
-        if currentProductIndex + 1 < fetchedResults.count {
-            return fetchedResults[currentProductIndex+1] as? Product
+        let nextProductIndex = currentProductIndex + 1
+        if nextProductIndex < fetchedResults.count {
+            let product = fetchedResults[nextProductIndex] as? Product
+            return (nextProductIndex, product)
         }
         
         return nil

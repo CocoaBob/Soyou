@@ -190,7 +190,9 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 // Prepare view controller
                 let viewController = NewsDetailViewController.instantiate()
+                viewController.delegate = self
                 viewController.news = news
+                viewController.newsIndex = indexPath.row
                 viewController.headerImage = image
                 
                 nextViewController = viewController
@@ -320,10 +322,37 @@ extension FavoritesViewController: UIGestureRecognizerDelegate {
     }
 }
 
+// MARK: NewsDetailViewControllerDelegate
+extension FavoritesViewController: NewsDetailViewControllerDelegate {
+    
+    func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)? {
+        guard let fetchedResults = self.fetchedResults else { return nil }
+        
+        var currentNewsIndex = -1
+        if let currentIndex = currentIndex {
+            currentNewsIndex = currentIndex
+        }
+        
+        var nextNewsIndex = currentNewsIndex + 1
+        while nextNewsIndex < fetchedResults.count {
+            if let news = fetchedResults[nextNewsIndex] as? FavoriteNews {
+                return (nextNewsIndex, news)
+            }
+            nextNewsIndex += 1
+        }
+        
+        return nil
+    }
+    
+    func didShowNextNews(news: BaseNews, index: Int) {
+        self.tableView().scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
+    }
+}
+
 // MARK: ProductViewControllerDelegate
 extension FavoritesViewController: ProductViewControllerDelegate {
     
-    func getNextProduct(currentIndex: Int?) -> Product? {
+    func getNextProduct(currentIndex: Int?) -> (Int?, Product?)? {
         guard let fetchedResults = self.fetchedResults else { return nil }
         
         var currentProductIndex = -1
@@ -331,9 +360,11 @@ extension FavoritesViewController: ProductViewControllerDelegate {
             currentProductIndex = currentIndex
         }
         
-        if currentProductIndex + 1 < fetchedResults.count {
-            if let favoriteProduct =  fetchedResults[currentProductIndex+1] as? FavoriteProduct {
-                return favoriteProduct.relatedProduct(nil)
+        let nextProductIndex = currentProductIndex + 1
+        if nextProductIndex < fetchedResults.count {
+            if let favoriteProduct =  fetchedResults[nextProductIndex] as? FavoriteProduct {
+                let product = favoriteProduct.relatedProduct(nil)
+                return (nextProductIndex, product)
             }
         }
         

@@ -8,16 +8,20 @@
 
 protocol ProductViewControllerDelegate {
     
-    func getNextProduct(currentIndex: Int?) -> Product?
+    func getNextProduct(currentIndex: Int?) -> (Int?, Product?)?
     func didShowNextProduct(product: Product, index: Int)
 }
 
 class ProductViewController: UIViewController {
     
-    // Properties
+    // For next product
     var delegate: ProductViewControllerDelegate?
     var nextProductBarButtonItem: UIBarButtonItem?
+    var productIndex: Int?
+    var nextProduct: Product?
+    var nextProductIndex: Int?
     
+    // Properties
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     @IBOutlet var scrollView: UIScrollView!
@@ -27,8 +31,6 @@ class ProductViewController: UIViewController {
     @IBOutlet var viewsContainerHeight: NSLayoutConstraint?
     
     var product: Product?
-    var productIndex: Int?
-    var nextProduct: Product?
     // Images for Carousel
     var firstImage: UIImage?
     var imageViews: [UIImageView] = [UIImageView]()
@@ -95,25 +97,17 @@ class ProductViewController: UIViewController {
         self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
         self.btnFav?.addTarget(self, action: #selector(ProductViewController.star(_:)), forControlEvents: .TouchUpInside)
         
-        let itemSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
-        var items = [UIBarButtonItem]()
-        items.append(itemSpace)
-        items.append(UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .Plain, target: self, action: #selector(ProductViewController.back(_:))))
-        items.append(itemSpace)
-        let _nextProductBarButtonItem = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
-        _nextProductBarButtonItem.enabled = false
-        self.nextProductBarButtonItem = _nextProductBarButtonItem
-        items.append(_nextProductBarButtonItem)
-        items.append(itemSpace)
-        items.append(UIBarButtonItem(customView: self.btnLike!))
-        items.append(itemSpace)
-        items.append(UIBarButtonItem(customView: self.btnFav!))
-        items.append(itemSpace)
-        items.append(UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: #selector(ProductViewController.share(_:))))
-        items.append(itemSpace)
-        let _ = items.map() { $0.width = 64 }
+        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
+        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .Plain, target: self, action: #selector(ProductViewController.back(_:)))
+        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
+        let like = UIBarButtonItem(customView: self.btnLike!)
+        let fav = UIBarButtonItem(customView: self.btnFav!)
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: #selector(ProductViewController.share(_:)))
+        self.toolbarItems = [ space, back, space, next, space, like, space, fav, space, share, space]
+        let _ = self.toolbarItems?.map() { $0.width = 64 }
         
-        self.toolbarItems = items
+        next.enabled = false
+        self.nextProductBarButtonItem = next
         
         // Load content
         self.loadProduct(false)
@@ -166,7 +160,13 @@ extension ProductViewController {
         // Favorite button status
         self.isFavorite = self.product?.isFavorite() ?? false
         // Prepare next product
-        self.nextProduct = self.delegate?.getNextProduct(self.productIndex)
+        if let (index, product) = self.delegate?.getNextProduct(self.productIndex) {
+            self.nextProductIndex = index
+            self.nextProduct = product
+        } else {
+            self.nextProductIndex = nil
+            self.nextProduct = nil
+        }
         // Next button status
         self.nextProductBarButtonItem?.enabled = self.nextProduct != nil
     }
@@ -175,10 +175,9 @@ extension ProductViewController {
         if let nextProduct = self.nextProduct {
             self.product = nextProduct
             self.firstImage = nil
-            let nextProductIndex = (self.productIndex ?? 0) + 1
-            self.productIndex = nextProductIndex
+            self.productIndex = self.nextProductIndex
             self.loadProduct(true)
-            self.delegate?.didShowNextProduct(nextProduct, index: nextProductIndex)
+            self.delegate?.didShowNextProduct(nextProduct, index: self.productIndex ?? 0)
         }
     }
 }

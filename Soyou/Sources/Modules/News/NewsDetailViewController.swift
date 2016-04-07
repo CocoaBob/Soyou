@@ -6,8 +6,22 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
+protocol NewsDetailViewControllerDelegate {
+    
+    func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)?
+    func didShowNextNews(news: BaseNews, index: Int)
+}
+
 class NewsDetailViewController: UIViewController {
     
+    // For next product
+    var delegate: NewsDetailViewControllerDelegate?
+    var nextNewsBarButtonItem: UIBarButtonItem?
+    var newsIndex: Int?
+    var nextNews: BaseNews?
+    var nextNewsIndex: Int?
+    
+    // Properties
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     // Toolbar
@@ -88,17 +102,18 @@ class NewsDetailViewController: UIViewController {
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
         let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .Plain, target: self, action: #selector(NewsDetailViewController.back(_:)))
+        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
         let like = UIBarButtonItem(customView: self.btnLike!)
         let fav = UIBarButtonItem(customView: self.btnFav!)
         let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: #selector(NewsDetailViewController.share(_:)))
-        (back.width, share.width, like.width, fav.width) = (64, 64, 64, 64)
+        self.toolbarItems = [ space, back, space, next, space, like, space, fav, space, share, space]
+        let _ = self.toolbarItems?.map() { $0.width = 64 }
         
-        self.toolbarItems = [ space, back, space, like, space, fav, space, share, space]
+        next.enabled = false
+        self.nextNewsBarButtonItem = next
         
         // Hide navigation bar at beginning for calculating topInset
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        // Parallax Header
-        self.setupParallaxHeader()
         // Fix scroll view insets
         self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, true, false)
         
@@ -220,8 +235,8 @@ extension NewsDetailViewController: UIScrollViewDelegate {
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
             self.statusBarCover.alpha = 0
-            }, completion: { (finished) -> Void in
-                self.statusBarCover.removeFromSuperview()
+        }, completion: { (finished) -> Void in
+            self.statusBarCover.removeFromSuperview()
         })
     }
 }
@@ -330,25 +345,33 @@ extension NewsDetailViewController {
         self.isFavorite = news.isFavorite()
         
         // Cover Image
-        if let imageURLString = news.image,
-            let imageURL = NSURL(string: imageURLString) {
-                if !SDWebImageManager.sharedManager().cachedImageExistsForURL(imageURL) {
-                    SDWebImageManager.sharedManager().downloadImageWithURL(
-                        imageURL,
-                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                        progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
-                            
-                        },
-                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
-                            self.headerImage = image
-                            self.setupParallaxHeader()
-                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                                if let localNews = self.news?.MR_inContext(localContext) {
-                                    self.loadPageContent(localNews)
-                                }
-                            })
+        if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
+            let imageManager = SDWebImageManager.sharedManager()
+            let cacheKey = imageManager.cacheKeyForURL(imageURL)
+            var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCacheForKey(cacheKey)
+            if cachedImage == nil {
+                cachedImage = imageManager.imageCache.imageFromDiskCacheForKey(cacheKey)
+            }
+            if let cachedImage = cachedImage {
+                self.headerImage = cachedImage
+                self.setupParallaxHeader()
+            } else {
+                SDWebImageManager.sharedManager().downloadImageWithURL(
+                    imageURL,
+                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                    progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
+                        
+                    },
+                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
+                        self.headerImage = image
+                        self.setupParallaxHeader()
+                        MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                            if let localNews = self.news?.MR_inContext(localContext) {
+                                self.loadPageContent(localNews)
+                            }
                         })
-                }
+                })
+            }
         }
     }
     
@@ -394,6 +417,30 @@ extension NewsDetailViewController {
                     self.loadNews(localNews, context: localContext)
                 }
             })
+        }
+        
+        // Parallax Header
+        self.setupParallaxHeader()
+        
+        // Prepare next news
+        if let (index, news) = self.delegate?.getNextNews(self.newsIndex) {
+            self.nextNewsIndex = index
+            self.nextNews = news
+        } else {
+            self.nextNewsIndex = nil
+            self.nextNews = nil
+        }
+        // Next button status
+        self.nextNewsBarButtonItem?.enabled = self.nextNews != nil
+    }
+    
+    func loadNextNews() {
+        if let nextNews = self.nextNews {
+            self.news = nextNews
+            self.headerImage = nil
+            self.newsIndex = self.nextNewsIndex
+            self.loadNews()
+            self.delegate?.didShowNextNews(nextNews, index: self.newsIndex ?? 0)
         }
     }
 }
@@ -442,16 +489,18 @@ extension NewsDetailViewController {
     private func setupParallaxHeader() {
         // Image
         guard let image = self.headerImage else { return }
-        // Height
-        let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
-        // Header View
-        let headerView = UIImageView(image: image)
-        headerView.contentMode = .ScaleAspectFill
-        // Parallax View
-        if let scrollView = self.scrollView {
-            scrollView.parallaxHeader.height = headerHeight
-            scrollView.parallaxHeader.view = headerView
-            scrollView.parallaxHeader.mode = .Fill
+        dispatch_async(dispatch_get_main_queue()) {
+            // Height
+            let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
+            // Header View
+            let headerView = UIImageView(image: image)
+            headerView.contentMode = .ScaleAspectFill
+            // Parallax View
+            if let scrollView = self.scrollView {
+                scrollView.parallaxHeader.height = headerHeight
+                scrollView.parallaxHeader.view = headerView
+                scrollView.parallaxHeader.mode = .Fill
+            }
         }
     }
 }
@@ -519,6 +568,10 @@ extension NewsDetailViewController {
     
     func back(sender: UIBarButtonItem) {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func next(sender: UIBarButtonItem) {
+        self.loadNextNews()
     }
     
     func share(sender: UIBarButtonItem) {

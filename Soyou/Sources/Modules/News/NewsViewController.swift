@@ -103,7 +103,36 @@ extension NewsViewController {
             self.resetMoreButtonCell()
         }
     }
+}
+
+// MARK: NewsDetailViewControllerDelegate
+extension NewsViewController: NewsDetailViewControllerDelegate {
     
+    func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)? {
+        guard let fetchedResults = self.fetchedResults else { return nil }
+        
+        var currentProductIndex = -1
+        if let currentIndex = currentIndex {
+            currentProductIndex = currentIndex
+        }
+        
+        var nextNewsIndex = currentProductIndex + 1
+        while nextNewsIndex < fetchedResults.count {
+            if let news = fetchedResults[nextNewsIndex] as? News {
+                if news.appIsMore?.boolValue != true {
+                    return (nextNewsIndex, news)
+                }
+            }
+            nextNewsIndex += 1
+        }
+        
+        return nil
+    }
+    
+    func didShowNextNews(news: BaseNews, index: Int) {
+        self.collectionView().scrollToItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
+        self.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+    }
 }
 
 // MARK: - CollectionView Delegate Methods
@@ -190,7 +219,9 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 
                 // Prepare view controller
                 let newsDetailViewController = NewsDetailViewController.instantiate()
+                newsDetailViewController.delegate = self
                 newsDetailViewController.news = localNews
+                newsDetailViewController.newsIndex = indexPath.row
                 newsDetailViewController.headerImage = image
                 
                 // Push view controller
