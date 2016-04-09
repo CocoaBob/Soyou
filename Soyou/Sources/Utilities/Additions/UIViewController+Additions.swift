@@ -350,7 +350,7 @@ extension UIViewController {
     
     func animationBlockForZoomTransition() -> ZoomAnimationBlock! {
         return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!) -> Void in
-            animatedSnapshot.transform = CGAffineTransformMakeScale(1.01, 1.01)
+            animatedSnapshot.transform = CGAffineTransformMakeScale(1.05, 1.05)
         }
     }
     

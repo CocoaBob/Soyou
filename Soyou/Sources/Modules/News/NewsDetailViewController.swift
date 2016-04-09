@@ -32,12 +32,6 @@ class NewsDetailViewController: UIViewController {
     let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
-    // Status Bar Cover
-    var isStatusBarCoverVisible = false
-    let statusBarCover = UIView(frame:
-        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
-    )
-    
     // Data
     var news: BaseNews? {
         didSet {
@@ -46,7 +40,11 @@ class NewsDetailViewController: UIViewController {
         }
     }
     var headerImage: UIImage?
-    var newsTitle: String!
+    var newsTitle: String! {
+        didSet {
+            self.title = self.newsTitle
+        }
+    }
     var newsID: NSNumber!
     var webViewImageURLs: [String] = [String]()
     var webViewPhotos: [IDMPhoto] = [IDMPhoto]()
@@ -79,9 +77,6 @@ class NewsDetailViewController: UIViewController {
         tapGR.delegate = self // shouldRecognizeSimultaneouslyWithGestureRecognizer
         self.webView?.addGestureRecognizer(tapGR)
         
-        // Status Bar Cover
-        statusBarCover.backgroundColor = UIColor.whiteColor()
-        
         // Toolbar
         self.btnLike = UIButton(type: .System)
         self.btnFav = UIButton(type: .System)
@@ -112,18 +107,18 @@ class NewsDetailViewController: UIViewController {
         next.enabled = false
         self.nextNewsBarButtonItem = next
         
-        // Hide navigation bar at beginning for calculating topInset
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        // Show navigation bar at beginning for calculating topInset
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, true, false)
+        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, true, true, true, false)
         
         // Load content
         self.loadNews()
     }
     
     override func viewWillAppear(animated: Bool) {
-        // Hide navigation bar if it's visible again
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        // Show navigation bar if it's invisible again
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
@@ -134,18 +129,8 @@ class NewsDetailViewController: UIViewController {
         self.showToolbar(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        // Update Status Bar Cover
-        self.updateStatusBarCover()
-        // Set WebView scroll view
-        self.scrollView?.delegate = self
-    }
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        // Update Status Bar Cover
-        self.removeStatusBarCover()
         // Hide HUD indicator if exists
         MBProgressHUD.hideLoader(self.view)
         // Set WebView scroll view
@@ -160,7 +145,7 @@ class NewsDetailViewController: UIViewController {
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return isStatusBarCoverVisible ? UIStatusBarStyle.Default : UIStatusBarStyle.LightContent
+        return UIStatusBarStyle.LightContent
     }
 
 }
@@ -201,43 +186,6 @@ extension NewsDetailViewController {
                     IDMPhotoBrowser.present(self.webViewPhotos, index: UInt(photoIndex), view: nil, scaleImage: nil, viewVC: self)
             }
         }
-    }
-}
-
-// MARK: UIScrollViewDelegate
-extension NewsDetailViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        // Update Status Bar Cover
-        self.updateStatusBarCover()
-    }
-    
-    private func updateStatusBarCover() {
-        guard let scrollView = self.scrollView else { return }
-        if !isStatusBarCoverVisible && scrollView.contentOffset.y >= 0 {
-            self.addStatusBarCover()
-        } else if isStatusBarCoverVisible && scrollView.contentOffset.y < 0 {
-            self.removeStatusBarCover()
-        }
-    }
-    
-    private func addStatusBarCover() {
-        isStatusBarCoverVisible = true
-        self.tabBarController?.view.addSubview(self.statusBarCover)
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.setNeedsStatusBarAppearanceUpdate()
-            self.statusBarCover.alpha = 1
-        })
-    }
-    
-    private func removeStatusBarCover() {
-        isStatusBarCoverVisible = false
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.setNeedsStatusBarAppearanceUpdate()
-            self.statusBarCover.alpha = 0
-        }, completion: { (finished) -> Void in
-            self.statusBarCover.removeFromSuperview()
-        })
     }
 }
 
