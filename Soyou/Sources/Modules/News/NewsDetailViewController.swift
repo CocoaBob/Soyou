@@ -347,8 +347,10 @@ extension NewsDetailViewController {
                 cachedImage = imageManager.imageCache.imageFromDiskCacheForKey(cacheKey)
             }
             if let cachedImage = cachedImage {
-                self.headerImage = cachedImage
-                self.setupParallaxHeader()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.headerImage = cachedImage
+                    self.setupParallaxHeader()
+                }
             } else {
                 SDWebImageManager.sharedManager().downloadImageWithURL(
                     imageURL,
@@ -357,8 +359,10 @@ extension NewsDetailViewController {
                         
                     },
                     completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
-                        self.headerImage = image
-                        self.setupParallaxHeader()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.headerImage = image
+                            self.setupParallaxHeader()
+                        }
                         MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                             if let localNews = self.news?.MR_inContext(localContext) {
                                 self.loadPageContent(localNews)
@@ -479,18 +483,16 @@ extension NewsDetailViewController {
     private func setupParallaxHeader() {
         // Image
         guard let image = self.headerImage else { return }
-        dispatch_async(dispatch_get_main_queue()) {
-            // Height
-            let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
-            // Header View
-            let headerView = UIImageView(image: image)
-            headerView.contentMode = .ScaleAspectFill
-            // Parallax View
-            if let scrollView = self.scrollView {
-                scrollView.parallaxHeader.height = headerHeight
-                scrollView.parallaxHeader.view = headerView
-                scrollView.parallaxHeader.mode = .Fill
-            }
+        // Height
+        let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
+        // Header View
+        let headerView = UIImageView(image: image)
+        headerView.contentMode = .ScaleAspectFill
+        // Parallax View
+        if let scrollView = self.scrollView {
+            scrollView.parallaxHeader.height = headerHeight
+            scrollView.parallaxHeader.view = headerView
+            scrollView.parallaxHeader.mode = .Fill
         }
     }
 }
