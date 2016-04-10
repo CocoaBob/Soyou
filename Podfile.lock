@@ -24,11 +24,13 @@ PODS:
     - AFNetworking/NSURLSession
   - Base64nl (1.2)
   - CCHMapClusterController (1.7.0)
-  - CHTCollectionViewWaterfallLayout (0.9.2)
+  - CHTCollectionViewWaterfallLayout (0.9.4):
+    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.4)
+  - CHTCollectionViewWaterfallLayout/ObjC (0.9.4)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - DACircularProgress (2.3.1)
-  - EAIntroView (2.8.1):
+  - EAIntroView (2.8.2):
     - EARestrictedScrollView (~> 0.2.0)
   - EARestrictedScrollView (0.2.0)
   - Fabric (1.6.7)
@@ -39,7 +41,8 @@ PODS:
     - DACircularProgress
     - pop
     - SDWebImage
-  - libWeChatSDK (1.6.2)
+  - iOS-WechatSDK (1.6.1)
+  - LXMThirdLoginManager (1.1.0)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -76,7 +79,9 @@ DEPENDENCIES:
   - FCUUID
   - FlagKit (from `git://github.com/basvankuijck/FlagKit`, commit `990e966221a956897a76b3fa34d24c5b626f0e2a`)
   - IDMPhotoBrowser
-  - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `bb4387498ef2974189e8270928f62a1cd3a8ef62`)
+  - iOS-WechatSDK
+  - LXMThirdLoginManager (from `git://github.com/CocoaBob/LXMThirdLoginManager`, commit
+    `789b4fdafa3ec61569d84a171ee13a96965e2fa5`)
   - MagicalRecord (~> 2.3)
   - MBProgressHUD
   - MJRefresh
@@ -99,9 +104,9 @@ EXTERNAL SOURCES:
   FlagKit:
     :commit: 990e966221a956897a76b3fa34d24c5b626f0e2a
     :git: git://github.com/basvankuijck/FlagKit
-  libWeChatSDK:
-    :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
-    :git: git://github.com/CocoaBob/libWeChatSDK
+  LXMThirdLoginManager:
+    :commit: 789b4fdafa3ec61569d84a171ee13a96965e2fa5
+    :git: git://github.com/CocoaBob/LXMThirdLoginManager
   PFCarouselView:
     :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
@@ -113,9 +118,9 @@ CHECKOUT OPTIONS:
   FlagKit:
     :commit: 990e966221a956897a76b3fa34d24c5b626f0e2a
     :git: git://github.com/basvankuijck/FlagKit
-  libWeChatSDK:
-    :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
-    :git: git://github.com/CocoaBob/libWeChatSDK
+  LXMThirdLoginManager:
+    :commit: 789b4fdafa3ec61569d84a171ee13a96965e2fa5
+    :git: git://github.com/CocoaBob/LXMThirdLoginManager
   PFCarouselView:
     :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
@@ -129,16 +134,17 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Base64nl: a497bdcd1c01ea793d36b399016195a8713c0e95
   CCHMapClusterController: d8cd12cd5682ec6cd76d911ac7198f981b6cc1b8
-  CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
+  CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  EAIntroView: 73abfa89caa311f450af876421d950b96679e845
+  EAIntroView: c45c4cd533cb760800a165115bc3d1fcaff3d5bb
   EARestrictedScrollView: f86d61e16c61d3e93c84f8e96e83122a2a3b7631
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FlagKit: ede020f33c7bc105ab52bf189b4e5b5d46c94a4c
   IDMPhotoBrowser: a9a548910f24a6db53775fa6b6a6101262b20d63
-  libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
+  iOS-WechatSDK: bd8d0ad5ff5635ded9ab08a8cf09a53569931fde
+  LXMThirdLoginManager: b69faf838a8e3d42b69f81c417edeb6d07b3008b
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4

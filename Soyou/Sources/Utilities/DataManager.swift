@@ -23,9 +23,9 @@ class DataManager {
     private func handleError(error: NSError?) {
         DLog(error)
         
-        if let response = error?.userInfo[AFNetworkingOperationFailingURLResponseErrorKey], statusCode = response.statusCode {
+        if let response = error?.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? NSHTTPURLResponse {
             // If 401 error, logout
-            if statusCode == 401 {
+            if response.statusCode == 401 {
                 UserManager.shared.logOut()
             }
         }

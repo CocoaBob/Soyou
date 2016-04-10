@@ -18,7 +18,6 @@ pod "EAIntroView"
 pod "FCUUID"
 pod "FlagKit", :git => 'git://github.com/basvankuijck/FlagKit', :commit => '990e966221a956897a76b3fa34d24c5b626f0e2a'
 pod "IDMPhotoBrowser"
-pod "libWeChatSDK", :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
 pod "MagicalRecord", '~> 2.3'
 pod "MBProgressHUD"
 pod "MJRefresh"
@@ -45,3 +44,9 @@ pod "Crashlytics"
 # Will be integrated in the future
 #pod "ActionSheetPicker-3.0"
 #pod "JSQMessagesViewController"
+
+#SNS SDKs
+pod "iOS-WechatSDK"
+#pod "QQOpenSDK"
+#pod "WeiboSDK"
+pod "LXMThirdLoginManager", :git => 'git://github.com/CocoaBob/LXMThirdLoginManager', :commit => '789b4fdafa3ec61569d84a171ee13a96965e2fa5'
