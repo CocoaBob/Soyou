@@ -8,7 +8,7 @@
 
 public struct Cons {
     struct Svr {
-        static let serverVersion                            = "0.0.3"
+        static let serverVersion                            = "0.0.4"
         static let apiVersion                               = "v1"
         
 #if DEBUG
@@ -43,7 +43,7 @@ public struct Cons {
         static let lastInstalledBuild                       = "lastInstalledBuild"                      // Stored in NSUserDefaults
         static let userCurrency                             = "userCurrency"                            // Stored in NSUserDefaults
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
-        static let updateInterval                           = 900.0                                     // 15 minutes
+        static let updateInterval                           = 0.0                                       // 0 second
     }
     
     struct DB {
