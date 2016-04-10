@@ -223,18 +223,36 @@ class CurrencyManager {
         }
     }
     
-    func userCurrencyFromCurrency(countryCode: String?, price: NSNumber) -> NSNumber? {
-        if let countryCode = countryCode,
-            currencyCode = self.currencyCode(countryCode),
+    func priceInUserCurrencyFromCurrencyCode(currencyCode: String?, price: NSNumber) -> NSNumber? {
+        if let currencyCode = currencyCode,
             rate = self.rateFromSourceCode(currencyCode),
             rateValue = rate.rate?.doubleValue {
-                var referencePrice = price.doubleValue * rateValue
-                if currencyCode != self.userCurrency {
-                    referencePrice *= 1.05
-                }
-                return NSNumber(double: referencePrice)
+            var referencePrice = price.doubleValue * rateValue
+            if currencyCode != self.userCurrency {
+                referencePrice *= 1.05
+            }
+            return NSNumber(double: referencePrice)
         }
         return nil
+    }
+    
+    func priceInUserCurrencyFromCountryCode(countryCode: String?, price: NSNumber) -> NSNumber? {
+        if let countryCode = countryCode,
+            currencyCode = self.currencyCode(countryCode) {
+            return self.priceInUserCurrencyFromCurrencyCode(currencyCode, price: price)
+        }
+        return nil
+    }
+    
+    func priceInUserCurrencyFromPriceItem(item: NSDictionary) -> NSNumber? {
+        guard let price = item["price"] as? NSNumber else { return nil }
+        let currencyCode = item["currency"] as? String
+        let countryCode = item["country"] as? String
+        var priceInUserCurrency = self.priceInUserCurrencyFromCurrencyCode(currencyCode, price: price)
+        if currencyCode == nil {
+            priceInUserCurrency = self.priceInUserCurrencyFromCountryCode(countryCode, price: price)
+        }
+        return priceInUserCurrency
     }
     
     func cheapestFormattedPriceInUserCurrency(pricesData: NSData?) -> String? {
@@ -245,12 +263,10 @@ class CurrencyManager {
         var cheapestPrice: NSNumber?
         if let items = items {
             for item in items {
-                if let countryCode = item["country"] as? String,
-                    price = item["price"] as? NSNumber,
-                    priceInUserCurrency = self.userCurrencyFromCurrency(countryCode, price: price) {
-                        if cheapestPrice == nil || cheapestPrice!.doubleValue > priceInUserCurrency.doubleValue {
-                            cheapestPrice = priceInUserCurrency
-                        }
+                if let priceInUserCurrency = self.priceInUserCurrencyFromPriceItem(item) {
+                    if cheapestPrice == nil || cheapestPrice!.doubleValue > priceInUserCurrency.doubleValue {
+                        cheapestPrice = priceInUserCurrency
+                    }
                 }
             }
         }
@@ -307,7 +323,7 @@ class CurrencyManager {
     }
     
     // Country Code -> Currency Name, eg: CN -> China Yuan/人民币
-    func currencyName(countryCode: String) -> String? {
+    func currencyNameFromCountryCode(countryCode: String) -> String? {
         let countryLocale = self.countryLocale(countryCode)
         return self.displayLocale.displayNameForKey(NSLocaleCurrencyCode, value: countryLocale.objectForKey(NSLocaleCurrencyCode) ?? "")
     }

@@ -45,7 +45,7 @@
 
 /* Product Prices View Controller */
 "product_prices_vc_title"="全球售价";
-"product_prices_vc_official_price"="%@";
+"product_prices_vc_official_price_unknown_country"="未知地区";
 "product_prices_vc_official_website"="官网直达";
 "product_prices_vc_unavailable"="暂无";
 

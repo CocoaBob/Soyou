@@ -17,11 +17,8 @@ class ProductPricesViewController: UIViewController {
         didSet {
             if let _prices = prices {
                 for (index, var price) in _prices.enumerate() {
-                    if let countryCode = price["country"] as? String,
-                        priceOriginal = price["price"] as? NSNumber {
-                            price["priceUserCurrency"] = CurrencyManager.shared.userCurrencyFromCurrency(countryCode, price: priceOriginal)
-                            prices![index] = price
-                    }
+                    price["priceUserCurrency"] = CurrencyManager.shared.priceInUserCurrencyFromPriceItem(price)
+                    prices![index] = price
                 }
                 
                 prices!.sortInPlace({
@@ -73,21 +70,25 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let prices = self.prices else { return UITableViewCell() }
         guard let item: [String: AnyObject] = prices[indexPath.section] else { return UITableViewCell() }
-        guard let countryCode = item["country"] as? String else { return UITableViewCell() }
         guard let price = item["price"] as? NSNumber else { return UITableViewCell() }
+        let countryCode = item["country"] as? String
+        let currencyCode = item["currency"] as? String
         
         var cell: UITableViewCell?
         
         if indexPath.row == 0 {
             let _cell = (tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCountry", forIndexPath: indexPath) as? ProductPricesTableViewCellCountry)!
             
-            if let image = UIImage(flagImageWithCountryCode: countryCode) {
+            if let countryCode = countryCode, image = UIImage(flagImageWithCountryCode: countryCode) {
                 _cell.imgView.image = image
             } else {
                 _cell.imgView.image = UIImage(flagImageForSpecialFlag: .World)
             }
-            let countryName = CurrencyManager.shared.countryName(countryCode)
-            _cell.lblTitle.text = FmtString(NSLocalizedString("product_prices_vc_official_price"), countryName ?? "")
+            if let countryCode = countryCode, countryName = CurrencyManager.shared.countryName(countryCode) {
+                _cell.lblTitle.text = countryName
+            } else {
+                _cell.lblTitle.text = NSLocalizedString("product_prices_vc_official_price_unknown_country")
+            }
             
             // Hide website label if not available
             if let officialUrlString = item["officialUrl"] as? String {
@@ -101,8 +102,11 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             cell = _cell
         } else {
             let _cell = (tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as? ProductPricesTableViewCellCurrency)!
-            
-            _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyName(countryCode ?? "")
+            if currencyCode != nil {
+                _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyNameFromCurrencyCode(currencyCode ?? "")
+            } else {
+                _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyNameFromCountryCode(countryCode ?? "")
+            }
             _cell.lblRetailPrice.text = CurrencyManager.shared.formattedPrice(price, nil, false)
             _cell.lblEquivalentCurrency.text = CurrencyManager.shared.currencyNameFromCurrencyCode(CurrencyManager.shared.userCurrency) ?? NSLocalizedString("currency_unknown")
             if let priceUserCurrency = item["priceUserCurrency"] as? NSNumber {

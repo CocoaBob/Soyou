@@ -43,7 +43,7 @@
 
 /* Product Prices View Controller */
 "product_prices_vc_title"="Global Prices";
-"product_prices_vc_official_price"="Official price in %@";
+"product_prices_vc_official_price_unknown_country"="Unknown region";
 "product_prices_vc_official_website"="Website";
 "product_prices_vc_unavailable"="Unavailable";
 
