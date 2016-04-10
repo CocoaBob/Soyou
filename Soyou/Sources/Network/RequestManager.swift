@@ -212,4 +212,14 @@ class RequestManager {
     func modifyUserInfo(field:String, _ value:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/info", "UserInfo", ["field": field, "value": value], onSuccess, onFailure)
     }
+    
+    //////////////////////////////////////
+    // MARK: Analytics
+    //////////////////////////////////////
+    
+    func sendAnalyticsData(target: NSNumber, _ action: NSNumber, _ data: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let operatedAt = Cons.utcDateFormatter.stringFromDate(NSDate())
+        let params = ["target": target, "action": action, "data": data, "operatedAt": operatedAt, "uuid": UserManager.shared.uuid]
+        postAsync("/api/\(Cons.Svr.apiVersion)/analytics", "Analytics", params, onSuccess, onFailure)
+    }
 }

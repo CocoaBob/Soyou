@@ -87,6 +87,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserManager.shared.isLoggedIn {
             DataManager.shared.checkToken()
         }
+        
+        // Analytics
+        DataManager.shared.analyticsAppBecomeActive()
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication) {

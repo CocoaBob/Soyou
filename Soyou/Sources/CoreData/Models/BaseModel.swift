@@ -8,9 +8,4 @@
 
 class BaseModel: NSManagedObject {
     
-    static let dateFormatter: NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        return dateFormatter
-    } ()
 }

@@ -615,4 +615,16 @@ class DataManager {
             })
         }
     }
+    
+    //////////////////////////////////////
+    // MARK: Analytics
+    //////////////////////////////////////
+    
+    func analyticsAppBecomeActive() {
+        RequestManager.shared.sendAnalyticsData(NSNumber(integer: 3), NSNumber(integer: 6), "null", { responseObject in
+            DLog(responseObject)
+            }, { error in
+                self.completeWithError(error, completion: nil)
+        })
+    }
 }

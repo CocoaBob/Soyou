@@ -30,10 +30,10 @@ class FavoriteNews: BaseNews {
             
             if let news = news {
                 if let value = data["datePublication"] as? String {
-                    news.datePublication = self.dateFormatter.dateFromString(value)
+                    news.datePublication = Cons.utcDateFormatter.dateFromString(value)
                 }
                 if let value = data["dateModification"] as? String {
-                    let newDateModification = self.dateFormatter.dateFromString(value)
+                    let newDateModification = Cons.utcDateFormatter.dateFromString(value)
                     if isComplete {
                         news.appIsUpdated = NSNumber(bool: true)
                     } else {
@@ -88,7 +88,7 @@ class FavoriteNews: BaseNews {
         for dict in data {
             if let newsID = dict["id"] as? NSNumber, dateModification = dict["dateModification"] as? String {
                 favoriteIDs.append(newsID)
-                favoriteDates[newsID] = BaseModel.dateFormatter.dateFromString(dateModification)
+                favoriteDates[newsID] = Cons.utcDateFormatter.dateFromString(dateModification)
             }
         }
         

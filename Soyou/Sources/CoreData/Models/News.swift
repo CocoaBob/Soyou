@@ -26,10 +26,10 @@ class News: BaseNews {
             
             if let news = news {
                 if let value = data["datePublication"] as? String {
-                    news.datePublication = self.dateFormatter.dateFromString(value)
+                    news.datePublication = Cons.utcDateFormatter.dateFromString(value)
                 }
                 if let value = data["dateModification"] as? String {
-                    let newDateModification = self.dateFormatter.dateFromString(value)
+                    let newDateModification = Cons.utcDateFormatter.dateFromString(value)
                     if isComplete {
                         news.appIsUpdated = NSNumber(bool: true)
                     } else {

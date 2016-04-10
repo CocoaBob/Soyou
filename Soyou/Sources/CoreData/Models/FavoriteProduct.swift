@@ -30,7 +30,7 @@ class FavoriteProduct: NSManagedObject {
         for dict in data {
             if let newsID = dict["id"] as? NSNumber, dateModification = dict["dateModification"] as? String {
                 favoriteIDs.append(newsID)
-                favoriteDates[newsID] = BaseModel.dateFormatter.dateFromString(dateModification)
+                favoriteDates[newsID] = Cons.utcDateFormatter.dateFromString(dateModification)
             }
         }
         

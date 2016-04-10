@@ -70,6 +70,15 @@ public struct Cons {
         static let colorStoreMapCopy                        = "#59C843"
         static let colorStoreMapOpen                        = "#0095FF"
     }
+    
+    static var utcDateFormatter: NSDateFormatter {
+        get {
+            let _utcDateFormatter = NSDateFormatter()
+            _utcDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+            _utcDateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
+            return _utcDateFormatter
+        }
+    }
 }
 
 typealias DataClosure = (AnyObject?)->()
