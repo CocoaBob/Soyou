@@ -67,7 +67,7 @@
         <attribute name="appSearchText" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="brandId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="brandLabel" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="categories" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="categories" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="descriptions" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dimension" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
@@ -83,6 +83,15 @@
         <compoundIndexes>
             <compoundIndex>
                 <index value="id"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="order"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="appSearchText"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="categories"/>
             </compoundIndex>
         </compoundIndexes>
     </entity>
