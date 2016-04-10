@@ -501,6 +501,7 @@ extension ProductViewController {
         var productID: String?
         var title: String?
         var htmlString: String?
+        let userCurrency = CurrencyManager.shared.userCurrency
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = self.product?.MR_inContext(localContext)
@@ -552,7 +553,7 @@ extension ProductViewController {
         if let item = descriptions {
             items.append(item)
         }
-        if let productID = productID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)") {
+        if let productID = productID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)&targetCurrency=\(userCurrency)") {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
