@@ -54,6 +54,12 @@ class ProductViewController: UIViewController {
     let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
+    // Status bar cover
+    var isStatusBarCoverVisible = false
+    let statusBarCover = UIView(frame:
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
+    )
+    
     // Class methods
     class func instantiate() -> ProductViewController {
         return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController)!
@@ -69,6 +75,9 @@ class ProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Status bar
+        self.statusBarCover.backgroundColor = UIColor.whiteColor()
         
         // Toolbar
         self.btnLike = UIButton(type: .System)
@@ -100,24 +109,36 @@ class ProductViewController: UIViewController {
         next.enabled = false
         self.nextProductBarButtonItem = next
         
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.scrollView, 0, true, false, false, false)
+        
         // Load content
         self.loadProduct(false)
     }
     
     override func viewWillAppear(animated: Bool) {
-        // Show navigation bar if it's invisible again
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        // Hide navigation bar if it's visible again
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
         // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        // Update statusbar cover
+        self.addStatusBarCover()
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeStatusBarCover()
+    }
+    
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        // Update Status Bar Cover
+        self.removeStatusBarCover()
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
     }
@@ -133,8 +154,6 @@ extension ProductViewController {
     func loadProduct(isNext: Bool) {
         // Setup images for carousel View
         self.setupCarouselView()
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.scrollView, 0, true, true, false, false)
         // SubViewControllers
         self.setupSubViewControllers(isNext)
         // Like button status
@@ -164,6 +183,29 @@ extension ProductViewController {
     }
 }
 
+// MARK: Status Bar Cover
+extension ProductViewController: UIScrollViewDelegate {
+    
+    private func addStatusBarCover() {
+        isStatusBarCoverVisible = true
+        self.tabBarController?.view.addSubview(self.statusBarCover)
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.statusBarCover.alpha = 1
+        })
+    }
+    
+    private func removeStatusBarCover() {
+        isStatusBarCoverVisible = false
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.statusBarCover.alpha = 0
+            }, completion: { (finished) -> Void in
+                self.statusBarCover.removeFromSuperview()
+        })
+    }
+}
+
 // MARK: Carousel View
 extension ProductViewController {
     
@@ -183,7 +225,6 @@ extension ProductViewController {
                 guard let localProduct = product.MR_inContext(localContext) else { return }
                 images = localProduct.images as? [String]
                 title = localProduct.title
-                self.title = localProduct.title
             }
         }
         let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: carouselViewHeight)
