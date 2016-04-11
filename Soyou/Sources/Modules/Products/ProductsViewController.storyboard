@@ -475,13 +475,47 @@
                                     <outlet property="delegate" destination="3nx-sA-4VU" id="KhI-3N-baC"/>
                                 </connections>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ryn-wN-uug" userLabel="Back Button">
+                                <rect key="frame" x="9" y="24" width="36" height="36"/>
+                                <color key="backgroundColor" white="0.90000000000000002" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="A0R-Yj-GKB"/>
+                                    <constraint firstAttribute="width" constant="36" id="pD0-5T-o64"/>
+                                </constraints>
+                                <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <state key="normal" image="img_arrow_left"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QX-I5-Hjr" userLabel="Share Button">
+                                <rect key="frame" x="555" y="24" width="36" height="36"/>
+                                <color key="backgroundColor" white="0.90000000000000002" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="GcX-6G-3r7"/>
+                                    <constraint firstAttribute="width" constant="36" id="be4-9D-2Eh"/>
+                                </constraints>
+                                <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <state key="normal" image="img_share"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Ryn-wN-uug" firstAttribute="top" secondItem="wDJ-sM-AAg" secondAttribute="top" constant="24" id="7Vo-Hv-lYS"/>
                             <constraint firstItem="5C8-cf-oQm" firstAttribute="leading" secondItem="wDJ-sM-AAg" secondAttribute="leading" id="DkL-K3-WtP"/>
                             <constraint firstItem="5C8-cf-oQm" firstAttribute="top" secondItem="wDJ-sM-AAg" secondAttribute="top" id="HT5-78-WiQ"/>
+                            <constraint firstItem="Ryn-wN-uug" firstAttribute="leading" secondItem="wDJ-sM-AAg" secondAttribute="leading" constant="9" id="NZo-JK-H4n"/>
+                            <constraint firstAttribute="trailing" secondItem="3QX-I5-Hjr" secondAttribute="trailing" constant="9" id="PpW-yW-dSy"/>
                             <constraint firstItem="rAM-ib-ugN" firstAttribute="width" secondItem="wDJ-sM-AAg" secondAttribute="width" id="T2D-2r-WKq"/>
                             <constraint firstItem="bwy-hx-bOj" firstAttribute="top" secondItem="5C8-cf-oQm" secondAttribute="bottom" id="anh-7y-MsC"/>
+                            <constraint firstItem="3QX-I5-Hjr" firstAttribute="top" secondItem="wDJ-sM-AAg" secondAttribute="top" constant="24" id="fqk-HO-5mV"/>
                             <constraint firstItem="xL3-tg-kAI" firstAttribute="width" secondItem="wDJ-sM-AAg" secondAttribute="width" id="ipf-5t-UrC"/>
                             <constraint firstAttribute="trailing" secondItem="5C8-cf-oQm" secondAttribute="trailing" id="kVf-WM-aGS"/>
                         </constraints>
@@ -813,6 +847,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="img_arrow_left" width="10" height="18"/>
         <image name="img_bg_text" width="1" height="40"/>
         <image name="img_bg_tile_light_gray_translucent" width="1" height="1"/>
         <image name="img_cell_closed" width="8" height="9"/>
@@ -821,6 +856,7 @@
         <image name="img_heart_shadow" width="24" height="22"/>
         <image name="img_map_locate_bg" width="60" height="60"/>
         <image name="img_map_locate_fg" width="22" height="22"/>
+        <image name="img_share" width="16" height="22"/>
         <image name="img_swipe_up_indicator" width="36" height="11"/>
     </resources>
     <inferredMetricsTieBreakers>
