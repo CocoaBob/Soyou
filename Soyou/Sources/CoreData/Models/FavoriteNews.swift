@@ -132,11 +132,7 @@ class FavoriteNews: BaseNews {
     
     class func deleteAll() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
-                for favoriteNews in allFavoritesNews {
-                    favoriteNews.MR_deleteEntityInContext(localContext)
-                }
-            }
+            FavoriteNews.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
         })
     }
     

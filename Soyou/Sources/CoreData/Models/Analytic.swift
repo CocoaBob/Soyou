@@ -52,11 +52,7 @@ class Analytic: BaseModel {
                 }
                 
                 // Delete non existing items
-                if let analytics = Analytic.MR_findAllWithPredicate(FmtPredicate("NOT (id IN %@)", ids), inContext: localContext) {
-                    for analytic in analytics {
-                        analytic.MR_deleteEntityInContext(localContext)
-                    }
-                }
+                Analytic.MR_deleteAllMatchingPredicate(FmtPredicate("NOT (id IN %@)", ids), inContext: localContext)
                 
                 }, completion: { (responseObject, error) -> Void in
                     if let completion = completion { completion(responseObject, error) }

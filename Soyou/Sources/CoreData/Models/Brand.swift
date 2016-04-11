@@ -52,11 +52,7 @@ class Brand: BaseModel {
                 }
                 
                 // Delete non existing items
-                if let brands = Brand.MR_findAllWithPredicate(FmtPredicate("NOT (id IN %@)", newIDs), inContext: localContext) {
-                    for brand in brands {
-                        brand.MR_deleteEntityInContext(localContext)
-                    }
-                }
+                Brand.MR_deleteAllMatchingPredicate(FmtPredicate("NOT (id IN %@)", newIDs), inContext: localContext)
                 
                 }, completion: { (responseObject, error) -> Void in
                     if let completion = completion { completion(responseObject, error) }

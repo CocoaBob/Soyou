@@ -14,12 +14,7 @@ class FavoriteProduct: NSManagedObject {
     
     class func deleteAll() {
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            // Delete all old product favorites
-            if let allFavoriteProducts = FavoriteProduct.MR_findAllInContext(localContext) as? [FavoriteProduct] {
-                for favoriteProduct in allFavoriteProducts {
-                    favoriteProduct.MR_deleteEntityInContext(localContext)
-                }
-            }
+            FavoriteProduct.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
         })
     }
     

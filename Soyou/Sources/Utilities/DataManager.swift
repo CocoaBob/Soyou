@@ -429,11 +429,7 @@ class DataManager {
             let timestamp = responseObject["timestamp"] as? String
             self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampDeletedProductIDs)
             MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                if let products = Product.MR_findAllWithPredicate(FmtPredicate("id IN %@", productIDs), inContext: localContext) {
-                    for product in products {
-                        product.MR_deleteEntityInContext(localContext)
-                    }
-                }
+                Product.MR_deleteAllMatchingPredicate(FmtPredicate("id IN %@", productIDs), inContext: localContext)
                 }, completion: { (_, _) -> Void in
                     self.completeWithData(nil, completion: completion)
                     // Notify observers

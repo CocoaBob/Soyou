@@ -41,11 +41,7 @@ class Region: BaseModel {
         if let datas = datas {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 // Delete all regions
-                if let regions = Region.MR_findAllInContext(localContext) as? [Region] {
-                    for region in regions {
-                        region.MR_deleteEntityInContext(localContext)
-                    }
-                }
+                Region.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
                 
                 // Save new regions in order
                 for (index, data) in datas.enumerate() {
