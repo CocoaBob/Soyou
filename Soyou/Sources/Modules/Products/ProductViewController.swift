@@ -227,6 +227,8 @@ extension ProductViewController {
         }
         let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: carouselViewHeight)
         if let images = images {
+            // Reset self.photos
+            self.photos = Array(count: images.count, repeatedValue: IDMPhoto())
             // Add 1st image
             if let firstImage = self.firstImage {
                 // ImageView for Carousel
@@ -235,17 +237,17 @@ extension ProductViewController {
                 firstImageView.image = firstImage
                 self.imageViews.append(firstImageView)
                 // Photo for IDMPhotoBrowser
-                self.photos.append(IDMPhoto(image: firstImage))
+                self.photos[0] = IDMPhoto(image: firstImage)
             } else {
                 self.firstImage = nil
             }
             // Add other images
             if self.firstImage == nil || images.count > 1 {
-                let restImages = (self.firstImage != nil) ? Array(images[1..<images.count]) : images
-                for (index, imageURLString) in restImages.enumerate() {
+                for index in (self.firstImage != nil) ? (1..<images.count) : (0..<images.count) {
+                    let imageURLString = images[index]
                     if let imageURL = NSURL(string: imageURLString) {
                         // Photo for IDMPhotoBrowser
-                        self.photos.append(IDMPhoto(URL: imageURL))
+                        self.photos[index] = IDMPhoto(URL: imageURL)
                         // ImageView for Carousel
                         let placeholder = UIImage(named: "img_placeholder_1_1_m")
                         let imageView = UIImageView(frame: imageViewFrame)
