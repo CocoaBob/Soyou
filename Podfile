@@ -46,7 +46,7 @@ pod "Crashlytics"
 #pod "JSQMessagesViewController"
 
 #SNS SDKs
-pod "iOS-WechatSDK"
+pod "libWeChatSDK", :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
 #pod "QQOpenSDK"
 #pod "WeiboSDK"
-pod "LXMThirdLoginManager", :git => 'git://github.com/CocoaBob/LXMThirdLoginManager', :commit => '789b4fdafa3ec61569d84a171ee13a96965e2fa5'
+#pod "LXMThirdLoginManager", :git => 'git://github.com/CocoaBob/LXMThirdLoginManager', :commit => '789b4fdafa3ec61569d84a171ee13a96965e2fa5'

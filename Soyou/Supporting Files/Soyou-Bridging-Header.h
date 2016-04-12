@@ -51,8 +51,8 @@
 
 // SNS SDKs
 // libWeChatSDK
-#import <iOS-WechatSDK/WXApiObject.h>
-#import <iOS-WechatSDK/WXApi.h>
+#import <libWeChatSDK/WXApiObject.h>
+#import <libWeChatSDK/WXApi.h>
 // libWeiboSDK
 //#import <WeiboSDK/WBHttpRequest.h>
 //#import <WeiboSDK/WBHttpRequest+WeiboGame.h>
@@ -73,4 +73,4 @@
 //#import <TencentOpenAPI/TencentOAuth.h>
 //#import <TencentOpenAPI/TencentOAuthObject.h>
 // LXMThirdLoginManager
-@import LXMThirdLoginManager;
+//@import LXMThirdLoginManager;

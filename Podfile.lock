@@ -41,8 +41,7 @@ PODS:
     - DACircularProgress
     - pop
     - SDWebImage
-  - iOS-WechatSDK (1.6.1)
-  - LXMThirdLoginManager (1.1.0)
+  - libWeChatSDK (1.6.2)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -79,9 +78,7 @@ DEPENDENCIES:
   - FCUUID
   - FlagKit (from `git://github.com/basvankuijck/FlagKit`, commit `990e966221a956897a76b3fa34d24c5b626f0e2a`)
   - IDMPhotoBrowser
-  - iOS-WechatSDK
-  - LXMThirdLoginManager (from `git://github.com/CocoaBob/LXMThirdLoginManager`, commit
-    `789b4fdafa3ec61569d84a171ee13a96965e2fa5`)
+  - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `bb4387498ef2974189e8270928f62a1cd3a8ef62`)
   - MagicalRecord (~> 2.3)
   - MBProgressHUD
   - MJRefresh
@@ -104,9 +101,9 @@ EXTERNAL SOURCES:
   FlagKit:
     :commit: 990e966221a956897a76b3fa34d24c5b626f0e2a
     :git: git://github.com/basvankuijck/FlagKit
-  LXMThirdLoginManager:
-    :commit: 789b4fdafa3ec61569d84a171ee13a96965e2fa5
-    :git: git://github.com/CocoaBob/LXMThirdLoginManager
+  libWeChatSDK:
+    :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
+    :git: git://github.com/CocoaBob/libWeChatSDK
   PFCarouselView:
     :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
@@ -118,9 +115,9 @@ CHECKOUT OPTIONS:
   FlagKit:
     :commit: 990e966221a956897a76b3fa34d24c5b626f0e2a
     :git: git://github.com/basvankuijck/FlagKit
-  LXMThirdLoginManager:
-    :commit: 789b4fdafa3ec61569d84a171ee13a96965e2fa5
-    :git: git://github.com/CocoaBob/LXMThirdLoginManager
+  libWeChatSDK:
+    :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
+    :git: git://github.com/CocoaBob/libWeChatSDK
   PFCarouselView:
     :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
@@ -143,8 +140,7 @@ SPEC CHECKSUMS:
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FlagKit: ede020f33c7bc105ab52bf189b4e5b5d46c94a4c
   IDMPhotoBrowser: a9a548910f24a6db53775fa6b6a6101262b20d63
-  iOS-WechatSDK: bd8d0ad5ff5635ded9ab08a8cf09a53569931fde
-  LXMThirdLoginManager: b69faf838a8e3d42b69f81c417edeb6d07b3008b
+  libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
