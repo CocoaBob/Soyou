@@ -53,7 +53,7 @@ PODS:
   - PageMenu (1.2.9)
   - PFCarouselView (0.7.0)
   - pop (1.0.9)
-  - SCLAlertView (0.5.1)
+  - SCLAlertView (0.5.2)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -153,7 +153,7 @@ SPEC CHECKSUMS:
   PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  SCLAlertView: 3ac39a863d3e10fc165662b1228b03402297aea9
+  SCLAlertView: 66873759027a98f891b6ba9042d75db9082abca2
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901

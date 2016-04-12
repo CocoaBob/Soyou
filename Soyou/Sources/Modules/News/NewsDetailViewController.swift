@@ -334,36 +334,38 @@ extension NewsDetailViewController {
         self.isFavorite = news.isFavorite()
         
         // Cover Image
-        if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
-            let imageManager = SDWebImageManager.sharedManager()
-            let cacheKey = imageManager.cacheKeyForURL(imageURL)
-            var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCacheForKey(cacheKey)
-            if cachedImage == nil {
-                cachedImage = imageManager.imageCache.imageFromDiskCacheForKey(cacheKey)
-            }
-            if let cachedImage = cachedImage {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.headerImage = cachedImage
-                    self.setupParallaxHeader()
+        if (self.headerImage == nil) {
+            if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
+                let imageManager = SDWebImageManager.sharedManager()
+                let cacheKey = imageManager.cacheKeyForURL(imageURL)
+                var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCacheForKey(cacheKey)
+                if cachedImage == nil {
+                    cachedImage = imageManager.imageCache.imageFromDiskCacheForKey(cacheKey)
                 }
-            } else {
-                SDWebImageManager.sharedManager().downloadImageWithURL(
-                    imageURL,
-                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                    progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
-                        
-                    },
-                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.headerImage = image
-                            self.setupParallaxHeader()
-                        }
-                        MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                            if let localNews = self.news?.MR_inContext(localContext) {
-                                self.loadPageContent(localNews)
+                if let cachedImage = cachedImage {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.headerImage = cachedImage
+                        self.setupParallaxHeader()
+                    }
+                } else {
+                    SDWebImageManager.sharedManager().downloadImageWithURL(
+                        imageURL,
+                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                        progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
+                            
+                        },
+                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.headerImage = image
+                                self.setupParallaxHeader()
                             }
-                        })
-                })
+                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                                if let localNews = self.news?.MR_inContext(localContext) {
+                                    self.loadPageContent(localNews)
+                                }
+                            })
+                    })
+                }
             }
         }
     }
