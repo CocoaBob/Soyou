@@ -139,16 +139,62 @@
         <scene sceneID="ylV-RG-WTZ">
             <objects>
                 <viewController storyboardIdentifier="NewsDetailViewController" id="mQM-eh-iat" customClass="NewsDetailViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
-                    <webView key="view" contentMode="scaleToFill" id="4Lp-JS-AVM">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aBB-M1-Xyl"/>
+                        <viewControllerLayoutGuide type="bottom" id="Edd-jV-Gd3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6jo-3j-bRn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.97718220949172974" green="0.97736459970474243" blue="0.97737902402877808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <connections>
-                            <outlet property="delegate" destination="mQM-eh-iat" id="zhd-Lx-3ci"/>
-                        </connections>
-                    </webView>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pxt-wf-rNZ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="mQM-eh-iat" id="v4L-Oe-LRU"/>
+                                </connections>
+                            </webView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QiK-cv-SRb" userLabel="Back Button">
+                                <rect key="frame" x="9" y="24" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="FLM-3v-55i"/>
+                                    <constraint firstAttribute="height" constant="36" id="QA4-Kc-5dD"/>
+                                </constraints>
+                                <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <state key="normal" image="img_nav_back" backgroundImage="img_floating_button_bg"/>
+                                <state key="highlighted" backgroundImage="img_floating_button_bg_selected"/>
+                                <connections>
+                                    <action selector="back:" destination="mQM-eh-iat" eventType="touchUpInside" id="awY-HB-Ks3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BvL-DO-118" userLabel="Share Button">
+                                <rect key="frame" x="555" y="24" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="A1n-EM-Qto"/>
+                                    <constraint firstAttribute="width" constant="36" id="Har-xQ-mAD"/>
+                                </constraints>
+                                <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <state key="normal" image="img_nav_share" backgroundImage="img_floating_button_bg"/>
+                                <state key="highlighted" backgroundImage="img_floating_button_bg_selected"/>
+                                <connections>
+                                    <action selector="share:" destination="mQM-eh-iat" eventType="touchUpInside" id="zYr-HQ-J9Q"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Pxt-wf-rNZ" secondAttribute="trailing" id="7Qe-UI-bx2"/>
+                            <constraint firstItem="Pxt-wf-rNZ" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" id="GN5-y4-mYO"/>
+                            <constraint firstItem="BvL-DO-118" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" constant="24" id="KAT-S4-SdZ"/>
+                            <constraint firstItem="QiK-cv-SRb" firstAttribute="leading" secondItem="6jo-3j-bRn" secondAttribute="leading" constant="9" id="cG3-XG-cNC"/>
+                            <constraint firstItem="Pxt-wf-rNZ" firstAttribute="leading" secondItem="6jo-3j-bRn" secondAttribute="leading" id="dCC-5p-aGs"/>
+                            <constraint firstItem="Edd-jV-Gd3" firstAttribute="top" secondItem="Pxt-wf-rNZ" secondAttribute="bottom" id="ez0-Kt-IwW"/>
+                            <constraint firstItem="QiK-cv-SRb" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" constant="24" id="tbs-wy-5Sg"/>
+                            <constraint firstAttribute="trailing" secondItem="BvL-DO-118" secondAttribute="trailing" constant="9" id="wOZ-gQ-nXi"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <outlet property="webView" destination="4Lp-JS-AVM" id="Tqs-Ak-Jrx"/>
+                        <outlet property="webView" destination="Pxt-wf-rNZ" id="frx-E0-eQt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ze-2R-NRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -173,6 +219,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="img_floating_button_bg" width="36" height="36"/>
+        <image name="img_floating_button_bg_selected" width="36" height="36"/>
         <image name="img_load_more" width="28" height="6"/>
+        <image name="img_nav_back" width="20" height="14"/>
+        <image name="img_nav_share" width="20" height="19"/>
     </resources>
 </document>

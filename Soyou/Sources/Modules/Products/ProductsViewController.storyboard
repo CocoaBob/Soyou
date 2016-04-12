@@ -477,33 +477,29 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ryn-wN-uug" userLabel="Back Button">
                                 <rect key="frame" x="9" y="24" width="36" height="36"/>
-                                <color key="backgroundColor" white="0.90000000000000002" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="A0R-Yj-GKB"/>
                                     <constraint firstAttribute="width" constant="36" id="pD0-5T-o64"/>
                                 </constraints>
                                 <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <state key="normal" image="img_arrow_left"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
+                                <state key="normal" image="img_nav_back" backgroundImage="img_floating_button_bg"/>
+                                <state key="highlighted" backgroundImage="img_floating_button_bg_selected"/>
+                                <connections>
+                                    <action selector="back:" destination="3nx-sA-4VU" eventType="touchUpInside" id="I31-CT-MZo"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QX-I5-Hjr" userLabel="Share Button">
                                 <rect key="frame" x="555" y="24" width="36" height="36"/>
-                                <color key="backgroundColor" white="0.90000000000000002" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="GcX-6G-3r7"/>
                                     <constraint firstAttribute="width" constant="36" id="be4-9D-2Eh"/>
                                 </constraints>
                                 <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <state key="normal" image="img_share"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
+                                <state key="normal" image="img_nav_share" backgroundImage="img_floating_button_bg"/>
+                                <state key="highlighted" backgroundImage="img_floating_button_bg_selected"/>
+                                <connections>
+                                    <action selector="share:" destination="3nx-sA-4VU" eventType="touchUpInside" id="wNg-4Q-RVk"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
@@ -847,16 +843,18 @@
         </scene>
     </scenes>
     <resources>
-        <image name="img_arrow_left" width="10" height="18"/>
         <image name="img_bg_text" width="1" height="40"/>
         <image name="img_bg_tile_light_gray_translucent" width="1" height="1"/>
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="9" height="14"/>
         <image name="img_cell_disclosure_title" width="19" height="20"/>
+        <image name="img_floating_button_bg" width="36" height="36"/>
+        <image name="img_floating_button_bg_selected" width="36" height="36"/>
         <image name="img_heart_shadow" width="24" height="22"/>
         <image name="img_map_locate_bg" width="60" height="60"/>
         <image name="img_map_locate_fg" width="22" height="22"/>
-        <image name="img_share" width="16" height="22"/>
+        <image name="img_nav_back" width="20" height="14"/>
+        <image name="img_nav_share" width="20" height="19"/>
         <image name="img_swipe_up_indicator" width="36" height="11"/>
     </resources>
     <inferredMetricsTieBreakers>

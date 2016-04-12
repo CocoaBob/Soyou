@@ -98,12 +98,10 @@ class ProductViewController: UIViewController {
         self.btnFav?.addTarget(self, action: #selector(ProductViewController.star(_:)), forControlEvents: .TouchUpInside)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
-        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .Plain, target: self, action: #selector(ProductViewController.back(_:)))
         let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
-        let like = UIBarButtonItem(customView: self.btnLike!)
         let fav = UIBarButtonItem(customView: self.btnFav!)
-        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: #selector(ProductViewController.share(_:)))
-        self.toolbarItems = [ space, back, space, next, space, like, space, fav, space, share, space]
+        let like = UIBarButtonItem(customView: self.btnLike!)
+        self.toolbarItems = [ space, next, space, fav, space, like, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         next.enabled = false
@@ -528,15 +526,15 @@ extension ProductViewController {
 // MARK: Actions
 extension ProductViewController {
     
-    func back(sender: UIBarButtonItem) {
+    @IBAction func back(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func next(sender: UIBarButtonItem) {
+    func next(sender: AnyObject) {
         self.loadNextProduct()
     }
     
-    func share(sender: UIBarButtonItem) {
+    @IBAction func share(sender: AnyObject) {
         MBProgressHUD.showLoader(self.view)
         
         var productID: String?
@@ -602,7 +600,7 @@ extension ProductViewController {
         })
     }
     
-    func like(sender: UIBarButtonItem) {
+    func like(sender: AnyObject) {
         self.product?.doLike({ (data: AnyObject?) -> () in
             MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 if let localProduct = self.product?.MR_inContext(localContext) {
@@ -617,7 +615,7 @@ extension ProductViewController {
         })
     }
     
-    func star(sender: UIBarButtonItem) {
+    func star(sender: AnyObject) {
         UserManager.shared.loginOrDo() { () -> () in
             self.product?.toggleFavorite({ (data: AnyObject?) -> () in
                 // Toggle the value of isFavorite

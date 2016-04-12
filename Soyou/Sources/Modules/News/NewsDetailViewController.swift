@@ -101,12 +101,10 @@ class NewsDetailViewController: UIViewController {
         self.btnFav?.addTarget(self, action: #selector(NewsDetailViewController.star(_:)), forControlEvents: .TouchUpInside)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
-        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .Plain, target: self, action: #selector(NewsDetailViewController.back(_:)))
         let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
-        let like = UIBarButtonItem(customView: self.btnLike!)
         let fav = UIBarButtonItem(customView: self.btnFav!)
-        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .Plain, target: self, action: #selector(NewsDetailViewController.share(_:)))
-        self.toolbarItems = [ space, back, space, next, space, like, space, fav, space, share, space]
+        let like = UIBarButtonItem(customView: self.btnLike!)
+        self.toolbarItems = [ space, next, space, fav, space, like, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         next.enabled = false
@@ -555,15 +553,15 @@ extension NewsDetailViewController: ZoomTransitionProtocol {
 // MARK: Actions
 extension NewsDetailViewController {
     
-    func back(sender: UIBarButtonItem) {
+    @IBAction func back(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func next(sender: UIBarButtonItem) {
+    func next(sender: AnyObject) {
         self.loadNextNews()
     }
     
-    func share(sender: UIBarButtonItem) {
+    @IBAction func share(sender: AnyObject) {
         MBProgressHUD.showLoader(self.view)
         
         var htmlString: String?
@@ -613,7 +611,7 @@ extension NewsDetailViewController {
         })
     }
     
-    func like(sender: UIBarButtonItem) {
+    func like(sender: AnyObject) {
         self.news?.toggleLike() { (likeNumber: AnyObject?) -> () in
             // Update like number
             if let likeNumber = likeNumber as? NSNumber {
@@ -630,7 +628,7 @@ extension NewsDetailViewController {
         }
     }
     
-    func star(sender: UIBarButtonItem) {
+    func star(sender: AnyObject) {
         UserManager.shared.loginOrDo() { () -> () in
             BaseNews.toggleFavorite(self.newsID) { (_) -> () in
                 // Toggle the value of isFavorite
