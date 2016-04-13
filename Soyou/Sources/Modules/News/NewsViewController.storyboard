@@ -155,27 +155,27 @@
                                 </connections>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QiK-cv-SRb" userLabel="Back Button">
-                                <rect key="frame" x="9" y="24" width="36" height="36"/>
+                                <rect key="frame" x="0.0" y="20" width="54" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="FLM-3v-55i"/>
-                                    <constraint firstAttribute="height" constant="36" id="QA4-Kc-5dD"/>
+                                    <constraint firstAttribute="width" constant="54" id="FLM-3v-55i"/>
+                                    <constraint firstAttribute="height" constant="44" id="QA4-Kc-5dD"/>
                                 </constraints>
                                 <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <state key="normal" image="img_nav_back" backgroundImage="img_floating_button_bg"/>
-                                <state key="highlighted" backgroundImage="img_floating_button_bg_selected"/>
+                                <state key="normal" image="img_nav_back"/>
+                                <state key="highlighted" image="img_nav_back_selected"/>
                                 <connections>
                                     <action selector="back:" destination="mQM-eh-iat" eventType="touchUpInside" id="awY-HB-Ks3"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BvL-DO-118" userLabel="Share Button">
-                                <rect key="frame" x="555" y="24" width="36" height="36"/>
+                                <rect key="frame" x="546" y="20" width="54" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="A1n-EM-Qto"/>
-                                    <constraint firstAttribute="width" constant="36" id="Har-xQ-mAD"/>
+                                    <constraint firstAttribute="height" constant="44" id="A1n-EM-Qto"/>
+                                    <constraint firstAttribute="width" constant="54" id="Har-xQ-mAD"/>
                                 </constraints>
                                 <color key="tintColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <state key="normal" image="img_nav_share" backgroundImage="img_floating_button_bg"/>
-                                <state key="highlighted" backgroundImage="img_floating_button_bg_selected"/>
+                                <state key="normal" image="img_nav_share"/>
+                                <state key="highlighted" image="img_nav_share_selected"/>
                                 <connections>
                                     <action selector="share:" destination="mQM-eh-iat" eventType="touchUpInside" id="zYr-HQ-J9Q"/>
                                 </connections>
@@ -185,12 +185,12 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Pxt-wf-rNZ" secondAttribute="trailing" id="7Qe-UI-bx2"/>
                             <constraint firstItem="Pxt-wf-rNZ" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" id="GN5-y4-mYO"/>
-                            <constraint firstItem="BvL-DO-118" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" constant="24" id="KAT-S4-SdZ"/>
-                            <constraint firstItem="QiK-cv-SRb" firstAttribute="leading" secondItem="6jo-3j-bRn" secondAttribute="leading" constant="9" id="cG3-XG-cNC"/>
+                            <constraint firstItem="BvL-DO-118" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" constant="20" id="KAT-S4-SdZ"/>
+                            <constraint firstItem="QiK-cv-SRb" firstAttribute="leading" secondItem="6jo-3j-bRn" secondAttribute="leading" id="cG3-XG-cNC"/>
                             <constraint firstItem="Pxt-wf-rNZ" firstAttribute="leading" secondItem="6jo-3j-bRn" secondAttribute="leading" id="dCC-5p-aGs"/>
                             <constraint firstItem="Edd-jV-Gd3" firstAttribute="top" secondItem="Pxt-wf-rNZ" secondAttribute="bottom" id="ez0-Kt-IwW"/>
-                            <constraint firstItem="QiK-cv-SRb" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" constant="24" id="tbs-wy-5Sg"/>
-                            <constraint firstAttribute="trailing" secondItem="BvL-DO-118" secondAttribute="trailing" constant="9" id="wOZ-gQ-nXi"/>
+                            <constraint firstItem="QiK-cv-SRb" firstAttribute="top" secondItem="6jo-3j-bRn" secondAttribute="top" constant="20" id="tbs-wy-5Sg"/>
+                            <constraint firstAttribute="trailing" secondItem="BvL-DO-118" secondAttribute="trailing" id="wOZ-gQ-nXi"/>
                         </constraints>
                     </view>
                     <connections>
@@ -219,10 +219,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="img_floating_button_bg" width="36" height="36"/>
-        <image name="img_floating_button_bg_selected" width="36" height="36"/>
         <image name="img_load_more" width="28" height="6"/>
-        <image name="img_nav_back" width="20" height="14"/>
-        <image name="img_nav_share" width="20" height="19"/>
+        <image name="img_nav_back" width="36" height="36"/>
+        <image name="img_nav_back_selected" width="36" height="36"/>
+        <image name="img_nav_share" width="36" height="36"/>
+        <image name="img_nav_share_selected" width="36" height="36"/>
     </resources>
 </document>
