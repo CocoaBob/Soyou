@@ -544,8 +544,15 @@ extension NewsDetailViewController: ZoomTransitionProtocol {
             return false
         }
         // Only available for opening/closing a news from/to news view controller
-        if ((operation == .Push && fromVC is NewsViewController && toVC === self) ||
-            (operation == .Pop && fromVC === self && toVC is NewsViewController)) {
+        if ((operation == .Push && fromVC is NewsViewController && toVC === self)) {
+            return true
+        } else if ((operation == .Pop && fromVC === self && toVC is NewsViewController)) {
+            // If parallex header is invisible, no need of the zooming animation
+            if let scrollView = self.scrollView {
+                if scrollView.contentOffset.y >= 0 {
+                    return false
+                }
+            }
             return true
         }
         return false
