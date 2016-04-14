@@ -12,6 +12,20 @@ class ProductPricesViewController: UIViewController {
     
     weak var productViewController: ProductViewController?
     
+    var product: Product? {
+        didSet {
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                guard let localProduct = self.product?.MR_inContext(localContext) else { return }
+                if let objectData = localProduct.prices, object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
+                    self.prices = object
+                } else {
+                    self.prices = nil
+                }
+            })
+            self.reloadData()
+        }
+    }
+    
     // //[ { "country": "FR", "price": 1450 } ]
     var prices: [[String: AnyObject]]? {
         didSet {
@@ -158,7 +172,9 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
 extension ProductPricesViewController {
     
     func reloadData() {
-        self.tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
     }
 }
 

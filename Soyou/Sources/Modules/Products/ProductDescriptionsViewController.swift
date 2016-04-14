@@ -17,12 +17,23 @@ class ProductDescriptionsViewController: UIViewController {
     
     weak var productViewController: ProductViewController?
     
-    var descriptions: String? {
+    var product: Product? {
         didSet {
+            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                guard let localProduct = self.product?.MR_inContext(localContext) else { return }
+                self.descriptions = localProduct.descriptions
+                self.surname = localProduct.surname
+                self.brand = localProduct.brandLabel
+                self.reference = localProduct.reference
+                self.dimension = localProduct.dimension
+                self.id = localProduct.id
+            })
             
+            // Load Content
+            loadContent()
         }
     }
-    
+    var descriptions: String?
     var surname: String?
     var brand: String?
     var reference: String?
@@ -49,9 +60,6 @@ class ProductDescriptionsViewController: UIViewController {
         
         // Web View
         self.webView.scrollView.scrollEnabled = false
-        
-        // Load Content
-        loadContent()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -92,36 +100,12 @@ extension ProductDescriptionsViewController {
         if let cssContent = cssContent {
             htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__KEY__SURNAME__", withString: NSLocalizedString("product_surname")).stringByReplacingOccurrencesOfString("__KEY__BRAND__", withString: NSLocalizedString("product_brand")).stringByReplacingOccurrencesOfString("__KEY__REFERENCE__", withString: NSLocalizedString("product_reference")).stringByReplacingOccurrencesOfString("__KEY__DESCRIPTION__", withString: NSLocalizedString("product_descriptions")).stringByReplacingOccurrencesOfString("__KEY__DIMENSION__", withString: NSLocalizedString("product_dimension"))
             
-            if let surname = self.surname {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: surname)
-            } else {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: NSLocalizedString("product_unavailable"))
-            }
-            
-            if let brand = self.brand {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__BRAND__", withString: brand)
-            } else {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__BRAND__", withString: NSLocalizedString("product_unavailable"))
-            }
-            
-            if let reference = self.reference {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: reference)
-            } else {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: NSLocalizedString("product_unavailable"))
-            }
-            
-            if let dimension = self.dimension {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DIMENSION__", withString: dimension)
-            } else {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DIMENSION__", withString: NSLocalizedString("product_unavailable"))
-            }
-            
-            if let descriptions = self.descriptions {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: descriptions).stringByReplacingOccurrencesOfString("__BTN_TRANSLATION__", withString: "")
-            } else {
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: NSLocalizedString("product_unavailable"))
-            }
-            
+            let stringUnavailable = NSLocalizedString("product_unavailable")
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__SURNAME__", withString: self.surname ?? stringUnavailable)
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__BRAND__", withString: self.brand ?? stringUnavailable)
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__REFERENCE__", withString: self.reference ?? stringUnavailable)
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DIMENSION__", withString: self.dimension ?? stringUnavailable)
+            htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__VALUE__DESCRIPTION__", withString: self.descriptions ?? stringUnavailable)
             htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
         }
         

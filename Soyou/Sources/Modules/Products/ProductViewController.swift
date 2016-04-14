@@ -336,22 +336,8 @@ extension ProductViewController {
             }
         }
         
-        
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            guard let localProduct = product.MR_inContext(localContext) else { return }
-            if let objectData = localProduct.prices, let object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
-                self.productPricesViewController.prices = object
-            } else {
-                self.productPricesViewController.prices = nil
-            }
-            
-            self.productDescriptionsViewController.descriptions = localProduct.descriptions
-            self.productDescriptionsViewController.surname = localProduct.surname
-            self.productDescriptionsViewController.brand = localProduct.brandLabel
-            self.productDescriptionsViewController.reference = localProduct.reference
-            self.productDescriptionsViewController.dimension = localProduct.dimension
-            self.productDescriptionsViewController.id = localProduct.id
-        })
+        self.productPricesViewController.product = product
+        self.productDescriptionsViewController.product = product
         
         // Update height
         self.updateViewsContainerHeight(false)
