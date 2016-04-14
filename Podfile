@@ -46,7 +46,10 @@ pod "Crashlytics"
 #pod "JSQMessagesViewController"
 
 #SNS SDKs
-pod "libWeChatSDK", :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
+#pod "libWeChatSDK", :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
 #pod "QQOpenSDK"
-#pod "WeiboSDK"
-#pod "LXMThirdLoginManager", :git => 'git://github.com/CocoaBob/LXMThirdLoginManager', :commit => '789b4fdafa3ec61569d84a171ee13a96965e2fa5'
+#pod "WeiboSDK", :git => "https://github.com/sinaweibosdk/weibo_ios_sdk.git"
+pod "LXMThirdLoginManager", :git => 'git://github.com/CocoaBob/LXMThirdLoginManager', :commit => '9224a95204c633d5e63b65e9d4247470cdce2e75'
+
+# Used for testing
+#pod 'FBRetainCycleDetector'

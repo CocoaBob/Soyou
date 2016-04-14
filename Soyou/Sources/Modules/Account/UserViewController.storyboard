@@ -455,6 +455,19 @@
                                             <segue destination="utq-sS-Sy7" kind="show" id="IEe-Bh-c7N"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCk-5L-s4J">
+                                        <rect key="frame" x="289" y="273" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="32" id="Klt-JM-pnM"/>
+                                            <constraint firstAttribute="height" constant="32" id="tT4-hE-Dpi"/>
+                                        </constraints>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="img_logo_sinaweibo"/>
+                                        <state key="highlighted" image="img_logo_sinaweibo_selected"/>
+                                        <connections>
+                                            <action selector="loginSinaWeibo:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="d2c-Eq-caF"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="cqg-tF-re7" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" id="6CO-uU-wqW"/>
@@ -467,11 +480,13 @@
                                     <constraint firstAttribute="trailing" secondItem="cqg-tF-re7" secondAttribute="trailing" id="Lr3-CV-52X"/>
                                     <constraint firstItem="Ouv-dU-DOb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" constant="20" id="QDP-ve-T2z"/>
                                     <constraint firstItem="cqg-tF-re7" firstAttribute="leading" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" id="RHn-md-ImN"/>
-                                    <constraint firstAttribute="bottom" secondItem="CGm-w2-31d" secondAttribute="bottom" constant="10" id="SyT-nL-JQd"/>
+                                    <constraint firstItem="tCk-5L-s4J" firstAttribute="top" secondItem="CGm-w2-31d" secondAttribute="bottom" constant="8" id="a78-os-Dos"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="width" secondItem="1gn-mN-NQT" secondAttribute="width" id="cFr-4C-6w4"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="top" secondItem="1gn-mN-NQT" secondAttribute="bottom" constant="8" id="gQD-1g-0Za"/>
                                     <constraint firstItem="1gn-mN-NQT" firstAttribute="top" secondItem="Ouv-dU-DOb" secondAttribute="bottom" constant="8" id="mZJ-dt-FQR"/>
+                                    <constraint firstAttribute="bottom" secondItem="tCk-5L-s4J" secondAttribute="bottom" constant="10" id="skb-sZ-dL8"/>
                                     <constraint firstItem="Ouv-dU-DOb" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" constant="20" id="t26-OB-UnJ"/>
+                                    <constraint firstItem="tCk-5L-s4J" firstAttribute="centerX" secondItem="CGm-w2-31d" secondAttribute="centerX" id="u3m-Am-dco"/>
                                 </constraints>
                                 <variation key="widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
@@ -989,5 +1004,7 @@
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_gear_shadow" width="26" height="26"/>
         <image name="img_heart_shadow" width="24" height="22"/>
+        <image name="img_logo_sinaweibo" width="22" height="22"/>
+        <image name="img_logo_sinaweibo_selected" width="22" height="22"/>
     </resources>
 </document>

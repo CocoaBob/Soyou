@@ -250,6 +250,12 @@ extension LoginViewController {
             }
         }
     }
+    
+    @IBAction func loginSinaWeibo(sender: UIButton?) {
+        LXMThirdLoginManager.sharedManager().requestLoginWithThirdType(.SinaWeibo) { result in
+            DLog(result)
+        }
+    }
 }
 
 // MARK: Register

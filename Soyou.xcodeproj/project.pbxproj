@@ -41,6 +41,8 @@
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
 		4537F0701C945EC2002AF33E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537F06F1C945EC2002AF33E /* AddressBook.framework */; };
+		453D7F331CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 453D7F311CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		453D7F341CC00ABA001053B9 /* WeiboSDK.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 453D7F321CC00ABA001053B9 /* WeiboSDK.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */; };
 		454499271C6601350075DE82 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499251C6601350075DE82 /* AppData.swift */; };
 		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
@@ -69,7 +71,7 @@
 		456BCAC01C60117900590295 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCABF1C60117900590295 /* Contacts.framework */; };
 		456BCAC21C6018D600590295 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCAC11C6018D600590295 /* SafariServices.framework */; };
 		456FC8B61C5A5885003D0DF6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456FC8B51C5A5885003D0DF6 /* StoreKit.framework */; };
-		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundle Resource For IDMPhotoBrowser */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
 		457777831BFCB60100805D79 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777811BFCB60100805D79 /* News.swift */; };
 		457777881BFCE15700805D79 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4577778A1BFCE15700805D79 /* Localizable.strings */; };
@@ -116,15 +118,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		4570A5831C43DDA1004274DE /* Copy Bundle Resource For IDMPhotoBrowser */ = {
+		4570A5831C43DDA1004274DE /* Copy Bundles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundle Resource For IDMPhotoBrowser */,
+				453D7F331CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle in Copy Bundles */,
+				453D7F341CC00ABA001053B9 /* WeiboSDK.bundle in Copy Bundles */,
+				4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */,
 			);
-			name = "Copy Bundle Resource For IDMPhotoBrowser";
+			name = "Copy Bundles";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -166,6 +170,8 @@
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		4537F06F1C945EC2002AF33E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		453D7F311CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = ../../Pods/LXMThirdLoginManager/LXMThirdLoginManager/QQSDK/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		453D7F321CC00ABA001053B9 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = WeiboSDK.bundle; path = ../../Pods/LXMThirdLoginManager/LXMThirdLoginManager/SinaWeiboSDK/WeiboSDK.bundle; sourceTree = "<group>"; };
 		454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454499251C6601350075DE82 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
@@ -326,6 +332,8 @@
 			isa = PBXGroup;
 			children = (
 				456478F71C6E095C00798EB2 /* 1Password.xcassets */,
+				453D7F311CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle */,
+				453D7F321CC00ABA001053B9 /* WeiboSDK.bundle */,
 				4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */,
 				4568E28F1BF90797009A6164 /* Assets.xcassets */,
 				45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */,
@@ -553,13 +561,13 @@
 			buildPhases = (
 				EF63E7239B26381139289D4D /* Check Pods Manifest.lock */,
 				455078891C99F64B005412C4 /* Run Script Swiftlint */,
+				45BED0921C8A66E7002E375B /* Update CFBundleVersion */,
 				45E7CE071BF8C05F00FAB7D6 /* Sources */,
 				45E7CE081BF8C05F00FAB7D6 /* Frameworks */,
 				45E7CE091BF8C05F00FAB7D6 /* Resources */,
 				ADB037464555006649303388 /* Embed Pods Frameworks */,
 				64F38153BB338306A7FF94EB /* Copy Pods Resources */,
-				4570A5831C43DDA1004274DE /* Copy Bundle Resource For IDMPhotoBrowser */,
-				45BED0921C8A66E7002E375B /* Update CFBundleVersion */,
+				4570A5831C43DDA1004274DE /* Copy Bundles */,
 				456123731C8F12C5008BEA82 /* Show warnings for TODO:FIXME: */,
 				45D5BAF41C96BEF600BA30D3 /* Run Script Fabric */,
 			);

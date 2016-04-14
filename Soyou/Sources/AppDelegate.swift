@@ -64,7 +64,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup WeChat
         //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
-        WXApi.registerApp("wxe3346afe30577009", withDescription:"奢有")
+        LXMThirdLoginManager.sharedManager().setupWithSinaWeiboAppKey("2873812073",
+                                                                      sinaWeiboRedirectURI: "https://api.weibo.com/oauth2/default.html",
+                                                                      weChatAppKey: "wxe3346afe30577009",
+                                                                      weChatAppSecret: "",
+                                                                      QQAppKey: "")
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
@@ -106,6 +110,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if shortcutItem.type == "shortcut.favorites" {
             self.showFavoritesView()
         }
+    }
+    
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
     }
 }
 
