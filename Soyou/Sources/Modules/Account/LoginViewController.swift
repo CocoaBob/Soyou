@@ -115,8 +115,8 @@ class LoginViewController: UIViewController {
             segmentedControl.borderWidth = 1 / 2.0//(self.view.window?.screen.scale ?? 1)
             segmentedControl.segmentIndicatorInset = segmentedControl.borderWidth + 1
             segmentedControl.drawsSegmentIndicatorGradientBackground = true
-            segmentedControl.segmentIndicatorGradientTopColor = UIColor.lightGrayColor()
-            segmentedControl.segmentIndicatorGradientBottomColor = UIColor.lightGrayColor()
+            segmentedControl.segmentIndicatorGradientTopColor = UIColor(white: 0.8, alpha: 1)
+            segmentedControl.segmentIndicatorGradientBottomColor = UIColor(white: 0.8, alpha: 1)
             segmentedControl.segmentIndicatorBorderColor = UIColor.clearColor()
             segmentedControl.segmentIndicatorBorderWidth = 0
             segmentedControl.usesSpringAnimations = true
@@ -255,6 +255,34 @@ extension LoginViewController {
         LXMThirdLoginManager.sharedManager().requestLoginWithThirdType(.SinaWeibo) { result in
             DLog(result)
         }
+    }
+    
+    @IBAction func loginWechat(sender: UIButton?) {
+        
+    }
+    
+    @IBAction func loginQQ(sender: UIButton?) {
+        
+    }
+    
+    @IBAction func loginRenren(sender: UIButton?) {
+        
+    }
+    
+    @IBAction func loginGoogle(sender: UIButton?) {
+        
+    }
+    
+    @IBAction func loginFacebook(sender: UIButton?) {
+        
+    }
+    
+    @IBAction func loginInstagram(sender: UIButton?) {
+        
+    }
+    
+    @IBAction func loginTwitter(sender: UIButton?) {
+        
     }
 }
 
