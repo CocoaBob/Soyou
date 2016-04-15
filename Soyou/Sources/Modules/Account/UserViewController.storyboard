@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -421,11 +422,11 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1gn-mN-NQT">
-                                        <rect key="frame" x="113" y="168" width="87" height="32"/>
+                                        <rect key="frame" x="113" y="180" width="93" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="32" id="0Ns-jr-txp"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
                                         <state key="normal" title="Sign Up">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -441,13 +442,13 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EWA-i5-MF0" userLabel="Third Party Logins ">
-                                        <rect key="frame" x="113" y="220" width="374" height="138"/>
+                                        <rect key="frame" x="113" y="232" width="374" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCk-5L-s4J" userLabel="Weibo">
-                                                <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="5Mj-fV-R1O"/>
-                                                    <constraint firstAttribute="width" constant="64" id="7he-Qg-ECL"/>
+                                                    <constraint firstAttribute="width" constant="48" id="7he-Qg-ECL"/>
+                                                    <constraint firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="height" multiplier="1:1" id="ZND-oR-ReY"/>
                                                 </constraints>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="img_logo_weibo"/>
@@ -456,11 +457,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4K-MJ-Ker" userLabel="QQ">
-                                                <rect key="frame" x="103" y="0.0" width="64" height="64"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="7QX-2B-jEG"/>
-                                                    <constraint firstAttribute="width" constant="64" id="eBm-m0-2Yt"/>
-                                                </constraints>
+                                                <rect key="frame" x="65" y="0.0" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="img_logo_qq"/>
                                                 <connections>
@@ -468,59 +465,15 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ob-nx-Kda" userLabel="WeChat">
-                                                <rect key="frame" x="207" y="0.0" width="64" height="64"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="R2F-bm-oNU"/>
-                                                    <constraint firstAttribute="width" constant="64" id="waJ-rX-Ykk"/>
-                                                </constraints>
+                                                <rect key="frame" x="131" y="0.0" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="img_logo_wechat"/>
                                                 <connections>
                                                     <action selector="loginWechat:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="qmC-Xq-rY0"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGt-hO-1Yz" userLabel="Renren">
-                                                <rect key="frame" x="310" y="0.0" width="64" height="64"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="Vyo-1S-EgG"/>
-                                                    <constraint firstAttribute="width" constant="64" id="qd8-Uh-HwH"/>
-                                                </constraints>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="img_logo_renren"/>
-                                                <connections>
-                                                    <action selector="loginRenren:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="zdH-Ag-ZTq"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x8j-6Q-Ud5" userLabel="Google">
-                                                <rect key="frame" x="103" y="74" width="64" height="64"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="FRN-Jl-543"/>
-                                                    <constraint firstAttribute="width" constant="64" id="TA2-wB-ddv"/>
-                                                </constraints>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="img_logo_google"/>
-                                                <connections>
-                                                    <action selector="loginGoogle:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="BuC-EP-OTO"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59U-Ph-JjD" userLabel="Twitter">
-                                                <rect key="frame" x="310" y="74" width="64" height="64"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="MfO-vm-cln"/>
-                                                    <constraint firstAttribute="width" constant="64" id="ch7-yu-Avb"/>
-                                                </constraints>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="img_logo_twitter"/>
-                                                <connections>
-                                                    <action selector="loginTwitter:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="36l-iA-q2V"/>
-                                                </connections>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WFb-jK-DU4" userLabel="Facebook">
-                                                <rect key="frame" x="0.0" y="74" width="64" height="64"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="bin-aN-8kt"/>
-                                                    <constraint firstAttribute="width" constant="64" id="gtn-c1-jpv"/>
-                                                </constraints>
+                                                <rect key="frame" x="195" y="0.0" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="img_logo_facebook"/>
                                                 <connections>
@@ -528,41 +481,51 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="thE-38-SRd" userLabel="Instagram">
-                                                <rect key="frame" x="207" y="74" width="64" height="64"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="64" id="bCk-G2-H9u"/>
-                                                    <constraint firstAttribute="height" constant="64" id="jMX-YR-Con"/>
-                                                </constraints>
+                                                <rect key="frame" x="261" y="0.0" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="img_logo_instagram"/>
                                                 <connections>
                                                     <action selector="loginInstagram:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="EPQ-KV-VqL"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59U-Ph-JjD" userLabel="Twitter">
+                                                <rect key="frame" x="326" y="0.0" width="48" height="48"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" image="img_logo_twitter"/>
+                                                <connections>
+                                                    <action selector="loginTwitter:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="36l-iA-q2V"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="1vJ-JH-LAr"/>
                                             <constraint firstItem="r4K-MJ-Ker" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="4fB-2T-Vll"/>
-                                            <constraint firstItem="x8j-6Q-Ud5" firstAttribute="centerX" secondItem="EWA-i5-MF0" secondAttribute="centerX" multiplier="0.6667" constant="11" id="4nb-4Z-tpj"/>
-                                            <constraint firstAttribute="bottom" secondItem="x8j-6Q-Ud5" secondAttribute="bottom" id="4u5-Vm-Lsg"/>
-                                            <constraint firstAttribute="trailing" secondItem="59U-Ph-JjD" secondAttribute="trailing" id="5Es-fe-gGW"/>
+                                            <constraint firstItem="thE-38-SRd" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="5yv-SB-o3c"/>
+                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="8Y1-QI-b9N"/>
+                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="9dF-oW-SBf"/>
                                             <constraint firstItem="2ob-nx-Kda" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="Ce5-KV-JqE"/>
-                                            <constraint firstAttribute="bottom" secondItem="WFb-jK-DU4" secondAttribute="bottom" id="D4J-l4-wcl"/>
-                                            <constraint firstItem="thE-38-SRd" firstAttribute="centerX" secondItem="EWA-i5-MF0" secondAttribute="centerX" multiplier="1.3333" constant="-11" id="Gdy-o4-47Q"/>
-                                            <constraint firstAttribute="bottom" secondItem="59U-Ph-JjD" secondAttribute="bottom" id="Jo5-di-UhJ"/>
+                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="Cn1-J9-mpP"/>
+                                            <constraint firstItem="thE-38-SRd" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.8" constant="-38" id="Gdy-o4-47Q"/>
                                             <constraint firstItem="tCk-5L-s4J" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="OMa-9Z-yKv"/>
-                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="centerX" secondItem="EWA-i5-MF0" secondAttribute="centerX" multiplier="0.6667" constant="11" id="Sfp-6c-8EC"/>
-                                            <constraint firstItem="tCk-5L-s4J" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="leading" id="bPr-JR-Z5F"/>
-                                            <constraint firstItem="xGt-hO-1Yz" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="dUp-AL-lvU"/>
-                                            <constraint firstAttribute="height" constant="138" id="gQL-iq-LAS"/>
-                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="leading" id="ueM-AM-7gH"/>
-                                            <constraint firstAttribute="trailing" secondItem="xGt-hO-1Yz" secondAttribute="trailing" id="wK5-jA-T48"/>
-                                            <constraint firstItem="2ob-nx-Kda" firstAttribute="centerX" secondItem="EWA-i5-MF0" secondAttribute="centerX" multiplier="1.333" constant="-11" id="y62-Gb-XYP"/>
-                                            <constraint firstAttribute="bottom" secondItem="thE-38-SRd" secondAttribute="bottom" id="zaw-l9-Esb"/>
+                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.2" constant="-10" id="Sfp-6c-8EC"/>
+                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="UoW-nF-EAS"/>
+                                            <constraint firstItem="thE-38-SRd" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="duH-uh-8yK"/>
+                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="eG9-S5-8h4"/>
+                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" constant="-48" id="erz-7J-BLS"/>
+                                            <constraint firstAttribute="height" constant="48" id="gQL-iq-LAS"/>
+                                            <constraint firstItem="2ob-nx-Kda" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="h4F-nC-q9l"/>
+                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="kSq-yK-aNp"/>
+                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="mSx-Xx-Lfp"/>
+                                            <constraint firstItem="tCk-5L-s4J" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.0001" id="nac-RR-3bC"/>
+                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.6" constant="-29" id="ueM-AM-7gH"/>
+                                            <constraint firstItem="2ob-nx-Kda" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.4" constant="-19" id="y62-Gb-XYP"/>
+                                            <constraint firstItem="thE-38-SRd" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="ylP-R6-yxc"/>
+                                            <constraint firstItem="2ob-nx-Kda" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="zaU-P8-Q9I"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CGm-w2-31d">
-                                        <rect key="frame" x="340" y="168" width="147" height="32"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <rect key="frame" x="324" y="180" width="163" height="32"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
                                         <state key="normal" title="Forget Password">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -579,7 +542,7 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="CGm-w2-31d" firstAttribute="top" secondItem="Ouv-dU-DOb" secondAttribute="bottom" constant="8" id="2KA-GJ-icd"/>
+                                    <constraint firstItem="CGm-w2-31d" firstAttribute="top" secondItem="Ouv-dU-DOb" secondAttribute="bottom" constant="20" id="2KA-GJ-icd"/>
                                     <constraint firstItem="cqg-tF-re7" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" id="6CO-uU-wqW"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ouv-dU-DOb" secondAttribute="trailing" constant="20" id="9Rm-O2-0W3"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1gn-mN-NQT" secondAttribute="trailing" constant="10" id="Ezz-EO-5Yz"/>
@@ -591,7 +554,7 @@
                                     <constraint firstItem="cqg-tF-re7" firstAttribute="leading" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" id="RHn-md-ImN"/>
                                     <constraint firstItem="EWA-i5-MF0" firstAttribute="leading" secondItem="Ouv-dU-DOb" secondAttribute="leading" id="eaW-4g-LI7"/>
                                     <constraint firstItem="EWA-i5-MF0" firstAttribute="top" secondItem="CGm-w2-31d" secondAttribute="bottom" constant="20" id="f1Y-dr-8cW"/>
-                                    <constraint firstItem="1gn-mN-NQT" firstAttribute="top" secondItem="Ouv-dU-DOb" secondAttribute="bottom" constant="8" id="mZJ-dt-FQR"/>
+                                    <constraint firstItem="1gn-mN-NQT" firstAttribute="top" secondItem="Ouv-dU-DOb" secondAttribute="bottom" constant="20" id="mZJ-dt-FQR"/>
                                     <constraint firstItem="EWA-i5-MF0" firstAttribute="trailing" secondItem="Ouv-dU-DOb" secondAttribute="trailing" id="q0b-6V-stR"/>
                                     <constraint firstItem="Ouv-dU-DOb" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" constant="20" id="t26-OB-UnJ"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="trailing" secondItem="Ouv-dU-DOb" secondAttribute="trailing" id="vgJ-eX-KHG"/>
@@ -626,6 +589,7 @@
                         <outlet property="btnAction" destination="h5t-jV-w5t" id="Zx6-eW-2SG"/>
                         <outlet property="btnForgetPassword" destination="CGm-w2-31d" id="4K8-SN-Ri2"/>
                         <outlet property="btnSignUp" destination="1gn-mN-NQT" id="vbX-fl-EwN"/>
+                        <outlet property="loginButtonConstraintWidth" destination="7he-Qg-ECL" id="IyK-1i-PqL"/>
                         <outlet property="scrollView" destination="Ab4-DJ-dbQ" id="fbe-Ox-TBC"/>
                         <outlet property="tfEmail" destination="gVH-ka-vgE" id="Vvp-LT-F7y"/>
                         <outlet property="tfPassword" destination="fDF-4h-Sum" id="XRA-9g-ZuA"/>
@@ -1026,13 +990,11 @@
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_gear_shadow" width="26" height="26"/>
         <image name="img_heart_shadow" width="24" height="22"/>
-        <image name="img_logo_facebook" width="64" height="64"/>
-        <image name="img_logo_google" width="64" height="64"/>
-        <image name="img_logo_instagram" width="64" height="64"/>
-        <image name="img_logo_qq" width="64" height="64"/>
-        <image name="img_logo_renren" width="64" height="64"/>
-        <image name="img_logo_twitter" width="64" height="64"/>
-        <image name="img_logo_wechat" width="64" height="64"/>
-        <image name="img_logo_weibo" width="64" height="64"/>
+        <image name="img_logo_facebook" width="48" height="48"/>
+        <image name="img_logo_instagram" width="48" height="48"/>
+        <image name="img_logo_qq" width="48" height="48"/>
+        <image name="img_logo_twitter" width="48" height="48"/>
+        <image name="img_logo_wechat" width="48" height="48"/>
+        <image name="img_logo_weibo" width="48" height="48"/>
     </resources>
 </document>
