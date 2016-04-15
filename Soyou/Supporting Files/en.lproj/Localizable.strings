@@ -109,8 +109,8 @@
 "login_vc_register_alert_button"="I've activated";
 "login_vc_register_alert_message"="Register successfully! Please check your Email to activate your account.";
 
-"login_vc_forget_password_alert_button"="I've got the code";
-"login_vc_forget_password_alert_message"="We've sent you a verfication code, please check your Email to get the code.";
+"login_vc_reset_password_get_code"="Get Code";
+"login_vc_reset_password_get_code_alert_message"="We've sent you a verfication code, please check your Email to get the code.";
 
 "login_vc_reset_password_alert_message"="Password has been reset, now you are logged in.";
 

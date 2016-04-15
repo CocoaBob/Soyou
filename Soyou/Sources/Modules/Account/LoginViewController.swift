@@ -9,7 +9,6 @@
 enum LoginType: Int {
     case Login
     case Register
-    case ForgetPassword
     case ResetPassword
 }
 
@@ -29,8 +28,6 @@ class LoginViewController: UIViewController {
                 self.title = NSLocalizedString("login_vc_login_title")
             case .Register:
                 self.title = NSLocalizedString("login_vc_register_title")
-            case .ForgetPassword:
-                self.title = NSLocalizedString("login_vc_forget_password_title")
             case .ResetPassword:
                 self.title = NSLocalizedString("login_vc_reset_password_title")
             }
@@ -45,9 +42,12 @@ class LoginViewController: UIViewController {
     @IBOutlet var btnAction: UIButton?
     @IBOutlet var btnSignUp: UIButton?
     @IBOutlet var btnForgetPassword: UIButton?
+    @IBOutlet var btnGetCode: UIButton?
     
     @IBOutlet var ctlGender: NYSegmentedControl?
     var selectedGender = "1"
+    
+    var hasSentVerificationCode = false
     
     // Class methods
     class func instantiate(type: LoginType) -> LoginViewController {
@@ -56,8 +56,6 @@ class LoginViewController: UIViewController {
             return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController)!
         case .Register:
             return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("RegisterViewController") as? LoginViewController)!
-        case .ForgetPassword:
-            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ForgetPasswordViewController") as? LoginViewController)!
         case .ResetPassword:
             return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ResetPasswordViewController") as? LoginViewController)!
         }
@@ -86,9 +84,8 @@ class LoginViewController: UIViewController {
             self.btnForgetPassword?.setTitle(NSLocalizedString("login_vc_forget_password_title"), forState: .Normal)
         case .Register:
             self.btnAction?.setTitle(NSLocalizedString("login_vc_register_action_button"), forState: .Normal)
-        case .ForgetPassword:
-            self.btnAction?.setTitle(NSLocalizedString("login_vc_forget_password_action_button"), forState: .Normal)
         case .ResetPassword:
+            self.btnGetCode?.setTitle(NSLocalizedString("login_vc_reset_password_get_code"), forState: .Normal)
             self.btnAction?.setTitle(NSLocalizedString("login_vc_reset_password_action_button"), forState: .Normal)
         }
         
@@ -139,10 +136,8 @@ class LoginViewController: UIViewController {
                 tfEmail?.becomeFirstResponder()
             case .Register:
                 tfEmail?.becomeFirstResponder()
-            case .ForgetPassword:
-                tfEmail?.becomeFirstResponder()
             case .ResetPassword:
-                tfVerificationCode?.becomeFirstResponder()
+                tfEmail?.becomeFirstResponder()
             }
         }
     }
@@ -183,10 +178,6 @@ extension LoginViewController: UITextFieldDelegate {
             if textField == tfPasswordConfirm {
                 self.register(nil)
             }
-        case .ForgetPassword:
-            if textField == tfEmail {
-                self.forgetPassword(nil)
-            }
         case .ResetPassword:
             if textField == tfPasswordConfirm {
                 self.resetPassword(nil)
@@ -212,13 +203,11 @@ extension LoginViewController {
                 self.btnAction?.enabled = (strEmail.isEmail() && !strPassword.isEmpty && strPassword == strPasswordConfirm)
             }
             break
-        case .ForgetPassword:
-            if let strEmail = tfEmail?.text {
-                self.btnAction?.enabled = strEmail.isEmail()
-            }
         case .ResetPassword:
+            let isEmail = (tfEmail?.text ?? "" ).isEmail()
+            self.btnGetCode?.enabled = isEmail && !self.hasSentVerificationCode
             if let strVerificationCode = tfVerificationCode?.text, let strPassword = tfPassword?.text, let strPasswordConfirm = tfPasswordConfirm?.text {
-                self.btnAction?.enabled = (!strVerificationCode.isEmpty && !strPassword.isEmpty && strPassword == strPasswordConfirm)
+                self.btnAction?.enabled = (isEmail && !strVerificationCode.isEmpty && !strPassword.isEmpty && strPassword == strPasswordConfirm)
             }
         }
     }
@@ -321,10 +310,10 @@ extension LoginViewController {
     }
 }
 
-// MARK: Forget Password
+// MARK: Reset Password
 extension LoginViewController {
     
-    @IBAction func forgetPassword(sender: UIButton?) {
+    @IBAction func getCode(sender: UIButton?) {
         self.dismissKeyboard()
         
         if let strEmail = tfEmail?.text {
@@ -337,21 +326,15 @@ extension LoginViewController {
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
                 } else {
+                    self.hasSentVerificationCode = true
+                    self.btnGetCode?.enabled = !self.hasSentVerificationCode
                     let alertView = SCLAlertView()
-                    alertView.addButton(NSLocalizedString("login_vc_forget_password_alert_button")) { () -> Void in
-                        // Show reset password view controller
-                        self.navigationController?.pushViewController(LoginViewController.instantiate(.ResetPassword), animated: true)
-                    }
-                    alertView.showCloseButton = false
-                    alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_forget_password_alert_message"))
+                    alertView.showCloseButton = true
+                    alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_reset_password_get_code_alert_message"))
                 }
             }
         }
     }
-}
-
-// MARK: Reset Password
-extension LoginViewController {
     
     @IBAction func resetPassword(sender: UIButton?) {
         self.dismissKeyboard()
@@ -422,8 +405,6 @@ extension LoginViewController {
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.findLoginFrom1Password(_:)))
             case .Register:
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.saveLoginTo1Password(_:)))
-            case .ForgetPassword:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.findLoginFrom1Password(_:)))
             case .ResetPassword:
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.changePasswordIn1Password(_:)))
             }
@@ -449,6 +430,7 @@ extension LoginViewController {
     
     func changePasswordIn1Password(sender: AnyObject?) {
         OnePasswordExtension.sharedExtension().changePasswordForLoginForURLString("soyou.io", loginDetails: nil, passwordGenerationOptions: nil, forViewController: self, sender: sender) { loginDictionary, error in
+            self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
             self.tfPasswordConfirm?.text = loginDictionary?[AppExtensionPasswordKey] as? String
             self.validateActionButton()
