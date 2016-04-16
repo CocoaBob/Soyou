@@ -41,8 +41,6 @@
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
 		4537F0701C945EC2002AF33E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537F06F1C945EC2002AF33E /* AddressBook.framework */; };
-		453D7F331CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 453D7F311CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		453D7F341CC00ABA001053B9 /* WeiboSDK.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 453D7F321CC00ABA001053B9 /* WeiboSDK.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */; };
 		454499271C6601350075DE82 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499251C6601350075DE82 /* AppData.swift */; };
 		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
@@ -114,7 +112,7 @@
 		45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */; };
 		45EE7A8A1C3A98D700CC554D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EE7A891C3A98D700CC554D /* MapKit.framework */; };
 		45EE7A8C1C3AE09D00CC554D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EE7A8B1C3AE09D00CC554D /* CoreLocation.framework */; };
-		5E03F2F527D7FE43021665B8 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7718A3E5C95753364344DC22 /* Pods.framework */; };
+		871490CB20BD8D85040C7F3C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F47FC3F49E34E3FD18ECA10 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -124,8 +122,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				453D7F331CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle in Copy Bundles */,
-				453D7F341CC00ABA001053B9 /* WeiboSDK.bundle in Copy Bundles */,
 				4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */,
 			);
 			name = "Copy Bundles";
@@ -170,8 +166,6 @@
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		4537F06F1C945EC2002AF33E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		453D7F311CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = ../../Pods/LXMThirdLoginManager/LXMThirdLoginManager/QQSDK/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
-		453D7F321CC00ABA001053B9 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = WeiboSDK.bundle; path = ../../Pods/LXMThirdLoginManager/LXMThirdLoginManager/SinaWeiboSDK/WeiboSDK.bundle; sourceTree = "<group>"; };
 		454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454499251C6601350075DE82 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
@@ -248,8 +242,8 @@
 		45E7CE0B1BF8C05F00FAB7D6 /* Soyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Soyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EE7A891C3A98D700CC554D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		45EE7A8B1C3AE09D00CC554D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6F47FC3F49E34E3FD18ECA10 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7458EDDD88FC6BECB47245DE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		7718A3E5C95753364344DC22 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,7 +263,7 @@
 				0D1DF0811C1DCF4800574D98 /* libz.tbd in Frameworks */,
 				0D1DF07F1C1DCF3C00574D98 /* SystemConfiguration.framework in Frameworks */,
 				0D1DF07B1C1DCA8800574D98 /* CoreTelephony.framework in Frameworks */,
-				5E03F2F527D7FE43021665B8 /* Pods.framework in Frameworks */,
+				871490CB20BD8D85040C7F3C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,8 +326,6 @@
 			isa = PBXGroup;
 			children = (
 				456478F71C6E095C00798EB2 /* 1Password.xcassets */,
-				453D7F311CC00ABA001053B9 /* TencentOpenApi_IOS_Bundle.bundle */,
-				453D7F321CC00ABA001053B9 /* WeiboSDK.bundle */,
 				4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */,
 				4568E28F1BF90797009A6164 /* Assets.xcassets */,
 				45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */,
@@ -538,7 +530,7 @@
 				0D1DF07E1C1DCF3C00574D98 /* SystemConfiguration.framework */,
 				0D1DF07C1C1DCDD400574D98 /* libc++.1.dylib */,
 				0D1DF07A1C1DCA8800574D98 /* CoreTelephony.framework */,
-				7718A3E5C95753364344DC22 /* Pods.framework */,
+				6F47FC3F49E34E3FD18ECA10 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

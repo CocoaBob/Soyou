@@ -205,8 +205,11 @@ extension ProfileViewController {
                             alertView.addButton(NSLocalizedString("alert_button_ok")) { () -> Void in
                                 simpleViewController.navigationController?.popViewControllerAnimated(true)
                             }
-                            alertView.showCloseButton = false
-                            alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("profile_vc_change_email_alert_message"))
+                            alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
+                                title: NSLocalizedString("alert_title_success"),
+                                subTitle: NSLocalizedString("profile_vc_change_email_alert_message"),
+                                closeButtonTitle: nil,
+                                duration: 0.0)
                         }
                     })
                 }

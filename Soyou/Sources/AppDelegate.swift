@@ -64,11 +64,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup WeChat
         //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
-        LXMThirdLoginManager.sharedManager().setupWithSinaWeiboAppKey("2873812073",
-                                                                      sinaWeiboRedirectURI: "https://api.weibo.com/oauth2/default.html",
-                                                                      weChatAppKey: "wxe3346afe30577009",
-                                                                      weChatAppSecret: "",
-                                                                      QQAppKey: "")
+//        LXMThirdLoginManager.sharedManager().setupWithSinaWeiboAppKey("2873812073",
+//                                                                      sinaWeiboRedirectURI: "https://api.weibo.com/oauth2/default.html",
+//                                                                      weChatAppKey: "wxe3346afe30577009",
+//                                                                      weChatAppSecret: "",
+//                                                                      QQAppKey: "")
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
@@ -112,13 +112,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
-    }
-    
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
-    }
+//    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+//        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
+//    }
+//    
+//    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+//        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
+//    }
 }
 
 // MARK: Notifications

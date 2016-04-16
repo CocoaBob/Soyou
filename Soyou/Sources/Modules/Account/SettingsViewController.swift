@@ -314,12 +314,15 @@ extension SettingsViewController {
                             // Set language
                             UserDefaults.setObject([regionCode], forKey: "AppleLanguages")
                             
-                            let alertView = SCLAlertView()
-                            alertView.addButton(NSLocalizedString("settings_vc_cell_language_set_done")) { () -> Void in
-                                self.navigationController?.popViewControllerAnimated(true)
-                            }
-                            alertView.showCloseButton = false
-                            alertView.showSuccess(NSLocalizedString("settings_vc_cell_language_set_title"), subTitle: NSLocalizedString("settings_vc_cell_language_set_subtitle"))
+                        let alertView = SCLAlertView()
+                        alertView.addButton(NSLocalizedString("settings_vc_cell_language_set_done")) { () -> Void in
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
+                        alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
+                                              title: NSLocalizedString("settings_vc_cell_language_set_title"),
+                                              subTitle: NSLocalizedString("settings_vc_cell_language_set_subtitle"),
+                                              closeButtonTitle: nil,
+                                              duration: 0.0)
                     }
             }
         }
@@ -356,7 +359,7 @@ extension SettingsViewController {
             var image: UIImage?
             if let countryCode = countryCode {
                 if countryCode == "EU" {
-                    image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.EuropeanUnion)
+                    image = UIImage(flagImageForSpecialFlag: "EU")
                 } else {
                     image = UIImage(flagImageWithCountryCode: countryCode)
                 }

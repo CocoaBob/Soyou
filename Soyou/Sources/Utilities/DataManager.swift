@@ -52,9 +52,17 @@ class DataManager {
         if let responseObject = responseObject as? Dictionary<String, AnyObject>,
             data = responseObject["data"] as? [String],
             message = data.first {
-                SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message))
+            SCLAlertView().showError(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
+                                     title: NSLocalizedString("alert_title_failed"),
+                                     subTitle: NSLocalizedString(message),
+                                     closeButtonTitle: NSLocalizedString("alert_button_ok"),
+                                     duration: 0.0)
         } else {
-            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: error?.localizedDescription ?? "")
+            SCLAlertView().showError(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
+                                     title: NSLocalizedString("alert_title_failed"),
+                                     subTitle: error?.localizedDescription ?? "",
+                                     closeButtonTitle: NSLocalizedString("alert_button_ok"),
+                                     duration: 0.0)
         }
     }
     
@@ -562,8 +570,8 @@ class DataManager {
     
     var _isWTStatusBarVisible = false
     func updateProductsProgress(current: Int, total: Int) {
-        WTStatusBar.setBackgroundColor(UIColor(rgba: Cons.UI.colorBGNavBar))
-        WTStatusBar.setProgressBarColor(UIColor(rgba: Cons.UI.colorTheme))
+        WTStatusBar.setBackgroundColor(UIColor(hex: Cons.UI.colorBGNavBar))
+        WTStatusBar.setProgressBarColor(UIColor(hex: Cons.UI.colorTheme))
         WTStatusBar.setTextColor(UIColor.darkGrayColor())
         if current == -1 {
             if (_isWTStatusBarVisible) {

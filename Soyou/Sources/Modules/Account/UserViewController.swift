@@ -39,7 +39,7 @@ class UserViewController: SimpleTableViewController {
         self.setupParallaxHeader()
         
         // Background Color
-        self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        self.tableView.backgroundColor = UIColor(hex: Cons.UI.colorBG)
         
         // Setup avatar action
         self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))

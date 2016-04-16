@@ -96,7 +96,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             if let countryCode = countryCode, image = UIImage(flagImageWithCountryCode: countryCode) {
                 _cell.imgView.image = image
             } else {
-                _cell.imgView.image = UIImage(flagImageForSpecialFlag: .World)
+                _cell.imgView.image = UIImage(flagImageForSpecialFlag: "WW")
             }
             if let countryCode = countryCode, countryName = CurrencyManager.shared.countryName(countryCode) {
                 _cell.lblTitle.text = countryName

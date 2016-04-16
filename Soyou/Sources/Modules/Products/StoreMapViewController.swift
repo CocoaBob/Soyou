@@ -43,14 +43,14 @@ class StoreMapViewController: UIViewController {
         let leftButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
         leftButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
         leftButton.tintColor = UIColor.whiteColor()
-        leftButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
+        leftButton.backgroundColor = UIColor(hex: Cons.UI.colorStoreMapCopy)
         leftButton.addTarget(self, action: #selector(StoreMapViewController.copyAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.calloutView.leftAccessoryView = leftButton
         
         let rightButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
         rightButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
         rightButton.tintColor = UIColor.whiteColor()
-        rightButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
+        rightButton.backgroundColor = UIColor(hex: Cons.UI.colorStoreMapOpen)
         rightButton.addTarget(self, action: #selector(StoreMapViewController.openMap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.calloutView.rightAccessoryView = rightButton
 

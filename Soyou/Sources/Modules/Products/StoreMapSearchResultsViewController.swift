@@ -50,7 +50,7 @@ extension StoreMapSearchResultsViewController {
         if let countryCode = item.placemark.countryCode, image = UIImage(flagImageWithCountryCode: countryCode) {
             cell.imageView?.image = image
         } else {
-            cell.imageView?.image = UIImage(flagImageForSpecialFlag: .World)
+            cell.imageView?.image = UIImage(flagImageForSpecialFlag: "WW")
         }
         
         return cell

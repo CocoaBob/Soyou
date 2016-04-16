@@ -26,10 +26,10 @@ class NewsDetailViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(rgba: Cons.UI.colorLike)
+    let btnLikeActiveColor = UIColor(hex: Cons.UI.colorLike)
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
-    let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
+    let btnFavActiveColor = UIColor(hex:Cons.UI.colorHeart)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
     // Status Bar Cover
