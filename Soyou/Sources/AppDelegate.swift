@@ -63,12 +63,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.checkIfShowIntroView()
         
         // Setup WeChat
-        //use your AppID from dev.wechat.com to replace YOUR_WECHAT_APPID
-//        LXMThirdLoginManager.sharedManager().setupWithSinaWeiboAppKey("2873812073",
-//                                                                      sinaWeiboRedirectURI: "https://api.weibo.com/oauth2/default.html",
-//                                                                      weChatAppKey: "wxe3346afe30577009",
-//                                                                      weChatAppSecret: "",
-//                                                                      QQAppKey: "")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook, appKey: "c15c67294b0292b36f1202ecd01c757c")
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
@@ -112,13 +110,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-//    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-//        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
-//    }
-//    
-//    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-//        return LXMThirdLoginManager.sharedManager().handleOpenUrl(url)
-//    }
+    // iOS < 9
+    func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
+        return DDSocialShareHandler.sharedInstance().application(application, handleOpenURL: url, sourceApplication: nil, annotation: nil)
+    }
+    
+    // iOS < 9
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return DDSocialShareHandler.sharedInstance().application(application, handleOpenURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    // iOS >= 9
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        return DDSocialShareHandler.sharedInstance().application(app, openURL: url, options: options)
+    }
 }
 
 // MARK: Notifications

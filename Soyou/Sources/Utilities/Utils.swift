@@ -38,14 +38,10 @@ extension Utils {
 extension Utils {
     
     class func shareItems(items: [AnyObject], completion: (() -> Void)?) {
-        guard let keyWindow = UIApplication.sharedApplication().keyWindow else { return }
-        let activityView = UIActivityViewController(activityItems: items, applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-        activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-        let rootVC = keyWindow.rootViewController
-        if let presentedVC = rootVC?.presentedViewController {
-            presentedVC.presentViewController(activityView, animated: true, completion: completion)
-        } else {
-            rootVC?.presentViewController(activityView, animated: true, completion: completion)
+        if let vc = UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController() {
+            let activityView = UIActivityViewController(activityItems: items, applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
+            vc.presentViewController(activityView, animated: true, completion: completion)
         }
     }
     

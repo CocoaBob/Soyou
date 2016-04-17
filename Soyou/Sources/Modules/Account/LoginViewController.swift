@@ -43,6 +43,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var btnSignUp: UIButton?
     @IBOutlet var btnForgetPassword: UIButton?
     @IBOutlet var btnGetCode: UIButton?
+    @IBOutlet var lbl3rdPartyLogins: UILabel?
     
     @IBOutlet var loginButtonConstraintWidth: NSLayoutConstraint?
     
@@ -86,6 +87,7 @@ class LoginViewController: UIViewController {
         self.tfPassword?.placeholder = NSLocalizedString(self.type == .ResetPassword ? "login_vc_textfield_placeholder_new_password" : "login_vc_textfield_placeholder_password")
         self.tfPasswordConfirm?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_confirm_password")
         self.tfVerificationCode?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_verification_code")
+        self.lbl3rdPartyLogins?.text = NSLocalizedString("login_vc_3rd_party_logins")
         switch self.type {
         case .Login:
             self.btnAction?.setTitle(NSLocalizedString("login_vc_login_action_button"), forState: .Normal)
@@ -249,30 +251,48 @@ extension LoginViewController {
         }
     }
     
+    func logResult(platform: String, state: DDSSAuthState, result: DDAuthItem?) {
+        DLog("-=-=-=-=-=-=-=-=-=-")
+        DLog(platform)
+        DLog("state = \(state == .Began ? "Began" : (state == .Success ? "Success" : (state == .Cancel ? "Cancel" : "Fail")))")
+        if state == .Success {
+            if let result = result {
+                DLog("isCodeAuth = \(result.isCodeAuth)")
+                DLog("thirdId = \(result.thirdId)")
+                DLog("thirdToken = \(result.thirdToken)")
+            }
+        }
+        DLog("-=-=-=-=-=-=-=-=-=-")
+    }
+    
     @IBAction func loginSinaWeibo(sender: UIButton?) {
-//        LXMThirdLoginManager.sharedManager().requestLoginWithThirdType(.SinaWeibo) { result in
-//            DLog(result)
-//        }
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Sina, controller: self) { (platform, state, result, error) in
+            self.logResult("SinaWeibo", state: state, result: result as? DDAuthItem)
+        }
     }
     
     @IBAction func loginWechat(sender: UIButton?) {
-        
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.WeChat, controller: self) { (platform, state, result, error) in
+            self.logResult("WeChat", state: state, result: result as? DDAuthItem)
+        }
     }
     
     @IBAction func loginQQ(sender: UIButton?) {
-        
-    }
-    
-    @IBAction func loginRenren(sender: UIButton?) {
-        
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.QQ, controller: self) { (platform, state, result, error) in
+            self.logResult("QQ", state: state, result: result as? DDAuthItem)
+        }
     }
     
     @IBAction func loginGoogle(sender: UIButton?) {
-        
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
+            self.logResult("Google", state: state, result: result as? DDAuthItem)
+        }
     }
     
     @IBAction func loginFacebook(sender: UIButton?) {
-        
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Facebook, controller: self) { (platform, state, result, error) in
+            self.logResult("Facebook", state: state, result: result as? DDAuthItem)
+        }
     }
     
     @IBAction func loginInstagram(sender: UIButton?) {
@@ -280,7 +300,9 @@ extension LoginViewController {
     }
     
     @IBAction func loginTwitter(sender: UIButton?) {
-        
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Twitter, controller: self) { (platform, state, result, error) in
+            self.logResult("Twitter", state: state, result: result as? DDAuthItem)
+        }
     }
 }
 

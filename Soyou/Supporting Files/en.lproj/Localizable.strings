@@ -94,6 +94,7 @@
 "login_vc_register_title"="Sign Up";
 "login_vc_forget_password_title"="Forget Password";
 "login_vc_reset_password_title"="Reset Password";
+"login_vc_3rd_party_logins"="or sign in with";
 
 "login_vc_textfield_placeholder_email"="Email";
 "login_vc_textfield_placeholder_password"="Password";
