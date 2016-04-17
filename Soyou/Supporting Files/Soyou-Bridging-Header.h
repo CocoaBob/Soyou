@@ -27,10 +27,6 @@
 #import <CCHMapClusterController/CCHMapClusterer.h>
 #import <CCHMapClusterController/CCHNearCenterMapClusterer.h>
 #import <CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.h>
-#import <DDSocial/DDSocialAuthHandler.h>
-#import <DDSocial/DDSocialShareHandler.h>
-#import <DDSocial/WXApiObject.h>
-#import <DDSocial/WXApi.h>
 #import <EAIntroView/EAIntroView.h>
 #import <FCUUID/FCUUID.h>
 #import <FlagKit/UIImage+FlagKit.h>
@@ -79,65 +75,8 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-/*
-@import OnePasswordExtension;
-//@import Alamofire;
-@import ActionSheetPicker_3_0;
-@import AFNetworking;
-@import Base64nl;
-@import CCHMapClusterController;
-@import CHTCollectionViewWaterfallLayout;
-@import EAIntroView;
-@import FCUUID;
-//@import FlagKit;
-@import IDMPhotoBrowser;
-@import MagicalRecord;
-@import MBProgressHUD;
-@import MJRefresh;
-@import MXParallaxHeader;
-@import NYSegmentedControl;
-//@import PageMenu;
-@import PFCarouselView;
-@import SafariServices;
-@import SCLAlertView;
-@import SDWebImage;
-@import SMCalloutView;
-@import SVWebViewController;
-//@import SwiftyJSON;
-@import UICKeyChainStore;
-//@import UIColor_HexRGB;
-@import UIImage_ResizeMagick;
-@import UIView_Shake;
-@import WTStatusBar;
-@import ZoomInteractiveTransition;
-
-// Continuous Integration
-@import Fabric;
-@import Crashlytics;
-
-// SNS SDKs
-// libWeChatSDK
-//#import <libWeChatSDK/WXApiObject.h>
-//#import <libWeChatSDK/WXApi.h>
-// libWeiboSDK
-//#import <WeiboSDK/WBHttpRequest.h>
-//#import <WeiboSDK/WBHttpRequest+WeiboGame.h>
-//#import <WeiboSDK/WBHttpRequest+WeiboShare.h>
-//#import <WeiboSDK/WBHttpRequest+WeiboToken.h>
-//#import <WeiboSDK/WBHttpRequest+WeiboUser.h>
-//#import <WeiboSDK/WBSDKBasicButton.h>
-//#import <WeiboSDK/WBSDKCommentButton.h>
-//#import <WeiboSDK/WBSDKRelationshipButton.h>
-//#import <WeiboSDK/WeiboSDK.h>
-//#import <WeiboSDK/WeiboUser.h>
-// QQOpenSDK
-//#import <TencentOpenAPI/QQApiInterface.h>
-//#import <TencentOpenAPI/QQApiInterfaceObject.h>
-//#import <TencentOpenAPI/sdkdef.h>
-//#import <TencentOpenAPI/TencentApiInterface.h>
-//#import <TencentOpenAPI/TencentMessageObject.h>
-//#import <TencentOpenAPI/TencentOAuth.h>
-//#import <TencentOpenAPI/TencentOAuthObject.h>
-// LXMThirdLoginManager
-//@import LXMThirdLoginManager;
-*/
+// Social
+#import <libWeChatSDK/WXApiObject.h>
+#import <libWeChatSDK/WXApi.h>
+#import <DDSocial/DDSocialAuthHandler.h>
+#import <DDSocial/DDSocialShareHandler.h>
