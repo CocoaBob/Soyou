@@ -13,14 +13,14 @@ pod "CCHMapClusterController"
 pod "CHTCollectionViewWaterfallLayout"
 pod "EAIntroView"
 pod "FCUUID"
-pod "FlagKit", :path => "https://github.com/CocoaBob/FlagKit", :podspec => 'https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec', :commit => 'aeb22458164a7c176b81be5886f0d81c777ac5c7'
+pod "FlagKit", :podspec => 'https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec', :commit => 'aeb22458164a7c176b81be5886f0d81c777ac5c7'
 pod "IDMPhotoBrowser"
 pod "MagicalRecord", '~> 2.3'
 pod "MBProgressHUD"
 pod "MJRefresh"
 pod "MXParallaxHeader"
 pod "NYSegmentedControl"
-pod "PageMenu", :path => "https://github.com/CocoaBob/PageMenu", :podspec => 'https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec', :commit => 'fae309af601a27aa0a7e34e9e6d61f9583c86444'
+pod "PageMenu", :podspec => 'https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec', :commit => 'fae309af601a27aa0a7e34e9e6d61f9583c86444'
 pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '880826c7f361c3065ca23a4696a4d19d7e1da6d3'
 pod "SCLAlertView-Objective-C"
 pod "SDWebImage"
