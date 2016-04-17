@@ -158,17 +158,17 @@ DEPENDENCIES:
   - FCUUID
   - FlagKit (from `https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec`)
   - IDMPhotoBrowser
-  - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `bb4387498ef2974189e8270928f62a1cd3a8ef62`)
+  - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `head`)
   - MagicalRecord (~> 2.3)
   - MBProgressHUD
   - MJRefresh
   - MXParallaxHeader
   - NYSegmentedControl
   - PageMenu (from `https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec`)
-  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `880826c7f361c3065ca23a4696a4d19d7e1da6d3`)
-  - SCLAlertView-Objective-C (from `git://github.com/dogo/SCLAlertView`, commit `2ca88762595d57aa3de7a9eb9fa2af2594c70d02`)
+  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `head`)
+  - SCLAlertView-Objective-C
   - SDWebImage
-  - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
+  - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `head`)
   - SVWebViewController
   - UICKeyChainStore
   - UIColor-HexRGB
@@ -179,25 +179,22 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   DDSocial:
-    :commit: 9cd3dee68de5dde8df62e7ba5ddfe8e7a0cc5d68
+    :commit: :head
     :podspec: https://raw.githubusercontent.com/CocoaBob/DDSocial/master/DDSocial.podspec
   FlagKit:
-    :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
+    :commit: :head
     :podspec: https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec
   libWeChatSDK:
-    :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
+    :commit: :head
     :git: git://github.com/CocoaBob/libWeChatSDK
   PageMenu:
-    :commit: fae309af601a27aa0a7e34e9e6d61f9583c86444
+    :commit: :head
     :podspec: https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec
   PFCarouselView:
-    :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
+    :commit: :head
     :git: git://github.com/CocoaBob/PFCarouselView
-  SCLAlertView-Objective-C:
-    :commit: 2ca88762595d57aa3de7a9eb9fa2af2594c70d02
-    :git: git://github.com/dogo/SCLAlertView
   SMCalloutView:
-    :commit: bad0864b06019d764519dab9a53409de889c87fc
+    :commit: :head
     :git: git://github.com/CocoaBob/calloutview
 
 CHECKOUT OPTIONS:
@@ -208,19 +205,16 @@ CHECKOUT OPTIONS:
     :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
     :git: https://github.com/CocoaBob/FlagKit.git
   libWeChatSDK:
-    :commit: bb4387498ef2974189e8270928f62a1cd3a8ef62
+    :commit: :head
     :git: git://github.com/CocoaBob/libWeChatSDK
   PageMenu:
     :commit: fae309af601a27aa0a7e34e9e6d61f9583c86444
     :git: https://github.com/CocoaBob/PageMenu.git
   PFCarouselView:
-    :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
+    :commit: :head
     :git: git://github.com/CocoaBob/PFCarouselView
-  SCLAlertView-Objective-C:
-    :commit: 2ca88762595d57aa3de7a9eb9fa2af2594c70d02
-    :git: git://github.com/dogo/SCLAlertView
   SMCalloutView:
-    :commit: bad0864b06019d764519dab9a53409de889c87fc
+    :commit: :head
     :git: git://github.com/CocoaBob/calloutview
 
 SPEC CHECKSUMS:
