@@ -22,7 +22,7 @@ public struct Cons {
         // Count of News to load for each request
         static let reqCnt                                   = 5
         
-        static let reqAPIKey                                = "\(1155919*2*3*7)"+"-f079-4c57-bb39-d9ca8344abd7"
+        static let reqAPIKey                                = "17843599-f079-4c57-bb39-d9ca8344abd"
         static let reqAuthorizationKey                      = "reqAuthorizationKey"
     }
     
