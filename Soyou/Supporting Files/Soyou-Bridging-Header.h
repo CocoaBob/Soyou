@@ -78,5 +78,6 @@
 // Social
 #import <libWeChatSDK/WXApiObject.h>
 #import <libWeChatSDK/WXApi.h>
+#import <TwitterKit/TwitterKit.h>
 #import <DDSocial/DDSocialAuthHandler.h>
 #import <DDSocial/DDSocialShareHandler.h>

@@ -493,7 +493,7 @@
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="img_logo_twitter"/>
                                                 <connections>
-                                                    <action selector="loginTwitter:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="36l-iA-q2V"/>
+                                                    <action selector="loginTwitter:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="meA-qL-9aN"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3rd party logins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZJf-BS-dA3">

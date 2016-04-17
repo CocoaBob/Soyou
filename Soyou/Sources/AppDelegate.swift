@@ -15,9 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Continuous Integration
+        // Crashlytics
         Fabric.with([Crashlytics.self])
         Crashlytics.sharedInstance().setUserIdentifier(UIDevice.currentDevice().identifierForVendor?.UUIDString)
+        
+        // Twitter
+        Twitter.sharedInstance().startWithConsumerKey("wjOno5zRnBwENYuXtbYCS7bw5", consumerSecret: "vVlY71WUqP0rTc1D7vK6tqylB2PJpEhpMM88VvVVG3ONfwtu7I")
+        Fabric.with([Twitter.self])
 
         // Exclude database from iCloud backup
         FileManager.excludeFromBackup(FileManager.dbDir)

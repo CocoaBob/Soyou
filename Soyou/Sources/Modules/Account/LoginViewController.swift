@@ -300,9 +300,25 @@ extension LoginViewController {
     }
     
     @IBAction func loginTwitter(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Twitter, controller: self) { (platform, state, result, error) in
-            self.logResult("Twitter", state: state, result: result as? DDAuthItem)
+        Twitter.sharedInstance().logInWithCompletion { (session, error) in
+            if let unwrappedSession: TWTRSession = session {
+                DLog(unwrappedSession.authToken)
+                DLog(unwrappedSession.authTokenSecret)
+                DLog(unwrappedSession.userName)
+                DLog(unwrappedSession.userID)
+            } else {
+                DLog(error)
+            }
         }
+//        if let logInButton = sender as? TWTRLogInButton {
+//            logInButton.logInCompletion = { (session, error) in
+//                if let unwrappedSession = session {
+//                    DLog(unwrappedSession.userName)
+//                } else {
+//                    DLog(error)
+//                }
+//            }
+//        }
     }
 }
 
