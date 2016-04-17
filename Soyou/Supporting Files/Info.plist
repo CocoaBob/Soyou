@@ -72,9 +72,19 @@
 				<string>fb528678957305053</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Google</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.529971768571-clnc5losp1h47ej2ir8enku246hupnlm</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>550</string>
+	<string>551</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

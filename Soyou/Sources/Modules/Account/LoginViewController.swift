@@ -283,20 +283,10 @@ extension LoginViewController {
         }
     }
     
-    @IBAction func loginGoogle(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
-            self.logResult("Google", state: state, result: result as? DDAuthItem)
-        }
-    }
-    
     @IBAction func loginFacebook(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Facebook, controller: self) { (platform, state, result, error) in
             self.logResult("Facebook", state: state, result: result as? DDAuthItem)
         }
-    }
-    
-    @IBAction func loginInstagram(sender: UIButton?) {
-        
     }
     
     @IBAction func loginTwitter(sender: UIButton?) {
@@ -310,15 +300,12 @@ extension LoginViewController {
                 DLog(error)
             }
         }
-//        if let logInButton = sender as? TWTRLogInButton {
-//            logInButton.logInCompletion = { (session, error) in
-//                if let unwrappedSession = session {
-//                    DLog(unwrappedSession.userName)
-//                } else {
-//                    DLog(error)
-//                }
-//            }
-//        }
+    }
+    
+    @IBAction func loginGoogle(sender: UIButton?) {
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
+            self.logResult("Google", state: state, result: result as? DDAuthItem)
+        }
     }
 }
 

@@ -70,6 +70,7 @@
 		456BCAC21C6018D600590295 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCAC11C6018D600590295 /* SafariServices.framework */; };
 		456FC8B61C5A5885003D0DF6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456FC8B51C5A5885003D0DF6 /* StoreKit.framework */; };
 		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4571872D1CC42E5F009B5112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4571872C1CC42E5F009B5112 /* GoogleService-Info.plist */; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
 		457777831BFCB60100805D79 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777811BFCB60100805D79 /* News.swift */; };
 		457777881BFCE15700805D79 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4577778A1BFCE15700805D79 /* Localizable.strings */; };
@@ -198,6 +199,7 @@
 		456BCAC11C6018D600590295 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		456FC8B51C5A5885003D0DF6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = IDMPBLocalizations.bundle; path = ../../Pods/IDMPhotoBrowser/Classes/IDMPBLocalizations.bundle; sourceTree = "<group>"; };
+		4571872C1CC42E5F009B5112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		457777801BFCB60100805D79 /* News+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "News+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		457777811BFCB60100805D79 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		4577778B1BFCE15900805D79 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				4568E29D1BF90797009A6164 /* Info.plist */,
+				4571872C1CC42E5F009B5112 /* GoogleService-Info.plist */,
 				4568E2F71BF922B7009A6164 /* Soyou-Bridging-Header.h */,
 				4577778A1BFCE15700805D79 /* Localizable.strings */,
 				455D06AB1C0391A600D81ABF /* InfoPlist.strings */,
@@ -636,6 +639,7 @@
 				4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */,
 				45B8233D1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib in Resources */,
 				4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */,
+				4571872D1CC42E5F009B5112 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

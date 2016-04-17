@@ -481,15 +481,15 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="thE-38-SRd" userLabel="Instagram">
-                                                <rect key="frame" x="261" y="27" width="48" height="48"/>
+                                                <rect key="frame" x="326" y="27" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="img_logo_instagram"/>
+                                                <state key="normal" image="img_logo_google"/>
                                                 <connections>
-                                                    <action selector="loginInstagram:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="EPQ-KV-VqL"/>
+                                                    <action selector="loginGoogle:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="fwa-7p-haL"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59U-Ph-JjD" userLabel="Twitter">
-                                                <rect key="frame" x="326" y="27" width="48" height="48"/>
+                                                <rect key="frame" x="261" y="27" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="img_logo_twitter"/>
                                                 <connections>
@@ -508,7 +508,7 @@
                                             <constraint firstItem="thE-38-SRd" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="5yv-SB-o3c"/>
                                             <constraint firstItem="2ob-nx-Kda" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="9Fq-x3-5Bn"/>
                                             <constraint firstItem="r4K-MJ-Ker" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="Cn1-J9-mpP"/>
-                                            <constraint firstItem="thE-38-SRd" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.8" constant="-38" id="Gdy-o4-47Q"/>
+                                            <constraint firstItem="thE-38-SRd" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" constant="-48" id="Gdy-o4-47Q"/>
                                             <constraint firstItem="WFb-jK-DU4" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="HqT-Yh-yJZ"/>
                                             <constraint firstItem="r4K-MJ-Ker" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.2" constant="-10" id="Sfp-6c-8EC"/>
                                             <constraint firstItem="r4K-MJ-Ker" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="Ttj-ea-6cq"/>
@@ -518,7 +518,7 @@
                                             <constraint firstItem="ZJf-BS-dA3" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="bjJ-Sf-DCa"/>
                                             <constraint firstItem="thE-38-SRd" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="duH-uh-8yK"/>
                                             <constraint firstItem="WFb-jK-DU4" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="eG9-S5-8h4"/>
-                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" constant="-48" id="erz-7J-BLS"/>
+                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.8" constant="-38" id="erz-7J-BLS"/>
                                             <constraint firstAttribute="height" constant="75" id="gQL-iq-LAS"/>
                                             <constraint firstItem="2ob-nx-Kda" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="h4F-nC-q9l"/>
                                             <constraint firstAttribute="trailing" secondItem="ZJf-BS-dA3" secondAttribute="trailing" id="k0r-b7-mAk"/>
@@ -1001,7 +1001,7 @@
         <image name="img_gear_shadow" width="26" height="26"/>
         <image name="img_heart_shadow" width="24" height="22"/>
         <image name="img_logo_facebook" width="48" height="48"/>
-        <image name="img_logo_instagram" width="48" height="48"/>
+        <image name="img_logo_google" width="48" height="48"/>
         <image name="img_logo_qq" width="48" height="48"/>
         <image name="img_logo_twitter" width="48" height="48"/>
         <image name="img_logo_wechat" width="48" height="48"/>

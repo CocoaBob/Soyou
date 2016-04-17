@@ -71,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DDSocialShareHandler.sharedInstance().registerPlatform(.Sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
         DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
         DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook, appKey: "c15c67294b0292b36f1202ecd01c757c")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Google, appKey: "1:529971768571:ios:7b12a877b7550b11")
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
