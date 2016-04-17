@@ -308,18 +308,18 @@ extension ProductViewController {
             
             // Customize menu (Optional)
             let parameters: [String: AnyObject] = [
-                "CAPSPageMenuOptionMenuItemSeparatorWidth": 0,
-                "CAPSPageMenuOptionScrollMenuBackgroundColor": UIColor.whiteColor(),
-                "CAPSPageMenuOptionSelectionIndicatorColor": UIColor.darkGrayColor(),
-                "CAPSPageMenuOptionSelectedMenuItemLabelColor": UIColor.darkGrayColor(),
-                "CAPSPageMenuOptionUnselectedMenuItemLabelColor": UIColor.lightGrayColor(),
-                "CAPSPageMenuOptionUseMenuLikeSegmentedControl": true,
-                "CAPSPageMenuOptionCenterMenuItems": true,
-                "CAPSPageMenuOptionMenuItemFont": UIFont.systemFontOfSize(13),
-                "CAPSPageMenuOptionMenuMargin": 10.0,
-                "CAPSPageMenuOptionMenuHeight": self.pageMenuHeight,
-                "CAPSPageMenuOptionAddBottomMenuHairline": true,
-                "CAPSPageMenuOptionBottomMenuHairlineColor": UIColor.whiteColor()
+                CAPSPageMenuOptionMenuItemSeparatorWidth: NSNumber(double: 0),
+                CAPSPageMenuOptionScrollMenuBackgroundColor: UIColor.whiteColor(),
+                CAPSPageMenuOptionSelectionIndicatorColor: UIColor.darkGrayColor(),
+                CAPSPageMenuOptionSelectedMenuItemLabelColor: UIColor.darkGrayColor(),
+                CAPSPageMenuOptionUnselectedMenuItemLabelColor: UIColor.lightGrayColor(),
+                CAPSPageMenuOptionUseMenuLikeSegmentedControl: NSNumber(bool: true),
+                CAPSPageMenuOptionCenterMenuItems: NSNumber(bool: true),
+                CAPSPageMenuOptionMenuItemFont: UIFont.systemFontOfSize(13),
+                CAPSPageMenuOptionMenuMargin: NSNumber(double: 10.0),
+                CAPSPageMenuOptionMenuHeight: self.pageMenuHeight,
+                CAPSPageMenuOptionAddBottomMenuHairline: NSNumber(bool: true),
+                CAPSPageMenuOptionBottomMenuHairlineColor: UIColor.whiteColor()
             ]
             
             // Create CAPSPageMenu

@@ -21,7 +21,7 @@ pod "MBProgressHUD"
 pod "MJRefresh"
 pod "MXParallaxHeader"
 pod "NYSegmentedControl"
-pod "PageMenu", :podspec => 'https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec', :commit => 'eb5a41a0e1489e18ee0aac97cbcbbac00d0aa40d'
+pod "PageMenu", :podspec => 'https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec', :commit => 'fae309af601a27aa0a7e34e9e6d61f9583c86444'
 pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '880826c7f361c3065ca23a4696a4d19d7e1da6d3'
 pod "SCLAlertView-Objective-C", :git => 'git://github.com/dogo/SCLAlertView', :commit => '2ca88762595d57aa3de7a9eb9fa2af2594c70d02'
 pod "SDWebImage"
