@@ -18,10 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Crashlytics
         Fabric.with([Crashlytics.self])
         Crashlytics.sharedInstance().setUserIdentifier(UIDevice.currentDevice().identifierForVendor?.UUIDString)
-        
-        // Twitter
-        Twitter.sharedInstance().startWithConsumerKey("wjOno5zRnBwENYuXtbYCS7bw5", consumerSecret: "vVlY71WUqP0rTc1D7vK6tqylB2PJpEhpMM88VvVVG3ONfwtu7I")
-        Fabric.with([Twitter.self])
 
         // Exclude database from iCloud backup
         FileManager.excludeFromBackup(FileManager.dbDir)
@@ -72,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
         DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook, appKey: "")
         DDSocialShareHandler.sharedInstance().registerPlatform(.Google, appKey: "")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Twitter, appKey: "")
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
