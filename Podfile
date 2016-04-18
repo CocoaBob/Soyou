@@ -40,26 +40,14 @@ pod "Crashlytics"
 #SNS SDKs
 pod "libWeChatSDK",     :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
 
-pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-pod "DDSocial/Tencent", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-pod "DDSocial/Wechat",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-pod "DDSocial/Sina",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-#pod "DDSocial/MiLiao",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-#pod "DDSocial/MI",      :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-pod "DDSocial/Facebook",:git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-pod "DDSocial/Twitter", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
-pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '4106fa5702bf4fb80cab0f91774f4811e4219803'
+pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
+pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
+pod "DDSocial/Tencent", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
+pod "DDSocial/Wechat",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
+pod "DDSocial/Sina",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
+pod "DDSocial/Facebook",:git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
+pod "DDSocial/Twitter", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
+pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '7ab607f0479138971e4fb1c9d558a107f2ac95c1'
 
 # Used for testing
 #pod 'FBRetainCycleDetector'
-
-#post_install do |installer|
-#    installer.pods_project.targets.each do |target|
-#        if target.name == 'DDSocial'
-#            target.build_configurations.each do |config|
-#                config.build_settings['CLANG_ENABLE_MODULES'] = 'NO'
-#            end
-#        end
-#    end
-#end

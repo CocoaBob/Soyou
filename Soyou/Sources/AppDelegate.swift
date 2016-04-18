@@ -62,13 +62,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Show Introduction view
         self.checkIfShowIntroView()
         
-        // Setup WeChat
+        // Setup Social Services
         DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
         DDSocialShareHandler.sharedInstance().registerPlatform(.Sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
         DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook, appKey: "")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Google, appKey: "")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Twitter, appKey: "")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook)
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Google)
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Twitter, appKey: "wjOno5zRnBwENYuXtbYCS7bw5", appSecret: "vVlY71WUqP0rTc1D7vK6tqylB2PJpEhpMM88VvVVG3ONfwtu7I")
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()

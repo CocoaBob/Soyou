@@ -260,6 +260,7 @@ extension LoginViewController {
                 DLog("isCodeAuth = \(result.isCodeAuth)")
                 DLog("thirdId = \(result.thirdId)")
                 DLog("thirdToken = \(result.thirdToken)")
+                DLog("userInfo = \(result.userInfo)")
             }
         }
         DLog("-=-=-=-=-=-=-=-=-=-")
@@ -267,44 +268,37 @@ extension LoginViewController {
     
     @IBAction func loginSinaWeibo(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Sina, controller: self) { (platform, state, result, error) in
-            self.logResult("SinaWeibo", state: state, result: result as? DDAuthItem)
+            self.logResult("SinaWeibo", state: state, result: result)
         }
     }
     
     @IBAction func loginWechat(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.WeChat, controller: self) { (platform, state, result, error) in
-            self.logResult("WeChat", state: state, result: result as? DDAuthItem)
+            self.logResult("WeChat", state: state, result: result)
         }
     }
     
     @IBAction func loginQQ(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.QQ, controller: self) { (platform, state, result, error) in
-            self.logResult("QQ", state: state, result: result as? DDAuthItem)
+            self.logResult("QQ", state: state, result: result)
         }
     }
     
     @IBAction func loginFacebook(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Facebook, controller: self) { (platform, state, result, error) in
-            self.logResult("Facebook", state: state, result: result as? DDAuthItem)
+            self.logResult("Facebook", state: state, result: result)
         }
     }
     
     @IBAction func loginTwitter(sender: UIButton?) {
-        Twitter.sharedInstance().logInWithCompletion { (session, error) in
-            if let unwrappedSession: TWTRSession = session {
-                DLog(unwrappedSession.authToken)
-                DLog(unwrappedSession.authTokenSecret)
-                DLog(unwrappedSession.userName)
-                DLog(unwrappedSession.userID)
-            } else {
-                DLog(error)
-            }
+        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Twitter, controller: self) { (platform, state, result, error) in
+            self.logResult("Twitter", state: state, result: result)
         }
     }
     
     @IBAction func loginGoogle(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
-            self.logResult("Google", state: state, result: result as? DDAuthItem)
+            self.logResult("Google", state: state, result: result)
         }
     }
 }
