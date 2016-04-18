@@ -257,10 +257,21 @@ extension LoginViewController {
         DLog("state = \(state == .Began ? "Began" : (state == .Success ? "Success" : (state == .Cancel ? "Cancel" : "Fail")))")
         if state == .Success {
             if let result = result {
+                SCLAlertView().showSuccess(self,
+                                           title: "Login successfully",
+                                           subTitle: "isCodeAuth = \(result.isCodeAuth)\nthirdId = \(result.thirdId)\nthirdToken = \(result.thirdToken)\nuserInfo = \(result.userInfo)",
+                                           closeButtonTitle: "OK",
+                                           duration: 0.0)
                 DLog("isCodeAuth = \(result.isCodeAuth)")
                 DLog("thirdId = \(result.thirdId)")
                 DLog("thirdToken = \(result.thirdToken)")
                 DLog("userInfo = \(result.userInfo)")
+            } else {
+                SCLAlertView().showError(self,
+                                         title: "Login failed",
+                                         subTitle: nil,
+                                         closeButtonTitle: "OK",
+                                         duration: 0.0)
             }
         }
         DLog("-=-=-=-=-=-=-=-=-=-")
