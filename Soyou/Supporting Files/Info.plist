@@ -82,9 +82,19 @@
 				<string>com.googleusercontent.apps.529971768571-clnc5losp1h47ej2ir8enku246hupnlm</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Bundle ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>io.woniu.baodating-cjs</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>551</string>
+	<string>554</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

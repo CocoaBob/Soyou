@@ -67,11 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.checkIfShowIntroView()
         
         // Setup WeChat
-        DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
         DDSocialShareHandler.sharedInstance().registerPlatform(.Sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
         DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook, appKey: "c15c67294b0292b36f1202ecd01c757c")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Google, appKey: "1:529971768571:ios:7b12a877b7550b11")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook, appKey: "")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Google, appKey: "")
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
