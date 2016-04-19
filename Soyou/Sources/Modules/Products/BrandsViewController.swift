@@ -11,6 +11,16 @@ class BrandsViewController: FetchedResultsViewController {
     // Override FetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     
+    private var checkLoadingTimer: NSTimer?
+    @IBOutlet private var _reloadButton: UIButton!
+    @IBOutlet private var _loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet private var _loadingView: UIView!
+    var isLoadingViewVisible: Bool = true {
+        didSet {
+            self._loadingView.hidden = !isLoadingViewVisible
+        }
+    }
+    
     var searchController: UISearchController?
     
     override func collectionView() -> UICollectionView {
@@ -60,7 +70,6 @@ class BrandsViewController: FetchedResultsViewController {
         
         // Setups
         self.setupCollectionView()
-//        self.setupRefreshControls()
         
         // Setup Search Controller
         self.setupSearchController()
@@ -234,33 +243,25 @@ extension BrandsViewController: ZoomTransitionProtocol {
     }
 }
 
-// MARK: - Refreshing
+// MARK: FetchedResultsController
 extension BrandsViewController {
     
-    func setupRefreshControls() {
-        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            DataManager.shared.updateData({ (_, _) -> () in
-                self.endRefreshing()
-            })
-            self.beginRefreshing()
-        })
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeLabel?.hidden = true
-        self.collectionView().mj_header = header
-    }
-    
-    func beginRefreshing() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    }
-    
-    func endRefreshing() {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.collectionView().mj_header.endRefreshing()
-        })
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    override func reloadData(completion: ((Int) -> Void)?) {
+        // Reload Data
+        super.reloadData() { resultCount in
+            // Original completion
+            if let completion = completion { completion(resultCount) }
+            
+            // After searching is completed, if there are results, hide the indicator
+            if self.fetchedResults?.count ?? 0 > 0 {
+                self.isLoadingViewVisible = false
+                self.endCheckIsLoadingTimer()
+            } else {
+                self.isLoadingViewVisible = true
+                self.checkIsLoading()
+                self.beginCheckIsLoadingTimer()
+            }
+        }
     }
 }
 
@@ -289,6 +290,54 @@ extension BrandsViewController: UINavigationControllerDelegate {
     
     func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         viewController.viewDidAppear(animated)
+    }
+}
+
+// MARK: Updating data
+extension BrandsViewController {
+    
+    private func beginCheckIsLoadingTimer() {
+        self.endCheckIsLoadingTimer()
+        self.checkLoadingTimer = NSTimer(timeInterval: 0.5, target: self, selector: #selector(BrandsViewController.checkIsLoading), userInfo: nil, repeats: true)
+    }
+    
+    private func endCheckIsLoadingTimer() {
+        if self.checkLoadingTimer != nil {
+            self.checkLoadingTimer?.invalidate()
+            self.checkLoadingTimer = nil
+        }
+    }
+    
+    func checkIsLoading() {
+        if DataManager.shared.isUpdatingData {
+            self.showLoadingIndicator()
+        } else {
+            self.endCheckIsLoadingTimer()
+            self.showReloadButton()
+        }
+    }
+    
+    private func showLoadingIndicator() {
+        self._reloadButton.hidden = true
+        self._loadingIndicator.hidden = false
+        self._loadingIndicator.startAnimating()
+    }
+    
+    private func showReloadButton() {
+        self._reloadButton.hidden = false
+        self._loadingIndicator.hidden = true
+        self._loadingIndicator.stopAnimating()
+    }
+    
+    @IBAction func updateData() {
+        DataManager.shared.requestAllBrands { (_, error) in
+            if error == nil {
+                DataManager.shared.updateData(nil)
+            }
+            self.reloadData(nil)
+        }
+        self.checkIsLoading()
+        self.beginCheckIsLoadingTimer()
     }
 }
 

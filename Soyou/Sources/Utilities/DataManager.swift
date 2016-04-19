@@ -10,7 +10,7 @@ class DataManager {
     
     static let shared = DataManager()
     
-    private var isUpdatingData = false {
+    var isUpdatingData = false {
         didSet {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = isUpdatingData
         }

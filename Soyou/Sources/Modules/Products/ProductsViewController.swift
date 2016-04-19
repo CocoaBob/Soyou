@@ -16,19 +16,19 @@ class ProductsViewController: FetchedResultsViewController {
     private var _swipeUpIndicatorIsVisible = true
     
     @IBOutlet private var _loadingView: UIView!
-    @IBOutlet private var _loadingIndicator: UILabel!
+    @IBOutlet private var _loadingViewLabel: UILabel!
+    var isLoadingViewVisible: Bool = true {
+        didSet {
+            self._loadingView.hidden = !isLoadingViewVisible
+            self.collectionView().mj_footer.hidden = isLoadingViewVisible
+        }
+    }
     
     var searchController: UISearchController?
     
     var isSearchResultsViewController: Bool = false
     var searchKeywords: [String]?
     weak var searchFromViewController: UIViewController?
-    var isLoadingIndicatorVisible: Bool = true {
-        didSet {
-            self._loadingView.hidden = !isLoadingIndicatorVisible
-            self.collectionView().mj_footer.hidden = isLoadingIndicatorVisible
-        }
-    }
     
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
@@ -487,7 +487,7 @@ extension ProductsViewController {
             
             // After searching is completed, if there are results, hide the indicator
             if self.fetchedResults?.count ?? 0 > 0 {
-                self.isLoadingIndicatorVisible = false
+                self.isLoadingViewVisible = false
                 return
             }
             
@@ -509,18 +509,18 @@ extension ProductsViewController: UISearchResultsUpdating {
     }
     
     func showTapSearch() {
-        _loadingIndicator.text = NSLocalizedString("products_vc_tap_search")
-        self.isLoadingIndicatorVisible = true
+        _loadingViewLabel.text = NSLocalizedString("products_vc_tap_search")
+        self.isLoadingViewVisible = true
     }
     
     func showNoDataIndicator() {
-        _loadingIndicator.text = NSLocalizedString("products_vc_no_data")
-        self.isLoadingIndicatorVisible = true
+        _loadingViewLabel.text = NSLocalizedString("products_vc_no_data")
+        self.isLoadingViewVisible = true
     }
     
     func showLoadingIndicator() {
-        _loadingIndicator.text = NSLocalizedString("products_vc_loading")
-        self.isLoadingIndicatorVisible = true
+        _loadingViewLabel.text = NSLocalizedString("products_vc_loading")
+        self.isLoadingViewVisible = true
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
