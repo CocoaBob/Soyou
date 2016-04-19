@@ -244,10 +244,26 @@ extension StoreMapViewController: CLLocationManagerDelegate {
     }
     
     @IBAction func locateSelf() {
-        if CLLocationManager.authorizationStatus() != .AuthorizedWhenInUse {
-            _locationManager.requestWhenInUseAuthorization()
-        } else {
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        if authorizationStatus == .AuthorizedWhenInUse || authorizationStatus == .AuthorizedAlways {
             _locationManager.startUpdatingLocation()
+        } else {
+            if authorizationStatus == .NotDetermined {
+                _locationManager.requestWhenInUseAuthorization()
+            } else {
+                let alertView = SCLAlertView()
+                alertView.addButton(NSLocalizedString("store_map_vc_go_to_settings"),
+                                    actionBlock: {
+                                        if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
+                                            UIApplication.sharedApplication().openURL(url)
+                                        }
+                })
+                alertView.showWarning(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
+                                      title: NSLocalizedString("store_map_vc_location_service_unavailable_title"),
+                                      subTitle: NSLocalizedString("store_map_vc_location_service_unavailable_content"),
+                                      closeButtonTitle: NSLocalizedString("alert_button_close"),
+                                      duration: 0.0)
+            }
         }
     }
 }

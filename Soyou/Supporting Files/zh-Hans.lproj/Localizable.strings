@@ -56,6 +56,9 @@
 /* Store Map View Controller */
 "store_map_vc_address_copied"="地址已复制到剪贴板";
 "store_map_vc_search_bar_placeholder"="国家、城市…";
+"store_map_vc_location_service_unavailable_title"="无法定位";
+"store_map_vc_location_service_unavailable_content"="定位服务被禁用，请修改设置。";
+"store_map_vc_go_to_settings"="去设置";
 
 /* User View Controller */
 "user_vc_login"="立即登录，同步您的收藏夹";

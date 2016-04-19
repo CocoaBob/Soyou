@@ -54,6 +54,9 @@
 /* Store Map View Controller */
 "store_map_vc_address_copied"="Address copied to pasteboard";
 "store_map_vc_search_bar_placeholder"="Countries, cities...";
+"store_map_vc_location_service_unavailable_title"="Unable to locate";
+"store_map_vc_location_service_unavailable_content"="Location service isn't allowed, please modify the settings.";
+"store_map_vc_go_to_settings"="Go to Settings";
 
 /* User View Controller */
 "user_vc_login"="Login to sync favorites";
