@@ -362,7 +362,8 @@ class DataManager {
     
     private func requestNextProducts() {
         // No need to request more if it's requesting, or we are waiting for importing
-        if self.requestProductsQueue().operations.count > 1 || self.importProductsQueue().operations.count > NSProcessInfo.processInfo().activeProcessorCount {
+        if (self.requestProductsQueue().operations.count > 1 ||
+            self.importProductsQueue().operations.count > NSProcessInfo.processInfo().activeProcessorCount) {
             return
         }
         
@@ -414,10 +415,6 @@ class DataManager {
                 self.completeWithError(self._requestProductsError, completion: self._requestProductsCompletionHandler)
                 return
             }
-            // Finished
-            if self._requestProductsImportedIndex >= self._requestProductIDs.count {
-                self.completeWithData(nil, completion: self._requestProductsCompletionHandler)
-            }
             
             Product.importDatas(data, { (_, error) in
                 if error != nil {
@@ -431,7 +428,11 @@ class DataManager {
                 }
                 
                 // Request next
-                self.requestNextProducts()
+                if self._requestProductsImportedIndex >= self._requestProductIDs.count {
+                    self.completeWithData(nil, completion: self._requestProductsCompletionHandler)
+                } else {
+                    self.requestNextProducts()
+                }
             })
         }
     }
