@@ -94,8 +94,7 @@ class ProductsViewController: FetchedResultsViewController {
         // Setup swipe up indicator
         _swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom
         // Reset swipe up indicator
-        _swipeUpIndicatorIsVisible = false
-        _swipeUpIndicator.hidden = true
+        self.hideSwipeUpIndicator()
         
         // Observe data updating
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductsViewController.reloadDataWithoutCompletion), name: Cons.DB.productsUpdatingDidFinishNotification, object: nil)
@@ -279,28 +278,48 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
 extension ProductsViewController {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        // If it's the end of the scroll view
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.size.height - scrollView.contentInset.bottom) {
+            self.showSwipeUpIndicator()
+        }
+    }
+}
+
+// MARK: Show / Hide swipe up indicator
+extension ProductsViewController {
+    
+    func showSwipeUpIndicator() {
         // If indicator invisible
         if (!_swipeUpIndicatorIsVisible &&
-            // If it's the end of the scroll view
-            scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.size.height - scrollView.contentInset.bottom)) {
-            // If it isn't no more data status
-            if self.collectionView().mj_footer.state != .NoMoreData {
-                _swipeUpIndicatorIsVisible = true
+            // If it isn't "no more data" status
+            self.collectionView().mj_footer.state != .NoMoreData) {
+            _swipeUpIndicatorIsVisible = true
+            self._swipeUpIndicator.alpha = 0
+            self._swipeUpIndicator.hidden = false
+            UIView.animateWithDuration(0.3, animations: {
+                self._swipeUpIndicator.alpha = 1
+                self._swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom
+                self._swipeUpIndicator.setNeedsLayout()
+                self._swipeUpIndicator.layoutIfNeeded()
+                }, completion: { (_) in
+                    DispatchAfter(0.5, closure: {
+                        self.hideSwipeUpIndicator()
+                    })
+            })
+        }
+    }
+    
+    func hideSwipeUpIndicator() {
+        if self._swipeUpIndicatorIsVisible {
+            UIView.animateWithDuration(0.3, animations: {
                 self._swipeUpIndicator.alpha = 0
-                self._swipeUpIndicator.hidden = false
-                UIView.animateWithDuration(0.3, animations: {
-                    self._swipeUpIndicator.alpha = 1
-                    }, completion: { (_) in
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
-                            UIView.animateWithDuration(0.3, animations: {
-                                self._swipeUpIndicator.alpha = 0
-                                }, completion: { (_) in
-                                    self._swipeUpIndicator.hidden = true
-                                    self._swipeUpIndicatorIsVisible = false
-                            })
-                        }
-                })
-            }
+                self._swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom - 32
+                self._swipeUpIndicator.setNeedsLayout()
+                self._swipeUpIndicator.layoutIfNeeded()
+                }, completion: { (_) in
+                    self._swipeUpIndicator.hidden = true
+                    self._swipeUpIndicatorIsVisible = false
+            })
         }
     }
 }

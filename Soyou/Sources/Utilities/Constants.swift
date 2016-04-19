@@ -119,6 +119,10 @@ func NSLocalizedString(key: String) -> String {
     return NSLocalizedString(key, comment: "")
 }
 
+func DispatchAfter(delay:Double, closure:()->()) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+}
+
 /**
  Prints the filename, function name, line number and textual representation of `object` and a newline character into
  the standard output if the build setting for "Other Swift Flags" defines `-D DEBUG`.

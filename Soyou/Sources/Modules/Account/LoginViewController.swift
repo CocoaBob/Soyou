@@ -372,14 +372,14 @@ extension LoginViewController {
                     DataManager.showRequestFailedAlert(error)
                 } else {
                     self.dismissSelf()
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+                    DispatchAfter(0.3, closure: {
                         let alertView = SCLAlertView()
                         alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                              title: NSLocalizedString("alert_title_success"),
-                                              subTitle: NSLocalizedString("login_vc_reset_password_alert_message"),
-                                              closeButtonTitle: NSLocalizedString("alert_button_ok"),
-                                              duration: 3)
-                    }
+                            title: NSLocalizedString("alert_title_success"),
+                            subTitle: NSLocalizedString("login_vc_reset_password_alert_message"),
+                            closeButtonTitle: NSLocalizedString("alert_button_ok"),
+                            duration: 3)
+                    })
                 }
             }
         }

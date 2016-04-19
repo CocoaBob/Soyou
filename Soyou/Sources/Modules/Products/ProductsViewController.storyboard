@@ -221,7 +221,7 @@
                                 </connections>
                             </collectionView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vre-aN-uWk" userLabel="Swip Up Indicator">
-                                <rect key="frame" x="0.0" y="568" width="600" height="32"/>
+                                <rect key="frame" x="0.0" y="600" width="600" height="32"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_swipe_up_indicator" translatesAutoresizingMaskIntoConstraints="NO" id="d7k-Ob-iX5">
                                         <rect key="frame" x="282" y="10" width="36" height="11"/>
@@ -264,7 +264,7 @@
                             <constraint firstItem="LND-O0-Vpm" firstAttribute="top" secondItem="kZq-G4-NDI" secondAttribute="top" id="Gg1-1s-QFc"/>
                             <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="LND-O0-Vpm" secondAttribute="bottom" id="ImV-pP-DEn"/>
                             <constraint firstAttribute="trailing" secondItem="bCV-SG-stb" secondAttribute="trailing" id="KAQ-ef-iNj"/>
-                            <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="Vre-aN-uWk" secondAttribute="bottom" id="Un8-hh-tI5"/>
+                            <constraint firstItem="kdj-WM-Vc2" firstAttribute="top" secondItem="Vre-aN-uWk" secondAttribute="bottom" constant="-32" id="Un8-hh-tI5"/>
                             <constraint firstAttribute="trailing" secondItem="LND-O0-Vpm" secondAttribute="trailing" id="aMQ-Lf-vz0"/>
                             <constraint firstAttribute="trailing" secondItem="Vre-aN-uWk" secondAttribute="trailing" id="vIz-qu-jgd"/>
                             <constraint firstItem="bCV-SG-stb" firstAttribute="top" secondItem="kZq-G4-NDI" secondAttribute="top" id="yQK-ox-7Mv"/>
