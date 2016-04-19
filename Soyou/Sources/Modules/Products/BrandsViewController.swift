@@ -13,6 +13,7 @@ class BrandsViewController: FetchedResultsViewController {
     
     private var checkLoadingTimer: NSTimer?
     @IBOutlet private var _reloadButton: UIButton!
+    @IBOutlet private var _loadingLabel: UILabel!
     @IBOutlet private var _loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private var _loadingView: UIView!
     var isLoadingViewVisible: Bool = true {
@@ -298,7 +299,7 @@ extension BrandsViewController {
     
     private func beginCheckIsLoadingTimer() {
         self.endCheckIsLoadingTimer()
-        self.checkLoadingTimer = NSTimer(timeInterval: 0.5, target: self, selector: #selector(BrandsViewController.checkIsLoading), userInfo: nil, repeats: true)
+        self.checkLoadingTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(BrandsViewController.checkIsLoading), userInfo: nil, repeats: true)
     }
     
     private func endCheckIsLoadingTimer() {
@@ -321,12 +322,14 @@ extension BrandsViewController {
         self._reloadButton.hidden = true
         self._loadingIndicator.hidden = false
         self._loadingIndicator.startAnimating()
+        self._loadingLabel.text = NSLocalizedString("brands_vc_no_data_label_loading")
     }
     
     private func showReloadButton() {
         self._reloadButton.hidden = false
         self._loadingIndicator.hidden = true
         self._loadingIndicator.stopAnimating()
+        self._loadingLabel.text = NSLocalizedString("brands_vc_no_data_label_reload")
     }
     
     @IBAction func updateData() {

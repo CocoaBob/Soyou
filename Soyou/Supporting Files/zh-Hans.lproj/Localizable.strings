@@ -29,6 +29,8 @@
 "brands_vc_title"="品牌";
 "brands_vc_tab_title"="比价";
 "brands_vc_search_bar_placeholder"="品牌、商品、编号…";
+"brands_vc_no_data_label_reload"="刷新";
+"brands_vc_no_data_label_loading"="努力加载中...";
 
 /* Brand View Controller */
 "brand_vc_root_cell_all"="全部";

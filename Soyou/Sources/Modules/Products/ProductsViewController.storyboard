@@ -161,6 +161,7 @@
                     <connections>
                         <outlet property="_collectionView" destination="ngI-u3-qiT" id="GVo-sX-QBa"/>
                         <outlet property="_loadingIndicator" destination="Vpz-Wj-NDp" id="hwn-cM-MTR"/>
+                        <outlet property="_loadingLabel" destination="ICy-BD-qDd" id="KXF-T1-hwj"/>
                         <outlet property="_loadingView" destination="bOx-5a-oZ1" id="Ycy-9G-P49"/>
                         <outlet property="_reloadButton" destination="MCI-qr-WB0" id="cbZ-We-Hfp"/>
                     </connections>

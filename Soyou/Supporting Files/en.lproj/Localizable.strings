@@ -27,6 +27,8 @@
 "brands_vc_title"="Brands";
 "brands_vc_tab_title"="Prices";
 "brands_vc_search_bar_placeholder"="Brands, Products, Refs...";
+"brands_vc_no_data_label_reload"="Reload";
+"brands_vc_no_data_label_loading"="Loading...";
 
 /* Brand View Controller */
 "brand_vc_root_cell_all"="All";
