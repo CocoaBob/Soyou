@@ -629,13 +629,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpE-3M-b7n">
-                                                    <rect key="frame" x="543" y="12" width="42" height="20"/>
+                                                    <rect key="frame" x="535" y="0.0" width="58" height="44"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="460-ID-6A3"/>
+                                                        <constraint firstAttribute="height" constant="44" id="460-ID-6A3"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="tintColor" red="0.80559700727462769" green="0.80569428205490112" blue="0.82154279947280884" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="19" maxY="0.0"/>
+                                                    <inset key="contentEdgeInsets" minX="14" minY="0.0" maxX="27" maxY="0.0"/>
                                                     <state key="normal" title="All" backgroundImage="img_cell_disclosure_title"/>
                                                     <connections>
                                                         <action selector="didTapAccessoryButton:" destination="awE-AE-gSx" eventType="touchUpInside" id="Vx0-2r-Aax"/>
@@ -643,10 +643,10 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="BpE-3M-b7n" secondAttribute="trailing" constant="15" id="5n8-Np-sqk"/>
+                                                <constraint firstAttribute="trailing" secondItem="BpE-3M-b7n" secondAttribute="trailing" constant="7" id="5n8-Np-sqk"/>
                                                 <constraint firstItem="iJ6-CO-Qe9" firstAttribute="leading" secondItem="Eil-f2-Aec" secondAttribute="leading" constant="15" id="BIh-mE-UNa"/>
                                                 <constraint firstItem="Ou2-Iw-hmH" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="FGB-z5-pwj"/>
-                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="leading" secondItem="Ou2-Iw-hmH" secondAttribute="trailing" constant="8" id="JfX-Is-Mv0"/>
+                                                <constraint firstItem="BpE-3M-b7n" firstAttribute="leading" secondItem="Ou2-Iw-hmH" secondAttribute="trailing" id="JfX-Is-Mv0"/>
                                                 <constraint firstItem="iJ6-CO-Qe9" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="MrT-rR-bod"/>
                                                 <constraint firstItem="BpE-3M-b7n" firstAttribute="centerY" secondItem="Eil-f2-Aec" secondAttribute="centerY" id="ak5-mf-s7F"/>
                                                 <constraint firstItem="Ou2-Iw-hmH" firstAttribute="leading" secondItem="iJ6-CO-Qe9" secondAttribute="trailing" constant="8" id="qg9-26-gyp"/>
@@ -681,13 +681,13 @@
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgc-eQ-0Sw">
-                                                    <rect key="frame" x="543" y="12" width="42" height="20"/>
+                                                    <rect key="frame" x="535" y="0.0" width="58" height="44"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="ORV-f1-8s2"/>
+                                                        <constraint firstAttribute="height" constant="44" id="ORV-f1-8s2"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="tintColor" red="0.80559700727462769" green="0.80569428205490112" blue="0.82154279947280884" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="19" maxY="0.0"/>
+                                                    <inset key="contentEdgeInsets" minX="14" minY="0.0" maxX="27" maxY="0.0"/>
                                                     <state key="normal" title="All" backgroundImage="img_cell_disclosure_title"/>
                                                     <connections>
                                                         <action selector="didTapAccessoryButton:" destination="awE-AE-gSx" eventType="touchUpInside" id="dm5-IX-Od4"/>
@@ -697,10 +697,10 @@
                                             <constraints>
                                                 <constraint firstItem="uhy-CV-8GA" firstAttribute="centerY" secondItem="c9r-I3-4g6" secondAttribute="centerY" id="Aef-YX-42I"/>
                                                 <constraint firstItem="wgc-eQ-0Sw" firstAttribute="centerY" secondItem="c9r-I3-4g6" secondAttribute="centerY" id="Bwm-sd-vXi"/>
-                                                <constraint firstItem="wgc-eQ-0Sw" firstAttribute="leading" secondItem="uhy-CV-8GA" secondAttribute="trailing" constant="8" id="Lcz-8k-VIM"/>
+                                                <constraint firstItem="wgc-eQ-0Sw" firstAttribute="leading" secondItem="uhy-CV-8GA" secondAttribute="trailing" id="Lcz-8k-VIM"/>
                                                 <constraint firstItem="ad6-ng-8N8" firstAttribute="leading" secondItem="c9r-I3-4g6" secondAttribute="leading" constant="30" id="MfR-Ss-mzq"/>
                                                 <constraint firstItem="ad6-ng-8N8" firstAttribute="centerY" secondItem="c9r-I3-4g6" secondAttribute="centerY" id="TAz-1J-XaP"/>
-                                                <constraint firstAttribute="trailing" secondItem="wgc-eQ-0Sw" secondAttribute="trailing" constant="15" id="WAU-nY-gd5"/>
+                                                <constraint firstAttribute="trailing" secondItem="wgc-eQ-0Sw" secondAttribute="trailing" constant="7" id="WAU-nY-gd5"/>
                                                 <constraint firstItem="uhy-CV-8GA" firstAttribute="leading" secondItem="ad6-ng-8N8" secondAttribute="trailing" constant="8" id="ZYz-oH-d1n"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -852,7 +852,7 @@
         <image name="img_bg_tile_light_gray_translucent" width="1" height="1"/>
         <image name="img_cell_closed" width="8" height="9"/>
         <image name="img_cell_disclosure" width="9" height="14"/>
-        <image name="img_cell_disclosure_title" width="19" height="20"/>
+        <image name="img_cell_disclosure_title" width="35" height="44"/>
         <image name="img_heart_shadow" width="24" height="22"/>
         <image name="img_map_locate_bg" width="60" height="60"/>
         <image name="img_map_locate_fg" width="22" height="22"/>
