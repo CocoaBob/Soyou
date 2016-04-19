@@ -107,7 +107,7 @@ extension ProfileViewController {
 
 }
 
-// MARK: Change Username
+// MARK: Change Username / Email
 extension ProfileViewController {
     
     func changeUsername() {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -15,7 +16,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TextField" textAlignment="natural" minimumFontSize="11" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="IMV-KH-xmj">
-                        <rect key="frame" x="8" y="0.0" width="584" height="43"/>
+                        <rect key="frame" x="15" y="0.0" width="577" height="43"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="43" id="c7Y-fm-RXT"/>
                         </constraints>
@@ -25,14 +26,14 @@
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="IMV-KH-xmj" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leadingMargin" id="6db-fB-xdd"/>
+                    <constraint firstItem="IMV-KH-xmj" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leading" constant="15" id="6db-fB-xdd"/>
                     <constraint firstAttribute="bottom" secondItem="IMV-KH-xmj" secondAttribute="bottom" id="9mV-fy-8Ip"/>
                     <constraint firstItem="IMV-KH-xmj" firstAttribute="trailing" secondItem="Tgf-4e-clL" secondAttribute="trailingMargin" id="Nkj-si-0yE"/>
                     <constraint firstItem="IMV-KH-xmj" firstAttribute="top" secondItem="Tgf-4e-clL" secondAttribute="top" id="Z7X-IL-5Y3"/>
                     <constraint firstItem="IMV-KH-xmj" firstAttribute="centerY" secondItem="Tgf-4e-clL" secondAttribute="centerY" id="tnI-Jd-ouW"/>
                 </constraints>
             </tableViewCellContentView>
-            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="tfTitle" destination="IMV-KH-xmj" id="aoa-6d-PvB"/>
             </connections>
