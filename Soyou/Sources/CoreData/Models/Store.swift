@@ -62,8 +62,8 @@ class Store: BaseModel {
                     Store.importData(data, localContext)
                 }
                 
-                }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
+                }, completion: { (_, error) -> Void in
+                    if let completion = completion { completion(nil, error) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }

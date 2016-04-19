@@ -163,7 +163,6 @@ class DataManager {
     func requestAllBrands(completion: CompletionClosure?) {
         RequestManager.shared.requestAllBrands({ responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     Brand.importDatas(data, true, { (_, _) -> () in
                         // After importing, cache all brand images
                         MagicalRecord.saveWithBlock({ (localContext) -> Void in
@@ -336,57 +335,130 @@ class DataManager {
         })
     }
     
-    func loadProducts(ids: [NSNumber], _ completion: CompletionClosure?) {
-        RequestManager.shared.requestProducts(ids, { responseObject in
-            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-                Product.importDatas(data, completion)
-            } else {
-                self.completeWithError(FmtError(0, nil), completion: completion)
+    var _requestProductIDs = [NSNumber]()
+    var _requestProductsIndex = 0
+    var _requestProductsSize = 0
+    var _requestProductsCompletionHandler: CompletionClosure?
+    var _requestProductsError: NSError?
+    var _requestProductsImportedIndex = 0
+    
+    var _requestProductsQueue: NSOperationQueue?
+    private func requestProductsQueue() -> NSOperationQueue {
+        if _requestProductsQueue == nil {
+            _requestProductsQueue = NSOperationQueue()
+            _requestProductsQueue?.maxConcurrentOperationCount = 1
+        }
+        return _requestProductsQueue ?? NSOperationQueue()
+    }
+    
+    var _importProductsQueue: NSOperationQueue?
+    private func importProductsQueue() -> NSOperationQueue {
+        if _importProductsQueue == nil {
+            _importProductsQueue = NSOperationQueue()
+            _importProductsQueue?.maxConcurrentOperationCount = NSProcessInfo.processInfo().activeProcessorCount
+        }
+        return _importProductsQueue ?? NSOperationQueue()
+    }
+    
+    private func requestNextProducts() {
+        // No need to request more if it's requesting, or we are waiting for importing
+        if self.requestProductsQueue().operations.count > 1 || self.importProductsQueue().operations.count > NSProcessInfo.processInfo().activeProcessorCount {
+            return
+        }
+        
+        self.requestProductsQueue().addOperationWithBlock {
+            // Error
+            if self._requestProductsError != nil {
+                self.completeWithError(self._requestProductsError, completion: self._requestProductsCompletionHandler)
+                return
             }
+            
+            let index = self._requestProductsIndex
+            let size = self._requestProductsSize
+            let totalCount = self._requestProductIDs.count
+            let rangeSize = ((index + size) > totalCount) ? (totalCount - index) : size
+            
+            // Finished
+            if index >= totalCount {
+                return
+            }
+            
+            DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", totalCount, index, size, rangeSize))
+            if rangeSize < 0 {
+                self._requestProductsError = FmtError(0, nil)
+                return
+            }
+            
+            let rangeIDs = self._requestProductIDs[index..<(index+rangeSize)]
+            let ids = Array(rangeIDs)
+            self._requestProductsIndex += rangeSize
+            RequestManager.shared.requestProducts(ids, { responseObject in
+                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                    self.importProducts(data)
+                } else {
+                    self._requestProductsError = FmtError(0, nil)
+                }
+                
+                // Request next
+                self.requestNextProducts()
             }, { error in
-                self.completeWithError(error, completion: completion)
-        })
+                self._requestProductsError = error
+            })
+        }
+    }
+    
+    private func importProducts(data: [NSDictionary]?) {
+        self.importProductsQueue().addOperationWithBlock {
+            // Error
+            if self._requestProductsError != nil {
+                self.completeWithError(self._requestProductsError, completion: self._requestProductsCompletionHandler)
+                return
+            }
+            // Finished
+            if self._requestProductsImportedIndex >= self._requestProductIDs.count {
+                self.completeWithData(nil, completion: self._requestProductsCompletionHandler)
+            }
+            
+            Product.importDatas(data, { (_, error) in
+                if error != nil {
+                    self._requestProductsError = error
+                }
+                
+                // Update progress
+                self._requestProductsImportedIndex += data?.count ?? 0
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.updateProductsProgress(self._requestProductsImportedIndex, total: self._requestProductIDs.count)
+                }
+                
+                // Request next
+                self.requestNextProducts()
+            })
+        }
     }
     
     // Helper methods for Products
-    func loadBunchProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
+    private func loadProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
+        _requestProductIDs = productIDs
+        _requestProductsIndex = index
+        _requestProductsSize = size
+        _requestProductsCompletionHandler = completion
+        _requestProductsError = nil
+        _requestProductsImportedIndex = 0
+        
         let totalCount = productIDs.count
         if index >= totalCount {
             self.completeWithError(FmtError(0, nil), completion: completion)
             return
         }
         
-        // Update progress
-        self.updateProductsProgress(index, total: totalCount)
-        
-        // Calculate range size
-        let rangeSize = ((index + size) > totalCount) ? (totalCount - index) : size
-        DLog(FmtString("count=%d index=%d size=%d rangeSize=%d", totalCount, index, size, rangeSize))
-        if rangeSize > 0 {
-            // Get the IDs in this range
-            let rangeIDs = productIDs[index..<(index+rangeSize)]
-            // Load products
-            self.loadProducts(Array(rangeIDs), { (responseObject, error) in
-                // If any error occurs, stop loading
-                if error != nil {
-                    self.completeWithError(FmtError(0, nil), completion: completion)
-                } else {
-                    if index + rangeSize < totalCount {
-                        // If there are more IDs to load
-                        self.loadBunchProducts(productIDs, index: index + rangeSize, size: size, completion: completion)
-                    } else {
-                        // Finished
-                        self.completeWithData(nil, completion: completion)
-                    }
-                }
-            })
-        } else {
-            self.completeWithError(FmtError(0, nil), completion: completion)
+        // Request next
+        dispatch_async(dispatch_get_main_queue()) {
+            self.updateProductsProgress(0, total: self._requestProductIDs.count)
         }
+        self.requestNextProducts()
     }
     
-    func handleModifiedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
+    private func handleModifiedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
         if error != nil {
             self.completeWithError(error, completion: completion)
             return
@@ -396,7 +468,7 @@ class DataManager {
             productIDs = responseObject["products"] as? [NSNumber] {
             DLog(FmtString("Number of modified products = %d",productIDs.count))
             // Load products
-            self.loadBunchProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
+            self.loadProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
                 self.updateProductsProgress((error != nil ? -1 : 1), total: 1)
                 if error == nil {
                     // If no error, save the last request timestamp
@@ -411,7 +483,7 @@ class DataManager {
         }
     }
     
-    func requestModifiedProductIDs(completion: CompletionClosure?) {
+    private func requestModifiedProductIDs(completion: CompletionClosure?) {
         let timestamp = self.getAppInfo(Cons.DB.lastRequestTimestampProductIDs)
         DLog(FmtString("lastRequestTimestampProductIDs = %@",timestamp ?? ""))
         RequestManager.shared.requestModifiedProductIDs(
@@ -426,7 +498,7 @@ class DataManager {
         })
     }
     
-    func handleDeletedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
+    private func handleDeletedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
         if error != nil {
             self.completeWithError(error, completion: completion)
             return
@@ -448,7 +520,7 @@ class DataManager {
         }
     }
     
-    func requestDeletedProductIDs(error: NSError?, _ completion: CompletionClosure?) {
+    private func requestDeletedProductIDs(error: NSError?, _ completion: CompletionClosure?) {
         if error != nil {
             self.completeWithError(error, completion: completion)
             return
@@ -474,7 +546,6 @@ class DataManager {
                     self.handleDeletedProductsIDs(responseObject, error, completion)
                 }
             }
-            
         }
     }
     
@@ -485,7 +556,6 @@ class DataManager {
     func requestAllRegions(completion: CompletionClosure?) {
         RequestManager.shared.requestAllRegions({ responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                     Region.importDatas(data, { (_, _) -> () in
                         // Update all currencies based on all regions
                         CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, completion)
@@ -510,7 +580,6 @@ class DataManager {
                 let stores = data["stores"] as? [NSDictionary] {
                 // Import data
                 DLog(FmtString("Number of modified stores = %d",stores.count))
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                 Store.importDatas(stores, { (_, _) -> () in
                     // Succeeded to import, save timestamp for next request
                     let timestamp = data["timestamp"] as? String

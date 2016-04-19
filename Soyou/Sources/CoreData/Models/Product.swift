@@ -92,14 +92,12 @@ class Product: BaseModel {
     
     class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlock({ (localContext) -> Void in
+            MagicalRecord.saveWithBlockAndWait({ (localContext) in
                 for data in datas {
                     Product.importData(data, localContext)
                 }
-                
-                }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
             })
+            if let completion = completion { completion(nil, nil) }
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }
         }
