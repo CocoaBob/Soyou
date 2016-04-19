@@ -45,8 +45,6 @@ class LoginViewController: UIViewController {
     @IBOutlet var btnGetCode: UIButton?
     @IBOutlet var lbl3rdPartyLogins: UILabel?
     
-    @IBOutlet var loginButtonConstraintWidth: NSLayoutConstraint?
-    
     @IBOutlet var ctlGender: NYSegmentedControl?
     var selectedGender = "1"
     
@@ -74,13 +72,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Update the layout of 3rd party login buttons
-        if let constraint = self.loginButtonConstraintWidth {
-            if self.view.frame.width <= 320 {
-                constraint.constant = 40
-            }
-        }
         
         // Translate UI
         self.tfEmail?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_email")
@@ -136,21 +127,6 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.keyboardControlInstall()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if !OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
-            switch self.type {
-            case .Login:
-                tfEmail?.becomeFirstResponder()
-            case .Register:
-                tfEmail?.becomeFirstResponder()
-            case .ResetPassword:
-                tfEmail?.becomeFirstResponder()
-            }
-        }
     }
     
     override func viewWillDisappear(animated: Bool) {

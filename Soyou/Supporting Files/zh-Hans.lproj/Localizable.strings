@@ -93,10 +93,10 @@
 
 /* Login View Controller */
 "login_vc_login_title"="登录";
-"login_vc_register_title"="注册";
-"login_vc_forget_password_title"="忘记密码";
+"login_vc_register_title"="新用户注册";
+"login_vc_forget_password_title"="忘记密码？";
 "login_vc_reset_password_title"="重设密码";
-"login_vc_3rd_party_logins"="或使用第三方登录";
+"login_vc_3rd_party_logins"="或通过第三方登录";
 
 "login_vc_textfield_placeholder_email"="邮箱";
 "login_vc_textfield_placeholder_password"="密码";
