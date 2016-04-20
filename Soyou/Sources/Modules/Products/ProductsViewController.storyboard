@@ -106,7 +106,9 @@
                                             <constraint firstAttribute="height" constant="48" id="e2k-hd-i8d"/>
                                             <constraint firstAttribute="width" constant="48" id="yvA-KC-jh9"/>
                                         </constraints>
-                                        <state key="normal" image="img_reload_data"/>
+                                        <state key="normal" image="img_reload_data">
+                                            <color key="titleColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </state>
                                         <state key="highlighted" backgroundImage="img_bg_tile_light_gray_translucent"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -131,6 +133,29 @@
                                         </constraints>
                                         <color key="color" white="0.0" alpha="0.50340950144508667" colorSpace="calibratedWhite"/>
                                     </activityIndicatorView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oEP-oV-czt">
+                                        <rect key="frame" x="491" y="513" width="101" height="31"/>
+                                        <color key="backgroundColor" white="1" alpha="0.67000000000000004" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title="Send feedback">
+                                            <color key="titleColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="feedback" destination="H9m-nj-Q4N" eventType="touchUpInside" id="YEk-Lw-1eH"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.93226033450000001" green="0.91629886630000001" blue="0.89732736349999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -139,7 +164,9 @@
                                     <constraint firstItem="MCI-qr-WB0" firstAttribute="centerX" secondItem="bOx-5a-oZ1" secondAttribute="centerX" id="Xmd-QX-Vw9"/>
                                     <constraint firstItem="MCI-qr-WB0" firstAttribute="centerY" secondItem="bOx-5a-oZ1" secondAttribute="centerY" id="Yqv-xI-20w"/>
                                     <constraint firstItem="Vpz-Wj-NDp" firstAttribute="centerY" secondItem="bOx-5a-oZ1" secondAttribute="centerY" id="gQa-T1-Gqs"/>
+                                    <constraint firstAttribute="bottom" secondItem="oEP-oV-czt" secondAttribute="bottom" constant="56" id="jId-dL-N75"/>
                                     <constraint firstItem="ICy-BD-qDd" firstAttribute="centerX" secondItem="bOx-5a-oZ1" secondAttribute="centerX" id="lq3-KF-UYm"/>
+                                    <constraint firstAttribute="trailing" secondItem="oEP-oV-czt" secondAttribute="trailing" constant="8" id="o4H-ZL-TSn"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -160,6 +187,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="_collectionView" destination="ngI-u3-qiT" id="GVo-sX-QBa"/>
+                        <outlet property="_feedbackButton" destination="oEP-oV-czt" id="w8U-p9-Dv6"/>
                         <outlet property="_loadingIndicator" destination="Vpz-Wj-NDp" id="hwn-cM-MTR"/>
                         <outlet property="_loadingLabel" destination="ICy-BD-qDd" id="KXF-T1-hwj"/>
                         <outlet property="_loadingView" destination="bOx-5a-oZ1" id="Ycy-9G-P49"/>

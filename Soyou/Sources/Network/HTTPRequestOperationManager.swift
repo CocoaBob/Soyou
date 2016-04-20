@@ -42,7 +42,9 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             if let onFailure = onFailure { onFailure(error) }
             return
         }
-        modeUI ? MBProgressHUD.showLoader(nil) : ()
+        if modeUI {
+            MBProgressHUD.showLoader(nil)
+        }
         
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
@@ -106,7 +108,9 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             if let onFailure = onFailure { onFailure(error) }
             return
         }
-        modeUI ? MBProgressHUD.showLoader(nil) : ()
+        if modeUI {
+            MBProgressHUD.showLoader(nil)
+        }
         
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in

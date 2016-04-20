@@ -29,6 +29,9 @@
 "brands_vc_search_bar_placeholder"="Brands, Products, Refs...";
 "brands_vc_no_data_label_reload"="Reload";
 "brands_vc_no_data_label_loading"="Loading...";
+"brands_vc_beedback"="Send feedback";
+"brands_vc_beedback_waiting_title"="Analyzing...";
+"brands_vc_beedback_waiting_detail"="It will spend about 1 minute, you can quit the app to stop the progress.";
 
 /* Brand View Controller */
 "brand_vc_root_cell_all"="All";

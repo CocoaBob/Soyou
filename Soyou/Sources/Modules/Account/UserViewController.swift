@@ -173,7 +173,9 @@ extension UserViewController {
             Utils.openAppStorePage()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_feedback"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-            Utils.shared.sendFeedbackEmail(self)
+            MBProgressHUD.showLoader(self.view)
+            Utils.shared.sendFeedbackEmail(self, attachments: ["SystemDiagnostic.txt": Utils.systemDiagnosticData()])
+            MBProgressHUD.hideLoader(self.view)
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_share"), style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
             Utils.shareApp()

@@ -31,6 +31,9 @@
 "brands_vc_search_bar_placeholder"="品牌、商品、编号…";
 "brands_vc_no_data_label_reload"="刷新";
 "brands_vc_no_data_label_loading"="努力加载中...";
+"brands_vc_beedback"="反馈问题";
+"brands_vc_beedback_waiting_title"="正在分析网络...";
+"brands_vc_beedback_waiting_detail"="耗时约一分钟，您可以退出应用以结束网络分析。";
 
 /* Brand View Controller */
 "brand_vc_root_cell_all"="全部";

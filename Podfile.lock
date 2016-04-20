@@ -109,6 +109,7 @@ PODS:
   - PageMenu (1.2.9)
   - PFCarouselView (0.7.0)
   - pop (1.0.9)
+  - QNNetDiag (0.0.1)
   - SCLAlertView-Objective-C (1.0.2)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
@@ -156,6 +157,7 @@ DEPENDENCIES:
   - NYSegmentedControl
   - PageMenu (from `https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec`)
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `880826c7f361c3065ca23a4696a4d19d7e1da6d3`)
+  - QNNetDiag
   - SCLAlertView-Objective-C
   - SDWebImage
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
@@ -244,6 +246,7 @@ SPEC CHECKSUMS:
   PageMenu: 82988ae760a0bc7dfeec172f4b19bac75d48c461
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  QNNetDiag: c65f0cb7d211384f45c8f69a846366f336a3686c
   SCLAlertView-Objective-C: 25f7ea3a3526dde177d8b8056a0b88fe4187651e
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481

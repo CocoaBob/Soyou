@@ -39,6 +39,7 @@
 #import <NYSegmentedControl/NYSegmentedControl.h>
 #import <PageMenu/CAPSPageMenu.h>
 #import <PFCarouselView/PFCarouselView.h>
+#import <QNNetDiag/QNNetDiag.h>
 #import <SafariServices/SafariServices.h>
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <SCLAlertView-Objective-C/SCLAlertViewResponder.h>

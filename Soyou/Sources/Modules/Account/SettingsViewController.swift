@@ -249,7 +249,9 @@ extension SettingsViewController {
     }
     
     func sendFeedback() {
-        Utils.shared.sendFeedbackEmail(self)
+        MBProgressHUD.showLoader(self.view)
+        Utils.shared.sendFeedbackEmail(self, attachments: ["SystemDiagnostic.txt": Utils.systemDiagnosticData()])
+        MBProgressHUD.hideLoader(self.view)
     }
     
     func review() {

@@ -63,59 +63,116 @@ extension Utils {
 // MARK: Send feedback email and MFMailComposeViewControllerDelegate
 extension Utils: MFMailComposeViewControllerDelegate {
     
-    func sendFeedbackEmail(fromViewController: UIViewController) {
+    class func systemDiagnosticData() -> NSData? {
+        // Prepare info
+        var appVersion  = ""
+        if let shortVersionString = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String {
+            appVersion  += shortVersionString
+        }
+        if let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
+            appVersion  += "(\(version))"
+        }
+        let appLanguage = NSLocale.preferredLanguages().first ?? "Unknown"
+        let device = UIDevice.currentDevice()
+        let deviceName = device.name ?? "Unknown"
+        let deviceModel = device.model ?? "Unknown"
+        let deviceSystemName = device.systemName ?? "Unknown"
+        let deviceSystemVersion = device.systemVersion ?? "Unknown"
+        let deviceUUID = device.identifierForVendor?.UUIDString ?? "Unknown"
+        let screenSize = NSStringFromCGSize(UIScreen.mainScreen().bounds.size)
+        let screenScale = "\(UIScreen.mainScreen().scale)"
+        
+        // Get device machine name http://stackoverflow.com/a/25380129/886215
+        var sysInfo: [CChar] = Array(count: sizeof(utsname), repeatedValue: 0)
+        let machine = sysInfo.withUnsafeMutableBufferPointer { (inout ptr: UnsafeMutableBufferPointer<CChar>) -> String in
+            uname(UnsafeMutablePointer<utsname>(ptr.baseAddress))
+            let machinePtr = ptr.baseAddress.advancedBy(Int(_SYS_NAMELEN * 4))
+            var buf: [CChar] = Array<CChar>(count: Int(_SYS_NAMELEN) + 1, repeatedValue: 0)
+            return buf.withUnsafeMutableBufferPointer({ (inout bufPtr: UnsafeMutableBufferPointer<CChar>) -> String in
+                strncpy(bufPtr.baseAddress, machinePtr, Int(_SYS_NAMELEN))
+                return String.fromCString(bufPtr.baseAddress)!
+            })
+        }
+        
+        // Prepare data
+        let diagnosticString =
+            "AppVersion : \(appVersion)\n" +
+            "AppLanguage : \(appLanguage)\n" +
+            "DeviceName : \(deviceName)\n" +
+            "DeviceModel : \(deviceModel)\n" +
+            "DeviceType : \(machine)\n" +
+            "DeviceSystemName : \(deviceSystemName)\n" +
+            "DeviceSystemVersion : \(deviceSystemVersion)\n" +
+            "DeviceUUID : \(deviceUUID)\n" +
+            "ScreenSize : \(screenSize)\n" +
+            "ScreenScale : \(screenScale)\n"
+        
+        return diagnosticString.dataUsingEncoding(NSUTF8StringEncoding)
+    }
+    
+    func networkDiagnosticData(completionHandler: ((NSData?)->())?) {
+        guard let keyWindow = UIApplication.sharedApplication().keyWindow else {
+            if let completionHandler = completionHandler { completionHandler(nil) }
+            return
+        }
+        
+        // Add text view
+        let textView = UITextView(frame: CGRect(x: 0, y: 0, width: 64, height: 64))
+        textView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        textView.textColor = UIColor.greenColor()
+        textView.font = UIFont(name: "Menlo", size: 9)
+        textView.contentInset = UIEdgeInsetsMake(72, 0, 56, 0)
+        textView.editable = false
+        textView.selectable = false
+        keyWindow.addSubview(textView)
+        
+        // Constraint
+        var viewBindingsDict = [String: AnyObject]()
+        viewBindingsDict["textView"] = textView
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        keyWindow.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
+        keyWindow.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
+        textView.setNeedsLayout()
+        textView.layoutIfNeeded()
+        
+        // Show indicator
+        if let progressHUD = MBProgressHUD.showLoader(keyWindow) {
+            progressHUD.labelText = NSLocalizedString("brands_vc_beedback_waiting_title")
+            progressHUD.detailsLabelText = NSLocalizedString("brands_vc_beedback_waiting_detail")
+        }
+        
+        // Start traceroute
+        let outputLogger = QNNOutputLogger() { logs in
+            dispatch_async(dispatch_get_main_queue(), {
+                textView.text = logs
+                textView.scrollRectToVisible(CGRect(x:0, y:textView.contentSize.height, width:1, height:1), animated: false)
+            })
+        }
+        QNNTraceRoute.start("api.soyou.io", output:outputLogger) { records in
+            // Remove logs
+            textView.removeFromSuperview()
+            // Remove indicator
+            MBProgressHUD.hideLoader(keyWindow)
+            if let completionHandler = completionHandler {
+                let result = outputLogger.logs.dataUsingEncoding(NSUTF8StringEncoding)
+                completionHandler(result)
+            }
+        }
+    }
+    
+    func sendFeedbackEmail(fromViewController: UIViewController, attachments: [String: NSData?]?) {
         if MFMailComposeViewController.canSendMail() {
-            // Prepare info
-            var appVersion  = ""
-            if let shortVersionString = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String {
-                appVersion  += shortVersionString
-            }
-            if let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
-                appVersion  += "(\(version))"
-            }
-            let appLanguage = NSLocale.preferredLanguages().first ?? "Unknown"
-            let device = UIDevice.currentDevice()
-            let deviceName = device.name ?? "Unknown"
-            let deviceModel = device.model ?? "Unknown"
-            let deviceSystemName = device.systemName ?? "Unknown"
-            let deviceSystemVersion = device.systemVersion ?? "Unknown"
-            let deviceUUID = device.identifierForVendor?.UUIDString ?? "Unknown"
-            let screenSize = NSStringFromCGSize(UIScreen.mainScreen().bounds.size)
-            let screenScale = "\(UIScreen.mainScreen().scale)"
-            
-            // Get device machine name http://stackoverflow.com/a/25380129/886215
-            var sysInfo: [CChar] = Array(count: sizeof(utsname), repeatedValue: 0)
-            let machine = sysInfo.withUnsafeMutableBufferPointer { (inout ptr: UnsafeMutableBufferPointer<CChar>) -> String in
-                uname(UnsafeMutablePointer<utsname>(ptr.baseAddress))
-                let machinePtr = ptr.baseAddress.advancedBy(Int(_SYS_NAMELEN * 4))
-                var buf: [CChar] = Array<CChar>(count: Int(_SYS_NAMELEN) + 1, repeatedValue: 0)
-                return buf.withUnsafeMutableBufferPointer({ (inout bufPtr: UnsafeMutableBufferPointer<CChar>) -> String in
-                    strncpy(bufPtr.baseAddress, machinePtr, Int(_SYS_NAMELEN))
-                    return String.fromCString(bufPtr.baseAddress)!
-                })
-            }
-            
-            // Prepare data
-            let diagnosticString =
-                "AppVersion : \(appVersion)\n" +
-                "AppLanguage : \(appLanguage)\n" +
-                "DeviceName : \(deviceName)\n" +
-                "DeviceModel : \(deviceModel)\n" +
-                "DeviceType : \(machine)\n" +
-                "DeviceSystemName : \(deviceSystemName)\n" +
-                "DeviceSystemVersion : \(deviceSystemVersion)\n" +
-                "DeviceUUID : \(deviceUUID)\n" +
-                "ScreenSize : \(screenSize)\n" +
-                "ScreenScale : \(screenScale)\n"
-            
-            // Send email
             let mailComposeViewController = MFMailComposeViewController()
             mailComposeViewController.mailComposeDelegate = self
             mailComposeViewController.setSubject(NSLocalizedString("user_vc_feedback_mail_title"))
             mailComposeViewController.setMessageBody(NSLocalizedString("user_vc_feedback_mail_message_body"), isHTML: true)
             mailComposeViewController.setToRecipients(["contact@soyou.io"])
-            if let diagnosticData = diagnosticString.dataUsingEncoding(NSUTF8StringEncoding) {
-                mailComposeViewController.addAttachmentData(diagnosticData, mimeType: "TEXT/XML", fileName: "DiagnosticData.txt")
+            if let attachments = attachments {
+                for (fileName, fileData) in attachments {
+                    if let fileData = fileData {
+                        mailComposeViewController.addAttachmentData(fileData, mimeType: "TEXT/XML", fileName: fileName)
+                    }
+                }
             }
             fromViewController.presentViewController(mailComposeViewController, animated: true, completion: nil)
         }
@@ -148,5 +205,23 @@ extension Utils {
     class func decrypt(data: NSData) -> AnyObject? {
         let objectData = removeRandomPrefix(data)
         return NSKeyedUnarchiver.unarchiveObjectWithData(objectData)
+    }
+}
+
+// MARK: QNNOutput for traceroute
+class QNNOutputLogger: NSObject, QNNOutputDelegate {
+    
+    var updateHandler: ((String)->())?
+    var logs: String = ""
+    
+    init(_ updateHandler: ((String)->())?) {
+        self.updateHandler = updateHandler
+    }
+    
+    func write(line: String) {
+        self.logs += line
+        if let updateHandler = updateHandler {
+            updateHandler(self.logs)
+        }
     }
 }

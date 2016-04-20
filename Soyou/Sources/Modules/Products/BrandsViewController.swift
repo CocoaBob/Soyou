@@ -12,6 +12,7 @@ class BrandsViewController: FetchedResultsViewController {
     @IBOutlet var _collectionView: UICollectionView!
     
     private var checkLoadingTimer: NSTimer?
+    @IBOutlet private var _feedbackButton: UIButton!
     @IBOutlet private var _reloadButton: UIButton!
     @IBOutlet private var _loadingLabel: UILabel!
     @IBOutlet private var _loadingIndicator: UIActivityIndicatorView!
@@ -88,6 +89,9 @@ class BrandsViewController: FetchedResultsViewController {
         let animationOpts: UIViewAnimationOptions = .CurveEaseOut
         let keyFrameOpts: UIViewKeyframeAnimationOptions = UIViewKeyframeAnimationOptions(rawValue: animationOpts.rawValue)
         self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.CalculationModeCubic, keyFrameOpts]
+        
+        // Report problem button
+        self._feedbackButton.setTitle(NSLocalizedString("brands_vc_beedback"), forState: .Normal)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -341,6 +345,27 @@ extension BrandsViewController {
         }
         self.checkIsLoading()
         self.beginCheckIsLoadingTimer()
+    }
+}
+
+// MARK: Send feedback
+extension BrandsViewController {
+    
+    @IBAction func feedback() {
+        let completion = { (testResponseString: String) in
+            let testResponseData = testResponseString.dataUsingEncoding(NSUTF8StringEncoding)
+            Utils.shared.networkDiagnosticData() { result in
+                Utils.shared.sendFeedbackEmail(self, attachments: [
+                    "SystemDiagnostic.txt": Utils.systemDiagnosticData(),
+                    "NetworkDiagnostic.txt": result,
+                    "TestResponse.txt": testResponseData])
+            }
+        }
+        RequestManager.shared.requestAllBrands({ (responseObject) in
+            completion("\(responseObject)")
+        }) { (error) in
+            completion("\(error)")
+        }
     }
 }
 

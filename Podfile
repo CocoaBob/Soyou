@@ -22,6 +22,7 @@ pod "MXParallaxHeader"
 pod "NYSegmentedControl"
 pod "PageMenu", :podspec => 'https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec', :commit => 'fae309af601a27aa0a7e34e9e6d61f9583c86444'
 pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '880826c7f361c3065ca23a4696a4d19d7e1da6d3'
+pod "QNNetDiag"
 pod "SCLAlertView-Objective-C"
 pod "SDWebImage"
 pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :commit => 'bad0864b06019d764519dab9a53409de889c87fc'
