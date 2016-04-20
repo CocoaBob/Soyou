@@ -33,6 +33,9 @@ public struct Cons {
         static let deviceToken                              = "deviceToken"
         static let roleCode                                 = "roleCode"
         static let DidRegisterForRemoteNotifications        = "DidRegisterForRemoteNotifications"
+        static let genderSecret                             = 0
+        static let genderMale                               = 1
+        static let genderFemale                             = 2
     }
     
     struct App {

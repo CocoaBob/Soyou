@@ -73,8 +73,8 @@ class DataManager {
     func requestCurrencyChanges(currencies: [NSDictionary], _ completion: CompletionClosure?) {
         RequestManager.shared.requestCurrencyChanges(currencies, { responseObject in
             self.completeWithData(responseObject, completion: completion)
-            }, { error in
-                self.completeWithError(error, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
         })
     }
     
@@ -86,8 +86,8 @@ class DataManager {
     func checkToken() {
         RequestManager.shared.checkToken({ responseObject in
             self.completeWithData(responseObject, completion: nil)
-            }, { error in
-                self.completeWithError(error, completion: nil)
+        }, { error in
+            self.completeWithError(error, completion: nil)
         })
     }
     
@@ -104,19 +104,42 @@ class DataManager {
                 }
             }
             self.completeWithData(responseObject, completion: completion)
-            }, { error in
-                self.completeWithError(error, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
         })
     }
     
     func register(email: String, _ password: String, _ gender: String, _ completion: CompletionClosure?) {
-        RequestManager.shared.register(email, password, gender, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.register(email, password, gender, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func loginThird(type: String, _ accessToken: String, _ thirdId: String, _ username: String?, _ gender: String?, _ completion: CompletionClosure?) {
+        RequestManager.shared.loginThird(type, accessToken, thirdId, username ?? "", gender ?? "", { responseObject in
+            DLog(responseObject)
+            if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                for (key, value) in data {
+                    if let key = key as? String {
+                        UserManager.shared[key] = value
+                    }
+                }
+                if let token = data["token"]! as? String {
+                    UserManager.shared.logIn(token)
+                }
+            }
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
     func requestVerifyCode(email: String, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestVerifyCode(email, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.requestVerifyCode(email, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -134,8 +157,8 @@ class DataManager {
                 }
             }
             self.completeWithData(responseObject, completion: completion)
-            }, { error in
-                self.completeWithError(error, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
         })
     }
     
@@ -145,13 +168,17 @@ class DataManager {
     //////////////////////////////////////
     
     func modifyEmail(email: String, _ completion: CompletionClosure?) {
-        RequestManager.shared.modifyEmail(email, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.modifyEmail(email, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
     func modifyUserInfo(field:String, _ value:String, _ completion: CompletionClosure?) {
-        RequestManager.shared.modifyUserInfo(field, value, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.modifyUserInfo(field, value, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -188,7 +215,9 @@ class DataManager {
     }
     
     func requestProductInfo(id: String, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestProductInfo(id, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.requestProductInfo(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -198,7 +227,9 @@ class DataManager {
     //////////////////////////////////////
     
     func favoriteNews(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
-        RequestManager.shared.favoriteNews(id, operation: wasFavorite ? "-" : "+", { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.favoriteNews(id, operation: wasFavorite ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -239,7 +270,9 @@ class DataManager {
     }
     
     func favoriteProduct(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
-        RequestManager.shared.favoriteProduct(id, operation: wasFavorite ? "-" : "+", { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.favoriteProduct(id, operation: wasFavorite ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -249,7 +282,9 @@ class DataManager {
     //////////////////////////////////////
     
     func likeNews(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
-        RequestManager.shared.likeNews(id, operation: wasLiked ? "-" : "+", { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.likeNews(id, operation: wasLiked ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -276,25 +311,31 @@ class DataManager {
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
             }
-            }, { error in
-                self.completeWithError(error, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
         })
     }
     
     func requestNewsByID(id: NSNumber, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestNewsByID(id, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.requestNewsByID(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
     func requestNews(ids: [NSNumber], _ completion: CompletionClosure?) {
-        RequestManager.shared.requestNews(ids, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.requestNews(ids, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
     func requestNewsInfo(id: NSNumber, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestNewsInfo(id, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.requestNewsInfo(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -311,9 +352,9 @@ class DataManager {
                 // Register to server
                 RequestManager.shared.registerForNotification(UserManager.shared.uuid, deviceToken, { responseObject in
                     UserDefaults.setBool(true, forKey: Cons.App.hasRegisteredForNotification)
-                    }, { error in
-                        UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
-                        self.completeWithError(error, completion: nil)
+                }, { error in
+                    UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
+                    self.completeWithError(error, completion: nil)
                 })
             }
         }
@@ -324,13 +365,17 @@ class DataManager {
     //////////////////////////////////////
     
     func translateProduct(id: NSNumber, _ completion: CompletionClosure?) {
-        RequestManager.shared.translateProduct(id, { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.translateProduct(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
     func likeProduct(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
-        RequestManager.shared.likeProduct(id, operation: wasLiked ? "-" : "+", { responseObject in self.completeWithData(responseObject, completion: completion) }, { error in
+        RequestManager.shared.likeProduct(id, operation: wasLiked ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
@@ -556,16 +601,16 @@ class DataManager {
     
     func requestAllRegions(completion: CompletionClosure?) {
         RequestManager.shared.requestAllRegions({ responseObject in
-                if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                    Region.importDatas(data, { (_, _) -> () in
-                        // Update all currencies based on all regions
-                        CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, completion)
-                    })
-                } else {
-                    self.completeWithError(FmtError(0, nil), completion: completion)
-                }
-            }, { error in
-                self.completeWithError(error, completion: completion)
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                Region.importDatas(data, { (_, _) -> () in
+                    // Update all currencies based on all regions
+                    CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, completion)
+                })
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
+        }, { error in
+            self.completeWithError(error, completion: completion)
         })
     }
     
@@ -590,8 +635,8 @@ class DataManager {
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
             }
-            }, { error in
-                self.completeWithError(error, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
         })
     }
     
@@ -697,8 +742,8 @@ class DataManager {
     func analyticsAppBecomeActive() {
         RequestManager.shared.sendAnalyticsData(NSNumber(integer: 3), NSNumber(integer: 6), "null", { responseObject in
             DLog(responseObject)
-            }, { error in
-                self.completeWithError(error, completion: nil)
+        }, { error in
+            self.completeWithError(error, completion: nil)
         })
     }
 }

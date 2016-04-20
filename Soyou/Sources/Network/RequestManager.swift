@@ -16,7 +16,11 @@ class RequestManager {
     // MARK: General
     //////////////////////////////////////
     
-    func getAsyncExternal(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func getSyncExternal(path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        requestOperationManager.requestExternal("GET", path, false, true, nil, nil, nil, onSuccess, onFailure)
+    }
+    
+    func getAsyncExternal(path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         requestOperationManager.requestExternal("GET", path, false, false, nil, nil, nil, onSuccess, onFailure)
     }
     
@@ -50,6 +54,14 @@ class RequestManager {
     
     func register(email: String, _ password: String, _ gender: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/auth/register", "Auth", ["email": email, "password": password, "gender": gender], onSuccess, onFailure)
+    }
+    
+    func loginThird(type: String, _ accessToken: String, _ thirdId: String, _ username: String, _ gender: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/third",
+                  "Auth",
+                  ["type": type, "accessToken": accessToken, "thirdId": thirdId, "username": username, "gender": gender, "uuid": UserManager.shared.uuid],
+                  onSuccess,
+                  onFailure)
     }
     
     func requestVerifyCode(email: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -181,7 +193,8 @@ class RequestManager {
         if _currenciies.isEmpty {
             if let onFailure = onFailure { onFailure(nil) }
         } else {
-            getAsyncExternal(url.stringByReplacingOccurrencesOfString("__CURRENCIES__", withString: _currenciies.joinWithSeparator(",")), "", onSuccess, onFailure)
+            let requestURL = url.stringByReplacingOccurrencesOfString("__CURRENCIES__", withString: _currenciies.joinWithSeparator(","))
+            getAsyncExternal(requestURL, onSuccess, onFailure)
         }
     }
     

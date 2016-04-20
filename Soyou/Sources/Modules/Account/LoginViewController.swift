@@ -254,9 +254,46 @@ extension LoginViewController {
     }
     
     @IBAction func loginSinaWeibo(sender: UIButton?) {
+        MBProgressHUD.showLoader(nil)
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Sina, controller: self) { (platform, state, result, error) in
-            self.logResult("SinaWeibo", state: state, result: result)
+            if state == .Success {
+                let accessToken = result.thirdToken
+                let thirdId = result.thirdId
+                let detailRequestURL = "https://api.weibo.com/2/users/show.json?access_token=\(accessToken)&uid=\(thirdId)"
+                RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
+                    guard let responseDict = responseObject as? [String: AnyObject] else {
+                        MBProgressHUD.hideLoader(nil)
+                        return
+                    }
+                    
+                    var username: String?
+                    if let value = responseDict["name"] as? String {
+                        username = value
+                    } else if let value = responseDict["screen_name"] as? String {
+                        username = value
+                    }
+                    var gender: String?
+                    if let genderString = responseDict["gender"] as? String {
+                        gender = "\((genderString == "m") ? Cons.Usr.genderMale : ((genderString == "f") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+                    }
+                    DataManager.shared.loginThird("sinaweibo", accessToken, thirdId, username, gender, { (responseObject, error) in
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            MBProgressHUD.hideLoader(nil)
+                            if let error = error {
+                                DataManager.showRequestFailedAlert(error)
+                            }
+                        })
+                    })
+                    }, { (error) in
+                        MBProgressHUD.hideLoader(nil)
+                })
+            } else if state == .Began {
+                
+            } else {
+                MBProgressHUD.hideLoader(nil)
+            }
         }
+        self.dismissSelf()
     }
     
     @IBAction func loginWechat(sender: UIButton?) {
@@ -405,11 +442,11 @@ extension LoginViewController: NYSegmentedControlDataSource {
     }
     
     func segmentedControl(control: NYSegmentedControl!, titleAtIndex index: Int) -> String! {
-        if index == 0 {
+        if index == Cons.Usr.genderSecret {
             return NSLocalizedString("user_info_gender_secret")
-        } else if index == 1 {
+        } else if index == Cons.Usr.genderMale {
             return NSLocalizedString("user_info_gender_male")
-        } else if index == 2 {
+        } else if index == Cons.Usr.genderFemale {
             return NSLocalizedString("user_info_gender_female")
         }
         return ""

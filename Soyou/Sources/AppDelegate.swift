@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Crashlytics
         Fabric.with([Crashlytics.self])
         Crashlytics.sharedInstance().setUserIdentifier(UIDevice.currentDevice().identifierForVendor?.UUIDString)
+        
+        // AFNetworkActivityIndicatorManager
+        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
 
         // Exclude database from iCloud backup
         FileManager.excludeFromBackup(FileManager.dbDir)

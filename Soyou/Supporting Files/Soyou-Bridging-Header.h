@@ -17,6 +17,7 @@
 #import <1PasswordExtension/OnePasswordExtension.h>
 #import <ActionSheetPicker-3.0/ActionSheetPicker.h>
 #import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <Base64nl/Base64.h>
 #import <CCHMapClusterController/CCHCenterOfMassMapClusterer.h>
 #import <CCHMapClusterController/CCHFadeInOutMapAnimator.h>
