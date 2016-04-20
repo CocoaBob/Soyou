@@ -32,8 +32,8 @@
 "brands_vc_no_data_label_reload"="刷新";
 "brands_vc_no_data_label_loading"="努力加载中...";
 "brands_vc_beedback"="反馈问题";
-"brands_vc_beedback_waiting_title"="正在分析网络...";
-"brands_vc_beedback_waiting_detail"="耗时约一分钟，您可以退出应用以结束网络分析。";
+"brands_vc_beedback_waiting_title"="正在诊断网络...";
+"brands_vc_beedback_waiting_detail"="最多耗时5分钟，您可以关闭应用以结束诊断。";
 
 /* Brand View Controller */
 "brand_vc_root_cell_all"="全部";
@@ -133,6 +133,7 @@
 "settings_vc_cell_credits"="团队";
 "settings_vc_cell_feedback"="联系我们";
 "settings_vc_cell_review"="给个好评";
+"settings_vc_cell_analyze_network"="诊断网络";
 "settings_vc_cell_share"="分享给朋友";
 "settings_vc_cell_language"="语言";
 "settings_vc_cell_language_set_title"="Set successfully";

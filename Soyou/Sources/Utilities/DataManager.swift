@@ -449,6 +449,9 @@ class DataManager {
                 self.requestNextProducts()
             }, { error in
                 self._requestProductsError = error
+                
+                // Request next
+                self.requestNextProducts()
             })
         }
     }

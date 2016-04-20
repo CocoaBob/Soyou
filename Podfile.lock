@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.8)
+  - 1PasswordExtension (1.8.1)
   - ActionSheetPicker-3.0 (2.0.5)
   - AFNetworking (2.6.3):
     - AFNetworking/NSURLConnection (= 2.6.3)
@@ -115,6 +115,7 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - SMCalloutView (2.1.5)
+  - SSZipArchive (1.1)
   - SVWebViewController (1.0)
   - TwitterCore (2.0.2):
     - Fabric
@@ -161,6 +162,7 @@ DEPENDENCIES:
   - SCLAlertView-Objective-C
   - SDWebImage
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
+  - SSZipArchive
   - SVWebViewController
   - UICKeyChainStore
   - UIColor-HexRGB
@@ -210,7 +212,7 @@ CHECKOUT OPTIONS:
     :git: git://github.com/CocoaBob/calloutview
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 627d5aecf210c7636968faf5a4c3546c9531385b
+  1PasswordExtension: 00d6f4caae77c19ba33045b8569fbeb9689f0d1d
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Base64nl: a497bdcd1c01ea793d36b399016195a8713c0e95
@@ -250,6 +252,7 @@ SPEC CHECKSUMS:
   SCLAlertView-Objective-C: 25f7ea3a3526dde177d8b8056a0b88fe4187651e
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
+  SSZipArchive: de3d215ab73f87db627f81f2ce24f1731e3886c3
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65

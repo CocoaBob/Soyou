@@ -352,20 +352,7 @@ extension BrandsViewController {
 extension BrandsViewController {
     
     @IBAction func feedback() {
-        let completion = { (testResponseString: String) in
-            let testResponseData = testResponseString.dataUsingEncoding(NSUTF8StringEncoding)
-            Utils.shared.networkDiagnosticData() { result in
-                Utils.shared.sendFeedbackEmail(self, attachments: [
-                    "SystemDiagnostic.txt": Utils.systemDiagnosticData(),
-                    "NetworkDiagnostic.txt": result,
-                    "TestResponse.txt": testResponseData])
-            }
-        }
-        RequestManager.shared.requestAllBrands({ (responseObject) in
-            completion("\(responseObject)")
-        }) { (error) in
-            completion("\(error)")
-        }
+        Utils.shared.sendDiagnosticReport(self)
     }
 }
 

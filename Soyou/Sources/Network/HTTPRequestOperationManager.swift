@@ -121,7 +121,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
             modeUI ? MBProgressHUD.hideLoader(nil) : ()
-            DLog("<-- [x]")
+            DLog("<-- [x]\n\(error)")
             self.handleFailure(operation, error, onFailure)
         }
         

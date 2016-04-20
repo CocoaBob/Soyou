@@ -60,8 +60,8 @@ extension Utils {
     }
 }
 
-// MARK: Send feedback email and MFMailComposeViewControllerDelegate
-extension Utils: MFMailComposeViewControllerDelegate {
+// MARK: Diagnostics
+extension Utils {
     
     class func systemDiagnosticData() -> NSData? {
         // Prepare info
@@ -97,15 +97,15 @@ extension Utils: MFMailComposeViewControllerDelegate {
         // Prepare data
         let diagnosticString =
             "AppVersion : \(appVersion)\n" +
-            "AppLanguage : \(appLanguage)\n" +
-            "DeviceName : \(deviceName)\n" +
-            "DeviceModel : \(deviceModel)\n" +
-            "DeviceType : \(machine)\n" +
-            "DeviceSystemName : \(deviceSystemName)\n" +
-            "DeviceSystemVersion : \(deviceSystemVersion)\n" +
-            "DeviceUUID : \(deviceUUID)\n" +
-            "ScreenSize : \(screenSize)\n" +
-            "ScreenScale : \(screenScale)\n"
+                "AppLanguage : \(appLanguage)\n" +
+                "DeviceName : \(deviceName)\n" +
+                "DeviceModel : \(deviceModel)\n" +
+                "DeviceType : \(machine)\n" +
+                "DeviceSystemName : \(deviceSystemName)\n" +
+                "DeviceSystemVersion : \(deviceSystemVersion)\n" +
+                "DeviceUUID : \(deviceUUID)\n" +
+                "ScreenSize : \(screenSize)\n" +
+                "ScreenScale : \(screenScale)\n"
         
         return diagnosticString.dataUsingEncoding(NSUTF8StringEncoding)
     }
@@ -160,6 +160,42 @@ extension Utils: MFMailComposeViewControllerDelegate {
         }
     }
     
+    func sendDiagnosticReport(fromViewController: UIViewController) {
+        let completion = { (testResponseString: String) in
+            let testResponseData = testResponseString.dataUsingEncoding(NSUTF8StringEncoding)
+            Utils.shared.networkDiagnosticData() { result in
+                Utils.shared.sendFeedbackEmail(fromViewController, attachments: [
+                    "SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData()),
+                    "NetworkDiagnostic.zip": Utils.compressData("NetworkDiagnostic.txt", result),
+                    "TestResponse.zip": Utils.compressData("TestResponse.txt", testResponseData)])
+            }
+        }
+        RequestManager.shared.requestAllBrands({ (responseObject) in
+            completion("\(responseObject)")
+        }) { (error) in
+            completion("\(error)")
+        }
+    }
+}
+
+// MARK: Compress data
+extension Utils {
+    
+    class func compressData(fileName: String, _ data: NSData?) -> NSData? {
+        guard let data = data else { return nil }
+        let tempDir = NSTemporaryDirectory() as NSString
+        let oldDataPath = tempDir.stringByAppendingPathComponent(fileName)
+        let newDataPath = tempDir.stringByAppendingPathComponent("\(arc4random())")
+        data.writeToFile(oldDataPath, atomically: true)
+        SSZipArchive.createZipFileAtPath(newDataPath, withFilesAtPaths: [oldDataPath])
+        return NSData(contentsOfFile: newDataPath)
+    }
+}
+
+
+// MARK: Send feedback email and MFMailComposeViewControllerDelegate
+extension Utils: MFMailComposeViewControllerDelegate {
+    
     func sendFeedbackEmail(fromViewController: UIViewController, attachments: [String: NSData?]?) {
         if MFMailComposeViewController.canSendMail() {
             let mailComposeViewController = MFMailComposeViewController()
@@ -170,7 +206,7 @@ extension Utils: MFMailComposeViewControllerDelegate {
             if let attachments = attachments {
                 for (fileName, fileData) in attachments {
                     if let fileData = fileData {
-                        mailComposeViewController.addAttachmentData(fileData, mimeType: "TEXT/XML", fileName: fileName)
+                        mailComposeViewController.addAttachmentData(fileData, mimeType: "application/octet-stream", fileName: fileName)
                     }
                 }
             }

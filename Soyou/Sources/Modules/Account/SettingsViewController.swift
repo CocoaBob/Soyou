@@ -151,6 +151,12 @@ extension SettingsViewController {
                     }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.analyzeNetwork()
+                    }),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_review")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.review()
@@ -250,8 +256,12 @@ extension SettingsViewController {
     
     func sendFeedback() {
         MBProgressHUD.showLoader(self.view)
-        Utils.shared.sendFeedbackEmail(self, attachments: ["SystemDiagnostic.txt": Utils.systemDiagnosticData()])
+        Utils.shared.sendFeedbackEmail(self, attachments: ["SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData())])
         MBProgressHUD.hideLoader(self.view)
+    }
+    
+    func analyzeNetwork() {
+        Utils.shared.sendDiagnosticReport(self)
     }
     
     func review() {
