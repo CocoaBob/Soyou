@@ -64,6 +64,9 @@ class IntroViewController: NSObject {
 //        self.introView?.swipeToExit = false
         
         self.introView?.showInView(keyWindow, animateDuration: 0.3)
+        
+        // Update WTStatusBar colors
+        Utils.updateWTStatusBarColors(UIColor.whiteColor(), UIColor(hex: "#5A76B3"), UIColor(hex: Cons.UI.colorTheme), true)
     }
 }
 
@@ -132,7 +135,8 @@ extension IntroViewController {
 extension IntroViewController: EAIntroDelegate {
     
     func introDidFinish(introView: EAIntroView!) {
-        
+        // Update WTStatusBar colors
+        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: Cons.UI.colorBGNavBar), UIColor(hex: Cons.UI.colorTheme), false)
     }
     
     func intro(introView: EAIntroView!, pageAppeared page: EAIntroPage!, withIndex pageIndex: UInt) {

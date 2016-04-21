@@ -112,6 +112,10 @@ class ProductsViewController: FetchedResultsViewController {
         
         // For navigation bar search bar
         self.definesPresentationContext = true
+        // Update WTStatusBar colors
+        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(),
+                                      UIColor(hex: self.isSearchResultsViewController ? "#EEECEB" : Cons.UI.colorBGNavBar),
+                                      UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -552,6 +556,11 @@ extension ProductsViewController: UISearchResultsUpdating {
         if newSearchKeywords == nil {
             self.reloadData(nil)
         }
+        
+        // Update WTStatusBar colors
+        if searchController.active == false {
+            Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: Cons.UI.colorBGNavBar), UIColor(hex: Cons.UI.colorTheme), true)
+        }
     }
 }
 
@@ -611,6 +620,8 @@ extension ProductsViewController: UISearchControllerDelegate {
     func willDismissSearchController(searchController: UISearchController) {
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.hideSearchController()
+        // Update WTStatusBar colors
+        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: Cons.UI.colorBGNavBar), UIColor(hex: Cons.UI.colorTheme), true)
     }
 }
 

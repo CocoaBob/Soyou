@@ -126,6 +126,8 @@ class ProductViewController: UIViewController {
         self.addStatusBarCover()
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
+        // Update WTStatusBar colors
+        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor.whiteColor(), UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewWillDisappear(animated: Bool) {

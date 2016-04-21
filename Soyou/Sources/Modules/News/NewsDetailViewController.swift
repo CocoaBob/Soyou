@@ -127,6 +127,8 @@ class NewsDetailViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
+        // Update WTStatusBar colors
+        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor.whiteColor(), UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewDidAppear(animated: Bool) {

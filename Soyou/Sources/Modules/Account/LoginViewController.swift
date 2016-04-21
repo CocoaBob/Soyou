@@ -127,6 +127,8 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.keyboardControlInstall()
+        // Update WTStatusBar colors
+        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: "#D3DEF3"), UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewWillDisappear(animated: Bool) {
