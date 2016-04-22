@@ -46,9 +46,13 @@ class LoginViewController: UIViewController {
     @IBOutlet var lbl3rdPartyLogins: UILabel?
     
     @IBOutlet var ctlGender: NYSegmentedControl?
-    var selectedGender = "1"
+    var selectedGender = "\(Cons.Usr.genderSecret)"
     
     var hasSentVerificationCode = false
+    
+    var loginQQOpenID: String?
+    var loginQQAccessToken: String?
+    
     
     // Class methods
     class func instantiate(type: LoginType) -> LoginViewController {
@@ -259,8 +263,8 @@ extension LoginViewController {
         MBProgressHUD.showLoader(nil)
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Sina, controller: self) { (platform, state, result, error) in
             if state == .Success {
-                let accessToken = result.thirdToken
                 let thirdId = result.thirdId
+                let accessToken = result.thirdToken
                 let detailRequestURL = "https://api.weibo.com/2/users/show.json?access_token=\(accessToken)&uid=\(thirdId)"
                 RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
                     guard let responseDict = responseObject as? [String: AnyObject] else {
@@ -278,11 +282,14 @@ extension LoginViewController {
                     if let genderString = responseDict["gender"] as? String {
                         gender = "\((genderString == "m") ? Cons.Usr.genderMale : ((genderString == "f") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                     }
+                    
                     DataManager.shared.loginThird("sinaweibo", accessToken, thirdId, username, gender, { (responseObject, error) in
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             MBProgressHUD.hideLoader(nil)
                             if let error = error {
                                 DataManager.showRequestFailedAlert(error)
+                            } else {
+                                self.dismissSelf()
                             }
                         })
                     })
@@ -295,7 +302,6 @@ extension LoginViewController {
                 MBProgressHUD.hideLoader(nil)
             }
         }
-        self.dismissSelf()
     }
     
     @IBAction func loginWechat(sender: UIButton?) {
@@ -305,8 +311,22 @@ extension LoginViewController {
     }
     
     @IBAction func loginQQ(sender: UIButton?) {
+        MBProgressHUD.showLoader(nil)
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.QQ, controller: self) { (platform, state, result, error) in
-            self.logResult("QQ", state: state, result: result)
+            if state == .Success {
+                if let tencentOAuth = result.userInfo as? TencentOAuth {
+                    tencentOAuth.sessionDelegate = self
+                    tencentOAuth.getUserInfo()
+                    self.loginQQOpenID = result.thirdId
+                    self.loginQQAccessToken = result.thirdToken
+                } else {
+                    MBProgressHUD.hideLoader(nil)
+                }
+            } else if state == .Began {
+                
+            } else {
+                MBProgressHUD.hideLoader(nil)
+            }
         }
     }
     
@@ -326,6 +346,49 @@ extension LoginViewController {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
             self.logResult("Google", state: state, result: result)
         }
+    }
+}
+
+// MARK: TencentSessionDelegate
+extension LoginViewController: TencentSessionDelegate {
+    
+    func tencentDidLogin() { }
+    
+    func tencentDidNotLogin(cancelled: Bool) { }
+    
+    func tencentDidNotNetWork() { }
+    
+    func getUserInfoResponse(response: APIResponse) {
+        if response.retCode == 1 { // URLREQUEST_FAILED
+            MBProgressHUD.hideLoader(nil)
+            return
+        }
+        guard let accessToken = self.loginQQAccessToken else {
+            MBProgressHUD.hideLoader(nil)
+            return
+        }
+        guard let thirdId = self.loginQQOpenID else {
+            MBProgressHUD.hideLoader(nil)
+            return
+        }
+        var username: String?
+        if let value = response.jsonResponse["nickname"] as? String {
+            username = value
+        }
+        var gender: String?
+        if let genderString = response.jsonResponse["gender"] as? String {
+            gender = "\((genderString == "男") ? Cons.Usr.genderMale : ((genderString == "女") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+        }
+        DataManager.shared.loginThird("qq", accessToken, thirdId, username, gender, { (responseObject, error) in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                MBProgressHUD.hideLoader(nil)
+                if let error = error {
+                    DataManager.showRequestFailedAlert(error)
+                } else {
+                    self.dismissSelf()
+                }
+            })
+        })
     }
 }
 
@@ -362,7 +425,7 @@ extension LoginViewController {
     
     @IBAction func selectGender(sender: NYSegmentedControl?) {
         if let segmentedControl = sender {
-            self.selectedGender = FmtString("%d",segmentedControl.selectedSegmentIndex + 1)
+            self.selectedGender = "\(segmentedControl.selectedSegmentIndex + 1)"
         }
     }
 }
@@ -444,11 +507,11 @@ extension LoginViewController: NYSegmentedControlDataSource {
     }
     
     func segmentedControl(control: NYSegmentedControl!, titleAtIndex index: Int) -> String! {
-        if index == Cons.Usr.genderSecret {
+        if index == Cons.Usr.genderSecretIndex {
             return NSLocalizedString("user_info_gender_secret")
-        } else if index == Cons.Usr.genderMale {
+        } else if index == Cons.Usr.genderMaleIndex {
             return NSLocalizedString("user_info_gender_male")
-        } else if index == Cons.Usr.genderFemale {
+        } else if index == Cons.Usr.genderFemaleIndex {
             return NSLocalizedString("user_info_gender_female")
         }
         return ""
