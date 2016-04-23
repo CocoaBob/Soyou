@@ -67,6 +67,7 @@
 
 /* User View Controller */
 "user_vc_login"="立即登录，同步您的收藏夹";
+"user_vc_username_unknown"="用户名尚未设置";
 "user_vc_tab_title"="我";
 "user_vc_cell_favs"="收藏夹";
 "user_vc_cell_favs_news"="资讯";
@@ -94,6 +95,9 @@
 "profile_vc_cell_basics_gender"="性别";
 "profile_vc_cell_basics_region"="地区";
 "profile_vc_cell_logout"="退出登录";
+"profile_vc_cell_logout_warning_title"="退出账户";
+"profile_vc_cell_logout_warning"="您确定要退出吗？";
+"profile_vc_cell_logout_warning_sure"="确定";
 "profile_vc_modify_title_prefix"="修改";
 "profile_vc_cell_new_email_placeholder"="您的邮箱地址";
 "profile_vc_cell_confirm_new_email_placeholder"="请再次输入您的邮箱地址";
@@ -183,8 +187,10 @@
 "alert_title_error"="错误";
 "alert_title_info"="信息";
 "alert_title_success"="成功";
+"alert_title_warning"="警告";
 "alert_button_ok"="确认";
 "alert_button_close"="关闭";
+"alert_button_cancel"="取消";
 "currency_unknown"="未知汇率";
 
 /* Product descriptions */
@@ -199,7 +205,7 @@
 
 
 /* User Info */
-"user_info_username_empty"="空白";
+"user_info_username_unknown"="尚未设置";
 "user_info_region_unknown"="未知";
 "user_info_gender_secret"="保密";
 "user_info_gender_male"="男生";

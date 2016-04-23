@@ -54,7 +54,7 @@ extension ProfileViewController {
                     Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_username")),
-                        subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_empty")),
+                        subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_unknown")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.changeUsername()
                         }),
@@ -103,8 +103,17 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     func logout() {
-        UserManager.shared.logOut()
-        self.dismissSelf()
+        let alertView = SCLAlertView()
+        alertView.addButton(NSLocalizedString("alert_button_cancel"), actionBlock: nil)
+        alertView.addButton(NSLocalizedString("profile_vc_cell_logout_warning_sure")) { () -> Void in
+            UserManager.shared.logOut()
+            self.dismissSelf()
+        }
+        alertView.showWarning(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
+                              title: NSLocalizedString("profile_vc_cell_logout_warning_title"),
+                              subTitle: NSLocalizedString("profile_vc_cell_logout_warning"),
+                              closeButtonTitle: nil,
+                              duration: 0.0)
     }
 
 }

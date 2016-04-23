@@ -65,6 +65,7 @@
 
 /* User View Controller */
 "user_vc_login"="Login to sync favorites";
+"user_vc_username_unknown"="Username unknown";
 "user_vc_tab_title"="Me";
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
@@ -92,6 +93,9 @@
 "profile_vc_cell_basics_gender"="Gender";
 "profile_vc_cell_basics_region"="Region";
 "profile_vc_cell_logout"="Logout";
+"profile_vc_cell_logout_warning_title"="Logout";
+"profile_vc_cell_logout_warning"="Are you sure you want to logout your account?";
+"profile_vc_cell_logout_warning_sure"="Sure";
 "profile_vc_modify_title_prefix"="Modify ";
 "profile_vc_cell_new_email_placeholder"="Your Email address";
 "profile_vc_cell_confirm_new_email_placeholder"="Confirm";
@@ -182,8 +186,10 @@
 "alert_title_error"="Error";
 "alert_title_info"="Info";
 "alert_title_success"="Success";
+"alert_title_warning"="Warning";
 "alert_button_ok"="OK";
 "alert_button_close"="Close";
+"alert_button_cancel"="Cancel";
 "currency_unknown"="Unknown Currency";
 
 /* Product descriptions */
@@ -197,7 +203,7 @@
 "product_dimension"="Dimensions";
 
 /* User Info */
-"user_info_username_empty"="Empty";
+"user_info_username_unknown"="Unknown";
 "user_info_region_unknown"="Unknown";
 "user_info_gender_secret"="Secret";
 "user_info_gender_male"="Male";

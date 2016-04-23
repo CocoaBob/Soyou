@@ -151,7 +151,7 @@ extension UserViewController {
     
     func updateUserInfo() {
         self.imgViewAvatar.image = UserManager.shared.avatarImage()
-        self.lblUsername.text = UserManager.shared.username
+        self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
         if let matricule = UserManager.shared.matricule {
             self.lblMatricule.text = matricule
         } else {
