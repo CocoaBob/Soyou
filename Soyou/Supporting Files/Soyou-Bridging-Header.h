@@ -81,6 +81,8 @@
 #import <libWeChatSDK/WXApiObject.h>
 #import <libWeChatSDK/WXApi.h>
 #import <TwitterKit/TwitterKit.h>
+#import <TwitterKit/TWTRAPIClient.h>
+#import <TwitterKit/TWTRUser.h>
 //#import <TencentOpenAPI/QQApiInterface.h>
 //#import <TencentOpenAPI/QQApiInterfaceObject.h>
 //#import <TencentOpenAPI/sdkdef.h>

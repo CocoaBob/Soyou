@@ -149,8 +149,32 @@ extension UserViewController {
 // Routines
 extension UserViewController {
     
+    func addAvatarBorder() {
+        self.imgViewAvatar.layer.borderWidth = 2
+        self.imgViewAvatar.layer.borderColor = UIColor(white: 1, alpha: 0.333).CGColor
+    }
+    
+    func removeAvatarBorder() {
+        self.imgViewAvatar.layer.borderWidth = 0
+    }
+    
     func updateUserInfo() {
-        self.imgViewAvatar.image = UserManager.shared.avatarImage()
+        self.removeAvatarBorder()
+        if let url = NSURL(string: UserManager.shared.avatar ?? "") {
+            self.imgViewAvatar.sd_setImageWithURL(url,
+                placeholderImage: UserManager.shared.defaultAvatarImage(),
+                options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .DelayPlaceholder])
+            self.imgViewAvatar.sd_setImageWithURL(url,
+                                                  placeholderImage: UserManager.shared.defaultAvatarImage(),
+                                                  options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .DelayPlaceholder],
+                                                  completed: { (image, error, type, url) in
+                                                    if error == nil {
+                                                        self.addAvatarBorder()
+                                                    }
+            })
+        } else {
+            self.imgViewAvatar.image = UserManager.shared.defaultAvatarImage()
+        }
         self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
         if let matricule = UserManager.shared.matricule {
             self.lblMatricule.text = matricule

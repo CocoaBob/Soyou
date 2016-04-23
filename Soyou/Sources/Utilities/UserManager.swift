@@ -15,7 +15,7 @@ class UserManager: NSObject {
         get {
             var returnValue: AnyObject?
             MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-                if let user = User.MR_findFirstInContext(localContext) {
+                if let user = self.currentUser?.MR_inContext(localContext) {
                     if (user.entity.attributesByName[key] != nil) {
                         returnValue = user.valueForKey(key)
                     }
@@ -117,6 +117,11 @@ extension UserManager {
     }
     
     func logOut() {
+        self.username = nil
+        self.matricule = nil
+        self.region = nil
+        self.gender = nil
+        self.avatar = nil
         self.token = nil
         self.currentUser = nil
         // Delete Favorites
@@ -132,7 +137,7 @@ extension UserManager {
 // Routines
 extension UserManager {
     
-    func avatarImage() -> UIImage {
+    func defaultAvatarImage() -> UIImage {
         if self.isLoggedIn {
             if let gender = self["gender"] as? NSNumber {
                 return UIImage(named: (gender == 1) ? "img_avatar_neutral" : ((gender == 2) ? "img_avatar_male" : "img_avatar_female"))!
@@ -160,6 +165,9 @@ extension UserManager {
     }
     
     var matricule: String? {
+        set {
+            self["matricule"] = newValue
+        }
         get {
             if self.isLoggedIn {
                 if let value = self["matricule"] as? NSNumber {
@@ -209,6 +217,20 @@ extension UserManager {
                 return (Int(gender) ?? 1) - 1
             }
             return 0
+        }
+    }
+    
+    var avatar: String? {
+        set {
+            self["avatar"] = newValue
+        }
+        get {
+            if let value = self["avatar"] as? String {
+                if value != "" {
+                    return value
+                }
+            }
+            return nil
         }
     }
     

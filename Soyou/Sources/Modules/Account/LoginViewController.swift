@@ -268,11 +268,18 @@ extension LoginViewController {
                         username = value
                     }
                     var gender: String?
-                    if let genderString = responseDict["gender"] as? String {
-                        gender = "\((genderString == "m") ? Cons.Usr.genderMale : ((genderString == "f") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+                    if let value = responseDict["gender"] as? String {
+                        gender = "\((value == "m") ? Cons.Usr.genderMale : ((value == "f") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+                    }
+                    var avatar: String?
+                    if let value = responseDict["avatar_large"] as? String {
+                        avatar = value
                     }
                     
                     DataManager.shared.loginThird("sinaweibo", accessToken, thirdId, username, gender, { (responseObject, error) in
+                        if error == nil {
+                            UserManager.shared.avatar = avatar
+                        }
                         self.stopLoadingInfoFromThirdLogin(error)
                     })
                 }, { (error) in
@@ -308,7 +315,7 @@ extension LoginViewController {
                 self.startLoadingInfoFromThirdLogin()
                 let thirdId = result.thirdId
                 let accessToken = result.thirdToken
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "email,name,gender"]).startWithCompletionHandler({ (connection, result, error) in
+                FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "email,name,gender,picture.type(large)"]).startWithCompletionHandler({ (connection, result, error) in
                     guard let result = result as? [String: AnyObject] else {
                         self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
                         return
@@ -322,8 +329,15 @@ extension LoginViewController {
                     if let genderString = result["gender"] as? String {
                         gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                     }
+                    var avatar: String?
+                    if let value = ((result["picture"] as? [String: AnyObject])?["data"] as? [String: AnyObject])?["url"] as? String {
+                        avatar = value
+                    }
                     
                     DataManager.shared.loginThird("facebook", accessToken, thirdId, username, gender, { (responseObject, error) in
+                        if error == nil {
+                            UserManager.shared.avatar = avatar
+                        }
                         self.stopLoadingInfoFromThirdLogin(error)
                     })
                 })
@@ -340,8 +354,22 @@ extension LoginViewController {
                     let accessToken = result.thirdToken
                     let authTokenSecret = session.authTokenSecret
                     let username = session.userName
-                    DataManager.shared.loginThird("twitter", accessToken+"|"+authTokenSecret, thirdId, username, nil, { (responseObject, error) in
-                        self.stopLoadingInfoFromThirdLogin(error)
+                    TWTRAPIClient.clientWithCurrentUser().loadUserWithID(thirdId, completion: { (user: TWTRUser?, error) in
+                        if error != nil {
+                            self.stopLoadingInfoFromThirdLogin(error)
+                        } else {
+                            var avatar: String?
+                            if let value = user?.profileImageLargeURL {
+                                avatar = value
+                            }
+                            
+                            DataManager.shared.loginThird("twitter", accessToken+"|"+authTokenSecret, thirdId, username, nil, { (responseObject, error) in
+                                if error == nil {
+                                    UserManager.shared.avatar = avatar
+                                }
+                                self.stopLoadingInfoFromThirdLogin(error)
+                            })
+                        }
                     })
                 }
             }
@@ -364,12 +392,15 @@ extension LoginViewController {
                         }
                         DLog(responseObject)
 //                        let email = responseObject["email"]
-//                        let picture = responseObject["picture"]
+                        let picture = responseObject["picture"] as? String
                         var gender: String?
                         if let genderString = responseObject["gender"] as? String {
                             gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                         }
                         DataManager.shared.loginThird("google", accessToken, thirdId, username, gender, { (responseObject, error) in
+                            if error == nil {
+                                UserManager.shared.avatar = picture
+                            }
                             self.stopLoadingInfoFromThirdLogin(error)
                         })
                     }, { (error) in
@@ -408,10 +439,18 @@ extension LoginViewController: TencentSessionDelegate {
             username = value
         }
         var gender: String?
-        if let genderString = response.jsonResponse["gender"] as? String {
-            gender = "\((genderString == "男") ? Cons.Usr.genderMale : ((genderString == "女") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+        if let value = response.jsonResponse["gender"] as? String {
+            gender = "\((value == "男") ? Cons.Usr.genderMale : ((value == "女") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
         }
+        var avatar: String?
+        if let value = response.jsonResponse["figureurl_qq_2"] as? String {
+            avatar = value
+        }
+        
         DataManager.shared.loginThird("qq", accessToken, thirdId, username, gender, { (responseObject, error) in
+            if error == nil {
+                UserManager.shared.avatar = avatar
+            }
             self.stopLoadingInfoFromThirdLogin(error)
         })
     }
