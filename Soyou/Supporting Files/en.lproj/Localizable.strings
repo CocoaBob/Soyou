@@ -173,7 +173,7 @@
 "bad_request"="Bad request.";
 "not_found"="Not found.";
 "invalid_operation"="Invalid operation.";
-"incorrect_third_token"="Login failed! Incorrect token.";
+"incorrect_third_token"="Login failed!";
 
 /* Common */
 "alert_title_failed"="Failed";

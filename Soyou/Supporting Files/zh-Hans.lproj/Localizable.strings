@@ -174,7 +174,7 @@
 "bad_request"="错误请求。";
 "not_found"="未找到。";
 "invalid_operation"="无效操作。";
-"incorrect_third_token"="登陆失败！令牌错误。";
+"incorrect_third_token"="登录失败！";
 
 /* Common */
 "alert_title_failed"="失败";

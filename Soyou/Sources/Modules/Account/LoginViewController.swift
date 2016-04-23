@@ -374,7 +374,7 @@ extension LoginViewController {
                     let accessToken = result.thirdToken
                     let authTokenSecret = session.authTokenSecret
                     let username = session.userName
-                    DataManager.shared.loginThird("twitter", "\(accessToken)|\(authTokenSecret)", thirdId, username, nil, { (responseObject, error) in
+                    DataManager.shared.loginThird("twitter", accessToken+"|"+authTokenSecret, thirdId, username, nil, { (responseObject, error) in
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             MBProgressHUD.hideLoader(nil)
                             if let error = error {
@@ -397,7 +397,45 @@ extension LoginViewController {
     
     @IBAction func loginGoogle(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
-            self.logResult("Google", state: state, result: result)// GIDGoogleUser
+            if state == .Success {
+                if let googleUser = result.userInfo as? GIDGoogleUser {
+                    let thirdId = result.thirdId
+                    let accessToken = result.thirdToken
+                    let username = googleUser.profile.name
+                    let detailRequestURL = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="+accessToken
+                    RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
+                        guard let responseObject = responseObject else {
+                            MBProgressHUD.hideLoader(nil)
+                            return
+                        }
+                        DLog(responseObject)
+//                        let email = responseObject["email"]
+//                        let picture = responseObject["picture"]
+                        var gender: String?
+                        if let genderString = responseObject["gender"] {
+                            gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+                        }
+                        DataManager.shared.loginThird("google", accessToken, thirdId, username, gender, { (responseObject, error) in
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                MBProgressHUD.hideLoader(nil)
+                                if let error = error {
+                                    DataManager.showRequestFailedAlert(error)
+                                } else {
+                                    self.dismissSelf()
+                                }
+                            })
+                        })
+                    }, { (error) in
+                        MBProgressHUD.hideLoader(nil)
+                    })
+                } else {
+                    MBProgressHUD.hideLoader(nil)
+                }
+            } else if state == .Began {
+                
+            } else {
+                MBProgressHUD.hideLoader(nil)
+            }
         }
     }
 }

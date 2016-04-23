@@ -91,5 +91,7 @@
 //#import <FBSDKCoreKit/FBSDKAccessToken.h>
 #import <FBSDKCoreKit/FBSDKGraphRequest.h>
 #import <TwitterCore/TWTRSession.h>
+#import <GoogleSignIn/GIDGoogleUser.h>
+#import <GoogleSignIn/GIDProfileData.h>
 #import <DDSocial/DDSocialAuthHandler.h>
 #import <DDSocial/DDSocialShareHandler.h>
