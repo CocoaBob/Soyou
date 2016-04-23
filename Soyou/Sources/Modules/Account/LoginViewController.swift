@@ -368,7 +368,30 @@ extension LoginViewController {
     
     @IBAction func loginTwitter(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Twitter, controller: self) { (platform, state, result, error) in
-            self.logResult("Twitter", state: state, result: result)// TWTRSession
+            if state == .Success {
+                if let session = result.userInfo as? TWTRSession {
+                    let thirdId = result.thirdId
+                    let accessToken = result.thirdToken
+                    let authTokenSecret = session.authTokenSecret
+                    let username = session.userName
+                    DataManager.shared.loginThird("twitter", "\(accessToken)|\(authTokenSecret)", thirdId, username, nil, { (responseObject, error) in
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            MBProgressHUD.hideLoader(nil)
+                            if let error = error {
+                                DataManager.showRequestFailedAlert(error)
+                            } else {
+                                self.dismissSelf()
+                            }
+                        })
+                    })
+                } else {
+                    MBProgressHUD.hideLoader(nil)
+                }
+            } else if state == .Began {
+                
+            } else {
+                MBProgressHUD.hideLoader(nil)
+            }
         }
     }
     

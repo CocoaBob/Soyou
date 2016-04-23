@@ -90,5 +90,6 @@
 //#import <TencentOpenAPI/TencentOAuthObject.h>
 //#import <FBSDKCoreKit/FBSDKAccessToken.h>
 #import <FBSDKCoreKit/FBSDKGraphRequest.h>
+#import <TwitterCore/TWTRSession.h>
 #import <DDSocial/DDSocialAuthHandler.h>
 #import <DDSocial/DDSocialShareHandler.h>
