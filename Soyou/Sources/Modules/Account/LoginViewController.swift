@@ -50,8 +50,8 @@ class LoginViewController: UIViewController {
     
     var hasSentVerificationCode = false
     
-    var loginQQOpenID: String?
-    var loginQQAccessToken: String?
+    var lastLoginThirdId: String?
+    var lastLoginThirdToken: String?
     
     
     // Class methods
@@ -317,8 +317,8 @@ extension LoginViewController {
                 if let tencentOAuth = result.userInfo as? TencentOAuth {
                     tencentOAuth.sessionDelegate = self
                     tencentOAuth.getUserInfo()
-                    self.loginQQOpenID = result.thirdId
-                    self.loginQQAccessToken = result.thirdToken
+                    self.lastLoginThirdId = result.thirdId
+                    self.lastLoginThirdToken = result.thirdToken
                 } else {
                     MBProgressHUD.hideLoader(nil)
                 }
@@ -331,20 +331,50 @@ extension LoginViewController {
     }
     
     @IBAction func loginFacebook(sender: UIButton?) {
+        MBProgressHUD.showLoader(nil)
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Facebook, controller: self) { (platform, state, result, error) in
-            self.logResult("Facebook", state: state, result: result)
+            if state == .Success {
+                let thirdId = result.thirdId
+                let accessToken = result.thirdToken
+                FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "email,name,gender"]).startWithCompletionHandler({ (connection, result, error) in
+//                    let email = result["email"]
+                    var username: String?
+                    if let value = result["name"] {
+                        username = value
+                    }
+                    var gender: String?
+                    if let genderString = result["gender"] {
+                        gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+                    }
+                    
+                    DataManager.shared.loginThird("facebook", accessToken, thirdId, username, gender, { (responseObject, error) in
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            MBProgressHUD.hideLoader(nil)
+                            if let error = error {
+                                DataManager.showRequestFailedAlert(error)
+                            } else {
+                                self.dismissSelf()
+                            }
+                        })
+                    })
+                })
+            } else if state == .Began {
+                
+            } else {
+                MBProgressHUD.hideLoader(nil)
+            }
         }
     }
     
     @IBAction func loginTwitter(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Twitter, controller: self) { (platform, state, result, error) in
-            self.logResult("Twitter", state: state, result: result)
+            self.logResult("Twitter", state: state, result: result)// TWTRSession
         }
     }
     
     @IBAction func loginGoogle(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
-            self.logResult("Google", state: state, result: result)
+            self.logResult("Google", state: state, result: result)// GIDGoogleUser
         }
     }
 }
@@ -363,11 +393,11 @@ extension LoginViewController: TencentSessionDelegate {
             MBProgressHUD.hideLoader(nil)
             return
         }
-        guard let accessToken = self.loginQQAccessToken else {
+        guard let accessToken = self.lastLoginThirdToken else {
             MBProgressHUD.hideLoader(nil)
             return
         }
-        guard let thirdId = self.loginQQOpenID else {
+        guard let thirdId = self.lastLoginThirdId else {
             MBProgressHUD.hideLoader(nil)
             return
         }
