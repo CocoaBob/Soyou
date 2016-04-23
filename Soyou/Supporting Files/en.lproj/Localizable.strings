@@ -123,6 +123,8 @@
 
 "login_vc_reset_password_alert_message"="Password has been reset, now you are logged in.";
 
+"login_vc_login_failed"="Login failed.";
+
 /* Settings View Controller */
 "settings_vc_title"="Settings";
 "settings_vc_cell_clear_cache"="Clear caches";
@@ -167,7 +169,7 @@
 "email_already_exist"="Email already exists.";
 "incorrect_email_or_password"="Incorrect email or password.";
 "invalid_login"="Invalid login.";
-"logout_failed"="Login failed.";
+"logout_failed"="Operation failed.";
 "forbidden"="Forbidden.";
 "unauthorized"="Unauthorized.";
 "bad_request"="Bad request.";

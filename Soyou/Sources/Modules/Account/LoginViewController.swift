@@ -233,42 +233,31 @@ extension LoginViewController {
         }
     }
     
-    func logResult(platform: String, state: DDSSAuthState, result: DDAuthItem?) {
-        DLog("-=-=-=-=-=-=-=-=-=-")
-        DLog(platform)
-        DLog("state = \(state == .Began ? "Began" : (state == .Success ? "Success" : (state == .Cancel ? "Cancel" : "Fail")))")
-        if state == .Success {
-            if let result = result {
-                SCLAlertView().showSuccess(self,
-                                           title: "Login successfully",
-                                           subTitle: "isCodeAuth = \(result.isCodeAuth)\nthirdId = \(result.thirdId)\nthirdToken = \(result.thirdToken)\nuserInfo = \(result.userInfo)",
-                                           closeButtonTitle: "OK",
-                                           duration: 0.0)
-                DLog("isCodeAuth = \(result.isCodeAuth)")
-                DLog("thirdId = \(result.thirdId)")
-                DLog("thirdToken = \(result.thirdToken)")
-                DLog("userInfo = \(result.userInfo)")
-            } else {
-                SCLAlertView().showError(self,
-                                         title: "Login failed",
-                                         subTitle: nil,
-                                         closeButtonTitle: "OK",
-                                         duration: 0.0)
-            }
+    func startLoadingInfoFromThirdLogin() {
+        MBProgressHUD.showLoader(nil)
+    }
+    
+    func stopLoadingInfoFromThirdLogin(error: NSError?) {
+        MBProgressHUD.hideLoader(nil)
+        if let error = error {
+            DataManager.showRequestFailedAlert(error)
+        } else {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.dismissSelf()
+            })
         }
-        DLog("-=-=-=-=-=-=-=-=-=-")
     }
     
     @IBAction func loginSinaWeibo(sender: UIButton?) {
-        MBProgressHUD.showLoader(nil)
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Sina, controller: self) { (platform, state, result, error) in
             if state == .Success {
+                self.startLoadingInfoFromThirdLogin()
                 let thirdId = result.thirdId
                 let accessToken = result.thirdToken
                 let detailRequestURL = "https://api.weibo.com/2/users/show.json?access_token=\(accessToken)&uid=\(thirdId)"
                 RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
                     guard let responseDict = responseObject as? [String: AnyObject] else {
-                        MBProgressHUD.hideLoader(nil)
+                        self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
                         return
                     }
                     
@@ -284,61 +273,44 @@ extension LoginViewController {
                     }
                     
                     DataManager.shared.loginThird("sinaweibo", accessToken, thirdId, username, gender, { (responseObject, error) in
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            MBProgressHUD.hideLoader(nil)
-                            if let error = error {
-                                DataManager.showRequestFailedAlert(error)
-                            } else {
-                                self.dismissSelf()
-                            }
-                        })
+                        self.stopLoadingInfoFromThirdLogin(error)
                     })
-                    }, { (error) in
-                        MBProgressHUD.hideLoader(nil)
+                }, { (error) in
+                    self.stopLoadingInfoFromThirdLogin(error)
                 })
-            } else if state == .Began {
-                
-            } else {
-                MBProgressHUD.hideLoader(nil)
             }
         }
     }
     
     @IBAction func loginWechat(sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.WeChat, controller: self) { (platform, state, result, error) in
-            self.logResult("WeChat", state: state, result: result)
+            
         }
     }
     
     @IBAction func loginQQ(sender: UIButton?) {
-        MBProgressHUD.showLoader(nil)
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.QQ, controller: self) { (platform, state, result, error) in
             if state == .Success {
                 if let tencentOAuth = result.userInfo as? TencentOAuth {
+                    self.startLoadingInfoFromThirdLogin()
                     tencentOAuth.sessionDelegate = self
                     tencentOAuth.getUserInfo()
                     self.lastLoginThirdId = result.thirdId
                     self.lastLoginThirdToken = result.thirdToken
-                } else {
-                    MBProgressHUD.hideLoader(nil)
                 }
-            } else if state == .Began {
-                
-            } else {
-                MBProgressHUD.hideLoader(nil)
             }
         }
     }
     
     @IBAction func loginFacebook(sender: UIButton?) {
-        MBProgressHUD.showLoader(nil)
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Facebook, controller: self) { (platform, state, result, error) in
             if state == .Success {
+                self.startLoadingInfoFromThirdLogin()
                 let thirdId = result.thirdId
                 let accessToken = result.thirdToken
                 FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "email,name,gender"]).startWithCompletionHandler({ (connection, result, error) in
                     guard let result = result as? [String: AnyObject] else {
-                        MBProgressHUD.hideLoader(nil)
+                        self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
                         return
                     }
 //                    let email = result["email"]
@@ -352,20 +324,9 @@ extension LoginViewController {
                     }
                     
                     DataManager.shared.loginThird("facebook", accessToken, thirdId, username, gender, { (responseObject, error) in
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            MBProgressHUD.hideLoader(nil)
-                            if let error = error {
-                                DataManager.showRequestFailedAlert(error)
-                            } else {
-                                self.dismissSelf()
-                            }
-                        })
+                        self.stopLoadingInfoFromThirdLogin(error)
                     })
                 })
-            } else if state == .Began {
-                
-            } else {
-                MBProgressHUD.hideLoader(nil)
             }
         }
     }
@@ -374,27 +335,15 @@ extension LoginViewController {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Twitter, controller: self) { (platform, state, result, error) in
             if state == .Success {
                 if let session = result.userInfo as? TWTRSession {
+                    self.startLoadingInfoFromThirdLogin()
                     let thirdId = result.thirdId
                     let accessToken = result.thirdToken
                     let authTokenSecret = session.authTokenSecret
                     let username = session.userName
                     DataManager.shared.loginThird("twitter", accessToken+"|"+authTokenSecret, thirdId, username, nil, { (responseObject, error) in
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            MBProgressHUD.hideLoader(nil)
-                            if let error = error {
-                                DataManager.showRequestFailedAlert(error)
-                            } else {
-                                self.dismissSelf()
-                            }
-                        })
+                        self.stopLoadingInfoFromThirdLogin(error)
                     })
-                } else {
-                    MBProgressHUD.hideLoader(nil)
                 }
-            } else if state == .Began {
-                
-            } else {
-                MBProgressHUD.hideLoader(nil)
             }
         }
     }
@@ -403,13 +352,14 @@ extension LoginViewController {
         DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
             if state == .Success {
                 if let googleUser = result.userInfo as? GIDGoogleUser {
+                    self.startLoadingInfoFromThirdLogin()
                     let thirdId = result.thirdId
                     let accessToken = result.thirdToken
                     let username = googleUser.profile.name
                     let detailRequestURL = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="+accessToken
                     RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
                         guard let responseObject = responseObject as? [String: AnyObject] else {
-                            MBProgressHUD.hideLoader(nil)
+                            self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
                             return
                         }
                         DLog(responseObject)
@@ -420,25 +370,12 @@ extension LoginViewController {
                             gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                         }
                         DataManager.shared.loginThird("google", accessToken, thirdId, username, gender, { (responseObject, error) in
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                MBProgressHUD.hideLoader(nil)
-                                if let error = error {
-                                    DataManager.showRequestFailedAlert(error)
-                                } else {
-                                    self.dismissSelf()
-                                }
-                            })
+                            self.stopLoadingInfoFromThirdLogin(error)
                         })
                     }, { (error) in
-                        MBProgressHUD.hideLoader(nil)
+                        self.stopLoadingInfoFromThirdLogin(error)
                     })
-                } else {
-                    MBProgressHUD.hideLoader(nil)
                 }
-            } else if state == .Began {
-                
-            } else {
-                MBProgressHUD.hideLoader(nil)
             }
         }
     }
@@ -447,29 +384,23 @@ extension LoginViewController {
 // MARK: TencentSessionDelegate
 extension LoginViewController: TencentSessionDelegate {
     
-    func tencentDidLogin() {
-        MBProgressHUD.hideLoader(nil)
-    }
+    func tencentDidLogin() {}
     
-    func tencentDidNotLogin(cancelled: Bool) {
-        MBProgressHUD.hideLoader(nil)
-    }
+    func tencentDidNotLogin(cancelled: Bool) {}
     
-    func tencentDidNotNetWork() {
-    
-    }
+    func tencentDidNotNetWork() {}
     
     func getUserInfoResponse(response: APIResponse) {
         if response.retCode == 1 { // URLREQUEST_FAILED
-            MBProgressHUD.hideLoader(nil)
+            self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
             return
         }
         guard let accessToken = self.lastLoginThirdToken else {
-            MBProgressHUD.hideLoader(nil)
+            self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
             return
         }
         guard let thirdId = self.lastLoginThirdId else {
-            MBProgressHUD.hideLoader(nil)
+            self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
             return
         }
         var username: String?
@@ -481,14 +412,7 @@ extension LoginViewController: TencentSessionDelegate {
             gender = "\((genderString == "男") ? Cons.Usr.genderMale : ((genderString == "女") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
         }
         DataManager.shared.loginThird("qq", accessToken, thirdId, username, gender, { (responseObject, error) in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                MBProgressHUD.hideLoader(nil)
-                if let error = error {
-                    DataManager.showRequestFailedAlert(error)
-                } else {
-                    self.dismissSelf()
-                }
-            })
+            self.stopLoadingInfoFromThirdLogin(error)
         })
     }
 }
