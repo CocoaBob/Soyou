@@ -337,13 +337,17 @@ extension LoginViewController {
                 let thirdId = result.thirdId
                 let accessToken = result.thirdToken
                 FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "email,name,gender"]).startWithCompletionHandler({ (connection, result, error) in
+                    guard let result = result as? [String: AnyObject] else {
+                        MBProgressHUD.hideLoader(nil)
+                        return
+                    }
 //                    let email = result["email"]
                     var username: String?
-                    if let value = result["name"] {
+                    if let value = result["name"] as? String {
                         username = value
                     }
                     var gender: String?
-                    if let genderString = result["gender"] {
+                    if let genderString = result["gender"] as? String {
                         gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                     }
                     
@@ -404,7 +408,7 @@ extension LoginViewController {
                     let username = googleUser.profile.name
                     let detailRequestURL = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="+accessToken
                     RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
-                        guard let responseObject = responseObject else {
+                        guard let responseObject = responseObject as? [String: AnyObject] else {
                             MBProgressHUD.hideLoader(nil)
                             return
                         }
@@ -412,7 +416,7 @@ extension LoginViewController {
 //                        let email = responseObject["email"]
 //                        let picture = responseObject["picture"]
                         var gender: String?
-                        if let genderString = responseObject["gender"] {
+                        if let genderString = responseObject["gender"] as? String {
                             gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                         }
                         DataManager.shared.loginThird("google", accessToken, thirdId, username, gender, { (responseObject, error) in
@@ -443,11 +447,17 @@ extension LoginViewController {
 // MARK: TencentSessionDelegate
 extension LoginViewController: TencentSessionDelegate {
     
-    func tencentDidLogin() { }
+    func tencentDidLogin() {
+        MBProgressHUD.hideLoader(nil)
+    }
     
-    func tencentDidNotLogin(cancelled: Bool) { }
+    func tencentDidNotLogin(cancelled: Bool) {
+        MBProgressHUD.hideLoader(nil)
+    }
     
-    func tencentDidNotNetWork() { }
+    func tencentDidNotNetWork() {
+    
+    }
     
     func getUserInfoResponse(response: APIResponse) {
         if response.retCode == 1 { // URLREQUEST_FAILED
