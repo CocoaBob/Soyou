@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var dbIsInitialized = false
+    var shortcutItemType = ""
+    var uiIsInitialized = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Crashlytics
@@ -79,8 +81,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarController.delegate = self
             
             self.window?.rootViewController = tabBarController
+            self.uiIsInitialized = true
             
             self.updateDataAfterLaunching()
+            self.showShortcutView()
             
             // Show Introduction view
             DispatchAfter(0.01) {
@@ -120,11 +124,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @available(iOS 9.0, *)
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
-        if shortcutItem.type == "shortcut.search" {
-            self.showSearchView()
-        } else if shortcutItem.type == "shortcut.favorites" {
-            self.showFavoritesView()
-        }
+        self.shortcutItemType = shortcutItem.type
+        self.showShortcutView()
     }
     
     // iOS < 9
@@ -171,6 +172,15 @@ extension AppDelegate {
 
 // MARK: Routines
 extension AppDelegate {
+    
+    func showShortcutView() {
+        
+        if self.shortcutItemType == "shortcut.search" {
+            self.showSearchView()
+        } else if self.shortcutItemType == "shortcut.favorites" {
+            self.showFavoritesView()
+        }
+    }
     
     func updateDataAfterLaunching() {
         if !self.dbIsInitialized {
