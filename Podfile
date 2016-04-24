@@ -42,14 +42,14 @@ pod "Crashlytics"
 #SNS SDKs
 pod "libWeChatSDK",     :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
 
-pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
-pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
-pod "DDSocial/Tencent", :git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
-pod "DDSocial/Wechat",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
-pod "DDSocial/Sina",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
-pod "DDSocial/Facebook",:git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
-pod "DDSocial/Twitter", :git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
-pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => 'c96140ba9bf3aba7102c32a18ea37de5d810b258'
+pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
+pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
+pod "DDSocial/Tencent", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
+pod "DDSocial/Wechat",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
+pod "DDSocial/Sina",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
+pod "DDSocial/Facebook",:git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
+pod "DDSocial/Twitter", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
+pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
 
 # Used for testing
 #pod 'FBRetainCycleDetector'

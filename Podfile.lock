@@ -137,14 +137,14 @@ DEPENDENCIES:
   - CCHMapClusterController
   - CHTCollectionViewWaterfallLayout
   - Crashlytics
-  - DDSocial/Auth (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
-  - DDSocial/Facebook (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
-  - DDSocial/Google (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
-  - DDSocial/Share (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
-  - DDSocial/Sina (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
-  - DDSocial/Tencent (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
-  - DDSocial/Twitter (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
-  - DDSocial/Wechat (from `git://github.com/CocoaBob/DDSocial`, commit `c96140ba9bf3aba7102c32a18ea37de5d810b258`)
+  - DDSocial/Auth (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Facebook (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Google (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Share (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Sina (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Tencent (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Twitter (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Wechat (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
   - EAIntroView
   - Fabric
   - FCUUID
@@ -173,7 +173,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   DDSocial:
-    :commit: c96140ba9bf3aba7102c32a18ea37de5d810b258
+    :commit: 6f12fe01afb8b28db433184ce6edbce9f30bf1e4
     :git: git://github.com/CocoaBob/DDSocial
   FlagKit:
     :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
@@ -193,7 +193,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   DDSocial:
-    :commit: c96140ba9bf3aba7102c32a18ea37de5d810b258
+    :commit: 6f12fe01afb8b28db433184ce6edbce9f30bf1e4
     :git: git://github.com/CocoaBob/DDSocial
   FlagKit:
     :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
