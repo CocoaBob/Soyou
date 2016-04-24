@@ -13,6 +13,8 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    var dbIsInitialized = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Crashlytics
@@ -25,20 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Exclude database from iCloud backup
         FileManager.excludeFromBackup(FileManager.dbDir)
         
-        // Check upgrades, may change database
-        checkIfUpgraded()
-        
-        // Setup Database
-        MagicalRecord.setLoggingLevel(.Error)
-        MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
-        MagicalRecord.setupCoreDataStackWithStoreAtURL(FileManager.dbURL)
-        
-        // Load current user
-        UserManager.shared.loadCurrentUser(false)
-        
-        // Get Username from database
-        Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
-        
         // Setup SDWebImage cache
         SDImageCache.sharedImageCache().shouldDecompressImages = false
         SDWebImageDownloader.sharedDownloader().shouldDecompressImages = false
@@ -46,21 +34,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup themes
         Themes.setupAppearances()
         
-        // Setup view controllers
-        let storyboardNames = ["NewsViewController", "ProductsViewController", "UserViewController"]
-        let viewControllers = storyboardNames.flatMap {
-            UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
+        // Setup the window (must before MBProgressHUD)
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = UINavigationController(rootViewController: UIViewController())
+        self.window?.rootViewController?.view.backgroundColor = UIColor(hex: Cons.UI.colorBG)
+        self.window?.makeKeyAndVisible()
+        
+        // Show updating massage
+        DispatchAfter(0.3) {
+            if let hud = MBProgressHUD.showLoader(self.window!) {
+                hud.mode = MBProgressHUDMode.Text
+                hud.labelText = NSLocalizedString("initializing_database")
+            }
         }
         
-        // Setup the tab bar controller
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = viewControllers
-        tabBarController.delegate = self
-        
-        // Setup the window
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = tabBarController
-        self.window?.makeKeyAndVisible()
+        DispatchAfter(0.4) {
+            // Check upgrades, may change database
+            self.checkIfUpgraded()
+            
+            // Setup Database
+            MagicalRecord.setLoggingLevel(.Error)
+            MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
+            MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
+            self.dbIsInitialized = true
+            
+            // Load current user
+            UserManager.shared.loadCurrentUser(false)
+            
+            // Get Username from database
+            Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
+            
+            // Hide updating message
+            MBProgressHUD.hideLoader(self.window!)
+            
+            // Setup view controllers (Must after initializing the database)
+            let storyboardNames = ["NewsViewController", "ProductsViewController", "UserViewController"]
+            let viewControllers = storyboardNames.flatMap {
+                UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
+            }
+            
+            // Setup the tab bar controller
+            let tabBarController = UITabBarController()
+            tabBarController.viewControllers = viewControllers
+            tabBarController.delegate = self
+            
+            self.window?.rootViewController = tabBarController
+            
+            self.updateDataAfterLaunching()
+            
+            // Show Introduction view
+            DispatchAfter(0.01) {
+                // Make sure NewsViewController's viewWillAppear is called before showIntroView()
+                self.checkIfShowIntroView()
+            }
+        }
         
         // Setup Social Services
         DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
@@ -73,17 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
         
-        // Init the WTStatusBar
-        DispatchAfter(0.01) {
-            WTStatusBar.setStatusText("", timeout: 0.01, animated: false)
-        }
-        
-        // Show Introduction view
-        DispatchAfter(0.02) {
-            // Make sure NewsViewController's viewWillAppear is called before showIntroView()
-            self.checkIfShowIntroView()
-        }
-        
         return true
     }
 
@@ -92,19 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        // Check if there are new Brands/Products/Regions/Stores to download
-        DataManager.shared.updateData(nil)
-        
-        // Currency Manager
-        CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, nil)
-        
-        // Check if the user token is valid
-        if UserManager.shared.isLoggedIn {
-            DataManager.shared.checkToken()
-        }
-        
-        // Analytics
-        DataManager.shared.analyticsAppBecomeActive()
+        self.updateDataAfterLaunching()
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication) {
@@ -167,6 +171,25 @@ extension AppDelegate {
 
 // MARK: Routines
 extension AppDelegate {
+    
+    func updateDataAfterLaunching() {
+        if !self.dbIsInitialized {
+            return
+        }
+        // Check if there are new Brands/Products/Regions/Stores to download
+        DataManager.shared.updateData(nil)
+        
+        // Currency Manager
+        CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, nil)
+        
+        // Check if the user token is valid
+        if UserManager.shared.isLoggedIn {
+            DataManager.shared.checkToken()
+        }
+        
+        // Analytics
+        DataManager.shared.analyticsAppBecomeActive()
+    }
     
     func checkIfUpgraded() {
         let lastInstalledBuild = UserDefaults.stringForKey(Cons.App.lastInstalledBuild)
