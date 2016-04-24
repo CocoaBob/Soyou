@@ -151,7 +151,7 @@ extension UserViewController {
     
     func addAvatarBorder() {
         self.imgViewAvatar.layer.borderWidth = 1
-        self.imgViewAvatar.layer.borderColor = UIColor(white: 0, alpha: 0.15).CGColor
+        self.imgViewAvatar.layer.borderColor = UIColor(white: 0.85, alpha: 1).CGColor
     }
     
     func removeAvatarBorder() {
