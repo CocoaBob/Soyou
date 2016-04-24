@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup Database
         MagicalRecord.setLoggingLevel(.Error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
-        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
+        MagicalRecord.setupCoreDataStackWithStoreAtURL(FileManager.dbURL)
         
         // Load current user
         UserManager.shared.loadCurrentUser(false)

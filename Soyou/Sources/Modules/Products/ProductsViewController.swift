@@ -629,8 +629,8 @@ extension ProductsViewController: UISearchControllerDelegate {
 extension ProductsViewController {
     
     func reloadVisibleCells() {
-        // If it isn't search results view controller
-        // If search keywords isn't empty
+        // If it isSearchResultsViewController == false
+        // If it isSearchResultsViewController == true && search keywords isn't empty
         if (!self.isSearchResultsViewController || !self.searchKeywordsIsEmpty()) {
             self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
         }
