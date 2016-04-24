@@ -203,7 +203,7 @@ class RequestManager {
     //////////////////////////////////////
     
     func requestAllRegions(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/regions", "Region", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/regions", "Regions", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -211,7 +211,7 @@ class RequestManager {
     //////////////////////////////////////
     
     func requestAllStores(timestamp: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/stores/%@", timestamp ?? ""), "Store", onSuccess, onFailure)
+        getAsync(FmtString("/api/\(Cons.Svr.apiVersion)/stores/%@", timestamp ?? ""), "Stores", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
