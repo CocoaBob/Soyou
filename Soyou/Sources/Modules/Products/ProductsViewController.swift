@@ -492,12 +492,11 @@ extension ProductsViewController {
             // After searching is completed, if there are results, hide the indicator
             if self.fetchedResults?.count ?? 0 > 0 {
                 self.isLoadingViewVisible = false
-                return
-            }
-            
-            // If it's not searching but there's no data, it means data isn't ready
-            if self.searchKeywords != nil {
-                self.showNoDataIndicator()
+            } else {
+                // If it's not searching but there's no data, it means data isn't ready
+                if self.searchKeywords != nil {
+                    self.showNoDataIndicator()
+                }
             }
         }
     }
