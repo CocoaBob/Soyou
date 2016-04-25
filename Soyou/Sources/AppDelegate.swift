@@ -37,28 +37,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Themes.setupAppearances()
         
         // Setup the window (must before MBProgressHUD)
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = UINavigationController(rootViewController: UIViewController())
-        self.window?.rootViewController?.view.backgroundColor = UIColor(hex: Cons.UI.colorBG)
-        self.window?.makeKeyAndVisible()
+        self.setupWindow()
         
         // Show updating massage
         DispatchAfter(0.3) {
-            if let hud = MBProgressHUD.showLoader(self.window!) {
-                hud.mode = MBProgressHUDMode.Text
-                hud.labelText = NSLocalizedString("initializing_database")
-            }
+            self.showInitializationView()
         }
         
         DispatchAfter(0.4) {
-            // Check upgrades, may change database
-            self.checkIfUpgraded()
-            
-            // Setup Database
-            MagicalRecord.setLoggingLevel(.Error)
-            MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
-            MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
-            self.dbIsInitialized = true
+            self.setupDatabase()
             
             // Load current user
             UserManager.shared.loadCurrentUser(false)
@@ -67,23 +54,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
             
             // Hide updating message
-            MBProgressHUD.hideLoader(self.window!)
+            self.hideInitializationView()
             
             // Setup view controllers (Must after initializing the database)
-            let storyboardNames = ["NewsViewController", "ProductsViewController", "UserViewController"]
-            let viewControllers = storyboardNames.flatMap {
-                UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
-            }
+            self.setupTabBarController()
             
-            // Setup the tab bar controller
-            let tabBarController = UITabBarController()
-            tabBarController.viewControllers = viewControllers
-            tabBarController.delegate = self
-            
-            self.window?.rootViewController = tabBarController
-            self.uiIsInitialized = true
-            
+            // Check updates
             self.updateDataAfterLaunching()
+            
+            // If app is launched by 3D Touch shortcut menu
             self.showShortcutView()
             
             // Show Introduction view
@@ -94,12 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Setup Social Services
-        DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook)
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Google)
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Twitter, appKey: "wjOno5zRnBwENYuXtbYCS7bw5", appSecret: "vVlY71WUqP0rTc1D7vK6tqylB2PJpEhpMM88VvVVG3ONfwtu7I")
+        self.setupSocialServices()
         
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification()
@@ -173,8 +147,60 @@ extension AppDelegate {
 // MARK: Routines
 extension AppDelegate {
     
-    func showShortcutView() {
+    func showInitializationView() {
+        if let hud = MBProgressHUD.showLoader(self.window!) {
+            hud.mode = MBProgressHUDMode.Text
+            hud.labelText = NSLocalizedString("initializing_database")
+        }
+    }
+    
+    func hideInitializationView() {
+        MBProgressHUD.hideLoader(self.window!)
+    }
+    
+    func setupWindow() {
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = UINavigationController(rootViewController: UIViewController())
+        self.window?.rootViewController?.view.backgroundColor = UIColor(hex: Cons.UI.colorBG)
+        self.window?.makeKeyAndVisible()
+    }
+    
+    func setupDatabase() {
+        // Check upgrades, may change database
+        self.checkIfUpgraded()
         
+        // Setup Database
+        MagicalRecord.setLoggingLevel(.Error)
+        MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
+        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
+        self.dbIsInitialized = true
+    }
+    
+    func setupTabBarController() {
+        let storyboardNames = ["NewsViewController", "ProductsViewController", "UserViewController"]
+        let viewControllers = storyboardNames.flatMap {
+            UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
+        }
+        
+        // Setup the tab bar controller
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = viewControllers
+        tabBarController.delegate = self
+        
+        self.window?.rootViewController = tabBarController
+        self.uiIsInitialized = true
+    }
+    
+    func setupSocialServices() {
+        DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook)
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Google)
+        DDSocialShareHandler.sharedInstance().registerPlatform(.Twitter, appKey: "wjOno5zRnBwENYuXtbYCS7bw5", appSecret: "vVlY71WUqP0rTc1D7vK6tqylB2PJpEhpMM88VvVVG3ONfwtu7I")
+    }
+    
+    func showShortcutView() {
         if self.shortcutItemType == "shortcut.search" {
             self.showSearchView()
         } else if self.shortcutItemType == "shortcut.favorites" {
