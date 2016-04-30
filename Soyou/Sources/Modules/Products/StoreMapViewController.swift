@@ -77,8 +77,6 @@ class StoreMapViewController: UIViewController {
         super.viewWillAppear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = true
-        // Update WTStatusBar colors
-        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: Cons.UI.colorBGNavBar), UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewWillDisappear(animated: Bool) {

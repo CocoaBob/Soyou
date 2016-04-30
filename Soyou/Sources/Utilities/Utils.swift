@@ -244,26 +244,6 @@ extension Utils {
     }
 }
 
-// MARK: Update WTStatusBar colors
-extension Utils {
-    
-    class func updateWTStatusBarColors(textColor: UIColor, _ bgColor: UIColor, _ barColor: UIColor, _ animated: Bool) {
-        dispatch_async(dispatch_get_main_queue()) { 
-            if animated {
-                UIView.animateWithDuration(0.3, animations: {
-                    WTStatusBar.setTextColor(textColor)
-                    WTStatusBar.setBackgroundColor(bgColor)
-                    WTStatusBar.setProgressBarColor(barColor)
-                })
-            } else {
-                WTStatusBar.setTextColor(textColor)
-                WTStatusBar.setBackgroundColor(bgColor)
-                WTStatusBar.setProgressBarColor(barColor)
-            }
-        }
-    }
-}
-
 // MARK: QNNOutput for traceroute
 class QNNOutputLogger: NSObject, QNNOutputDelegate {
     

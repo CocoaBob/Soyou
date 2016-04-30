@@ -45,8 +45,6 @@ class SettingsViewController: SimpleTableViewController {
         super.viewWillAppear(animated)
         
         self.refreshUI()
-        // Update WTStatusBar colors
-        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: Cons.UI.colorBGNavBar), UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewDidAppear(animated: Bool) {

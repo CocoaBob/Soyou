@@ -31,7 +31,6 @@ pod "UICKeyChainStore"
 pod "UIColor-HexRGB"
 pod "UIImage-ResizeMagick"
 pod "UIView+Shake"
-pod "WTStatusBar"
 pod "SSZipArchive"
 pod "ZoomInteractiveTransition"
 

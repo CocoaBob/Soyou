@@ -126,7 +126,6 @@ PODS:
   - UIImage-ResizeMagick (0.0.1)
   - UIView+Shake (1.1.5)
   - WeiboSDK (3.1.3)
-  - WTStatusBar (0.0.5)
   - ZoomInteractiveTransition (0.4.0)
 
 DEPENDENCIES:
@@ -168,7 +167,6 @@ DEPENDENCIES:
   - UIColor-HexRGB
   - UIImage-ResizeMagick
   - UIView+Shake
-  - WTStatusBar
   - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
@@ -261,7 +259,6 @@ SPEC CHECKSUMS:
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
   UIView+Shake: 2d2185006d38ee5daed07f14c0989f703f86682f
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
-  WTStatusBar: 2803d0d84937a1ec82fbe17ae7a2d1b76b192396
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
 COCOAPODS: 0.39.0

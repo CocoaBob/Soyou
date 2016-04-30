@@ -65,8 +65,6 @@ class UserViewController: SimpleTableViewController {
         
         // Update login status
         updateUserInfo()
-        // Update WTStatusBar colors
-        Utils.updateWTStatusBarColors(UIColor.whiteColor(), UIColor(hex: "#9297C8"), UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewWillDisappear(animated: Bool) {

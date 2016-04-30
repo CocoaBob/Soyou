@@ -92,8 +92,6 @@ class FavoritesViewController: FetchedResultsViewController {
         self.reloadData { resultCount in
             self.tableView().reloadData()
         }
-        // Update WTStatusBar colors
-        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: Cons.UI.colorBGNavBar), UIColor(hex: Cons.UI.colorTheme), animated)
     }
     
     override func viewDidAppear(animated: Bool) {

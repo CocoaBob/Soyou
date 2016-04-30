@@ -39,8 +39,6 @@ class ProfileViewController: SimpleTableViewController {
         // Reload table in case UserInfo is updated
         rebuildTable()
         self.tableView.reloadData()
-        // Update WTStatusBar colors
-        Utils.updateWTStatusBarColors(UIColor.darkGrayColor(), UIColor(hex: Cons.UI.colorBGNavBar), UIColor(hex: Cons.UI.colorTheme), animated)
     }
 }
 
