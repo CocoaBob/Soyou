@@ -51,6 +51,7 @@ public struct Cons {
         static let userCurrency                             = "userCurrency"                            // Stored in NSUserDefaults
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
         static let updateInterval                           = 0.0                                       // 0 second
+        static let productsPageSize                         = 100                                       // the number of products / page
     }
     
     struct DB {

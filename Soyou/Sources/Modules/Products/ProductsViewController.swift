@@ -179,7 +179,7 @@ extension ProductsViewController {
             inContext: context)
         
         // Setup fetch request
-        self.fetchLimit = 32
+        self.fetchLimit = Cons.App.productsPageSize
         
         return request
     }

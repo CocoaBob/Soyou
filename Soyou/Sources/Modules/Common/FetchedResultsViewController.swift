@@ -10,7 +10,7 @@ class FetchedResultsViewController: UIViewController {
     
     var fetchLimit: Int = 0
     var fetchOffset: Int = 0
-    var fetchBatchSize: Int = 32
+    var fetchBatchSize: Int = 0
     
     var fetchedResults: [AnyObject]?
     
