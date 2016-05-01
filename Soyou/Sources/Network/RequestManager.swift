@@ -204,7 +204,7 @@ class RequestManager {
     
     func searchProducts(query: String?, _ brandId: NSNumber?, _ categories: [NSNumber]?, _ page: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         var params = [String: AnyObject]()
-        params["page"] = 0
+        params["page"] = page
         params["size"] = Cons.App.productsPageSize
         if let query = query {
             params["query"] = query
