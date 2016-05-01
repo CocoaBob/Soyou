@@ -30,7 +30,7 @@ class ProductViewController: UIViewController {
     @IBOutlet var carouselViewHeight: NSLayoutConstraint?
     @IBOutlet var viewsContainerHeight: NSLayoutConstraint?
     
-    var product: Product?
+    var product: Product? // self.product could be in memory store, so we have to use its own menagedObjectContext instead of using default context
     // Images for Carousel
     var firstImage: UIImage?
     var imageViews: [UIImageView] = [UIImageView]()
@@ -218,13 +218,11 @@ extension ProductViewController {
         self.imageViews.removeAll()
         var images: [String]?
         var title: String?
-        if let product = self.product {
-            MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-                guard let localProduct = product.MR_inContext(localContext) else { return }
-                images = localProduct.images as? [String]
-                title = localProduct.title
-            }
-        }
+        self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            guard let localProduct = self.product?.MR_inContext(localContext) else { return }
+            images = localProduct.images as? [String]
+            title = localProduct.title
+        })
         let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: carouselViewHeight)
         if let images = images {
             // Reset self.photos
@@ -451,25 +449,31 @@ extension ProductViewController: ZoomTransitionProtocol {
 extension ProductViewController {
     
     private func updateLikeNumber() {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localProduct = self.product?.MR_inContext(localContext) {
-                self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
-                if let productID = localProduct.id {
-                    DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
-                        if let responseObject = responseObject as? [String:AnyObject],
-                            data = responseObject["data"] as? [String:AnyObject],
-                            likeNumber = data["likeNumber"] as? NSNumber {
-                            self.likeBtnNumber = likeNumber.integerValue
-                        }
+                // Update like number
+                guard let productID = localProduct.id else { return }
+                DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
+                    if let responseObject = responseObject as? [String:AnyObject],
+                        data = responseObject["data"] as? [String:AnyObject],
+                        likeNumber = data["likeNumber"] as? NSNumber {
+                        self.likeBtnNumber = likeNumber.integerValue
                     }
                 }
+                
+                // Update like button color
+                let diskContext = NSManagedObjectContext.MR_defaultContext()
+                diskContext.performBlockAndWait({
+                    guard let diskProduct = Product.MR_findFirstByAttribute("id", withValue: productID, inContext: diskContext) else { return }
+                    self.updateLikeBtnColor(diskProduct.appIsLiked?.boolValue)
+                })
             }
         })
     }
     
-    private func updateLikeBtnColor(appIsLiked: Bool?) {
+    private func updateLikeBtnColor(isLiked: Bool?) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            if appIsLiked != nil && appIsLiked!.boolValue {
+            if isLiked != nil && isLiked!.boolValue {
                 self.btnLike?.tintColor = self.btnLikeActiveColor
             } else {
                 self.btnLike?.tintColor = self.btnLikeInactiveColor
@@ -530,15 +534,17 @@ extension ProductViewController {
         var htmlString: String?
         let userCurrency = CurrencyManager.shared.userCurrency
         
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = self.product?.MR_inContext(localContext)
+            // If there's no SKU
             if let oldID = localProduct?.id {
                 productID = "\(oldID)"
             }
+            // If SKU exists, use SKU
             if let objectData = localProduct?.sku, let object = Utils.decrypt(objectData) as? String {
                 productID = object
             }
-            if let descriptions = self.product?.descriptions {
+            if let descriptions = localProduct?.descriptions {
                 htmlString = descriptions
             }
             title = localProduct?.title
@@ -589,17 +595,11 @@ extension ProductViewController {
     }
     
     func like(sender: AnyObject) {
-        self.product?.doLike({ (data: AnyObject?) -> () in
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                if let localProduct = self.product?.MR_inContext(localContext) {
-                    // Update like color
-                    self.updateLikeBtnColor(localProduct.appIsLiked?.boolValue)
-                    // Update like number
-                    if let likeNumber = data as? NSNumber {
-                        self.likeBtnNumber = likeNumber.integerValue
-                    }
-                }
-            })
+        self.product?.doLike({ (likeNumber: NSNumber, isLiked: NSNumber) -> () in
+            // Update like color
+            self.updateLikeBtnColor(isLiked.boolValue)
+            // Update like number
+            self.likeBtnNumber = likeNumber.integerValue
         })
     }
     

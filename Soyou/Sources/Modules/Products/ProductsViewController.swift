@@ -462,6 +462,52 @@ extension ProductsViewController {
 // MARK: FetchedResultsController
 extension ProductsViewController {
     
+    func searchFinished(resultCount: Int, completion: ((Int) -> Void)?) {
+        // New search, reset no more data status
+        self.resetNoMoreDataStatus()
+        // Scrolls to top
+        self.collectionView().setContentOffset(CGPoint(x: 0, y: -self.collectionView().contentInset.top), animated: false)
+        
+        // Original completion
+        if let completion = completion { completion(resultCount) }
+        
+        // After searching is completed, if there are results, hide the indicator
+        if self.fetchedResults?.count ?? 0 > 0 {
+            self.isLoadingViewVisible = false
+        } else {
+            // If it's not searching but there's no data, it means data isn't ready
+            if self.searchKeywords != nil {
+                self.showNoDataIndicator()
+            }
+        }
+    }
+    
+    private func queryServer(completion: ((Int) -> Void)?) {
+        // The offset for current fetch
+        let offset = self.fetchOffset
+        
+        // Query parameters
+        let queryString = self.searchKeywords?.joinWithSeparator(" ")
+        let brandID = self.brandID
+        let categoryID = self.categoryID
+        let pageIndex = self.fetchLimit != 0 ? offset/self.fetchLimit : 0
+        
+        DataManager.shared.searchProducts(queryString, brandID, categoryID, pageIndex) { (responseObject, error) in
+            if !self.hasAppendedFetchedResultsForOffset(offset) {
+                if let results = responseObject as? [Product] {
+                    self.appendFetchedResults(results)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        // Reload UI
+                        self.reloadUI()
+                        // Completed
+                        if let completion = completion { completion(results.count ?? 0) }
+                    })
+                }
+            }
+        }
+    }
+    
+    // Load data from server and local, we use the one who comes first
     override func reloadData(completion: ((Int) -> Void)?) {
         // If the results were not empty
         if self.fetchedResults?.count ?? 0 > 0 {
@@ -475,26 +521,22 @@ extension ProductsViewController {
             self.showLoadingIndicator()
         }
         
-        // Reload Data
+        // Search Products locally
         super.reloadData() { resultCount in
-            // New search, reset no more data status
-            self.resetNoMoreDataStatus()
-            // Scrolls to top
-            self.collectionView().setContentOffset(CGPoint(x: 0, y: -self.collectionView().contentInset.top), animated: false)
-            
-            // Original completion
-            if let completion = completion { completion(resultCount) }
-            
-            // After searching is completed, if there are results, hide the indicator
-            if self.fetchedResults?.count ?? 0 > 0 {
-                self.isLoadingViewVisible = false
-            } else {
-                // If it's not searching but there's no data, it means data isn't ready
-                if self.searchKeywords != nil {
-                    self.showNoDataIndicator()
-                }
-            }
+            self.searchFinished(resultCount, completion: completion)
         }
+        // Search products remotely on server
+        self.queryServer() { resultCount in
+            self.searchFinished(resultCount, completion: completion)
+        }
+    }
+    
+    // Load data from server and local, we use the one who comes first
+    override func loadMore(completion: ((Int) -> Void)?) {
+        // Search Products locally
+        super.loadMore(completion)
+        // Search products remotely on server
+        self.queryServer(completion)
     }
 }
 

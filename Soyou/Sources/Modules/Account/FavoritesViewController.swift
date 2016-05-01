@@ -199,9 +199,10 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             }
         case .Products:
             if let favoriteProduct = self.fetchedResults?[indexPath.row] as? FavoriteProduct {
-                MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                    if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                        product = localFavoriteProduct.relatedProduct(localContext) {
+                let diskContext = NSManagedObjectContext.MR_defaultContext()
+                diskContext.performBlockAndWait({
+                    if let localFavoriteProduct = favoriteProduct.MR_inContext(diskContext),
+                        product = localFavoriteProduct.relatedProduct(diskContext) {
                         let viewController = ProductViewController.instantiate()
                         viewController.product = product
                         viewController.productIndex = indexPath.row

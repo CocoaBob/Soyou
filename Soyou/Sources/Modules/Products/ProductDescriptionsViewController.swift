@@ -19,7 +19,7 @@ class ProductDescriptionsViewController: UIViewController {
     
     var product: Product? {
         didSet {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 guard let localProduct = self.product?.MR_inContext(localContext) else { return }
                 self.descriptions = localProduct.descriptions
                 self.surname = localProduct.surname

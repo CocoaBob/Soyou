@@ -199,6 +199,32 @@ class RequestManager {
     }
     
     //////////////////////////////////////
+    // MARK: Search Products
+    //////////////////////////////////////
+    
+    func searchProducts(query: String?, _ brandId: NSNumber?, _ categories: [NSNumber]?, _ page: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        var params = [String: AnyObject]()
+        params["page"] = 0
+        params["size"] = Cons.App.productsPageSize
+        if let query = query {
+            params["query"] = query
+        }
+        if let brandId = brandId {
+            params["brandId"] = brandId
+        }
+        if let categories = categories {
+            if !categories.isEmpty {
+                var param = "|"
+                for category in categories {
+                    param += "\(category)|"
+                }
+                params["category"] = param
+            }
+        }
+        postAsync("/api/\(Cons.Svr.apiVersion)/search", "Search", params, onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
     // MARK: Region
     //////////////////////////////////////
     

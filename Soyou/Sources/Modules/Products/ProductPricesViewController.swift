@@ -14,7 +14,7 @@ class ProductPricesViewController: UIViewController {
     
     var product: Product? {
         didSet {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
                 guard let localProduct = self.product?.MR_inContext(localContext) else { return }
                 if let objectData = localProduct.prices, object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
                     self.prices = object
@@ -22,7 +22,7 @@ class ProductPricesViewController: UIViewController {
                     self.prices = nil
                 }
             })
-            self.reloadData()
+            self.tableView.reloadData()
         }
     }
     

@@ -15,12 +15,42 @@ class Product: BaseModel {
     func isFavorite() -> Bool {
         var returnValue = false
         
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let _ = self.MR_inContext(localContext)?.relatedFavoriteProduct(localContext) {
-                returnValue = true
-            }
+        self.managedObjectContext?.runBlockAndWait({ (ramContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.saveWithBlockAndWait({ (diskContext) in
+                if let _ = self.MR_inContext(ramContext)?.relatedFavoriteProduct(diskContext) {
+                    returnValue = true
+                }
+            })
         })
         return returnValue
+    }
+    
+    func importData(data: NSDictionary?) {
+        guard let data = data else { return }
+        self.id = data["id"] as? NSNumber
+        if let sku = data["sku"] as? String {
+            self.sku = Utils.encrypt(sku)
+        } else {
+            self.sku = nil
+        }
+        self.categories = data["categories"] as? String
+        self.brandId = data["brandId"] as? NSNumber
+        self.dimension = data["dimension"] as? String
+        self.images = data["images"] as? NSArray
+        self.likeNumber = data["likeNumber"] as? NSNumber
+        if let prices = data["prices"] as? NSArray {
+            self.prices = Utils.encrypt(prices)
+        } else {
+            self.prices = nil
+        }
+        self.order = data["order"] as? NSNumber
+        
+        self.brandLabel = data["brandLabel"] as? String
+        self.descriptions = data["descriptions"] as? String
+        self.keywords = data["keywords"] as? String
+        self.reference = data["reference"] as? String
+        self.surname = data["surname"] as? String
+        self.title = data["title"] as? String
     }
     
     class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Product?) {
@@ -38,30 +68,9 @@ class Product: BaseModel {
             }
             
             if let product = product {
-                if let sku = data["sku"] as? String {
-                    product.sku = Utils.encrypt(sku)
-                } else {
-                    product.sku = nil
-                }
-                product.categories = data["categories"] as? String
-                product.brandId = data["brandId"] as? NSNumber
-                product.dimension = data["dimension"] as? String
-                product.images = data["images"] as? NSArray
-                product.likeNumber = data["likeNumber"] as? NSNumber
-                if let prices = data["prices"] as? NSArray {
-                    product.prices = Utils.encrypt(prices)
-                } else {
-                    product.prices = nil
-                }
-                product.order = data["order"] as? NSNumber
+                product.importData(data)
                 
-                product.brandLabel = data["brandLabel"] as? String
-                product.descriptions = data["descriptions"] as? String
-                product.keywords = data["keywords"] as? String
-                product.reference = data["reference"] as? String
-                product.surname = data["surname"] as? String
-                product.title = data["title"] as? String
-                
+                // Prepare for searching
                 var searchText = ""
                 searchText += normalizedSearchText(product.brandLabel)
                 searchText += product.descriptions ?? ""
@@ -103,26 +112,44 @@ class Product: BaseModel {
         }
     }
     
-    func doLike(completion: DataClosure?) {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localProduct = self.MR_inContext(localContext) {
-                let appWasLiked = localProduct.appIsLiked != nil && localProduct.appIsLiked!.boolValue
-                // Update only when response is received
-                DataManager.shared.likeProduct(localProduct.id!, wasLiked: appWasLiked) { responseObject, error in
-                    guard let responseObject = responseObject as? [String: AnyObject] else { return }
-                    guard let data = responseObject["data"] else { return }
-                    
-                    // Remember if it's liked or not
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localProduct = self.MR_inContext(localContext) {
-                            localProduct.appIsLiked = NSNumber(bool: !appWasLiked)
-                        }
-                    })
-                    // Completion
-                    if let completion = completion {
-                        completion(data)
-                    }
+    class func productsWithData(datas: [NSDictionary]?) -> [Product]? {
+        if let datas = datas {
+            var products = [Product]()
+            for data in datas {
+                if let product = Product.MR_createEntityInContext(DataManager.shared.memoryContext()) {
+                    product.importData(data)
+                    products.append(product)
                 }
+            }
+            return products
+        }
+        return nil
+    }
+    
+    func doLike(completion: ((NSNumber, NSNumber)->())?) {
+        self.managedObjectContext?.runBlockAndWait({ (memoryContext: NSManagedObjectContext!) -> Void in
+            if let memoryProduct = self.MR_inContext(memoryContext) {
+                MagicalRecord.saveWithBlockAndWait({ (diskContext: NSManagedObjectContext!) -> Void in
+                    guard let productID = memoryProduct.id else { return }
+                    guard let diskProduct = Product.MR_findFirstByAttribute("id", withValue: productID, inContext: diskContext) else { return }
+                    let appWasLiked = diskProduct.appIsLiked != nil && diskProduct.appIsLiked!.boolValue
+                    // Update only when response is received
+                    DataManager.shared.likeProduct(diskProduct.id!, wasLiked: appWasLiked) { responseObject, error in
+                        guard let responseObject = responseObject as? [String: AnyObject] else { return }
+                        guard let likeNumber = responseObject["data"] as? NSNumber else { return }
+                        let isLiked = NSNumber(bool: !appWasLiked)
+                        // Remember if it's liked or not
+                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                            if let diskProduct = diskProduct.MR_inContext(localContext) {
+                                diskProduct.appIsLiked = isLiked
+                            }
+                        })
+                        // Completion
+                        if let completion = completion {
+                            completion(likeNumber, isLiked)
+                        }
+                    }
+                })
             }
         })
     }
@@ -130,7 +157,7 @@ class Product: BaseModel {
     func toggleFavorite(completion: DataClosure?) {
         // Product ID
         var selfProductID: NSNumber?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        self.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             selfProductID = self.MR_inContext(localContext)?.id
         })
         guard let productID = selfProductID else { return }

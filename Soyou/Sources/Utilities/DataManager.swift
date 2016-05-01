@@ -599,6 +599,23 @@ class DataManager {
     }
     
     //////////////////////////////////////
+    // MARK: Search Products
+    //////////////////////////////////////
+    
+    func searchProducts(query: String?, _ brandId: NSNumber?, _ category: NSNumber?, _ page: Int?, _ completion: CompletionClosure?) {
+        RequestManager.shared.searchProducts(query, brandId, (category != nil ? [category!] : nil), page, { responseObject in
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                let products = Product.productsWithData(data)
+                self.completeWithData(products, completion: completion)
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    //////////////////////////////////////
     // MARK: Region
     //////////////////////////////////////
     
@@ -724,6 +741,22 @@ class DataManager {
                 }
                 lastRequestTimestamp?.value = timestamp
             })
+        }
+    }
+    
+    //////////////////////////////////////
+    // MARK: NSManagedObjectContexts used for products
+    //////////////////////////////////////
+    
+    var _memoryContext: NSManagedObjectContext?
+    func memoryContext() -> NSManagedObjectContext {
+        if let memoryContext = _memoryContext {
+            return memoryContext
+        } else {
+            let inMemoryStoreCoordinator = NSPersistentStoreCoordinator.MR_coordinatorWithInMemoryStore()
+            let memoryContext = NSManagedObjectContext.MR_contextWithStoreCoordinator(inMemoryStoreCoordinator)
+            _memoryContext = memoryContext
+            return memoryContext
         }
     }
     

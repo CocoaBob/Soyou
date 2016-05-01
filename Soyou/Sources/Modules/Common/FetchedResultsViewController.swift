@@ -45,11 +45,29 @@ extension FetchedResultsViewController {
 // MARK: Reqests
 extension FetchedResultsViewController {
     
+    func hasAppendedFetchedResultsForOffset(offset: Int) -> Bool {
+        return self.fetchedResults?.count > offset
+    }
+    
+    func appendFetchedResults(results: [AnyObject]?) {
+        // Get fetch results
+        if let results = results {
+            if let fetchedResults = self.fetchedResults {
+                self.fetchedResults = fetchedResults + results
+            } else {
+                self.fetchedResults = results
+            }
+        }
+    }
+    
     func fetch(completion: ((Int) -> Void)?) {
+        // The offset for current fetch
+        let offset = self.fetchOffset
+        
         // Get fetch request
         guard let fetchRequest = self.createFetchRequest(self.asyncFetchContext) else { return }
         fetchRequest.fetchLimit = self.fetchLimit
-        fetchRequest.fetchOffset = self.fetchOffset
+        fetchRequest.fetchOffset = offset
         fetchRequest.fetchBatchSize = self.fetchBatchSize
         
         // Stop last async fetch
@@ -57,20 +75,15 @@ extension FetchedResultsViewController {
         
         // Create asynchronous fetch request
         self.asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { (result) in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                // Get fetch results
-                if let finalResult = result.finalResult {
-                    if let fetchedResults = self.fetchedResults {
-                        self.fetchedResults = fetchedResults + finalResult
-                    } else {
-                        self.fetchedResults = finalResult
-                    }
-                }
-                // Reload UI
-                self.reloadUI()
-                // Completed
-                if let completion = completion { completion(result.finalResult?.count ?? 0) }
-            })
+            if !self.hasAppendedFetchedResultsForOffset(offset) {
+                self.appendFetchedResults(result.finalResult)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    // Reload UI
+                    self.reloadUI()
+                    // Completed
+                    if let completion = completion { completion(result.finalResult?.count ?? 0) }
+                })
+            }
         }
         
         // Do search
