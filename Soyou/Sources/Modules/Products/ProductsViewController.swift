@@ -100,7 +100,9 @@ class ProductsViewController: FetchedResultsViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductsViewController.reloadDataWithoutCompletion), name: Cons.DB.productsUpdatingDidFinishNotification, object: nil)
         
         // Load data
-        self.reloadData(nil)
+        if !self.isSearchResultsViewController {
+            self.reloadData(nil)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -231,13 +233,15 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             if let images = product.images as? NSArray,
                 imageURLString = images.firstObject as? String,
                 imageURL = NSURL(string: imageURLString) {
+                let countBeforeUpdating = self.fetchedResults?.count
                     cell.fgImageView?.sd_setImageWithURL(imageURL,
                         placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
                         options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                         completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                             // Update cell size if it's not scrolling
                             if (image != nil &&
-                                self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
+                                self.collectionView().indexPathsForVisibleItems().contains(indexPath) &&
+                                self.fetchedResults?.count == countBeforeUpdating) {
                                 self.collectionView().reloadItemsAtIndexPaths([indexPath])
                             }
                     })
@@ -485,6 +489,12 @@ extension ProductsViewController {
     private func queryServer(completion: ((Int) -> Void)?) {
         // The offset for current fetch
         let offset = self.fetchOffset
+        // Delete all old memory objects before a new search
+        if offset == 0 {
+            DataManager.shared.memoryContext().runBlockAndWait({ (localContext) in
+                Product.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+            })
+        }
         
         // Query parameters
         let queryString = self.searchKeywords?.joinWithSeparator(" ")
