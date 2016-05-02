@@ -11,7 +11,7 @@ class BrandsViewController: FetchedResultsViewController {
     // Override FetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     
-    private var checkLoadingTimer: NSTimer?
+    private var checkLoadingTimer: NSTimer? // If DataManager is updating data, check if brands data is ready
     @IBOutlet private var _feedbackButton: UIButton!
     @IBOutlet private var _reloadButton: UIButton!
     @IBOutlet private var _loadingLabel: UILabel!
@@ -19,7 +19,16 @@ class BrandsViewController: FetchedResultsViewController {
     @IBOutlet private var _loadingView: UIView!
     var isLoadingViewVisible: Bool = true {
         didSet {
-            self._loadingView.hidden = !isLoadingViewVisible
+            if self.isLoadingViewVisible {
+                self._loadingView.alpha = 1
+                self._loadingView.hidden = false
+            } else {
+                UIView.animateWithDuration(0.3, animations: {
+                    self._loadingView.alpha = 0
+                }) { (finished) in
+                    self._loadingView.hidden = true
+                }
+            }
         }
     }
     
@@ -80,6 +89,7 @@ class BrandsViewController: FetchedResultsViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BrandsViewController.reloadDataWithoutCompletion), name: Cons.DB.brandsUpdatingDidFinishNotification, object: nil)
         
         // Load data
+        self.showLoadingIndicator()
         self.reloadData(nil)
         
         // Transitions

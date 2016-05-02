@@ -339,11 +339,7 @@ extension ProductViewController {
         
         // Update height
         self.updateViewsContainerHeight(false)
-        
-        // Pre load views
-        let _ = self.productPricesViewController.view
-        let _ = self.productDescriptionsViewController.view
-        
+                
         // Reload data
         if isNext {
             self.productPricesViewController.reloadData()

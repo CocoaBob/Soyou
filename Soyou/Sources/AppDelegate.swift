@@ -189,6 +189,16 @@ extension AppDelegate {
         
         self.window?.rootViewController = tabBarController
         self.uiIsInitialized = true
+        
+        for viewController in viewControllers {
+            if viewController is UINavigationController {
+                if let firstViewController = (viewController as? UINavigationController)?.viewControllers.first {
+                    let _ = firstViewController.view
+                }
+            } else {
+                let _ = viewController.view
+            }
+        }
     }
     
     func setupSocialServices() {
