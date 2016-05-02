@@ -46,6 +46,11 @@ class CurrencyRate: BaseModel {
     
     class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
+            // In case response is incorrect, we can't delete all exsiting data
+            if datas.isEmpty {
+                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                return
+            }
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 // Delete old data
                 CurrencyRate.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)

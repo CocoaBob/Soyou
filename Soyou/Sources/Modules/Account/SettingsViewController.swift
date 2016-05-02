@@ -149,12 +149,12 @@ extension SettingsViewController {
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
                             self.sendFeedback()
                     }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.analyzeNetwork()
-                    }),
+//                    Row(type: .LeftTitle,
+//                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+//                        title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
+//                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+//                            self.analyzeNetwork()
+//                    }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_review")),

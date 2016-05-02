@@ -41,6 +41,11 @@ class Analytic: BaseModel {
     
     class func importDatas(datas: [NSDictionary]?, _ deleteNonExisting: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
+            // In case response is incorrect, we can't delete all exsiting data
+            if datas.isEmpty {
+                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                return
+            }
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 var ids = [NSNumber]()
                 

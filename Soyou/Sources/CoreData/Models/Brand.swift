@@ -41,18 +41,23 @@ class Brand: BaseModel {
     
     class func importDatas(datas: [NSDictionary]?, _ deleteNonExisting: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
+            // In case response is incorrect, we can't delete all exsiting data
+            if datas.isEmpty {
+                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                return
+            }
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                var newIDs = [NSNumber]()
+                var ids = [NSNumber]()
                 
                 // Import new data
                 for data in datas {
                     if let brand = Brand.importData(data, localContext) {
-                        newIDs.append(brand.id!)
+                        ids.append(brand.id!)
                     }
                 }
                 
                 // Delete non existing items
-                Brand.MR_deleteAllMatchingPredicate(FmtPredicate("NOT (id IN %@)", newIDs), inContext: localContext)
+                Brand.MR_deleteAllMatchingPredicate(FmtPredicate("NOT (id IN %@)", ids), inContext: localContext)
                 
                 }, completion: { (responseObject, error) -> Void in
                     if let completion = completion { completion(responseObject, error) }
