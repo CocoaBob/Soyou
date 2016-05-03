@@ -6,7 +6,7 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class FetchedResultsViewController: UIViewController {
+class SyncedFetchedResultsViewController: UIViewController {
     
     var fetchedResultsChangesInsert: [NSIndexPath]?
     var fetchedResultsChangesDelete: [NSIndexPath]?
@@ -43,10 +43,14 @@ class FetchedResultsViewController: UIViewController {
             if let completion = completion { completion() }
         })
     }
+    
+    func reloadDataWithoutCompletion() {
+        self.reloadData(nil)
+    }
 }
 
 // MARK: Subclass methods
-extension FetchedResultsViewController {
+extension SyncedFetchedResultsViewController {
     
     // Should be overridden by sub-class
     func createFetchedResultsController() -> NSFetchedResultsController? {
@@ -66,7 +70,7 @@ extension FetchedResultsViewController {
 }
 
 // MARK: NSFetchedResultsControllerDelegate
-extension FetchedResultsViewController: NSFetchedResultsControllerDelegate {
+extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         let closure = { () -> () in

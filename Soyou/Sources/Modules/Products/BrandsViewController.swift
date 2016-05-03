@@ -6,7 +6,7 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class BrandsViewController: AsyncedFetchedResultsViewController {
+class BrandsViewController: SyncedFetchedResultsViewController {
     
     // Override AsyncedFetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
@@ -45,12 +45,11 @@ class BrandsViewController: AsyncedFetchedResultsViewController {
         return isListMode ? _tableView : nil
     }
     
-    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
-        return Brand.MR_requestAllSortedBy(
-            "order,id",
-            ascending: true,
-            withPredicate: isListMode ? nil : FmtPredicate("isHot == true"),
-            inContext: context)
+    override func createFetchedResultsController() -> NSFetchedResultsController? {
+        return Brand.MR_fetchAllGroupedBy(isListMode ? "brandIndex" : nil,
+                                          withPredicate: isListMode ? nil : FmtPredicate("isHot == true"),
+                                          sortedBy: "order,id",
+                                          ascending: true)
     }
     
     // Properties
@@ -157,17 +156,17 @@ class BrandsViewController: AsyncedFetchedResultsViewController {
 extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return (self.fetchedResults != nil) ? 1 : 0
+        return self.fetchedResultsController?.sections?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.fetchedResults?.count ?? 0
+        return self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as? BrandsCollectionViewCell)!
         
-        let brand = (self.fetchedResults?[indexPath.row] as? Brand)!
+        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
             
         if let label = brand.label {
             cell.lblTitle.text = label
@@ -190,7 +189,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        let brand = (self.fetchedResults?[indexPath.row] as? Brand)!
+        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
         
         let brandViewController = BrandViewController.instantiate()
         
@@ -229,15 +228,15 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return (self.fetchedResults != nil) ? 1 : 0
+        return self.fetchedResultsController?.sections?.count ?? 0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.fetchedResults?.count ?? 0
+        return self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let brand = (self.fetchedResults?[indexPath.row] as? Brand)!
+        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
         let cell = (tableView.dequeueReusableCellWithIdentifier("BrandsTableViewCell", forIndexPath: indexPath) as? BrandsTableViewCell)!
         
         cell.lblTitle.text = brand.label
@@ -246,7 +245,7 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let brand = (self.fetchedResults?[indexPath.row] as? Brand)!
+        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
         
         let brandViewController = BrandViewController.instantiate()
         
@@ -273,6 +272,10 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Push view
         self.navigationController?.pushViewController(brandViewController, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.fetchedResultsController?.sections?[section].name
     }
 }
 
@@ -355,14 +358,14 @@ extension BrandsViewController: ZoomTransitionProtocol {
 // MARK: FetchedResultsController
 extension BrandsViewController {
     
-    override func reloadData(completion: ((Int) -> Void)?) {
+    override func reloadData(completion: (() -> Void)?) {
         // Reload Data
-        super.reloadData() { resultCount in
+        super.reloadData {
             // Original completion
-            if let completion = completion { completion(resultCount) }
+            if let completion = completion { completion() }
             
             // After searching is completed, if there are results, hide the indicator
-            if self.fetchedResults?.count ?? 0 > 0 {
+            if self.fetchedResultsController?.fetchedObjects?.count ?? 0 > 0 {
                 self.isLoadingViewVisible = false
                 self.endCheckIsLoadingTimer()
             } else {
