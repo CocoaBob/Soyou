@@ -34,6 +34,8 @@ class Brand: BaseModel {
             brand.extra = data["extra"] as? String
             brand.order = data["order"] as? NSNumber
             brand.categories = data["categories"] as? NSArray
+            brand.brandIndex = data["brandIndex"] as? String
+            brand.isHot = data["isHot"] as? NSNumber
         }
         
         return brand

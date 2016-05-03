@@ -32,6 +32,7 @@
 "brands_vc_beedback"="Send feedback";
 "brands_vc_beedback_waiting_title"="Analyzing...";
 "brands_vc_beedback_waiting_detail"="At most 5 mins, you can stop it by quitting the app.";
+"brands_vc_all_brands"="Browse all brands >>";
 
 /* Brand View Controller */
 "brand_vc_root_cell_all"="All";

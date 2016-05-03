@@ -28,10 +28,12 @@
         </compoundIndexes>
     </entity>
     <entity name="Brand" representedClassName=".Brand" syncable="YES">
+        <attribute name="brandIndex" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="categories" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="extra" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isHot" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <compoundIndexes>
@@ -130,7 +132,7 @@
     <elements>
         <element name="AppData" positionX="-54" positionY="135" width="128" height="75"/>
         <element name="BaseNews" positionX="-63" positionY="135" width="128" height="210"/>
-        <element name="Brand" positionX="-63" positionY="135" width="128" height="135"/>
+        <element name="Brand" positionX="-63" positionY="135" width="128" height="165"/>
         <element name="CurrencyRate" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="60"/>
         <element name="FavoriteProduct" positionX="-54" positionY="135" width="128" height="75"/>

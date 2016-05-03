@@ -34,6 +34,7 @@
 "brands_vc_beedback"="反馈问题";
 "brands_vc_beedback_waiting_title"="正在诊断网络...";
 "brands_vc_beedback_waiting_detail"="最多耗时5分钟，您可以关闭应用以结束诊断。";
+"brands_vc_all_brands"="浏览全部品牌 >>";
 
 /* Brand View Controller */
 "brand_vc_root_cell_all"="全部";
