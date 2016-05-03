@@ -647,7 +647,7 @@ class DataManager {
         DLog(FmtString("lastRequestTimestampStores = %@",timestamp ?? ""))
         RequestManager.shared.requestAllStores(timestamp, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary,
-                let stores = data["stores"] as? [NSDictionary] {
+                stores = data["stores"] as? [NSDictionary] {
                 // Import data
                 DLog(FmtString("Number of modified stores = %d",stores.count))
                 Store.importDatas(stores, { (_, _) -> () in

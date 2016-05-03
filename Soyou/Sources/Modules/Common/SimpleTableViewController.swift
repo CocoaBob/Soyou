@@ -210,8 +210,8 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         case .IconTitle:
             guard let rowCell = cell as? TableViewCellIconTitle else { break }
             rowCell.imgView.image = row.image
-            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.size.width ||
-                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height) {
+            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.width ||
+                rowCell.imgView.image?.size.height > rowCell.imgView.frame.height) {
                 rowCell.imgView.contentMode = .ScaleAspectFit
             } else {
                 rowCell.imgView.contentMode = .Center
@@ -233,8 +233,8 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             rowCell.imageRatioConstraint = ratioConstraint
             rowCell.imgView.addConstraint(ratioConstraint)
             rowCell.lblTitle.text = row.title?.text
-            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.size.width ||
-                rowCell.imgView.image?.size.height > rowCell.imgView.frame.size.height) {
+            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.width ||
+                rowCell.imgView.image?.size.height > rowCell.imgView.frame.height) {
                 rowCell.imgView.contentMode = .ScaleAspectFit
             } else {
                 rowCell.imgView.contentMode = .Center

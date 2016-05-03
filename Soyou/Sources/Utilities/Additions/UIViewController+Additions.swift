@@ -45,7 +45,7 @@ extension UIViewController {
                 navigationController = _navigationController
             }
             if let navigationController = navigationController {
-                topInset += navigationController.navigationBar.frame.size.height
+                topInset += navigationController.navigationBar.frame.height
             } else {
                 topInset += 44
             }
@@ -64,7 +64,7 @@ extension UIViewController {
                 navigationController = _navigationController
             }
             if let navigationController = navigationController {
-                bottomInset += navigationController.toolbar.frame.size.height
+                bottomInset += navigationController.toolbar.frame.height
             } else {
                 bottomInset += 44
             }
@@ -80,7 +80,7 @@ extension UIViewController {
             if let tabBarController = tabBarController {
                 let tabBarFrame = tabBarController.tabBar.frame
                 let viewFrame = self.view.frame
-                bottomInset += max(0, (viewFrame.size.height - tabBarFrame.origin.y))
+                bottomInset += max(0, (viewFrame.height - tabBarFrame.origin.y))
             } else {
                 bottomInset += 49
             }
@@ -94,7 +94,7 @@ extension UIViewController {
         self.automaticallyAdjustsScrollViewInsets = false
         let topInset = self.topInset(parallaxHeaderHeight, statusBarIsVisible, navBarIsVisible)
         let bottomInset = self.bottomInset(toolbarIsVisible, tabBarIsVisible)
-        scrollView.contentInset = UIEdgeInsetsMake(topInset, 0, bottomInset, 0)
+        scrollView.contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         scrollView.contentOffset = CGPoint(x: -scrollView.contentInset.left, y: -scrollView.contentInset.top)
     }
@@ -247,8 +247,8 @@ extension UIViewController {
             
             // If it's UIModalPresentationFormSheet, keyboardFrame.origin.y is far below the view
             if let superView = self.view.superview {
-                if frame.size.height > superView.frame.size.height {
-                    frame.size.height = superView.frame.size.height
+                if frame.height > superView.frame.height {
+                    frame.size.height = superView.frame.height
                 }
             }
             self.view.frame = frame

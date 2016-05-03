@@ -6,7 +6,7 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class FetchedResultsViewController: UIViewController {
+class AsyncedFetchedResultsViewController: UIViewController {
     
     var fetchLimit: Int = 0
     var fetchOffset: Int = 0
@@ -26,7 +26,7 @@ class FetchedResultsViewController: UIViewController {
 }
 
 // MARK: Subclass methods
-extension FetchedResultsViewController {
+extension AsyncedFetchedResultsViewController {
     
     func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
         assert(false)
@@ -43,7 +43,7 @@ extension FetchedResultsViewController {
 }
 
 // MARK: Reqests
-extension FetchedResultsViewController {
+extension AsyncedFetchedResultsViewController {
     
     func hasAppendedFetchedResultsForOffset(offset: Int) -> Bool {
         return self.fetchedResults?.count > offset
@@ -127,7 +127,7 @@ extension FetchedResultsViewController {
 }
 
 // MARK: Routines
-extension FetchedResultsViewController {
+extension AsyncedFetchedResultsViewController {
     
     // Reload table/collection view
     func reloadUI() {

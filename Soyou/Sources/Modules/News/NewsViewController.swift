@@ -6,9 +6,9 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class NewsViewController: FetchedResultsViewController {
+class NewsViewController: AsyncedFetchedResultsViewController {
     
-    // Override FetchedResultsViewController
+    // Override AsyncedFetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     
     override func collectionView() -> UICollectionView {
@@ -159,7 +159,8 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
             } else {
                 if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as? NewsCollectionViewCell {
                     cell.lblTitle.text = news.title
-                    if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                    if let imageURLString = news.image,
+                        imageURL = NSURL(string: imageURLString) {
                         cell.fgImageView.sd_setImageWithURL(imageURL,
                             placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
                             options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
@@ -208,7 +209,8 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 
                 // Prepare cover image
                 var image: UIImage?
-                if let imageURLString = localNews.image, let imageURL = NSURL(string: imageURLString) {
+                if let imageURLString = localNews.image,
+                    imageURL = NSURL(string: imageURLString) {
                     let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
                     image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
                 }
@@ -262,7 +264,7 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout
         
-        updateColumnCount(Int(floor(self.view.frame.size.width / 568)))
+        updateColumnCount(Int(floor(self.view.frame.width / 568)))
         
         // Collection view attributes
         self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
@@ -310,7 +312,7 @@ extension NewsViewController: ZoomTransitionProtocol {
     
     private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell {
+            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell {
             return cell.fgImageView
         }
         return nil

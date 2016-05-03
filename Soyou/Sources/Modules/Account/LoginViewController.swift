@@ -186,18 +186,23 @@ extension LoginViewController {
         self.btnAction?.enabled = false
         switch self.type {
         case .Login:
-            if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
+            if let strEmail = tfEmail?.text,
+                strPassword = tfPassword?.text {
                 self.btnAction?.enabled = (strEmail.isEmail() && !strPassword.isEmpty)
             }
         case .Register:
-            if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text, let strPasswordConfirm = tfPasswordConfirm?.text {
+            if let strEmail = tfEmail?.text,
+                strPassword = tfPassword?.text,
+                strPasswordConfirm = tfPasswordConfirm?.text {
                 self.btnAction?.enabled = (strEmail.isEmail() && !strPassword.isEmpty && strPassword == strPasswordConfirm)
             }
             break
         case .ResetPassword:
             let isEmail = (tfEmail?.text ?? "" ).isEmail()
             self.btnGetCode?.enabled = isEmail && !self.hasSentVerificationCode
-            if let strVerificationCode = tfVerificationCode?.text, let strPassword = tfPassword?.text, let strPasswordConfirm = tfPasswordConfirm?.text {
+            if let strVerificationCode = tfVerificationCode?.text,
+                strPassword = tfPassword?.text,
+                strPasswordConfirm = tfPasswordConfirm?.text {
                 self.btnAction?.enabled = (isEmail && !strVerificationCode.isEmpty && !strPassword.isEmpty && strPassword == strPasswordConfirm)
             }
         }
@@ -214,7 +219,8 @@ extension LoginViewController {
     @IBAction func login(sender: UIButton?) {
         self.dismissKeyboard()
         
-        if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
+        if let strEmail = tfEmail?.text,
+            strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.showLoader(self.view)
             
@@ -460,7 +466,8 @@ extension LoginViewController {
     @IBAction func register(sender: UIButton?) {
         self.dismissKeyboard()
         
-        if let strEmail = tfEmail?.text, let strPassword = tfPassword?.text {
+        if let strEmail = tfEmail?.text,
+            strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.showLoader(self.view)
             
@@ -525,7 +532,8 @@ extension LoginViewController {
     @IBAction func resetPassword(sender: UIButton?) {
         self.dismissKeyboard()
         
-        if let strVerificationCode = tfVerificationCode?.text, let strPassword = tfPassword?.text {
+        if let strVerificationCode = tfVerificationCode?.text,
+            strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.showLoader(self.view)
             

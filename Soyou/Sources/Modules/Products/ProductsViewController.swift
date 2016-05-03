@@ -6,9 +6,9 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class ProductsViewController: FetchedResultsViewController {
+class ProductsViewController: AsyncedFetchedResultsViewController {
     
-    // Override FetchedResultsViewController
+    // Override AsyncedFetchedResultsViewController
     @IBOutlet private var _collectionView: UICollectionView!
     
     @IBOutlet private var _swipeUpIndicator: UIView!
@@ -78,7 +78,7 @@ class ProductsViewController: FetchedResultsViewController {
         }
         
         // Pre-calculate cell width
-        self.cellWidth = (self.view.frame.size.width - cellMargin * 3) / 2.0
+        self.cellWidth = (self.view.frame.width - cellMargin * 3) / 2.0
         
         // Fix scroll view insets
         if self.isSearchResultsViewController {
@@ -135,7 +135,7 @@ class ProductsViewController: FetchedResultsViewController {
     }
 }
 
-// MARK: FetchedResultsViewController
+// MARK: AsyncedFetchedResultsViewController
 extension ProductsViewController {
     
     override func collectionView() -> UICollectionView {
@@ -283,7 +283,7 @@ extension ProductsViewController {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         // If it's the end of the scroll view
-        if scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.size.height - scrollView.contentInset.bottom) {
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.height - scrollView.contentInset.bottom) {
             self.showSwipeUpIndicator()
         }
     }
@@ -378,7 +378,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         layout.itemRenderDirection = .LeftToRight
         layout.minimumColumnSpacing = cellMargin
         layout.minimumInteritemSpacing = cellMargin
-        layout.sectionInset = UIEdgeInsetsMake(cellMargin, cellMargin, cellMargin, cellMargin)
+        layout.sectionInset = UIEdgeInsets(top: cellMargin, left: cellMargin, bottom: cellMargin, right: cellMargin)
         
         // Add the waterfall layout to your collection view
         self.collectionView().collectionViewLayout = layout

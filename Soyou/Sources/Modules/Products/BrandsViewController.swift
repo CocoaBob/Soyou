@@ -6,9 +6,9 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-class BrandsViewController: FetchedResultsViewController {
+class BrandsViewController: AsyncedFetchedResultsViewController {
     
-    // Override FetchedResultsViewController
+    // Override AsyncedFetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     @IBOutlet var _tableView: UITableView!
     
@@ -46,10 +46,11 @@ class BrandsViewController: FetchedResultsViewController {
     }
     
     override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
-        return Brand.MR_requestAllSortedBy("order",
-                                           ascending: true,
-                                           withPredicate: isListMode ? nil : FmtPredicate("isHot == true"),
-                                           inContext: context)
+        return Brand.MR_requestAllSortedBy(
+            "order,id",
+            ascending: true,
+            withPredicate: isListMode ? nil : FmtPredicate("isHot == true"),
+            inContext: context)
     }
     
     // Properties
@@ -172,7 +173,8 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell.lblTitle.text = label
         }
         
-        if let imageURLString = brand.imageUrl, let imageURL = NSURL(string: imageURLString) {
+        if let imageURLString = brand.imageUrl,
+            imageURL = NSURL(string: imageURLString) {
             cell.fgImageView?.sd_setImageWithURL(imageURL,
                                                  placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
                                                  options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .DelayPlaceholder])
@@ -204,7 +206,8 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         // Load brand image
         var image: UIImage?
-        if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
+        if let imageURLString = imageURLString,
+            imageURL = NSURL(string: imageURLString) {
             brandViewController.brandImageURL = imageURL
             
             let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
@@ -259,7 +262,8 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Load brand image
         var image: UIImage?
-        if let imageURLString = imageURLString, let imageURL = NSURL(string: imageURLString) {
+        if let imageURLString = imageURLString,
+            imageURL = NSURL(string: imageURLString) {
             brandViewController.brandImageURL = imageURL
             
             let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
@@ -284,7 +288,7 @@ extension BrandsViewController {//: CHTCollectionViewDelegateWaterfallLayout {
         // Change individual layout attributes for the spacing between cells
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsetsMake(0, 1, 0, 1)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
         
         // Header view / Footer view
         layout.headerReferenceSize = CGSize(width: 0, height: 44.0)

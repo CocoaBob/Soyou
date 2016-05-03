@@ -288,7 +288,7 @@ extension BrandViewController {
         // Image
         guard let image = brandImage else { return }
         // Height
-        let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
+        let headerHeight = self.view.bounds.width * image.size.height / image.size.width
         // Header View
         let headerView = UIImageView(image: image)
         headerView.contentMode = .ScaleAspectFill
@@ -306,8 +306,8 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
     private func updateFooterView() {
         guard let footerView = self.tableView.tableFooterView else { return }
-        let viewWidth = self.view.frame.size.width
-        footerView.layoutMargins = UIEdgeInsetsMake(15, 15, 15, 15)
+        let viewWidth = self.view.frame.width
+        footerView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
         let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
         footerView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: (viewWidth - marginH) * 0.5 + marginV)

@@ -11,9 +11,9 @@ enum FavoriteType: Int {
     case Products
 }
 
-class FavoritesViewController: FetchedResultsViewController {
+class FavoritesViewController: AsyncedFetchedResultsViewController {
     
-    // Override FetchedResultsViewController
+    // Override AsyncedFetchedResultsViewController
     @IBOutlet var _tableView: UITableView!
     @IBOutlet var _emptyView: UIView!
     @IBOutlet var _emptyViewLabel: UILabel!
@@ -130,7 +130,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 // Title
                 _cell.lblTitle.text = news.title
                 // Image
-                if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                if let imageURLString = news.image,
+                    imageURL = NSURL(string: imageURLString) {
                     _cell.imgView.sd_setImageWithURL(imageURL,
                         placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                         options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
@@ -153,7 +154,9 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             // Price
                             _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
                             // Image
-                            if let images = product.images as? NSArray, let imageURLString = images.firstObject as? String, let imageURL = NSURL(string: imageURLString) {
+                            if let images = product.images as? NSArray,
+                                imageURLString = images.firstObject as? String,
+                                imageURL = NSURL(string: imageURLString) {
                                 _cell.imgView?.sd_setImageWithURL(imageURL,
                                     placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
@@ -183,7 +186,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             if let news = self.fetchedResults?[indexPath.row] as? FavoriteNews {
                 // Prepare cover image
                 var image: UIImage?
-                if let imageURLString = news.image, let imageURL = NSURL(string: imageURLString) {
+                if let imageURLString = news.image,
+                    imageURL = NSURL(string: imageURLString) {
                     let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
                     image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
                 }

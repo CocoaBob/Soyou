@@ -57,7 +57,7 @@ class ProductViewController: UIViewController {
     // Status bar cover
     var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
-        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.width, height: UIApplication.sharedApplication().statusBarFrame.height)
     )
     
     // Class methods
@@ -84,17 +84,17 @@ class ProductViewController: UIViewController {
         self.btnFav = UIButton(type: .System)
         
         self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
-        self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
+        self.btnLike?.titleEdgeInsets = UIEdgeInsets(top: -20, left: -0, bottom: 1, right: 0)
         self.btnLike?.backgroundColor = UIColor.clearColor()
         self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
-        self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
+        self.btnLike?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
         self.btnLike?.addTarget(self, action: #selector(ProductViewController.like(_:)), forControlEvents: .TouchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clearColor()
         self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
-        self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
+        self.btnFav?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
         self.btnFav?.addTarget(self, action: #selector(ProductViewController.star(_:)), forControlEvents: .TouchUpInside)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
@@ -209,7 +209,7 @@ extension ProductViewController {
     
     private func setupCarouselView() {
         // Update the frame of carousel view
-        let carouselViewHeight = self.view.frame.size.width / self.carouselViewRatio
+        let carouselViewHeight = self.view.frame.width / self.carouselViewRatio
         self.carouselViewHeight?.constant = carouselViewHeight
         self.view.setNeedsLayout()
         self.view.layoutIfNeeded()
@@ -223,7 +223,7 @@ extension ProductViewController {
             images = localProduct.images as? [String]
             title = localProduct.title
         })
-        let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: carouselViewHeight)
+        let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: carouselViewHeight)
         if let images = images {
             // Reset self.photos
             self.photos = Array(count: images.count, repeatedValue: IDMPhoto())
@@ -323,14 +323,14 @@ extension ProductViewController {
             // Create CAPSPageMenu
             self.pageMenu = CAPSPageMenu(
                 viewControllers: viewControllers,
-                frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height),
+                frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height),
                 options: parameters)
             
             // Add CAPSPageMenu
             if let pageMenu = self.pageMenu {
                 pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
                 self.subViewsContainer.addSubview(pageMenu.view)
-                pageMenu.view.frame = CGRect(x: 0, y: 0, width: self.subViewsContainer.frame.size.width, height: self.subViewsContainer.frame.size.height)
+                pageMenu.view.frame = CGRect(x: 0, y: 0, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height)
             }
         }
         
@@ -537,7 +537,8 @@ extension ProductViewController {
                 productID = "\(oldID)"
             }
             // If SKU exists, use SKU
-            if let objectData = localProduct?.sku, let object = Utils.decrypt(objectData) as? String {
+            if let objectData = localProduct?.sku,
+                object = Utils.decrypt(objectData) as? String {
                 productID = object
             }
             if let descriptions = localProduct?.descriptions {

@@ -12,9 +12,9 @@ extension UITabBar {
         if "position" == event {
             let transition = CATransition()
             
-            if layer.position.x < 0 || layer.position.x >= layer.bounds.size.width {
+            if layer.position.x < 0 || layer.position.x >= layer.bounds.width {
                 transition.subtype = kCATransitionFromTop
-            } else if layer.position.y > layer.bounds.size.height {
+            } else if layer.position.y > layer.bounds.height {
                 transition.subtype = kCATransitionFromBottom
             } else {
                 return nil

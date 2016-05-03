@@ -269,7 +269,8 @@ extension ProfileViewController {
                     rows: rows
                 )
             ]
-            if let region = UserManager.shared.region, let index = regionCodes.indexOf(region) {
+            if let region = UserManager.shared.region,
+                index = regionCodes.indexOf(region) {
                 simpleViewController.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
                 simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
             }

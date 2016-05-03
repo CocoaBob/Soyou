@@ -121,7 +121,7 @@ extension Utils {
         textView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         textView.textColor = UIColor.greenColor()
         textView.font = UIFont(name: "Menlo", size: 9)
-        textView.contentInset = UIEdgeInsetsMake(72, 0, 56, 0)
+        textView.contentInset = UIEdgeInsets(top: 72, left: 0, bottom: 56, right: 0)
         textView.editable = false
         textView.selectable = false
         keyWindow.addSubview(textView)

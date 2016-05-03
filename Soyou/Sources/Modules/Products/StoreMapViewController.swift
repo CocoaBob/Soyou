@@ -417,7 +417,7 @@ class CustomMapView: MKMapView {
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         if let convertedPoint = self.calloutView?.convertPoint(point, fromView: self),
-            let calloutMaybe = self.calloutView?.hitTest(convertedPoint, withEvent: event) {
+            calloutMaybe = self.calloutView?.hitTest(convertedPoint, withEvent: event) {
             return calloutMaybe
         }
         return super.hitTest(point, withEvent: event)

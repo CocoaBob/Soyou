@@ -257,7 +257,8 @@ class CurrencyManager {
     
     func cheapestFormattedPriceInUserCurrency(pricesData: NSData?) -> String? {
         var items: [NSDictionary]?
-        if let objectData = pricesData, let object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
+        if let objectData = pricesData,
+            object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
             items = object
         }
         var cheapestPrice: NSNumber?

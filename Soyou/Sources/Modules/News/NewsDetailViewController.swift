@@ -35,7 +35,7 @@ class NewsDetailViewController: UIViewController {
     // Status Bar Cover
     var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
-        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: UIApplication.sharedApplication().statusBarFrame.size.height)
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.width, height: UIApplication.sharedApplication().statusBarFrame.height)
     )
     
     // Data
@@ -87,17 +87,17 @@ class NewsDetailViewController: UIViewController {
         self.btnFav = UIButton(type: .System)
         
         self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
-        self.btnLike?.titleEdgeInsets = UIEdgeInsetsMake(-20, -0, 1, 0)
+        self.btnLike?.titleEdgeInsets = UIEdgeInsets(top: -20, left: -0, bottom: 1, right: 0)
         self.btnLike?.backgroundColor = UIColor.clearColor()
         self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
-        self.btnLike?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
+        self.btnLike?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
         self.btnLike?.addTarget(self, action: #selector(NewsDetailViewController.like(_:)), forControlEvents: .TouchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clearColor()
         self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
-        self.btnFav?.imageEdgeInsets = UIEdgeInsetsMake(-1, -0, 1, 0) // Adjust image position
+        self.btnFav?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
         self.btnFav?.addTarget(self, action: #selector(NewsDetailViewController.star(_:)), forControlEvents: .TouchUpInside)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
@@ -182,7 +182,7 @@ extension NewsDetailViewController {
                 windowSize.height = CGFloat((height as NSString).doubleValue)
         }
         
-        let factor = windowSize.width / CGRectGetWidth(webView.frame)
+        let factor = windowSize.width / webView.frame.width
         touchPoint.x *= factor
         touchPoint.y = (touchPoint.y - webView.scrollView.contentInset.top) * factor
         
@@ -312,7 +312,8 @@ extension NewsDetailViewController {
             } catch {
                 
             }
-            if var cssContent = cssContent, var htmlContent = htmlContent {
+            if var cssContent = cssContent,
+                htmlContent = htmlContent {
                 cssContent = cssContent.stringByReplacingOccurrencesOfString("__COVER_HEIGHT__", withString: "0")
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__TITLE__", withString: newsTitle)
                 htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CONTENT__", withString: newsContent)
@@ -452,7 +453,7 @@ extension NewsDetailViewController {
                 for strURL in self.webViewImageURLs {
                     if let imageURL = NSURL(string: strURL) {
                         if let imageResponse = NSURLCache.sharedURLCache().cachedResponseForRequest(NSURLRequest(URL: imageURL)),
-                            let image = UIImage(data: imageResponse.data) {
+                            image = UIImage(data: imageResponse.data) {
                                 webViewPhotos.append(IDMPhoto(image:image))
                         } else {
                             webViewPhotos.append(IDMPhoto(URL: imageURL))
@@ -481,7 +482,7 @@ extension NewsDetailViewController {
         // Image
         guard let image = self.headerImage else { return }
         // Height
-        let headerHeight = self.view.bounds.size.width * image.size.height / image.size.width
+        let headerHeight = self.view.bounds.width * image.size.height / image.size.width
         // Header View
         let headerView = UIImageView(image: image)
         headerView.contentMode = .ScaleAspectFill

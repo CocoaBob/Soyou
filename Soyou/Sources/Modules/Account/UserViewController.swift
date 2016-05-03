@@ -117,7 +117,7 @@ extension UserViewController {
     private func setupParallaxHeader() {
         // Parallax View
         let scrollView = self.tableView
-        scrollView.parallaxHeader.height = self.viewUserInfo.frame.size.height
+        scrollView.parallaxHeader.height = self.viewUserInfo.frame.height
         scrollView.parallaxHeader.view = self.viewUserInfo
         scrollView.parallaxHeader.mode = .Fill
     }
