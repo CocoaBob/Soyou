@@ -98,6 +98,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             
             // Fix scroll view insets
             self.updateScrollViewInset(_tableView, 0, true, true, false, true)
+            
+            // Setups
+            self.setupTableView()
         } else {
             _tableView.dataSource = nil
             _tableView.delegate = nil
@@ -152,7 +155,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     }
 }
 
-// MARK: - CollectionView Delegate Methods
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -224,7 +227,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
-// MARK: - 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -277,10 +280,31 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.fetchedResultsController?.sections?[section].name
     }
+    
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        var titles = [String]()
+        if let sectionInfos = self.fetchedResultsController?.sections {
+            for sectionInfo in sectionInfos {
+                if let indexTitle = sectionInfo.indexTitle {
+                    titles.append(indexTitle)
+                }
+            }
+        }
+        return titles
+    }
 }
 
-//MARK: - CollectionView Waterfall Layout
-extension BrandsViewController {//: CHTCollectionViewDelegateWaterfallLayout {
+// MARK: Setup UITableView
+extension BrandsViewController {
+    
+    func setupTableView() {
+        _tableView.sectionIndexColor = UIColor.grayColor()
+        _tableView.sectionIndexTrackingBackgroundColor = UIColor(white: 0, alpha: 0.1)
+    }
+}
+
+// MARK: - CollectionView Waterfall Layout
+extension BrandsViewController {
     
     func setupCollectionView() {
         _collectionView.indicatorStyle = .White

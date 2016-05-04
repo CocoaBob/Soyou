@@ -26,6 +26,6 @@ class Themes {
         UIToolbar.appearance().tintColor = UIColor(hex: Cons.UI.colorToolbar)
         
         // UITableViewHeaderFooterView
-        UITableViewHeaderFooterView.appearance().tintColor = UIColor.clearColor()
+//        UITableViewHeaderFooterView.appearance().tintColor = UIColor.clearColor()
     }
 }
