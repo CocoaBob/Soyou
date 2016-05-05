@@ -42,4 +42,15 @@ extension NSManagedObjectContext {
             }
         }
     }
+    
+    func runBlock(block: ((NSManagedObjectContext)->())?) {
+        let savingContext = self.ancestorContext()
+        let localContext = NSManagedObjectContext.MR_contextWithParent(savingContext)
+        localContext.performBlock() {
+            localContext.MR_setWorkingName(#function)
+            if let block = block {
+                block(localContext)
+            }
+        }
+    }
 }

@@ -688,14 +688,14 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     var isFavorite: Bool? {
         didSet {
             if UserManager.shared.isLoggedIn {
-                if isFavorite != nil && isFavorite!.boolValue {
-                    self.btnFav.setImage(UIImage(named: "img_heart_shadow_selected"), forState: UIControlState.Normal)
-                } else {
-                    self.btnFav.setImage(UIImage(named: "img_heart_shadow"), forState: UIControlState.Normal)
-                }
+                self.updateFavoriteButton(isFavorite != nil && isFavorite!.boolValue)
             } else {
                 isFavorite = false
             }
         }
+    }
+    
+    func updateFavoriteButton(isFavorite: Bool) {
+        self.btnFav.setImage(UIImage(named: isFavorite ? "img_heart_shadow_selected" : "img_heart_shadow"), forState: UIControlState.Normal)
     }
 }
