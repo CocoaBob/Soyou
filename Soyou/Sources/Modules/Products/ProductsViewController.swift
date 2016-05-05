@@ -241,9 +241,13 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                                                  options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
                                                  completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
                                                     // Update image if it's still visible
-                                                    if (image != nil &&
-                                                        self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
-                                                        imageView.image = image
+                                                    if (image != nil && self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
+                                                        // Update the image with an animation
+                                                        UIView.transitionWithView(imageView,
+                                                            duration: 0.3,
+                                                            options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                                            animations: { imageView.image = image },
+                                                            completion: nil)
                                                         
                                                         // If image ratio is different, reload the cell to update layout
                                                         let imageViewRatio = imageView.frame.height / imageView.frame.width
