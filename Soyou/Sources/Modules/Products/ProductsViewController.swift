@@ -33,6 +33,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
     var cellWidth: CGFloat = 0
+    var lastCellSize = CGSize(width: 1, height: 1)
     
     // Properties
     var selectedIndexPath: NSIndexPath?
@@ -234,17 +235,25 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 imageURLString = images.firstObject as? String,
                 imageURL = NSURL(string: imageURLString) {
                 let countBeforeUpdating = self.fetchedResults?.count
-                    cell.fgImageView?.sd_setImageWithURL(imageURL,
-                        placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
-                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                            // Update cell size if it's not scrolling
-                            if (image != nil &&
-                                self.collectionView().indexPathsForVisibleItems().contains(indexPath) &&
-                                self.fetchedResults?.count == countBeforeUpdating) {
-                                self.collectionView().reloadItemsAtIndexPaths([indexPath])
-                            }
+                if let imageView = cell.fgImageView {
+                    imageView.sd_setImageWithURL(imageURL,
+                                                 placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
+                                                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                                                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                                                    // Update image if it's still visible
+                                                    if (image != nil &&
+                                                        self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
+                                                        imageView.image = image
+                                                        
+                                                        // If image ratio is different, reload the cell to update layout
+                                                        let imageViewRatio = imageView.frame.height / imageView.frame.width
+                                                        let imageRatio = image.size.height / image.size.width
+                                                        if (abs(imageViewRatio - imageRatio) > 0.01 && self.fetchedResults?.count == countBeforeUpdating) {
+                                                            self.collectionView().reloadItemsAtIndexPaths([indexPath])
+                                                        }
+                                                    }
                     })
+                }
             } else {
                 DLog(FmtString("Product ID = %@, images: %@",product.id ?? "?",product.images ?? "?"))
             }
@@ -392,7 +401,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        var size = CGSize(width: 1, height: 1) // Default size for product
+        var size = self.lastCellSize // Default size for product
         
         if let product = self.fetchedResults?[indexPath.row] as? Product,
             images = product.images as? NSArray,
@@ -403,6 +412,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
             if image != nil {
                 let cellHeight = self.cellWidth * image.size.height / image.size.width + bottomMargin
                 size = CGSize(width: self.cellWidth, height: cellHeight)
+                self.lastCellSize = size
             }
         }
         return size
