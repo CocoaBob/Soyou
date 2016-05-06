@@ -707,16 +707,30 @@ class DataManager {
         }
     }
     
+    var _isWTStatusBarVisible = false
     func updateProductsProgress(current: Int, total: Int) {
         DLog("Updating products: \(current) / \(total)")
+        if WTStatusBar.backgroundColor() != UIColor.clearColor() {
+            WTStatusBar.setTextColor(UIColor.clearColor())
+            WTStatusBar.setBackgroundColor(UIColor.clearColor())
+            WTStatusBar.setProgressBarColor(UIColor(hex: Cons.UI.colorTheme))
+        }
         if current == -1 {
-           // NSLocalizedString("data_manager_data_update_failed")
+            if (_isWTStatusBarVisible) {
+                WTStatusBar.setStatusText(NSLocalizedString("data_manager_data_update_failed"), timeout: 1, animated: true)
+                _isWTStatusBarVisible = false
+            }
         } else {
             let progress = CGFloat(current) / CGFloat(total)
+            WTStatusBar.setProgress(progress, animated: true)
             if progress < 1 {
-                // NSLocalizedString("data_manager_updating_data")
-            } else {
-                // NSLocalizedString("data_manager_data_update_succeeded")
+                if !_isWTStatusBarVisible {
+                    _isWTStatusBarVisible = true
+                    WTStatusBar.setStatusText(NSLocalizedString("data_manager_updating_data"))
+                }
+            } else if (_isWTStatusBarVisible) {
+                WTStatusBar.setStatusText(NSLocalizedString("data_manager_data_update_succeeded"), timeout: 1, animated: true)
+                _isWTStatusBarVisible = false
             }
         }
     }
