@@ -39,12 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup the window (must before MBProgressHUD)
         self.setupWindow()
         
-        // Show updating massage
-        DispatchAfter(0.3) {
-            self.showInitializationView()
-        }
+        // Setup Social Services
+        self.setupSocialServices()
         
-        DispatchAfter(0.4) {
+        // In case if it hasn't been registered on the server
+        DataManager.shared.registerForNotification()
+        
+        // Setup Database asynchronously
+        dispatch_async(dispatch_get_main_queue()) {
             self.setupDatabase()
             
             // Load current user
@@ -52,9 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Get Username from database
             Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
-            
-            // Hide updating message
-            self.hideInitializationView()
             
             // Setup view controllers (Must after initializing the database)
             self.setupTabBarController()
@@ -66,17 +65,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.showShortcutView()
             
             // Show Introduction view
-            DispatchAfter(0.01) {
+            dispatch_async(dispatch_get_main_queue()) {
                 // Make sure NewsViewController's viewWillAppear is called before showIntroView()
                 self.checkIfShowIntroView()
             }
         }
-        
-        // Setup Social Services
-        self.setupSocialServices()
-        
-        // In case if it hasn't been registered on the server
-        DataManager.shared.registerForNotification()
         
         return true
     }
@@ -147,21 +140,9 @@ extension AppDelegate {
 // MARK: Routines
 extension AppDelegate {
     
-    func showInitializationView() {
-        if let hud = MBProgressHUD.showLoader(self.window!) {
-            hud.mode = MBProgressHUDMode.Text
-            hud.labelText = NSLocalizedString("initializing_database")
-        }
-    }
-    
-    func hideInitializationView() {
-        MBProgressHUD.hideLoader(self.window!)
-    }
-    
     func setupWindow() {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = UINavigationController(rootViewController: UIViewController())
-        self.window?.rootViewController?.view.backgroundColor = UIColor(hex: Cons.UI.colorBG)
+        self.window?.rootViewController = UINavigationController(rootViewController: SplashScreenViewController())
         self.window?.makeKeyAndVisible()
     }
     
@@ -189,16 +170,6 @@ extension AppDelegate {
         
         self.window?.rootViewController = tabBarController
         self.uiIsInitialized = true
-        
-//        for viewController in viewControllers {
-//            if viewController is UINavigationController {
-//                if let firstViewController = (viewController as? UINavigationController)?.viewControllers.first {
-//                    let _ = firstViewController.view
-//                }
-//            } else {
-//                let _ = viewController.view
-//            }
-//        }
     }
     
     func setupSocialServices() {
