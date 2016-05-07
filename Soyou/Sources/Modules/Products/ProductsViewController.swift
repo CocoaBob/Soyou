@@ -24,6 +24,9 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
         }
     }
     
+    // Used for searchFinished method, to know if 2 searches are both finished
+    var lastFinishedSearchOffset: Int?
+    
     var searchController: UISearchController?
     
     var isSearchResultsViewController: Bool = false
@@ -76,6 +79,8 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
         if !self.isSearchResultsViewController {
             // Setup Search Controller
             self.setupSearchController()
+        } else {
+            self.showTapSearch()
         }
         
         // Pre-calculate cell width
@@ -428,7 +433,7 @@ extension ProductsViewController {
     
     func setupLoadMoreControl() {        
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
-            self.loadMore({ resultCount in
+            self.loadMore({ offset, resultCount in
                 self.endRefreshing(resultCount)
             })
             self.beginRefreshing()
@@ -480,27 +485,35 @@ extension ProductsViewController {
 // MARK: FetchedResultsController
 extension ProductsViewController {
     
-    func searchFinished(resultCount: Int, completion: ((Int) -> Void)?) {
+    func searchFinished(offset: Int, _ resultCount: Int, _ completion: ((Int, Int) -> Void)?) {
         // New search, reset no more data status
         self.resetNoMoreDataStatus()
         // Scrolls to top
         self.collectionView().setContentOffset(CGPoint(x: 0, y: -self.collectionView().contentInset.top), animated: false)
         
         // Original completion
-        if let completion = completion { completion(resultCount) }
+        if let completion = completion { completion(offset, resultCount) }
         
         // After searching is completed, if there are results, hide the indicator
         if self.fetchedResults?.count ?? 0 > 0 {
             self.isLoadingViewVisible = false
         } else {
-            // If it's not searching but there's no data, it means data isn't ready
-            if self.searchKeywords != nil {
-                self.showNoDataIndicator()
+            // If one of the searches has 0 result, the other one will continue the search
+            // So we have to check if it's the 1st result or the 2nd
+            // If it's the 1st, keep displaying "Loading", if it's the 2nd, display "No Data"
+            if self.lastFinishedSearchOffset == nil {
+                self.lastFinishedSearchOffset = offset
+            } else {
+                self.lastFinishedSearchOffset = nil
+                // If it's not searching but there's no data, it means data isn't ready
+                if !self.searchKeywordsIsEmpty() {
+                    self.showNoDataIndicator()
+                }
             }
         }
     }
     
-    private func queryServer(completion: ((Int) -> Void)?) {
+    private func queryServer(completion: ((Int, Int) -> Void)?) {
         // The offset for current fetch
         let offset = self.fetchOffset
         // Delete all old memory objects before a new search
@@ -524,7 +537,7 @@ extension ProductsViewController {
                         // Reload UI
                         self.reloadUI()
                         // Completed
-                        if let completion = completion { completion(results.count ?? 0) }
+                        if let completion = completion { completion(offset, results.count ?? 0) }
                     })
                 }
             }
@@ -532,7 +545,7 @@ extension ProductsViewController {
     }
     
     // Load data from server and local, we use the one who comes first
-    override func reloadData(completion: ((Int) -> Void)?) {
+    override func reloadData(completion: ((Int, Int) -> Void)?) {
         // If the results were not empty
         if self.fetchedResults?.count ?? 0 > 0 {
             // Stop image caching, as all the cells are reloaded, the old completion block will reload non-existing cells
@@ -546,17 +559,17 @@ extension ProductsViewController {
         }
         
         // Search Products locally
-        super.reloadData() { resultCount in
-            self.searchFinished(resultCount, completion: completion)
+        super.reloadData() { offset, resultCount in
+            self.searchFinished(offset, resultCount, completion)
         }
         // Search products remotely on server
-        self.queryServer() { resultCount in
-            self.searchFinished(resultCount, completion: completion)
+        self.queryServer() { offset, resultCount in
+            self.searchFinished(offset, resultCount, completion)
         }
     }
     
     // Load data from server and local, we use the one who comes first
-    override func loadMore(completion: ((Int) -> Void)?) {
+    override func loadMore(completion: ((Int, Int) -> Void)?) {
         // Search Products locally
         super.loadMore(completion)
         // Search products remotely on server

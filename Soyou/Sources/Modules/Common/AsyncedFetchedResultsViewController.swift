@@ -45,6 +45,7 @@ extension AsyncedFetchedResultsViewController {
 // MARK: Reqests
 extension AsyncedFetchedResultsViewController {
     
+    // Used to avoid appending the same result multiple times.
     func hasAppendedFetchedResultsForOffset(offset: Int) -> Bool {
         return self.fetchedResults?.count > offset
     }
@@ -60,7 +61,7 @@ extension AsyncedFetchedResultsViewController {
         }
     }
     
-    func fetch(completion: ((Int) -> Void)?) {
+    func fetch(completion: ((Int, Int) -> Void)?) {
         // The offset for current fetch
         let offset = self.fetchOffset
         
@@ -81,7 +82,7 @@ extension AsyncedFetchedResultsViewController {
                     // Reload UI
                     self.reloadUI()
                     // Completed
-                    if let completion = completion { completion(result.finalResult?.count ?? 0) }
+                    if let completion = completion { completion(offset, result.finalResult?.count ?? 0) }
                 })
             }
         }
@@ -102,7 +103,7 @@ extension AsyncedFetchedResultsViewController {
         }
     }
     
-    func reloadData(completion: ((Int) -> Void)?) {
+    func reloadData(completion: ((Int, Int) -> Void)?) {
         // Clear last fetch
         self.clearFetchResults()
         
@@ -117,7 +118,7 @@ extension AsyncedFetchedResultsViewController {
         self.reloadData(nil)
     }
     
-    func loadMore(completion: ((Int) -> Void)?) {
+    func loadMore(completion: ((Int, Int) -> Void)?) {
         // Fetch offset
         self.fetchOffset += self.fetchLimit
         

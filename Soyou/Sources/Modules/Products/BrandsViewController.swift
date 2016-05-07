@@ -422,15 +422,19 @@ extension BrandsViewController: UISearchControllerDelegate {
     }
     
     func showSearchController() {
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationItem.setRightBarButtonItem(nil, animated: false)
-        self.navigationItem.titleView = self.searchController!.searchBar
+        if isListMode {
+            self.navigationItem.setHidesBackButton(true, animated: false)
+            self.navigationItem.setRightBarButtonItem(nil, animated: false)
+            self.navigationItem.titleView = self.searchController!.searchBar
+        }
         self.searchController!.searchBar.becomeFirstResponder()
     }
     
     func hideSearchController() {
-        self.setupRightBarButtonItem()
-        self.navigationItem.titleView = nil
+        if isListMode {
+            self.setupRightBarButtonItem()
+            self.navigationItem.titleView = nil
+        }
     }
     
     func setupSearchController() {
