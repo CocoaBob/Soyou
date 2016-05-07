@@ -305,7 +305,8 @@ extension BrandsViewController {
     
     func setupTableView() {
         _tableView.sectionIndexColor = UIColor.grayColor()
-        _tableView.sectionIndexTrackingBackgroundColor = UIColor(white: 0, alpha: 0.1)
+        _tableView.sectionIndexBackgroundColor = UIColor.clearColor()
+        _tableView.sectionIndexTrackingBackgroundColor = UIColor(white: 0, alpha: 0.05)
     }
 }
 
