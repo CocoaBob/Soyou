@@ -48,7 +48,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     override func createFetchedResultsController() -> NSFetchedResultsController? {
         return Brand.MR_fetchAllGroupedBy(isListMode ? "brandIndex" : nil,
                                           withPredicate: isListMode ? nil : FmtPredicate("isHot == true"),
-                                          sortedBy: "order,id",
+                                          sortedBy: isListMode ? "brandIndex,order,id" : "order,id",
                                           ascending: true)
     }
     
@@ -169,7 +169,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as? BrandsCollectionViewCell)!
         
-        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
+        let brand = self.brandAtIndexPath(indexPath)!
             
         if let label = brand.label {
             cell.lblTitle.text = label
@@ -192,7 +192,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
         
-        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
+        let brand = self.brandAtIndexPath(indexPath)!
         
         let brandViewController = BrandViewController.instantiate()
         
@@ -239,16 +239,18 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
+        let brand = self.brandAtIndexPath(indexPath)!
         let cell = (tableView.dequeueReusableCellWithIdentifier("BrandsTableViewCell", forIndexPath: indexPath) as? BrandsTableViewCell)!
         
-        cell.lblTitle.text = brand.label
+        cell.lblTitle.text = brand.label ?? ""
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let brand = (self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Brand)!
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let brand = self.brandAtIndexPath(indexPath)!
         
         let brandViewController = BrandViewController.instantiate()
         
@@ -275,6 +277,10 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Push view
         self.navigationController?.pushViewController(brandViewController, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 22
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -381,6 +387,13 @@ extension BrandsViewController: ZoomTransitionProtocol {
 
 // MARK: FetchedResultsController
 extension BrandsViewController {
+    
+    func brandAtIndexPath(indexPath: NSIndexPath) -> Brand? {
+        if let section = self.fetchedResultsController?.sections?[indexPath.section] {
+            return section.objects?[indexPath.row] as? Brand
+        }
+        return nil
+    }
     
     override func reloadData(completion: (() -> Void)?) {
         // Reload Data
@@ -549,6 +562,10 @@ class MoreCollectionReusableView: UICollectionReusableView {
         super.awakeFromNib()
         self.prepareForReuse()
         lblTitle.text = NSLocalizedString("brands_vc_all_brands")
+        lblTitle.layer.shadowColor = UIColor(white: 0, alpha: 0.5).CGColor
+        lblTitle.layer.shadowOpacity = 1
+        lblTitle.layer.shadowRadius = 2
+        lblTitle.layer.shadowOffset = CGSize.zero
     }
 }
 

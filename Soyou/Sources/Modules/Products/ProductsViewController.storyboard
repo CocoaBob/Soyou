@@ -132,28 +132,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BrandsTableViewCell" id="4OZ-5R-b0C" customClass="BrandsTableViewCell" customModule="Soyou" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BrandsTableViewCell" textLabel="v0b-yB-0v9" style="IBUITableViewCellStyleDefault" id="4OZ-5R-b0C" customClass="BrandsTableViewCell" customModule="Soyou" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4OZ-5R-b0C" id="Q7u-0h-JGQ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Hc-Lp-sUc">
-                                                    <rect key="frame" x="16" y="13" width="568" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v0b-yB-0v9">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="2Hc-Lp-sUc" firstAttribute="leading" secondItem="Q7u-0h-JGQ" secondAttribute="leadingMargin" constant="8" id="GOv-0f-nMk"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="2Hc-Lp-sUc" secondAttribute="trailing" constant="8" id="gGh-qW-NYS"/>
-                                                <constraint firstItem="2Hc-Lp-sUc" firstAttribute="centerY" secondItem="Q7u-0h-JGQ" secondAttribute="centerY" id="u5g-pV-i0d"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="lblTitle" destination="2Hc-Lp-sUc" id="hgM-4d-HuQ"/>
+                                            <outlet property="lblTitle" destination="v0b-yB-0v9" id="9Tk-QZ-d7R"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
