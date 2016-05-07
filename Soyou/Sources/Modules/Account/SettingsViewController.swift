@@ -8,8 +8,6 @@
 
 class SettingsViewController: SimpleTableViewController {
     
-    @IBOutlet var imgViewAvatar: UIImageView!
-    
     var cacheSize: Double = 0
     
     private var locationManager: CLLocationManager?
@@ -187,7 +185,7 @@ extension SettingsViewController {
 extension SettingsViewController {
     
     func showAbout() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
         // UI
         simpleViewController.title = NSLocalizedString("settings_vc_cell_about")
         let _ = simpleViewController.view
@@ -216,7 +214,7 @@ extension SettingsViewController {
     }
     
     func showCredits() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
         // UI
         simpleViewController.title = NSLocalizedString("settings_vc_cell_credits")
         // Data
@@ -274,7 +272,7 @@ extension SettingsViewController {
     
     func changeLanguage() {
         var currentLanguageSelection: String?
-        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
@@ -343,7 +341,7 @@ extension SettingsViewController {
     }
     
     func changeMyCurrency() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false

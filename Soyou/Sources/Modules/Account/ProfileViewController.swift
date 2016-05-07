@@ -234,7 +234,7 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     func changeRegion() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .Plain)
+        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.enabled = false

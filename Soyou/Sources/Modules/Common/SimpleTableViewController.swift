@@ -159,12 +159,12 @@ class SimpleTableViewController: UIViewController {
         self.tableView.backgroundColor = UIColor(hex: Cons.UI.colorBG)
         
         // Register custom cells
-        self.tableView.registerNib(UINib(nibName: "TableViewCellCenterTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "CenterTitle")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitle")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitleContent", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitleContent")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitle", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitle")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitleRightDetail", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitleRightDetail")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellTextField", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TextField")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellCenterTitle",           bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "CenterTitle")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitle",             bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitle")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitleContent",      bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitleContent")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitle",             bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitle")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitleRightDetail",  bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitleRightDetail")
+        self.tableView.registerNib(UINib(nibName: "TableViewCellTextField",             bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TextField")
         
         // Setup table data
         if sections.isEmpty {

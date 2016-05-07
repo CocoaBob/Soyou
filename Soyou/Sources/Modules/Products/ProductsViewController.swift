@@ -501,7 +501,7 @@ extension ProductsViewController {
             // If one of the searches has 0 result, the other one will continue the search
             // So we have to check if it's the 1st result or the 2nd
             // If it's the 1st, keep displaying "Loading", if it's the 2nd, display "No Data"
-            if self.lastFinishedSearchOffset == nil {
+            if self.lastFinishedSearchOffset == nil || self.lastFinishedSearchOffset != offset {
                 self.lastFinishedSearchOffset = offset
             } else {
                 self.lastFinishedSearchOffset = nil

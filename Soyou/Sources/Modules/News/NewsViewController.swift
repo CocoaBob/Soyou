@@ -179,7 +179,8 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         if returnValue == nil {
-            returnValue = UICollectionViewCell()
+            // We can't return a cell without a reuse identifier
+            returnValue = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as? NewsCollectionViewCell
         }
         
         return returnValue!
