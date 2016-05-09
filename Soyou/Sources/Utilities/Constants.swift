@@ -12,11 +12,11 @@ public struct Cons {
         static let apiVersion                               = "v1"
         
 //#if DEBUG
-        static let baseURL                                  = "https://test-api.soyou.io"
+        static let hostname                                 = "test-api.soyou.io"
         static let shareBaseURL                             = "http://test-share.soyou.io:8090/#"
         static let reqAPIKey                                = "17843599-f079-4c57-bb39-d9ca8344abd"
 //#else
-//        static let baseURL                                  = "https://api.soyou.io"
+//        static let hostname                                 = "api.soyou.io"
 //        static let shareBaseURL                             = "http://share.soyou.io:8090/#"
 //        static let reqAPIKey                                = "\(1155919*2*3*7)"+"-f079-4c57-bb39-d9ca8344abd7"
 //#endif
@@ -52,6 +52,7 @@ public struct Cons {
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
         static let updateInterval                           = 0.0                                       // 0 second
         static let productsPageSize                         = 100                                       // the number of products / page
+        static let lastServerIPAddress                      = "lastServerIPAddress"                     // Stored in NSUserDefaults, the IP address of the server
     }
     
     struct DB {

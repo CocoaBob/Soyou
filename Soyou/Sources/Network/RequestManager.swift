@@ -8,9 +8,20 @@
 
 class RequestManager {
     
-    let requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: Cons.Svr.baseURL))
+    var requestOperationManager: HTTPRequestOperationManager!
     
     static let shared = RequestManager()
+    
+    init() {
+        var host = Cons.Svr.hostname
+        if let serverIP = RequestManager.getIPAddress(Cons.Svr.hostname) {
+            host = serverIP
+            UserDefaults.setString(serverIP, forKey: Cons.App.lastServerIPAddress)
+        } else if let serverIP =  UserDefaults.stringForKey(Cons.App.lastServerIPAddress) {
+            host = serverIP
+        }
+        self.requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: "https://" + host))
+    }
     
     //////////////////////////////////////
     // MARK: General
@@ -261,5 +272,24 @@ class RequestManager {
         let operatedAt = Cons.utcDateFormatter.stringFromDate(NSDate())
         let params = ["target": target, "action": action, "data": data, "operatedAt": operatedAt, "uuid": UserManager.shared.uuid]
         postAsync("/api/\(Cons.Svr.apiVersion)/analytics", "Analytics", params, onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
+    // MARK: Routines
+    //////////////////////////////////////
+    
+    class func getIPAddress(hostname: String) -> String? {
+        let host = CFHostCreateWithName(nil, hostname).takeRetainedValue()
+        CFHostStartInfoResolution(host, .Addresses, nil)
+        var success: DarwinBoolean = false
+        if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?, theAddress = addresses.firstObject as? NSData {
+            var hostname = [CChar](count: Int(NI_MAXHOST), repeatedValue: 0)
+            if getnameinfo(UnsafePointer(theAddress.bytes), socklen_t(theAddress.length), &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
+                if let numAddress = String.fromCString(hostname) {
+                    return numAddress
+                }
+            }
+        }
+        return nil
     }
 }
