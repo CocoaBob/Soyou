@@ -193,7 +193,7 @@
 "alert_button_close"="关闭";
 "alert_button_cancel"="取消";
 "currency_unknown"="未知汇率";
-"initializing_database"="正在初始化，请稍后...";
+"initializing_database"="正在初始化，请稍等片刻…";
 
 /* Product descriptions */
 "product_surname"="别名";
