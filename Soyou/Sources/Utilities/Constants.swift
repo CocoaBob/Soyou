@@ -11,15 +11,15 @@ public struct Cons {
         static let serverVersion                            = "0.0.4"
         static let apiVersion                               = "v1"
         
-//#if DEBUG
+#if DEBUG
         static let hostname                                 = "test-api.soyou.io"
         static let shareBaseURL                             = "http://test-share.soyou.io:8090/#"
         static let reqAPIKey                                = "17843599-f079-4c57-bb39-d9ca8344abd"
-//#else
-//        static let hostname                                 = "api.soyou.io"
-//        static let shareBaseURL                             = "http://share.soyou.io:8090/#"
-//        static let reqAPIKey                                = "\(1155919*2*3*7)"+"-f079-4c57-bb39-d9ca8344abd7"
-//#endif
+#else
+        static let hostname                                 = "api.soyou.io"
+        static let shareBaseURL                             = "http://share.soyou.io:8090/#"
+        static let reqAPIKey                                = "\(1155919*2*3*7)"+"-f079-4c57-bb39-d9ca8344abd7"
+#endif
         
         // Count of News to load for each request
         static let reqCnt                                   = 5

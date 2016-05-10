@@ -80,7 +80,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         if isSynchronous {
             operation.start()
             operation.waitUntilFinished()
-            if !operation.cancelled {
+            if operation.cancelled {
                 modeUI ? MBProgressHUD.hideLoader(nil) : ()
             } else {
                 if operation.error == nil {
@@ -148,7 +148,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         if isSynchronous {
             operation.start()
             operation.waitUntilFinished()
-            if !operation.cancelled {
+            if operation.cancelled {
                 modeUI ? MBProgressHUD.hideLoader(nil) : ()
             } else {
                 if operation.error == nil {

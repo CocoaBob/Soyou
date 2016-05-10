@@ -15,9 +15,13 @@ class RequestManager {
     init() {
         var host = Cons.Svr.hostname
         if let serverIP = RequestManager.getIPAddress(Cons.Svr.hostname) {
-            host = serverIP
-            UserDefaults.setString(serverIP, forKey: Cons.App.lastServerIPAddress)
-        } else if let serverIP =  UserDefaults.stringForKey(Cons.App.lastServerIPAddress) {
+            self.requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: "https://" + serverIP))
+            if self.checkIsSoyouServer() {
+                UserDefaults.setString(serverIP, forKey: Cons.App.lastServerIPAddress)
+                return
+            }
+        }
+        if let serverIP =  UserDefaults.stringForKey(Cons.App.lastServerIPAddress) {
             host = serverIP
         }
         self.requestOperationManager = HTTPRequestOperationManager(baseURL:NSURL(string: "https://" + host))
@@ -45,6 +49,18 @@ class RequestManager {
     
     func deleteAsync(path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         requestOperationManager.request("DELETE", path, false, false, ["api": api, "authorization": UserManager.shared.token ?? ""], nil, nil, onSuccess, onFailure)
+    }
+    
+    func checkIsSoyouServer() -> Bool {
+        var returnValue = false
+        self.requestOperationManager.request("GET", "/api/\(Cons.Svr.apiVersion)/secure/auth/check", false, true, ["api": "AuthCheck", "authorization": UserManager.shared.token ?? ""], nil, nil, { (responseObject) in
+            if let dict = responseObject as? NSDictionary {
+                if dict["data"] != nil {
+                    returnValue = true
+                }
+            }
+        }, nil)
+        return returnValue
     }
     
     //////////////////////////////////////
