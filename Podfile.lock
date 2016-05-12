@@ -69,6 +69,7 @@ PODS:
   - FCUUID (1.2.0):
     - UICKeyChainStore (~> 2.1.0)
   - FlagKit (1.0.7)
+  - Google-Mobile-Ads-SDK (7.8.1)
   - Google/Core (2.0.4):
     - GoogleInterchangeUtilities (~> 1.0)
     - GoogleNetworkingUtilities (~> 1.0)
@@ -149,6 +150,7 @@ DEPENDENCIES:
   - Fabric
   - FCUUID
   - FlagKit (from `https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec`)
+  - Google-Mobile-Ads-SDK
   - IDMPhotoBrowser
   - libWeChatSDK (from `git://github.com/CocoaBob/libWeChatSDK`, commit `bb4387498ef2974189e8270928f62a1cd3a8ef62`)
   - MagicalRecord (~> 2.3)
@@ -237,6 +239,7 @@ SPEC CHECKSUMS:
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FlagKit: 1dc8b413f11f48ce38b2c800eae542f49b1da926
   Google: d0932824c5b97c96be489aa6f4e8cd6c294d637d
+  Google-Mobile-Ads-SDK: 3c2a6656117989469bfe7645640aa1de024a4c6c
   GoogleAppUtilities: 974598e8ed618c74ead33541d9caffbc3d144266
   GoogleAuthUtilities: 79e4143c77a08081a480b08df27a066cc8944f43
   GoogleInterchangeUtilities: 427382e42d8a340038bec37c6fdfd316e14b5fa2

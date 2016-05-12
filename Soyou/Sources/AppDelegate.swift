@@ -55,20 +55,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Get Username from database
             Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
             
-            // Setup view controllers (Must after initializing the database)
-            self.setupTabBarController()
-            
-            // Check updates
-            self.updateDataAfterLaunching()
-            
-            // If app is launched by 3D Touch shortcut menu
-            self.showShortcutView()
-            
-            // Show Introduction view
-            dispatch_async(dispatch_get_main_queue()) {
-                // Make sure NewsViewController's viewWillAppear is called before showIntroView()
-                self.checkIfShowIntroView()
-            }
+            // Display Google ad
+            DispatchAfter(3, closure: {
+                // Setup view controllers (Must after initializing the database)
+                self.setupTabBarController()
+                
+                // Check updates
+                self.updateDataAfterLaunching()
+                
+                // If app is launched by 3D Touch shortcut menu
+                self.showShortcutView()
+                
+                // Show Introduction view
+                dispatch_async(dispatch_get_main_queue()) {
+                    // Make sure NewsViewController's viewWillAppear is called before showIntroView()
+                    self.checkIfShowIntroView()
+                }
+            })
         }
         
         return true
