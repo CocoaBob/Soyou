@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var dbIsInitialized = false
     var shortcutItemType = ""
     var uiIsInitialized = false
+    
+    var isInBackground: Bool = false
+    var interstitial: GADInterstitial?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Crashlytics
@@ -47,6 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup Database asynchronously
         dispatch_async(dispatch_get_main_queue()) {
+            // Setup WTStatusBar
+            WTStatusBar.setStatusText("")
+            WTStatusBar.setTextColor(UIColor.clearColor())
+            WTStatusBar.setBackgroundColor(UIColor.clearColor())
+            WTStatusBar.setProgressBarColor(UIColor(hex: Cons.UI.colorTheme))
+            
+            // Initializing database
             self.setupDatabase()
             
             // Load current user
@@ -55,23 +65,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Get Username from database
             Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
             
-            // Display Google ad
-            DispatchAfter(3, closure: {
-                // Setup view controllers (Must after initializing the database)
-                self.setupTabBarController()
-                
-                // Check updates
-                self.updateDataAfterLaunching()
-                
-                // If app is launched by 3D Touch shortcut menu
-                self.showShortcutView()
-                
-                // Show Introduction view
-                dispatch_async(dispatch_get_main_queue()) {
-                    // Make sure NewsViewController's viewWillAppear is called before showIntroView()
-                    self.checkIfShowIntroView()
-                }
-            })
+            // Setup view controllers (Must after initializing the database)
+            self.setupTabBarController()
+            
+            // Check updates
+            self.updateDataAfterLaunching()
+            
+            // If app is launched by 3D Touch shortcut menu
+            self.showShortcutView()
+            
+            // Show Introduction view
+            dispatch_async(dispatch_get_main_queue()) {
+                // Make sure NewsViewController's viewWillAppear is called before showIntroView()
+                self.checkIfShowIntroView()
+            }
         }
         
         return true
@@ -81,8 +88,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.cleanUp()
     }
     
+    func applicationDidEnterBackground(application: UIApplication) {
+        self.isInBackground = true
+    }
+    
     func applicationDidBecomeActive(application: UIApplication) {
         self.updateDataAfterLaunching()
+        
+        // Load Google AD
+        self.showGoogleAD(self.isInBackground)
+        self.isInBackground = false
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication) {
@@ -237,32 +252,39 @@ extension AppDelegate {
         }
     }
     
-    func checkIfShowIntroView() {
-        let lastIntroVersion = DataManager.shared.getAppInfo(Cons.App.lastIntroVersion)
+    func needsToShowIntroView() -> Bool {
+        let lastIntroVersion = UserDefaults.stringForKey(Cons.App.lastIntroVersion)
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String
         
         // If versions are same, skip
         if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
             if lastIntroVersion == currentAppVersion {
-                return
+                return false
             }
         }
-        
-        // Remember the current version
-        DataManager.shared.setAppInfo(currentAppVersion ?? "", forKey: Cons.App.lastIntroVersion)
         
         // If main versions are same, skip
         if let lastMainVersion = lastIntroVersion?.componentsSeparatedByString(".").first,
             currMainVersion = currentAppVersion?.componentsSeparatedByString(".").first,
             lastMainVersionInt = Int(lastMainVersion),
             currMainVersionInt = Int(currMainVersion) {
-                if lastMainVersionInt >= currMainVersionInt {
-                    return
-                }
+            if lastMainVersionInt >= currMainVersionInt {
+                return false
+            }
         }
         
-        // Show Intro View
-        IntroViewController.shared.showIntroView()
+        return true
+    }
+    
+    func checkIfShowIntroView() {
+        if self.needsToShowIntroView() {
+            let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String
+            
+            // Remember the current version
+            UserDefaults.setObject(currentAppVersion ?? "", forKey: Cons.App.lastIntroVersion)
+            
+            IntroViewController.shared.showIntroView()
+        }
     }
     
     func showSearchView() {
@@ -293,5 +315,39 @@ extension AppDelegate: UITabBarControllerDelegate {
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         let toppestViewController = viewController.toppestViewController()
         toppestViewController?.viewDidAppear(false)
+    }
+}
+
+// MARK: Google AD
+extension AppDelegate: GADInterstitialDelegate {
+    
+    func showGoogleAD(isResume: Bool) {
+        // If it's launched by shortcut, we don't display AD
+        if self.shortcutItemType != "" {
+            return
+        }
+        
+        // If we need to show Intro view, we don't display AD
+        if self.needsToShowIntroView() {
+            return
+        }
+        
+        // If it's return from background, the chance to show the AD is 50%
+        if !isResume || (Float(arc4random()) / Float(UINT32_MAX) <= 0.5) {
+            self.interstitial = self.createAndLoadInterstitial()
+        }
+    }
+    
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3349787729360682/3092020058")
+        interstitial.delegate = self
+        interstitial.loadRequest(GADRequest())
+        return interstitial
+    }
+    
+    func interstitialDidReceiveAd(ad: GADInterstitial!) {
+        if let viewController = UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController() {
+            ad.presentFromRootViewController(viewController)
+        }
     }
 }

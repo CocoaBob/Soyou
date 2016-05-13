@@ -710,11 +710,6 @@ class DataManager {
     var _isWTStatusBarVisible = false
     func updateProductsProgress(current: Int, total: Int) {
         DLog("Updating products: \(current) / \(total)")
-        if WTStatusBar.backgroundColor() != UIColor.clearColor() {
-            WTStatusBar.setTextColor(UIColor.clearColor())
-            WTStatusBar.setBackgroundColor(UIColor.clearColor())
-            WTStatusBar.setProgressBarColor(UIColor(hex: Cons.UI.colorTheme))
-        }
         if current == -1 {
             if (_isWTStatusBarVisible) {
                 WTStatusBar.setStatusText(NSLocalizedString("data_manager_data_update_failed"), timeout: 1, animated: true)
