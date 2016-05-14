@@ -253,6 +253,12 @@ extension AppDelegate {
     }
     
     func needsToShowIntroView() -> Bool {
+        // If not first time to launch version 1.x
+        // TODO: Remove in the future
+        if let lastInstalledVersion = UserDefaults.stringForKey(Cons.App.lastInstalledVersion) {
+            return false
+        }
+        
         let lastIntroVersion = UserDefaults.stringForKey(Cons.App.lastIntroVersion)
         let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String
         
@@ -332,8 +338,13 @@ extension AppDelegate: GADInterstitialDelegate {
             return
         }
         
-        // If it's return from background, the chance to show the AD is 50%
-        if !isResume || (Float(arc4random()) / Float(UINT32_MAX) <= 0.5) {
+        // If the toppest view controller isn't intro view
+        if let _ = IntroViewController.shared.introView?.superview {
+            return
+        }
+        
+        // If it's return from background, the chance to show the AD is 30%
+        if !isResume || (Float(arc4random()) / Float(UINT32_MAX) <= 0.3) {
             self.interstitial = self.createAndLoadInterstitial()
         }
     }
