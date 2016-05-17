@@ -8,7 +8,7 @@
 
 class BrandsViewController: SyncedFetchedResultsViewController {
     
-    // Override AsyncedFetchedResultsViewController
+    // Override SyncedFetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     @IBOutlet var _tableView: UITableView!
     
