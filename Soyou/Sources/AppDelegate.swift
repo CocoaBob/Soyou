@@ -229,8 +229,8 @@ extension AppDelegate {
     func checkIfUpgraded() {
         let lastInstalledBuild = UserDefaults.stringForKey(Cons.App.lastInstalledBuild)
         let currentAppBuild = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
-        if let lastInstalledVersion = lastInstalledBuild, currentAppVersion = currentAppBuild {
-            if lastInstalledVersion == currentAppVersion {
+        if let lastInstalledBuild = lastInstalledBuild, currentAppVersion = currentAppBuild {
+            if lastInstalledBuild == currentAppVersion {
                 return
             }
         }
@@ -254,8 +254,8 @@ extension AppDelegate {
     
     func needsToShowIntroView() -> Bool {
         // If not first time to launch version 1.x
-        // TODO: Remove in the future
-        if let lastInstalledVersion = UserDefaults.stringForKey(Cons.App.lastInstalledVersion) {
+        // TODO: Remove in v1.5
+        if let _ = UserDefaults.stringForKey(Cons.App.lastInstalledBuild) {
             return false
         }
         
@@ -327,24 +327,46 @@ extension AppDelegate: UITabBarControllerDelegate {
 // MARK: Google AD
 extension AppDelegate: GADInterstitialDelegate {
     
-    func showGoogleAD(isResume: Bool) {
+    func canShowFullscreenAD() -> Bool {
         // If it's launched by shortcut, we don't display AD
         if self.shortcutItemType != "" {
-            return
+            return false
         }
         
         // If we need to show Intro view, we don't display AD
         if self.needsToShowIntroView() {
-            return
+            return false
         }
         
-        // If the toppest view controller isn't intro view
-        if let _ = IntroViewController.shared.introView?.superview {
+        // Only display ad for News/Brands/Brand/Products/Product views
+        if let toppestViewController = UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController() {
+            for classVC in [SplashScreenViewController.self,
+                            NewsViewController.self,
+                            NewsDetailViewController.self,
+                            BrandsViewController.self,
+                            BrandViewController.self,
+                            ProductsViewController.self,
+                            ProductViewController.self,
+                            StoreMapViewController.self,
+                            StoreMapSearchResultsViewController.self] {
+                                if let classVC = classVC as? AnyClass {
+                                    if toppestViewController.isKindOfClass(classVC) {
+                                        return true
+                                    }
+                                }
+            }
+        }
+        
+        return false
+    }
+    
+    func showGoogleAD(isResume: Bool) {
+        if !canShowFullscreenAD() {
             return
         }
         
         // If it's return from background, the chance to show the AD is 30%
-        if !isResume || (Float(arc4random()) / Float(UINT32_MAX) <= 0.3) {
+        if !isResume || (Float(arc4random()) / Float(UINT32_MAX) < 0.1) {
             self.interstitial = self.createAndLoadInterstitial()
         }
     }

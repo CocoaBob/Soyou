@@ -46,7 +46,6 @@ public struct Cons {
         static let deviceToken                              = "deviceToken"                             // Stored in keychain
         static let hasRegisteredForNotification             = "hasRegisteredForNotification"            // Stored in NSUserDefaults
         static let lastIntroVersion                         = "lastIntroVersion"                        // Stored in NSUserDefaults
-        static let lastInstalledVersion                     = "lastInstalledVersion"                    // Stored in NSUserDefaults
         static let lastInstalledBuild                       = "lastInstalledBuild"                      // Stored in NSUserDefaults
         static let userCurrency                             = "userCurrency"                            // Stored in NSUserDefaults
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
