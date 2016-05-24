@@ -9,20 +9,6 @@
             </compoundIndex>
         </compoundIndexes>
     </entity>
-    <entity name="BaseDiscount" representedClassName=".BaseDiscount" syncable="YES">
-        <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="coverImage" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="dateModification" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="expireDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="isOnline" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="publishdate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <entity name="BaseNews" representedClassName=".BaseNews" syncable="YES">
         <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -62,11 +48,20 @@
         <attribute name="targetCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
-    <entity name="Discount" representedClassName=".Discount" parentEntity="BaseDiscount" syncable="YES">
-        <attribute name="appIsMore" optional="YES" attributeType="Boolean" syncable="YES"/>
-    </entity>
-    <entity name="FavoriteDiscount" representedClassName=".FavoriteDiscount" parentEntity="BaseDiscount" syncable="YES">
+    <entity name="FavoriteDiscount" representedClassName=".FavoriteDiscount" syncable="YES">
+        <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coverImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateFavorite" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dateModification" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="expireDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="isOnline" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="publishdate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="FavoriteNews" representedClassName=".FavoriteNews" parentEntity="BaseNews" syncable="YES">
         <attribute name="dateFavorite" optional="YES" attributeType="Date" syncable="YES"/>
@@ -161,8 +156,6 @@
         <element name="Region" positionX="-63" positionY="135" width="128" height="90"/>
         <element name="Store" positionX="-54" positionY="144" width="128" height="225"/>
         <element name="User" positionX="-63" positionY="135" width="128" height="135"/>
-        <element name="BaseDiscount" positionX="-54" positionY="135" width="128" height="225"/>
-        <element name="Discount" positionX="-45" positionY="144" width="128" height="60"/>
-        <element name="FavoriteDiscount" positionX="-36" positionY="153" width="128" height="60"/>
+        <element name="FavoriteDiscount" positionX="-36" positionY="153" width="128" height="240"/>
     </elements>
 </model>
