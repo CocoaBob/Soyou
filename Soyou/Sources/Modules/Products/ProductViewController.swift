@@ -176,6 +176,10 @@ extension ProductViewController {
             self.firstImage = nil
             self.productIndex = self.nextProductIndex
             self.loadProduct(true)
+            let transition = CATransition()
+            transition.type = kCATransitionPush
+            transition.subtype = kCATransitionFromTop
+            self.view.layer .addAnimation(transition, forKey: "transition")
             self.delegate?.didShowNextProduct(nextProduct, index: self.productIndex ?? 0)
         }
     }

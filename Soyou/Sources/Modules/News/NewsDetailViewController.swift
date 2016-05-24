@@ -432,6 +432,10 @@ extension NewsDetailViewController {
             self.headerImage = nil
             self.newsIndex = self.nextNewsIndex
             self.loadNews()
+            let transition = CATransition()
+            transition.type = kCATransitionPush
+            transition.subtype = kCATransitionFromTop
+            self.view.layer .addAnimation(transition, forKey: "transition")
             self.delegate?.didShowNextNews(nextNews, index: self.newsIndex ?? 0)
         }
     }
