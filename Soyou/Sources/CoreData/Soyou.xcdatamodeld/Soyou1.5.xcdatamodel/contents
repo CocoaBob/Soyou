@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Automatic">
+    <entity name="AppData" representedClassName=".AppData" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="key"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="BaseDiscount" representedClassName=".BaseDiscount" syncable="YES">
+        <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coverImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateModification" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="expireDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="isOnline" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="publishdate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="BaseNews" representedClassName=".BaseNews" syncable="YES">
+        <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateModification" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="datePublication" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isOnline" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="Brand" representedClassName=".Brand" syncable="YES">
+        <attribute name="brandIndex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="categories" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="extra" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isHot" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="CurrencyRate" representedClassName=".CurrencyRate" syncable="YES">
+        <attribute name="rate" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="sourceCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="targetCode" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="Discount" representedClassName=".Discount" parentEntity="BaseDiscount" syncable="YES">
+        <attribute name="appIsMore" optional="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
+    <entity name="FavoriteDiscount" representedClassName=".FavoriteDiscount" parentEntity="BaseDiscount" syncable="YES">
+        <attribute name="dateFavorite" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="FavoriteNews" representedClassName=".FavoriteNews" parentEntity="BaseNews" syncable="YES">
+        <attribute name="dateFavorite" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="FavoriteProduct" representedClassName=".FavoriteProduct" syncable="YES">
+        <attribute name="dateFavorite" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="News" representedClassName=".News" parentEntity="BaseNews" syncable="YES">
+        <attribute name="appIsMore" optional="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
+    <entity name="Product" representedClassName=".Product" syncable="YES">
+        <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="appSearchText" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="brandId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="brandLabel" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="categories" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="descriptions" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dimension" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="images" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="keywords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="likeNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="prices" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="reference" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sku" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="surname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="order"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="appSearchText"/>
+            </compoundIndex>
+            <compoundIndex>
+                <index value="categories"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="Region" representedClassName=".Region" syncable="YES">
+        <attribute name="appOrder" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="code" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Store" representedClassName=".Store" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="brandId" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="division" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="zipcode" optional="YES" attributeType="String" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="User" representedClassName=".User" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="matricule" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="region" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="roleCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AppData" positionX="-54" positionY="135" width="128" height="75"/>
+        <element name="BaseNews" positionX="-63" positionY="135" width="128" height="210"/>
+        <element name="Brand" positionX="-63" positionY="135" width="128" height="165"/>
+        <element name="CurrencyRate" positionX="-63" positionY="135" width="128" height="105"/>
+        <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="60"/>
+        <element name="FavoriteProduct" positionX="-54" positionY="135" width="128" height="75"/>
+        <element name="News" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="Product" positionX="-63" positionY="54" width="128" height="315"/>
+        <element name="Region" positionX="-63" positionY="135" width="128" height="90"/>
+        <element name="Store" positionX="-54" positionY="144" width="128" height="225"/>
+        <element name="User" positionX="-63" positionY="135" width="128" height="135"/>
+        <element name="BaseDiscount" positionX="-54" positionY="135" width="128" height="225"/>
+        <element name="Discount" positionX="-45" positionY="144" width="128" height="60"/>
+        <element name="FavoriteDiscount" positionX="-36" positionY="153" width="128" height="60"/>
+    </elements>
+</model>

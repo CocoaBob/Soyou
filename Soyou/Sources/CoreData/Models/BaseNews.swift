@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class BaseNews: BaseModel {
+class BaseNews: NSManagedObject {
     
     func isFavorite() -> Bool {
         var returnValue = false

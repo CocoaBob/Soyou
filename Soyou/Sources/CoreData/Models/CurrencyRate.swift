@@ -9,7 +9,8 @@
 import Foundation
 import CoreData
 
-class CurrencyRate: BaseModel {
+
+class CurrencyRate: NSManagedObject {
     
     
     class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (CurrencyRate?) {

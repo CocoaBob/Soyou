@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 
-class Analytic: BaseModel {
+class Analytic: NSManagedObject {
     
     
     class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (Analytic?) {

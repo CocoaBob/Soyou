@@ -1,12 +1,12 @@
 //
-//  NewsViewController.swift
+//  DiscountsViewController.swift
 //  Soyou
 //
-//  Created by CocoaBob on 15/11/15.
-//  Copyright © 2015 Soyou. All rights reserved.
+//  Created by CocoaBob on 24/05/16.
+//  Copyright © 2016 Soyou. All rights reserved.
 //
 
-class NewsViewController: SyncedFetchedResultsViewController {
+class DiscountsViewController: SyncedFetchedResultsViewController {
     
     // Override AsyncedFetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
@@ -16,13 +16,13 @@ class NewsViewController: SyncedFetchedResultsViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+        return Discount.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
     }
     
     // Properties
     var transition: ZoomInteractiveTransition?
     
-    var selectedMoreButtonCell: NewsCollectionViewCellMore?
+    var selectedMoreButtonCell: DiscountCollectionViewCellMore?
     var selectedIndexPath: NSIndexPath?
     
     // Life cycle
@@ -30,10 +30,10 @@ class NewsViewController: SyncedFetchedResultsViewController {
         super.init(coder: aDecoder)
         
         // UIViewController
-        self.title = NSLocalizedString("news_vc_title")
+        self.title = NSLocalizedString("discounts_vc_title")
 
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("news_vc_tab_title"), image: UIImage(named: "img_tab_news"), selectedImage: UIImage(named: "img_tab_news_selected"))
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("discounts_vc_tab_title"), image: UIImage(named: "img_tab_news"), selectedImage: UIImage(named: "img_tab_news_selected"))
         
         // Bars
         self.hidesBottomBarWhenPushed = false
@@ -41,7 +41,7 @@ class NewsViewController: SyncedFetchedResultsViewController {
     
     deinit {
         // Stop observing data updating
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
     }
 
     override func viewDidLoad() {
@@ -55,7 +55,7 @@ class NewsViewController: SyncedFetchedResultsViewController {
         self.setupRefreshControls()
         
         // Observe data updating
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewsViewController.reloadDataWithoutCompletion), name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DiscountsViewController.reloadDataWithoutCompletion), name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
         
         // Data
         self.loadData(nil)
@@ -83,7 +83,7 @@ class NewsViewController: SyncedFetchedResultsViewController {
 }
 
 // MARK: Data
-extension NewsViewController {
+extension DiscountsViewController {
     
     private func resetMoreButtonCell() {
         if let cell = self.selectedMoreButtonCell {
@@ -93,7 +93,7 @@ extension NewsViewController {
     }
     
     private func loadData(relativeID: NSNumber?) {
-        DataManager.shared.requestNewsList(relativeID) { responseObject, error in
+        DataManager.shared.requestDiscountsList(relativeID) { responseObject, error in
             self.endRefreshing()
             self.resetMoreButtonCell()
         }
@@ -101,7 +101,7 @@ extension NewsViewController {
 }
 
 // MARK: NewsDetailViewControllerDelegate
-extension NewsViewController: NewsDetailViewControllerDelegate {
+extension DiscountsViewController: NewsDetailViewControllerDelegate {
     
     func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)? {
         guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return nil }
@@ -131,7 +131,7 @@ extension NewsViewController: NewsDetailViewControllerDelegate {
 }
 
 // MARK: - CollectionView Delegate Methods
-extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension DiscountsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return self.fetchedResultsController?.sections?.count ?? 0
@@ -146,13 +146,13 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
         if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
             if news.appIsMore != nil && news.appIsMore!.boolValue {
-                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCellMore", forIndexPath: indexPath) as? NewsCollectionViewCellMore {
+                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("DiscountCollectionViewCellMore", forIndexPath: indexPath) as? DiscountCollectionViewCellMore {
                     cell.indicator.hidden = true
                     cell.moreImage.hidden = false
                     returnValue = cell
                 }
             } else {
-                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as? NewsCollectionViewCell {
+                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("DiscountCollectionViewCell", forIndexPath: indexPath) as? DiscountCollectionViewCell {
                     cell.lblTitle.text = news.title
                     if let imageURLString = news.image,
                         imageURL = NSURL(string: imageURLString) {
@@ -175,7 +175,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         if returnValue == nil {
             // We can't return a cell without a reuse identifier
-            returnValue = collectionView.dequeueReusableCellWithReuseIdentifier("NewsCollectionViewCell", forIndexPath: indexPath) as? NewsCollectionViewCell
+            returnValue = collectionView.dequeueReusableCellWithReuseIdentifier("DiscountCollectionViewCell", forIndexPath: indexPath) as? DiscountCollectionViewCell
         }
         
         return returnValue!
@@ -192,7 +192,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
             guard let localNews = news.MR_inContext(localContext) else { return }
             let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
             if localNews.appIsMore != nil && localNews.appIsMore!.boolValue {
-                guard let cell = cell as? NewsCollectionViewCellMore else { return }
+                guard let cell = cell as? DiscountCollectionViewCellMore else { return }
                 
                 self.selectedMoreButtonCell = cell
                 
@@ -201,7 +201,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.moreImage.hidden = true
                 self.loadData(localNews.id)
             } else {
-                guard let cell = cell as? NewsCollectionViewCell else { return }
+                guard let cell = cell as? DiscountCollectionViewCell else { return }
                 
                 // Prepare cover image
                 var image: UIImage?
@@ -230,7 +230,7 @@ extension NewsViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 // MARK: - UIScrollViewDelegate
-extension NewsViewController: UIScrollViewDelegate {
+extension DiscountsViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
@@ -244,7 +244,7 @@ extension NewsViewController: UIScrollViewDelegate {
 }
 
 // MARK: - CollectionView Waterfall Layout
-extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
+extension DiscountsViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
         self.collectionView().indicatorStyle = .White
@@ -304,11 +304,11 @@ extension NewsViewController: CHTCollectionViewDelegateWaterfallLayout {
 }
 
 // MARK: ZoomInteractiveTransition
-extension NewsViewController: ZoomTransitionProtocol {
+extension DiscountsViewController: ZoomTransitionProtocol {
     
     private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? NewsCollectionViewCell {
+            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? DiscountCollectionViewCell {
             return cell.fgImageView
         }
         return nil
@@ -338,7 +338,7 @@ extension NewsViewController: ZoomTransitionProtocol {
 }
 
 // MARK: - Refreshing
-extension NewsViewController {
+extension DiscountsViewController {
     
     func setupRefreshControls() {
         let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
@@ -380,7 +380,7 @@ extension NewsViewController {
 
 // MARK: - Custom cells
 
-class NewsCollectionViewCell: UICollectionViewCell {
+class DiscountCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView!
     @IBOutlet var lblTitle: UILabel!
     
@@ -400,7 +400,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     }
 }
 
-class NewsCollectionViewCellMore: UICollectionViewCell {
+class DiscountCollectionViewCellMore: UICollectionViewCell {
     @IBOutlet var indicator: UIActivityIndicatorView!
     @IBOutlet var moreImage: UIImageView!
 }

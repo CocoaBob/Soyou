@@ -341,6 +341,58 @@ class DataManager {
     }
     
     //////////////////////////////////////
+    // MARK: Discounts
+    //////////////////////////////////////
+    
+    func likeDiscount(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
+        RequestManager.shared.likeDiscount(id, operation: wasLiked ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestDiscountsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestDiscountsList(Cons.Svr.reqCnt, relativeID, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestDiscountByID(id: NSNumber, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestDiscountByID(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestDiscountInfo(id: NSNumber, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestDiscountInfo(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func createCommentForDiscount(id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.createCommentForDiscount(id, commentId, comment, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestComments(id: NSNumber, count: Int, _ relativeID: NSNumber = 0, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestComments(id, count, relativeID, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    //////////////////////////////////////
     // MARK: Notification
     //////////////////////////////////////
     

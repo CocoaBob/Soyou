@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class Brand: BaseModel {
+class Brand: NSManagedObject {
 
     
     class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (Brand?) {

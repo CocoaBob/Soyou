@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class Store: BaseModel {
+class Store: NSManagedObject {
     
     class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Store?) {
         var store: Store? = nil

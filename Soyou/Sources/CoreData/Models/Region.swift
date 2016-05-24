@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class Region: BaseModel {
+class Region: NSManagedObject {
     
     class func importData(data: NSDictionary?, _ index: Int, _ context: NSManagedObjectContext?) -> (Region?) {
         var region: Region? = nil

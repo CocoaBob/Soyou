@@ -121,6 +121,19 @@ class RequestManager {
     }
     
     //////////////////////////////////////
+    // MARK: Favorites Discounts
+    //////////////////////////////////////
+    
+    // Add (remove) discount to (from) favorite
+    func favoriteDiscount(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/discounts/\(id)", "FavoriteDiscounts", ["operation": operation], onSuccess, onFailure)
+    }
+    
+    func requestDiscountFavorites(onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/discounts", "FavoriteDiscounts", onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
     // MARK: Favorites Products
     //////////////////////////////////////
     
@@ -160,6 +173,35 @@ class RequestManager {
     
     func requestNewsInfo(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/extra", "News", onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
+    // MARK: Discounts
+    //////////////////////////////////////
+    
+    func likeDiscount(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/like", "Discounts", ["operation": operation], onSuccess, onFailure)
+    }
+    
+    func requestDiscountsList(count: Int, _ relativeID: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let path = (relativeID != nil) ? "/api/\(Cons.Svr.apiVersion)/discounts/previous/\(count)/\(relativeID!)" : "/api/\(Cons.Svr.apiVersion)/discounts/latest/\(count)"
+        getAsync(path, "Discounts", onSuccess, onFailure)
+    }
+    
+    func requestDiscountByID(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)", "Discounts", onSuccess, onFailure)
+    }
+    
+    func requestDiscountInfo(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/extra", "Discounts", onSuccess, onFailure)
+    }
+    
+    func createCommentForDiscount(id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/comments/\(commentId)", "Discounts", ["comment": comment], onSuccess, onFailure)
+    }
+    
+    func requestComments(id: NSNumber, _ count: Int, _ relativeID: NSNumber = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/comments/\(count)/\(relativeID)", "Discounts", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
