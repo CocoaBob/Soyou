@@ -50,11 +50,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup Database asynchronously
         dispatch_async(dispatch_get_main_queue()) {
-            // Setup WTStatusBar
-            WTStatusBar.setStatusText("")
-            WTStatusBar.setTextColor(UIColor.clearColor())
-            WTStatusBar.setBackgroundColor(UIColor.clearColor())
-            WTStatusBar.setProgressBarColor(UIColor(hex: Cons.UI.colorTheme))
+//            // Setup WTStatusBar
+//            WTStatusBar.setStatusText("")
+//            WTStatusBar.setTextColor(UIColor.clearColor())
+//            WTStatusBar.setBackgroundColor(UIColor.clearColor())
+//            WTStatusBar.setProgressBarColor(UIColor(hex: Cons.UI.colorTheme))
             
             // Initializing database
             self.setupDatabase()

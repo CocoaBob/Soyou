@@ -72,7 +72,7 @@
 #import <UIColor-HexRGB/UIColor+HexRGB.h>
 #import <UIImage-ResizeMagick/UIImage+ResizeMagick.h>
 #import <UIView+Shake/UIView+Shake.h>
-#import <WTStatusBar/WTStatusBar.h>
+//#import <WTStatusBar/WTStatusBar.h>
 #import <ZoomInteractiveTransition/ZoomInteractiveTransition.h>
 #import <SSZipArchive/SSZipArchive.h>
 #import <Fabric/Fabric.h>

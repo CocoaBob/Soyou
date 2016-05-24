@@ -32,7 +32,7 @@ pod "UICKeyChainStore"
 pod "UIColor-HexRGB"
 pod "UIImage-ResizeMagick"
 pod "UIView+Shake"
-pod "WTStatusBar", :git => 'git://github.com/CocoaBob/WTStatusBar', :commit => '42bd2739315f1a24e3e1bf96e8d30a0430bf51b9'
+#pod "WTStatusBar", :git => 'git://github.com/CocoaBob/WTStatusBar', :commit => '42bd2739315f1a24e3e1bf96e8d30a0430bf51b9'
 pod "ZoomInteractiveTransition"
 
 #Continuous Integration
@@ -41,6 +41,9 @@ pod "Crashlytics"
 
 #SNS SDKs
 pod "libWeChatSDK",     :git => 'git://github.com/CocoaBob/libWeChatSDK', :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
+pod "FBSDKCoreKit", :git => 'https://github.com/facebook/facebook-ios-sdk.git', :tag => 'sdk-version-4.10.1'
+pod "FBSDKLoginKit", :git => 'https://github.com/facebook/facebook-ios-sdk.git', :tag => 'sdk-version-4.10.1'
+pod "FBSDKShareKit", :git => 'https://github.com/facebook/facebook-ios-sdk.git', :tag => 'sdk-version-4.10.1'
 
 pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
 pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial', :commit => '6f12fe01afb8b28db433184ce6edbce9f30bf1e4'
