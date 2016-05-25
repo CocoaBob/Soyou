@@ -191,11 +191,13 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                     self.newVersionAlert = nil
                     Utils.openAppStorePage()
                 }
-                self.newVersionAlert!.showNotice(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                                 title: NSLocalizedString("alert_title_info"),
-                                                 subTitle: NSLocalizedString("app_new_version_available"),
-                                                 closeButtonTitle: nil,
-                                                 duration: 0.0)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.newVersionAlert!.showNotice(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
+                        title: NSLocalizedString("alert_title_info"),
+                        subTitle: NSLocalizedString("app_new_version_available"),
+                        closeButtonTitle: nil,
+                        duration: 0.0)
+                })
             }
             
             if let onFailure = onFailure { onFailure(error) }
