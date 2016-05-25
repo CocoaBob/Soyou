@@ -168,18 +168,20 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     }
     
     private func handleSuccess(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        var isAccepted = false
+        var isSoyouServer = false
+        var isCurVerAccepted = false
         var verServer: String? = nil
         let verLocalMin = "|"+Cons.Svr.serverVersion+"|"
         if let headers: Dictionary = operation.response?.allHeaderFields {
             if let serverVersion = headers["Server-Version"] as? String {
+                isSoyouServer = true
                 verServer = serverVersion
                 if serverVersion.rangeOfString(verLocalMin) != nil {
-                    isAccepted = true
+                    isCurVerAccepted = true
                 }
             }
         }
-        if !isAccepted {
+        if isSoyouServer && !isCurVerAccepted {
             let error = FmtError(0, "Local version: %@ Server supported version: %@", verLocalMin, verServer ?? "")
             
             // Show alert to open App Store
