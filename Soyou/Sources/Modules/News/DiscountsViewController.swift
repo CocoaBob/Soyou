@@ -16,7 +16,7 @@ class DiscountsViewController: SyncedFetchedResultsViewController {
     }
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Discount.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+        return nil//Discount.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
     }
     
     // Properties

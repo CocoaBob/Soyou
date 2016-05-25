@@ -60,9 +60,8 @@ class CurrencyRate: NSManagedObject {
                 for data in datas {
                     CurrencyRate.importData(data, localContext)
                 }
-
-                }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
+            }, completion: { (responseObject, error) -> Void in
+                if let completion = completion { completion(responseObject, error) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }

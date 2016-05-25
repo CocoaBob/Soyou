@@ -114,6 +114,8 @@
 		45E775B41C04828B00FCCCDE /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */; };
 		45EE7A8A1C3A98D700CC554D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EE7A891C3A98D700CC554D /* MapKit.framework */; };
 		45EE7A8C1C3AE09D00CC554D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EE7A8B1C3AE09D00CC554D /* CoreLocation.framework */; };
+		45EE80C91CF659A8004AE158 /* Discount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EE80C71CF659A8004AE158 /* Discount+CoreDataProperties.swift */; };
+		45EE80CA1CF659A8004AE158 /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EE80C81CF659A8004AE158 /* Discount.swift */; };
 		45F3302C1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */; };
 		45FACD3E1CF4E1A00040C252 /* DiscountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD3D1CF4E1A00040C252 /* DiscountsViewController.swift */; };
 		45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */; };
@@ -250,6 +252,8 @@
 		45E7CE0B1BF8C05F00FAB7D6 /* Soyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Soyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EE7A891C3A98D700CC554D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		45EE7A8B1C3AE09D00CC554D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		45EE80C71CF659A8004AE158 /* Discount+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Discount+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		45EE80C81CF659A8004AE158 /* Discount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
 		45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncedFetchedResultsViewController.swift; sourceTree = "<group>"; };
 		45F72DE81CCD25A600E92958 /* Soyou1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou1.4.xcdatamodel; sourceTree = "<group>"; };
 		45FACD3D1CF4E1A00040C252 /* DiscountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountsViewController.swift; sourceTree = "<group>"; };
@@ -450,6 +454,7 @@
 		4577777B1BFC7D3700805D79 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				45EE80CB1CF659BC004AE158 /* Discounts */,
 				45FACD4C1CF4E4F30040C252 /* News */,
 				45FACD4E1CF4E50A0040C252 /* Product */,
 				0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */,
@@ -460,8 +465,6 @@
 				45D418AB1C1B935200685DFC /* Brand.swift */,
 				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
 				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
-				45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */,
-				45FACD501CF50A710040C252 /* FavoriteDiscount.swift */,
 				4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */,
 				4525C0F61C5B8B4200C26992 /* Region.swift */,
 				4525C0F31C5B8B4200C26992 /* Store+CoreDataProperties.swift */,
@@ -524,6 +527,17 @@
 				45E7CE0B1BF8C05F00FAB7D6 /* Soyou.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		45EE80CB1CF659BC004AE158 /* Discounts */ = {
+			isa = PBXGroup;
+			children = (
+				45EE80C71CF659A8004AE158 /* Discount+CoreDataProperties.swift */,
+				45EE80C81CF659A8004AE158 /* Discount.swift */,
+				45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */,
+				45FACD501CF50A710040C252 /* FavoriteDiscount.swift */,
+			);
+			name = Discounts;
 			sourceTree = "<group>";
 		};
 		45FACD4C1CF4E4F30040C252 /* News */ = {
@@ -820,6 +834,7 @@
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
 				453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */,
+				45EE80CA1CF659A8004AE158 /* Discount.swift in Sources */,
 				45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
 				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
@@ -841,6 +856,7 @@
 				4524C0AD1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift in Sources */,
 				4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */,
 				45A41B4F1C9F372A00D48185 /* NSUserDefaults+Additions.swift in Sources */,
+				45EE80C91CF659A8004AE158 /* Discount+CoreDataProperties.swift in Sources */,
 				45876AD91CDD0BD7009CB4C1 /* SplashScreenViewController.swift in Sources */,
 				0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,

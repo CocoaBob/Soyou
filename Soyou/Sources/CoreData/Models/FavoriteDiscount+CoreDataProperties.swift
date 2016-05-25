@@ -2,7 +2,7 @@
 //  FavoriteDiscount+CoreDataProperties.swift
 //  Soyou
 //
-//  Created by CocoaBob on 25/05/16.
+//  Created by CocoaBob on 26/05/16.
 //  Copyright © 2016 Soyou. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,18 +14,5 @@ import CoreData
 
 extension FavoriteDiscount {
 
-    @NSManaged var dateFavorite: NSDate?
-    @NSManaged var appIsLiked: NSNumber?
-    @NSManaged var appIsUpdated: NSNumber?
-    @NSManaged var author: String?
-    @NSManaged var content: String?
-    @NSManaged var coverImage: String?
-    @NSManaged var dateModification: NSDate?
-    @NSManaged var expireDate: NSDate?
-    @NSManaged var id: NSNumber?
-    @NSManaged var isOnline: NSNumber?
-    @NSManaged var publishdate: NSDate?
-    @NSManaged var title: String?
-    @NSManaged var url: String?
 
 }

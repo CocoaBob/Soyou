@@ -328,7 +328,7 @@ class RequestManager {
     
     func sendAnalyticsData(target: NSNumber, _ action: NSNumber, _ data: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         let operatedAt = Cons.utcDateFormatter.stringFromDate(NSDate())
-        let params = ["target": target, "action": action, "data": data, "operatedAt": operatedAt, "uuid": UserManager.shared.uuid]
+        let params = ["target": target, "action": action, "data": data, "operatedAt": operatedAt, "uuid": UserManager.shared.uuid, "device": "iOS"]
         postAsync("/api/\(Cons.Svr.apiVersion)/analytics", "Analytics", params, onSuccess, onFailure)
     }
     
