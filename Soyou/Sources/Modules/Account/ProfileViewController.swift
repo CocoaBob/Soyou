@@ -104,8 +104,14 @@ extension ProfileViewController {
         let alertView = SCLAlertView()
         alertView.addButton(NSLocalizedString("alert_button_cancel"), actionBlock: nil)
         alertView.addButton(NSLocalizedString("profile_vc_cell_logout_warning_sure")) { () -> Void in
-            UserManager.shared.logOut()
-            self.dismissSelf()
+            MBProgressHUD.showLoader(nil)
+            DataManager.shared.logout({ (responseObject, error) in
+                MBProgressHUD.hideLoader(nil)
+                if error == nil {
+                    UserManager.shared.logOut()
+                    self.dismissSelf()
+                }
+            })
         }
         alertView.showWarning(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
                               title: NSLocalizedString("profile_vc_cell_logout_warning_title"),
