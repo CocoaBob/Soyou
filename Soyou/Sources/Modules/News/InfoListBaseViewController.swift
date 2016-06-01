@@ -1,12 +1,12 @@
 //
-//  DiscountsViewController.swift
+//  InfoListBaseViewController.swift
 //  Soyou
 //
-//  Created by CocoaBob on 24/05/16.
+//  Created by CocoaBob on 01/06/16.
 //  Copyright © 2016 Soyou. All rights reserved.
 //
 
-class DiscountsViewController: SyncedFetchedResultsViewController {
+class InfoListBaseViewController: SyncedFetchedResultsViewController {
     
     // Override AsyncedFetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
@@ -15,52 +15,26 @@ class DiscountsViewController: SyncedFetchedResultsViewController {
         return _collectionView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return nil//Discount.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
-    }
-    
     // Properties
     var transition: ZoomInteractiveTransition?
     
-    var selectedMoreButtonCell: DiscountCollectionViewCellMore?
+    var selectedMoreButtonCell: InfoCollectionViewCellMore?
     var selectedIndexPath: NSIndexPath?
     
     // Class methods
-    class func instantiate() -> DiscountsViewController {
-        return (UIStoryboard(name: "DiscountsViewController", bundle: nil).instantiateViewControllerWithIdentifier("DiscountsViewController") as? DiscountsViewController)!
+    class func instantiate() -> InfoListBaseViewController {
+        return (UIStoryboard(name: "NewsViewController", bundle: nil).instantiateViewControllerWithIdentifier("InfoListBaseViewController") as? InfoListBaseViewController)!
     }
     
-    // Life cycle
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        // UIViewController
-        self.title = NSLocalizedString("discounts_vc_title")
-
-        // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("discounts_vc_tab_title"), image: UIImage(named: "img_tab_news"), selectedImage: UIImage(named: "img_tab_news_selected"))
-        
-        // Bars
-        self.hidesBottomBarWhenPushed = false
-    }
-    
-    deinit {
-        // Stop observing data updating
-//        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.collectionView(), 0, true, true, false, true)
+        self.updateScrollViewInset(self.collectionView(), 0, false, false, false, true)
         
         // Setups
         self.setupCollectionView()
         self.setupRefreshControls()
-        
-        // Observe data updating
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DiscountsViewController.reloadDataWithoutCompletion), name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
         
         // Data
         self.loadData(nil)
@@ -75,68 +49,59 @@ class DiscountsViewController: SyncedFetchedResultsViewController {
         self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.CalculationModeCubic, keyFrameOpts]
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillAppear(animated)
-        self.hideToolbar(false)
-    }
-    
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         updateColumnCount(Int(floor(size.width / 240)))
+    }
+    
+    // Methods to be overridden
+    func getNextInfo(currentIndex: Int?) -> (Int?, AnyObject?)? {
+        return nil
+    }
+    
+    func didShowNextInfo(info: AnyObject, index: Int) {
+        
     }
     
 }
 
 // MARK: Data
-extension DiscountsViewController {
+extension InfoListBaseViewController {
     
-    private func resetMoreButtonCell() {
+    func resetMoreButtonCell() {
         if let cell = self.selectedMoreButtonCell {
             cell.indicator.hidden = true
             cell.moreImage.hidden = false
         }
     }
     
-    private func loadData(relativeID: NSNumber?) {
-        DataManager.shared.requestDiscountsList(relativeID) { responseObject, error in
-            self.endRefreshing()
-            self.resetMoreButtonCell()
-        }
+    func loadData(relativeID: NSNumber?) {
+        
     }
 }
 
 // MARK: NewsDetailViewControllerDelegate
-extension DiscountsViewController: NewsDetailViewControllerDelegate {
+extension InfoListBaseViewController: NewsDetailViewControllerDelegate {
     
     func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)? {
-        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return nil }
-        
-        var currentProductIndex = -1
-        if let currentIndex = currentIndex {
-            currentProductIndex = currentIndex
-        }
-        
-        var nextNewsIndex = currentProductIndex + 1
-        while nextNewsIndex < fetchedResults.count {
-            if let news = fetchedResults[nextNewsIndex] as? News {
-                if news.appIsMore?.boolValue != true {
-                    return (nextNewsIndex, news)
-                }
-            }
-            nextNewsIndex += 1
-        }
-        
-        return nil
+        return self.getNextInfo(currentIndex) as? (Int?, BaseNews?)
     }
     
     func didShowNextNews(news: BaseNews, index: Int) {
-        self.collectionView().scrollToItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
-        self.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+        self.didShowNextInfo(news, index: index)
     }
 }
 
 // MARK: - CollectionView Delegate Methods
-extension DiscountsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension InfoListBaseViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func cellForItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCellMore", forIndexPath: indexPath)
+        return cell
+    }
+    
+    func didSelectItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) {
+
+    }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return self.fetchedResultsController?.sections?.count ?? 0
@@ -147,95 +112,17 @@ extension DiscountsViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var returnValue: UICollectionViewCell?
-    
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
-            if news.appIsMore != nil && news.appIsMore!.boolValue {
-                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("DiscountCollectionViewCellMore", forIndexPath: indexPath) as? DiscountCollectionViewCellMore {
-                    cell.indicator.hidden = true
-                    cell.moreImage.hidden = false
-                    returnValue = cell
-                }
-            } else {
-                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("DiscountCollectionViewCell", forIndexPath: indexPath) as? DiscountCollectionViewCell {
-                    cell.lblTitle.text = news.title
-                    if let imageURLString = news.image,
-                        imageURL = NSURL(string: imageURLString) {
-                        cell.fgImageView.sd_setImageWithURL(imageURL,
-                            placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                            completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                                if (image != nil &&
-                                    !self.collectionView().dragging &&
-                                    !self.collectionView().decelerating &&
-                                    self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
-                                    self.collectionView().reloadItemsAtIndexPaths([indexPath])
-                                }
-                        })
-                    }
-                    returnValue = cell
-                }
-            }
-        }
-        
-        if returnValue == nil {
-            // We can't return a cell without a reuse identifier
-            returnValue = collectionView.dequeueReusableCellWithReuseIdentifier("DiscountCollectionViewCell", forIndexPath: indexPath) as? DiscountCollectionViewCell
-        }
-        
-        return returnValue!
+        return self.cellForItemAtIndexPath(collectionView, indexPath: indexPath)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.selectedIndexPath = indexPath
-        
-        guard let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News else {
-            return
-        }
-        
-        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-            guard let localNews = news.MR_inContext(localContext) else { return }
-            let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-            if localNews.appIsMore != nil && localNews.appIsMore!.boolValue {
-                guard let cell = cell as? DiscountCollectionViewCellMore else { return }
-                
-                self.selectedMoreButtonCell = cell
-                
-                cell.indicator.startAnimating()
-                cell.indicator.hidden = false
-                cell.moreImage.hidden = true
-                self.loadData(localNews.id)
-            } else {
-                guard let cell = cell as? DiscountCollectionViewCell else { return }
-                
-                // Prepare cover image
-                var image: UIImage?
-                if let imageURLString = localNews.image,
-                    imageURL = NSURL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                    image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-                }
-                
-                if image == nil {
-                    image = cell.fgImageView.image
-                }
-                
-                // Prepare view controller
-                let newsDetailViewController = NewsDetailViewController.instantiate()
-                newsDetailViewController.delegate = self
-                newsDetailViewController.news = localNews
-                newsDetailViewController.newsIndex = indexPath.row
-                newsDetailViewController.headerImage = image
-                
-                // Push view controller
-                self.navigationController?.pushViewController(newsDetailViewController, animated: true)
-            }
-        }
+        self.didSelectItemAtIndexPath(collectionView, indexPath: indexPath)
     }
 }
 
 // MARK: - UIScrollViewDelegate
-extension DiscountsViewController: UIScrollViewDelegate {
+extension InfoListBaseViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
@@ -249,11 +136,11 @@ extension DiscountsViewController: UIScrollViewDelegate {
 }
 
 // MARK: - CollectionView Waterfall Layout
-extension DiscountsViewController: CHTCollectionViewDelegateWaterfallLayout {
+extension InfoListBaseViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
         self.collectionView().indicatorStyle = .White
-
+        
         // Create a waterfall layout
         let layout = CHTCollectionViewWaterfallLayout()
         
@@ -281,7 +168,7 @@ extension DiscountsViewController: CHTCollectionViewDelegateWaterfallLayout {
 //            if count > 1 {
 //                layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
 //            } else {
-                layout.sectionInset = UIEdgeInsetsZero
+            layout.sectionInset = UIEdgeInsetsZero
 //            }
         }
     }
@@ -309,11 +196,11 @@ extension DiscountsViewController: CHTCollectionViewDelegateWaterfallLayout {
 }
 
 // MARK: ZoomInteractiveTransition
-extension DiscountsViewController: ZoomTransitionProtocol {
+extension InfoListBaseViewController: ZoomTransitionProtocol {
     
     private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? DiscountCollectionViewCell {
+            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? InfoCollectionViewCell {
             return cell.fgImageView
         }
         return nil
@@ -336,14 +223,14 @@ extension DiscountsViewController: ZoomTransitionProtocol {
         // Only available for opening/closing a news from/to news view controller
         if ((operation == .Push && fromVC === self && toVC is NewsDetailViewController) ||
             (operation == .Pop && fromVC is NewsDetailViewController && toVC === self)) {
-                return true
+            return true
         }
         return false
     }
 }
 
 // MARK: - Refreshing
-extension DiscountsViewController {
+extension InfoListBaseViewController {
     
     func setupRefreshControls() {
         let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
@@ -385,7 +272,7 @@ extension DiscountsViewController {
 
 // MARK: - Custom cells
 
-class DiscountCollectionViewCell: UICollectionViewCell {
+class InfoCollectionViewCell: UICollectionViewCell {
     @IBOutlet var fgImageView: UIImageView!
     @IBOutlet var lblTitle: UILabel!
     
@@ -405,7 +292,7 @@ class DiscountCollectionViewCell: UICollectionViewCell {
     }
 }
 
-class DiscountCollectionViewCellMore: UICollectionViewCell {
+class InfoCollectionViewCellMore: UICollectionViewCell {
     @IBOutlet var indicator: UIActivityIndicatorView!
     @IBOutlet var moreImage: UIImageView!
 }

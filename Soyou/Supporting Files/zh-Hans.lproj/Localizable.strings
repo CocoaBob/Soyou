@@ -21,9 +21,12 @@
 "wechat_session" = "微信";
 "wechat_moments" = "朋友圈";
 
+/* Info View Controller */
+"info_vc_title"="资讯";
+"info_vc_tab_title"="资讯";
+
 /* News View Controller */
 "news_vc_title"="资讯";
-"news_vc_tab_title"="资讯";
 
 /* Brands View Controller */
 "brands_vc_title"="全部品牌";

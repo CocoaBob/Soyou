@@ -19,9 +19,12 @@
 "wechat_session" = "WeChat";
 "wechat_moments" = "Moments";
 
+/* Info View Controller */
+"info_vc_title"="Info";
+"info_vc_tab_title"="Info";
+
 /* News View Controller */
 "news_vc_title"="News";
-"news_vc_tab_title"="News";
 
 /* Brands View Controller */
 "brands_vc_title"="All brands";

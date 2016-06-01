@@ -362,7 +362,26 @@ class DataManager {
     
     func requestDiscountsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountsList(Cons.Svr.reqCnt, relativeID, { responseObject in
-            self.completeWithData(responseObject, completion: completion)
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                Discount.importDatas(data, { (_, _) -> () in
+                    // After importing, cache all news images
+                    MagicalRecord.saveWithBlock({ (localContext) -> Void in
+                        if let allNews = Discount.MR_findAllInContext(localContext) as? [News] {
+                            for news in allNews {
+                                if let imageURL = news.image, url = NSURL(string: imageURL) {
+                                    SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                }
+                            }
+                        }
+                    }, completion: { (_, _) -> Void in
+                        self.completeWithData(responseObject, completion: completion)
+                    })
+                    // Notify observers
+                    NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.discountsUpdatingDidFinishNotification, object: nil)
+                })
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })

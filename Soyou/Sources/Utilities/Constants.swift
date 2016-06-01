@@ -59,6 +59,7 @@ public struct Cons {
         static let lastRequestTimestampDeletedProductIDs    = "lastRequestTimestampDeletedProductIDs"   // Stored in database
         static let lastRequestTimestampStores               = "lastRequestTimestampStores"              // Stored in database
         
+        static let discountsUpdatingDidFinishNotification   = "discountsUpdatingDidFinishNotification"       // Notification to reload Discount
         static let newsUpdatingDidFinishNotification        = "newsUpdatingDidFinishNotification"       // Notification to reload News
         static let brandsUpdatingDidFinishNotification      = "brandsUpdatingDidFinishNotification"     // Notification to reload Brands
         static let productsUpdatingDidFinishNotification    = "productsUpdatingDidFinishNotification"   // Notification to reload Products

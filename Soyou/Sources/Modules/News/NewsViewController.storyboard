@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--News View Controller-->
+        <!--Info List Base View Controller-->
         <scene sceneID="6Uw-D4-79y">
             <objects>
-                <viewController storyboardIdentifier="NewsViewController" id="6DD-Tl-30h" customClass="NewsViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InfoListBaseViewController" id="6DD-Tl-30h" customClass="InfoListBaseViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="g8p-zH-nEq"/>
                         <viewControllerLayoutGuide type="bottom" id="5TD-tT-dBV"/>
@@ -28,8 +28,8 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewsCollectionViewCellMore" id="R14-0G-zWA" customClass="NewsCollectionViewCellMore" customModule="Soyou" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="164" width="295" height="46"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="InfoCollectionViewCellMore" id="R14-0G-zWA" customClass="InfoCollectionViewCellMore" customModule="Soyou" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="100" width="295" height="46"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="295" height="46"/>
@@ -73,8 +73,8 @@
                                             <outlet property="moreImage" destination="YJt-Uj-IFv" id="riB-5v-06b"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewsCollectionViewCell" id="KCi-WD-60i" customClass="NewsCollectionViewCell" customModule="Soyou" customModuleProvider="target">
-                                        <rect key="frame" x="305" y="64" width="295" height="246"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="InfoCollectionViewCell" id="KCi-WD-60i" customClass="InfoCollectionViewCell" customModule="Soyou" customModuleProvider="target">
+                                        <rect key="frame" x="305" y="0.0" width="295" height="246"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="295" height="246"/>
@@ -199,7 +199,29 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ze-2R-NRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1431" y="70"/>
+            <point key="canvasLocation" x="1251" y="398"/>
+        </scene>
+        <!--Info View Controller-->
+        <scene sceneID="cU1-02-iFv">
+            <objects>
+                <viewController storyboardIdentifier="InfoViewController" id="ash-GU-jfK" customClass="InfoViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1Aj-aF-vyw"/>
+                        <viewControllerLayoutGuide type="bottom" id="eZ3-ye-cZv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SSw-o7-Fos">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="9vd-Ds-tnT"/>
+                    <connections>
+                        <outlet property="subViewsContainer" destination="SSw-o7-Fos" id="gN8-MI-U4v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VfV-LF-xJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1251" y="-263"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fUT-lS-rpP">
@@ -210,12 +232,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="6DD-Tl-30h" kind="relationship" relationship="rootViewController" id="DGA-hj-Ljm"/>
+                        <segue destination="ash-GU-jfK" kind="relationship" relationship="rootViewController" id="uvK-qP-0Xd"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bYO-lW-h4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-238" y="398"/>
+            <point key="canvasLocation" x="541" y="-263"/>
         </scene>
     </scenes>
     <resources>

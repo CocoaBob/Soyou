@@ -35,6 +35,8 @@
 		4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */; };
 		4525C0FA1C5B8B4200C26992 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F61C5B8B4200C26992 /* Region.swift */; };
 		4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */; };
+		452796521CFE188E00A65A37 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452796511CFE188E00A65A37 /* InfoViewController.swift */; };
+		452796551CFF85E800A65A37 /* InfoListBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452796531CFEFCF400A65A37 /* InfoListBaseViewController.swift */; };
 		452799AB1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */; };
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
@@ -168,6 +170,8 @@
 		4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Region+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4525C0F61C5B8B4200C26992 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Additions.swift"; sourceTree = "<group>"; };
+		452796511CFE188E00A65A37 /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		452796531CFEFCF400A65A37 /* InfoListBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoListBaseViewController.swift; sourceTree = "<group>"; };
 		452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDMPhotoBrowser+Additions.swift"; sourceTree = "<group>"; };
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
@@ -398,6 +402,8 @@
 				45FACD3D1CF4E1A00040C252 /* DiscountsViewController.swift */,
 				4568E29B1BF90797009A6164 /* NewsViewController.swift */,
 				45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */,
+				452796531CFEFCF400A65A37 /* InfoListBaseViewController.swift */,
+				452796511CFE188E00A65A37 /* InfoViewController.swift */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -815,6 +821,7 @@
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
 				45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
+				452796521CFE188E00A65A37 /* InfoViewController.swift in Sources */,
 				456BCABE1C5D1AD200590295 /* ClusterAnnotationView.swift in Sources */,
 				0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */,
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
@@ -870,6 +877,7 @@
 				45FACD3E1CF4E1A00040C252 /* DiscountsViewController.swift in Sources */,
 				45F3302C1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift in Sources */,
 				0D05D65B1C4EE91400D8A7C2 /* CurrencyRate.swift in Sources */,
+				452796551CFF85E800A65A37 /* InfoListBaseViewController.swift in Sources */,
 				45B77BE81C792B54002FBAFE /* MKPlacemark+Additions.swift in Sources */,
 				454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */,
 				45E67EE11C58EB0500806929 /* FavoriteNews.swift in Sources */,

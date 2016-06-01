@@ -365,10 +365,12 @@ extension AppDelegate: GADInterstitialDelegate {
             return
         }
         
+#if !DEBUG
         // If it's return from background, the chance to show the AD is 30%
         if !isResume || (Float(arc4random()) / Float(UINT32_MAX) < 0.1) {
             self.interstitial = self.createAndLoadInterstitial()
         }
+#endif
     }
     
     func createAndLoadInterstitial() -> GADInterstitial {
