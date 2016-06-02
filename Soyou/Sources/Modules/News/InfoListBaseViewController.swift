@@ -8,6 +8,9 @@
 
 class InfoListBaseViewController: SyncedFetchedResultsViewController {
     
+    // Used for getting the navigation controller
+    var infoViewController: UIViewController?
+    
     // Override AsyncedFetchedResultsViewController
     @IBOutlet var _collectionView: UICollectionView!
     
@@ -16,14 +19,12 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
     }
     
     // Properties
-    var transition: ZoomInteractiveTransition?
-    
     var selectedMoreButtonCell: InfoCollectionViewCellMore?
     var selectedIndexPath: NSIndexPath?
     
     // Class methods
     class func instantiate() -> InfoListBaseViewController {
-        return (UIStoryboard(name: "NewsViewController", bundle: nil).instantiateViewControllerWithIdentifier("InfoListBaseViewController") as? InfoListBaseViewController)!
+        return (UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewControllerWithIdentifier("InfoListBaseViewController") as? InfoListBaseViewController)!
     }
     
     override func viewDidLoad() {
@@ -39,14 +40,6 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         // Data
         self.loadData(nil)
         self.reloadData(nil)
-        
-        // Transitions
-        self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
-        self.transition?.handleEdgePanBackGesture = false
-        self.transition?.transitionDuration = 0.3
-        let animationOpts: UIViewAnimationOptions = .CurveEaseOut
-        let keyFrameOpts: UIViewKeyframeAnimationOptions = UIViewKeyframeAnimationOptions(rawValue: animationOpts.rawValue)
-        self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.CalculationModeCubic, keyFrameOpts]
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -54,12 +47,16 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
     }
     
     // Methods to be overridden
-    func getNextInfo(currentIndex: Int?) -> (Int?, AnyObject?)? {
-        return nil
+    func hasNextInfo(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+        return false
     }
     
-    func didShowNextInfo(info: AnyObject, index: Int) {
-        
+    func getNextInfo(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+    }
+    
+    func didShowInfo(indexPath: NSIndexPath, isNext: Bool) {
+        self.collectionView().scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
+        self.selectedIndexPath = indexPath
     }
     
 }
@@ -79,15 +76,19 @@ extension InfoListBaseViewController {
     }
 }
 
-// MARK: NewsDetailViewControllerDelegate
-extension InfoListBaseViewController: NewsDetailViewControllerDelegate {
+// MARK: SwitchPrevNextItemDelegate
+extension InfoListBaseViewController: SwitchPrevNextItemDelegate {
     
-    func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)? {
-        return self.getNextInfo(currentIndex) as? (Int?, BaseNews?)
+    func hasNextItem(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+        return self.hasNextInfo(indexPath, isNext: isNext)
     }
     
-    func didShowNextNews(news: BaseNews, index: Int) {
-        self.didShowNextInfo(news, index: index)
+    func getNextItem(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+        self.getNextInfo(indexPath, isNext: isNext, completion: completion)
+    }
+    
+    func didShowItem(indexPath: NSIndexPath, isNext: Bool) {
+        self.didShowInfo(indexPath, isNext: isNext)
     }
 }
 
@@ -196,7 +197,7 @@ extension InfoListBaseViewController: CHTCollectionViewDelegateWaterfallLayout {
 }
 
 // MARK: ZoomInteractiveTransition
-extension InfoListBaseViewController: ZoomTransitionProtocol {
+extension InfoListBaseViewController {
     
     private func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
@@ -221,8 +222,8 @@ extension InfoListBaseViewController: ZoomTransitionProtocol {
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
         // Only available for opening/closing a news from/to news view controller
-        if ((operation == .Push && fromVC === self && toVC is NewsDetailViewController) ||
-            (operation == .Pop && fromVC is NewsDetailViewController && toVC === self)) {
+        if ((operation == .Push && fromVC === self.infoViewController && toVC is InfoDetailBaseViewController) ||
+            (operation == .Pop && fromVC is InfoDetailBaseViewController && toVC === self.infoViewController)) {
             return true
         }
         return false

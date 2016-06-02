@@ -176,7 +176,7 @@ extension AppDelegate {
     }
     
     func setupTabBarController() {
-        let storyboardNames = ["NewsViewController", "ProductsViewController", "UserViewController"]
+        let storyboardNames = ["InfoViewController", "ProductsViewController", "UserViewController"]
         let viewControllers = storyboardNames.flatMap {
             UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
         }

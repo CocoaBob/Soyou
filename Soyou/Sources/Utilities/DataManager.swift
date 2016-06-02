@@ -366,9 +366,9 @@ class DataManager {
                 Discount.importDatas(data, { (_, _) -> () in
                     // After importing, cache all news images
                     MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                        if let allNews = Discount.MR_findAllInContext(localContext) as? [News] {
-                            for news in allNews {
-                                if let imageURL = news.image, url = NSURL(string: imageURL) {
+                        if let allDiscounts = Discount.MR_findAllInContext(localContext) as? [Discount] {
+                            for discount in allDiscounts {
+                                if let imageURL = discount.coverImage, url = NSURL(string: imageURL) {
                                     SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
                                 }
                             }

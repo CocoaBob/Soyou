@@ -28,6 +28,9 @@
 /* News View Controller */
 "news_vc_title"="资讯";
 
+/* Discounts View Controller */
+"discouts_vc_title"="折扣";
+
 /* Brands View Controller */
 "brands_vc_title"="全部品牌";
 "brands_vc_tab_title"="比价";

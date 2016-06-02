@@ -26,6 +26,9 @@
 /* News View Controller */
 "news_vc_title"="News";
 
+/* Discounts View Controller */
+"discouts_vc_title"="Discounts";
+
 /* Brands View Controller */
 "brands_vc_title"="All brands";
 "brands_vc_tab_title"="Prices";

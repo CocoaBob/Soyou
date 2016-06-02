@@ -12,9 +12,12 @@ class InfoViewController: UIViewController {
     
     // PageMenu
     var pageMenu: CAPSPageMenu?
-    var pageMenuHeight: CGFloat = 30
     
     var newsViewController: NewsViewController = NewsViewController.instantiate()
+    var discountsViewController: DiscountsViewController = DiscountsViewController.instantiate()
+    
+    // Zoom Transition
+    var transition: ZoomInteractiveTransition?
     
     @IBOutlet var subViewsContainer: UIView!
     
@@ -41,10 +44,18 @@ class InfoViewController: UIViewController {
         
         // SubViewControllers
         self.setupSubViewControllers()
+        
+        // Transitions
+        self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
+        self.transition?.handleEdgePanBackGesture = false
+        self.transition?.transitionDuration = 0.3
+        let animationOpts: UIViewAnimationOptions = .CurveEaseOut
+        let keyFrameOpts: UIViewKeyframeAnimationOptions = UIViewKeyframeAnimationOptions(rawValue: animationOpts.rawValue)
+        self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.CalculationModeCubic, keyFrameOpts]
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         self.hideToolbar(false)
     }
@@ -60,9 +71,14 @@ extension InfoViewController {
             var viewControllers = [UIViewController]()
             
             // News VC
-            self.newsViewController.title = NSLocalizedString("news_vc_title")
-            self.newsViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
             viewControllers.append(self.newsViewController)
+//            viewControllers.append(self.discountsViewController)
+            
+            // Setup view controllers
+            let _ = viewControllers.map {
+                ($0 as? InfoListBaseViewController)?.infoViewController = self
+                let _ = $0.view
+            }
             
             // Customize menu (Optional)
             let parameters: [String: AnyObject] = [
@@ -75,23 +91,46 @@ extension InfoViewController {
                 CAPSPageMenuOptionCenterMenuItems: NSNumber(bool: true),
                 CAPSPageMenuOptionMenuItemFont: UIFont.systemFontOfSize(13),
                 CAPSPageMenuOptionMenuMargin: NSNumber(double: 10.0),
-                CAPSPageMenuOptionMenuHeight: self.pageMenuHeight,
+                CAPSPageMenuOptionMenuHeight: Cons.UI.heightPageMenuInfo,
                 CAPSPageMenuOptionAddBottomMenuHairline: NSNumber(bool: true),
                 CAPSPageMenuOptionBottomMenuHairlineColor: UIColor.whiteColor()
             ]
             
             // Create CAPSPageMenu
+            let topInset = UIApplication.sharedApplication().statusBarFrame.height + (self.navigationController?.navigationBar.frame.height ?? 0)
             self.pageMenu = CAPSPageMenu(
                 viewControllers: viewControllers,
-                frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height),
+                frame: CGRect(x: 0.0, y: topInset, width: self.view.frame.width, height: self.view.frame.height - topInset),
                 options: parameters)
             
             // Add CAPSPageMenu
             if let pageMenu = self.pageMenu {
                 pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
                 self.subViewsContainer.addSubview(pageMenu.view)
-                pageMenu.view.frame = CGRect(x: 0, y: 0, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height)
+                pageMenu.view.frame = CGRect(x: 0, y: topInset, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height - topInset)
             }
         }
+    }
+}
+
+// MARK: ZoomInteractiveTransition
+extension InfoViewController: ZoomTransitionProtocol {
+    
+    func viewForZoomTransition(isSource: Bool) -> UIView? {
+        guard let pageMenu = self.pageMenu else { return nil }
+        guard let viewController = pageMenu.controllerArray[pageMenu.currentPageIndex] as? InfoListBaseViewController else { return nil }
+        return viewController.viewForZoomTransition(isSource)
+    }
+    
+    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+        guard let pageMenu = self.pageMenu else { return nil }
+        guard let viewController = pageMenu.controllerArray[pageMenu.currentPageIndex] as? InfoListBaseViewController else { return nil }
+        return viewController.initialZoomViewSnapshotFromProposedSnapshot(snapshot)
+    }
+    
+    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+        guard let pageMenu = self.pageMenu else { return false }
+        guard let viewController = pageMenu.controllerArray[pageMenu.currentPageIndex] as? InfoListBaseViewController else { return false }
+        return viewController.shouldAllowZoomTransitionForOperation(operation, fromViewController: fromVC, toViewController: toVC)
     }
 }

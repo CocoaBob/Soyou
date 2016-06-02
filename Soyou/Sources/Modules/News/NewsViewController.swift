@@ -27,6 +27,9 @@ class NewsViewController: InfoListBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = NSLocalizedString("news_vc_title")
+        self.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        
         // Observe data updating
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewsViewController.reloadDataWithoutCompletion), name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
     }
@@ -39,31 +42,27 @@ class NewsViewController: InfoListBaseViewController {
         }
     }
     
-    // MARK: NewsDetailViewControllerDelegate
-    override func getNextInfo(currentIndex: Int?) -> (Int?, AnyObject?)? {
-        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return nil }
-        
-        var currentProductIndex = -1
-        if let currentIndex = currentIndex {
-            currentProductIndex = currentIndex
-        }
-        
-        var nextNewsIndex = currentProductIndex + 1
-        while nextNewsIndex < fetchedResults.count {
-            if let news = fetchedResults[nextNewsIndex] as? News {
-                if news.appIsMore?.boolValue != true {
-                    return (nextNewsIndex, news)
-                }
-            }
-            nextNewsIndex += 1
-        }
-        
-        return nil
+    // MARK: SwitchPrevNextItemDelegate
+    override func hasNextInfo(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+        return self.fetchedResultsController?.fetchedObjects?.isEmpty == false
     }
     
-    override func didShowNextInfo(info: AnyObject, index: Int) {
-        self.collectionView().scrollToItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
-        self.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+    override func getNextInfo(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+        guard let completion = completion else { return }
+        
+        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return
+            completion(indexPath: nil, item: nil)
+        }
+        
+        var newIndex = indexPath.row + (isNext ? 1 : -1)
+        if newIndex < 0 {
+            newIndex = fetchedResults.count - 1
+        }
+        if newIndex > fetchedResults.count - 1 {
+            newIndex = 0
+        }
+        
+        completion(indexPath: NSIndexPath(forRow: newIndex, inSection: 0), item: fetchedResults[newIndex])
     }
 }
 
@@ -151,7 +150,7 @@ extension NewsViewController {
                 newsDetailViewController.headerImage = image
                 
                 // Push view controller
-                self.navigationController?.pushViewController(newsDetailViewController, animated: true)
+                self.infoViewController?.navigationController?.pushViewController(newsDetailViewController, animated: true)
             }
         }
     }

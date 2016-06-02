@@ -78,6 +78,8 @@ public struct Cons {
         static let colorStore                               = "#E84917"
         static let colorStoreMapCopy                        = "#59C843"
         static let colorStoreMapOpen                        = "#0095FF"
+        static let heightPageMenuProduct                    = CGFloat(30.0)
+        static let heightPageMenuInfo                       = CGFloat(44.0)
     }
     
     static var utcDateFormatter: NSDateFormatter {

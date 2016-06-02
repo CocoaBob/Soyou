@@ -6,16 +6,10 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-protocol NewsDetailViewControllerDelegate {
-    
-    func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)?
-    func didShowNextNews(news: BaseNews, index: Int)
-}
-
-class NewsDetailViewController: UIViewController {
+class NewsDetailViewController: InfoDetailBaseViewController {
     
     // For next product
-    var delegate: NewsDetailViewControllerDelegate?
+    var delegate: SwitchPrevNextItemDelegate?
     var nextNewsBarButtonItem: UIBarButtonItem?
     var newsIndex: Int?
     var nextNews: BaseNews?
@@ -58,7 +52,7 @@ class NewsDetailViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> NewsDetailViewController {
-        return (UIStoryboard(name: "NewsViewController", bundle: nil).instantiateViewControllerWithIdentifier("NewsDetailViewController") as? NewsDetailViewController)!
+        return (UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewControllerWithIdentifier("NewsDetailViewController") as? NewsDetailViewController)!
     }
     
     // Lif cycle
@@ -415,15 +409,17 @@ extension NewsDetailViewController {
         self.setupParallaxHeader()
         
         // Prepare next news
-        if let (index, news) = self.delegate?.getNextNews(self.newsIndex) {
-            self.nextNewsIndex = index
-            self.nextNews = news
-        } else {
-            self.nextNewsIndex = nil
-            self.nextNews = nil
-        }
-        // Next button status
-        self.nextNewsBarButtonItem?.enabled = self.nextNews != nil
+        self.delegate?.getNextItem(NSIndexPath(forRow: self.newsIndex ?? 0, inSection: 0), isNext: true, completion: { (indexPath, item) in
+            if let index = indexPath?.row, news = item as? News {
+                self.nextNewsIndex = index
+                self.nextNews = news
+            } else {
+                self.nextNewsIndex = nil
+                self.nextNews = nil
+            }
+            // Next button status
+            self.nextNewsBarButtonItem?.enabled = self.nextNews != nil
+        })
     }
     
     func loadNextNews() {
@@ -436,7 +432,7 @@ extension NewsDetailViewController {
             transition.type = kCATransitionPush
             transition.subtype = kCATransitionFromTop
             self.view.layer .addAnimation(transition, forKey: "transition")
-            self.delegate?.didShowNextNews(nextNews, index: self.newsIndex ?? 0)
+            self.delegate?.didShowItem(NSIndexPath(forRow: self.newsIndex ?? 0, inSection: 0), isNext: true)
         }
     }
 }
@@ -549,9 +545,9 @@ extension NewsDetailViewController: ZoomTransitionProtocol {
             return false
         }
         // Only available for opening/closing a news from/to news view controller
-        if ((operation == .Push && fromVC is NewsViewController && toVC === self)) {
+        if ((operation == .Push && fromVC is InfoViewController && toVC === self)) {
             return true
-        } else if ((operation == .Pop && fromVC === self && toVC is NewsViewController)) {
+        } else if ((operation == .Pop && fromVC === self && toVC is InfoViewController)) {
             // If parallex header is invisible, no need of the zooming animation
             if let scrollView = self.scrollView {
                 if scrollView.contentOffset.y >= 0 {

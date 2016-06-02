@@ -316,30 +316,33 @@ extension FavoritesViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: NewsDetailViewControllerDelegate
-extension FavoritesViewController: NewsDetailViewControllerDelegate {
+// MARK: SwitchPrevNextItemDelegate
+extension FavoritesViewController: SwitchPrevNextItemDelegate {
     
-    func getNextNews(currentIndex: Int?) -> (Int?, BaseNews?)? {
-        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return nil }
-        
-        var currentNewsIndex = -1
-        if let currentIndex = currentIndex {
-            currentNewsIndex = currentIndex
-        }
-        
-        var nextNewsIndex = currentNewsIndex + 1
-        while nextNewsIndex < fetchedResults.count {
-            if let news = fetchedResults[nextNewsIndex] as? FavoriteNews {
-                return (nextNewsIndex, news)
-            }
-            nextNewsIndex += 1
-        }
-        
-        return nil
+    func hasNextItem(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+        return self.fetchedResultsController?.fetchedObjects?.isEmpty == false
     }
     
-    func didShowNextNews(news: BaseNews, index: Int) {
-        self.tableView().scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
+    func getNextItem(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+        guard let completion = completion else { return }
+        
+        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return
+            completion(indexPath: nil, item: nil)
+        }
+        
+        var newIndex = indexPath.row + (isNext ? 1 : -1)
+        if newIndex < 0 {
+            newIndex = fetchedResults.count - 1
+        }
+        if newIndex > fetchedResults.count - 1 {
+            newIndex = 0
+        }
+        
+        completion(indexPath: NSIndexPath(forRow: newIndex, inSection: 0), item: fetchedResults[newIndex])
+    }
+    
+    func didShowItem(indexPath: NSIndexPath, isNext: Bool) {
+        self.tableView().scrollToRowAtIndexPath(indexPath, atScrollPosition: isNext ? .Top : .Bottom, animated: false)
     }
 }
 

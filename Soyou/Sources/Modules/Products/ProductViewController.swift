@@ -44,7 +44,6 @@ class ProductViewController: UIViewController {
     
     // PageMenu
     var pageMenu: CAPSPageMenu?
-    var pageMenuHeight: CGFloat = 30
     
     // Toolbar
     var btnLike: UIButton?
@@ -319,7 +318,7 @@ extension ProductViewController {
                 CAPSPageMenuOptionCenterMenuItems: NSNumber(bool: true),
                 CAPSPageMenuOptionMenuItemFont: UIFont.systemFontOfSize(13),
                 CAPSPageMenuOptionMenuMargin: NSNumber(double: 10.0),
-                CAPSPageMenuOptionMenuHeight: self.pageMenuHeight,
+                CAPSPageMenuOptionMenuHeight: Cons.UI.heightPageMenuProduct,
                 CAPSPageMenuOptionAddBottomMenuHairline: NSNumber(bool: true),
                 CAPSPageMenuOptionBottomMenuHairlineColor: UIColor.whiteColor()
             ]
@@ -371,7 +370,7 @@ extension ProductViewController: WebViewHeightDelegate {
         let pricesViewHeight = self.productPricesViewController.tableView.contentSize.height ?? 0
         let descriptionsViewHeight = descriptionViewHeight
         let maxHeight = max(descriptionsViewHeight, pricesViewHeight)
-        self.viewsContainerHeight?.constant = maxHeight + self.pageMenuHeight + 20 // Bottom margin 20
+        self.viewsContainerHeight?.constant = maxHeight + Cons.UI.heightPageMenuProduct + 20 // Bottom margin 20
         self.view.setNeedsLayout()
         if animated {
             UIView.animateWithDuration(0.3) { () -> Void in
