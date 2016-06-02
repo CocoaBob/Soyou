@@ -72,7 +72,7 @@ extension InfoViewController {
             
             // News VC
             viewControllers.append(self.newsViewController)
-//            viewControllers.append(self.discountsViewController)
+            viewControllers.append(self.discountsViewController)
             
             // Setup view controllers
             let _ = viewControllers.map {
