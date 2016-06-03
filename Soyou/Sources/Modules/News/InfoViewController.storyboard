@@ -135,10 +135,10 @@
             </objects>
             <point key="canvasLocation" x="541" y="398"/>
         </scene>
-        <!--News Detail View Controller-->
+        <!--Info Detail Base View Controller-->
         <scene sceneID="ylV-RG-WTZ">
             <objects>
-                <viewController storyboardIdentifier="NewsDetailViewController" id="mQM-eh-iat" customClass="NewsDetailViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InfoDetailBaseViewController" id="mQM-eh-iat" customClass="InfoDetailBaseViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aBB-M1-Xyl"/>
                         <viewControllerLayoutGuide type="bottom" id="Edd-jV-Gd3"/>

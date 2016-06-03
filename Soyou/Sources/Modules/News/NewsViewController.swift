@@ -145,8 +145,8 @@ extension NewsViewController {
                 // Prepare view controller
                 let newsDetailViewController = NewsDetailViewController.instantiate()
                 newsDetailViewController.delegate = self
-                newsDetailViewController.news = localNews
-                newsDetailViewController.newsIndex = indexPath.row
+                newsDetailViewController.info = localNews
+                newsDetailViewController.infoIndex = indexPath.row
                 newsDetailViewController.headerImage = image
                 
                 // Push view controller

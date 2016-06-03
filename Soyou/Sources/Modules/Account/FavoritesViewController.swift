@@ -199,8 +199,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 // Prepare view controller
                 let viewController = NewsDetailViewController.instantiate()
                 viewController.delegate = self
-                viewController.news = news
-                viewController.newsIndex = indexPath.row
+                viewController.info = news
+                viewController.infoIndex = indexPath.row
                 viewController.headerImage = image
                 
                 nextViewController = viewController
