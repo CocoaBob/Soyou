@@ -130,6 +130,8 @@ class ProductViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeStatusBarCover()
+        // Make sure interactive gesture's delegate is nil before disappearing
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     override func viewDidDisappear(animated: Bool) {

@@ -94,6 +94,12 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
             self.navigationController?.setNavigationBarHidden(false, animated: false)
         }
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Make sure interactive gesture's delegate is nil before disappearing
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
 }
 
 // MARK: Table View

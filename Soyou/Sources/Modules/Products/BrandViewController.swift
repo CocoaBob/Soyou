@@ -148,6 +148,8 @@ class BrandViewController: UIViewController {
         super.viewWillDisappear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = false
+        // Make sure interactive gesture's delegate is nil before disappearing
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     override func viewDidDisappear(animated: Bool) {

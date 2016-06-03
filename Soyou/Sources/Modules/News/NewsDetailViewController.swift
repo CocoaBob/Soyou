@@ -135,6 +135,8 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         super.viewWillDisappear(animated)
         // Update Status Bar Cover
         self.removeStatusBarCover()
+        // Make sure interactive gesture's delegate is nil before disappearing
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         // Hide HUD indicator if exists
         MBProgressHUD.hideLoader(self.view)
         // Set WebView scroll view
