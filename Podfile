@@ -56,5 +56,3 @@ pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial', :commit =>
 
 # Used for testing
 #pod 'FBRetainCycleDetector'
-
-pod "Google-Mobile-Ads-SDK"

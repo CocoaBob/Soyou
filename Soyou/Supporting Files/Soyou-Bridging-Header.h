@@ -10,7 +10,6 @@
 @import MessageUI;
 @import StoreKit;
 @import UIKit;
-@import GoogleMobileAds;
 
 // To get device info
 #include <sys/utsname.h>

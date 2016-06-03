@@ -17,9 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var dbIsInitialized = false
     var shortcutItemType = ""
     var uiIsInitialized = false
-    
-    var isInBackground: Bool = false
-    var interstitial: GADInterstitial?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Crashlytics
@@ -88,16 +85,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MagicalRecord.cleanUp()
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
-        self.isInBackground = true
-    }
-    
     func applicationDidBecomeActive(application: UIApplication) {
         self.updateDataAfterLaunching()
-        
-        // Load Google AD
-        self.showGoogleAD(self.isInBackground)
-        self.isInBackground = false
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication) {
@@ -321,68 +310,5 @@ extension AppDelegate: UITabBarControllerDelegate {
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         let toppestViewController = viewController.toppestViewController()
         toppestViewController?.viewDidAppear(false)
-    }
-}
-
-// MARK: Google AD
-extension AppDelegate: GADInterstitialDelegate {
-    
-    func canShowFullscreenAD() -> Bool {
-        // If it's launched by shortcut, we don't display AD
-        if self.shortcutItemType != "" {
-            return false
-        }
-        
-        // If we need to show Intro view, we don't display AD
-        if self.needsToShowIntroView() {
-            return false
-        }
-        
-        // Only display ad for News/Brands/Brand/Products/Product views
-        if let toppestViewController = UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController() {
-            for classVC in [SplashScreenViewController.self,
-                            NewsViewController.self,
-                            NewsDetailViewController.self,
-                            BrandsViewController.self,
-                            BrandViewController.self,
-                            ProductsViewController.self,
-                            ProductViewController.self,
-                            StoreMapViewController.self,
-                            StoreMapSearchResultsViewController.self] {
-                                if let classVC = classVC as? AnyClass {
-                                    if toppestViewController.isKindOfClass(classVC) {
-                                        return true
-                                    }
-                                }
-            }
-        }
-        
-        return false
-    }
-    
-    func showGoogleAD(isResume: Bool) {
-        if !canShowFullscreenAD() {
-            return
-        }
-        
-#if !DEBUG
-        // If it's return from background, the chance to show the AD is 30%
-        if !isResume || (Float(arc4random()) / Float(UINT32_MAX) < 0.1) {
-            self.interstitial = self.createAndLoadInterstitial()
-        }
-#endif
-    }
-    
-    func createAndLoadInterstitial() -> GADInterstitial {
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3349787729360682/3092020058")
-        interstitial.delegate = self
-        interstitial.loadRequest(GADRequest())
-        return interstitial
-    }
-    
-    func interstitialDidReceiveAd(ad: GADInterstitial!) {
-        if let viewController = UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController() {
-            ad.presentFromRootViewController(viewController)
-        }
     }
 }
