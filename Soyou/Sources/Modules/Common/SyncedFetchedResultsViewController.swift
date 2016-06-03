@@ -144,6 +144,7 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
         if let tableView = self.tableView() {
             tableView.endUpdates()
         } else if let collectionView = self.collectionView() {
+            UIView.setAnimationsEnabled(false)
             collectionView.performBatchUpdates({ () -> Void in
                 if let fetchedResultsChangesInsert = self.fetchedResultsChangesInsert {
                     collectionView.insertItemsAtIndexPaths(fetchedResultsChangesInsert)
@@ -159,12 +160,12 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
                         collectionView.moveItemAtIndexPath(oldIndexPath, toIndexPath: newIndexPath)
                     }
                 }
-                },
-                                               completion: { (finished: Bool) -> Void in
-                                                self.fetchedResultsChangesInsert = nil
-                                                self.fetchedResultsChangesDelete = nil
-                                                self.fetchedResultsChangesUpdate = nil
-                                                self.fetchedResultsChangesMove = nil
+            }, completion: { (finished: Bool) -> Void in
+                UIView.setAnimationsEnabled(true)
+                self.fetchedResultsChangesInsert = nil
+                self.fetchedResultsChangesDelete = nil
+                self.fetchedResultsChangesUpdate = nil
+                self.fetchedResultsChangesMove = nil
             })
         }
     }
