@@ -49,7 +49,7 @@ class FavoriteDiscount: Discount {
         return favoriteDiscount
     }
     
-    override class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ completion: CompletionClosure?) {
+    override class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
@@ -57,29 +57,12 @@ class FavoriteDiscount: Discount {
                 return
             }
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                // Delete old data
-                FavoriteDiscount.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
                 // Import new data
                 for data in datas {
                     FavoriteDiscount.importData(data, isComplete, localContext)
                 }
-                }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
-            })
-        } else {
-            if let completion = completion { completion(nil, FmtError(0, nil)) }
-        }
-    }
-    
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?, _ completion: CompletionClosure?) {
-        if let datas = datas {
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                for data in datas {
-                    FavoriteDiscount.importData(data, isComplete, localContext)
-                }
-                
-                }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
+            }, completion: { (responseObject, error) -> Void in
+                if let completion = completion { completion(responseObject, error) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }
@@ -113,7 +96,7 @@ class FavoriteDiscount: Discount {
             if !favoriteIDs.isEmpty {
                 DataManager.shared.requestDiscounts(favoriteIDs, { responseObject, error in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        FavoriteDiscount.importDatas(data, false, nil, { (responseObject, error) -> () in
+                        FavoriteDiscount.importDatas(data, false, false, { (responseObject, error) -> () in
                             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                                 // Update favorite dates
                                 if let allFavoritesDiscounts = FavoriteDiscount.MR_findAllInContext(localContext) as? [FavoriteDiscount] {

@@ -55,7 +55,7 @@ class InfoViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
         self.hideToolbar(false)
     }
@@ -89,7 +89,7 @@ extension InfoViewController {
                 CAPSPageMenuOptionUnselectedMenuItemLabelColor: UIColor.lightGrayColor(),
                 CAPSPageMenuOptionUseMenuLikeSegmentedControl: NSNumber(bool: true),
                 CAPSPageMenuOptionCenterMenuItems: NSNumber(bool: true),
-                CAPSPageMenuOptionMenuItemFont: UIFont.systemFontOfSize(13),
+                CAPSPageMenuOptionMenuItemFont: UIFont.boldSystemFontOfSize(15),
                 CAPSPageMenuOptionMenuMargin: NSNumber(double: 10.0),
                 CAPSPageMenuOptionMenuHeight: Cons.UI.heightPageMenuInfo,
                 CAPSPageMenuOptionAddBottomMenuHairline: NSNumber(bool: true),
@@ -97,7 +97,7 @@ extension InfoViewController {
             ]
             
             // Create CAPSPageMenu
-            let topInset = UIApplication.sharedApplication().statusBarFrame.height + (self.navigationController?.navigationBar.frame.height ?? 0)
+            let topInset = UIApplication.sharedApplication().statusBarFrame.height
             self.pageMenu = CAPSPageMenu(
                 viewControllers: viewControllers,
                 frame: CGRect(x: 0.0, y: topInset, width: self.view.frame.width, height: self.view.frame.height - topInset),

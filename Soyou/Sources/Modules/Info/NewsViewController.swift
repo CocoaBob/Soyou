@@ -42,6 +42,12 @@ class NewsViewController: InfoListBaseViewController {
         }
     }
     
+    override func loadNextData() {
+        let lastNews = self.fetchedResultsController?.fetchedObjects?.last as? News
+        self.loadData(lastNews?.id)
+        self.beginRefreshing()
+    }
+    
     // MARK: SwitchPrevNextItemDelegate
     override func hasNextInfo(indexPath: NSIndexPath, isNext: Bool) -> Bool {
         return self.fetchedResultsController?.fetchedObjects?.isEmpty == false
@@ -63,6 +69,23 @@ class NewsViewController: InfoListBaseViewController {
         }
         
         completion(indexPath: NSIndexPath(forRow: newIndex, inSection: 0), item: fetchedResults[newIndex])
+    }
+    
+    override func sizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize? {
+        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
+            if news.appIsMore == nil || !news.appIsMore!.boolValue {
+                if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
+                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                    let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+                    if image != nil {
+                        return CGSize(width: image.size.width, height: image.size.height)
+                    }
+                }
+            } else {
+                return CGSize(width: 8, height: 1)
+            }
+        }
+        return nil
     }
 }
 

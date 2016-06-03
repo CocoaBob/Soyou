@@ -42,6 +42,12 @@ class DiscountsViewController: InfoListBaseViewController {
         }
     }
     
+    override func loadNextData() {
+        let lastDiscount = self.fetchedResultsController?.fetchedObjects?.last as? Discount
+        self.loadData(lastDiscount?.id)
+        self.beginRefreshing()
+    }
+    
     // MARK: SwitchPrevNextItemDelegate
     override func hasNextInfo(indexPath: NSIndexPath, isNext: Bool) -> Bool {
         return self.fetchedResultsController?.fetchedObjects?.isEmpty == false
@@ -63,6 +69,19 @@ class DiscountsViewController: InfoListBaseViewController {
         }
         
         completion(indexPath: NSIndexPath(forRow: newIndex, inSection: 0), item: fetchedResults[newIndex])
+    }
+    
+    override func sizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize? {
+        if let discount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Discount,
+            imageURLString = discount.coverImage,
+            imageURL = NSURL(string: imageURLString) {
+            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+            let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+            if image != nil {
+                return CGSize(width: image.size.width, height: image.size.height)
+            }
+        }
+        return nil
     }
 }
 

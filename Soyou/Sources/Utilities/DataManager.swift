@@ -392,7 +392,7 @@ class DataManager {
     func requestDiscountsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountsList(Cons.Svr.reqCnt, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                Discount.importDatas(data, false, { (_, _) -> () in
+                Discount.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
                     // After importing, cache all news images
                     MagicalRecord.saveWithBlock({ (localContext) -> Void in
                         if let allDiscounts = Discount.MR_findAllInContext(localContext) as? [Discount] {

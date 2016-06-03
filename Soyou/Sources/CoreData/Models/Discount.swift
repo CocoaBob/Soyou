@@ -66,7 +66,7 @@ class Discount: NSManagedObject {
         return discount
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ completion: CompletionClosure?) {
+    class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
@@ -75,7 +75,9 @@ class Discount: NSManagedObject {
             }
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 // Delete old data
-                Discount.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+                if isOverridden {
+                    Discount.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+                }
                 // Import new data
                 for data in datas {
                     Discount.importData(data, isComplete, localContext)

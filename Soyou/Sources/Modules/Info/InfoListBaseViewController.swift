@@ -59,6 +59,9 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         self.selectedIndexPath = indexPath
     }
     
+    func sizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize? {
+        return nil
+    }
 }
 
 // MARK: Data
@@ -72,6 +75,10 @@ extension InfoListBaseViewController {
     }
     
     func loadData(relativeID: NSNumber?) {
+        
+    }
+    
+    func loadNextData() {
         
     }
 }
@@ -176,20 +183,10 @@ extension InfoListBaseViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     //** Size for the cells in the Waterfall Layout */
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        var size = CGSize(width: 3, height: 2) // Default size for news
+        var size = CGSize(width: 3, height: 2) // Default size
         
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
-            if news.appIsMore == nil || !news.appIsMore!.boolValue {
-                if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                    let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-                    if image != nil {
-                        size = CGSize(width: image.size.width, height: image.size.height)
-                    }
-                }
-            } else {
-                size = CGSize(width: 8, height: 1)
-            }
+        if let newSize = self.sizeForItemAtIndexPath(indexPath) {
+            size = newSize
         }
         
         return size
@@ -221,7 +218,7 @@ extension InfoListBaseViewController {
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
-        // Only available for opening/closing a news from/to news view controller
+        // Only available for opening/closing an info from/to info base view controller
         if ((operation == .Push && fromVC === self.infoViewController && toVC is InfoDetailBaseViewController) ||
             (operation == .Pop && fromVC is InfoDetailBaseViewController && toVC === self.infoViewController)) {
             return true
@@ -246,9 +243,7 @@ extension InfoListBaseViewController {
         self.collectionView().mj_header = header
         
         let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
-            let lastNews = self.fetchedResultsController?.fetchedObjects?.last as? News
-            self.loadData(lastNews?.id)
-            self.beginRefreshing()
+            self.loadNextData()
         })
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
