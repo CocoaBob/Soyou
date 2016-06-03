@@ -60,8 +60,6 @@
 		4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* Soyou.xcdatamodeld */; };
 		4568E2F61BF92182009A6164 /* AsyncedFetchedResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2F51BF92182009A6164 /* AsyncedFetchedResultsViewController.swift */; };
 		4568E2FC1BF938C9009A6164 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2FB1BF938C9009A6164 /* FileManager.swift */; };
-		456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */; };
-		456B419A1C597F83001E66EB /* BaseNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B41981C597F83001E66EB /* BaseNews.swift */; };
 		456B419C1C5AD155001E66EB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456B419B1C5AD155001E66EB /* MessageUI.framework */; };
 		456BCABC1C5D0ADD00590295 /* StoreMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456BCABB1C5D0ADD00590295 /* StoreMapViewController.swift */; };
 		456BCABE1C5D1AD200590295 /* ClusterAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */; };
@@ -122,6 +120,7 @@
 		45F5C2A51D01DFA70024B5DF /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C29D1D01DFA70024B5DF /* InfoViewController.swift */; };
 		45F5C2A61D01DFA70024B5DF /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C29E1D01DFA70024B5DF /* NewsDetailViewController.swift */; };
 		45F5C2A71D01DFA70024B5DF /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C29F1D01DFA70024B5DF /* NewsViewController.swift */; };
+		45F5C2A91D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C2A81D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel */; };
 		45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */; };
 		45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD501CF50A710040C252 /* FavoriteDiscount.swift */; };
 		871490CB20BD8D85040C7F3C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F47FC3F49E34E3FD18ECA10 /* libPods.a */; };
@@ -200,8 +199,6 @@
 		4568E2F51BF92182009A6164 /* AsyncedFetchedResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncedFetchedResultsViewController.swift; sourceTree = "<group>"; };
 		4568E2F71BF922B7009A6164 /* Soyou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Soyou-Bridging-Header.h"; sourceTree = "<group>"; };
 		4568E2FB1BF938C9009A6164 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
-		456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		456B41981C597F83001E66EB /* BaseNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNews.swift; sourceTree = "<group>"; };
 		456B419B1C5AD155001E66EB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		456BCABB1C5D0ADD00590295 /* StoreMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreMapViewController.swift; sourceTree = "<group>"; };
 		456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterAnnotationView.swift; sourceTree = "<group>"; };
@@ -264,6 +261,7 @@
 		45F5C29D1D01DFA70024B5DF /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		45F5C29E1D01DFA70024B5DF /* NewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		45F5C29F1D01DFA70024B5DF /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		45F5C2A81D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_1.4_1.5.xcmappingmodel; sourceTree = "<group>"; };
 		45F72DE81CCD25A600E92958 /* Soyou1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou1.4.xcdatamodel; sourceTree = "<group>"; };
 		45FACD3F1CF4E2230040C252 /* Soyou1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou1.5.xcdatamodel; sourceTree = "<group>"; };
 		45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteDiscount+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -384,6 +382,7 @@
 			children = (
 				4577777B1BFC7D3700805D79 /* Models */,
 				4568E2971BF90797009A6164 /* Soyou.xcdatamodeld */,
+				45F5C2A81D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -555,8 +554,6 @@
 		45FACD4C1CF4E4F30040C252 /* News */ = {
 			isa = PBXGroup;
 			children = (
-				456B41971C597F83001E66EB /* BaseNews+CoreDataProperties.swift */,
-				456B41981C597F83001E66EB /* BaseNews.swift */,
 				457777801BFCB60100805D79 /* News+CoreDataProperties.swift */,
 				457777811BFCB60100805D79 /* News.swift */,
 				45E67EDE1C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift */,
@@ -821,7 +818,6 @@
 				4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */,
 				454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */,
 				4568E2F61BF92182009A6164 /* AsyncedFetchedResultsViewController.swift in Sources */,
-				456B41991C597F83001E66EB /* BaseNews+CoreDataProperties.swift in Sources */,
 				4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */,
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
 				45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */,
@@ -837,11 +833,11 @@
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
+				45F5C2A91D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel in Sources */,
 				45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */,
 				45BED0911C8A3DDF002E375B /* DataManager.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */,
 				45F5C2A11D01DFA70024B5DF /* DiscountsViewController.swift in Sources */,
-				456B419A1C597F83001E66EB /* BaseNews.swift in Sources */,
 				4524C0AE1C67C5D00027046F /* FavoriteProduct.swift in Sources */,
 				45F5C2A61D01DFA70024B5DF /* NewsDetailViewController.swift in Sources */,
 				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,

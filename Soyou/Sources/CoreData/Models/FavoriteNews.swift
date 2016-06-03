@@ -13,9 +13,9 @@ import CoreData
 // Because we can't create the corresponding original news directly
 // otherwise it's to complex to maintain the News list.
 
-class FavoriteNews: BaseNews {
+class FavoriteNews: News {
 
-    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
+    override class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
         var news: FavoriteNews? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
@@ -66,7 +66,7 @@ class FavoriteNews: BaseNews {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isComplete: Bool, _ triggeredMoreItemID: NSNumber?, _ completion: CompletionClosure?) {
+    override class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 for data in datas {
@@ -108,7 +108,7 @@ class FavoriteNews: BaseNews {
             if !favoriteIDs.isEmpty {
                 DataManager.shared.requestNews(favoriteIDs, { responseObject, error in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                        FavoriteNews.importDatas(data, false, nil, { (responseObject, error) -> () in
+                        FavoriteNews.importDatas(data, false, false, { (responseObject, error) -> () in
                             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                                 // Update favorite dates
                                 if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {

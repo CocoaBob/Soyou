@@ -38,7 +38,6 @@ class DiscountsViewController: InfoListBaseViewController {
     override func loadData(relativeID: NSNumber?) {
         DataManager.shared.requestDiscountsList(relativeID) { responseObject, error in
             self.endRefreshing()
-            self.resetMoreButtonCell()
         }
     }
     

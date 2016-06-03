@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 class Discount: NSManagedObject {
     
     class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (Discount?) {
@@ -180,10 +179,8 @@ class Discount: NSManagedObject {
                     originalDiscount = discount.MR_inContext(localContext)?.relatedDiscount(localContext)
                 }
             } else {
-                if let discount = self as? Discount {
-                    originalDiscount = discount
-                    favoriteDiscount = discount.MR_inContext(localContext)?.relatedFavoriteDiscount(localContext)
-                }
+                originalDiscount = self
+                favoriteDiscount = self.MR_inContext(localContext)?.relatedFavoriteDiscount(localContext)
             }
             
             // If any one of them is true, set both to true
@@ -230,10 +227,8 @@ class Discount: NSManagedObject {
                         originalDiscount = discount.MR_inContext(localContext)?.relatedDiscount(localContext)
                     }
                 } else {
-                    if let discount = self as? Discount {
-                        originalDiscount = discount.MR_inContext(localContext)
-                        favoriteDiscount = discount.MR_inContext(localContext)?.relatedFavoriteDiscount(localContext)
-                    }
+                    originalDiscount = self.MR_inContext(localContext)
+                    favoriteDiscount = self.MR_inContext(localContext)?.relatedFavoriteDiscount(localContext)
                 }
                 
                 originalDiscount?.appIsLiked = NSNumber(bool: !wasLiked)

@@ -9,9 +9,9 @@
 class NewsDetailViewController: InfoDetailBaseViewController {
     
     // News Data
-    var news: BaseNews? {
+    var news: News? {
         get {
-            return self.info as? BaseNews
+            return self.info as? News
         }
     }
     
@@ -27,7 +27,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         get {
             var returnValue = ""
             MagicalRecord.saveWithBlockAndWait { (localContext) in
-                let news = self.info as? BaseNews
+                let news = self.info as? News
                 returnValue = news?.MR_inContext(localContext)?.title ?? ""
             }
             return returnValue
@@ -40,7 +40,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         get {
             var returnValue = NSNumber(int: -1)
             MagicalRecord.saveWithBlockAndWait { (localContext) in
-                let news = self.info as? BaseNews
+                let news = self.info as? News
                 returnValue = news?.MR_inContext(localContext)?.id ?? -1
             }
             return returnValue
@@ -130,7 +130,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     
     override func star() {
         UserManager.shared.loginOrDo() { () -> () in
-            BaseNews.toggleFavorite(self.infoID) { (_) -> () in
+            News.toggleFavorite(self.infoID) { (_) -> () in
                 // Toggle the value of isFavorite
                 self.isFavorite = !self.isFavorite
             }
@@ -141,7 +141,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
 // MARK: Data
 extension NewsDetailViewController {
     
-    private func loadNews(news: BaseNews, context: NSManagedObjectContext) {
+    private func loadNews(news: News, context: NSManagedObjectContext) {
         // Load HTML
         self.loadWebView(title: news.title, content: news.content)
         
@@ -208,10 +208,10 @@ extension NewsDetailViewController {
                 MBProgressHUD.hideLoader(self.view)
                 if let responseObject = responseObject {
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        if self.news is News {
-                            News.importData(data, true, nil)
-                        } else if self.news is FavoriteNews {
+                        if self.news is FavoriteNews {
                             FavoriteNews.importData(data, true, nil)
+                        } else {
+                            News.importData(data, true, nil)
                         }
                     }
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
@@ -234,7 +234,7 @@ extension NewsDetailViewController {
         
         // Prepare next news
         self.delegate?.getNextItem(NSIndexPath(forRow: self.infoIndex ?? 0, inSection: 0), isNext: true, completion: { (indexPath, item) in
-            if let index = indexPath?.row, news = item as? BaseNews {
+            if let index = indexPath?.row, news = item as? News {
                 self.nextInfoIndex = index
                 self.nextInfo = news
             } else {

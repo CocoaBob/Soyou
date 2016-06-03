@@ -329,7 +329,7 @@ class DataManager {
     func requestNewsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                News.importDatas(data, false, relativeID, { (_, _) -> () in
+                News.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
                     // After importing, cache all news images
                     MagicalRecord.saveWithBlock({ (localContext) -> Void in
                         if let allNews = News.MR_findAllInContext(localContext) as? [News] {

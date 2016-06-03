@@ -9,7 +9,7 @@
 class NewsViewController: InfoListBaseViewController {
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false,appIsMore:true", ascending: false)
+        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false", ascending: false)
     }
     
     // Class methods
@@ -38,7 +38,6 @@ class NewsViewController: InfoListBaseViewController {
     override func loadData(relativeID: NSNumber?) {
         DataManager.shared.requestNewsList(relativeID) { responseObject, error in
             self.endRefreshing()
-            self.resetMoreButtonCell()
         }
     }
     
@@ -72,17 +71,13 @@ class NewsViewController: InfoListBaseViewController {
     }
     
     override func sizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize? {
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
-            if news.appIsMore == nil || !news.appIsMore!.boolValue {
-                if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                    let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-                    if image != nil {
-                        return CGSize(width: image.size.width, height: image.size.height)
-                    }
-                }
-            } else {
-                return CGSize(width: 8, height: 1)
+        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News,
+            imageURLString = news.image,
+            imageURL = NSURL(string: imageURLString) {
+            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+            let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+            if image != nil {
+                return CGSize(width: image.size.width, height: image.size.height)
             }
         }
         return nil
@@ -96,33 +91,24 @@ extension NewsViewController {
     override func cellForItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
         var returnValue: UICollectionViewCell?
         
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News {
-            if news.appIsMore != nil && news.appIsMore!.boolValue {
-                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCellMore", forIndexPath: indexPath) as? InfoCollectionViewCellMore {
-                    cell.indicator.hidden = true
-                    cell.moreImage.hidden = false
-                    returnValue = cell
-                }
-            } else {
-                if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCell", forIndexPath: indexPath) as? InfoCollectionViewCell {
-                    cell.lblTitle.text = news.title
-                    if let imageURLString = news.image,
-                        imageURL = NSURL(string: imageURLString) {
-                        cell.fgImageView.sd_setImageWithURL(imageURL,
-                                                            placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                                                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                                                            completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
-                                                                if (image != nil &&
-                                                                    !self.collectionView().dragging &&
-                                                                    !self.collectionView().decelerating &&
-                                                                    self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
-                                                                    self.collectionView().reloadItemsAtIndexPaths([indexPath])
-                                                                }
-                        })
-                    }
-                    returnValue = cell
-                }
+        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News,
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCell", forIndexPath: indexPath) as? InfoCollectionViewCell {
+            cell.lblTitle.text = news.title
+            if let imageURLString = news.image,
+                imageURL = NSURL(string: imageURLString) {
+                cell.fgImageView.sd_setImageWithURL(imageURL,
+                                                    placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
+                                                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
+                                                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                                                        if (image != nil &&
+                                                            !self.collectionView().dragging &&
+                                                            !self.collectionView().decelerating &&
+                                                            self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
+                                                            self.collectionView().reloadItemsAtIndexPaths([indexPath])
+                                                        }
+                })
             }
+            returnValue = cell
         }
         
         if returnValue == nil {
@@ -140,41 +126,29 @@ extension NewsViewController {
         
         MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
             guard let localNews = news.MR_inContext(localContext) else { return }
-            let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-            if localNews.appIsMore != nil && localNews.appIsMore!.boolValue {
-                guard let cell = cell as? InfoCollectionViewCellMore else { return }
-                
-                self.selectedMoreButtonCell = cell
-                
-                cell.indicator.startAnimating()
-                cell.indicator.hidden = false
-                cell.moreImage.hidden = true
-                self.loadData(localNews.id)
-            } else {
-                guard let cell = cell as? InfoCollectionViewCell else { return }
-                
-                // Prepare cover image
-                var image: UIImage?
-                if let imageURLString = localNews.image,
-                    imageURL = NSURL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                    image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-                }
-                
-                if image == nil {
-                    image = cell.fgImageView.image
-                }
-                
-                // Prepare view controller
-                let detailViewController = NewsDetailViewController.instantiate()
-                detailViewController.delegate = self
-                detailViewController.info = localNews
-                detailViewController.infoIndex = indexPath.row
-                detailViewController.headerImage = image
-                
-                // Push view controller
-                self.infoViewController?.navigationController?.pushViewController(detailViewController, animated: true)
+            guard let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? InfoCollectionViewCell else { return }
+            
+            // Prepare cover image
+            var image: UIImage?
+            if let imageURLString = localNews.image,
+                imageURL = NSURL(string: imageURLString) {
+                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
             }
+            
+            if image == nil {
+                image = cell.fgImageView.image
+            }
+            
+            // Prepare view controller
+            let detailViewController = NewsDetailViewController.instantiate()
+            detailViewController.delegate = self
+            detailViewController.info = localNews
+            detailViewController.infoIndex = indexPath.row
+            detailViewController.headerImage = image
+            
+            // Push view controller
+            self.infoViewController?.navigationController?.pushViewController(detailViewController, animated: true)
         }
     }
 }

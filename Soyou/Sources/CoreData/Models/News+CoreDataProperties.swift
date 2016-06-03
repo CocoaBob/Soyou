@@ -2,7 +2,7 @@
 //  News+CoreDataProperties.swift
 //  Soyou
 //
-//  Created by CocoaBob on 27/01/16.
+//  Created by CocoaBob on 03/06/16.
 //  Copyright © 2016 Soyou. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,6 +14,16 @@ import CoreData
 
 extension News {
 
-    @NSManaged var appIsMore: NSNumber?
+    @NSManaged var appIsLiked: NSNumber?
+    @NSManaged var appIsUpdated: NSNumber?
+    @NSManaged var author: String?
+    @NSManaged var content: String?
+    @NSManaged var dateModification: NSDate?
+    @NSManaged var datePublication: NSDate?
+    @NSManaged var id: NSNumber?
+    @NSManaged var image: String?
+    @NSManaged var isOnline: NSNumber?
+    @NSManaged var title: String?
+    @NSManaged var url: String?
 
 }

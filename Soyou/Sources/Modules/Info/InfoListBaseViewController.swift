@@ -19,7 +19,6 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
     }
     
     // Properties
-    var selectedMoreButtonCell: InfoCollectionViewCellMore?
     var selectedIndexPath: NSIndexPath?
     
     // Class methods
@@ -67,13 +66,6 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
 // MARK: Data
 extension InfoListBaseViewController {
     
-    func resetMoreButtonCell() {
-        if let cell = self.selectedMoreButtonCell {
-            cell.indicator.hidden = true
-            cell.moreImage.hidden = false
-        }
-    }
-    
     func loadData(relativeID: NSNumber?) {
         
     }
@@ -103,7 +95,7 @@ extension InfoListBaseViewController: SwitchPrevNextItemDelegate {
 extension InfoListBaseViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func cellForItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCellMore", forIndexPath: indexPath)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCell", forIndexPath: indexPath)
         return cell
     }
     
@@ -286,9 +278,4 @@ class InfoCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         lblTitle.text = nil
     }
-}
-
-class InfoCollectionViewCellMore: UICollectionViewCell {
-    @IBOutlet var indicator: UIActivityIndicatorView!
-    @IBOutlet var moreImage: UIImageView!
 }
