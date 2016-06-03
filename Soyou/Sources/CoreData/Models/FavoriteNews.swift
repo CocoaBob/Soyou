@@ -92,11 +92,12 @@ class FavoriteNews: BaseNews {
             }
         }
         
-        // Filter all existing ones, delete remotely deleted ones.
         MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            // Filter all existing ones, delete remotely deleted ones.
             if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
                 for favoriteNews in allFavoritesNews {
-                    if let newsID = favoriteNews.id, _ = favoriteIDs.indexOf(newsID) {
+                    if let newsID = favoriteNews.id, index = favoriteIDs.indexOf(newsID) {
+                        favoriteIDs.removeAtIndex(index)
                     } else {
                         favoriteNews.MR_deleteEntityInContext(localContext)
                     }

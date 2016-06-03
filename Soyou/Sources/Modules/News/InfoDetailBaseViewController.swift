@@ -15,6 +15,8 @@ class InfoDetailBaseViewController: UIViewController {
     
     // Info Data
     var info: AnyObject?
+    var infoTitle: String!
+    var infoID: NSNumber!
     
     // For next item
     var delegate: SwitchPrevNextItemDelegate?
@@ -152,8 +154,6 @@ class InfoDetailBaseViewController: UIViewController {
     // For subclasses
     // MARK: Like button
     func updateLikeNumber() {}
-    func updateLikeBtnColor(appIsLiked: Bool?) {}
-    var likeBtnNumber: Int?
     
     // MARK: Bar button items
     func share() {}
@@ -258,6 +258,37 @@ extension InfoDetailBaseViewController {
     }
 }
 
+// MARK: Like button
+extension InfoDetailBaseViewController {
+    
+    func updateLikeBtnColor(appIsLiked: Bool?) {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            if appIsLiked != nil && appIsLiked!.boolValue {
+                self.btnLike?.tintColor = self.btnLikeActiveColor
+            } else {
+                self.btnLike?.tintColor = self.btnLikeInactiveColor
+            }
+        }
+    }
+    
+    var likeBtnNumber: Int? {
+        set(newValue) {
+            if newValue != nil && newValue! > 0 {
+                self.btnLike?.setTitle("\(newValue!)", forState: .Normal)
+            } else {
+                self.btnLike?.setTitle("", forState: .Normal)
+            }
+        }
+        get {
+            if let title = self.btnLike?.titleForState(.Normal) {
+                return Int(title)
+            } else {
+                return 0
+            }
+        }
+    }
+}
+
 // MARK: Data
 extension InfoDetailBaseViewController {
     
@@ -265,6 +296,38 @@ extension InfoDetailBaseViewController {
     }
     
     func loadNextData() {
+        if let nextInfo = self.nextInfo {
+            self.info = nextInfo
+            self.headerImage = nil
+            self.infoIndex = self.nextInfoIndex
+            self.loadData()
+            let transition = CATransition()
+            transition.type = kCATransitionPush
+            transition.subtype = kCATransitionFromTop
+            self.view.layer .addAnimation(transition, forKey: "transition")
+            self.delegate?.didShowItem(NSIndexPath(forRow: self.infoIndex ?? 0, inSection: 0), isNext: true)
+        }
+    }
+    
+    func loadWebView(title title: String?, content: String?) {
+        if let webView = self.webView, content = content, title = title {
+            var cssContent: String?
+            var htmlContent: String?
+            do {
+                cssContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("news", ofType: "css")!)
+                htmlContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("news", ofType: "html")!)
+            } catch {
+                
+            }
+            if var cssContent = cssContent,
+                htmlContent = htmlContent {
+                cssContent = cssContent.stringByReplacingOccurrencesOfString("__COVER_HEIGHT__", withString: "0")
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__TITLE__", withString: title)
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CONTENT__", withString: content)
+                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
+                webView.loadHTMLString(htmlContent, baseURL: nil)
+            }
+        }
     }
 }
 

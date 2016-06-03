@@ -143,14 +143,14 @@ extension NewsViewController {
                 }
                 
                 // Prepare view controller
-                let newsDetailViewController = NewsDetailViewController.instantiate()
-                newsDetailViewController.delegate = self
-                newsDetailViewController.info = localNews
-                newsDetailViewController.infoIndex = indexPath.row
-                newsDetailViewController.headerImage = image
+                let detailViewController = NewsDetailViewController.instantiate()
+                detailViewController.delegate = self
+                detailViewController.info = localNews
+                detailViewController.infoIndex = indexPath.row
+                detailViewController.headerImage = image
                 
                 // Push view controller
-                self.infoViewController?.navigationController?.pushViewController(newsDetailViewController, animated: true)
+                self.infoViewController?.navigationController?.pushViewController(detailViewController, animated: true)
             }
         }
     }

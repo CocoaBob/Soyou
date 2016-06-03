@@ -180,7 +180,7 @@ class RequestManager {
     //////////////////////////////////////
     
     func likeDiscount(id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/like", "Discounts", ["operation": operation], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/discounts/\(id)/like", "Discounts", ["operation": operation], onSuccess, onFailure)
     }
     
     func requestDiscountsList(count: Int, _ relativeID: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -190,6 +190,10 @@ class RequestManager {
     
     func requestDiscountByID(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)", "Discounts", onSuccess, onFailure)
+    }
+    
+    func requestDiscounts(ids: [NSNumber], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/discounts", "Discounts", ["ids": ids], onSuccess, onFailure)
     }
     
     func requestDiscountInfo(id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {

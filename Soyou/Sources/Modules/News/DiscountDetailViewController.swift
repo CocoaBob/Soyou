@@ -1,25 +1,25 @@
 //
-//  NewsDetailViewController.swift
+//  DiscountDetailViewController.swift
 //  Soyou
 //
-//  Created by CocoaBob on 24/11/15.
-//  Copyright © 2015 Soyou. All rights reserved.
+//  Created by CocoaBob on 03/06/16.
+//  Copyright © 2016 Soyou. All rights reserved.
 //
 
-class NewsDetailViewController: InfoDetailBaseViewController {
+class DiscountDetailViewController: InfoDetailBaseViewController {
     
-    // News Data
-    var news: BaseNews? {
+    // Discount Data
+    var discount: Discount? {
         get {
-            return self.info as? BaseNews
+            return self.info as? Discount
         }
     }
     
     // Class methods
-    override class func instantiate() -> NewsDetailViewController {
+    override class func instantiate() -> DiscountDetailViewController {
         let instance = super.instantiate()
-        object_setClass(instance, NewsDetailViewController.self)
-        return (instance as? NewsDetailViewController)!
+        object_setClass(instance, DiscountDetailViewController.self)
+        return (instance as? DiscountDetailViewController)!
     }
     
     // Subclass overridden
@@ -27,8 +27,8 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         get {
             var returnValue = ""
             MagicalRecord.saveWithBlockAndWait { (localContext) in
-                let news = self.info as? BaseNews
-                returnValue = news?.MR_inContext(localContext)?.title ?? ""
+                let discount = self.info as? Discount
+                returnValue = discount?.MR_inContext(localContext)?.title ?? ""
             }
             return returnValue
         }
@@ -40,8 +40,8 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         get {
             var returnValue = NSNumber(int: -1)
             MagicalRecord.saveWithBlockAndWait { (localContext) in
-                let news = self.info as? BaseNews
-                returnValue = news?.MR_inContext(localContext)?.id ?? -1
+                let discount = self.info as? Discount
+                returnValue = discount?.MR_inContext(localContext)?.id ?? -1
             }
             return returnValue
         }
@@ -51,7 +51,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     
     // MARK: Like button
     override func updateLikeNumber() {
-        DataManager.shared.requestNewsInfo(self.infoID) { responseObject, error in
+        DataManager.shared.requestDiscountInfo(self.infoID) { responseObject, error in
             if let responseObject = responseObject as? [String:AnyObject],
                 data = responseObject["data"] as? [String:AnyObject],
                 likeNumber = data["likeNumber"] as? NSNumber {
@@ -66,8 +66,8 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         
         var htmlString: String?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
-                htmlString = localNews.content
+            if let localDiscount = self.discount?.MR_inContext(localContext) {
+                htmlString = localDiscount.content
             }
         })
         var descriptions: String?
@@ -103,7 +103,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         if let item = descriptions {
             items.append(item)
         }
-        if let infoID = self.infoID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(infoID)") {
+        if let infoID = self.infoID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/discounts?id=\(infoID)") {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
@@ -112,7 +112,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     }
     
     override func like() {
-        self.news?.toggleLike() { (likeNumber: AnyObject?) -> () in
+        self.discount?.toggleLike() { (likeNumber: AnyObject?) -> () in
             // Update like number
             if let likeNumber = likeNumber as? NSNumber {
                 self.likeBtnNumber = likeNumber.integerValue
@@ -120,7 +120,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
             
             // Update like color
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                let isLiked = self.news?.MR_inContext(localContext)?.isLiked()
+                let isLiked = self.discount?.MR_inContext(localContext)?.isLiked()
                 dispatch_async(dispatch_get_main_queue(), {
                     self.updateLikeBtnColor(isLiked)
                 })
@@ -130,7 +130,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     
     override func star() {
         UserManager.shared.loginOrDo() { () -> () in
-            BaseNews.toggleFavorite(self.infoID) { (_) -> () in
+            Discount.toggleFavorite(self.infoID) { (_) -> () in
                 // Toggle the value of isFavorite
                 self.isFavorite = !self.isFavorite
             }
@@ -139,22 +139,22 @@ class NewsDetailViewController: InfoDetailBaseViewController {
 }
 
 // MARK: Data
-extension NewsDetailViewController {
+extension DiscountDetailViewController {
     
-    private func loadNews(news: BaseNews, context: NSManagedObjectContext) {
+    private func loadDiscount(discount: Discount, context: NSManagedObjectContext) {
         // Load HTML
-        self.loadWebView(title: news.title, content: news.content)
+        self.loadWebView(title: discount.title, content: discount.content)
         
         // Like button
-        updateLikeBtnColor(news.isLiked())
+        updateLikeBtnColor(discount.isLiked())
         updateLikeNumber()
         
         // Favorite button
-        self.isFavorite = news.isFavorite()
+        self.isFavorite = discount.isFavorite()
         
         // Cover Image
         if (self.headerImage == nil) {
-            if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
+            if let imageURLString = discount.coverImage, imageURL = NSURL(string: imageURLString) {
                 let imageManager = SDWebImageManager.sharedManager()
                 let cacheKey = imageManager.cacheKeyForURL(imageURL)
                 var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCacheForKey(cacheKey)
@@ -179,8 +179,8 @@ extension NewsDetailViewController {
                                 self.setupParallaxHeader()
                             }
                             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                                if let localNews = self.news?.MR_inContext(localContext) {
-                                    self.loadWebView(title: localNews.title, content: localNews.content)
+                                if let localDiscount = self.discount?.MR_inContext(localContext) {
+                                    self.loadWebView(title: localDiscount.title, content: localDiscount.content)
                                 }
                             })
                     })
@@ -195,8 +195,8 @@ extension NewsDetailViewController {
         self.webView?.loadHTMLString("<html></html>", baseURL: nil)
         
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
-                if localNews.appIsUpdated == nil || !localNews.appIsUpdated!.boolValue {
+            if let localDiscount = self.discount?.MR_inContext(localContext) {
+                if localDiscount.appIsUpdated == nil || !localDiscount.appIsUpdated!.boolValue {
                     needsToLoad = true
                 }
             }
@@ -208,23 +208,23 @@ extension NewsDetailViewController {
                 MBProgressHUD.hideLoader(self.view)
                 if let responseObject = responseObject {
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                        if self.news is News {
-                            News.importData(data, true, nil)
-                        } else if self.news is FavoriteNews {
-                            FavoriteNews.importData(data, true, nil)
+                        if self.discount is FavoriteDiscount {
+                            FavoriteDiscount.importData(data, true, nil)
+                        } else {
+                            Discount.importData(data, true, nil)
                         }
                     }
                     MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localNews = self.news?.MR_inContext(localContext) {
-                            self.loadNews(localNews, context: localContext)
+                        if let localDiscount = self.discount?.MR_inContext(localContext) {
+                            self.loadDiscount(localDiscount, context: localContext)
                         }
                     })
                 }
             }
         } else {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                if let localNews = self.news?.MR_inContext(localContext) {
-                    self.loadNews(localNews, context: localContext)
+                if let localDiscount = self.discount?.MR_inContext(localContext) {
+                    self.loadDiscount(localDiscount, context: localContext)
                 }
             })
         }
@@ -232,11 +232,11 @@ extension NewsDetailViewController {
         // Parallax Header
         self.setupParallaxHeader()
         
-        // Prepare next news
+        // Prepare next discount
         self.delegate?.getNextItem(NSIndexPath(forRow: self.infoIndex ?? 0, inSection: 0), isNext: true, completion: { (indexPath, item) in
-            if let index = indexPath?.row, news = item as? BaseNews {
+            if let index = indexPath?.row, discount = item as? Discount {
                 self.nextInfoIndex = index
-                self.nextInfo = news
+                self.nextInfo = discount
             } else {
                 self.nextInfoIndex = nil
                 self.nextInfo = nil

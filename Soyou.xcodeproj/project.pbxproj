@@ -120,6 +120,7 @@
 		45EE80CA1CF659A8004AE158 /* Discount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EE80C81CF659A8004AE158 /* Discount.swift */; };
 		45F3302C1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */; };
 		45F5C2941D00C1680024B5DF /* InfoDetailBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C2931D00C1680024B5DF /* InfoDetailBaseViewController.swift */; };
+		45F5C2961D01C8140024B5DF /* DiscountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C2951D01C8140024B5DF /* DiscountDetailViewController.swift */; };
 		45FACD3E1CF4E1A00040C252 /* DiscountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD3D1CF4E1A00040C252 /* DiscountsViewController.swift */; };
 		45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */; };
 		45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD501CF50A710040C252 /* FavoriteDiscount.swift */; };
@@ -261,6 +262,7 @@
 		45EE80C81CF659A8004AE158 /* Discount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Discount.swift; sourceTree = "<group>"; };
 		45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncedFetchedResultsViewController.swift; sourceTree = "<group>"; };
 		45F5C2931D00C1680024B5DF /* InfoDetailBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoDetailBaseViewController.swift; sourceTree = "<group>"; };
+		45F5C2951D01C8140024B5DF /* DiscountDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountDetailViewController.swift; sourceTree = "<group>"; };
 		45F72DE81CCD25A600E92958 /* Soyou1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou1.4.xcdatamodel; sourceTree = "<group>"; };
 		45FACD3D1CF4E1A00040C252 /* DiscountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscountsViewController.swift; sourceTree = "<group>"; };
 		45FACD3F1CF4E2230040C252 /* Soyou1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou1.5.xcdatamodel; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				45FACD3D1CF4E1A00040C252 /* DiscountsViewController.swift */,
 				45F5C2931D00C1680024B5DF /* InfoDetailBaseViewController.swift */,
 				45E775B31C04828B00FCCCDE /* NewsDetailViewController.swift */,
+				45F5C2951D01C8140024B5DF /* DiscountDetailViewController.swift */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -870,6 +873,7 @@
 				45EE80C91CF659A8004AE158 /* Discount+CoreDataProperties.swift in Sources */,
 				45876AD91CDD0BD7009CB4C1 /* SplashScreenViewController.swift in Sources */,
 				0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */,
+				45F5C2961D01C8140024B5DF /* DiscountDetailViewController.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
 				45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */,
 				455D06B41C03950300D81ABF /* UserViewController.swift in Sources */,

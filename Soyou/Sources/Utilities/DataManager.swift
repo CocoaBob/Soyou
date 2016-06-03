@@ -231,6 +231,35 @@ class DataManager {
     }
     
     //////////////////////////////////////
+    // MARK: Favorites Discounts
+    //////////////////////////////////////
+    
+    func favoriteDiscount(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+        RequestManager.shared.favoriteDiscount(id, operation: wasFavorite ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestDiscountFavorites(completion: CompletionClosure?) {
+        let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                FavoriteDiscount.updateWithData(data, completion)
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
+        }
+        let errorHandlerClosure = { (error: NSError?) -> () in
+            self.completeWithError(error, completion: completion)
+        }
+        
+        if UserManager.shared.isLoggedIn {
+            RequestManager.shared.requestDiscountFavorites(responseHandlerClosure, errorHandlerClosure)
+        }
+    }
+    
+    //////////////////////////////////////
     // MARK: Favorites News
     //////////////////////////////////////
     
@@ -363,7 +392,7 @@ class DataManager {
     func requestDiscountsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountsList(Cons.Svr.reqCnt, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                Discount.importDatas(data, { (_, _) -> () in
+                Discount.importDatas(data, false, { (_, _) -> () in
                     // After importing, cache all news images
                     MagicalRecord.saveWithBlock({ (localContext) -> Void in
                         if let allDiscounts = Discount.MR_findAllInContext(localContext) as? [Discount] {
@@ -389,6 +418,14 @@ class DataManager {
     
     func requestDiscountByID(id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountByID(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestDiscounts(ids: [NSNumber], _ completion: CompletionClosure?) {
+        RequestManager.shared.requestDiscounts(ids, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)
