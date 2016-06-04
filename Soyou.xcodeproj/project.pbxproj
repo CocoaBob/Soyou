@@ -565,10 +565,10 @@
 		45FACD4E1CF4E50A0040C252 /* Product */ = {
 			isa = PBXGroup;
 			children = (
-				4524C0AB1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift */,
-				4524C0AC1C67C5D00027046F /* FavoriteProduct.swift */,
 				0D28BD781C5198C1008CCF80 /* Product+CoreDataProperties.swift */,
 				45016E561C14EC25004034BC /* Product.swift */,
+				4524C0AB1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift */,
+				4524C0AC1C67C5D00027046F /* FavoriteProduct.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";

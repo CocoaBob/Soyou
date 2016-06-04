@@ -18,7 +18,9 @@ class News: NSManagedObject {
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
             
-            news = News.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            let request = News.MR_requestFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            request.includesSubentities = false
+            news = News.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
             if news == nil {
                 news = News.MR_createEntityInContext(context)
                 news?.id = id
@@ -72,7 +74,13 @@ class News: NSManagedObject {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 // Delete old data
                 if isOverridden {
-                    News.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+                    let request = News.MR_requestAllWithPredicate(FmtPredicate("1==1"), inContext: localContext)
+                    request.includesSubentities = false
+                    if let results = Discount.MR_executeFetchRequest(request, inContext: localContext) {
+                        for discount in results {
+                            discount.MR_deleteEntityInContext(localContext)
+                        }
+                    }
                 }
                 // Import new data
                 for data in datas {
@@ -116,7 +124,9 @@ class News: NSManagedObject {
     
     class func toggleFavorite(newsID: NSNumber, completion: DataClosure?) {
         // Find the original news and favorite news
-        let originalNews: News? = News.MR_findFirstByAttribute("id", withValue: newsID)
+        let request = News.MR_requestFirstByAttribute("id", withValue: newsID)
+        request.includesSubentities = false
+        let originalNews: News? = News.MR_executeFetchRequestAndReturnFirstObject(request)
         let favoriteNews: FavoriteNews? = FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID)
         
         // Was favorite?

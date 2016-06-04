@@ -17,8 +17,10 @@ class Discount: NSManagedObject {
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
-
-            discount = Discount.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            
+            let request = Discount.MR_requestFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            request.includesSubentities = false
+            discount = Discount.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
             if discount == nil {
                 discount = Discount.MR_createEntityInContext(context)
                 discount?.id = id
@@ -75,7 +77,13 @@ class Discount: NSManagedObject {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 // Delete old data
                 if isOverridden {
-                    Discount.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+                    let request = Discount.MR_requestAllWithPredicate(FmtPredicate("1==1"), inContext: localContext)
+                    request.includesSubentities = false
+                    if let results = Discount.MR_executeFetchRequest(request, inContext: localContext) {
+                        for discount in results {
+                            discount.MR_deleteEntityInContext(localContext)
+                        }
+                    }
                 }
                 // Import new data
                 for data in datas {
@@ -119,7 +127,9 @@ class Discount: NSManagedObject {
     
     class func toggleFavorite(discountID: NSNumber, completion: DataClosure?) {
         // Find the original discount and favorite discount
-        let originalDiscount: Discount? = Discount.MR_findFirstByAttribute("id", withValue: discountID)
+        let request = Discount.MR_requestFirstByAttribute("id", withValue: discountID)
+        request.includesSubentities = false
+        let originalDiscount: Discount? = Discount.MR_executeFetchRequestAndReturnFirstObject(request)
         let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.MR_findFirstByAttribute("id", withValue: discountID)
         
         // Was favorite?
