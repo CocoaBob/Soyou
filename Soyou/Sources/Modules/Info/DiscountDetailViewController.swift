@@ -215,7 +215,7 @@ extension DiscountDetailViewController {
         
         if needsToLoad {
             MBProgressHUD.showLoader(self.view)
-            DataManager.shared.requestNewsByID(self.infoID) { responseObject, error in
+            DataManager.shared.requestDiscountByID(self.infoID) { responseObject, error in
                 MBProgressHUD.hideLoader(self.view)
                 if let responseObject = responseObject {
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {

@@ -69,7 +69,13 @@ class FavoriteNews: News {
     
     override class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
+            // In case response is incorrect, we can't delete all exsiting data
+            if datas.isEmpty {
+                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                return
+            }
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                // Import new data
                 for data in datas {
                     FavoriteNews.importData(data, isComplete, localContext)
                 }

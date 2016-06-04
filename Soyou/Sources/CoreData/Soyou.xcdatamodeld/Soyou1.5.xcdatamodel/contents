@@ -31,6 +31,7 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <entity name="Discount" representedClassName=".Discount" syncable="YES">
+        <attribute name="appIsFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
@@ -60,6 +61,7 @@
         </compoundIndexes>
     </entity>
     <entity name="News" representedClassName=".News" syncable="YES">
+        <attribute name="appIsFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="appIsLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="appIsUpdated" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
@@ -142,11 +144,11 @@
         <element name="AppData" positionX="-54" positionY="135" width="128" height="75"/>
         <element name="Brand" positionX="-63" positionY="135" width="128" height="165"/>
         <element name="CurrencyRate" positionX="-63" positionY="135" width="128" height="105"/>
-        <element name="Discount" positionX="-36" positionY="144" width="128" height="225"/>
+        <element name="Discount" positionX="-36" positionY="144" width="128" height="240"/>
         <element name="FavoriteDiscount" positionX="-36" positionY="153" width="128" height="60"/>
         <element name="FavoriteNews" positionX="-63" positionY="135" width="128" height="60"/>
         <element name="FavoriteProduct" positionX="-54" positionY="135" width="128" height="75"/>
-        <element name="News" positionX="-63" positionY="-18" width="128" height="210"/>
+        <element name="News" positionX="-63" positionY="-18" width="128" height="225"/>
         <element name="Product" positionX="-63" positionY="54" width="128" height="315"/>
         <element name="Region" positionX="-63" positionY="135" width="128" height="90"/>
         <element name="Store" positionX="-54" positionY="144" width="128" height="225"/>

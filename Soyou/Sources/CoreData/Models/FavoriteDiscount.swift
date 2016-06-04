@@ -13,29 +13,45 @@ import CoreData
 class FavoriteDiscount: Discount {
     
     override class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteDiscount?) {
-        var favoriteDiscount: FavoriteDiscount? = nil
+        var discount: FavoriteDiscount? = nil
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
+            guard let id = data["id"] as? NSNumber else { return }
             
-            favoriteDiscount = FavoriteDiscount.MR_createEntityInContext(context)
-            if let favoriteDiscount = favoriteDiscount {
+            discount = FavoriteDiscount.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            if discount == nil {
+                discount = FavoriteDiscount.MR_createEntityInContext(context)
+                discount?.id = id
+            }
+            
+            if let discount = discount {
                 if let value = data["publishdate"] as? String {
-                    favoriteDiscount.publishdate = Cons.utcDateFormatter.dateFromString(value)
+                    discount.publishdate = Cons.utcDateFormatter.dateFromString(value)
                 }
                 if let value = data["dateModification"] as? String {
-                    favoriteDiscount.dateModification = Cons.utcDateFormatter.dateFromString(value)
+                    let newDateModification = Cons.utcDateFormatter.dateFromString(value)
+                    if isComplete {
+                        discount.appIsUpdated = NSNumber(bool: true)
+                    } else {
+                        if newDateModification != discount.dateModification {
+                            discount.appIsUpdated = NSNumber(bool: false) // Needs to be updated
+                        }
+                    }
+                    discount.dateModification = newDateModification
+                }
+                if !isComplete {
+                    discount.author = data["author"] as? String
+                    discount.title = data["title"] as? String
+                    discount.coverImage = data["coverImage"] as? String
+                } else {
+                    discount.content = data["content"] as? String
+                    discount.isOnline = data["isOnline"] as? NSNumber
+                    discount.url = data["url"] as? String
                 }
                 if let value = data["expireDate"] as? String {
-                    favoriteDiscount.expireDate = Cons.utcDateFormatter.dateFromString(value)
+                    discount.expireDate = Cons.utcDateFormatter.dateFromString(value)
                 }
-                favoriteDiscount.author = data["author"] as? String
-                favoriteDiscount.content = data["content"] as? String
-                favoriteDiscount.coverImage = data["coverImage"] as? String
-                favoriteDiscount.id = data["id"] as? NSNumber
-                favoriteDiscount.isOnline = data["isOnline"] as? NSNumber
-                favoriteDiscount.title = data["title"] as? String
-                favoriteDiscount.url = data["url"] as? String
-                favoriteDiscount.appIsFavorite = NSNumber(bool: true)
+                discount.appIsFavorite = NSNumber(bool: true)
             }
         }
         
@@ -47,7 +63,7 @@ class FavoriteDiscount: Discount {
             })
         }
         
-        return favoriteDiscount
+        return discount
     }
     
     override class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
