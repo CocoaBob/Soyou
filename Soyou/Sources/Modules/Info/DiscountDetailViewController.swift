@@ -125,10 +125,9 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override func like() {
         self.discount?.toggleLike() { (likeNumber: AnyObject?) -> () in
             // Update like number
-            self.updateExtraInfo()
-//            if let likeNumber = likeNumber as? NSNumber {
-//                self.likeBtnNumber = likeNumber.integerValue
-//            }
+            if let likeNumber = likeNumber as? NSNumber {
+                self.likeBtnNumber = likeNumber.integerValue
+            }
             
             // Update like color
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
