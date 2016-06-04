@@ -52,6 +52,7 @@ class FavoriteNews: News {
                     news.isOnline = data["isOnline"] as? NSNumber
                     news.url = data["url"] as? String
                 }
+                news.appIsFavorite = NSNumber(bool: true)
             }
         }
         
@@ -140,9 +141,13 @@ class FavoriteNews: News {
     func relatedNews(context: NSManagedObjectContext?) -> News? {
         if let newsID = self.id {
             if let context = context {
-                return News.MR_findFirstByAttribute("id", withValue: newsID, inContext: context)
+                let request = News.MR_requestFirstWithPredicate(FmtPredicate("id == %@", newsID), inContext: context)
+                request.includesSubentities = false
+                return News.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
             } else {
-                return News.MR_findFirstByAttribute("id", withValue: newsID)
+                let request = News.MR_requestFirstWithPredicate(FmtPredicate("id == %@", newsID))
+                request.includesSubentities = false
+                return News.MR_executeFetchRequestAndReturnFirstObject(request)
             }
         }
         return nil

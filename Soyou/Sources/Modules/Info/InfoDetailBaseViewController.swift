@@ -152,8 +152,8 @@ class InfoDetailBaseViewController: UIViewController {
     }
     
     // For subclasses
-    // MARK: Like button
-    func updateLikeNumber() {}
+    // MARK: Extra info like likeNumber, isFavorite, commentNumber
+    func updateExtraInfo() {}
     
     // MARK: Bar button items
     func share() {}

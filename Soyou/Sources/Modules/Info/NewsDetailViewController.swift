@@ -50,7 +50,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     }
     
     // MARK: Like button
-    override func updateLikeNumber() {
+    override func updateExtraInfo() {
         DataManager.shared.requestNewsInfo(self.infoID) { responseObject, error in
             if let responseObject = responseObject as? [String:AnyObject],
                 data = responseObject["data"] as? [String:AnyObject],
@@ -147,7 +147,7 @@ extension NewsDetailViewController {
         
         // Like button
         updateLikeBtnColor(news.isLiked())
-        updateLikeNumber()
+        updateExtraInfo()
         
         // Favorite button
         self.isFavorite = news.isFavorite()

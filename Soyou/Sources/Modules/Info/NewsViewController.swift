@@ -9,7 +9,9 @@
 class NewsViewController: InfoListBaseViewController {
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return News.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "datePublication:false,id:false", ascending: false)
+        let fetchedResultsController = News.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == false"), sortedBy: "datePublication:false,id:false", ascending: false)
+        fetchedResultsController.fetchRequest.includesSubentities = false
+        return fetchedResultsController
     }
     
     // Class methods

@@ -24,7 +24,6 @@ class SyncedFetchedResultsViewController: UIViewController {
     func reloadData(completion: (() -> Void)?) {
         // Create NSFetchedResultsController
         self.fetchedResultsController = self.createFetchedResultsController()
-        self.fetchedResultsController?.fetchRequest.includesSubentities = false
         self.fetchedResultsController?.delegate = self
         // Do search
         do {

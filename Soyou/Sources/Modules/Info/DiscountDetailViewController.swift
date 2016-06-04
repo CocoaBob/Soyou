@@ -50,12 +50,23 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     }
     
     // MARK: Like button
-    override func updateLikeNumber() {
+    override func updateExtraInfo() {
         DataManager.shared.requestDiscountInfo(self.infoID) { responseObject, error in
             if let responseObject = responseObject as? [String:AnyObject],
-                data = responseObject["data"] as? [String:AnyObject],
-                likeNumber = data["likeNumber"] as? NSNumber {
-                self.likeBtnNumber = likeNumber.integerValue
+                data = responseObject["data"] as? [String:AnyObject] {
+                if let likeNumber = data["likeNumber"] as? NSNumber {
+                    self.likeBtnNumber = likeNumber.integerValue
+                }
+                if let isFavorite = data["isFavorite"] as? NSNumber {
+                    if isFavorite.boolValue != self.isFavorite {
+                        self.isFavorite = isFavorite.boolValue
+                        Discount.updateFavorite(self.infoID, isFavorite: isFavorite.boolValue)
+                    }
+                }
+                if let commentNumber = data["commentNumber"] as? NSNumber {
+                    DLog(commentNumber)
+                }
+                
             }
         }
     }
@@ -114,9 +125,10 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override func like() {
         self.discount?.toggleLike() { (likeNumber: AnyObject?) -> () in
             // Update like number
-            if let likeNumber = likeNumber as? NSNumber {
-                self.likeBtnNumber = likeNumber.integerValue
-            }
+            self.updateExtraInfo()
+//            if let likeNumber = likeNumber as? NSNumber {
+//                self.likeBtnNumber = likeNumber.integerValue
+//            }
             
             // Update like color
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
@@ -147,7 +159,7 @@ extension DiscountDetailViewController {
         
         // Like button
         updateLikeBtnColor(discount.isLiked())
-        updateLikeNumber()
+        updateExtraInfo()
         
         // Favorite button
         self.isFavorite = discount.isFavorite()

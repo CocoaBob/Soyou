@@ -81,6 +81,7 @@
 		4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */; };
 		4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */; };
 		459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */; };
+		459E90DA1D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 459E90D91D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel */; };
 		45A41B4F1C9F372A00D48185 /* NSUserDefaults+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A41B4E1C9F372A00D48185 /* NSUserDefaults+Additions.swift */; };
 		45A4D8321C08CD200000309C /* news.css in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8301C08CD200000309C /* news.css */; };
 		45A4D8331C08CD200000309C /* news.html in Resources */ = {isa = PBXBuildFile; fileRef = 45A4D8311C08CD200000309C /* news.html */; };
@@ -120,7 +121,6 @@
 		45F5C2A51D01DFA70024B5DF /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C29D1D01DFA70024B5DF /* InfoViewController.swift */; };
 		45F5C2A61D01DFA70024B5DF /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C29E1D01DFA70024B5DF /* NewsDetailViewController.swift */; };
 		45F5C2A71D01DFA70024B5DF /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C29F1D01DFA70024B5DF /* NewsViewController.swift */; };
-		45F5C2A91D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C2A81D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel */; };
 		45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */; };
 		45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD501CF50A710040C252 /* FavoriteDiscount.swift */; };
 		871490CB20BD8D85040C7F3C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F47FC3F49E34E3FD18ECA10 /* libPods.a */; };
@@ -221,6 +221,7 @@
 		4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellCenterTitle.xib; sourceTree = "<group>"; };
 		4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellIconTitle.xib; sourceTree = "<group>"; };
 		459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AFNetworking+Additions.swift"; sourceTree = "<group>"; };
+		459E90D91D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_1.4_1.5.xcmappingmodel; sourceTree = "<group>"; };
 		45A41B4E1C9F372A00D48185 /* NSUserDefaults+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+Additions.swift"; sourceTree = "<group>"; };
 		45A4D8301C08CD200000309C /* news.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = news.css; sourceTree = "<group>"; };
 		45A4D8311C08CD200000309C /* news.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = news.html; sourceTree = "<group>"; };
@@ -261,7 +262,6 @@
 		45F5C29D1D01DFA70024B5DF /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		45F5C29E1D01DFA70024B5DF /* NewsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		45F5C29F1D01DFA70024B5DF /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
-		45F5C2A81D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_1.4_1.5.xcmappingmodel; sourceTree = "<group>"; };
 		45F72DE81CCD25A600E92958 /* Soyou1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou1.4.xcdatamodel; sourceTree = "<group>"; };
 		45FACD3F1CF4E2230040C252 /* Soyou1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou1.5.xcdatamodel; sourceTree = "<group>"; };
 		45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteDiscount+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -382,7 +382,6 @@
 			children = (
 				4577777B1BFC7D3700805D79 /* Models */,
 				4568E2971BF90797009A6164 /* Soyou.xcdatamodeld */,
-				45F5C2A81D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -450,6 +449,7 @@
 		4577777B1BFC7D3700805D79 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				459E90D61D02D41000FEDC3A /* Migration */,
 				45EE80CB1CF659BC004AE158 /* Discounts */,
 				45FACD4C1CF4E4F30040C252 /* News */,
 				45FACD4E1CF4E50A0040C252 /* Product */,
@@ -487,6 +487,14 @@
 				4534D54A1C230A8E00F4DDA5 /* TextFields.swift */,
 			);
 			path = CustomUI;
+			sourceTree = "<group>";
+		};
+		459E90D61D02D41000FEDC3A /* Migration */ = {
+			isa = PBXGroup;
+			children = (
+				459E90D91D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel */,
+			);
+			name = Migration;
 			sourceTree = "<group>";
 		};
 		45CFA5971C2B1585007D38F3 /* Products */ = {
@@ -833,7 +841,7 @@
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
-				45F5C2A91D01FC280024B5DF /* MappingModel_1.4_1.5.xcmappingmodel in Sources */,
+				459E90DA1D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel in Sources */,
 				45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */,
 				45BED0911C8A3DDF002E375B /* DataManager.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */,

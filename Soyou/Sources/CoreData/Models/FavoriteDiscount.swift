@@ -35,6 +35,7 @@ class FavoriteDiscount: Discount {
                 favoriteDiscount.isOnline = data["isOnline"] as? NSNumber
                 favoriteDiscount.title = data["title"] as? String
                 favoriteDiscount.url = data["url"] as? String
+                favoriteDiscount.appIsFavorite = NSNumber(bool: true)
             }
         }
         
@@ -128,9 +129,13 @@ class FavoriteDiscount: Discount {
     func relatedDiscount(context: NSManagedObjectContext?) -> Discount? {
         if let dicsountID = self.id {
             if let context = context {
-                return Discount.MR_findFirstByAttribute("id", withValue: dicsountID, inContext: context)
+                let request = Discount.MR_requestFirstWithPredicate(FmtPredicate("id == %@", dicsountID), inContext: context)
+                request.includesSubentities = false
+                return Discount.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
             } else {
-                return Discount.MR_findFirstByAttribute("id", withValue: dicsountID)
+                let request = Discount.MR_requestFirstWithPredicate(FmtPredicate("id == %@", dicsountID))
+                request.includesSubentities = false
+                return Discount.MR_executeFetchRequestAndReturnFirstObject(request)
             }
         }
         return nil

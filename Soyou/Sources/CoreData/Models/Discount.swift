@@ -9,6 +9,15 @@
 import Foundation
 import CoreData
 
+// For NSFetchedResultsController to distinguish FavoriteDiscount and Discount
+// @NSManaged var appIsFavorite: NSNumber?
+
+// To remember if the item is liked
+// @NSManaged var appIsLiked: NSNumber?
+
+// To mark if the item modification date is updated, needs to be updated
+// @NSManaged var appIsUpdated: NSNumber?
+
 class Discount: NSManagedObject {
     
     class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (Discount?) {
@@ -126,10 +135,7 @@ class Discount: NSManagedObject {
     }
     
     class func toggleFavorite(discountID: NSNumber, completion: DataClosure?) {
-        // Find the original discount and favorite discount
-        let request = Discount.MR_requestFirstByAttribute("id", withValue: discountID)
-        request.includesSubentities = false
-        let originalDiscount: Discount? = Discount.MR_executeFetchRequestAndReturnFirstObject(request)
+        // Find the favorite discount
         let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.MR_findFirstByAttribute("id", withValue: discountID)
         
         // Was favorite?
@@ -141,39 +147,48 @@ class Discount: NSManagedObject {
                 return
             }
             
-            // Create/Update FavoriteDiscount, or delete FavoriteDiscount
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                var localFavoriteDiscount = favoriteDiscount?.MR_inContext(localContext)
-                if wasFavorite {
-                    localFavoriteDiscount?.MR_deleteEntityInContext(localContext)
-                } else {
-                    if localFavoriteDiscount == nil {
-                        localFavoriteDiscount = FavoriteDiscount.MR_createEntityInContext(localContext)
-                        if let localDiscount = originalDiscount?.MR_inContext(localContext) {
-                            localFavoriteDiscount?.id = localDiscount.id
-                            localFavoriteDiscount?.author = localDiscount.author
-                            localFavoriteDiscount?.title = localDiscount.title
-                            localFavoriteDiscount?.coverImage = localDiscount.coverImage
-                            localFavoriteDiscount?.publishdate = localDiscount.publishdate
-                            localFavoriteDiscount?.dateModification = localDiscount.dateModification
-                            
-                            localFavoriteDiscount?.content = localDiscount.content
-                            localFavoriteDiscount?.isOnline = localDiscount.isOnline
-                            localFavoriteDiscount?.url = localDiscount.url
-                            
-                            localFavoriteDiscount?.appIsLiked = localDiscount.appIsLiked
-                            localFavoriteDiscount?.appIsUpdated = localDiscount.appIsUpdated
-                        }
-                    }
-                    localFavoriteDiscount?.dateFavorite = NSDate()
-                }
-            })
+            self.updateFavorite(discountID, isFavorite: !wasFavorite)
             
             // Completion
             if let completion = completion {
                 completion(responseObject)
             }
         }
+    }
+    
+    // Create/Update FavoriteDiscount, or delete FavoriteDiscount
+    class func updateFavorite(discountID: NSNumber, isFavorite: Bool) {
+        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            let request = Discount.MR_requestFirstByAttribute("id", withValue: discountID, inContext: localContext)
+            request.includesSubentities = false
+            let originalDiscount: Discount? = Discount.MR_executeFetchRequestAndReturnFirstObject(request, inContext: localContext)
+            let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.MR_findFirstByAttribute("id", withValue: discountID, inContext: localContext)
+            var localFavoriteDiscount = favoriteDiscount?.MR_inContext(localContext)
+            if isFavorite {
+                if localFavoriteDiscount == nil {
+                    localFavoriteDiscount = FavoriteDiscount.MR_createEntityInContext(localContext)
+                    if let localDiscount = originalDiscount?.MR_inContext(localContext) {
+                        localFavoriteDiscount?.id = localDiscount.id
+                        localFavoriteDiscount?.author = localDiscount.author
+                        localFavoriteDiscount?.title = localDiscount.title
+                        localFavoriteDiscount?.coverImage = localDiscount.coverImage
+                        localFavoriteDiscount?.publishdate = localDiscount.publishdate
+                        localFavoriteDiscount?.dateModification = localDiscount.dateModification
+                        
+                        localFavoriteDiscount?.content = localDiscount.content
+                        localFavoriteDiscount?.isOnline = localDiscount.isOnline
+                        localFavoriteDiscount?.url = localDiscount.url
+                        
+                        localFavoriteDiscount?.appIsLiked = localDiscount.appIsLiked
+                        localFavoriteDiscount?.appIsUpdated = localDiscount.appIsUpdated
+                        localFavoriteDiscount?.appIsFavorite = NSNumber(bool: true)
+                    }
+                }
+                localFavoriteDiscount?.dateFavorite = NSDate()
+            } else {
+                localFavoriteDiscount?.MR_deleteEntityInContext(localContext)
+            }
+        })
     }
     
     // Like
@@ -243,6 +258,7 @@ class Discount: NSManagedObject {
                 
                 originalDiscount?.appIsLiked = NSNumber(bool: !wasLiked)
                 favoriteDiscount?.appIsLiked = NSNumber(bool: !wasLiked)
+                favoriteDiscount?.appIsFavorite = NSNumber(bool: true)
             })
             
             if let completion = completion {

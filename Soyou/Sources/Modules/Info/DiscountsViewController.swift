@@ -9,7 +9,9 @@
 class DiscountsViewController: InfoListBaseViewController {
     
     override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Discount.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "publishdate:false,id:false", ascending: false)
+        let fetchedResultsController = Discount.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == false"), sortedBy: "publishdate:false,id:false", ascending: false)
+        fetchedResultsController.fetchRequest.includesSubentities = false
+        return fetchedResultsController
     }
     
     // Class methods
