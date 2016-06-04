@@ -113,6 +113,7 @@ extension UserManager {
         self.token = token
         // Load Favorites
         DataManager.shared.requestNewsFavorites(nil)
+        DataManager.shared.requestDiscountFavorites(nil)
         DataManager.shared.requestProductFavorites(nil)
     }
     
@@ -126,6 +127,7 @@ extension UserManager {
         self.currentUser = nil
         // Delete Favorites
         FavoriteNews.deleteAll()
+        FavoriteDiscount.deleteAll()
         FavoriteProduct.deleteAll()
     }
     
