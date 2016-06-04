@@ -8,6 +8,7 @@
 
 enum FavoriteType: Int {
     case News
+    case Discounts
     case Products
 }
 
@@ -32,6 +33,8 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         switch (self.type) {
         case .News:
             return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
+        case .Discounts:
+            return FavoriteDiscount.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
         case .Products:
             return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
         }
@@ -57,6 +60,8 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         switch (self.type) {
         case .News:
             self.title = NSLocalizedString("fav_vc_title_news")
+        case .Discounts:
+            self.title = NSLocalizedString("fav_vc_title_discounts")
         case .Products:
             self.title = NSLocalizedString("fav_vc_title_products")
         }
@@ -128,7 +133,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch (self.type) {
         case .News:
-            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteNewsTableViewCell", forIndexPath: indexPath) as? FavoriteNewsTableViewCell else { break }
+            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteInfosTableViewCell", forIndexPath: indexPath) as? FavoriteInfosTableViewCell else { break }
             
             if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
                 // Title
@@ -140,6 +145,23 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                         options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
                         completed: nil)
+                }
+            }
+            
+            cell = _cell
+        case .Discounts:
+            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteInfosTableViewCell", forIndexPath: indexPath) as? FavoriteInfosTableViewCell else { break }
+            
+            if let discount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteDiscount {
+                // Title
+                _cell.lblTitle.text = discount.title
+                // Image
+                if let imageURLString = discount.coverImage,
+                    imageURL = NSURL(string: imageURLString) {
+                    _cell.imgView.sd_setImageWithURL(imageURL,
+                                                     placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
+                                                     completed: nil)
                 }
             }
             
@@ -205,6 +227,25 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 nextViewController = viewController
             }
+        case .Discounts:
+            if let discount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteDiscount {
+                // Prepare cover image
+                var image: UIImage?
+                if let imageURLString = discount.coverImage,
+                    imageURL = NSURL(string: imageURLString) {
+                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
+                    image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+                }
+                
+                // Prepare view controller
+                let viewController = DiscountDetailViewController.instantiate()
+                viewController.delegate = self
+                viewController.info = discount
+                viewController.infoIndex = indexPath.row
+                viewController.headerImage = image
+                
+                nextViewController = viewController
+            }
         case .Products:
             if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
                 let diskContext = NSManagedObjectContext.MR_defaultContext()
@@ -254,6 +295,24 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             }
                         })
                     }
+                case .Discounts:
+                    guard let favoriteDiscount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteDiscount else {
+                        return
+                    }
+                    MBProgressHUD.showLoader(self.view)
+                    DataManager.shared.favoriteDiscount(favoriteDiscount.id!, wasFavorite: true) { responseObject, error in
+                        // If any error
+                        if error != nil {
+                            return
+                        }
+                        // If succeeded to delete
+                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                            MBProgressHUD.hideLoader(self.view)
+                            if let localFavoriteDiscount = favoriteDiscount.MR_inContext(localContext) {
+                                localFavoriteDiscount.MR_deleteEntityInContext(localContext)
+                            }
+                        })
+                    }
                 case .Products:
                     guard let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct else {
                         return
@@ -285,6 +344,10 @@ extension FavoritesViewController {
             switch (self.type) {
             case .News:
                 DataManager.shared.requestNewsFavorites() { _, _ -> () in
+                    self.endRefreshing()
+                }
+            case .Discounts:
+                DataManager.shared.requestDiscountFavorites() { _, _ -> () in
                     self.endRefreshing()
                 }
             case .Products:
@@ -380,7 +443,7 @@ extension FavoritesViewController: ProductViewControllerDelegate {
 }
 
 // MARK: - Custom cells
-class FavoriteNewsTableViewCell: UITableViewCell {
+class FavoriteInfosTableViewCell: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var lblTitle: UILabel!
     

@@ -49,7 +49,7 @@ class DiscountsViewController: InfoListBaseViewController {
     
     // MARK: SwitchPrevNextItemDelegate
     override func hasNextInfo(indexPath: NSIndexPath, isNext: Bool) -> Bool {
-        return self.fetchedResultsController?.fetchedObjects?.isEmpty == false
+        return self.fetchedResultsController?.fetchedObjects?.count ?? 0 > 1
     }
     
     override func getNextInfo(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {

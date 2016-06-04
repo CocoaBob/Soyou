@@ -97,13 +97,19 @@ extension UserViewController {
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_news")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.showNewsFavorites()
+                            self.showFavoritesViewController(.News)
+                    }),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        title: Text(text: NSLocalizedString("user_vc_cell_favs_discounts")),
+                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                            self.showFavoritesViewController(.Discounts)
                     }),
                     Row(type: .LeftTitle,
                         cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
                         title: Text(text: NSLocalizedString("user_vc_cell_favs_products")),
                         didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                            self.showProductsFavorites()
+                            self.showFavoritesViewController(.Products)
                     })
                 ]
             )
@@ -126,18 +132,10 @@ extension UserViewController {
 // MARK: Cell actions
 extension UserViewController {
     
-    func showNewsFavorites() {
+    func showFavoritesViewController(type: FavoriteType) {
         UserManager.shared.loginOrDo() { () -> () in
             let favoritesViewController = FavoritesViewController.instantiate()
-            favoritesViewController.type = .News
-            self.navigationController?.pushViewController(favoritesViewController, animated: true)
-        }
-    }
-    
-    func showProductsFavorites() {
-        UserManager.shared.loginOrDo() { () -> () in
-            let favoritesViewController = FavoritesViewController.instantiate()
-            favoritesViewController.type = .Products
+            favoritesViewController.type = type
             self.navigationController?.pushViewController(favoritesViewController, animated: true)
         }
     }

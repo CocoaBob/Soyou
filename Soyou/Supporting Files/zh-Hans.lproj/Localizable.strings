@@ -78,6 +78,7 @@
 "user_vc_tab_title"="我";
 "user_vc_cell_favs"="收藏夹";
 "user_vc_cell_favs_news"="资讯";
+"user_vc_cell_favs_discounts"="折扣";
 "user_vc_cell_favs_products"="产品";
 "user_vc_feedback_alert_title"="用户反馈";
 "user_vc_feedback_alert_message"="您觉得『奢有』怎么样？";
@@ -91,6 +92,7 @@
 
 /* Favorites View Controller */
 "fav_vc_title_news"="收藏的资讯";
+"fav_vc_title_discounts"="收藏的折扣";
 "fav_vc_title_products"="收藏的产品";
 "fav_vc_empty_label"="暂无收藏";
 

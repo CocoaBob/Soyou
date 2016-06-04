@@ -76,6 +76,7 @@
 "user_vc_tab_title"="Me";
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
+"user_vc_cell_favs_discounts"="Discounts";
 "user_vc_cell_favs_products"="Products";
 "user_vc_feedback_alert_title"="Feedback";
 "user_vc_feedback_alert_message"="How do you feel about Soyou?";
@@ -89,6 +90,7 @@
 
 /* Favorites View Controller */
 "fav_vc_title_news"="Favorite News";
+"fav_vc_title_discounts"="Favorite Discounts";
 "fav_vc_title_products"="Favorite Products";
 "fav_vc_empty_label"="No favorite yet";
 
