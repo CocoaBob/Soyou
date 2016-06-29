@@ -1,6 +1,6 @@
 PODS:
-  - 1PasswordExtension (1.8.1)
-  - ActionSheetPicker-3.0 (2.1.0)
+  - 1PasswordExtension (1.8.2)
+  - ActionSheetPicker-3.0 (2.2.0)
   - AFNetworking (2.6.3):
     - AFNetworking/NSURLConnection (= 2.6.3)
     - AFNetworking/NSURLSession (= 2.6.3)
@@ -33,15 +33,15 @@ PODS:
   - CHTCollectionViewWaterfallLayout (0.9.4):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.4)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.4)
-  - Crashlytics (3.7.0):
+  - Crashlytics (3.7.2):
     - Fabric (~> 1.6.3)
   - DACircularProgress (2.3.1)
   - DDSocial/Auth (1.1.0)
   - DDSocial/Core (1.1.0)
   - DDSocial/Facebook (1.1.0):
     - DDSocial/Core
-    - FBSDKLoginKit (~> 4.10.0)
-    - FBSDKShareKit (~> 4.10.0)
+    - FBSDKLoginKit (~> 4)
+    - FBSDKShareKit (~> 4)
   - DDSocial/Google (1.1.0):
     - Google/SignIn (~> 2.0.3)
   - DDSocial/Share (1.1.0)
@@ -52,7 +52,7 @@ PODS:
     - DDSocial/Core
   - DDSocial/Twitter (1.1.0):
     - DDSocial/Core
-    - TwitterKit (~> 2.0.2)
+    - TwitterKit (~> 2)
   - DDSocial/Wechat (1.1.0):
     - DDSocial/Core
     - libWeChatSDK
@@ -60,11 +60,11 @@ PODS:
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
   - Fabric (1.6.7)
-  - FBSDKCoreKit (4.10.1):
-    - Bolts (~> 1.5)
-  - FBSDKLoginKit (4.10.1):
+  - FBSDKCoreKit (4.13.1):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.13.1):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.10.1):
+  - FBSDKShareKit (4.13.1):
     - FBSDKCoreKit
   - FCUUID (1.2.0):
     - UICKeyChainStore (~> 2.1.0)
@@ -103,28 +103,28 @@ PODS:
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
   - MBProgressHUD (0.9.2)
-  - MJRefresh (3.1.0)
-  - MXParallaxHeader (0.5.0)
+  - MJRefresh (3.1.9)
+  - MXParallaxHeader (0.5.1)
   - NYSegmentedControl (1.0.7)
   - PageMenu (1.2.9)
   - PFCarouselView (0.7.0)
   - pop (1.0.9)
   - QNNetDiag (0.0.1)
-  - SCLAlertView-Objective-C (1.0.3)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
+  - SCLAlertView-Objective-C (1.0.4)
+  - SDWebImage (3.8.1):
+    - SDWebImage/Core (= 3.8.1)
+  - SDWebImage/Core (3.8.1)
   - SMCalloutView (2.1.5)
   - SSZipArchive (1.2)
   - SVWebViewController (1.0)
-  - TwitterCore (2.0.2):
+  - TwitterCore (2.3.0):
     - Fabric
-  - TwitterKit (2.0.2):
-    - TwitterCore (= 2.0.2)
+  - TwitterKit (2.3.0):
+    - TwitterCore (= 2.3.0)
   - UICKeyChainStore (2.1.0)
   - UIColor-HexRGB (1.0.1)
   - UIImage-ResizeMagick (0.0.1)
-  - UIView+Shake (1.1.5)
+  - UIView+Shake (1.2.0)
   - WeiboSDK (3.1.3)
   - ZoomInteractiveTransition (0.4.0)
 
@@ -136,19 +136,16 @@ DEPENDENCIES:
   - CCHMapClusterController
   - CHTCollectionViewWaterfallLayout
   - Crashlytics
-  - DDSocial/Auth (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
-  - DDSocial/Facebook (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
-  - DDSocial/Google (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
-  - DDSocial/Share (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
-  - DDSocial/Sina (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
-  - DDSocial/Tencent (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
-  - DDSocial/Twitter (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
-  - DDSocial/Wechat (from `git://github.com/CocoaBob/DDSocial`, commit `6f12fe01afb8b28db433184ce6edbce9f30bf1e4`)
+  - DDSocial/Auth (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDSocial/Facebook (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDSocial/Google (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDSocial/Share (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDSocial/Sina (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDSocial/Tencent (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDSocial/Twitter (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDSocial/Wechat (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
   - EAIntroView
   - Fabric
-  - FBSDKCoreKit (from `https://github.com/facebook/facebook-ios-sdk.git`, tag `sdk-version-4.10.1`)
-  - FBSDKLoginKit (from `https://github.com/facebook/facebook-ios-sdk.git`, tag `sdk-version-4.10.1`)
-  - FBSDKShareKit (from `https://github.com/facebook/facebook-ios-sdk.git`, tag `sdk-version-4.10.1`)
   - FCUUID
   - FlagKit (from `https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec`)
   - IDMPhotoBrowser
@@ -174,17 +171,8 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   DDSocial:
-    :commit: 6f12fe01afb8b28db433184ce6edbce9f30bf1e4
+    :commit: 0dd31527a0547dd854e5b8604d004c6c8762298a
     :git: git://github.com/CocoaBob/DDSocial
-  FBSDKCoreKit:
-    :git: https://github.com/facebook/facebook-ios-sdk.git
-    :tag: sdk-version-4.10.1
-  FBSDKLoginKit:
-    :git: https://github.com/facebook/facebook-ios-sdk.git
-    :tag: sdk-version-4.10.1
-  FBSDKShareKit:
-    :git: https://github.com/facebook/facebook-ios-sdk.git
-    :tag: sdk-version-4.10.1
   FlagKit:
     :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
     :podspec: https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec
@@ -203,17 +191,8 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   DDSocial:
-    :commit: 6f12fe01afb8b28db433184ce6edbce9f30bf1e4
+    :commit: 0dd31527a0547dd854e5b8604d004c6c8762298a
     :git: git://github.com/CocoaBob/DDSocial
-  FBSDKCoreKit:
-    :git: https://github.com/facebook/facebook-ios-sdk.git
-    :tag: sdk-version-4.10.1
-  FBSDKLoginKit:
-    :git: https://github.com/facebook/facebook-ios-sdk.git
-    :tag: sdk-version-4.10.1
-  FBSDKShareKit:
-    :git: https://github.com/facebook/facebook-ios-sdk.git
-    :tag: sdk-version-4.10.1
   FlagKit:
     :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
     :git: https://github.com/CocoaBob/FlagKit.git
@@ -231,22 +210,22 @@ CHECKOUT OPTIONS:
     :git: git://github.com/CocoaBob/calloutview
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 00d6f4caae77c19ba33045b8569fbeb9689f0d1d
-  ActionSheetPicker-3.0: db66605feb85689279d328206c61f0e4f398df92
+  1PasswordExtension: 303f2b7bbf6dc19ede3090bd6b5987530648d687
+  ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Base64nl: a497bdcd1c01ea793d36b399016195a8713c0e95
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
   CCHMapClusterController: d8cd12cd5682ec6cd76d911ac7198f981b6cc1b8
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  DDSocial: acc857b249620c3debc59fc4ff865a6623ce6007
+  DDSocial: 48636bfb69c3facbe22d70a50abb3536e920751c
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  FBSDKCoreKit: d2aaed5e9ab7d8d6301c533376a1fbff1cf3deb5
-  FBSDKLoginKit: 699ff169080e3072de4b9b0faca90bf23dc36deb
-  FBSDKShareKit: 2fd887cce0056bdda91f99b2021d724a4fed8e88
+  FBSDKCoreKit: 2807fe0da2ddb49a1469da6d6ff597f99912980f
+  FBSDKLoginKit: 6d350cb6a22d6956e9d078885de6ee8a0ebc51b4
+  FBSDKShareKit: c9438df7573b33780ac8c3451201c5ebb260ffca
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FlagKit: 1dc8b413f11f48ce38b2c800eae542f49b1da926
   Google: d0932824c5b97c96be489aa6f4e8cd6c294d637d
@@ -261,25 +240,27 @@ SPEC CHECKSUMS:
   libWeChatSDK: e885fe8039d2e234c95742e7e81093e6e0f19b35
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
-  MXParallaxHeader: c7dfdf8d769a8eb868a431ec3aeaf994a147b8bc
+  MJRefresh: c5f1f1653e5a1b932c90f78074f2bc86f3f9bd5e
+  MXParallaxHeader: b40fabd42d1bb76f6d1a713ceae5628f69241bd6
   NYSegmentedControl: 55b4f9eb652767cae9799623ec3e49e50029ef47
   PageMenu: 82988ae760a0bc7dfeec172f4b19bac75d48c461
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   QNNetDiag: c65f0cb7d211384f45c8f69a846366f336a3686c
-  SCLAlertView-Objective-C: e83376218b431109dc5403adc63f8e9787db7b74
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SCLAlertView-Objective-C: dd8a12b4068b8bae1b25c1748d7413b5abcad05b
+  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SSZipArchive: 251093c65f98d6ea282c50bc404bfa631d9fd721
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
-  TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
-  TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
+  TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
+  TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
   UIColor-HexRGB: daccfa7e936af664369734a164b0309087d7f970
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
-  UIView+Shake: 2d2185006d38ee5daed07f14c0989f703f86682f
+  UIView+Shake: a64f7d009222e33cf73d699b06c028cfab4cf2ad
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 801693611a01fdc402cd34f0be2bbd7f488220e4
+
+COCOAPODS: 1.0.1
