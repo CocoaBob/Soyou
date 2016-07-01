@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.setupSocialServices()
         
         // In case if it hasn't been registered on the server
-        DataManager.shared.registerForNotification()
+        DataManager.shared.registerForNotification(false)
         
         // Setup Database asynchronously
         dispatch_async(dispatch_get_main_queue()) {
@@ -87,6 +87,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(application: UIApplication) {
         self.updateDataAfterLaunching()
+        
+        // Clear badge
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 
     func applicationDidReceiveMemoryWarning(application: UIApplication) {
@@ -129,7 +132,7 @@ extension AppDelegate {
             UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
         }
         
-        DataManager.shared.registerForNotification()
+        DataManager.shared.registerForNotification(false)
         
         NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.DidRegisterForRemoteNotifications, object: nil)
     }

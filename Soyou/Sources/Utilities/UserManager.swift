@@ -115,6 +115,8 @@ extension UserManager {
         DataManager.shared.requestNewsFavorites(nil)
         DataManager.shared.requestDiscountFavorites(nil)
         DataManager.shared.requestProductFavorites(nil)
+        // Update device token to this accout
+        DataManager.shared.registerForNotification(true)
     }
     
     func logOut() {

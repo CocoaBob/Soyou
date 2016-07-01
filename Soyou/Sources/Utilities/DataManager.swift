@@ -460,9 +460,10 @@ class DataManager {
     // MARK: Notification
     //////////////////////////////////////
     
-    func registerForNotification() {
+    func registerForNotification(forceRegister: Bool) {
         // If hasn't registered
-        if !UserDefaults.boolForKey(Cons.App.hasRegisteredForNotification) {
+        if forceRegister || !UserDefaults.boolForKey(Cons.App.hasRegisteredForNotification) {
+            UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
             // Get the last device token
             if let deviceToken = UserManager.shared.deviceToken {
                 // Register to server
