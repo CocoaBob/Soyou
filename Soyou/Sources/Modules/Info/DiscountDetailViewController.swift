@@ -64,9 +64,8 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
                     }
                 }
                 if let commentNumber = data["commentNumber"] as? NSNumber {
-                    DLog(commentNumber)
+                    self.commentBtnNumber = commentNumber.integerValue
                 }
-                
             }
         }
     }
@@ -146,6 +145,14 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
                 self.isFavorite = !self.isFavorite
             }
         }
+    }
+    
+    override func comment() {
+        let commentsViewController = InfoCommentsViewController.instantiate()
+        commentsViewController.dataProvider = { () -> (AnyObject) in
+            return ""
+        }
+        self.navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }
 

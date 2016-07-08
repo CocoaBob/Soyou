@@ -23,6 +23,15 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     }
     
     // Subclass overridden
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Remove comment button
+        if let toolbarItems = self.toolbarItems {
+            self.toolbarItems = Array(toolbarItems[0..<(toolbarItems.count - 2)])
+        }
+    }
+    
     override var infoTitle: String! {
         get {
             var returnValue = ""

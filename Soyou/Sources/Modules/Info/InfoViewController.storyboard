@@ -90,6 +90,53 @@
             </objects>
             <point key="canvasLocation" x="541" y="398"/>
         </scene>
+        <!--Info Comments View Controller-->
+        <scene sceneID="qAR-Rp-UgF">
+            <objects>
+                <viewController storyboardIdentifier="InfoCommentsViewController" id="Sn6-Nx-zBB" customClass="InfoCommentsViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="teS-aB-bFA"/>
+                        <viewControllerLayoutGuide type="bottom" id="iCy-Tb-AXP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sAP-Rx-vBk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="r42-Wu-G6k">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0T8-lv-203">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0T8-lv-203" id="6l2-Nb-a23">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Sn6-Nx-zBB" id="MDo-9s-SOF"/>
+                                    <outlet property="delegate" destination="Sn6-Nx-zBB" id="osx-ot-gTs"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iCy-Tb-AXP" firstAttribute="top" secondItem="r42-Wu-G6k" secondAttribute="bottom" id="7vS-2b-bii"/>
+                            <constraint firstItem="r42-Wu-G6k" firstAttribute="leading" secondItem="sAP-Rx-vBk" secondAttribute="leading" id="Jxd-zH-v6g"/>
+                            <constraint firstItem="r42-Wu-G6k" firstAttribute="top" secondItem="sAP-Rx-vBk" secondAttribute="top" id="QLA-pe-Pip"/>
+                            <constraint firstAttribute="trailing" secondItem="r42-Wu-G6k" secondAttribute="trailing" id="yoe-6N-2OU"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="r42-Wu-G6k" id="DTC-hl-C4n"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="on0-sN-fEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="541" y="1069"/>
+        </scene>
         <!--Info Detail Base View Controller-->
         <scene sceneID="ylV-RG-WTZ">
             <objects>

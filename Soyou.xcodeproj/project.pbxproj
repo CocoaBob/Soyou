@@ -55,6 +55,7 @@
 		455D06B41C03950300D81ABF /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06B31C03950300D81ABF /* UserViewController.swift */; };
 		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
 		456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456478F71C6E095C00798EB2 /* 1Password.xcassets */; };
+		456833B91D3009EA006A5B3F /* InfoCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* Soyou.xcdatamodeld */; };
@@ -191,6 +192,7 @@
 		455D06B31C03950300D81ABF /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		45640AF31C51A934009984EC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		456478F71C6E095C00798EB2 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = 1Password.xcassets; path = Pods/1PasswordExtension/1Password.xcassets; sourceTree = SOURCE_ROOT; };
+		456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoCommentsViewController.swift; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4568E2981BF90797009A6164 /* Soyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou.xcdatamodel; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 				45F5C29D1D01DFA70024B5DF /* InfoViewController.swift */,
 				45F5C29B1D01DFA70024B5DF /* InfoListBaseViewController.swift */,
 				45F5C29A1D01DFA70024B5DF /* InfoDetailBaseViewController.swift */,
+				456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */,
 				45F5C29F1D01DFA70024B5DF /* NewsViewController.swift */,
 				45F5C29E1D01DFA70024B5DF /* NewsDetailViewController.swift */,
 				45F5C2991D01DFA70024B5DF /* DiscountsViewController.swift */,
@@ -840,6 +843,7 @@
 				4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
+				456833B91D3009EA006A5B3F /* InfoCommentsViewController.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
 				459E90DA1D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel in Sources */,
 				45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */,

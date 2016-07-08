@@ -29,12 +29,9 @@ class InfoDetailBaseViewController: UIViewController {
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     // Toolbar
-    var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(hex: Cons.UI.colorLike)
-    let btnLikeInactiveColor = UIToolbar.appearance().tintColor
-    var btnFav: UIButton?
-    let btnFavActiveColor = UIColor(hex:Cons.UI.colorHeart)
-    let btnFavInactiveColor = UIToolbar.appearance().tintColor
+    var btnLike: UIButton = UIButton(type: .System)
+    var btnFav: UIButton = UIButton(type: .System)
+    var btnComment: UIButton = UIButton(type: .System)
     
     // Status Bar Cover
     var isStatusBarCoverVisible = false
@@ -73,31 +70,40 @@ class InfoDetailBaseViewController: UIViewController {
         // Status Bar Cover
         self.statusBarCover.backgroundColor = UIColor.whiteColor()
         
-        // Toolbar
-        self.btnLike = UIButton(type: .System)
-        self.btnFav = UIButton(type: .System)
+        // Toolbar buttons
+        self.btnLike.titleLabel?.font = UIFont.systemFontOfSize(10)
+        self.btnLike.titleEdgeInsets = UIEdgeInsets(top: -20, left: 0, bottom: 1, right: 0)
+        self.btnLike.backgroundColor = UIColor.clearColor()
+        self.btnLike.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
+        self.btnLike.setImage(UIImage(named: "img_thumb"), forState: .Normal)
+        self.btnLike.imageEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 1, right: 0) // Adjust image position
+        self.btnLike.addTarget(self, action: #selector(InfoDetailBaseViewController.like(_:)), forControlEvents: .TouchUpInside)
         
-        self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
-        self.btnLike?.titleEdgeInsets = UIEdgeInsets(top: -20, left: -0, bottom: 1, right: 0)
-        self.btnLike?.backgroundColor = UIColor.clearColor()
-        self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
-        self.btnLike?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
-        self.btnLike?.addTarget(self, action: #selector(InfoDetailBaseViewController.like(_:)), forControlEvents: .TouchUpInside)
+        self.btnFav.backgroundColor = UIColor.clearColor()
+        self.btnFav.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
+        self.btnFav.setImage(UIImage(named: "img_heart"), forState: .Normal)
+        self.btnFav.addTarget(self, action: #selector(InfoDetailBaseViewController.star(_:)), forControlEvents: .TouchUpInside)
         
-        self.btnFav?.backgroundColor = UIColor.clearColor()
-        self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
-        self.btnFav?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
-        self.btnFav?.addTarget(self, action: #selector(InfoDetailBaseViewController.star(_:)), forControlEvents: .TouchUpInside)
+        self.btnComment.titleLabel?.font = UIFont.systemFontOfSize(10)
+        self.btnComment.titleLabel?.layer.cornerRadius = 3
+        self.btnComment.titleLabel?.clipsToBounds = true
+        self.btnComment.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.btnComment.titleEdgeInsets = UIEdgeInsets(top: -20, left: 0, bottom: 1, right: 0)
+        self.btnComment.backgroundColor = UIColor.clearColor()
+        self.btnComment.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
+        self.btnComment.setImage(UIImage(named: "img_comments"), forState: .Normal)
+        self.btnComment.addTarget(self, action: #selector(InfoDetailBaseViewController.comment(_:)), forControlEvents: .TouchUpInside)
+        self.btnComment.titleLabel?.backgroundColor = UIColor(hex:Cons.UI.colorComment)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
         let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
-        let fav = UIBarButtonItem(customView: self.btnFav!)
-        let like = UIBarButtonItem(customView: self.btnLike!)
-        self.toolbarItems = [ space, next, space, fav, space, like, space]
+        let fav = UIBarButtonItem(customView: self.btnFav)
+        let like = UIBarButtonItem(customView: self.btnLike)
+        let comment = UIBarButtonItem(customView: self.btnComment)
+        self.toolbarItems = [ space, next, space, fav, space, like, space, comment, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
+        // Setup next button
         next.enabled = false
         self.nextInfoBarButtonItem = next
         
@@ -159,6 +165,7 @@ class InfoDetailBaseViewController: UIViewController {
     func share() {}
     func like() {}
     func star() {}
+    func comment() {}
 }
 
 // MARK: Web image tap gesture handler
@@ -244,16 +251,16 @@ extension InfoDetailBaseViewController {
         set(newValue) {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 if newValue == true {
-                    self.btnFav?.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
-                    self.btnFav?.tintColor = self.btnFavActiveColor
+                    self.btnFav.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
+                    self.btnFav.tintColor = UIColor(hex:Cons.UI.colorHeart)
                 } else {
-                    self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
-                    self.btnFav?.tintColor = self.btnFavInactiveColor
+                    self.btnFav.setImage(UIImage(named: "img_heart"), forState: .Normal)
+                    self.btnFav.tintColor = UIToolbar.appearance().tintColor
                 }
             }
         }
         get {
-            return self.btnFav?.tintColor == btnFavActiveColor
+            return self.btnFav.tintColor == UIColor(hex:Cons.UI.colorHeart)
         }
     }
 }
@@ -264,9 +271,9 @@ extension InfoDetailBaseViewController {
     func updateLikeBtnColor(appIsLiked: Bool?) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if appIsLiked != nil && appIsLiked!.boolValue {
-                self.btnLike?.tintColor = self.btnLikeActiveColor
+                self.btnLike.tintColor = UIColor(hex: Cons.UI.colorLike)
             } else {
-                self.btnLike?.tintColor = self.btnLikeInactiveColor
+                self.btnLike.tintColor = UIToolbar.appearance().tintColor
             }
         }
     }
@@ -274,13 +281,34 @@ extension InfoDetailBaseViewController {
     var likeBtnNumber: Int? {
         set(newValue) {
             if newValue != nil && newValue! > 0 {
-                self.btnLike?.setTitle("\(newValue!)", forState: .Normal)
+                self.btnLike.setTitle("\(newValue!)", forState: .Normal)
             } else {
-                self.btnLike?.setTitle("", forState: .Normal)
+                self.btnLike.setTitle("", forState: .Normal)
             }
         }
         get {
-            if let title = self.btnLike?.titleForState(.Normal) {
+            if let title = self.btnLike.titleForState(.Normal) {
+                return Int(title)
+            } else {
+                return 0
+            }
+        }
+    }
+}
+
+// MARK: Comment button
+extension InfoDetailBaseViewController {
+    
+    var commentBtnNumber: Int? {
+        set(newValue) {
+            if newValue != nil && newValue! >= 0 {
+                self.btnComment.setTitle(" \(newValue!) ", forState: .Normal)
+            } else {
+                self.btnComment.setTitle("", forState: .Normal)
+            }
+        }
+        get {
+            if let title = self.btnComment.titleForState(.Normal) {
                 return Int(title)
             } else {
                 return 0
@@ -475,5 +503,9 @@ extension InfoDetailBaseViewController {
     
     @IBAction func star(sender: AnyObject) {
         self.star()
+    }
+    
+    @IBAction func comment(sender: AnyObject) {
+        self.comment()
     }
 }

@@ -108,7 +108,7 @@ struct Section {
 
 class SimpleTableViewController: UIViewController {
     
-    @IBOutlet var tableView: UITableView!
+    var tableView: UITableView!
     
     private var tableStyle: UITableViewStyle?
     

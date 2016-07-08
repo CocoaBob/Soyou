@@ -204,7 +204,7 @@ class RequestManager {
         postAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/comments/\(commentId)", "Discounts", ["comment": comment], onSuccess, onFailure)
     }
     
-    func requestComments(id: NSNumber, _ count: Int, _ relativeID: NSNumber = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestCommentsForDiscount(id: NSNumber, _ count: Int, _ relativeID: NSNumber = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/comments/\(count)/\(relativeID)", "Discounts", onSuccess, onFailure)
     }
     
