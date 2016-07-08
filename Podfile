@@ -1,9 +1,15 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
+#use_frameworks!
 platform :ios, '8.0'
 project "Soyou"
 
 inhibit_all_warnings!
+
+#pre_install do |installer|
+#    # workaround for https://github.com/CocoaPods/CocoaPods/issues/3289
+#    def installer.verify_no_static_framework_transitive_dependencies; end
+#end
 
 target :'Soyou' do
 	pod "1PasswordExtension"
@@ -29,6 +35,7 @@ target :'Soyou' do
 	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :commit => 'bad0864b06019d764519dab9a53409de889c87fc'
 	pod "SSZipArchive"
 	pod "SVWebViewController"
+#    pod "SwiftyJSON"
 	pod "UICKeyChainStore"
 	pod "UIColor-HexRGB"
 	pod "UIImage-ResizeMagick"
@@ -40,18 +47,13 @@ target :'Soyou' do
 	pod "Fabric"
 	pod "Crashlytics"
 
-	#SNS SDKs
-	pod "libWeChatSDK",     :git => 'git://github.com/CocoaBob/libWeChatSDK',   :commit => 'bb4387498ef2974189e8270928f62a1cd3a8ef62'
-    
-	pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-	pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-	pod "DDSocial/Tencent", :git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-	pod "DDSocial/Wechat",  :git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-	pod "DDSocial/Sina",    :git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-	pod "DDSocial/Facebook",:git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-	pod "DDSocial/Twitter", :git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-	pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial',       :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-
-	# Used for testing
-	#pod 'FBRetainCycleDetector'
+    #SNS SDKs
+    pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDSocial/Tencent", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDSocial/Wechat",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDSocial/Sina",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDSocial/Facebook",:git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDSocial/Twitter", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
 end
