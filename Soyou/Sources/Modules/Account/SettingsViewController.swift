@@ -324,15 +324,11 @@ extension SettingsViewController {
                             // Set language
                             UserDefaults.setObject([regionCode], forKey: "AppleLanguages")
                             
-                        let alertView = SCLAlertView()
+                        let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
                         alertView.addButton(NSLocalizedString("settings_vc_cell_language_set_done")) { () -> Void in
                             self.navigationController?.popViewControllerAnimated(true)
                         }
-                        alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                              title: NSLocalizedString("settings_vc_cell_language_set_title"),
-                                              subTitle: NSLocalizedString("settings_vc_cell_language_set_subtitle"),
-                                              closeButtonTitle: nil,
-                                              duration: 0.0)
+                        alertView.showSuccess(NSLocalizedString("settings_vc_cell_language_set_title"), subTitle: NSLocalizedString("settings_vc_cell_language_set_subtitle"))
                     }
             }
         }
@@ -369,7 +365,7 @@ extension SettingsViewController {
             var image: UIImage?
             if let countryCode = countryCode {
                 if countryCode == "EU" {
-                    image = UIImage(flagImageForSpecialFlag: "EU")
+                    image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.EuropeanUnion)
                 } else {
                     image = UIImage(flagImageWithCountryCode: countryCode)
                 }

@@ -93,7 +93,7 @@ class InfoDetailBaseViewController: UIViewController {
         self.btnComment.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
         self.btnComment.setImage(UIImage(named: "img_comments"), forState: .Normal)
         self.btnComment.addTarget(self, action: #selector(InfoDetailBaseViewController.comment(_:)), forControlEvents: .TouchUpInside)
-        self.btnComment.titleLabel?.backgroundColor = UIColor(hex:Cons.UI.colorComment)
+        self.btnComment.titleLabel?.backgroundColor = UIColor(rgba:Cons.UI.colorComment)
         
         let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
         let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
@@ -252,7 +252,7 @@ extension InfoDetailBaseViewController {
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 if newValue == true {
                     self.btnFav.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
-                    self.btnFav.tintColor = UIColor(hex:Cons.UI.colorHeart)
+                    self.btnFav.tintColor = UIColor(rgba:Cons.UI.colorHeart)
                 } else {
                     self.btnFav.setImage(UIImage(named: "img_heart"), forState: .Normal)
                     self.btnFav.tintColor = UIToolbar.appearance().tintColor
@@ -260,7 +260,7 @@ extension InfoDetailBaseViewController {
             }
         }
         get {
-            return self.btnFav.tintColor == UIColor(hex:Cons.UI.colorHeart)
+            return self.btnFav.tintColor == UIColor(rgba:Cons.UI.colorHeart)
         }
     }
 }
@@ -271,7 +271,7 @@ extension InfoDetailBaseViewController {
     func updateLikeBtnColor(appIsLiked: Bool?) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if appIsLiked != nil && appIsLiked!.boolValue {
-                self.btnLike.tintColor = UIColor(hex: Cons.UI.colorLike)
+                self.btnLike.tintColor = UIColor(rgba: Cons.UI.colorLike)
             } else {
                 self.btnLike.tintColor = UIToolbar.appearance().tintColor
             }

@@ -12,6 +12,8 @@ class InfoViewController: UIViewController {
     
     // PageMenu
     var pageMenu: CAPSPageMenu?
+    var pageMenuViewControllers: [UIViewController] = [UIViewController]()
+    var pageMenuCurrentPageIndex = 0
     
     var newsViewController: NewsViewController = NewsViewController.instantiate()
     var discountsViewController: DiscountsViewController = DiscountsViewController.instantiate()
@@ -67,41 +69,39 @@ extension InfoViewController {
     func setupSubViewControllers() {
         // Add page menu to the scroll view's subViewsContainer
         if self.pageMenu == nil {
-            // Prepare childViewControllers
-            var viewControllers = [UIViewController]()
-            
             // News VC
-            viewControllers.append(self.newsViewController)
-            viewControllers.append(self.discountsViewController)
+            self.pageMenuViewControllers.append(self.newsViewController)
+            self.pageMenuViewControllers.append(self.discountsViewController)
             
             // Setup view controllers
-            let _ = viewControllers.map {
+            let _ = self.pageMenuViewControllers.map {
                 ($0 as? InfoListBaseViewController)?.infoViewController = self
                 let _ = $0.view
             }
             
             // Customize menu (Optional)
-            let parameters: [String: AnyObject] = [
-                CAPSPageMenuOptionMenuItemSeparatorWidth: NSNumber(double: 0),
-                CAPSPageMenuOptionScrollMenuBackgroundColor: UIColor.whiteColor(),
-                CAPSPageMenuOptionSelectionIndicatorColor: UIColor.darkGrayColor(),
-                CAPSPageMenuOptionSelectedMenuItemLabelColor: UIColor.darkGrayColor(),
-                CAPSPageMenuOptionUnselectedMenuItemLabelColor: UIColor.lightGrayColor(),
-                CAPSPageMenuOptionUseMenuLikeSegmentedControl: NSNumber(bool: true),
-                CAPSPageMenuOptionCenterMenuItems: NSNumber(bool: true),
-                CAPSPageMenuOptionMenuItemFont: UIFont.boldSystemFontOfSize(15),
-                CAPSPageMenuOptionMenuMargin: NSNumber(double: 10.0),
-                CAPSPageMenuOptionMenuHeight: Cons.UI.heightPageMenuInfo,
-                CAPSPageMenuOptionAddBottomMenuHairline: NSNumber(bool: true),
-                CAPSPageMenuOptionBottomMenuHairlineColor: UIColor.whiteColor()
+            let parameters: [CAPSPageMenuOption] = [
+                .MenuItemSeparatorWidth(0),
+                .ScrollMenuBackgroundColor(UIColor.whiteColor()),
+                .SelectionIndicatorColor(UIColor.darkGrayColor()),
+                .SelectedMenuItemLabelColor(UIColor.darkGrayColor()),
+                .UnselectedMenuItemLabelColor(UIColor.lightGrayColor()),
+                .UseMenuLikeSegmentedControl(true),
+                .CenterMenuItems(true),
+                .MenuItemFont(UIFont.boldSystemFontOfSize(15)),
+                .MenuMargin(10.0),
+                .MenuHeight(Cons.UI.heightPageMenuInfo),
+                .AddBottomMenuHairline(true),
+                .BottomMenuHairlineColor(UIColor.whiteColor())
             ]
             
             // Create CAPSPageMenu
             let topInset = UIApplication.sharedApplication().statusBarFrame.height
             self.pageMenu = CAPSPageMenu(
-                viewControllers: viewControllers,
-                frame: CGRect(x: 0.0, y: topInset, width: self.view.frame.width, height: self.view.frame.height - topInset),
-                options: parameters)
+                viewControllers: self.pageMenuViewControllers,
+                frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.height - topInset),
+                pageMenuOptions: parameters)
+            self.pageMenu?.delegate = self
             
             // Add CAPSPageMenu
             if let pageMenu = self.pageMenu {
@@ -113,24 +113,29 @@ extension InfoViewController {
     }
 }
 
+// MARK: CAPSPageMenuDelegate
+extension InfoViewController: CAPSPageMenuDelegate {
+    
+    func didMoveToPage(controller: UIViewController, index: Int) {
+        self.pageMenuCurrentPageIndex = index
+    }
+}
+
 // MARK: ZoomInteractiveTransition
 extension InfoViewController: ZoomTransitionProtocol {
     
     func viewForZoomTransition(isSource: Bool) -> UIView? {
-        guard let pageMenu = self.pageMenu else { return nil }
-        guard let viewController = pageMenu.controllerArray[pageMenu.currentPageIndex] as? InfoListBaseViewController else { return nil }
+        guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return nil }
         return viewController.viewForZoomTransition(isSource)
     }
     
     func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
-        guard let pageMenu = self.pageMenu else { return nil }
-        guard let viewController = pageMenu.controllerArray[pageMenu.currentPageIndex] as? InfoListBaseViewController else { return nil }
+        guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return nil }
         return viewController.initialZoomViewSnapshotFromProposedSnapshot(snapshot)
     }
     
     func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
-        guard let pageMenu = self.pageMenu else { return false }
-        guard let viewController = pageMenu.controllerArray[pageMenu.currentPageIndex] as? InfoListBaseViewController else { return false }
+        guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return false }
         return viewController.shouldAllowZoomTransitionForOperation(operation, fromViewController: fromVC, toViewController: toVC)
     }
 }

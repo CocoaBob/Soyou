@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            WTStatusBar.setStatusText("")
 //            WTStatusBar.setTextColor(UIColor.clearColor())
 //            WTStatusBar.setBackgroundColor(UIColor.clearColor())
-//            WTStatusBar.setProgressBarColor(UIColor(hex: Cons.UI.colorTheme))
+//            WTStatusBar.setProgressBarColor(UIColor(rgba: Cons.UI.colorTheme))
             
             // Initializing database
             self.setupDatabase()

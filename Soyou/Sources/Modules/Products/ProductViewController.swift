@@ -47,10 +47,10 @@ class ProductViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(hex:Cons.UI.colorLike)
+    let btnLikeActiveColor = UIColor(rgba:Cons.UI.colorLike)
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
-    let btnFavActiveColor = UIColor(hex:Cons.UI.colorHeart)
+    let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
     // Status bar cover
@@ -310,26 +310,26 @@ extension ProductViewController {
             viewControllers.append(self.productDescriptionsViewController)
             
             // Customize menu (Optional)
-            let parameters: [String: AnyObject] = [
-                CAPSPageMenuOptionMenuItemSeparatorWidth: NSNumber(double: 0),
-                CAPSPageMenuOptionScrollMenuBackgroundColor: UIColor.whiteColor(),
-                CAPSPageMenuOptionSelectionIndicatorColor: UIColor.darkGrayColor(),
-                CAPSPageMenuOptionSelectedMenuItemLabelColor: UIColor.darkGrayColor(),
-                CAPSPageMenuOptionUnselectedMenuItemLabelColor: UIColor.lightGrayColor(),
-                CAPSPageMenuOptionUseMenuLikeSegmentedControl: NSNumber(bool: true),
-                CAPSPageMenuOptionCenterMenuItems: NSNumber(bool: true),
-                CAPSPageMenuOptionMenuItemFont: UIFont.systemFontOfSize(13),
-                CAPSPageMenuOptionMenuMargin: NSNumber(double: 10.0),
-                CAPSPageMenuOptionMenuHeight: Cons.UI.heightPageMenuProduct,
-                CAPSPageMenuOptionAddBottomMenuHairline: NSNumber(bool: true),
-                CAPSPageMenuOptionBottomMenuHairlineColor: UIColor.whiteColor()
+            let parameters: [CAPSPageMenuOption] = [
+                .MenuItemSeparatorWidth(0),
+                .ScrollMenuBackgroundColor(UIColor.whiteColor()),
+                .SelectionIndicatorColor(UIColor.darkGrayColor()),
+                .SelectedMenuItemLabelColor(UIColor.darkGrayColor()),
+                .UnselectedMenuItemLabelColor(UIColor.lightGrayColor()),
+                .UseMenuLikeSegmentedControl(true),
+                .CenterMenuItems(true),
+                .MenuItemFont(UIFont.systemFontOfSize(13)),
+                .MenuMargin(10.0),
+                .MenuHeight(Cons.UI.heightPageMenuProduct),
+                .AddBottomMenuHairline(true),
+                .BottomMenuHairlineColor(UIColor.whiteColor())
             ]
             
             // Create CAPSPageMenu
             self.pageMenu = CAPSPageMenu(
                 viewControllers: viewControllers,
-                frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height),
-                options: parameters)
+                frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height),
+                pageMenuOptions: parameters)
             
             // Add CAPSPageMenu
             if let pageMenu = self.pageMenu {

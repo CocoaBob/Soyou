@@ -478,15 +478,11 @@ extension LoginViewController {
                     DataManager.showRequestFailedAlert(error)
                 } else {
                     // Show alert
-                    let alertView = SCLAlertView()
+                    let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
                     alertView.addButton(NSLocalizedString("login_vc_register_alert_button")) { () -> Void in
                         self.navigationController?.popViewControllerAnimated(true)
                     }
-                    alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                          title: NSLocalizedString("alert_title_success"),
-                                          subTitle: NSLocalizedString("login_vc_register_alert_message"),
-                                          closeButtonTitle: nil,
-                                          duration: 0.0)
+                    alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_message"))
                 }
             }
         }
@@ -517,13 +513,8 @@ extension LoginViewController {
                 } else {
                     self.hasSentVerificationCode = true
                     self.btnGetCode?.enabled = !self.hasSentVerificationCode
-                    let alertView = SCLAlertView()
-                    
-                    alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                          title: NSLocalizedString("alert_title_info"),
-                                          subTitle: NSLocalizedString("login_vc_reset_password_get_code_alert_message"),
-                                          closeButtonTitle: NSLocalizedString("alert_button_ok"),
-                                          duration: 0.0)
+                    let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: true))
+                    alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_reset_password_get_code_alert_message"))
                 }
             }
         }
@@ -545,12 +536,8 @@ extension LoginViewController {
                 } else {
                     self.dismissSelf()
                     DispatchAfter(0.3, closure: {
-                        let alertView = SCLAlertView()
-                        alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                            title: NSLocalizedString("alert_title_success"),
-                            subTitle: NSLocalizedString("login_vc_reset_password_alert_message"),
-                            closeButtonTitle: NSLocalizedString("alert_button_ok"),
-                            duration: 3)
+                        let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+                        alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_reset_password_alert_message"), closeButtonTitle: NSLocalizedString("alert_button_ok"), duration: 3)
                     })
                 }
             }

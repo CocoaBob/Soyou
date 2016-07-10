@@ -71,7 +71,7 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         self.tableView().tableFooterView = UIView(frame: CGRect.zero)
         
         // Background Color
-        self.tableView().backgroundColor = UIColor(hex: Cons.UI.colorBG)
+        self.tableView().backgroundColor = UIColor(rgba: Cons.UI.colorBG)
         
         // Setup refresh controls
         setupRefreshControls()

@@ -52,17 +52,9 @@ class DataManager {
         if let responseObject = responseObject as? Dictionary<String, AnyObject>,
             data = responseObject["data"] as? [String],
             message = data.first {
-            SCLAlertView().showError(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                     title: NSLocalizedString("alert_title_failed"),
-                                     subTitle: NSLocalizedString(message),
-                                     closeButtonTitle: NSLocalizedString("alert_button_ok"),
-                                     duration: 0.0)
+            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message), closeButtonTitle: NSLocalizedString("alert_button_ok"))
         } else {
-            SCLAlertView().showError(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                     title: NSLocalizedString("alert_title_failed"),
-                                     subTitle: error?.localizedDescription ?? "",
-                                     closeButtonTitle: NSLocalizedString("alert_button_ok"),
-                                     duration: 0.0)
+            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: error?.localizedDescription ?? "", closeButtonTitle: NSLocalizedString("alert_button_ok"))
         }
     }
     

@@ -55,7 +55,7 @@ PODS:
     - GoogleSymbolUtilities (~> 1.1)
     - GoogleUtilities (~> 1.3)
   - FirebaseInstanceID (1.0.7)
-  - FlagKit (1.0.7)
+  - FlagKit (1.1)
   - Google/Core (3.0.3):
     - FirebaseAnalytics (~> 3.2)
   - Google/SignIn (3.0.3):
@@ -94,7 +94,7 @@ PODS:
   - PFCarouselView (0.7.0)
   - pop (1.0.9)
   - QNNetDiag (0.0.1)
-  - SCLAlertView-Objective-C (1.0.4)
+  - SCLAlertView (0.5.9)
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
   - SDWebImage/Core (3.8.1)
@@ -106,7 +106,7 @@ PODS:
   - TwitterKit (2.3.0):
     - TwitterCore (= 2.3.0)
   - UICKeyChainStore (2.1.0)
-  - UIColor-HexRGB (1.0.1)
+  - UIColor_Hex_Swift (2.1)
   - UIImage-ResizeMagick (0.0.1)
   - UIView+Shake (1.2.0)
   - WeiboSDK (3.1.3)
@@ -126,7 +126,7 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - FBSDKShareKit
   - FCUUID
-  - FlagKit (from `https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec`)
+  - FlagKit
   - Google/SignIn
   - IDMPhotoBrowser
   - libWeChatSDK
@@ -135,29 +135,23 @@ DEPENDENCIES:
   - MJRefresh
   - MXParallaxHeader
   - NYSegmentedControl
-  - PageMenu (from `https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec`)
+  - PageMenu
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `880826c7f361c3065ca23a4696a4d19d7e1da6d3`)
   - QNNetDiag
-  - SCLAlertView-Objective-C
+  - SCLAlertView
   - SDWebImage
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
   - SSZipArchive
   - SVWebViewController
   - TwitterKit (~> 2)
   - UICKeyChainStore
-  - UIColor-HexRGB
+  - UIColor_Hex_Swift
   - UIImage-ResizeMagick
   - UIView+Shake
   - WeiboSDK (~> 3.1.3)
   - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
-  FlagKit:
-    :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
-    :podspec: https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec
-  PageMenu:
-    :commit: fae309af601a27aa0a7e34e9e6d61f9583c86444
-    :podspec: https://raw.githubusercontent.com/CocoaBob/PageMenu/master/PageMenu-ObjC.podspec
   PFCarouselView:
     :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
@@ -166,12 +160,6 @@ EXTERNAL SOURCES:
     :git: git://github.com/CocoaBob/calloutview
 
 CHECKOUT OPTIONS:
-  FlagKit:
-    :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
-    :git: https://github.com/CocoaBob/FlagKit.git
-  PageMenu:
-    :commit: fae309af601a27aa0a7e34e9e6d61f9583c86444
-    :git: https://github.com/CocoaBob/PageMenu.git
   PFCarouselView:
     :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
@@ -199,7 +187,7 @@ SPEC CHECKSUMS:
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FirebaseAnalytics: 0fd6532cb2c3d03cd5cf26ad295ccb091efd3104
   FirebaseInstanceID: a9d923f3d0b6fbf9fac89310860357aaadc34be5
-  FlagKit: 1dc8b413f11f48ce38b2c800eae542f49b1da926
+  FlagKit: 14b06fd6c3157313754a7e7ac772e0dee005bf7b
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
   GoogleAuthUtilities: d7a19615cd7627688afcf181737f1011ee8b5a23
@@ -215,11 +203,11 @@ SPEC CHECKSUMS:
   MJRefresh: bb72948c985914b0b5cecac573a2c69a8915fb02
   MXParallaxHeader: b40fabd42d1bb76f6d1a713ceae5628f69241bd6
   NYSegmentedControl: 55b4f9eb652767cae9799623ec3e49e50029ef47
-  PageMenu: 82988ae760a0bc7dfeec172f4b19bac75d48c461
+  PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   QNNetDiag: c65f0cb7d211384f45c8f69a846366f336a3686c
-  SCLAlertView-Objective-C: dd8a12b4068b8bae1b25c1748d7413b5abcad05b
+  SCLAlertView: d7c6a48c7d340e60206d4ed0e8ebcbff3b9d2a44
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SSZipArchive: 5525196ee195b473dcc4a0d4d2cba98bfa3eb1c1
@@ -227,12 +215,12 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
-  UIColor-HexRGB: daccfa7e936af664369734a164b0309087d7f970
+  UIColor_Hex_Swift: e91dc51f6bf252ec7bf74c8704ceedeeb7640c1c
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
   UIView+Shake: a64f7d009222e33cf73d699b06c028cfab4cf2ad
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: 29c33c9df24aad4e6122ea0c5f52330bbe538c48
+PODFILE CHECKSUM: 9d89d3be903de00b680c576fcce74413c09b941b
 
 COCOAPODS: 1.0.1

@@ -43,14 +43,14 @@ class StoreMapViewController: UIViewController {
         let leftButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
         leftButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
         leftButton.tintColor = UIColor.whiteColor()
-        leftButton.backgroundColor = UIColor(hex: Cons.UI.colorStoreMapCopy)
+        leftButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
         leftButton.addTarget(self, action: #selector(StoreMapViewController.copyAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.calloutView.leftAccessoryView = leftButton
         
         let rightButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
         rightButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
         rightButton.tintColor = UIColor.whiteColor()
-        rightButton.backgroundColor = UIColor(hex: Cons.UI.colorStoreMapOpen)
+        rightButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
         rightButton.addTarget(self, action: #selector(StoreMapViewController.openMap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.calloutView.rightAccessoryView = rightButton
 
@@ -251,18 +251,15 @@ extension StoreMapViewController: CLLocationManagerDelegate {
             if authorizationStatus == .NotDetermined {
                 _locationManager.requestWhenInUseAuthorization()
             } else {
-                let alertView = SCLAlertView()
-                alertView.addButton(NSLocalizedString("store_map_vc_go_to_settings"),
-                                    actionBlock: {
-                                        if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
-                                            UIApplication.sharedApplication().openURL(url)
-                                        }
-                })
-                alertView.showWarning(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                      title: NSLocalizedString("store_map_vc_location_service_unavailable_title"),
+                let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+                alertView.addButton(NSLocalizedString("store_map_vc_go_to_settings")) { () -> Void in
+                    if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.sharedApplication().openURL(url)
+                    }
+                }
+                alertView.showWarning(NSLocalizedString("store_map_vc_location_service_unavailable_title"),
                                       subTitle: NSLocalizedString("store_map_vc_location_service_unavailable_content"),
-                                      closeButtonTitle: NSLocalizedString("alert_button_close"),
-                                      duration: 0.0)
+                                      closeButtonTitle: NSLocalizedString("alert_button_close"))
             }
         }
     }

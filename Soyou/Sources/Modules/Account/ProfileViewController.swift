@@ -101,8 +101,8 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     func logout() {
-        let alertView = SCLAlertView()
-        alertView.addButton(NSLocalizedString("alert_button_cancel"), actionBlock: nil)
+        let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
+        alertView.addButton(NSLocalizedString("alert_button_cancel")) {}
         alertView.addButton(NSLocalizedString("profile_vc_cell_logout_warning_sure")) { () -> Void in
             MBProgressHUD.showLoader(nil)
             DataManager.shared.logout({ (responseObject, error) in
@@ -113,11 +113,7 @@ extension ProfileViewController {
                 }
             })
         }
-        alertView.showWarning(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                              title: NSLocalizedString("profile_vc_cell_logout_warning_title"),
-                              subTitle: NSLocalizedString("profile_vc_cell_logout_warning"),
-                              closeButtonTitle: nil,
-                              duration: 0.0)
+        alertView.showWarning(NSLocalizedString("profile_vc_cell_logout_warning_title"), subTitle: NSLocalizedString("profile_vc_cell_logout_warning"))
     }
 
 }
@@ -216,15 +212,11 @@ extension ProfileViewController {
                             tfConfirmNewEmail.enabled = true
                             DataManager.showRequestFailedAlert(error)
                         } else {
-                            let alertView = SCLAlertView()
+                            let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
                             alertView.addButton(NSLocalizedString("alert_button_ok")) { () -> Void in
                                 simpleViewController.navigationController?.popViewControllerAnimated(true)
                             }
-                            alertView.showSuccess(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                                title: NSLocalizedString("alert_title_success"),
-                                subTitle: NSLocalizedString("profile_vc_change_email_alert_message"),
-                                closeButtonTitle: nil,
-                                duration: 0.0)
+                            alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("profile_vc_change_email_alert_message"))
                         }
                     })
                 }

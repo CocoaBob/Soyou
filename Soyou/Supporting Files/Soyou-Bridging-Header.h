@@ -31,12 +31,12 @@
 @import PageMenu;
 @import PFCarouselView;
 @import QNNetDiag;
-@import SCLAlertView_Objective_C;
+@import SCLAlertView;
 @import SMCalloutView;
 @import SSZipArchive;
 @import SVWebViewController;
 @import UICKeyChainStore;
-@import UIColor_HexRGB;
+@import UIColor_Hex_Swift;
 @import UIImage_ResizeMagick;
 @import UIView_Shake;
 @import ZoomInteractiveTransition;

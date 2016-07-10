@@ -186,17 +186,13 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             
             // Show alert to open App Store
             if self.newVersionAlert == nil {
-                self.newVersionAlert = SCLAlertView()
+                self.newVersionAlert = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
                 self.newVersionAlert!.addButton(NSLocalizedString("app_new_version_app_store")) { () -> Void in
                     self.newVersionAlert = nil
                     Utils.openAppStorePage()
                 }
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.newVersionAlert!.showNotice(UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController(),
-                        title: NSLocalizedString("alert_title_info"),
-                        subTitle: NSLocalizedString("app_new_version_available"),
-                        closeButtonTitle: nil,
-                        duration: 0.0)
+                    self.newVersionAlert!.showNotice(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("app_new_version_available"))
                 })
             }
             

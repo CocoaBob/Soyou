@@ -10,7 +10,7 @@ class SplashScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(hex: Cons.UI.colorBG)
+        self.view.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
     }
     
     override func viewWillAppear(animated: Bool) {
