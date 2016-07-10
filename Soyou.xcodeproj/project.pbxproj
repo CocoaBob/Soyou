@@ -81,6 +81,19 @@
 		4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */; };
 		4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */; };
 		4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */; };
+		4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1EB1D30FACD00287873 /* DDAuthItem.m */; };
+		4597B2361D30FACE00287873 /* DDLinkupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1ED1D30FACD00287873 /* DDLinkupItem.m */; };
+		4597B2371D30FACE00287873 /* UIImage+Zoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1F31D30FACD00287873 /* UIImage+Zoom.m */; };
+		4597B2381D30FACE00287873 /* DDFacebookHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1F61D30FACD00287873 /* DDFacebookHandler.m */; };
+		4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1F91D30FACD00287873 /* DDGoogleHandler.m */; };
+		4597B23A1D30FACE00287873 /* DDSocialAuthHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1FC1D30FACD00287873 /* DDSocialAuthHandler.m */; };
+		4597B23B1D30FACE00287873 /* DDSocialShareHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1FE1D30FACD00287873 /* DDSocialShareHandler.m */; };
+		4597B23E1D30FACE00287873 /* DDSinaHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2071D30FACD00287873 /* DDSinaHandler.m */; };
+		4597B23F1D30FACE00287873 /* DDTencentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B20B1D30FACD00287873 /* DDTencentHandler.m */; };
+		4597B2401D30FACE00287873 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */; };
+		4597B2411D30FACE00287873 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4597B20E1D30FACD00287873 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2111D30FACD00287873 /* DDTwitterHandler.m */; };
+		4597B2431D30FACE00287873 /* DDWeChatHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2141D30FACD00287873 /* DDWeChatHandler.m */; };
 		459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */; };
 		459E90DA1D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 459E90D91D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel */; };
 		45A41B4F1C9F372A00D48185 /* NSUserDefaults+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A41B4E1C9F372A00D48185 /* NSUserDefaults+Additions.swift */; };
@@ -124,7 +137,7 @@
 		45F5C2A71D01DFA70024B5DF /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F5C29F1D01DFA70024B5DF /* NewsViewController.swift */; };
 		45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */; };
 		45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FACD501CF50A710040C252 /* FavoriteDiscount.swift */; };
-		8F81742820BABB99099E4322 /* libPods-Soyou.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA602819091A0C5125639F6F /* libPods-Soyou.a */; };
+		9EDE717D30EC667F70A3597D /* Pods_Soyou.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A578697FC371752A3977EFF8 /* Pods_Soyou.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -221,6 +234,34 @@
 		4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellSectionHeader.xib; sourceTree = "<group>"; };
 		4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellCenterTitle.xib; sourceTree = "<group>"; };
 		4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellIconTitle.xib; sourceTree = "<group>"; };
+		4597B1EA1D30FACD00287873 /* DDAuthItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAuthItem.h; sourceTree = "<group>"; };
+		4597B1EB1D30FACD00287873 /* DDAuthItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAuthItem.m; sourceTree = "<group>"; };
+		4597B1EC1D30FACD00287873 /* DDLinkupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLinkupItem.h; sourceTree = "<group>"; };
+		4597B1ED1D30FACD00287873 /* DDLinkupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLinkupItem.m; sourceTree = "<group>"; };
+		4597B1EE1D30FACD00287873 /* DDSocialEventDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSocialEventDefs.h; sourceTree = "<group>"; };
+		4597B1EF1D30FACD00287873 /* DDSocialHandlerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSocialHandlerProtocol.h; sourceTree = "<group>"; };
+		4597B1F01D30FACD00287873 /* DDSocialShareContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSocialShareContentProtocol.h; sourceTree = "<group>"; };
+		4597B1F11D30FACD00287873 /* DDSocialTypeDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSocialTypeDefs.h; sourceTree = "<group>"; };
+		4597B1F21D30FACD00287873 /* UIImage+Zoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Zoom.h"; sourceTree = "<group>"; };
+		4597B1F31D30FACD00287873 /* UIImage+Zoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Zoom.m"; sourceTree = "<group>"; };
+		4597B1F51D30FACD00287873 /* DDFacebookHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFacebookHandler.h; sourceTree = "<group>"; };
+		4597B1F61D30FACD00287873 /* DDFacebookHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFacebookHandler.m; sourceTree = "<group>"; };
+		4597B1F81D30FACD00287873 /* DDGoogleHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDGoogleHandler.h; sourceTree = "<group>"; };
+		4597B1F91D30FACD00287873 /* DDGoogleHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDGoogleHandler.m; sourceTree = "<group>"; };
+		4597B1FB1D30FACD00287873 /* DDSocialAuthHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSocialAuthHandler.h; sourceTree = "<group>"; };
+		4597B1FC1D30FACD00287873 /* DDSocialAuthHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSocialAuthHandler.m; sourceTree = "<group>"; };
+		4597B1FD1D30FACD00287873 /* DDSocialShareHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSocialShareHandler.h; sourceTree = "<group>"; };
+		4597B1FE1D30FACD00287873 /* DDSocialShareHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSocialShareHandler.m; sourceTree = "<group>"; };
+		4597B2061D30FACD00287873 /* DDSinaHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSinaHandler.h; sourceTree = "<group>"; };
+		4597B2071D30FACD00287873 /* DDSinaHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDSinaHandler.m; sourceTree = "<group>"; };
+		4597B20A1D30FACD00287873 /* DDTencentHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTencentHandler.h; sourceTree = "<group>"; };
+		4597B20B1D30FACD00287873 /* DDTencentHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTencentHandler.m; sourceTree = "<group>"; };
+		4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		4597B20E1D30FACD00287873 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		4597B2101D30FACD00287873 /* DDTwitterHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTwitterHandler.h; sourceTree = "<group>"; };
+		4597B2111D30FACD00287873 /* DDTwitterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTwitterHandler.m; sourceTree = "<group>"; };
+		4597B2131D30FACD00287873 /* DDWeChatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDWeChatHandler.h; sourceTree = "<group>"; };
+		4597B2141D30FACD00287873 /* DDWeChatHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDWeChatHandler.m; sourceTree = "<group>"; };
 		459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AFNetworking+Additions.swift"; sourceTree = "<group>"; };
 		459E90D91D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel_1.4_1.5.xcmappingmodel; sourceTree = "<group>"; };
 		45A41B4E1C9F372A00D48185 /* NSUserDefaults+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+Additions.swift"; sourceTree = "<group>"; };
@@ -268,8 +309,8 @@
 		45FACD4F1CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteDiscount+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		45FACD501CF50A710040C252 /* FavoriteDiscount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDiscount.swift; sourceTree = "<group>"; };
 		462473FC94E32BEE53A41955 /* Pods-Soyou.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soyou.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Soyou/Pods-Soyou.debug.xcconfig"; sourceTree = "<group>"; };
+		A578697FC371752A3977EFF8 /* Pods_Soyou.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Soyou.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A89E907C840F3D4707B5726D /* Pods-Soyou.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Soyou.release.xcconfig"; path = "Pods/Target Support Files/Pods-Soyou/Pods-Soyou.release.xcconfig"; sourceTree = "<group>"; };
-		FA602819091A0C5125639F6F /* libPods-Soyou.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Soyou.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,9 +328,10 @@
 				0D1DF0851C1DCF6900574D98 /* libc++.tbd in Frameworks */,
 				0D1DF0831C1DCF5600574D98 /* libsqlite3.0.tbd in Frameworks */,
 				0D1DF0811C1DCF4800574D98 /* libz.tbd in Frameworks */,
+				4597B2401D30FACE00287873 /* TencentOpenAPI.framework in Frameworks */,
 				0D1DF07F1C1DCF3C00574D98 /* SystemConfiguration.framework in Frameworks */,
 				0D1DF07B1C1DCA8800574D98 /* CoreTelephony.framework in Frameworks */,
-				8F81742820BABB99099E4322 /* libPods-Soyou.a in Frameworks */,
+				9EDE717D30EC667F70A3597D /* Pods_Soyou.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +533,137 @@
 			path = CustomUI;
 			sourceTree = "<group>";
 		};
+		4597B1E51D30FACD00287873 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				4597B1E61D30FACD00287873 /* DDSocial */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		4597B1E61D30FACD00287873 /* DDSocial */ = {
+			isa = PBXGroup;
+			children = (
+				4597B1E81D30FACD00287873 /* DDSocial */,
+			);
+			path = DDSocial;
+			sourceTree = "<group>";
+		};
+		4597B1E81D30FACD00287873 /* DDSocial */ = {
+			isa = PBXGroup;
+			children = (
+				4597B1E91D30FACD00287873 /* Core */,
+				4597B1F41D30FACD00287873 /* Facebook */,
+				4597B1F71D30FACD00287873 /* Google */,
+				4597B1FA1D30FACD00287873 /* Handler */,
+				4597B2051D30FACD00287873 /* Sina */,
+				4597B2081D30FACD00287873 /* Tencent */,
+				4597B20F1D30FACD00287873 /* Twitter */,
+				4597B2121D30FACD00287873 /* Wechat */,
+			);
+			path = DDSocial;
+			sourceTree = "<group>";
+		};
+		4597B1E91D30FACD00287873 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				4597B1EA1D30FACD00287873 /* DDAuthItem.h */,
+				4597B1EB1D30FACD00287873 /* DDAuthItem.m */,
+				4597B1EC1D30FACD00287873 /* DDLinkupItem.h */,
+				4597B1ED1D30FACD00287873 /* DDLinkupItem.m */,
+				4597B1EE1D30FACD00287873 /* DDSocialEventDefs.h */,
+				4597B1EF1D30FACD00287873 /* DDSocialHandlerProtocol.h */,
+				4597B1F01D30FACD00287873 /* DDSocialShareContentProtocol.h */,
+				4597B1F11D30FACD00287873 /* DDSocialTypeDefs.h */,
+				4597B1F21D30FACD00287873 /* UIImage+Zoom.h */,
+				4597B1F31D30FACD00287873 /* UIImage+Zoom.m */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		4597B1F41D30FACD00287873 /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				4597B1F51D30FACD00287873 /* DDFacebookHandler.h */,
+				4597B1F61D30FACD00287873 /* DDFacebookHandler.m */,
+			);
+			path = Facebook;
+			sourceTree = "<group>";
+		};
+		4597B1F71D30FACD00287873 /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				4597B1F81D30FACD00287873 /* DDGoogleHandler.h */,
+				4597B1F91D30FACD00287873 /* DDGoogleHandler.m */,
+			);
+			path = Google;
+			sourceTree = "<group>";
+		};
+		4597B1FA1D30FACD00287873 /* Handler */ = {
+			isa = PBXGroup;
+			children = (
+				4597B1FB1D30FACD00287873 /* DDSocialAuthHandler.h */,
+				4597B1FC1D30FACD00287873 /* DDSocialAuthHandler.m */,
+				4597B1FD1D30FACD00287873 /* DDSocialShareHandler.h */,
+				4597B1FE1D30FACD00287873 /* DDSocialShareHandler.m */,
+			);
+			path = Handler;
+			sourceTree = "<group>";
+		};
+		4597B2051D30FACD00287873 /* Sina */ = {
+			isa = PBXGroup;
+			children = (
+				4597B2061D30FACD00287873 /* DDSinaHandler.h */,
+				4597B2071D30FACD00287873 /* DDSinaHandler.m */,
+			);
+			path = Sina;
+			sourceTree = "<group>";
+		};
+		4597B2081D30FACD00287873 /* Tencent */ = {
+			isa = PBXGroup;
+			children = (
+				4597B2091D30FACD00287873 /* Handler */,
+				4597B20C1D30FACD00287873 /* TencentSDK */,
+			);
+			path = Tencent;
+			sourceTree = "<group>";
+		};
+		4597B2091D30FACD00287873 /* Handler */ = {
+			isa = PBXGroup;
+			children = (
+				4597B20A1D30FACD00287873 /* DDTencentHandler.h */,
+				4597B20B1D30FACD00287873 /* DDTencentHandler.m */,
+			);
+			path = Handler;
+			sourceTree = "<group>";
+		};
+		4597B20C1D30FACD00287873 /* TencentSDK */ = {
+			isa = PBXGroup;
+			children = (
+				4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */,
+				4597B20E1D30FACD00287873 /* TencentOpenApi_IOS_Bundle.bundle */,
+			);
+			path = TencentSDK;
+			sourceTree = "<group>";
+		};
+		4597B20F1D30FACD00287873 /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				4597B2101D30FACD00287873 /* DDTwitterHandler.h */,
+				4597B2111D30FACD00287873 /* DDTwitterHandler.m */,
+			);
+			path = Twitter;
+			sourceTree = "<group>";
+		};
+		4597B2121D30FACD00287873 /* Wechat */ = {
+			isa = PBXGroup;
+			children = (
+				4597B2131D30FACD00287873 /* DDWeChatHandler.h */,
+				4597B2141D30FACD00287873 /* DDWeChatHandler.m */,
+			);
+			path = Wechat;
+			sourceTree = "<group>";
+		};
 		459E90D61D02D41000FEDC3A /* Migration */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,6 +691,7 @@
 		45E7CE021BF8C05F00FAB7D6 = {
 			isa = PBXGroup;
 			children = (
+				4597B1E51D30FACD00287873 /* Vendor */,
 				4568E28E1BF90797009A6164 /* Resources */,
 				4568E2901BF90797009A6164 /* Sources */,
 				4568E29C1BF90797009A6164 /* Supporting Files */,
@@ -609,7 +783,7 @@
 				0D1DF07E1C1DCF3C00574D98 /* SystemConfiguration.framework */,
 				0D1DF07C1C1DCDD400574D98 /* libc++.1.dylib */,
 				0D1DF07A1C1DCA8800574D98 /* CoreTelephony.framework */,
-				FA602819091A0C5125639F6F /* libPods-Soyou.a */,
+				A578697FC371752A3977EFF8 /* Pods_Soyou.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -670,6 +844,7 @@
 			knownRegions = (
 				en,
 				"zh-Hans",
+				Base,
 			);
 			mainGroup = 45E7CE021BF8C05F00FAB7D6;
 			productRefGroup = 45E7CE0C1BF8C05F00FAB7D6 /* Products */;
@@ -699,6 +874,7 @@
 				456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */,
 				0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */,
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
+				4597B2411D30FACE00287873 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,
@@ -833,18 +1009,24 @@
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
 				45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
+				4597B2371D30FACE00287873 /* UIImage+Zoom.m in Sources */,
 				45F5C2A01D01DFA70024B5DF /* DiscountDetailViewController.swift in Sources */,
 				456BCABE1C5D1AD200590295 /* ClusterAnnotationView.swift in Sources */,
+				4597B2431D30FACE00287873 /* DDWeChatHandler.m in Sources */,
+				4597B23E1D30FACE00287873 /* DDSinaHandler.m in Sources */,
 				0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */,
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
 				45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */,
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
 				4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */,
+				4597B2381D30FACE00287873 /* DDFacebookHandler.m in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
+				4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */,
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
 				456833B91D3009EA006A5B3F /* InfoCommentsViewController.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
+				4597B2361D30FACE00287873 /* DDLinkupItem.m in Sources */,
 				459E90DA1D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel in Sources */,
 				45FACD511CF50A710040C252 /* FavoriteDiscount+CoreDataProperties.swift in Sources */,
 				45BED0911C8A3DDF002E375B /* DataManager.swift in Sources */,
@@ -861,10 +1043,12 @@
 				45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
 				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
+				4597B23F1D30FACE00287873 /* DDTencentHandler.m in Sources */,
 				4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */,
 				45F5C2A51D01DFA70024B5DF /* InfoViewController.swift in Sources */,
 				4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
+				4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */,
 				45F5C2A31D01DFA70024B5DF /* InfoListBaseViewController.swift in Sources */,
 				45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */,
 				454499271C6601350075DE82 /* AppData.swift in Sources */,
@@ -889,6 +1073,7 @@
 				45034D131C29954D00026027 /* WeChatActivityGeneral.swift in Sources */,
 				4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */,
 				45D418AD1C1B935200685DFC /* Brand.swift in Sources */,
+				4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */,
 				457777831BFCB60100805D79 /* News.swift in Sources */,
 				45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */,
 				45F3302C1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift in Sources */,
@@ -896,10 +1081,12 @@
 				0D05D65B1C4EE91400D8A7C2 /* CurrencyRate.swift in Sources */,
 				45B77BE81C792B54002FBAFE /* MKPlacemark+Additions.swift in Sources */,
 				454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */,
+				4597B23A1D30FACE00287873 /* DDSocialAuthHandler.m in Sources */,
 				45E67EE11C58EB0500806929 /* FavoriteNews.swift in Sources */,
 				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 				454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */,
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,
+				4597B23B1D30FACE00287873 /* DDSocialShareHandler.m in Sources */,
 				4525C0F71C5B8B4200C26992 /* Store+CoreDataProperties.swift in Sources */,
 				45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */,
 				45034D121C29954D00026027 /* SharingProvider.swift in Sources */,
@@ -1019,7 +1206,15 @@
 			baseConfigurationReference = 462473FC94E32BEE53A41955 /* Pods-Soyou.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/DDSocial/DDSocial/MiLiao/MiLiaoSDK",
+					"$(PROJECT_DIR)/Vendor/DDSocial/DDSocial/Tencent/TencentSDK",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
 				INFOPLIST_FILE = "Soyou/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";
@@ -1034,7 +1229,15 @@
 			baseConfigurationReference = A89E907C840F3D4707B5726D /* Pods-Soyou.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/DDSocial/DDSocial/MiLiao/MiLiaoSDK",
+					"$(PROJECT_DIR)/Vendor/DDSocial/DDSocial/Tencent/TencentSDK",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
 				INFOPLIST_FILE = "Soyou/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";

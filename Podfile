@@ -1,15 +1,10 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-#use_frameworks!
+use_frameworks!
 platform :ios, '8.0'
 project "Soyou"
 
 inhibit_all_warnings!
-
-#pre_install do |installer|
-#    # workaround for https://github.com/CocoaPods/CocoaPods/issues/3289
-#    def installer.verify_no_static_framework_transitive_dependencies; end
-#end
 
 target :'Soyou' do
 	pod "1PasswordExtension"
@@ -35,7 +30,6 @@ target :'Soyou' do
 	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :commit => 'bad0864b06019d764519dab9a53409de889c87fc'
 	pod "SSZipArchive"
 	pod "SVWebViewController"
-#    pod "SwiftyJSON"
 	pod "UICKeyChainStore"
 	pod "UIColor-HexRGB"
 	pod "UIImage-ResizeMagick"
@@ -48,12 +42,14 @@ target :'Soyou' do
 	pod "Crashlytics"
 
     #SNS SDKs
-    pod "DDSocial/Auth",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-    pod "DDSocial/Share",   :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-    pod "DDSocial/Tencent", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-    pod "DDSocial/Wechat",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-    pod "DDSocial/Sina",    :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-    pod "DDSocial/Facebook",:git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-    pod "DDSocial/Twitter", :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
-    pod "DDSocial/Google",  :git => 'git://github.com/CocoaBob/DDSocial', :commit => '0dd31527a0547dd854e5b8604d004c6c8762298a'
+    pod "DDThirdShareLibrary/TencentSDK"
+    pod "libWeChatSDK"
+    pod "WeiboSDK", '~> 3.1.3'
+    pod "FBSDKLoginKit"
+    pod "FBSDKShareKit"
+    pod "TwitterKit",'~> 2'
+    pod "Google/SignIn"
+    
+#    pod "Alamofire"
+#    pod "SwiftyJSON"
 end

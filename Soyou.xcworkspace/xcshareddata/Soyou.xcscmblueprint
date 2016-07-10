@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "791D845B930268E6576C260088A18303DA2C03C1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2CAEFCA3829662041100207769B651C58986CD37" : 0,
+    "791D845B930268E6576C260088A18303DA2C03C1" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "40E8B20A-6D58-4D17-88A0-AF11AA063332",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2CAEFCA3829662041100207769B651C58986CD37" : "Soyou\/Vendor\/DDSocial\/",
+    "791D845B930268E6576C260088A18303DA2C03C1" : "Soyou\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Soyou",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Soyou.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:CocoaBob\/DDSocial.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2CAEFCA3829662041100207769B651C58986CD37"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:CocoaBob\/Soyou.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "791D845B930268E6576C260088A18303DA2C03C1"
+    }
+  ]
+}

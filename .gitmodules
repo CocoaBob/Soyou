@@ -1,0 +1,3 @@
+[submodule "Vendor/DDSocial"]
+	path = Vendor/DDSocial
+	url = git@github.com:CocoaBob/DDSocial.git

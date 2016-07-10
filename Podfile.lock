@@ -36,26 +36,7 @@ PODS:
   - Crashlytics (3.7.2):
     - Fabric (~> 1.6.3)
   - DACircularProgress (2.3.1)
-  - DDSocial/Auth (1.1.0)
-  - DDSocial/Core (1.1.0)
-  - DDSocial/Facebook (1.1.0):
-    - DDSocial/Core
-    - FBSDKLoginKit (~> 4)
-    - FBSDKShareKit (~> 4)
-  - DDSocial/Google (1.1.0):
-    - Google/SignIn (~> 2.0.3)
-  - DDSocial/Share (1.1.0)
-  - DDSocial/Sina (1.1.0):
-    - DDSocial/Core
-    - WeiboSDK (~> 3.1.3)
-  - DDSocial/Tencent (1.1.0):
-    - DDSocial/Core
-  - DDSocial/Twitter (1.1.0):
-    - DDSocial/Core
-    - TwitterKit (~> 2)
-  - DDSocial/Wechat (1.1.0):
-    - DDSocial/Core
-    - libWeChatSDK
+  - DDThirdShareLibrary/TencentSDK (0.0.9)
   - EAIntroView (2.9.0):
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
@@ -68,15 +49,18 @@ PODS:
     - FBSDKCoreKit
   - FCUUID (1.2.0):
     - UICKeyChainStore (~> 2.1.0)
+  - FirebaseAnalytics (3.2.1):
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.3)
+  - FirebaseInstanceID (1.0.7)
   - FlagKit (1.0.7)
-  - Google/Core (2.0.4):
-    - GoogleInterchangeUtilities (~> 1.0)
-    - GoogleNetworkingUtilities (~> 1.0)
-    - GoogleSymbolUtilities (~> 1.0)
-    - GoogleUtilities (~> 1.1)
-  - Google/SignIn (2.0.4):
+  - Google/Core (3.0.3):
+    - FirebaseAnalytics (~> 3.2)
+  - Google/SignIn (3.0.3):
     - Google/Core
-    - GoogleSignIn (~> 3.0)
+    - GoogleSignIn (~> 4.0)
   - GoogleAppUtilities (1.1.1):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleAuthUtilities (2.0.1):
@@ -86,11 +70,11 @@ PODS:
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleNetworkingUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSignIn (3.0.0):
-    - GoogleAppUtilities (~> 1.0)
+  - GoogleSignIn (4.0.0):
+    - GoogleAppUtilities (~> 1.1)
     - GoogleAuthUtilities (~> 2.0)
-    - GoogleNetworkingUtilities (~> 1.0)
-    - GoogleUtilities (~> 1.0)
+    - GoogleNetworkingUtilities (~> 1.2)
+    - GoogleUtilities (~> 1.3)
   - GoogleSymbolUtilities (1.1.1)
   - GoogleUtilities (1.3.1):
     - GoogleSymbolUtilities (~> 1.0)
@@ -136,19 +120,16 @@ DEPENDENCIES:
   - CCHMapClusterController
   - CHTCollectionViewWaterfallLayout
   - Crashlytics
-  - DDSocial/Auth (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
-  - DDSocial/Facebook (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
-  - DDSocial/Google (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
-  - DDSocial/Share (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
-  - DDSocial/Sina (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
-  - DDSocial/Tencent (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
-  - DDSocial/Twitter (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
-  - DDSocial/Wechat (from `git://github.com/CocoaBob/DDSocial`, commit `0dd31527a0547dd854e5b8604d004c6c8762298a`)
+  - DDThirdShareLibrary/TencentSDK
   - EAIntroView
   - Fabric
+  - FBSDKLoginKit
+  - FBSDKShareKit
   - FCUUID
   - FlagKit (from `https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec`)
+  - Google/SignIn
   - IDMPhotoBrowser
+  - libWeChatSDK
   - MagicalRecord (~> 2.3)
   - MBProgressHUD
   - MJRefresh
@@ -162,16 +143,15 @@ DEPENDENCIES:
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
   - SSZipArchive
   - SVWebViewController
+  - TwitterKit (~> 2)
   - UICKeyChainStore
   - UIColor-HexRGB
   - UIImage-ResizeMagick
   - UIView+Shake
+  - WeiboSDK (~> 3.1.3)
   - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
-  DDSocial:
-    :commit: 0dd31527a0547dd854e5b8604d004c6c8762298a
-    :git: git://github.com/CocoaBob/DDSocial
   FlagKit:
     :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
     :podspec: https://raw.githubusercontent.com/CocoaBob/FlagKit/master/FlagKit-ObjC.podspec
@@ -186,9 +166,6 @@ EXTERNAL SOURCES:
     :git: git://github.com/CocoaBob/calloutview
 
 CHECKOUT OPTIONS:
-  DDSocial:
-    :commit: 0dd31527a0547dd854e5b8604d004c6c8762298a
-    :git: git://github.com/CocoaBob/DDSocial
   FlagKit:
     :commit: aeb22458164a7c176b81be5886f0d81c777ac5c7
     :git: https://github.com/CocoaBob/FlagKit.git
@@ -212,7 +189,7 @@ SPEC CHECKSUMS:
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  DDSocial: 48636bfb69c3facbe22d70a50abb3536e920751c
+  DDThirdShareLibrary: c87b0b8f78c957b5bf73214e6d9535b8acd6c910
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
@@ -220,13 +197,15 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 6d350cb6a22d6956e9d078885de6ee8a0ebc51b4
   FBSDKShareKit: c9438df7573b33780ac8c3451201c5ebb260ffca
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
+  FirebaseAnalytics: 0fd6532cb2c3d03cd5cf26ad295ccb091efd3104
+  FirebaseInstanceID: a9d923f3d0b6fbf9fac89310860357aaadc34be5
   FlagKit: 1dc8b413f11f48ce38b2c800eae542f49b1da926
-  Google: d0932824c5b97c96be489aa6f4e8cd6c294d637d
+  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
   GoogleAuthUtilities: d7a19615cd7627688afcf181737f1011ee8b5a23
   GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
   GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
-  GoogleSignIn: 3d571172b8603be39dcb1705d8217146bb76fe62
+  GoogleSignIn: 09036ed61f8e75f1424100d63f7719480b2428c3
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
   IDMPhotoBrowser: b574fe3229754e701f32df271afbc4ac7e4e1997
@@ -254,6 +233,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: 8a4a0fe9cff33452c057744df286e987c314840a
+PODFILE CHECKSUM: 29c33c9df24aad4e6122ea0c5f52330bbe538c48
 
 COCOAPODS: 1.0.1
