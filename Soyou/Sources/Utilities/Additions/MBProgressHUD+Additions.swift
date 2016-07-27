@@ -11,28 +11,31 @@ extension MBProgressHUD {
     
     class func showLoader(view: UIView?) -> MBProgressHUD? {
         var progressHUD: MBProgressHUD?
-        let hideClosure = {
-            progressHUD = MBProgressHUD.showHUDAddedTo(view ?? UIApplication.sharedApplication().delegate?.window!, animated: true)
+        let closure = {
+            progressHUD = MBProgressHUD.showHUDAddedTo(view ?? UIApplication.sharedApplication().keyWindow!, animated: true)
+            progressHUD?.contentColor = UIColor.whiteColor()
+            progressHUD?.bezelView.style = MBProgressHUDBackgroundStyle.SolidColor
+            progressHUD?.bezelView.color = UIColor(white: 0, alpha: 0.667)
         }
         if NSThread.isMainThread() {
-            hideClosure()
+            closure()
         } else {
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                hideClosure()
+                closure()
             })
         }
         return progressHUD
     }
     
     class func hideLoader(view: UIView?) {
-        let hideClosure = {
-            MBProgressHUD.hideAllHUDsForView(view ?? UIApplication.sharedApplication().delegate?.window!, animated: true)
+        let closure = {
+            MBProgressHUD.hideHUDForView(view ?? UIApplication.sharedApplication().keyWindow!, animated: true)
         }
         if NSThread.isMainThread() {
-            hideClosure()
+            closure()
         } else {
             dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                hideClosure()
+                closure()
             })
         }
     }
