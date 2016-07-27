@@ -20,7 +20,7 @@ target :'Soyou' do
 	pod "MagicalRecord", '~> 2.3'
 	pod "MBProgressHUD"
 	pod "MJRefresh"
-	pod "MXParallaxHeader"
+	pod "MXParallaxHeader", :git => 'git://github.com/developforapple/MXParallaxHeader', :commit => '1491e2b86b1112a560f2dc78b3437299293ef60e'
 	pod "NYSegmentedControl"
 	pod "PageMenu"
 	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '880826c7f361c3065ca23a4696a4d19d7e1da6d3'
