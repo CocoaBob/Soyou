@@ -149,8 +149,11 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     
     override func comment() {
         let commentsViewController = InfoCommentsViewController.instantiate()
-        commentsViewController.dataProvider = { () -> (AnyObject) in
-            return ""
+        commentsViewController.infoID = self.infoID
+        commentsViewController.dataProvider = { (completion: ((data: AnyObject?) -> ())) -> () in
+            DataManager.shared.requestCommentsForDiscount(self.infoID, 5, 0, { (data, error) in
+                completion(data: data)
+            })
         }
         self.navigationController?.pushViewController(commentsViewController, animated: true)
     }

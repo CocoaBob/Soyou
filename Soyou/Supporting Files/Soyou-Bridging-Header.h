@@ -35,6 +35,7 @@
 @import SMCalloutView;
 @import SSZipArchive;
 @import SVWebViewController;
+@import SwiftyJSON;
 @import UICKeyChainStore;
 @import UIColor_Hex_Swift;
 @import UIImage_ResizeMagick;

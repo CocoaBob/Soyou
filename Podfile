@@ -29,7 +29,8 @@ target :'Soyou' do
 	pod "SDWebImage"
 	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :commit => 'bad0864b06019d764519dab9a53409de889c87fc'
 	pod "SSZipArchive"
-	pod "SVWebViewController"
+    pod "SVWebViewController"
+    pod "SwiftyJSON"
 	pod "UICKeyChainStore"
 	pod "UIColor_Hex_Swift"
 	pod "UIImage-ResizeMagick"
@@ -51,5 +52,4 @@ target :'Soyou' do
     pod "Google/SignIn"
     
 #    pod "Alamofire"
-#    pod "SwiftyJSON"
 end

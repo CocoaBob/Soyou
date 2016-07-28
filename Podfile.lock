@@ -101,6 +101,7 @@ PODS:
   - SMCalloutView (2.1.5)
   - SSZipArchive (1.4)
   - SVWebViewController (1.0)
+  - SwiftyJSON (2.3.2)
   - TwitterCore (2.3.0):
     - Fabric
   - TwitterKit (2.3.0):
@@ -143,6 +144,7 @@ DEPENDENCIES:
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
   - SSZipArchive
   - SVWebViewController
+  - SwiftyJSON
   - TwitterKit (~> 2)
   - UICKeyChainStore
   - UIColor_Hex_Swift
@@ -218,6 +220,7 @@ SPEC CHECKSUMS:
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SSZipArchive: bab21000ee11b7ba68d5880bcd87d80e4eb93e65
   SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
@@ -227,6 +230,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: 328d9f75ff4a552d21ee63855d12f786f4a008c3
+PODFILE CHECKSUM: 8f0fb4a50d4348b4640f72395eb10b51ce5d63f7
 
 COCOAPODS: 1.0.1

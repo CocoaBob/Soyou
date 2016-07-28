@@ -440,7 +440,7 @@ class DataManager {
         })
     }
     
-    func requestCommentsForDiscount(id: NSNumber, count: Int, _ relativeID: NSNumber = 0, _ completion: CompletionClosure?) {
+    func requestCommentsForDiscount(id: NSNumber, _ count: Int, _ relativeID: NSNumber = 0, _ completion: CompletionClosure?) {
         RequestManager.shared.requestCommentsForDiscount(id, count, relativeID, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in

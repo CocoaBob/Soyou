@@ -340,7 +340,7 @@ extension UIViewController {
 // MARK: Routines
 extension UIViewController {
 
-    func dismissSelf() {
+    @IBAction func dismissSelf() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
