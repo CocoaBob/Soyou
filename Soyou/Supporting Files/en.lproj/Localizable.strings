@@ -23,6 +23,16 @@
 "info_vc_title"="Info";
 "info_vc_tab_title"="Info";
 
+/* Comments View Controller */
+"comments_vc_title"="Comments";
+"comments_vc_write_comment"="Write comment";
+"comments_vc_menu_reply"="Reply";
+
+/* New comment View Controller */
+"new_comment_vc_title_reply"="Reply to %@";
+"new_comment_vc_title_new"="Write comment";
+"new_comment_vc_title_post"="Post";
+
 /* News View Controller */
 "news_vc_title"="News";
 

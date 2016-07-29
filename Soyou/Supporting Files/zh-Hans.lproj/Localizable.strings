@@ -25,6 +25,16 @@
 "info_vc_title"="资讯";
 "info_vc_tab_title"="资讯";
 
+/* Comments View Controller */
+"comments_vc_title"="点评";
+"comments_vc_write_comment"="写评论";
+"comments_vc_menu_reply"="回复";
+
+/* New comment View Controller */
+"new_comment_vc_title_reply"="回复%@";
+"new_comment_vc_title_new"="写评论";
+"new_comment_vc_title_post"="发布";
+
 /* News View Controller */
 "news_vc_title"="资讯";
 

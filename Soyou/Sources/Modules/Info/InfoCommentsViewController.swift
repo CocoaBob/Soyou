@@ -76,9 +76,27 @@ class InfoCommentsViewController: UIViewController {
         return (UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewControllerWithIdentifier("InfoCommentsViewController") as? InfoCommentsViewController)!
     }
     
+    // UIViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = NSLocalizedString("comments_vc_title")
+        
+        // Setup table
+        self.tableView.estimatedRowHeight = 44.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        // Setup context menu
+        let reply = UIMenuItem(title: NSLocalizedString("comments_vc_menu_reply"), action: #selector(InfoCommentsTableViewCell.reply))
+        UIMenuController.sharedMenuController().menuItems = [reply]
+        UIMenuController.sharedMenuController().update()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillAppear(animated)
+        self.hideToolbar(false)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -132,6 +150,7 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = (tableView.dequeueReusableCellWithIdentifier("InfoCommentsTableViewCell", forIndexPath: indexPath) as? InfoCommentsTableViewCell)!
+        cell.infoCommentsViewController = self
         
         let comment = self.commentsByID[self.commentIDs[indexPath.row]]!
         var parent: Comment?
@@ -147,6 +166,23 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return }
+        
+        cell.becomeFirstResponder()
+        UIMenuController.sharedMenuController().setTargetRect(cell.bounds, inView: cell)
+        UIMenuController.sharedMenuController().setMenuVisible(true, animated: true)
+    }
+    
+    // MARK: Context menu
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
     }
 }
 
@@ -154,46 +190,74 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
 extension InfoCommentsViewController {
     
     @IBAction func writeComment() {
-        UserManager.shared.loginOrDo {
-            DataManager.shared.createCommentForDiscount(self.infoID, 0, "Test Comment at \(NSDate.timeIntervalSinceReferenceDate())") { (responseObject, error) in
-                self.reloadComments()
-            }
-        }
+        self.postNewComment(nil)
     }
 }
 
-// MARK: InfoNewCommentViewControllerDelegate {
+// MARK: Post new comments {
 extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
     
+    func postNewComment(replyToComment: Comment?) {
+        let infoNewCommentViewController = InfoNewCommentViewController.instantiate()
+        infoNewCommentViewController.infoID = self.infoID
+        infoNewCommentViewController.replyToComment = replyToComment
+        infoNewCommentViewController.delegate = self
+        self.navigationController?.pushViewController(infoNewCommentViewController, animated: true)
+    }
+    
     func didPostNewComment() {
-        
+        self.reloadComments()
     }
 }
 
 class InfoCommentsTableViewCell: UITableViewCell {
     @IBOutlet var lblUsername: UILabel!
-    @IBOutlet var lblContent: UILabel!
+    @IBOutlet var tvContent: UITextView!
+    var comment: Comment!
+    weak var infoCommentsViewController: InfoCommentsViewController!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.prepareForReuse()
+        self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     override func prepareForReuse() {
         self.lblUsername.text = nil
-        self.lblContent.text = nil
+        self.tvContent.text = nil
+    }
+    
+    override func canBecomeFirstResponder() -> Bool {
+        return true
     }
     
     func setup(comment: Comment, parent: Comment?) {
-        self.lblUsername.text = comment.matricule
+        self.comment = comment
+        self.lblUsername.text = comment.username
         var attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
         let attributedString = NSMutableAttributedString(string: comment.comment, attributes: attributes)
         if let parent = parent {
-            attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "\n//\(parent.matricule): ", attributes: attributes))
+            attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
+            attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\(parent.username): ", attributes: attributes))
             attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "//\(parent.comment)", attributes: attributes))
+            attributedString.appendAttributedString(NSMutableAttributedString(string: "\(parent.comment)", attributes: attributes))
         }
-        self.lblContent.attributedText = attributedString
+        self.tvContent.attributedText = attributedString
+    }
+    
+    // MARK: Context menu
+    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+        if action == #selector(NSObject.copy(_:)) || action == #selector(InfoCommentsTableViewCell.reply) {
+            return true
+        }
+        return false
+    }
+    
+    func reply() {
+        self.infoCommentsViewController.postNewComment(self.comment)
+    }
+    
+    override func copy(sender: AnyObject?) {
+        UIPasteboard.generalPasteboard().string = self.comment.comment
     }
 }
