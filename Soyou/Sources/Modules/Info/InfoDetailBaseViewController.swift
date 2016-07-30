@@ -151,6 +151,9 @@ class InfoDetailBaseViewController: UIViewController {
         
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
+        
+        // Update favorite/like/comments
+        self.updateExtraInfo()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

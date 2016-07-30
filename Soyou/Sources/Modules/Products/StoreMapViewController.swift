@@ -287,8 +287,8 @@ extension StoreMapViewController {
             
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             hud.mode = MBProgressHUDMode.Text
-            hud.labelText = NSLocalizedString("store_map_vc_address_copied")
-            hud.hide(true, afterDelay: 1)
+            hud.label.text = NSLocalizedString("store_map_vc_address_copied")
+            hud.hideAnimated(true, afterDelay: 1)
         }
         for annotation in self.mapView.selectedAnnotations {
             self.mapView.deselectAnnotation(annotation, animated: true)

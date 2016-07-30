@@ -18,7 +18,7 @@ class SplashScreenViewController: UIViewController {
         
         if let hud = MBProgressHUD.showLoader(self.view) {
             hud.mode = MBProgressHUDMode.Indeterminate
-            hud.labelText = NSLocalizedString("initializing_database")
+            hud.label.text = NSLocalizedString("initializing_database")
         }
     }
     

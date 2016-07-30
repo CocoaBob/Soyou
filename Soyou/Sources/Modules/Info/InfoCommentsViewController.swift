@@ -103,6 +103,7 @@ class InfoCommentsViewController: UIViewController {
         super.viewDidAppear(animated)
         
         self.reloadComments()
+        self.hideToolbar(false)
     }
 }
 

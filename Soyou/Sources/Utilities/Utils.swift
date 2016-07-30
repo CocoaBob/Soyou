@@ -137,8 +137,8 @@ extension Utils {
         
         // Show indicator
         if let progressHUD = MBProgressHUD.showLoader(keyWindow) {
-            progressHUD.labelText = NSLocalizedString("brands_vc_beedback_waiting_title")
-            progressHUD.detailsLabelText = NSLocalizedString("brands_vc_beedback_waiting_detail")
+            progressHUD.label.text = NSLocalizedString("brands_vc_beedback_waiting_title")
+            progressHUD.detailsLabel.text = NSLocalizedString("brands_vc_beedback_waiting_detail")
         }
         
         // Start traceroute
