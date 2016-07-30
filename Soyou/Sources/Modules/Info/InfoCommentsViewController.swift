@@ -151,6 +151,7 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = (tableView.dequeueReusableCellWithIdentifier("InfoCommentsTableViewCell", forIndexPath: indexPath) as? InfoCommentsTableViewCell)!
+        
         cell.infoCommentsViewController = self
         
         let comment = self.commentsByID[self.commentIDs[indexPath.row]]!
@@ -219,8 +220,9 @@ class InfoCommentsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.prepareForReuse()
         self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.prepareForReuse()
     }
     
     override func prepareForReuse() {
