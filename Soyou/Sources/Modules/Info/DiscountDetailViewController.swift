@@ -122,19 +122,21 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     }
     
     override func like() {
-        self.discount?.toggleLike() { (likeNumber: AnyObject?) -> () in
-            // Update like number
-            if let likeNumber = likeNumber as? NSNumber {
-                self.likeBtnNumber = likeNumber.integerValue
-            }
-            
-            // Update like color
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                let isLiked = self.discount?.MR_inContext(localContext)?.isLiked()
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.updateLikeBtnColor(isLiked)
+        UserManager.shared.loginOrDo() { () -> () in
+            self.discount?.toggleLike() { (likeNumber: AnyObject?) -> () in
+                // Update like number
+                if let likeNumber = likeNumber as? NSNumber {
+                    self.likeBtnNumber = likeNumber.integerValue
+                }
+                
+                // Update like color
+                MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                    let isLiked = self.discount?.MR_inContext(localContext)?.isLiked()
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.updateLikeBtnColor(isLiked)
+                    })
                 })
-            })
+            }
         }
     }
     
