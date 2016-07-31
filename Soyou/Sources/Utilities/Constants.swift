@@ -53,7 +53,6 @@ public struct Cons {
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
         static let updateInterval                           = 0.0                                       // 0 second
         static let productsPageSize                         = 100                                       // the number of products / page
-        static let lastServerIPAddress                      = "lastServerIPAddress"                     // Stored in NSUserDefaults, the IP address of the server
     }
     
     struct DB {
