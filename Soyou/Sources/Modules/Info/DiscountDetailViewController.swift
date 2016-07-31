@@ -147,9 +147,8 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override func comment() {
         let commentsViewController = InfoCommentsViewController.instantiate()
         commentsViewController.infoID = self.infoID
-        commentsViewController.dataProvider = { (completion: ((data: AnyObject?) -> ())) -> () in
-            // TODO: Load limited data, and automatically load next data
-            DataManager.shared.requestCommentsForDiscount(self.infoID, 100, 0, { (data, error) in
+        commentsViewController.dataProvider = { (relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> () in
+            DataManager.shared.requestCommentsForDiscount(self.infoID, Cons.Svr.commentRequestSize, relativeID, { (data, error) in
                 completion(data: data)
             })
         }

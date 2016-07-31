@@ -69,7 +69,16 @@ class InfoCommentsViewController: UIViewController {
     var commentsByID: [Int: Comment] = [Int: Comment]()
     @IBOutlet var tableView: UITableView!
     
-    var dataProvider: ((completion: ((data: AnyObject?) -> ())) -> ())?
+    var dataProvider: ((relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> ())?
+    var isCallingDataProvider = false {
+        didSet {
+            if isCallingDataProvider {
+                MBProgressHUD.showLoader(self.view)
+            } else {
+                MBProgressHUD.hideLoader(self.view)
+            }
+        }
+    }
     
     // Class methods
     class func instantiate() -> InfoCommentsViewController {
@@ -102,7 +111,7 @@ class InfoCommentsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.reloadComments()
+        self.loadData(nil)
         self.hideToolbar(false)
     }
 }
@@ -110,30 +119,43 @@ class InfoCommentsViewController: UIViewController {
 // MARK: Comments data
 extension InfoCommentsViewController {
     
-    private func reloadComments() {
+    private func loadData(relativeID: Int?) {
+        // Avoid multiple calling
+        if self.isCallingDataProvider {
+            return
+        }
         if let dataProvider = self.dataProvider {
-            MBProgressHUD.showLoader(self.view)
-            dataProvider(completion: { (responseObject) in
+            self.isCallingDataProvider = true
+            dataProvider(relativeID: relativeID, completion: { (responseObject) in
                 guard let responseObject = responseObject as? [String: AnyObject] else { return }
                 guard let data = responseObject["data"] else { return }
-                self.prepareCommentsData(data)
+                self.appendCommentsWithData(data)
                 self.tableView.reloadData()
-                MBProgressHUD.hideLoader(self.view)
+                self.isCallingDataProvider = false
             })
         }
     }
     
-    private func prepareCommentsData(data: AnyObject) {
+    private func loadNextData() {
+        self.loadData(self.commentIDs.last)
+    }
+    
+    private func appendCommentsWithData(data: AnyObject) {
         let json = JSON(data)
         if !json.isEmpty {
-            self.commentIDs.removeAll()
-            self.commentsByID.removeAll()
+            var tempCommentIDs: [Int] = [Int]()
+            var tempCommentsByID: [Int: Comment] = [Int: Comment]()
             for (_, item) in json {
                 let comment = Comment(json: item)
-                self.commentIDs.append(comment.id)
-                self.commentsByID[comment.id] = comment
+                tempCommentIDs.append(comment.id)
+                tempCommentsByID[comment.id] = comment
             }
-            self.commentIDs.sortInPlace()
+            let newIDs = tempCommentIDs.filter() { !self.commentIDs.contains($0) }
+            for id in newIDs {
+                self.commentIDs.append(id)
+                self.commentsByID[id] = tempCommentsByID[id]
+            }
+            self.commentIDs.sortInPlace(>)
         }
     }
 }
@@ -188,6 +210,17 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
+// MARK: UIScrollViewDelegate
+extension InfoCommentsViewController {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        // If it's the end of the scroll view
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.height - scrollView.contentInset.bottom) {
+            self.loadNextData()
+        }
+    }
+}
+
 // MARK: Actions
 extension InfoCommentsViewController {
     
@@ -208,7 +241,7 @@ extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
     }
     
     func didPostNewComment() {
-        self.reloadComments()
+        self.loadData(nil)
     }
 }
 

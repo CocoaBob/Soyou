@@ -319,7 +319,7 @@ class DataManager {
     }
     
     func requestNewsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestNewsList(Cons.Svr.reqCnt, relativeID, { responseObject in
+        RequestManager.shared.requestNewsList(Cons.Svr.infoRequestSize, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 News.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
                     // After importing, cache all news images
@@ -382,7 +382,7 @@ class DataManager {
     }
     
     func requestDiscountsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestDiscountsList(Cons.Svr.reqCnt, relativeID, { responseObject in
+        RequestManager.shared.requestDiscountsList(Cons.Svr.infoRequestSize, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 Discount.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
                     // After importing, cache all news images
@@ -440,7 +440,7 @@ class DataManager {
         })
     }
     
-    func requestCommentsForDiscount(id: NSNumber, _ count: Int, _ relativeID: NSNumber = 0, _ completion: CompletionClosure?) {
+    func requestCommentsForDiscount(id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
         RequestManager.shared.requestCommentsForDiscount(id, count, relativeID, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
