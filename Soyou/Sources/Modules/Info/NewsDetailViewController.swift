@@ -131,7 +131,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
             MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
                 let isLiked = self.news?.MR_inContext(localContext)?.isLiked()
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.updateLikeBtnColor(isLiked)
+                    self.updateLikeBtnColor(isLiked ?? false)
                 })
             })
         }

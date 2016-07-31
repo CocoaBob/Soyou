@@ -271,14 +271,14 @@ extension InfoDetailBaseViewController {
 // MARK: Like button
 extension InfoDetailBaseViewController {
     
-    func updateLikeBtnColor(appIsLiked: Bool?) {
+    func updateLikeBtnColor(isLiked: Bool) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            if appIsLiked != nil && appIsLiked!.boolValue {
-                self.btnLike.tintColor = UIColor(rgba: Cons.UI.colorLike)
-            } else {
-                self.btnLike.tintColor = UIToolbar.appearance().tintColor
-            }
+            self.btnLike.tintColor = isLiked ? UIColor(rgba: Cons.UI.colorLike) : UIToolbar.appearance().tintColor
         }
+    }
+    
+    var likeBtnIsLiked: Bool {
+        return self.btnLike.tintColor == UIColor(rgba: Cons.UI.colorLike)
     }
     
     var likeBtnNumber: Int? {

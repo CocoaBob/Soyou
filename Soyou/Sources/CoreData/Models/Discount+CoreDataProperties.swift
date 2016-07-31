@@ -15,7 +15,6 @@ import CoreData
 extension Discount {
     
     @NSManaged var appIsFavorite: NSNumber?
-    @NSManaged var appIsLiked: NSNumber?
     @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var author: String?
     @NSManaged var content: String?

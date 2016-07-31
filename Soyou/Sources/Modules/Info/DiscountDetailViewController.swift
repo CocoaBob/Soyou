@@ -54,18 +54,15 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         DataManager.shared.requestDiscountInfo(self.infoID) { responseObject, error in
             if let responseObject = responseObject as? [String:AnyObject],
                 data = responseObject["data"] as? [String:AnyObject] {
-                if let likeNumber = data["likeNumber"] as? NSNumber {
-                    self.likeBtnNumber = likeNumber.integerValue
+                let json = JSON(data)
+                self.likeBtnNumber = json["likeNumber"].int
+                let isFavorite = json["isFavorite"].boolValue
+                if isFavorite != self.isFavorite {
+                    self.isFavorite = isFavorite
+                    Discount.updateFavorite(self.infoID, isFavorite: isFavorite.boolValue)
                 }
-                if let isFavorite = data["isFavorite"] as? NSNumber {
-                    if isFavorite.boolValue != self.isFavorite {
-                        self.isFavorite = isFavorite.boolValue
-                        Discount.updateFavorite(self.infoID, isFavorite: isFavorite.boolValue)
-                    }
-                }
-                if let commentNumber = data["commentNumber"] as? NSNumber {
-                    self.commentBtnNumber = commentNumber.integerValue
-                }
+                self.commentBtnNumber = json["commentNumber"].int
+                self.updateLikeBtnColor(json["isLiked"].boolValue)
             }
         }
     }
@@ -123,19 +120,17 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     
     override func like() {
         UserManager.shared.loginOrDo() { () -> () in
-            self.discount?.toggleLike() { (likeNumber: AnyObject?) -> () in
+            let wasLiked = self.likeBtnIsLiked
+            DataManager.shared.likeDiscount(self.infoID, wasLiked: wasLiked) { responseObject, error in
+                guard let responseObject = responseObject as? [String: AnyObject] else { return }
+                guard let data = responseObject["data"] else { return }
+                
                 // Update like number
-                if let likeNumber = likeNumber as? NSNumber {
+                if let likeNumber = data as? NSNumber {
                     self.likeBtnNumber = likeNumber.integerValue
                 }
                 
-                // Update like color
-                MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                    let isLiked = self.discount?.MR_inContext(localContext)?.isLiked()
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.updateLikeBtnColor(isLiked)
-                    })
-                })
+                self.updateLikeBtnColor(!wasLiked)
             }
         }
     }
@@ -170,8 +165,7 @@ extension DiscountDetailViewController {
         self.loadWebView(title: discount.title, content: discount.content)
         
         // Like button
-        updateLikeBtnColor(discount.isLiked())
-        updateExtraInfo()
+        self.updateExtraInfo()
         
         // Favorite button
         self.isFavorite = discount.isFavorite()

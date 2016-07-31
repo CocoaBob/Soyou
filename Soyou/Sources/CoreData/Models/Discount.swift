@@ -179,7 +179,6 @@ class Discount: NSManagedObject {
                         localFavoriteDiscount?.isOnline = localDiscount.isOnline
                         localFavoriteDiscount?.url = localDiscount.url
                         
-                        localFavoriteDiscount?.appIsLiked = localDiscount.appIsLiked
                         localFavoriteDiscount?.appIsUpdated = localDiscount.appIsUpdated
                         localFavoriteDiscount?.appIsFavorite = NSNumber(bool: true)
                     }
@@ -189,81 +188,5 @@ class Discount: NSManagedObject {
                 localFavoriteDiscount?.MR_deleteEntityInContext(localContext)
             }
         })
-    }
-    
-    // Like
-    func isLiked() -> Bool {
-        var returnValue = false
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            // Find original discount and favorite discount
-            var originalDiscount: Discount?
-            var favoriteDiscount: FavoriteDiscount?
-            if self is FavoriteDiscount {
-                if let discount = self as? FavoriteDiscount {
-                    favoriteDiscount = discount
-                    originalDiscount = discount.MR_inContext(localContext)?.relatedDiscount(localContext)
-                }
-            } else {
-                originalDiscount = self
-                favoriteDiscount = self.MR_inContext(localContext)?.relatedFavoriteDiscount(localContext)
-            }
-            
-            // If any one of them is true, set both to true
-            if let isLiked = originalDiscount?.appIsLiked {
-                if isLiked.boolValue {
-                    favoriteDiscount?.appIsLiked = isLiked
-                    returnValue = true
-                }
-            }
-            if let isLiked = favoriteDiscount?.appIsLiked {
-                if isLiked.boolValue {
-                    originalDiscount?.appIsLiked = isLiked
-                    returnValue = true
-                }
-            }
-        })
-        return returnValue
-    }
-    
-    func toggleLike(completion: DataClosure?) {
-        var _wasLiked: Bool?
-        var _discountID: NSNumber?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            let localSelf = self.MR_inContext(localContext)
-            _discountID = localSelf?.id
-            _wasLiked = localSelf?.isLiked()
-        })
-        guard let wasLiked = _wasLiked else { return }
-        guard let discountID = _discountID else { return }
-        
-        // Send request to server, then update local data after receving response
-        DataManager.shared.likeDiscount(discountID, wasLiked: wasLiked) { responseObject, error in
-            guard let responseObject = responseObject as? [String: AnyObject] else { return }
-            guard let data = responseObject["data"] else { return }
-            
-            // Remember if it's liked or not
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                // Find original discount and favorite discount
-                var originalDiscount: Discount?
-                var favoriteDiscount: FavoriteDiscount?
-                if self is FavoriteDiscount {
-                    if let discount = self as? FavoriteDiscount {
-                        favoriteDiscount = discount.MR_inContext(localContext)
-                        originalDiscount = discount.MR_inContext(localContext)?.relatedDiscount(localContext)
-                    }
-                } else {
-                    originalDiscount = self.MR_inContext(localContext)
-                    favoriteDiscount = self.MR_inContext(localContext)?.relatedFavoriteDiscount(localContext)
-                }
-                
-                originalDiscount?.appIsLiked = NSNumber(bool: !wasLiked)
-                favoriteDiscount?.appIsLiked = NSNumber(bool: !wasLiked)
-                favoriteDiscount?.appIsFavorite = NSNumber(bool: true)
-            })
-            
-            if let completion = completion {
-                completion(data)
-            }
-        }
     }
 }
