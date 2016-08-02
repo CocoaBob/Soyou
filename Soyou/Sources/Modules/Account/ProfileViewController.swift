@@ -104,9 +104,9 @@ extension ProfileViewController {
         let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
         alertView.addButton(NSLocalizedString("alert_button_cancel")) {}
         alertView.addButton(NSLocalizedString("profile_vc_cell_logout_warning_sure")) { () -> Void in
-            MBProgressHUD.showLoader(nil)
+            MBProgressHUD.show()
             DataManager.shared.logout({ (responseObject, error) in
-                MBProgressHUD.hideLoader(nil)
+                MBProgressHUD.hide()
                 if error == nil {
                     UserManager.shared.logOut()
                     self.dismissSelf()
@@ -140,10 +140,10 @@ extension ProfileViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             if let editedText = simpleViewController.editedText {
-                MBProgressHUD.showLoader(nil)
+                MBProgressHUD.show()
                 DataManager.shared.modifyUserInfo("username", editedText) { responseObject, error in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        MBProgressHUD.hideLoader(nil)
+                        MBProgressHUD.hide()
                         if let error = error {
                             DataManager.showRequestFailedAlert(error)
                         } else {
@@ -202,11 +202,11 @@ extension ProfileViewController {
             
             // Update email
             if let editedText = simpleViewController.editedText {
-                MBProgressHUD.showLoader(nil)
+                MBProgressHUD.show()
                 DataManager.shared.modifyEmail(editedText) { responseObject, error in
                     // Succeeded or Failed
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        MBProgressHUD.hideLoader(nil)
+                        MBProgressHUD.hide()
                         if let error = error {
                             tfNewEmail.enabled = true
                             tfConfirmNewEmail.enabled = true
@@ -281,10 +281,10 @@ extension ProfileViewController {
                     if let userInfo = row.userInfo,
                         regionCode = userInfo["code"] as? String {
                             // Update region
-                            MBProgressHUD.showLoader(nil)
+                            MBProgressHUD.show()
                             DataManager.shared.modifyUserInfo("region", regionCode) { responseObject, error in
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    MBProgressHUD.hideLoader(nil)
+                                    MBProgressHUD.hide()
                                     if let error = error {
                                         DataManager.showRequestFailedAlert(error)
                                     } else {
@@ -338,10 +338,10 @@ extension ProfileViewController {
             // Update gender
             if let selectedIndexPath = simpleViewController.selectedIndexPath {
                 let newGender = "\(selectedIndexPath.row+1)"
-                MBProgressHUD.showLoader(nil)
+                MBProgressHUD.show()
                 DataManager.shared.modifyUserInfo("gender", newGender) { responseObject, error in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        MBProgressHUD.hideLoader(nil)
+                        MBProgressHUD.hide()
                         if let error = error {
                             DataManager.showRequestFailedAlert(error)
                         } else {

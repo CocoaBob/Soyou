@@ -528,7 +528,7 @@ extension ProductViewController {
     }
     
     @IBAction func share(sender: AnyObject) {
-        MBProgressHUD.showLoader(self.view)
+        MBProgressHUD.show(self.view)
         
         var productID: String?
         var title: String?
@@ -592,7 +592,7 @@ extension ProductViewController {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
-            MBProgressHUD.hideLoader(self.view)
+            MBProgressHUD.hide(self.view)
         })
     }
     

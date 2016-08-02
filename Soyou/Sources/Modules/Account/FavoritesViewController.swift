@@ -281,7 +281,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     guard let favoriteNews = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews else {
                         return
                     }
-                    MBProgressHUD.showLoader(self.view)
+                    MBProgressHUD.show(self.view)
                     DataManager.shared.favoriteNews(favoriteNews.id!, wasFavorite: true) { responseObject, error in
                         // If any error
                         if error != nil {
@@ -289,7 +289,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         }
                         // If succeeded to delete
                         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                            MBProgressHUD.hideLoader(self.view)
+                            MBProgressHUD.hide(self.view)
                             if let localFavoriteNews = favoriteNews.MR_inContext(localContext) {
                                 localFavoriteNews.MR_deleteEntityInContext(localContext)
                             }
@@ -299,7 +299,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     guard let favoriteDiscount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteDiscount else {
                         return
                     }
-                    MBProgressHUD.showLoader(self.view)
+                    MBProgressHUD.show(self.view)
                     DataManager.shared.favoriteDiscount(favoriteDiscount.id!, wasFavorite: true) { responseObject, error in
                         // If any error
                         if error != nil {
@@ -307,7 +307,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         }
                         // If succeeded to delete
                         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                            MBProgressHUD.hideLoader(self.view)
+                            MBProgressHUD.hide(self.view)
                             if let localFavoriteDiscount = favoriteDiscount.MR_inContext(localContext) {
                                 localFavoriteDiscount.MR_deleteEntityInContext(localContext)
                             }
@@ -317,17 +317,17 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     guard let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct else {
                         return
                     }
-                    MBProgressHUD.showLoader(self.view)
+                    MBProgressHUD.show(self.view)
                     MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
                         if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
                             product = localFavoriteProduct.relatedProduct(localContext) {
                             product.toggleFavorite({ (data: AnyObject?) -> () in
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    MBProgressHUD.hideLoader(self.view)
+                                    MBProgressHUD.hide(self.view)
                                 })
                             })
                         } else {
-                            MBProgressHUD.hideLoader(self.view)
+                            MBProgressHUD.hide(self.view)
                         }
                     })
                 }

@@ -73,9 +73,9 @@ class InfoCommentsViewController: UIViewController {
     var isCallingDataProvider = false {
         didSet {
             if isCallingDataProvider {
-                MBProgressHUD.showLoader(self.view)
+                MBProgressHUD.show(self.view)
             } else {
-                MBProgressHUD.hideLoader(self.view)
+                MBProgressHUD.hide(self.view)
             }
         }
     }

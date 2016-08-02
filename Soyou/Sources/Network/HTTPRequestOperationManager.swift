@@ -43,17 +43,17 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             return
         }
         if modeUI {
-            MBProgressHUD.showLoader(nil)
+            MBProgressHUD.show()
         }
         
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
-            modeUI ? MBProgressHUD.hideLoader(nil) : ()
+            modeUI ? MBProgressHUD.hide() : ()
             self.handleSuccessWithoutServerVersionCheck(operation, responseObject, path, onSuccess, onFailure)
         }
         
         let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
-            modeUI ? MBProgressHUD.hideLoader(nil) : ()
+            modeUI ? MBProgressHUD.hide() : ()
             self.handleFailure(operation, error, onFailure)
         }
         
@@ -81,7 +81,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             operation.start()
             operation.waitUntilFinished()
             if operation.cancelled {
-                modeUI ? MBProgressHUD.hideLoader(nil) : ()
+                modeUI ? MBProgressHUD.hide() : ()
             } else {
                 if operation.error == nil {
                     success(operation, operation.responseObject)
@@ -109,18 +109,18 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             return
         }
         if modeUI {
-            MBProgressHUD.showLoader(nil)
+            MBProgressHUD.show()
         }
         
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
-            modeUI ? MBProgressHUD.hideLoader(nil) : ()
+            modeUI ? MBProgressHUD.hide() : ()
             DLog("<-- [\((responseObject?["data"])?.count)]")
             self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
         }
         
         let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
-            modeUI ? MBProgressHUD.hideLoader(nil) : ()
+            modeUI ? MBProgressHUD.hide() : ()
             DLog("<-- [x]\n\(error)")
             self.handleFailure(operation, error, onFailure)
         }
@@ -149,7 +149,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             operation.start()
             operation.waitUntilFinished()
             if operation.cancelled {
-                modeUI ? MBProgressHUD.hideLoader(nil) : ()
+                modeUI ? MBProgressHUD.hide() : ()
             } else {
                 if operation.error == nil {
                     success(operation, operation.responseObject)

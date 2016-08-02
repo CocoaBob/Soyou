@@ -141,7 +141,7 @@ class InfoDetailBaseViewController: UIViewController {
         // Make sure interactive gesture's delegate is nil before disappearing
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         // Hide HUD indicator if exists
-        MBProgressHUD.hideLoader(self.view)
+        MBProgressHUD.hide(self.view)
         // Set WebView scroll view
         self.scrollView?.delegate = nil
     }

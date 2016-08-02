@@ -69,7 +69,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     
     // MARK: Bar button items
     override func share() {
-        MBProgressHUD.showLoader(self.view)
+        MBProgressHUD.show(self.view)
         
         var htmlString: String?
         MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
@@ -114,7 +114,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
-            MBProgressHUD.hideLoader(self.view)
+            MBProgressHUD.hide(self.view)
         })
     }
     
@@ -220,9 +220,9 @@ extension DiscountDetailViewController {
         })
         
         if needsToLoad {
-            MBProgressHUD.showLoader(self.view)
+            MBProgressHUD.show(self.view)
             DataManager.shared.requestDiscountByID(self.infoID) { responseObject, error in
-                MBProgressHUD.hideLoader(self.view)
+                MBProgressHUD.hide(self.view)
                 if let responseObject = responseObject {
                     if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                         if self.discount is FavoriteDiscount {

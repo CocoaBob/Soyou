@@ -16,7 +16,7 @@ class SplashScreenViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let hud = MBProgressHUD.showLoader(self.view) {
+        if let hud = MBProgressHUD.show(self.view) {
             hud.mode = MBProgressHUDMode.Indeterminate
             hud.label.text = NSLocalizedString("initializing_database")
         }
@@ -24,6 +24,6 @@ class SplashScreenViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        MBProgressHUD.hideLoader(self.view)
+        MBProgressHUD.hide(self.view)
     }
 }

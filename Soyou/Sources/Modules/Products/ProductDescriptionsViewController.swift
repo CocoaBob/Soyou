@@ -147,24 +147,24 @@ extension ProductDescriptionsViewController: UIWebViewDelegate {
     }
     
     private func toggleTranslationState(webView: UIWebView) {
-        MBProgressHUD.showLoader(self.productViewController?.view)
+        MBProgressHUD.show(self.productViewController?.view)
         if self.isDisplayingTranslatedText {
             let js = "document.getElementById('descriptionZH').className = 'hide';document.getElementById('description').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_translation"))'"
             webView.stringByEvaluatingJavaScriptFromString(js)
             updateWebViewHeight(webView)
             self.isDisplayingTranslatedText = false
-            MBProgressHUD.hideLoader(self.productViewController?.view)
+            MBProgressHUD.hide(self.productViewController?.view)
         } else {
             if let _ = self.descriptionZH {
                 let js = "document.getElementById('description').className = 'hide';document.getElementById('descriptionZH').className = '';document.getElementById('btn-translation').innerHTML = '\(NSLocalizedString("product_back"))'"
                 webView.stringByEvaluatingJavaScriptFromString(js)
                 updateWebViewHeight(webView)
                 self.isDisplayingTranslatedText = true
-                MBProgressHUD.hideLoader(self.productViewController?.view)
+                MBProgressHUD.hide(self.productViewController?.view)
             } else {
                 DataManager.shared.translateProduct(self.id!) { responseObject, error in
                     defer {
-                        MBProgressHUD.hideLoader(self.productViewController?.view)
+                        MBProgressHUD.hide(self.productViewController?.view)
                     }
                     if let responseObject = responseObject as? [String:AnyObject],
                         data = responseObject["data"] as? [String:AnyObject],

@@ -47,13 +47,13 @@ extension Utils {
     
     class func shareApp() {
         guard let keyWindow = UIApplication.sharedApplication().keyWindow else { return }
-        MBProgressHUD.showLoader(keyWindow)
+        MBProgressHUD.show(keyWindow)
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if let image = UIImage(named: "img_share_icon"), url = NSURL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
                 Utils.shareItems(
                     [image, NSLocalizedString("user_vc_feedback_alert_share_title"), NSLocalizedString("user_vc_feedback_alert_share_description"), url],
                     completion: { () -> Void in
-                    MBProgressHUD.hideLoader(keyWindow)
+                    MBProgressHUD.hide(keyWindow)
                 })
             }
         }
@@ -136,7 +136,7 @@ extension Utils {
         textView.layoutIfNeeded()
         
         // Show indicator
-        if let progressHUD = MBProgressHUD.showLoader(keyWindow) {
+        if let progressHUD = MBProgressHUD.show() {
             progressHUD.label.text = NSLocalizedString("brands_vc_beedback_waiting_title")
             progressHUD.detailsLabel.text = NSLocalizedString("brands_vc_beedback_waiting_detail")
         }
@@ -152,7 +152,7 @@ extension Utils {
             // Remove logs
             textView.removeFromSuperview()
             // Remove indicator
-            MBProgressHUD.hideLoader(keyWindow)
+            MBProgressHUD.hide()
             if let completionHandler = completionHandler {
                 let result = outputLogger.logs.dataUsingEncoding(NSUTF8StringEncoding)
                 completionHandler(result)

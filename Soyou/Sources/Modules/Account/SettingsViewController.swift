@@ -253,9 +253,9 @@ extension SettingsViewController {
     }
     
     func sendFeedback() {
-        MBProgressHUD.showLoader(self.view)
+        MBProgressHUD.show(self.view)
         Utils.shared.sendFeedbackEmail(self, attachments: ["SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData())])
-        MBProgressHUD.hideLoader(self.view)
+        MBProgressHUD.hide(self.view)
     }
     
     func analyzeNetwork() {
@@ -407,10 +407,10 @@ extension SettingsViewController {
                 }
                 
                 // Set user currency
-                MBProgressHUD.showLoader(nil)
+                MBProgressHUD.show()
                 CurrencyManager.shared.updateCurrencyRates(selectedCurrencyCode) { (responseObject, error) -> () in
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        MBProgressHUD.hideLoader(nil)
+                        MBProgressHUD.hide()
                         if let error = error {
                             DataManager.showRequestFailedAlert(error)
                         } else {

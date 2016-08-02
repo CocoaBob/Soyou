@@ -136,7 +136,7 @@ class LoginViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.keyboardControlUninstall()
-        MBProgressHUD.hideLoader(self.view)
+        MBProgressHUD.hide(self.view)
     }
     
     override func willMoveToParentViewController(parent: UIViewController?) {
@@ -222,11 +222,11 @@ extension LoginViewController {
         if let strEmail = tfEmail?.text,
             strPassword = tfPassword?.text {
             // Strat indicator
-            MBProgressHUD.showLoader(self.view)
+            MBProgressHUD.show(self.view)
             
             DataManager.shared.login(strEmail, strPassword) { responseObject, error in
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    MBProgressHUD.hideLoader(self.view)
+                    MBProgressHUD.hide(self.view)
                     if let error = error {
                         DataManager.showRequestFailedAlert(error)
                     } else {
@@ -238,11 +238,11 @@ extension LoginViewController {
     }
     
     func startLoadingInfoFromThirdLogin() {
-        MBProgressHUD.showLoader(nil)
+        MBProgressHUD.show()
     }
     
     func stopLoadingInfoFromThirdLogin(error: NSError?) {
-        MBProgressHUD.hideLoader(nil)
+        MBProgressHUD.hide()
         if let error = error {
             DataManager.showRequestFailedAlert(error)
         } else {
@@ -469,11 +469,11 @@ extension LoginViewController {
         if let strEmail = tfEmail?.text,
             strPassword = tfPassword?.text {
             // Strat indicator
-            MBProgressHUD.showLoader(self.view)
+            MBProgressHUD.show(self.view)
             
             // Request
             DataManager.shared.register(strEmail, strPassword, self.selectedGender) { responseObject, error in
-                MBProgressHUD.hideLoader(self.view)
+                MBProgressHUD.hide(self.view)
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
                 } else {
@@ -503,11 +503,11 @@ extension LoginViewController {
         
         if let strEmail = tfEmail?.text {
             // Strat indicator
-            MBProgressHUD.showLoader(self.view)
+            MBProgressHUD.show(self.view)
             
             // Request
             DataManager.shared.requestVerifyCode(strEmail) { responseObject, error in
-                MBProgressHUD.hideLoader(self.view)
+                MBProgressHUD.hide(self.view)
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
                 } else {
@@ -526,11 +526,11 @@ extension LoginViewController {
         if let strVerificationCode = tfVerificationCode?.text,
             strPassword = tfPassword?.text {
             // Strat indicator
-            MBProgressHUD.showLoader(self.view)
+            MBProgressHUD.show(self.view)
             
             // Request
             DataManager.shared.resetPassword(strVerificationCode, strPassword) { responseObject, error in
-                MBProgressHUD.hideLoader(self.view)
+                MBProgressHUD.hide(self.view)
                 if let error = error {
                     DataManager.showRequestFailedAlert(error)
                 } else {
