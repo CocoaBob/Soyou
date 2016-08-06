@@ -10,18 +10,22 @@
 //    "message":"OK",
 //    "data": [
 //        {
-//            "id": 1,
-//            "username": "Jime",
-//            "matricule": 123455,
-//            "comment": "comment content1",
-//            "parentId": null
+//            "id": 13,
+//            "username": "jiyuny",
+//            "matricule": 100001,
+//            "comment": "哈哈哈就",
+//            "parentUsername": null,
+//            "parentMatricule": null,
+//            "parentComment": null
 //        },
 //        {
-//            "id": 2,
-//            "username": "Mike",
-//            "matricule": 12,
-//            "comment": "comment content2",
-//            "parentId": 1
+//            "id": 10,
+//            "username": "jiyuny",
+//            "matricule": 100001,
+//            "comment": "Hh",
+//            "parentUsername": "CocoaBob",
+//            "parentMatricule": 100003,
+//            "parentComment": "Test Comment at 491439367.379247"
 //        }
 //    ]
 //}
@@ -29,20 +33,26 @@
 struct Comment {
     var id: Int = 0
     var username: String = ""
-    var matricule: String = ""
+    var matricule: Int = -1
     var comment: String = ""
-    var parentId: Int = -1
+    var parentUsername: String?
+    var parentMatricule: Int?
+    var parentComment: String?
     
     init(id: Int = 0,
          username: String = "",
-         matricule: String = "",
+         matricule: Int = -1,
          comment: String = "",
-         parentId: Int = -1) {
+         parentUsername: String? = nil,
+         parentMatricule: Int? = nil,
+         parentComment: String? = nil) {
         self.id = id
         self.username = username
         self.matricule = matricule
         self.comment = comment
-        self.parentId = parentId
+        self.parentUsername = parentUsername
+        self.parentMatricule = parentMatricule
+        self.parentComment = parentComment
     }
     
     init() {
@@ -56,9 +66,11 @@ struct Comment {
     mutating func importDataFromJSON(json: JSON) {
         self.id = json["id"].intValue
         self.username = json["username"].stringValue
-        self.matricule = json["matricule"].stringValue
+        self.matricule = json["matricule"].intValue
         self.comment = json["comment"].stringValue
-        self.parentId = json["parentId"].intValue
+        self.parentUsername = json["parentUsername"].string
+        self.parentMatricule = json["parentMatricule"].int
+        self.parentComment = json["parentComment"].string
     }
 }
 
@@ -66,12 +78,11 @@ class InfoCommentsViewController: UIViewController {
     
     var infoID: NSNumber!
     var commentIDs: [Int] = [Int]()
-    var commentsByID: [Int: Comment] = [Int: Comment]()
+    var comments: [Comment] = [Comment]()
     @IBOutlet var tableView: UITableView!
     
     var dataProvider: ((relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> ())?
     var isCallingDataProvider = false
-    var hasNoMoreData = false
     
     // Class methods
     class func instantiate() -> InfoCommentsViewController {
@@ -139,31 +150,25 @@ extension InfoCommentsViewController {
     }
     
     private func loadNextData() {
-        self.loadData(self.commentIDs.last)
+        self.loadData(self.comments.last?.id ?? 0)
+    }
+    
+    private func reloadData() {
+        self.comments.removeAll()
+        self.commentIDs.removeAll()
+        self.loadData(nil)
     }
     
     private func appendCommentsWithData(data: AnyObject) {
         let json = JSON(data)
         if !json.isEmpty {
-            // Get all IDs and Comments
-            var tempCommentIDs: [Int] = [Int]()
-            var tempCommentsByID: [Int: Comment] = [Int: Comment]()
             for (_, item) in json {
                 let comment = Comment(json: item)
-                tempCommentIDs.append(comment.id)
-                tempCommentsByID[comment.id] = comment
+                if !self.commentIDs.contains(comment.id) {
+                    self.commentIDs.append(comment.id)
+                    self.comments.append(comment)
+                }
             }
-            // Remove existing comments
-            let newIDs = tempCommentIDs.filter() { !self.commentIDs.contains($0) }
-            // Add new comments to data source
-            for id in newIDs {
-                self.commentIDs.append(id)
-                self.commentsByID[id] = tempCommentsByID[id]
-            }
-            self.commentIDs.sortInPlace(>)
-        } else {
-            // Has no more data, stop automatically requesting more data
-            self.hasNoMoreData = true
         }
     }
 }
@@ -176,21 +181,14 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.commentIDs.count
+        return self.comments.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = (tableView.dequeueReusableCellWithIdentifier("InfoCommentsTableViewCell", forIndexPath: indexPath) as? InfoCommentsTableViewCell)!
         
         cell.infoCommentsViewController = self
-        
-        let comment = self.commentsByID[self.commentIDs[indexPath.row]]!
-        var parent: Comment?
-        if comment.parentId != -1 {
-            parent = self.commentsByID[comment.parentId]
-        }
-        
-        cell.setup(comment, parent: parent)
+        cell.setup(self.comments[indexPath.row])
         
         return cell
     }
@@ -218,20 +216,6 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
-// MARK: UIScrollViewDelegate
-//extension InfoCommentsViewController {
-//    
-//    func scrollViewDidScroll(scrollView: UIScrollView) {
-//        // If it's close to the end of the scroll view, request more data
-//        if !self.hasNoMoreData {
-//            let bottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentInset.bottom
-//            if bottom > scrollView.contentSize.height - 64 { // 64 points to the end
-//                self.loadNextData()
-//            }
-//        }
-//    }
-//}
-
 // MARK: Actions
 extension InfoCommentsViewController {
     
@@ -252,7 +236,7 @@ extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
     }
     
     func didPostNewComment() {
-        self.loadData(nil)
+        self.reloadData()
     }
 }
 
@@ -261,7 +245,7 @@ extension InfoCommentsViewController {
     
     func setupRefreshControls() {
         let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            self.loadData(nil)
+            self.reloadData()
             self.beginRefreshing()
         })
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
@@ -321,16 +305,16 @@ class InfoCommentsTableViewCell: UITableViewCell {
         return true
     }
     
-    func setup(comment: Comment, parent: Comment?) {
+    func setup(comment: Comment) {
         self.comment = comment
         self.lblUsername.text = comment.username
         var attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
         let attributedString = NSMutableAttributedString(string: comment.comment, attributes: attributes)
-        if let parent = parent {
+        if let parentUsername = self.comment.parentUsername, parentComment = self.comment.parentComment {
             attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\(parent.username): ", attributes: attributes))
+            attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\(parentUsername): ", attributes: attributes))
             attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "\(parent.comment)", attributes: attributes))
+            attributedString.appendAttributedString(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
         }
         self.tvContent.attributedText = attributedString
     }
