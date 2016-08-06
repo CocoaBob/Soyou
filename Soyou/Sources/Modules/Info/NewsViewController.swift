@@ -39,7 +39,10 @@ class NewsViewController: InfoListBaseViewController {
     // MARK: Data
     override func loadData(relativeID: NSNumber?) {
         DataManager.shared.requestNewsList(relativeID) { responseObject, error in
-            self.endRefreshing()
+            guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
+            guard let data = responseObject["data"] as? [NSDictionary] else { return }
+            
+            self.endRefreshing(data.count)
         }
     }
     

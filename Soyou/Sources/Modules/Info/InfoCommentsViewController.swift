@@ -70,15 +70,8 @@ class InfoCommentsViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var dataProvider: ((relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> ())?
-    var isCallingDataProvider = false {
-        didSet {
-            if isCallingDataProvider {
-                MBProgressHUD.show(self.view)
-            } else {
-                MBProgressHUD.hide(self.view)
-            }
-        }
-    }
+    var isCallingDataProvider = false
+    var hasNoMoreData = false
     
     // Class methods
     class func instantiate() -> InfoCommentsViewController {
@@ -90,6 +83,12 @@ class InfoCommentsViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("comments_vc_title")
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
+        
+        // Setups
+        self.setupRefreshControls()
         
         // Setup table
         self.tableView.estimatedRowHeight = 44.0
@@ -126,12 +125,15 @@ extension InfoCommentsViewController {
         }
         if let dataProvider = self.dataProvider {
             self.isCallingDataProvider = true
+            self.beginRefreshing()
             dataProvider(relativeID: relativeID, completion: { (responseObject) in
                 guard let responseObject = responseObject as? [String: AnyObject] else { return }
-                guard let data = responseObject["data"] else { return }
+                guard let data = responseObject["data"] as? [NSDictionary] else { return }
+                
                 self.appendCommentsWithData(data)
                 self.tableView.reloadData()
                 self.isCallingDataProvider = false
+                self.endRefreshing(data.count)
             })
         }
     }
@@ -143,6 +145,7 @@ extension InfoCommentsViewController {
     private func appendCommentsWithData(data: AnyObject) {
         let json = JSON(data)
         if !json.isEmpty {
+            // Get all IDs and Comments
             var tempCommentIDs: [Int] = [Int]()
             var tempCommentsByID: [Int: Comment] = [Int: Comment]()
             for (_, item) in json {
@@ -150,12 +153,17 @@ extension InfoCommentsViewController {
                 tempCommentIDs.append(comment.id)
                 tempCommentsByID[comment.id] = comment
             }
+            // Remove existing comments
             let newIDs = tempCommentIDs.filter() { !self.commentIDs.contains($0) }
+            // Add new comments to data source
             for id in newIDs {
                 self.commentIDs.append(id)
                 self.commentsByID[id] = tempCommentsByID[id]
             }
             self.commentIDs.sortInPlace(>)
+        } else {
+            // Has no more data, stop automatically requesting more data
+            self.hasNoMoreData = true
         }
     }
 }
@@ -211,15 +219,18 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 // MARK: UIScrollViewDelegate
-extension InfoCommentsViewController {
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        // If it's the end of the scroll view
-        if scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.height - scrollView.contentInset.bottom) {
-            self.loadNextData()
-        }
-    }
-}
+//extension InfoCommentsViewController {
+//    
+//    func scrollViewDidScroll(scrollView: UIScrollView) {
+//        // If it's close to the end of the scroll view, request more data
+//        if !self.hasNoMoreData {
+//            let bottom = scrollView.contentOffset.y + scrollView.frame.height - scrollView.contentInset.bottom
+//            if bottom > scrollView.contentSize.height - 64 { // 64 points to the end
+//                self.loadNextData()
+//            }
+//        }
+//    }
+//}
 
 // MARK: Actions
 extension InfoCommentsViewController {
@@ -242,6 +253,49 @@ extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
     
     func didPostNewComment() {
         self.loadData(nil)
+    }
+}
+
+// MARK: - Refreshing
+extension InfoCommentsViewController {
+    
+    func setupRefreshControls() {
+        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+            self.loadData(nil)
+            self.beginRefreshing()
+        })
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
+        header.lastUpdatedTimeLabel?.hidden = true
+        self.tableView.mj_header = header
+        
+        let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+            self.loadNextData()
+        })
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
+        footer.automaticallyHidden = false
+        self.tableView.mj_footer = footer
+    }
+    
+    func beginRefreshing() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func endRefreshing(resultCount: Int) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.tableView.mj_header.endRefreshing()
+            if resultCount > 0 {
+                self.tableView.mj_footer.endRefreshing()
+            } else {
+                self.tableView.mj_footer.endRefreshingWithNoMoreData()
+            }
+        })
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 

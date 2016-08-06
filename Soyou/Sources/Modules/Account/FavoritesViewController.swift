@@ -344,15 +344,15 @@ extension FavoritesViewController {
             switch (self.type) {
             case .News:
                 DataManager.shared.requestNewsFavorites() { _, _ -> () in
-                    self.endRefreshing()
+                    self.endRefreshing(0)
                 }
             case .Discounts:
                 DataManager.shared.requestDiscountFavorites() { _, _ -> () in
-                    self.endRefreshing()
+                    self.endRefreshing(0)
                 }
             case .Products:
                 DataManager.shared.requestProductFavorites() { _, _ -> () in
-                    self.endRefreshing()
+                    self.endRefreshing(0)
                 }
             }
             self.beginRefreshing()
@@ -369,7 +369,7 @@ extension FavoritesViewController {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
-    func endRefreshing() {
+    func endRefreshing(resultCount: Int) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.tableView().mj_header.endRefreshing()
         })

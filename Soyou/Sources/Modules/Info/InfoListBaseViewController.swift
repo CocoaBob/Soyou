@@ -249,10 +249,14 @@ extension InfoListBaseViewController {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
-    func endRefreshing() {
+    func endRefreshing(resultCount: Int) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.collectionView().mj_header.endRefreshing()
-            self.collectionView().mj_footer.endRefreshing()
+            if resultCount > 0 {
+                self.collectionView().mj_footer.endRefreshing()
+            } else {
+                self.collectionView().mj_footer.endRefreshingWithNoMoreData()
+            }
         })
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
