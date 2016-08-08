@@ -114,30 +114,20 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Comments" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eB1-3H-mDy">
-                                                    <rect key="frame" x="8" y="26" width="584" height="44"/>
+                                                    <rect key="frame" x="8" y="4" width="584" height="70"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOn-Fn-V4g" userLabel="Username">
-                                                    <rect key="frame" x="12" y="8" width="576" height="18"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="leadingMargin" secondItem="IOn-Fn-V4g" secondAttribute="leading" constant="-4" id="3hw-ps-ayD"/>
-                                                <constraint firstItem="IOn-Fn-V4g" firstAttribute="top" secondItem="6l2-Nb-a23" secondAttribute="topMargin" id="5oB-NE-iUp"/>
-                                                <constraint firstItem="eB1-3H-mDy" firstAttribute="top" secondItem="IOn-Fn-V4g" secondAttribute="bottom" id="Q1O-4z-ZMI"/>
                                                 <constraint firstItem="eB1-3H-mDy" firstAttribute="leading" secondItem="6l2-Nb-a23" secondAttribute="leadingMargin" id="QSm-Au-A4N"/>
-                                                <constraint firstItem="eB1-3H-mDy" firstAttribute="bottom" secondItem="6l2-Nb-a23" secondAttribute="bottomMargin" id="S8T-BU-lq2"/>
+                                                <constraint firstItem="eB1-3H-mDy" firstAttribute="bottom" secondItem="6l2-Nb-a23" secondAttribute="bottom" constant="-4" id="S8T-BU-lq2"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="eB1-3H-mDy" secondAttribute="trailing" id="TYi-3Q-l1n"/>
-                                                <constraint firstItem="IOn-Fn-V4g" firstAttribute="trailing" secondItem="6l2-Nb-a23" secondAttribute="trailingMargin" constant="-4" id="UCs-Bx-B0b"/>
+                                                <constraint firstItem="eB1-3H-mDy" firstAttribute="top" secondItem="6l2-Nb-a23" secondAttribute="top" constant="4" id="irJ-sw-la4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="lblUsername" destination="IOn-Fn-V4g" id="PVv-sO-NFq"/>
                                             <outlet property="tvContent" destination="eB1-3H-mDy" id="f36-kS-1hR"/>
                                         </connections>
                                     </tableViewCell>

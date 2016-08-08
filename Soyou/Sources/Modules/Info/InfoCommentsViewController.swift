@@ -77,8 +77,8 @@ struct Comment {
 class InfoCommentsViewController: UIViewController {
     
     var infoID: NSNumber!
-    var commentIDs: [Int] = [Int]()
-    var comments: [Comment] = [Comment]()
+    var commentIDs = [Int]()
+    var commentsByID = [Int: Comment]()
     @IBOutlet var tableView: UITableView!
     
     var dataProvider: ((relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> ())?
@@ -150,12 +150,14 @@ extension InfoCommentsViewController {
     }
     
     private func loadNextData() {
-        self.loadData(self.comments.last?.id ?? 0)
+        if let lastID = self.commentIDs.last, lastComment = self.commentsByID[lastID] {
+            self.loadData(lastComment.id)
+        } else {
+            self.loadData(0)
+        }
     }
     
-    private func reloadData() {
-        self.comments.removeAll()
-        self.commentIDs.removeAll()
+    private func loadNewData() {
         self.loadData(nil)
     }
     
@@ -166,9 +168,10 @@ extension InfoCommentsViewController {
                 let comment = Comment(json: item)
                 if !self.commentIDs.contains(comment.id) {
                     self.commentIDs.append(comment.id)
-                    self.comments.append(comment)
+                    self.commentsByID[comment.id] = comment
                 }
             }
+            self.commentIDs.sortInPlace(>)
         }
     }
 }
@@ -181,14 +184,17 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.comments.count
+        return self.commentIDs.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = (tableView.dequeueReusableCellWithIdentifier("InfoCommentsTableViewCell", forIndexPath: indexPath) as? InfoCommentsTableViewCell)!
         
         cell.infoCommentsViewController = self
-        cell.setup(self.comments[indexPath.row])
+        
+        if let comment = self.commentsByID[self.commentIDs[indexPath.row]] {
+            cell.setup(comment)
+        }
         
         return cell
     }
@@ -236,7 +242,7 @@ extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
     }
     
     func didPostNewComment() {
-        self.reloadData()
+        self.loadNewData()
     }
 }
 
@@ -245,7 +251,7 @@ extension InfoCommentsViewController {
     
     func setupRefreshControls() {
         let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            self.reloadData()
+            self.loadNewData()
             self.beginRefreshing()
         })
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
@@ -284,7 +290,6 @@ extension InfoCommentsViewController {
 }
 
 class InfoCommentsTableViewCell: UITableViewCell {
-    @IBOutlet var lblUsername: UILabel!
     @IBOutlet var tvContent: UITextView!
     var comment: Comment!
     weak var infoCommentsViewController: InfoCommentsViewController!
@@ -297,7 +302,6 @@ class InfoCommentsTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        self.lblUsername.text = nil
         self.tvContent.text = nil
     }
     
@@ -307,12 +311,17 @@ class InfoCommentsTableViewCell: UITableViewCell {
     
     func setup(comment: Comment) {
         self.comment = comment
-        self.lblUsername.text = comment.username
-        var attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
-        let attributedString = NSMutableAttributedString(string: comment.comment, attributes: attributes)
+        var attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
+        let attributedString = NSMutableAttributedString(string: comment.username, attributes: attributes)
+        attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(5.0)]
+        attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\n", attributes: attributes))
+        attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
+        attributedString.appendAttributedString(NSMutableAttributedString(string: comment.comment, attributes: attributes))
         if let parentUsername = self.comment.parentUsername, parentComment = self.comment.parentComment {
+            attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(5.0)]
+            attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\n", attributes: attributes))
             attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\(parentUsername): ", attributes: attributes))
+            attributedString.appendAttributedString(NSMutableAttributedString(string: "\(parentUsername): ", attributes: attributes))
             attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
             attributedString.appendAttributedString(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
         }
