@@ -141,10 +141,15 @@ extension InfoCommentsViewController {
                 guard let responseObject = responseObject as? [String: AnyObject] else { return }
                 guard let data = responseObject["data"] as? [NSDictionary] else { return }
                 
-                self.appendCommentsWithData(data)
+                let hasEarlierComments = self.appendCommentsWithData(data)
                 self.tableView.reloadData()
                 self.isCallingDataProvider = false
-                self.endRefreshing(data.count)
+                
+                if let _ = relativeID {
+                    self.endRefreshing(hasEarlierComments) // If it was loading earlier comments but no result, hide footer
+                } else {
+                    self.endRefreshing(nil)
+                }
             })
         }
     }
@@ -161,18 +166,24 @@ extension InfoCommentsViewController {
         self.loadData(nil)
     }
     
-    private func appendCommentsWithData(data: AnyObject) {
+    // Return true if get earlier comments
+    private func appendCommentsWithData(data: AnyObject) -> Bool {
+        var hasSmallerID = false
         let json = JSON(data)
         if !json.isEmpty {
+            let lastSmallestID = self.commentIDs.last ?? Int.max
             for (_, item) in json {
                 let comment = Comment(json: item)
-                if !self.commentIDs.contains(comment.id) {
-                    self.commentIDs.append(comment.id)
+                let commentID = comment.id
+                if !self.commentIDs.contains(commentID) {
+                    self.commentIDs.append(commentID)
                     self.commentsByID[comment.id] = comment
+                    hasSmallerID = hasSmallerID || (commentID < lastSmallestID)
                 }
             }
             self.commentIDs.sortInPlace(>)
         }
+        return hasSmallerID
     }
 }
 
@@ -276,13 +287,21 @@ extension InfoCommentsViewController {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
     
-    func endRefreshing(resultCount: Int) {
+    func endRefreshing(hasEarlierData: Bool?) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.tableView.mj_header.endRefreshing()
-            if resultCount > 0 {
-                self.tableView.mj_footer.endRefreshing()
-            } else {
-                self.tableView.mj_footer.endRefreshingWithNoMoreData()
+            if self.tableView.mj_header.isRefreshing() {
+                self.tableView.mj_header.endRefreshing()
+            }
+            if self.tableView.mj_footer.isRefreshing() {
+                if let hasEarlierData = hasEarlierData {
+                    if hasEarlierData {
+                        self.tableView.mj_footer.endRefreshing()
+                    } else {
+                        self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                    }
+                } else {
+                    self.tableView.mj_footer.endRefreshing()
+                }
             }
         })
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
