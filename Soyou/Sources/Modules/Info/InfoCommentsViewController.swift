@@ -80,6 +80,7 @@ class InfoCommentsViewController: UIViewController {
     var commentIDs = [Int]()
     var commentsByID = [Int: Comment]()
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var btnWriteComment: UIButton!
     
     var dataProvider: ((relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> ())?
     var isCallingDataProvider = false
@@ -94,6 +95,7 @@ class InfoCommentsViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("comments_vc_title")
+        self.btnWriteComment.setTitle(NSLocalizedString("comments_vc_write_comment"), forState: .Normal)
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)

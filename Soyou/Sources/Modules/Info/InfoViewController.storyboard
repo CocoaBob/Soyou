@@ -110,7 +110,7 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="79"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0T8-lv-203" id="6l2-Nb-a23">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="78"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="78.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Comments" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eB1-3H-mDy">
@@ -175,6 +175,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="rmd-R1-wWW"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnWriteComment" destination="VQF-WT-yLd" id="jgc-lN-jM2"/>
                         <outlet property="tableView" destination="r42-Wu-G6k" id="DTC-hl-C4n"/>
                     </connections>
                 </viewController>
