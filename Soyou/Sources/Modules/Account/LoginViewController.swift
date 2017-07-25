@@ -7,28 +7,28 @@
 //
 
 enum LoginType: Int {
-    case Login
-    case Register
-    case ResetPassword
+    case login
+    case register
+    case resetPassword
 }
 
 class LoginViewController: UIViewController {
     
-    private var type: LoginType = .Login
+    fileprivate var type: LoginType = .login
     @IBInspectable var typeAdapter:Int {
         get {
             return self.type.rawValue
         }
         set(type) {
-            self.type = LoginType(rawValue: type) ?? .Login
+            self.type = LoginType(rawValue: type) ?? .login
             
             // Update title
             switch self.type {
-            case .Login:
+            case .login:
                 self.title = NSLocalizedString("login_vc_login_title")
-            case .Register:
+            case .register:
                 self.title = NSLocalizedString("login_vc_register_title")
-            case .ResetPassword:
+            case .resetPassword:
                 self.title = NSLocalizedString("login_vc_reset_password_title")
             }
         }
@@ -55,14 +55,14 @@ class LoginViewController: UIViewController {
     
     
     // Class methods
-    class func instantiate(type: LoginType) -> LoginViewController {
+    class func instantiate(_ type: LoginType) -> LoginViewController {
         switch type {
-        case .Login:
-            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController)!
-        case .Register:
-            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("RegisterViewController") as? LoginViewController)!
-        case .ResetPassword:
-            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("ResetPasswordViewController") as? LoginViewController)!
+        case .login:
+            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController)!
+        case .register:
+            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "RegisterViewController") as? LoginViewController)!
+        case .resetPassword:
+            return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "ResetPasswordViewController") as? LoginViewController)!
         }
     }
     
@@ -79,24 +79,24 @@ class LoginViewController: UIViewController {
         
         // Translate UI
         self.tfEmail?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_email")
-        self.tfPassword?.placeholder = NSLocalizedString(self.type == .ResetPassword ? "login_vc_textfield_placeholder_new_password" : "login_vc_textfield_placeholder_password")
+        self.tfPassword?.placeholder = NSLocalizedString(self.type == .resetPassword ? "login_vc_textfield_placeholder_new_password" : "login_vc_textfield_placeholder_password")
         self.tfPasswordConfirm?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_confirm_password")
         self.tfVerificationCode?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_verification_code")
         self.lbl3rdPartyLogins?.text = NSLocalizedString("login_vc_3rd_party_logins")
         switch self.type {
-        case .Login:
-            self.btnAction?.setTitle(NSLocalizedString("login_vc_login_action_button"), forState: .Normal)
-            self.btnSignUp?.setTitle(NSLocalizedString("login_vc_register_title"), forState: .Normal)
-            self.btnForgetPassword?.setTitle(NSLocalizedString("login_vc_forget_password_title"), forState: .Normal)
-        case .Register:
-            self.btnAction?.setTitle(NSLocalizedString("login_vc_register_action_button"), forState: .Normal)
-        case .ResetPassword:
-            self.btnGetCode?.setTitle(NSLocalizedString("login_vc_reset_password_get_code"), forState: .Normal)
-            self.btnAction?.setTitle(NSLocalizedString("login_vc_reset_password_action_button"), forState: .Normal)
+        case .login:
+            self.btnAction?.setTitle(NSLocalizedString("login_vc_login_action_button"), for: .normal)
+            self.btnSignUp?.setTitle(NSLocalizedString("login_vc_register_title"), for: .normal)
+            self.btnForgetPassword?.setTitle(NSLocalizedString("login_vc_forget_password_title"), for: .normal)
+        case .register:
+            self.btnAction?.setTitle(NSLocalizedString("login_vc_register_action_button"), for: .normal)
+        case .resetPassword:
+            self.btnGetCode?.setTitle(NSLocalizedString("login_vc_reset_password_get_code"), for: .normal)
+            self.btnAction?.setTitle(NSLocalizedString("login_vc_reset_password_action_button"), for: .normal)
         }
         
         // Navigation Bar Items
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(UIViewController.dismissSelf))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(UIViewController.dismissSelf))
         
         // One Password Extension
         self.addOnePasswordButton()
@@ -108,46 +108,46 @@ class LoginViewController: UIViewController {
         
         // Setup NYSegmentedControl
         if let segmentedControl = self.ctlGender {
-            segmentedControl.backgroundColor = UIColor.whiteColor()
-//            segmentedControl.titleFont = UIFont.systemFontOfSize(15)
-            segmentedControl.titleTextColor = UIColor.lightGrayColor()
-//            segmentedControl.selectedTitleFont = UIFont.systemFontOfSize(15)
-            segmentedControl.selectedTitleTextColor = UIColor.whiteColor()
+            segmentedControl.backgroundColor = UIColor.white
+//            segmentedControl.titleFont = UIFont.systemFont(ofSize: 15)
+            segmentedControl.titleTextColor = UIColor.lightGray
+//            segmentedControl.selectedTitleFont = UIFont.systemFont(ofSize: 15)
+            segmentedControl.selectedTitleTextColor = UIColor.white
             segmentedControl.cornerRadius = 5.0
             segmentedControl.borderColor = UIColor(white: 0.75, alpha: 1)
             segmentedControl.borderWidth = 1 / 2.0//(self.view.window?.screen.scale ?? 1)
-            segmentedControl.segmentIndicatorInset = segmentedControl.borderWidth + 1
+            segmentedControl.segmentIndicatorInset = CGFloat(segmentedControl.borderWidth + 1)
             segmentedControl.drawsSegmentIndicatorGradientBackground = true
             segmentedControl.segmentIndicatorGradientTopColor = UIColor(white: 0.8, alpha: 1)
             segmentedControl.segmentIndicatorGradientBottomColor = UIColor(white: 0.8, alpha: 1)
-            segmentedControl.segmentIndicatorBorderColor = UIColor.clearColor()
+            segmentedControl.segmentIndicatorBorderColor = UIColor.clear
             segmentedControl.segmentIndicatorBorderWidth = 0
             segmentedControl.usesSpringAnimations = true
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         
         self.keyboardControlInstall()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.keyboardControlUninstall()
         MBProgressHUD.hide(self.view)
     }
     
-    override func willMoveToParentViewController(parent: UIViewController?) {
-        super.willMoveToParentViewController(parent)
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
         if let scrollView = self.scrollView {
             self.updateScrollViewInset(scrollView, 0, true, true, false, false)
         }
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         self.keyboardControlRotateWithTransitionCoordinator(coordinator)
     }
 }
@@ -155,21 +155,21 @@ class LoginViewController: UIViewController {
 // MARK: UITextFieldDelegate
 extension LoginViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let nextFirstResponder = (textField as? NextResponderTextField)!.nextFirstResponder {
             nextFirstResponder.becomeFirstResponder()
         }
         
         switch self.type {
-        case .Login:
+        case .login:
             if textField == tfPassword {
                 self.login(nil)
             }
-        case .Register:
+        case .register:
             if textField == tfPasswordConfirm {
                 self.register(nil)
             }
-        case .ResetPassword:
+        case .resetPassword:
             if textField == tfPasswordConfirm {
                 self.resetPassword(nil)
             }
@@ -182,33 +182,33 @@ extension LoginViewController: UITextFieldDelegate {
 // MARK: Common
 extension LoginViewController {
     
-    private func validateActionButton() {
-        self.btnAction?.enabled = false
+    fileprivate func validateActionButton() {
+        self.btnAction?.isEnabled = false
         switch self.type {
-        case .Login:
+        case .login:
             if let strEmail = tfEmail?.text,
-                strPassword = tfPassword?.text {
-                self.btnAction?.enabled = (strEmail.isEmail() && !strPassword.isEmpty)
+                let strPassword = tfPassword?.text {
+                self.btnAction?.isEnabled = (strEmail.isEmail() && !strPassword.isEmpty)
             }
-        case .Register:
+        case .register:
             if let strEmail = tfEmail?.text,
-                strPassword = tfPassword?.text,
-                strPasswordConfirm = tfPasswordConfirm?.text {
-                self.btnAction?.enabled = (strEmail.isEmail() && !strPassword.isEmpty && strPassword == strPasswordConfirm)
+                let strPassword = tfPassword?.text,
+                let strPasswordConfirm = tfPasswordConfirm?.text {
+                self.btnAction?.isEnabled = (strEmail.isEmail() && !strPassword.isEmpty && strPassword == strPasswordConfirm)
             }
             break
-        case .ResetPassword:
+        case .resetPassword:
             let isEmail = (tfEmail?.text ?? "" ).isEmail()
-            self.btnGetCode?.enabled = isEmail && !self.hasSentVerificationCode
+            self.btnGetCode?.isEnabled = isEmail && !self.hasSentVerificationCode
             if let strVerificationCode = tfVerificationCode?.text,
-                strPassword = tfPassword?.text,
-                strPasswordConfirm = tfPasswordConfirm?.text {
-                self.btnAction?.enabled = (isEmail && !strVerificationCode.isEmpty && !strPassword.isEmpty && strPassword == strPasswordConfirm)
+                let strPassword = tfPassword?.text,
+                let strPasswordConfirm = tfPasswordConfirm?.text {
+                self.btnAction?.isEnabled = (isEmail && !strVerificationCode.isEmpty && !strPassword.isEmpty && strPassword == strPasswordConfirm)
             }
         }
     }
     
-    @IBAction func textFieldDidChange(textField: UITextField?) {
+    @IBAction func textFieldDidChange(_ textField: UITextField?) {
         validateActionButton()
     }
 }
@@ -216,23 +216,23 @@ extension LoginViewController {
 // MARK: Login
 extension LoginViewController {
     
-    @IBAction func login(sender: UIButton?) {
+    @IBAction func login(_ sender: UIButton?) {
         self.dismissKeyboard()
         
         if let strEmail = tfEmail?.text,
-            strPassword = tfPassword?.text {
+            let strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.show(self.view)
             
             DataManager.shared.login(strEmail, strPassword) { responseObject, error in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async {
                     MBProgressHUD.hide(self.view)
                     if let error = error {
                         DataManager.showRequestFailedAlert(error)
                     } else {
                         self.dismissSelf()
                     }
-                })
+                }
             }
         }
     }
@@ -241,23 +241,23 @@ extension LoginViewController {
         MBProgressHUD.show()
     }
     
-    func stopLoadingInfoFromThirdLogin(error: NSError?) {
+    func stopLoadingInfoFromThirdLogin(_ error: NSError?) {
         MBProgressHUD.hide()
         if let error = error {
             DataManager.showRequestFailedAlert(error)
         } else {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async {
                 self.dismissSelf()
-            })
+            }
         }
     }
     
-    @IBAction func loginSinaWeibo(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Sina, controller: self) { (platform, state, result, error) in
-            if state == .Success {
+    @IBAction func loginSinaWeibo(_ sender: UIButton?) {
+        DDSocialAuthHandler.sharedInstance().auth(with: .sina, controller: self) { (platform, state, result, error) in
+            if state == .success {
                 self.startLoadingInfoFromThirdLogin()
-                let thirdId = result.thirdId
-                let accessToken = result.thirdToken
+                let thirdId = result?.thirdId ?? ""
+                let accessToken = result?.thirdToken ?? ""
                 let detailRequestURL = "https://api.weibo.com/2/users/show.json?access_token=\(accessToken)&uid=\(thirdId)"
                 RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
                     guard let responseDict = responseObject as? [String: AnyObject] else {
@@ -293,33 +293,33 @@ extension LoginViewController {
         }
     }
     
-    @IBAction func loginWechat(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.WeChat, controller: self) { (platform, state, result, error) in
+    @IBAction func loginWechat(_ sender: UIButton?) {
+        DDSocialAuthHandler.sharedInstance().auth(with: .weChat, controller: self) { (platform, state, result, error) in
             
         }
     }
     
-    @IBAction func loginQQ(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.QQ, controller: self) { (platform, state, result, error) in
-            if state == .Success {
-                if let tencentOAuth = result.userInfo as? TencentOAuth {
+    @IBAction func loginQQ(_ sender: UIButton?) {
+        DDSocialAuthHandler.sharedInstance().auth(with: .QQ, controller: self) { (platform, state, result, error) in
+            if state == .success {
+                if let tencentOAuth = result?.userInfo as? TencentOAuth {
                     self.startLoadingInfoFromThirdLogin()
                     tencentOAuth.sessionDelegate = self
                     tencentOAuth.getUserInfo()
-                    self.lastLoginThirdId = result.thirdId
-                    self.lastLoginThirdToken = result.thirdToken
+                    self.lastLoginThirdId = result?.thirdId
+                    self.lastLoginThirdToken = result?.thirdToken
                 }
             }
         }
     }
     
-    @IBAction func loginFacebook(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Facebook, controller: self) { (platform, state, result, error) in
-            if state == .Success {
+    @IBAction func loginFacebook(_ sender: UIButton?) {
+        DDSocialAuthHandler.sharedInstance().auth(with: .facebook, controller: self) { (platform, state, result, error) in
+            if state == .success {
                 self.startLoadingInfoFromThirdLogin()
-                let thirdId = result.thirdId
-                let accessToken = result.thirdToken
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "email,name,gender,picture.type(large)"]).startWithCompletionHandler({ (connection, result, error) in
+                let thirdId = result?.thirdId ?? ""
+                let accessToken = result?.thirdToken ?? ""
+                FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "email,name,gender,picture.type(large)"]).start(completionHandler: { (connection, result, error) in
                     guard let result = result as? [String: AnyObject] else {
                         self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
                         return
@@ -349,18 +349,18 @@ extension LoginViewController {
         }
     }
     
-    @IBAction func loginTwitter(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Twitter, controller: self) { (platform, state, result, error) in
-            if state == .Success {
-                if let session = result.userInfo as? TWTRSession {
+    @IBAction func loginTwitter(_ sender: UIButton?) {
+        DDSocialAuthHandler.sharedInstance().auth(with: .twitter, controller: self) { (platform, state, result, error) in
+            if state == .success {
+                if let session = result?.userInfo as? TWTRSession {
                     self.startLoadingInfoFromThirdLogin()
-                    let thirdId = result.thirdId
-                    let accessToken = result.thirdToken
+                    let thirdId = result?.thirdId ?? ""
+                    let accessToken = result?.thirdToken ?? ""
                     let authTokenSecret = session.authTokenSecret
                     let username = session.userName
-                    TWTRAPIClient.clientWithCurrentUser().loadUserWithID(thirdId, completion: { (user: TWTRUser?, error) in
+                    TWTRAPIClient.withCurrentUser().loadUser(withID: thirdId, completion: { (user: TWTRUser?, error) in
                         if error != nil {
-                            self.stopLoadingInfoFromThirdLogin(error)
+                            self.stopLoadingInfoFromThirdLogin(error as NSError?)
                         } else {
                             var avatar: String?
                             if let value = user?.profileImageLargeURL {
@@ -380,14 +380,14 @@ extension LoginViewController {
         }
     }
     
-    @IBAction func loginGoogle(sender: UIButton?) {
-        DDSocialAuthHandler.sharedInstance().authWithPlatform(.Google, controller: self) { (platform, state, result, error) in
-            if state == .Success {
-                if let googleUser = result.userInfo as? GIDGoogleUser {
+    @IBAction func loginGoogle(_ sender: UIButton?) {
+        DDSocialAuthHandler.sharedInstance().auth(with: .google, controller: self) { (platform, state, result, error) in
+            if state == .success {
+                if let googleUser = result?.userInfo as? GIDGoogleUser {
                     self.startLoadingInfoFromThirdLogin()
-                    let thirdId = result.thirdId
-                    let accessToken = result.thirdToken
-                    let username = googleUser.profile.name
+                    let thirdId = result?.thirdId ?? ""
+                    let accessToken = result?.thirdToken ?? ""
+                    let username = googleUser.profile.name ?? ""
                     let detailRequestURL = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="+accessToken
                     RequestManager.shared.getAsyncExternal(detailRequestURL, { (responseObject) in
                         guard let responseObject = responseObject as? [String: AnyObject] else {
@@ -421,11 +421,11 @@ extension LoginViewController: TencentSessionDelegate {
     
     func tencentDidLogin() {}
     
-    func tencentDidNotLogin(cancelled: Bool) {}
+    func tencentDidNotLogin(_ cancelled: Bool) {}
     
     func tencentDidNotNetWork() {}
     
-    func getUserInfoResponse(response: APIResponse) {
+    func getUserInfoResponse(_ response: APIResponse) {
         if response.retCode == 1 { // URLREQUEST_FAILED
             self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
             return
@@ -463,11 +463,11 @@ extension LoginViewController: TencentSessionDelegate {
 // MARK: Register
 extension LoginViewController {
     
-    @IBAction func register(sender: UIButton?) {
+    @IBAction func register(_ sender: UIButton?) {
         self.dismissKeyboard()
         
         if let strEmail = tfEmail?.text,
-            strPassword = tfPassword?.text {
+            let strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.show(self.view)
             
@@ -480,7 +480,7 @@ extension LoginViewController {
                     // Show alert
                     let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
                     alertView.addButton(NSLocalizedString("login_vc_register_alert_button")) { () -> Void in
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popViewController(animated: true)
                     }
                     alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("login_vc_register_alert_message"))
                 }
@@ -488,7 +488,7 @@ extension LoginViewController {
         }
     }
     
-    @IBAction func selectGender(sender: NYSegmentedControl?) {
+    @IBAction func selectGender(_ sender: NYSegmentedControl?) {
         if let segmentedControl = sender {
             self.selectedGender = "\(segmentedControl.selectedSegmentIndex + 1)"
         }
@@ -498,7 +498,7 @@ extension LoginViewController {
 // MARK: Reset Password
 extension LoginViewController {
     
-    @IBAction func getCode(sender: UIButton?) {
+    @IBAction func getCode(_ sender: UIButton?) {
         self.dismissKeyboard()
         
         if let strEmail = tfEmail?.text {
@@ -512,7 +512,7 @@ extension LoginViewController {
                     DataManager.showRequestFailedAlert(error)
                 } else {
                     self.hasSentVerificationCode = true
-                    self.btnGetCode?.enabled = !self.hasSentVerificationCode
+                    self.btnGetCode?.isEnabled = !self.hasSentVerificationCode
                     let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: true))
                     alertView.showSuccess(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("login_vc_reset_password_get_code_alert_message"))
                 }
@@ -520,11 +520,11 @@ extension LoginViewController {
         }
     }
     
-    @IBAction func resetPassword(sender: UIButton?) {
+    @IBAction func resetPassword(_ sender: UIButton?) {
         self.dismissKeyboard()
         
         if let strVerificationCode = tfVerificationCode?.text,
-            strPassword = tfPassword?.text {
+            let strPassword = tfPassword?.text {
             // Strat indicator
             MBProgressHUD.show(self.view)
             
@@ -548,7 +548,7 @@ extension LoginViewController {
 // MARK: KeyboardControl
 extension LoginViewController {
     
-    override func adjustViewsForKeyboardFrame(keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: NSTimeInterval, _ options: UIViewAnimationOptions) {
+    override func adjustViewsForKeyboardFrame(_ keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: TimeInterval, _ options: UIViewAnimationOptions) {
         super.adjustViewsForKeyboardFrame(keyboardFrame, isAnimated, duration, options)
         if let scrollView = self.scrollView {
             self.updateScrollViewInset(scrollView, 0, true, true, false, false)
@@ -559,11 +559,11 @@ extension LoginViewController {
 // MARK: NYSegmentedControlDataSource
 extension LoginViewController: NYSegmentedControlDataSource {
     
-    func numberOfSegmentsOfControl(control: NYSegmentedControl!) -> UInt {
+    func numberOfSegments(of control: NYSegmentedControl!) -> UInt {
         return 3
     }
     
-    func segmentedControl(control: NYSegmentedControl!, titleAtIndex index: Int) -> String! {
+    func segmentedControl(_ control: NYSegmentedControl!, titleAt index: Int) -> String! {
         if index == Cons.Usr.genderSecretIndex {
             return NSLocalizedString("user_info_gender_secret")
         } else if index == Cons.Usr.genderMaleIndex {
@@ -579,29 +579,29 @@ extension LoginViewController: NYSegmentedControlDataSource {
 extension LoginViewController {
     
     func addOnePasswordButton() {
-        if OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
+        if OnePasswordExtension.shared().isAppExtensionAvailable() {
             let opImage = UIImage(named: "onepassword-navbar")
             switch self.type {
-            case .Login:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.findLoginFrom1Password(_:)))
-            case .Register:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.saveLoginTo1Password(_:)))
-            case .ResetPassword:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .Plain, target: self, action: #selector(LoginViewController.changePasswordIn1Password(_:)))
+            case .login:
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .plain, target: self, action: #selector(LoginViewController.findLoginFrom1Password(_:)))
+            case .register:
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .plain, target: self, action: #selector(LoginViewController.saveLoginTo1Password(_:)))
+            case .resetPassword:
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: opImage, style: .plain, target: self, action: #selector(LoginViewController.changePasswordIn1Password(_:)))
             }
         }
     }
     
-    func findLoginFrom1Password(sender: AnyObject?) {
-        OnePasswordExtension.sharedExtension().findLoginForURLString("soyou.io", forViewController: self, sender: sender) { loginDictionary, error in
+    func findLoginFrom1Password(_ sender: AnyObject?) {
+        OnePasswordExtension.shared().findLogin(forURLString: "soyou.io", for: self, sender: sender) { loginDictionary, error in
             self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
             self.validateActionButton()
         }
     }
     
-    func saveLoginTo1Password(sender: AnyObject?) {
-        OnePasswordExtension.sharedExtension().storeLoginForURLString("soyou.io", loginDetails: nil, passwordGenerationOptions: nil, forViewController: self, sender: sender) { loginDictionary, error in
+    func saveLoginTo1Password(_ sender: AnyObject?) {
+        OnePasswordExtension.shared().storeLogin(forURLString: "soyou.io", loginDetails: nil, passwordGenerationOptions: nil, for: self, sender: sender) { loginDictionary, error in
             self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
             self.tfPasswordConfirm?.text = loginDictionary?[AppExtensionPasswordKey] as? String
@@ -609,8 +609,8 @@ extension LoginViewController {
         }
     }
     
-    func changePasswordIn1Password(sender: AnyObject?) {
-        OnePasswordExtension.sharedExtension().changePasswordForLoginForURLString("soyou.io", loginDetails: nil, passwordGenerationOptions: nil, forViewController: self, sender: sender) { loginDictionary, error in
+    func changePasswordIn1Password(_ sender: AnyObject?) {
+        OnePasswordExtension.shared().changePasswordForLogin(forURLString: "soyou.io", loginDetails: nil, passwordGenerationOptions: nil, for: self, sender: sender) { loginDictionary, error in
             self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
             self.tfPasswordConfirm?.text = loginDictionary?[AppExtensionPasswordKey] as? String

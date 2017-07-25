@@ -15,30 +15,30 @@ import CoreData
 
 class FavoriteNews: News {
 
-    override class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
+    @discardableResult override class func importData(_ data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteNews?) {
         var news: FavoriteNews? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
             
-            news = FavoriteNews.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            news = FavoriteNews.mr_findFirst(with: FmtPredicate("id == %@", id), in: context)
             if news == nil {
-                news = FavoriteNews.MR_createEntityInContext(context)
+                news = FavoriteNews.mr_createEntity(in: context)
                 news?.id = id
             }
             
             if let news = news {
                 if let value = data["datePublication"] as? String {
-                    news.datePublication = Cons.utcDateFormatter.dateFromString(value)
+                    news.datePublication = Cons.utcDateFormatter.date(from: value)
                 }
                 if let value = data["dateModification"] as? String {
-                    let newDateModification = Cons.utcDateFormatter.dateFromString(value)
+                    let newDateModification = Cons.utcDateFormatter.date(from: value)
                     if isComplete {
-                        news.appIsUpdated = NSNumber(bool: true)
+                        news.appIsUpdated = NSNumber(value: true as Bool)
                     } else {
                         if newDateModification != news.dateModification {
-                            news.appIsUpdated = NSNumber(bool: false) // Needs to be updated
+                            news.appIsUpdated = NSNumber(value: false as Bool) // Needs to be updated
                         }
                     }
                     news.dateModification = newDateModification
@@ -52,14 +52,14 @@ class FavoriteNews: News {
                     news.isOnline = data["isOnline"] as? NSNumber
                     news.url = data["url"] as? String
                 }
-                news.appIsFavorite = NSNumber(bool: true)
+                news.appIsFavorite = NSNumber(value: true as Bool)
             }
         }
         
         if let context = context {
             importDataClosure(context)
         } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                 importDataClosure(localContext)
             })
         }
@@ -67,46 +67,46 @@ class FavoriteNews: News {
         return news
     }
     
-    override class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
+    override class func importDatas(_ datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 if let completion = completion { completion(nil, FmtError(0, nil)) }
                 return
             }
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 // Import new data
                 for data in datas {
                     FavoriteNews.importData(data, isComplete, localContext)
                 }
                 
                 }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
+                    if let completion = completion { completion(responseObject, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }
         }
     }
     
-    class func updateWithData(data: [NSDictionary], _ completion: CompletionClosure?) {
+    class func updateWithData(_ data: [NSDictionary], _ completion: CompletionClosure?) {
         // Create a dictionary of all favorite news
         var favoriteIDs = [NSNumber]()
-        var favoriteDates = [NSNumber: NSDate]()
+        var favoriteDates = [NSNumber: Date]()
         for dict in data {
-            if let newsID = dict["id"] as? NSNumber, dateModification = dict["dateModification"] as? String {
+            if let newsID = dict["id"] as? NSNumber, let dateModification = dict["dateModification"] as? String {
                 favoriteIDs.append(newsID)
-                favoriteDates[newsID] = Cons.utcDateFormatter.dateFromString(dateModification)
+                favoriteDates[newsID] = Cons.utcDateFormatter.date(from: dateModification)
             }
         }
         
-        MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
             // Filter all existing ones, delete remotely deleted ones.
-            if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
+            if let allFavoritesNews = FavoriteNews.mr_findAll(in: localContext) as? [FavoriteNews] {
                 for favoriteNews in allFavoritesNews {
-                    if let newsID = favoriteNews.id, index = favoriteIDs.indexOf(newsID) {
-                        favoriteIDs.removeAtIndex(index)
+                    if let newsID = favoriteNews.id, let index = favoriteIDs.index(of: newsID) {
+                        favoriteIDs.remove(at: index)
                     } else {
-                        favoriteNews.MR_deleteEntityInContext(localContext)
+                        favoriteNews.mr_deleteEntity(in: localContext)
                     }
                 }
             }
@@ -116,9 +116,9 @@ class FavoriteNews: News {
                 DataManager.shared.requestNews(favoriteIDs, { responseObject, error in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         FavoriteNews.importDatas(data, false, false, { (responseObject, error) -> () in
-                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                                 // Update favorite dates
-                                if let allFavoritesNews = FavoriteNews.MR_findAllInContext(localContext) as? [FavoriteNews] {
+                                if let allFavoritesNews = FavoriteNews.mr_findAll(in: localContext) as? [FavoriteNews] {
                                     for favoriteNews in allFavoritesNews {
                                         if let newsID = favoriteNews.id {
                                             favoriteNews.dateFavorite = favoriteDates[newsID]
@@ -139,21 +139,21 @@ class FavoriteNews: News {
     }
     
     class func deleteAll() {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            FavoriteNews.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            FavoriteNews.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
         })
     }
     
-    func relatedNews(context: NSManagedObjectContext?) -> News? {
+    func relatedNews(_ context: NSManagedObjectContext?) -> News? {
         if let newsID = self.id {
             if let context = context {
-                let request = News.MR_requestFirstWithPredicate(FmtPredicate("id == %@", newsID), inContext: context)
+                let request = News.mr_requestFirst(with: FmtPredicate("id == %@", newsID), in: context)
                 request.includesSubentities = false
-                return News.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
+                return News.mr_executeFetchRequestAndReturnFirstObject(request, in: context)
             } else {
-                let request = News.MR_requestFirstWithPredicate(FmtPredicate("id == %@", newsID))
+                let request = News.mr_requestFirst(with: FmtPredicate("id == %@", newsID))
                 request.includesSubentities = false
-                return News.MR_executeFetchRequestAndReturnFirstObject(request)
+                return News.mr_executeFetchRequestAndReturnFirstObject(request)
             }
         }
         return nil

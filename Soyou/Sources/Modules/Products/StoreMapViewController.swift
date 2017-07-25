@@ -10,12 +10,12 @@ class StoreMapViewController: UIViewController {
 
     @IBOutlet var mapView: CustomMapView!
     @IBOutlet var btnLocate: UIButton!
-    private var _locationManager = CLLocationManager()
-    private var mapClusterController: CCHMapClusterController!
-    private var mapClusterer: CCHMapClusterer!
-    private var mapAnimator: CCHMapAnimator!
-    private var searchResultAnnotation: MKPointAnnotation?
-    private var calloutView: SMCalloutView!
+    fileprivate var _locationManager = CLLocationManager()
+    fileprivate var mapClusterController: CCHMapClusterController!
+    fileprivate var mapClusterer: CCHMapClusterer!
+    fileprivate var mapAnimator: CCHMapAnimator!
+    fileprivate var searchResultAnnotation: MKPointAnnotation?
+    fileprivate var calloutView: SMCalloutView!
     
     var isFullMap: Bool = false
     var brandID: NSNumber?
@@ -37,21 +37,21 @@ class StoreMapViewController: UIViewController {
         self.title = brandName
         
         // Callout view
-        self.calloutView = SMCalloutView.platformCalloutView()
+        self.calloutView = SMCalloutView.platform()
         self.mapView.calloutView = self.calloutView
         
         let leftButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
-        leftButton.setImage(UIImage(named: "img_duplicate"), forState: .Normal)
-        leftButton.tintColor = UIColor.whiteColor()
-        leftButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapCopy)
-        leftButton.addTarget(self, action: #selector(StoreMapViewController.copyAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        leftButton.setImage(UIImage(named: "img_duplicate"), for: .normal)
+        leftButton.tintColor = UIColor.white
+        leftButton.backgroundColor = Cons.UI.colorStoreMapCopy
+        leftButton.addTarget(self, action: #selector(StoreMapViewController.copyAddress(_:)), for: UIControlEvents.touchUpInside)
         self.calloutView.leftAccessoryView = leftButton
         
         let rightButton = StoreMapAnnotationCalloutButton(frame: CGRect(x: 0, y: 0, width: 44, height: 128))
-        rightButton.setImage(UIImage(named: "img_road_sign"), forState: .Normal)
-        rightButton.tintColor = UIColor.whiteColor()
-        rightButton.backgroundColor = UIColor(rgba: Cons.UI.colorStoreMapOpen)
-        rightButton.addTarget(self, action: #selector(StoreMapViewController.openMap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        rightButton.setImage(UIImage(named: "img_road_sign"), for: .normal)
+        rightButton.tintColor = UIColor.white
+        rightButton.backgroundColor = Cons.UI.colorStoreMapOpen
+        rightButton.addTarget(self, action: #selector(StoreMapViewController.openMap(_:)), for: UIControlEvents.touchUpInside)
         self.calloutView.rightAccessoryView = rightButton
 
         
@@ -68,18 +68,18 @@ class StoreMapViewController: UIViewController {
         if self.isFullMap {
             self.setupSearchController()
         } else {
-            self.btnLocate.hidden = true
+            self.btnLocate.isHidden = true
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = false
@@ -107,18 +107,18 @@ extension StoreMapViewController: CCHMapClusterControllerDelegate {
     }
     
     
-    func mapClusterController(mapClusterController: CCHMapClusterController!, titleForMapClusterAnnotation mapClusterAnnotation: CCHMapClusterAnnotation!) -> String! {
+    func mapClusterController(_ mapClusterController: CCHMapClusterController!, titleFor mapClusterAnnotation: CCHMapClusterAnnotation!) -> String! {
         let annotation = mapClusterAnnotation.annotations.first as? StoreMapAnnotation
         return annotation?.title ?? ""
     }
     
-    func mapClusterController(mapClusterController: CCHMapClusterController!, subtitleForMapClusterAnnotation mapClusterAnnotation: CCHMapClusterAnnotation!) -> String! {
+    func mapClusterController(_ mapClusterController: CCHMapClusterController!, subtitleFor mapClusterAnnotation: CCHMapClusterAnnotation!) -> String! {
         let annotation = mapClusterAnnotation.annotations.first as? StoreMapAnnotation
         return annotation?.subtitle ?? ""
     }
     
-    func mapClusterController(mapClusterController: CCHMapClusterController!, willReuseMapClusterAnnotation mapClusterAnnotation: CCHMapClusterAnnotation!) {
-        let clusterAnnotationView = self.mapView.viewForAnnotation(mapClusterAnnotation) as? ClusterAnnotationView
+    func mapClusterController(_ mapClusterController: CCHMapClusterController!, willReuse mapClusterAnnotation: CCHMapClusterAnnotation!) {
+        let clusterAnnotationView = self.mapView.view(for: mapClusterAnnotation) as? ClusterAnnotationView
         clusterAnnotationView?.count = mapClusterAnnotation.annotations.count
         clusterAnnotationView?.isUniqueLocation = mapClusterAnnotation.isUniqueLocation()
     }
@@ -128,18 +128,19 @@ extension StoreMapViewController: CCHMapClusterControllerDelegate {
 extension StoreMapViewController: MKMapViewDelegate {
     
     func addStoreAnnotations() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+        DispatchQueue.global(qos: .background).async {
             guard let brandID = self.brandID else { return }
-            if let stores = Store.MR_findAllWithPredicate(FmtPredicate("brandId == %@", brandID)) as? [Store] {
+            if let stores = Store.mr_findAll(with: FmtPredicate("brandId == %@", brandID)) as? [Store] {
                 var annotations = [StoreMapAnnotation]()
                 for store in stores {
                     let annotation = StoreMapAnnotation()
                     annotation.storeID = store.id
                     annotation.coordinate = CLLocationCoordinate2DMake(store.latitude!.doubleValue, store.longitude!.doubleValue)
                     annotation.title = store.title
-                    annotation.subtitle = (store.address != nil ? (store.address! + "\n") : "") +
-                        (store.zipcode != nil ? (store.zipcode! + "\n") : "") +
-                        (store.phoneNumber != nil ? (store.phoneNumber!) : "")
+                    let addressString = store.address != nil ? (store.address! + "\n") : ""
+                    let zipcodeString = store.zipcode != nil ? (store.zipcode! + "\n") : ""
+                    let storeString = store.phoneNumber != nil ? (store.phoneNumber!) : ""
+                    annotation.subtitle = addressString + zipcodeString + storeString
                     if annotation.title == nil {
                         annotation.title = annotation.subtitle
                         annotation.subtitle = nil
@@ -152,11 +153,11 @@ extension StoreMapViewController: MKMapViewDelegate {
     }
     
     // MARK: MKMapViewDelegate
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var returnValue: MKAnnotationView?
         if annotation is CCHMapClusterAnnotation {
             if let clusterAnnotation = annotation as? CCHMapClusterAnnotation {
-                var clusterAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("clusterAnnotation") as? ClusterAnnotationView
+                var clusterAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "clusterAnnotation") as? ClusterAnnotationView
                 if let annotationView = clusterAnnotationView {
                     annotationView.annotation = clusterAnnotation
                 } else {
@@ -171,7 +172,7 @@ extension StoreMapViewController: MKMapViewDelegate {
                 returnValue = clusterAnnotationView
             }
         } else if annotation is MKPointAnnotation {
-            var pinAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("pinAnnotationView") as? MKPinAnnotationView
+            var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "pinAnnotationView") as? MKPinAnnotationView
             if let annotationView = pinAnnotationView {
                 annotationView.annotation = annotation
             } else {
@@ -186,7 +187,7 @@ extension StoreMapViewController: MKMapViewDelegate {
         return returnValue
     }
     
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if (view is ClusterAnnotationView || view is MKPinAnnotationView) {
             // Zoom in for cluster annotation
             if let annotation = view.annotation as? CCHMapClusterAnnotation {
@@ -216,45 +217,45 @@ extension StoreMapViewController: MKMapViewDelegate {
             self.calloutView.calloutOffset = view.calloutOffset
             
             // This does all the magic.
-            self.calloutView.presentCalloutFromRect(view.bounds, inView: view, constrainedToView: self.mapView, animated: true)
+            self.calloutView.presentCallout(from: view.bounds, in: view, constrainedTo: self.mapView, animated: true)
         }
     }
     
-    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
-        self.calloutView.dismissCalloutAnimated(true)
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        self.calloutView.dismissCallout(animated: true)
     }
 }
 
 // MARK: CLLocationManager
 extension StoreMapViewController: CLLocationManagerDelegate {
     
-    private func initLocationManager() {
+    fileprivate func initLocationManager() {
         _locationManager.delegate = self
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.first?.coordinate {
-            self.mapView?.setCenterCoordinate(coordinate, animated: true)
+            self.mapView?.setCenter(coordinate, animated: true)
             manager.stopUpdatingLocation()
         }
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DLog(error)
     }
     
     @IBAction func locateSelf() {
         let authorizationStatus = CLLocationManager.authorizationStatus()
-        if authorizationStatus == .AuthorizedWhenInUse || authorizationStatus == .AuthorizedAlways {
+        if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
             _locationManager.startUpdatingLocation()
         } else {
-            if authorizationStatus == .NotDetermined {
+            if authorizationStatus == .notDetermined {
                 _locationManager.requestWhenInUseAuthorization()
             } else {
                 let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
                 alertView.addButton(NSLocalizedString("store_map_vc_go_to_settings")) { () -> Void in
-                    if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.sharedApplication().openURL(url)
+                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(url)
                     }
                 }
                 alertView.showWarning(NSLocalizedString("store_map_vc_location_service_unavailable_title"),
@@ -268,36 +269,35 @@ extension StoreMapViewController: CLLocationManagerDelegate {
 // MARK: Routines
 extension StoreMapViewController {
     
-    func storeOfSelectedAnnotation(annotation: CCHMapClusterAnnotation) -> Store? {
+    func storeOfSelectedAnnotation(_ annotation: CCHMapClusterAnnotation) -> Store? {
         if let selectedAnnotation = annotation.annotations.first as? StoreMapAnnotation,
-            storeID = selectedAnnotation.storeID {
-                return Store.MR_findFirstByAttribute("id", withValue: storeID)
+            let storeID = selectedAnnotation.storeID {
+                return Store.mr_findFirst(byAttribute: "id", withValue: storeID)
         }
         return nil
     }
     
-    func copyAddress(sender: UIButton) {
+    func copyAddress(_ sender: UIButton) {
         if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
-            store = self.storeOfSelectedAnnotation(selectedAnnotations) {
+            let store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             let address = FmtString("%@\n%@\n%@\n%@\n%@",store.title ?? "", store.address ?? "", store.zipcode ?? "", store.city ?? "", store.country ?? "")
-            let pasteboard = UIPasteboard.generalPasteboard()
-            pasteboard.persistent = true
+            let pasteboard = UIPasteboard.general
             pasteboard.string = address
             
             
-            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.mode = MBProgressHUDMode.Text
+            let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hud.mode = MBProgressHUDMode.text
             hud.label.text = NSLocalizedString("store_map_vc_address_copied")
-            hud.hideAnimated(true, afterDelay: 1)
+            hud.hide(animated: true, afterDelay: 1)
         }
         for annotation in self.mapView.selectedAnnotations {
             self.mapView.deselectAnnotation(annotation, animated: true)
         }
     }
     
-    func openMap(sender: UIButton) {
+    func openMap(_ sender: UIButton) {
         if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
-            store = self.storeOfSelectedAnnotation(selectedAnnotations) {
+            let store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             var addressDictionary = [String: String]()
             if #available(iOS 9.0, *) {
                 addressDictionary[CNPostalAddressStreetKey] = store.address ?? ""
@@ -318,8 +318,8 @@ extension StoreMapViewController {
             mapItem.name = store.title
             
             
-            let launchOptions: [String : AnyObject] = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving, MKLaunchOptionsMapTypeKey: MKMapType.Standard.rawValue]
-            mapItem.openInMapsWithLaunchOptions(launchOptions)
+            let launchOptions: [String : Any] = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving, MKLaunchOptionsMapTypeKey: MKMapType.standard.rawValue]
+            mapItem.openInMaps(launchOptions: launchOptions)
         }
         for annotation in self.mapView.selectedAnnotations {
             self.mapView.deselectAnnotation(annotation, animated: true)
@@ -336,7 +336,7 @@ extension StoreMapViewController: UISearchControllerDelegate {
         }
     }
     
-    func addSearchResultAnnotation(mapItem: MKMapItem) {
+    func addSearchResultAnnotation(_ mapItem: MKMapItem) {
         self.removeSearchResultAnnotation()
         
         let annotation = MKPointAnnotation()
@@ -348,12 +348,12 @@ extension StoreMapViewController: UISearchControllerDelegate {
     }
     
     func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: #selector(StoreMapViewController.showSearchController))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(StoreMapViewController.showSearchController))
     }
     
     func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationItem.setRightBarButtonItem(nil, animated: false)
+        self.navigationItem.setRightBarButton(nil, animated: false)
         self.navigationItem.titleView = self.searchController!.searchBar
         self.searchController!.searchBar.becomeFirstResponder()
     }
@@ -376,7 +376,7 @@ extension StoreMapViewController: UISearchControllerDelegate {
         self.searchController!.hidesNavigationBarDuringPresentation = false
     }
     
-    func willDismissSearchController(searchController: UISearchController) {
+    func willDismissSearchController(_ searchController: UISearchController) {
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.hideSearchController()
     }
@@ -389,10 +389,10 @@ extension StoreMapViewController: StoreMapSearchResultsViewControllerDelegate {
         return self.mapView.region
     }
     
-    func didSelectSearchResult(mapItem: MKMapItem) {
+    func didSelectSearchResult(_ mapItem: MKMapItem) {
         DLog(mapItem)
         if let region = mapItem.placemark.region as? CLCircularRegion {
-            self.searchController?.active = false
+            self.searchController?.isActive = false
             let mapRegion = MKCoordinateRegionMakeWithDistance(region.center, region.radius, region.radius)
             self.mapView.setRegion(self.mapView.regionThatFits(mapRegion), animated: true)
             self.addSearchResultAnnotation(mapItem)
@@ -412,12 +412,12 @@ class CustomMapView: MKMapView {
     
     var calloutView: SMCalloutView?
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        if let convertedPoint = self.calloutView?.convertPoint(point, fromView: self),
-            calloutMaybe = self.calloutView?.hitTest(convertedPoint, withEvent: event) {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let convertedPoint = self.calloutView?.convert(point, from: self),
+            let calloutMaybe = self.calloutView?.hitTest(convertedPoint, with: event) {
             return calloutMaybe
         }
-        return super.hitTest(point, withEvent: event)
+        return super.hitTest(point, with: event)
     }
 }
 

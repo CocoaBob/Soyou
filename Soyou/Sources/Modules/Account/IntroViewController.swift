@@ -7,47 +7,47 @@
 //
 
 enum IntroViewPage: Int {
-    case Welcome
-    case News
-    case Search
-    case Prices
-    case Map
-    case Count
+    case welcome
+    case news
+    case search
+    case prices
+    case map
+    case count
 }
 
 class IntroViewController: NSObject {
     
     static let shared = IntroViewController()
     
-    private var locationManager: CLLocationManager?
+    fileprivate var locationManager: CLLocationManager?
     var introView: EAIntroView?
     
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IntroViewController.didRegisterForRemoteNotifications), name: Cons.Usr.DidRegisterForRemoteNotifications, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IntroViewController.didRegisterForRemoteNotifications), name: NSNotification.Name(rawValue: Cons.Usr.DidRegisterForRemoteNotifications), object: nil)
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func showIntroView() {
-        guard let keyWindow = UIApplication.sharedApplication().keyWindow else { return }
+        guard let keyWindow = UIApplication.shared.keyWindow else { return }
         
         var introPages = [EAIntroPage]()
         
-        for i in 0..<IntroViewPage.Count.rawValue {
-            let page: IntroViewPage = IntroViewPage(rawValue: i) ?? .Count
+        for i in 0..<IntroViewPage.count.rawValue {
+            let page: IntroViewPage = IntroViewPage(rawValue: i) ?? .count
             switch page {
-            case .Welcome:
+            case .welcome:
                 introPages.append(introPageForWelcome(keyWindow.bounds.size))
-            case .Search:
+            case .search:
                 introPages.append(introPageForSearch(keyWindow.bounds.size))
-            case .Prices:
+            case .prices:
                 introPages.append(introPageForPrices(keyWindow.bounds.size))
-            case .Map:
+            case .map:
                 introPages.append(introPageForMap(keyWindow.bounds.size))
-            case .News:
+            case .news:
                 introPages.append(introPageForNews(keyWindow.bounds.size))
             default:
                 break
@@ -59,68 +59,68 @@ class IntroViewController: NSObject {
         self.introView?.bgImage = UIImage(named: "img_bg_user")
         self.introView?.pageControlY = 24
         self.introView?.skipButtonY = 8
-        self.introView?.skipButton.setTitle(NSLocalizedString("intro_vc_skip_button_done"), forState: .Normal)
+        self.introView?.skipButton.setTitle(NSLocalizedString("intro_vc_skip_button_done"), for: .normal)
         self.introView?.showSkipButtonOnlyOnLastPage = true
 //        self.introView?.swipeToExit = false
         
-        self.introView?.showInView(keyWindow, animateDuration: 0.3)
+        self.introView?.show(in: keyWindow, animateDuration: 0.3)
     }
 }
 
 // MARAK: Pages
 extension IntroViewController {
     
-    func newIntroPage(titleID: String, _ descID: String, _ imageID: String, _ viewSize: CGSize) -> EAIntroPage {
+    func newIntroPage(_ titleID: String, _ descID: String, _ imageID: String, _ viewSize: CGSize) -> EAIntroPage {
         let introPage = EAIntroPage()
         introPage.title = NSLocalizedString(titleID)
         introPage.desc = NSLocalizedString(descID)
         introPage.titleIconView = UIImageView(image: UIImage(named: NSLocalizedString(imageID)))
-        introPage.titleIconView.contentMode = .ScaleAspectFit
+        introPage.titleIconView.contentMode = .scaleAspectFit
         introPage.titleIconView.frame = CGRect(x: 0, y: 0, width: viewSize.width, height: viewSize.height - 220) // -160-8-44-8
         return introPage
     }
     
-    func introPageForWelcome(viewSize: CGSize) -> EAIntroPage {
+    func introPageForWelcome(_ viewSize: CGSize) -> EAIntroPage {
         let introPage = self.newIntroPage("intro_vc_title_welcome", "intro_vc_desc_welcome", "intro_vc_image_welcome", viewSize)
         return introPage
     }
     
-    func introPageForSearch(viewSize: CGSize) -> EAIntroPage {
+    func introPageForSearch(_ viewSize: CGSize) -> EAIntroPage {
         let introPage = self.newIntroPage("intro_vc_title_search", "intro_vc_desc_search", "intro_vc_image_search", viewSize)
         return introPage
     }
     
-    func introPageForPrices(viewSize: CGSize) -> EAIntroPage {
+    func introPageForPrices(_ viewSize: CGSize) -> EAIntroPage {
         let introPage = self.newIntroPage("intro_vc_title_prices", "intro_vc_desc_prices", "intro_vc_image_prices", viewSize)
         return introPage
     }
     
-    func introPageForMap(viewSize: CGSize) -> EAIntroPage {
+    func introPageForMap(_ viewSize: CGSize) -> EAIntroPage {
         let introPage = self.newIntroPage("intro_vc_title_map", "intro_vc_desc_map", "intro_vc_image_map", viewSize)
         
-        if CLLocationManager.authorizationStatus() == .NotDetermined {
+        if CLLocationManager.authorizationStatus() == .notDetermined {
             let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 50 - 44, width: 240, height: 44))
-            actionButton.borderColor = UIColor.whiteColor()
+            actionButton.borderColor = UIColor.white
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
-            actionButton.setTitle(NSLocalizedString("intro_vc_enable_location"), forState: .Normal)
-            actionButton.addTarget(self, action: #selector(IntroViewController.enableLocation(_:)), forControlEvents: .TouchUpInside)
+            actionButton.setTitle(NSLocalizedString("intro_vc_enable_location"), for: .normal)
+            actionButton.addTarget(self, action: #selector(IntroViewController.enableLocation(_:)), for: .touchUpInside)
             introPage.subviews = [actionButton]
         }
         
         return introPage
     }
     
-    func introPageForNews(viewSize: CGSize) -> EAIntroPage {
+    func introPageForNews(_ viewSize: CGSize) -> EAIntroPage {
         let introPage = self.newIntroPage("intro_vc_title_news", "intro_vc_desc_news", "intro_vc_image_news", viewSize)
         
-        if !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() {
+        if !UIApplication.shared.isRegisteredForRemoteNotifications {
             let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 50 - 44, width: 240, height: 44))
-            actionButton.borderColor = UIColor.whiteColor()
+            actionButton.borderColor = UIColor.white
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
-            actionButton.setTitle(NSLocalizedString("intro_vc_enable_notification"), forState: .Normal)
-            actionButton.addTarget(self, action: #selector(IntroViewController.enableNotification(_:)), forControlEvents: .TouchUpInside)
+            actionButton.setTitle(NSLocalizedString("intro_vc_enable_notification"), for: .normal)
+            actionButton.addTarget(self, action: #selector(IntroViewController.enableNotification(_:)), for: .touchUpInside)
             introPage.subviews = [actionButton]
         }
         
@@ -131,19 +131,19 @@ extension IntroViewController {
 // MARK: EAIntroDelegate
 extension IntroViewController: EAIntroDelegate {
     
-    func introDidFinish(introView: EAIntroView!) {
+    func introDidFinish(_ introView: EAIntroView!) {
 
     }
     
-    func intro(introView: EAIntroView!, pageAppeared page: EAIntroPage!, withIndex pageIndex: UInt) {
+    func intro(_ introView: EAIntroView!, pageAppeared page: EAIntroPage!, with pageIndex: UInt) {
         
     }
     
-    func intro(introView: EAIntroView!, pageStartScrolling page: EAIntroPage!, withIndex pageIndex: UInt) {
+    func intro(_ introView: EAIntroView!, pageStartScrolling page: EAIntroPage!, with pageIndex: UInt) {
         
     }
     
-    func intro(introView: EAIntroView!, pageEndScrolling page: EAIntroPage!, withIndex pageIndex: UInt) {
+    func intro(_ introView: EAIntroView!, pageEndScrolling page: EAIntroPage!, with pageIndex: UInt) {
         
     }
 }
@@ -151,25 +151,26 @@ extension IntroViewController: EAIntroDelegate {
 // MARK: Actions
 extension IntroViewController {
     
-    func enableLocation(sender: UIButton) {
+    func enableLocation(_ sender: UIButton) {
         self.locationManager = CLLocationManager()
         self.locationManager?.delegate = self
         self.locationManager?.requestWhenInUseAuthorization()
     }
     
-    func enableNotification(sender: UIButton) {
-        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+    func enableNotification(_ sender: UIButton) {
+        UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert],
+                                                                                         categories: nil))
+        UIApplication.shared.registerForRemoteNotifications()
     }
 }
 
 // MARK: Remove buttons
 extension IntroViewController: CLLocationManagerDelegate {
     
-    func removeSubviews(subviews: [UIView]) {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+    func removeSubviews(_ subviews: [UIView]) {
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             for view in subviews {
-                view.transform = CGAffineTransformMakeScale(1, 0.1)
+                view.transform = CGAffineTransform(scaleX: 1, y: 0.1)
                 view.alpha = 0
             }
             }, completion: { finished -> Void in
@@ -179,9 +180,9 @@ extension IntroViewController: CLLocationManagerDelegate {
         })
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedWhenInUse {
-            if let page = self.introView?.pages[IntroViewPage.Map.rawValue] as? EAIntroPage {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            if let page = self.introView?.pages[IntroViewPage.map.rawValue] as? EAIntroPage {
                 if let subViews = page.subviews as? [UIView] {
                     self.removeSubviews(subViews)
                 }
@@ -192,8 +193,8 @@ extension IntroViewController: CLLocationManagerDelegate {
     // Notifications
     // Cons.Usr.DidRegisterForRemoteNotifications
     func didRegisterForRemoteNotifications() {
-        if UIApplication.sharedApplication().isRegisteredForRemoteNotifications() {
-            if let page = self.introView?.pages[IntroViewPage.News.rawValue] as? EAIntroPage {
+        if UIApplication.shared.isRegisteredForRemoteNotifications {
+            if let page = self.introView?.pages[IntroViewPage.news.rawValue] as? EAIntroPage {
                 if let subViews = page.subviews as? [UIView] {
                     self.removeSubviews(subViews)
                 }

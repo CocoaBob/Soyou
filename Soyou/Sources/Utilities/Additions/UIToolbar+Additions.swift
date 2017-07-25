@@ -8,7 +8,7 @@
 
 extension UIToolbar {
     
-    override public func actionForLayer(layer: CALayer, forKey event: String) -> CAAction? {
+    override open func action(for layer: CALayer, forKey event: String) -> CAAction? {
         if "position" == event {
             let transition = CATransition()
             
@@ -19,6 +19,6 @@ extension UIToolbar {
             
             return transition
         }
-        return super.actionForLayer(layer, forKey: event)
+        return super.action(for: layer, forKey: event)
     }
 }

@@ -12,15 +12,15 @@ class Utils: NSObject {
     
     static let shared = Utils()
         
-    func logAnalytic(target: Int, action: Int, data: String) {
+    func logAnalytic(_ target: Int, action: Int, data: String) {
         let analytic: NSDictionary = [
-            "target": NSNumber(integer: target),
-            "action": NSNumber(integer: action),
+            "target": NSNumber(value: target as Int),
+            "action": NSNumber(value: action as Int),
             "data": data,
-            "operatedAt": Cons.utcDateFormatter.stringFromDate(NSDate())
+            "operatedAt": Cons.utcDateFormatter.string(from: Date())
         ]
         
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
             Analytic.importData(analytic, localContext)
         })
     }
@@ -30,26 +30,26 @@ class Utils: NSObject {
 extension Utils {
     
     class func openAppStorePage() {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8")!)
+        UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8")!)
     }
 }
 
 // MARK: Share
 extension Utils {
     
-    class func shareItems(items: [AnyObject], completion: (() -> Void)?) {
-        if let vc = UIApplication.sharedApplication().keyWindow?.rootViewController?.toppestViewController() {
+    class func shareItems(_ items: [Any], completion: (() -> Void)?) {
+        if let vc = UIApplication.shared.keyWindow?.rootViewController?.toppestViewController() {
             let activityView = UIActivityViewController(activityItems: items, applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
             activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-            vc.presentViewController(activityView, animated: true, completion: completion)
+            vc.present(activityView, animated: true, completion: completion)
         }
     }
     
     class func shareApp() {
-        guard let keyWindow = UIApplication.sharedApplication().keyWindow else { return }
+        guard let keyWindow = UIApplication.shared.keyWindow else { return }
         MBProgressHUD.show(keyWindow)
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            if let image = UIImage(named: "img_share_icon"), url = NSURL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
+        DispatchQueue.main.async {
+            if let image = UIImage(named: "img_share_icon"), let url = URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
                 Utils.shareItems(
                     [image, NSLocalizedString("user_vc_feedback_alert_share_title"), NSLocalizedString("user_vc_feedback_alert_share_description"), url],
                     completion: { () -> Void in
@@ -63,37 +63,30 @@ extension Utils {
 // MARK: Diagnostics
 extension Utils {
     
-    class func systemDiagnosticData() -> NSData? {
+    class func systemDiagnosticData() -> Data? {
         // Prepare info
         var appVersion  = ""
-        if let shortVersionString = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String {
+        if let shortVersionString = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString" as String) as? String {
             appVersion  += shortVersionString
         }
-        if let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
+        if let version = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String {
             appVersion  += "(\(version))"
         }
-        let appLanguage = NSLocale.preferredLanguages().first ?? "Unknown"
-        let device = UIDevice.currentDevice()
-        let deviceName = device.name ?? "Unknown"
-        let deviceModel = device.model ?? "Unknown"
-        let deviceSystemName = device.systemName ?? "Unknown"
-        let deviceSystemVersion = device.systemVersion ?? "Unknown"
-        let deviceUUID = device.identifierForVendor?.UUIDString ?? "Unknown"
-        let screenSize = NSStringFromCGSize(UIScreen.mainScreen().bounds.size)
-        let screenScale = "\(UIScreen.mainScreen().scale)"
+        let appLanguage = Locale.preferredLanguages.first ?? "Unknown"
+        let device = UIDevice.current
+        let deviceName = device.name
+        let deviceModel = device.model
+        let deviceSystemName = device.systemName
+        let deviceSystemVersion = device.systemVersion
+        let deviceUUID = device.identifierForVendor?.uuidString ?? "Unknown"
+        let screenSize = NSStringFromCGSize(UIScreen.main.bounds.size)
+        let screenScale = "\(UIScreen.main.scale)"
         
-        // Get device machine name http://stackoverflow.com/a/25380129/886215
-        var sysInfo: [CChar] = Array(count: sizeof(utsname), repeatedValue: 0)
-        let machine = sysInfo.withUnsafeMutableBufferPointer { (inout ptr: UnsafeMutableBufferPointer<CChar>) -> String in
-            uname(UnsafeMutablePointer<utsname>(ptr.baseAddress))
-            let machinePtr = ptr.baseAddress.advancedBy(Int(_SYS_NAMELEN * 4))
-            var buf: [CChar] = Array<CChar>(count: Int(_SYS_NAMELEN) + 1, repeatedValue: 0)
-            return buf.withUnsafeMutableBufferPointer({ (inout bufPtr: UnsafeMutableBufferPointer<CChar>) -> String in
-                strncpy(bufPtr.baseAddress, machinePtr, Int(_SYS_NAMELEN))
-                return String.fromCString(bufPtr.baseAddress)!
-            })
-        }
-        
+        // Get device machine name http://stackoverflow.com/questions/26028918
+        var sysinfo = utsname()
+        uname(&sysinfo) // ignore return value
+        let machine = String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+
         // Prepare data
         let diagnosticString =
             "AppVersion : \(appVersion)\n" +
@@ -107,11 +100,11 @@ extension Utils {
                 "ScreenSize : \(screenSize)\n" +
                 "ScreenScale : \(screenScale)\n"
         
-        return diagnosticString.dataUsingEncoding(NSUTF8StringEncoding)
+        return diagnosticString.data(using: String.Encoding.utf8)
     }
     
-    func networkDiagnosticData(completionHandler: ((NSData?)->())?) {
-        guard let keyWindow = UIApplication.sharedApplication().keyWindow else {
+    func networkDiagnosticData(_ completionHandler: ((Data?)->())?) {
+        guard let keyWindow = UIApplication.shared.keyWindow else {
             if let completionHandler = completionHandler { completionHandler(nil) }
             return
         }
@@ -119,19 +112,19 @@ extension Utils {
         // Add text view
         let textView = UITextView(frame: CGRect(x: 0, y: 0, width: 64, height: 64))
         textView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        textView.textColor = UIColor.greenColor()
+        textView.textColor = UIColor.green
         textView.font = UIFont(name: "Menlo", size: 9)
         textView.contentInset = UIEdgeInsets(top: 72, left: 0, bottom: 56, right: 0)
-        textView.editable = false
-        textView.selectable = false
+        textView.isEditable = false
+        textView.isSelectable = false
         keyWindow.addSubview(textView)
         
         // Constraint
         var viewBindingsDict = [String: AnyObject]()
         viewBindingsDict["textView"] = textView
         textView.translatesAutoresizingMaskIntoConstraints = false
-        keyWindow.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
-        keyWindow.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
+        keyWindow.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
+        keyWindow.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
         textView.setNeedsLayout()
         textView.layoutIfNeeded()
         
@@ -143,10 +136,10 @@ extension Utils {
         
         // Start traceroute
         let outputLogger = QNNOutputLogger() { logs in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async {
                 textView.text = logs
                 textView.scrollRectToVisible(CGRect(x:0, y:textView.contentSize.height, width:1, height:1), animated: false)
-            })
+            }
         }
         QNNTraceRoute.start("api.soyou.io", output:outputLogger) { records in
             // Remove logs
@@ -154,15 +147,15 @@ extension Utils {
             // Remove indicator
             MBProgressHUD.hide()
             if let completionHandler = completionHandler {
-                let result = outputLogger.logs.dataUsingEncoding(NSUTF8StringEncoding)
+                let result = outputLogger.logs.data(using: String.Encoding.utf8)
                 completionHandler(result)
             }
         }
     }
     
-    func sendDiagnosticReport(fromViewController: UIViewController) {
+    func sendDiagnosticReport(_ fromViewController: UIViewController) {
         let completion = { (testResponseString: String) in
-            let testResponseData = testResponseString.dataUsingEncoding(NSUTF8StringEncoding)
+            let testResponseData = testResponseString.data(using: String.Encoding.utf8)
             Utils.shared.networkDiagnosticData() { result in
                 Utils.shared.sendFeedbackEmail(fromViewController, attachments: [
                     "SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData()),
@@ -171,9 +164,9 @@ extension Utils {
             }
         }
         RequestManager.shared.requestAllBrands({ (responseObject) in
-            completion("\(responseObject)")
+            completion("\(String(describing: responseObject))")
         }) { (error) in
-            completion("\(error)")
+            completion("\(String(describing: error))")
         }
     }
 }
@@ -181,14 +174,14 @@ extension Utils {
 // MARK: Compress data
 extension Utils {
     
-    class func compressData(fileName: String, _ data: NSData?) -> NSData? {
+    class func compressData(_ fileName: String, _ data: Data?) -> Data? {
         guard let data = data else { return nil }
         let tempDir = NSTemporaryDirectory() as NSString
-        let oldDataPath = tempDir.stringByAppendingPathComponent(fileName)
-        let newDataPath = tempDir.stringByAppendingPathComponent("\(arc4random())")
-        data.writeToFile(oldDataPath, atomically: true)
-        SSZipArchive.createZipFileAtPath(newDataPath, withFilesAtPaths: [oldDataPath])
-        return NSData(contentsOfFile: newDataPath)
+        let oldDataPath = tempDir.appendingPathComponent(fileName)
+        let newDataPath = tempDir.appendingPathComponent("\(arc4random())")
+        try? data.write(to: URL(fileURLWithPath: oldDataPath), options: [.atomic])
+        SSZipArchive.createZipFile(atPath: newDataPath, withFilesAtPaths: [oldDataPath])
+        return (try? Data(contentsOf: URL(fileURLWithPath: newDataPath)))
     }
 }
 
@@ -196,7 +189,7 @@ extension Utils {
 // MARK: Send feedback email and MFMailComposeViewControllerDelegate
 extension Utils: MFMailComposeViewControllerDelegate {
     
-    func sendFeedbackEmail(fromViewController: UIViewController, attachments: [String: NSData?]?) {
+    func sendFeedbackEmail(_ fromViewController: UIViewController, attachments: [String: Data?]?) {
         if MFMailComposeViewController.canSendMail() {
             let mailComposeViewController = MFMailComposeViewController()
             mailComposeViewController.mailComposeDelegate = self
@@ -210,11 +203,11 @@ extension Utils: MFMailComposeViewControllerDelegate {
                     }
                 }
             }
-            fromViewController.presentViewController(mailComposeViewController, animated: true, completion: nil)
+            fromViewController.present(mailComposeViewController, animated: true, completion: nil)
         }
     }
     
-    func mailComposeController(viewController: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(_ viewController: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         viewController.dismissSelf()
     }
 }
@@ -222,25 +215,25 @@ extension Utils: MFMailComposeViewControllerDelegate {
 // MARK: Encryption / Decryption
 extension Utils {
     
-    private class func addRandomPrefix(data: NSData) -> NSData {
-        let mutableData = NSMutableData(data: data)
-        let randomData = NSData(bytes: [UInt8(arc4random_uniform(256))], length: 1)
-        mutableData.appendData(randomData)
+    fileprivate class func addRandomPrefix(_ data: Data) -> Data {
+        var mutableData = NSData(data: data) as Data
+        let randomData = Data(bytes: UnsafePointer<UInt8>([UInt8(arc4random_uniform(256))]), count: 1)
+        mutableData.append(randomData)
         return mutableData
     }
     
-    private class func removeRandomPrefix(data: NSData) -> NSData {
-        return NSData(bytes: data.bytes, length: data.length - 1)
+    fileprivate class func removeRandomPrefix(_ data: Data) -> Data {
+        return data.subdata(in: 0..<data.count - 2)
     }
     
-    class func encrypt(object: AnyObject) -> NSData {
-        let objectData = NSKeyedArchiver.archivedDataWithRootObject(object)
+    class func encrypt(_ object: AnyObject) -> Data {
+        let objectData = NSKeyedArchiver.archivedData(withRootObject: object)
         return addRandomPrefix(objectData)
     }
     
-    class func decrypt(data: NSData) -> AnyObject? {
+    class func decrypt(_ data: Data) -> AnyObject? {
         let objectData = removeRandomPrefix(data)
-        return NSKeyedUnarchiver.unarchiveObjectWithData(objectData)
+        return NSKeyedUnarchiver.unarchiveObject(with: objectData) as AnyObject?
     }
 }
 
@@ -254,7 +247,7 @@ class QNNOutputLogger: NSObject, QNNOutputDelegate {
         self.updateHandler = updateHandler
     }
     
-    func write(line: String) {
+    func write(_ line: String) {
         self.logs += line
         if let updateHandler = updateHandler {
             updateHandler(self.logs)

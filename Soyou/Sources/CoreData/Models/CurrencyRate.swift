@@ -13,7 +13,7 @@ import CoreData
 class CurrencyRate: NSManagedObject {
     
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (CurrencyRate?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ context: NSManagedObjectContext) -> (CurrencyRate?) {
         guard let data = data else {
             return nil
         }
@@ -26,42 +26,42 @@ class CurrencyRate: NSManagedObject {
             return nil
         }
         
-        var currencyRate: CurrencyRate? = CurrencyRate.MR_findFirstWithPredicate(FmtPredicate("sourceCode == %@ && targetCode == %@", sourceCode, targetCode), inContext: context)
+        var currencyRate: CurrencyRate? = CurrencyRate.mr_findFirst(with: FmtPredicate("sourceCode == %@ && targetCode == %@", sourceCode, targetCode), in: context)
         if currencyRate == nil {
-            currencyRate = CurrencyRate.MR_createEntityInContext(context)
+            currencyRate = CurrencyRate.mr_createEntity(in: context)
         }
         
         if let currencyRate = currencyRate {
             currencyRate.sourceCode = sourceCode
             currencyRate.targetCode = targetCode
-            currencyRate.updatedAt = data["updatedAt"] as? NSDate
+            currencyRate.updatedAt = data["updatedAt"] as? Date
             if let value = data["rate"] as? String,
-                doubleValue = Double(value) {
-                currencyRate.rate = NSNumber(double: doubleValue)
+                let doubleValue = Double(value) {
+                currencyRate.rate = NSNumber(value: doubleValue as Double)
             } else {
-                currencyRate.rate = NSNumber(double: 1)
+                currencyRate.rate = NSNumber(value: 1 as Double)
             }
         }
         
         return currencyRate
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 if let completion = completion { completion(nil, FmtError(0, nil)) }
                 return
             }
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 // Delete old data
-                CurrencyRate.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+                CurrencyRate.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
                 // Import new data
                 for data in datas {
                     CurrencyRate.importData(data, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                if let completion = completion { completion(responseObject, error) }
+                if let completion = completion { completion(responseObject, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }

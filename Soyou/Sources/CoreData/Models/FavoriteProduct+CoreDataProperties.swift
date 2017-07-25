@@ -14,7 +14,7 @@ import CoreData
 
 extension FavoriteProduct {
 
-    @NSManaged var dateFavorite: NSDate?
+    @NSManaged var dateFavorite: Date?
     @NSManaged var id: NSNumber?
 
 }

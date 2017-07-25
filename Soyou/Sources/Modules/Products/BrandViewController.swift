@@ -24,14 +24,14 @@ extension CategoryItem: Equatable, Comparable {
 }
 
 private func == (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
-    return (lhs.id.integerValue == rhs.id.integerValue)
+    return (lhs.id.intValue == rhs.id.intValue)
 }
 
 private func < (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
-    if (lhs.order.integerValue < rhs.order.integerValue) {
+    if (lhs.order.intValue < rhs.order.intValue) {
         return true
     } else {
-        return (lhs.label.compare(rhs.label, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: nil, locale: NSLocale(localeIdentifier: "zh_CN")) == .OrderedAscending)
+        return (lhs.label.compare(rhs.label, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: Locale(identifier: "zh_CN")) == .orderedAscending)
     }
 }
 
@@ -58,21 +58,19 @@ class BrandViewController: UIViewController {
     
     var searchController: UISearchController?
     
-    private var _categoryItems = [CategoryItem]()
-    private var _tableViewItems = [BrandTableViewItem]()
+    fileprivate var _categoryItems = [CategoryItem]()
+    fileprivate var _tableViewItems = [BrandTableViewItem]()
     
     var brandID: NSNumber?
     var brandName: String?
     var brandCategories: [NSDictionary]?
-    var brandImageURL: NSURL? {
+    var brandImageURL: URL? {
         didSet {
-            SDWebImageManager.sharedManager().downloadImageWithURL(
-                brandImageURL,
-                options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
-                    
-                },
-                completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
+            SDWebImageManager.shared().downloadImage(
+                with: brandImageURL,
+                options: [.continueInBackground, .allowInvalidSSLCertificates],
+                progress: { (_, _) -> Void in },
+                completed: { (image, error, type, finished, url) -> Void in
                     self.brandImage = image
             })
         }
@@ -81,7 +79,7 @@ class BrandViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> BrandViewController {
-        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("BrandViewController") as? BrandViewController)!
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewController(withIdentifier: "BrandViewController") as! BrandViewController
     }
     
     // Life cycle
@@ -110,28 +108,28 @@ class BrandViewController: UIViewController {
         // Update footer view size
         self.updateFooterView()
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global(qos: .background).async {
             // Load categories data
             self.prepareCategories()
             self.loadTableViewItems(nil)
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async {
                 // Reload table
                 self.tableView.reloadData()
-            })
+            }
         }
         
         // Parallax Header
         self.setupParallaxHeader()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height ?? 0, true, true, false, false)
+        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height , true, true, false, false)
         
         // Setup Search Controller
         self.setupSearchController()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
@@ -144,7 +142,7 @@ class BrandViewController: UIViewController {
         self.definesPresentationContext = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = false
@@ -152,19 +150,19 @@ class BrandViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EmbedStoreMapViewController" {
-            if let storeMapViewController = segue.destinationViewController as? StoreMapViewController {
+            if let storeMapViewController = segue.destination as? StoreMapViewController {
                 storeMapViewController.brandID = self.brandID
             }
         } else if segue.identifier == "PushStoreMapViewController" {
-            if let storeMapViewController = segue.destinationViewController as? StoreMapViewController {
+            if let storeMapViewController = segue.destination as? StoreMapViewController {
                 storeMapViewController.brandID = self.brandID
                 storeMapViewController.brandName = self.brandName
                 storeMapViewController.isFullMap = true
@@ -177,7 +175,7 @@ class BrandViewController: UIViewController {
 // MARK: Data
 extension BrandViewController {
     
-    private func findCategoryItemWithID(items: [CategoryItem], searchingID: NSNumber) -> CategoryItem? {
+    fileprivate func findCategoryItemWithID(_ items: [CategoryItem], searchingID: NSNumber) -> CategoryItem? {
         for item in items {
             if item.id == searchingID {
                 return item
@@ -188,14 +186,14 @@ extension BrandViewController {
         return nil
     }
     
-    private func sortCategories(categories: [CategoryItem]) -> [CategoryItem] {
+    fileprivate func sortCategories(_ categories: [CategoryItem]) -> [CategoryItem] {
         for category in categories {
             category.children = self.sortCategories(category.children)
         }
-        return categories.sort(<)
+        return categories.sorted(by: <)
     }
     
-    private func prepareCategories() {
+    fileprivate func prepareCategories() {
         guard var categories = self.brandCategories else { return }
         
         // Prepare empty array
@@ -203,16 +201,16 @@ extension BrandViewController {
         
         // Add sections
         for dict in categories {
-            if let parentID = dict["parentId"] where parentID is NSNull,
+            if let parentID = dict["parentId"], parentID is NSNull,
                 let id = dict["id"] as? NSNumber,
-                label = dict["label"] as? String,
-                order = dict["order"] as? NSNumber {
+                let label = dict["label"] as? String,
+                let order = dict["order"] as? NSNumber {
                     let item = CategoryItem()
                     item.id = id
                     item.label = label
                     item.order = order
                     _categoryItems.append(item)
-                    categories.removeAtIndex(categories.indexOf(dict)!)
+                    categories.remove(at: categories.index(of: dict)!)
             }
         }
         
@@ -220,10 +218,10 @@ extension BrandViewController {
         while !categories.isEmpty {
             for dict in categories {
                 if let parentID = dict["parentId"] as? NSNumber,
-                    parentItem = findCategoryItemWithID(_categoryItems, searchingID: parentID),
-                    id = dict["id"] as? NSNumber,
-                    label = dict["label"] as? String,
-                    order = dict["order"] as? NSNumber {
+                    let parentItem = findCategoryItemWithID(_categoryItems, searchingID: parentID),
+                    let id = dict["id"] as? NSNumber,
+                    let label = dict["label"] as? String,
+                    let order = dict["order"] as? NSNumber {
                         let item = CategoryItem()
                         item.id = id
                         item.label = label
@@ -236,7 +234,7 @@ extension BrandViewController {
                             item.level += 1
                             parent = parent?.parent
                         }
-                        categories.removeAtIndex(categories.indexOf(dict)!)
+                        categories.remove(at: categories.index(of: dict)!)
                         
                 }
             }
@@ -247,7 +245,7 @@ extension BrandViewController {
     }
     
     // Load category items into _tableViewItems
-    private func loadCategoryItems(categoryItems: [CategoryItem]) {
+    fileprivate func loadCategoryItems(_ categoryItems: [CategoryItem]) {
         for categoryItem in categoryItems {
             _tableViewItems.append(BrandTableViewItem(categoryItem: categoryItem))
             if categoryItem.childrenIsVisible {
@@ -256,21 +254,21 @@ extension BrandViewController {
         }
     }
     
-    private func closeChildren(categoryItems: [CategoryItem]) {
+    fileprivate func closeChildren(_ categoryItems: [CategoryItem]) {
         for categoryItem in categoryItems {
             categoryItem.childrenIsVisible = false
             self.closeChildren(categoryItem.children)
         }
     }
     
-    private func openParent(categoryItem: CategoryItem?) {
+    fileprivate func openParent(_ categoryItem: CategoryItem?) {
         if let categoryItem = categoryItem {
             categoryItem.childrenIsVisible = true
             self.openParent(categoryItem.parent)
         }
     }
     
-    private func loadTableViewItems(lastOpenItem: CategoryItem?) {
+    fileprivate func loadTableViewItems(_ lastOpenItem: CategoryItem?) {
         // Close all
         self.closeChildren(_categoryItems)
         
@@ -286,27 +284,27 @@ extension BrandViewController {
 // MARK: Parallax Header
 extension BrandViewController {
     
-    private func setupParallaxHeader() {
+    fileprivate func setupParallaxHeader() {
         // Image
         guard let image = brandImage else { return }
         // Height
         let headerHeight = self.view.bounds.width * image.size.height / image.size.width
         // Header View
         let headerView = UIImageView(image: image)
-        headerView.contentMode = .ScaleAspectFill
+        headerView.contentMode = .scaleAspectFill
         headerView.clipsToBounds = true
         // Parallax View
-        let scrollView = self.tableView
+        let scrollView = self.tableView as UIScrollView
         scrollView.parallaxHeader.height = headerHeight
         scrollView.parallaxHeader.view = headerView
-        scrollView.parallaxHeader.mode = .Fill
+        scrollView.parallaxHeader.mode = .fill
     }
 }
 
 // MARK: Table View
 extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
     
-    private func updateFooterView() {
+    fileprivate func updateFooterView() {
         guard let footerView = self.tableView.tableFooterView else { return }
         let viewWidth = self.view.frame.width
         footerView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
@@ -316,20 +314,20 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         self.tableView.tableFooterView = footerView // Reset footer view to update the frame
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _tableViewItems.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = itemForIndexPath(indexPath)
         var cell: UITableViewCell?
         
         if isRootItem(indexPath) && !item.isLeaf() {
-            if let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListRootCell", forIndexPath: indexPath) as? BrandViewHierarchyListRootCell {
+            if let _cell = tableView.dequeueReusableCell(withIdentifier: "BrandViewHierarchyListRootCell", for: indexPath) as? BrandViewHierarchyListRootCell {
                 _cell.lblTitle!.text = item.label
                 _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
                 cell = _cell
@@ -337,7 +335,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             // Has children
             if !item.isLeaf() {
-                if let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListChildCell", forIndexPath: indexPath) as? BrandViewHierarchyListChildCell {
+                if let _cell = tableView.dequeueReusableCell(withIdentifier: "BrandViewHierarchyListChildCell", for: indexPath) as? BrandViewHierarchyListChildCell {
                     _cell.lblTitle!.text = item.label
                     _cell.level = item.level
                     _cell.imgTriangle.image = UIImage(named: item.childrenIsVisible ? "img_cell_opened" : "img_cell_closed")
@@ -346,7 +344,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
             }
             // Leaf item
             else {
-                if let _cell = tableView.dequeueReusableCellWithIdentifier("BrandViewHierarchyListLeafCell", forIndexPath: indexPath) as? BrandViewHierarchyListLeafCell {
+                if let _cell = tableView.dequeueReusableCell(withIdentifier: "BrandViewHierarchyListLeafCell", for: indexPath) as? BrandViewHierarchyListLeafCell {
                     _cell.lblTitle!.text = item.label
                     _cell.level = item.level   
                     cell = _cell
@@ -357,8 +355,8 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let categoryItem = itemForIndexPath(indexPath)
         if !categoryItem.isLeaf() {
@@ -372,7 +370,7 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
 // MARK: UIGestureRecognizerDelegate
 extension BrandViewController: UIGestureRecognizerDelegate {
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
             self.isEdgeSwiping = true
         }
@@ -383,7 +381,7 @@ extension BrandViewController: UIGestureRecognizerDelegate {
 // MARK: ZoomInteractiveTransition
 extension BrandViewController: ZoomTransitionProtocol {
     
-    private func imageViewForZoomTransition() -> UIImageView? {
+    fileprivate func imageViewForZoomTransition() -> UIImageView? {
         if let parallaxHeaderView = self.tableView.parallaxHeader.view {
             parallaxHeaderView.setNeedsLayout()
             parallaxHeaderView.layoutIfNeeded()
@@ -392,11 +390,11 @@ extension BrandViewController: ZoomTransitionProtocol {
         return nil
     }
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    func view(forZoomTransition isSource: Bool) -> UIView? {
         return self.imageViewForZoomTransition()
     }
     
-    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+    func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode
@@ -406,14 +404,14 @@ extension BrandViewController: ZoomTransitionProtocol {
         return nil
     }
     
-    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+    func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
         // No zoom transition when edge swiping
         if self.isEdgeSwiping {
             return false
         }
         // Only available for opening a brand from brands view controller
-        if ((operation == .Push && fromVC is BrandsViewController && toVC === self) ||
-            (operation == .Pop && fromVC === self && toVC is BrandsViewController)) {
+        if ((operation == .push && fromVC is BrandsViewController && toVC === self) ||
+            (operation == .pop && fromVC === self && toVC is BrandsViewController)) {
             return true
         }
         return false
@@ -423,12 +421,12 @@ extension BrandViewController: ZoomTransitionProtocol {
 // MARK: - Hierarchy List
 extension BrandViewController {
     
-    private func itemForIndexPath(indexPath: NSIndexPath) -> CategoryItem {
+    fileprivate func itemForIndexPath(_ indexPath: IndexPath) -> CategoryItem {
         return _tableViewItems[indexPath.row].categoryItem
     }
     
-    private func indexForItem(categoryItem: CategoryItem) -> Int {
-        for (index, tableViewItem) in _tableViewItems.enumerate() {
+    fileprivate func indexForItem(_ categoryItem: CategoryItem) -> Int {
+        for (index, tableViewItem) in _tableViewItems.enumerated() {
             if tableViewItem.categoryItem == categoryItem {
                 return index
             }
@@ -436,11 +434,11 @@ extension BrandViewController {
         return NSNotFound
     }
     
-    private func isRootItem(indexPath: NSIndexPath) -> Bool {
+    fileprivate func isRootItem(_ indexPath: IndexPath) -> Bool {
         return self.itemForIndexPath(indexPath).parent == nil
     }
     
-    private func toggleChildrenVisibility(indexPath: NSIndexPath) {
+    fileprivate func toggleChildrenVisibility(_ indexPath: IndexPath) {
         let categoryItem = itemForIndexPath(indexPath)
         let wasVisible = categoryItem.childrenIsVisible
         self.loadTableViewItems(wasVisible ? categoryItem.parent : categoryItem)
@@ -448,7 +446,7 @@ extension BrandViewController {
         self.tableView.reloadData()
     }
     
-    private func presentProductsViewController(item: CategoryItem) {
+    fileprivate func presentProductsViewController(_ item: CategoryItem) {
         let productsViewController = ProductsViewController.instantiate()
         productsViewController.categoryName = item.label
         productsViewController.categoryID = item.id
@@ -456,9 +454,9 @@ extension BrandViewController {
         self.navigationController?.pushViewController(productsViewController, animated: true)
     }
     
-    @IBAction func didTapAccessoryButton(sender: UIButton) {
-        let position = sender.convertPoint(CGPoint.zero, toView: self.tableView)
-        guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
+    @IBAction func didTapAccessoryButton(_ sender: UIButton) {
+        let position = sender.convert(CGPoint.zero, to: self.tableView)
+        guard let indexPath = self.tableView.indexPathForRow(at: position) else { return }
         self.presentProductsViewController(self.itemForIndexPath(indexPath))
     }
 }
@@ -467,12 +465,12 @@ extension BrandViewController {
 extension BrandViewController: UISearchControllerDelegate {
     
     func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: #selector(BrandViewController.showSearchController))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(BrandViewController.showSearchController))
     }
     
     func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationItem.setRightBarButtonItem(nil, animated: false)
+        self.navigationItem.setRightBarButton(nil, animated: false)
         self.navigationItem.titleView = self.searchController!.searchBar
         self.searchController!.searchBar.becomeFirstResponder()
     }
@@ -497,7 +495,7 @@ extension BrandViewController: UISearchControllerDelegate {
         self.searchController!.hidesNavigationBarDuringPresentation = false
     }
     
-    func willDismissSearchController(searchController: UISearchController) {
+    func willDismissSearchController(_ searchController: UISearchController) {
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.hideSearchController()
     }
@@ -513,7 +511,7 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
         super.awakeFromNib()
         self.prepareForReuse()
         
-        btnAccessory.setTitle(NSLocalizedString("brand_vc_root_cell_all"), forState: .Normal)
+        btnAccessory.setTitle(NSLocalizedString("brand_vc_root_cell_all"), for: .normal)
     }
     
     override func prepareForReuse() {
@@ -529,13 +527,13 @@ class BrandViewHierarchyListSubCell: UITableViewCell {
         didSet {
             leftMargin.constant = CGFloat(self.leftMarginMin() + 15 * level)
             if level == 0 {
-                self.backgroundColor = UIColor.whiteColor()
+                self.backgroundColor = UIColor.white
                 self.lblTitle.textColor = UIColor(white: 0.25, alpha: 1)
-                self.lblTitle.font = UIFont.boldSystemFontOfSize(16)
+                self.lblTitle.font = UIFont.boldSystemFont(ofSize: 16)
             } else {
                 self.backgroundColor = UIColor(white: 0.96, alpha: 1)
                 self.lblTitle.textColor = UIColor(white: 0.33, alpha: 1)
-                self.lblTitle.font = UIFont.systemFontOfSize(16)
+                self.lblTitle.font = UIFont.systemFont(ofSize: 16)
             }
         }
     }
@@ -562,7 +560,7 @@ class BrandViewHierarchyListChildCell: BrandViewHierarchyListSubCell {
         super.awakeFromNib()
         self.prepareForReuse()
         
-        btnAccessory.setTitle(NSLocalizedString("brand_vc_root_cell_all"), forState: .Normal)
+        btnAccessory.setTitle(NSLocalizedString("brand_vc_root_cell_all"), for: .normal)
     }
     
     override func leftMarginMin() -> Int {

@@ -14,11 +14,11 @@ class AsyncedFetchedResultsViewController: UIViewController {
     
     var fetchedResults: [AnyObject]?
     
-    private var asyncFetchRequest: NSAsynchronousFetchRequest?
-    private var asyncFetchResult: NSAsynchronousFetchResult?
-    private var asyncFetchContext: NSManagedObjectContext = {
+    fileprivate var asyncFetchRequest: NSAsynchronousFetchRequest<NSFetchRequestResult>?
+    fileprivate var asyncFetchResult: NSAsynchronousFetchResult<NSFetchRequestResult>?
+    fileprivate var asyncFetchContext: NSManagedObjectContext = {
         var context: NSManagedObjectContext!
-        MagicalRecord.saveWithBlockAndWait({ (localContext) in
+        MagicalRecord.save(blockAndWait: { (localContext) in
             context = localContext
         })
         return context
@@ -28,7 +28,7 @@ class AsyncedFetchedResultsViewController: UIViewController {
 // MARK: Subclass methods
 extension AsyncedFetchedResultsViewController {
     
-    func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
+    func createFetchRequest(_ context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
         assert(false)
         return nil
     }
@@ -46,11 +46,11 @@ extension AsyncedFetchedResultsViewController {
 extension AsyncedFetchedResultsViewController {
     
     // Used to avoid appending the same result multiple times.
-    func hasAppendedFetchedResultsForOffset(offset: Int) -> Bool {
-        return self.fetchedResults?.count > offset
+    func hasAppendedFetchedResultsForOffset(_ offset: Int) -> Bool {
+        return (self.fetchedResults?.count)! > offset
     }
     
-    func appendFetchedResults(results: [AnyObject]?) {
+    func appendFetchedResults(_ results: [AnyObject]?) {
         // Get fetch results
         if let results = results {
             if let fetchedResults = self.fetchedResults {
@@ -61,7 +61,7 @@ extension AsyncedFetchedResultsViewController {
         }
     }
     
-    func fetch(completion: ((Int, Int) -> Void)?) {
+    func fetch(_ completion: ((Int, Int) -> Void)?) {
         // The offset for current fetch
         let offset = self.fetchOffset
         
@@ -78,21 +78,21 @@ extension AsyncedFetchedResultsViewController {
         self.asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { (result) in
             if !self.hasAppendedFetchedResultsForOffset(offset) {
                 self.appendFetchedResults(result.finalResult)
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async {
                     // Reload UI
                     self.reloadUI()
                     // Completed
                     if let completion = completion { completion(offset, result.finalResult?.count ?? 0) }
-                })
+                }
             }
         }
         
         // Do search
-        self.asyncFetchContext.performBlock {
+        self.asyncFetchContext.perform {
             if let asyncFetchRequest = self.asyncFetchRequest {
                 do {
-                    let result = try self.asyncFetchContext.executeRequest(asyncFetchRequest)
-                    if let result = result as? NSAsynchronousFetchResult {
+                    let result = try self.asyncFetchContext.execute(asyncFetchRequest)
+                    if let result = result as? NSAsynchronousFetchResult<NSFetchRequestResult> {
                         self.asyncFetchResult = result
                     }
                 } catch {
@@ -103,7 +103,7 @@ extension AsyncedFetchedResultsViewController {
         }
     }
     
-    func reloadData(completion: ((Int, Int) -> Void)?) {
+    func reloadData(_ completion: ((Int, Int) -> Void)?) {
         // Clear last fetch
         self.clearFetchResults()
         
@@ -118,7 +118,7 @@ extension AsyncedFetchedResultsViewController {
         self.reloadData(nil)
     }
     
-    func loadMore(completion: ((Int, Int) -> Void)?) {
+    func loadMore(_ completion: ((Int, Int) -> Void)?) {
         // Fetch offset
         self.fetchOffset += self.fetchLimit
         

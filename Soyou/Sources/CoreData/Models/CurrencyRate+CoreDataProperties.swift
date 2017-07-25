@@ -17,6 +17,6 @@ extension CurrencyRate {
     @NSManaged var sourceCode: String?
     @NSManaged var targetCode: String?
     @NSManaged var rate: NSNumber?
-    @NSManaged var updatedAt: NSDate?
+    @NSManaged var updatedAt: Date?
 
 }

@@ -1,3 +1,4 @@
+
 //
 //  AFNetworking+Additions.swift
 //  Soyou
@@ -6,22 +7,22 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-func AFNetworkingGetResponseObjectFromError(error: NSError?) -> AnyObject? {
+func AFNetworkingGetResponseObjectFromError(_ error: NSError?) -> Any? {
     
     if let error = error,
-        userInfo = error.userInfo as? Dictionary<String, AnyObject>,
-        responseData = userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? NSData {
+        let userInfo = error.userInfo as? Dictionary<String, Any>,
+        let responseData = userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? Data {
         return GetObjectFromJSONData(responseData)
     } else {
         return nil
     }
 }
 
-func GetObjectFromJSONData(data: NSData?) -> AnyObject? {
-    var returnValue: AnyObject?
+func GetObjectFromJSONData(_ data: Data?) -> Any? {
+    var returnValue: Any?
     do {
         if let data = data {
-            returnValue = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+            returnValue = try JSONSerialization.jsonObject(with: data, options: [])
         }
     } catch {
         DLog(error)
@@ -29,6 +30,6 @@ func GetObjectFromJSONData(data: NSData?) -> AnyObject? {
     return returnValue
 }
 
-func GetObjectFromJSONString(string: String) -> AnyObject? {
-    return GetObjectFromJSONData(string.dataUsingEncoding(NSUTF8StringEncoding))
+func GetObjectFromJSONString(_ string: String) -> Any? {
+    return GetObjectFromJSONData(string.data(using: String.Encoding.utf8)! as Data)
 }

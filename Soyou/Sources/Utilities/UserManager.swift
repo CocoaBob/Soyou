@@ -9,26 +9,26 @@
 class UserManager: NSObject {
     
     static let shared = UserManager()
-    private var currentUser: User?
+    fileprivate var currentUser: User?
     
-    subscript(key: String) -> AnyObject? {
+    subscript(key: String) -> Any? {
         get {
-            var returnValue: AnyObject?
-            MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-                if let user = self.currentUser?.MR_inContext(localContext) {
+            var returnValue: Any?
+            MagicalRecord.save(blockAndWait: { (localContext) in
+                if let user = self.currentUser?.mr_(in: localContext) {
                     if (user.entity.attributesByName[key] != nil) {
-                        returnValue = user.valueForKey(key)
+                        returnValue = user.value(forKey: key)
                     }
                 }
-            }
+            })
             return returnValue
         }
         set(newValue) {
             if self.currentUser == nil {
                 self.loadCurrentUser(true)
             }
-            MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-                let localUser = self.currentUser?.MR_inContext(localContext)
+            MagicalRecord.save(blockAndWait: { (localContext) in
+                let localUser = self.currentUser?.mr_(in: localContext)
                 if let user = localUser {
                     if let attDesc = user.entity.attributesByName[key] {
                         if !(newValue is NSNull) {
@@ -37,15 +37,15 @@ class UserManager: NSObject {
                                 Crashlytics.sharedInstance().setUserName(newValue as? String)
                             }
                         } else {
-                            if attDesc.attributeType == .StringAttributeType {
+                            if attDesc.attributeType == .stringAttributeType {
                                 user.setValue("", forKey: key)
-                            } else if attDesc.attributeType == .Integer32AttributeType {
+                            } else if attDesc.attributeType == .integer32AttributeType {
                                 user.setValue(0, forKey: key)
                             }
                         }
                     }
                 }
-            }
+            })
         }
     }
 }
@@ -56,25 +56,25 @@ extension UserManager {
     // Device Info
     var deviceToken: String? {
         get {
-            return UICKeyChainStore.stringForKey(Cons.App.deviceToken)
+            return UICKeyChainStore.string(forKey: Cons.App.deviceToken)
         }
         set {
             if newValue != nil {
                 UICKeyChainStore.setString(newValue, forKey: Cons.App.deviceToken)
             } else {
-                UICKeyChainStore.removeItemForKey(Cons.App.deviceToken)
+                UICKeyChainStore.removeItem(forKey: Cons.App.deviceToken)
             }
         }
     }
     
     var uuid: String {
         get {
-            if let value = UICKeyChainStore.stringForKey(Cons.Usr.uuid) {
+            if let value = UICKeyChainStore.string(forKey: Cons.Usr.uuid) {
                 return value
             } else {
                 let value = FCUUID.uuid()
                 UICKeyChainStore.setString(value, forKey: Cons.Usr.uuid)
-                return value
+                return value!
             }
         }
         set {
@@ -85,13 +85,13 @@ extension UserManager {
     // User authenticated token
     var token: String? {
         get {
-            return UICKeyChainStore.stringForKey(Cons.Usr.token)
+            return UICKeyChainStore.string(forKey: Cons.Usr.token)
         }
         set {
             if newValue != nil {
                 UICKeyChainStore.setString(newValue, forKey: Cons.Usr.token)
             } else {
-                UICKeyChainStore.removeItemForKey(Cons.Usr.token)
+                UICKeyChainStore.removeItem(forKey: Cons.Usr.token)
             }
         }
     }
@@ -100,16 +100,16 @@ extension UserManager {
 // Login/Logout
 extension UserManager {
     
-    func loadCurrentUser(createIfNecessary: Bool) {
-        MagicalRecord.saveWithBlockAndWait { (localContext) -> Void in
-            self.currentUser = User.MR_findFirstInContext(localContext)
+    func loadCurrentUser(_ createIfNecessary: Bool) {
+        MagicalRecord.save(blockAndWait: { (localContext) in
+            self.currentUser = User.mr_findFirst(in: localContext)
             if createIfNecessary && self.currentUser == nil {
-                self.currentUser = User.MR_createEntityInContext(localContext)
+                self.currentUser = User.mr_createEntity(in: localContext)
             }
-        }
+        })
     }
     
-    func logIn(token: String) {
+    func logIn(_ token: String) {
         self.token = token
         // Load Favorites
         DataManager.shared.requestNewsFavorites(nil)
@@ -175,9 +175,7 @@ extension UserManager {
         get {
             if self.isLoggedIn {
                 if let value = self["matricule"] as? NSNumber {
-                    if value != "" {
-                        return "\(value)"
-                    }
+                    return "\(value)"
                 }
             }
             return nil
@@ -238,12 +236,12 @@ extension UserManager {
         }
     }
     
-    func loginOrDo(completion: VoidClosure?) {
+    func loginOrDo(_ completion: VoidClosure?) {
         if self.isLoggedIn {
             if let completion = completion { completion() }
         } else {
-            let viewController = LoginViewController.instantiate(.Login)
-            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
+            let viewController = LoginViewController.instantiate(.login)
+            UIApplication.shared.keyWindow?.rootViewController?.present(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
         }
     }
 }

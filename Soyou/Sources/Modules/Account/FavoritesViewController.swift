@@ -7,9 +7,9 @@
 //
 
 enum FavoriteType: Int {
-    case News
-    case Discounts
-    case Products
+    case news
+    case discounts
+    case products
 }
 
 class FavoritesViewController: SyncedFetchedResultsViewController {
@@ -21,7 +21,7 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
     
     var isEmptyViewVisible: Bool = true {
         didSet {
-            self._emptyView.hidden = !isEmptyViewVisible
+            self._emptyView.isHidden = !isEmptyViewVisible
         }
     }
 
@@ -29,23 +29,23 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         return _tableView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
+    override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
         switch (self.type) {
-        case .News:
-            return FavoriteNews.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
-        case .Discounts:
-            return FavoriteDiscount.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
-        case .Products:
-            return FavoriteProduct.MR_fetchAllGroupedBy(nil, withPredicate: nil, sortedBy: "dateFavorite", ascending: false)
+        case .news:
+            return FavoriteNews.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "dateFavorite", ascending: false)
+        case .discounts:
+            return FavoriteDiscount.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "dateFavorite", ascending: false)
+        case .products:
+            return FavoriteProduct.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "dateFavorite", ascending: false)
         }
     }
     
     // Properties
-    var type: FavoriteType = .Products
+    var type: FavoriteType = .products
     
     // Class methods
     class func instantiate() -> FavoritesViewController {
-        return (UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewControllerWithIdentifier("FavoritesViewController") as? FavoritesViewController)!
+        return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "FavoritesViewController") as! FavoritesViewController
     }
     
     // Life cycle
@@ -58,11 +58,11 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         
         // Title
         switch (self.type) {
-        case .News:
+        case .news:
             self.title = NSLocalizedString("fav_vc_title_news")
-        case .Discounts:
+        case .discounts:
             self.title = NSLocalizedString("fav_vc_title_discounts")
-        case .Products:
+        case .products:
             self.title = NSLocalizedString("fav_vc_title_products")
         }
         _emptyViewLabel.text = NSLocalizedString("fav_vc_empty_label")
@@ -71,13 +71,13 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         self.tableView().tableFooterView = UIView(frame: CGRect.zero)
         
         // Background Color
-        self.tableView().backgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        self.tableView().backgroundColor = Cons.UI.colorBG
         
         // Setup refresh controls
         setupRefreshControls()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         
@@ -91,16 +91,16 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Workaround to make sure navigation bar is visible even the slide-back gesture is cancelled.
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async {
             self.navigationController?.setNavigationBarHidden(false, animated: false)
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Make sure interactive gesture's delegate is nil before disappearing
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
@@ -110,7 +110,7 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
 // MARK: Table View
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         var returnValue = 0
         if let sections = self.fetchedResultsController?.sections {
             returnValue = sections.count
@@ -119,7 +119,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         return returnValue
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var returnValue = 0
         if let rows = self.fetchedResultsController?.sections?[section].numberOfObjects {
             returnValue = rows
@@ -128,51 +128,51 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         return returnValue
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell?
         
         switch (self.type) {
-        case .News:
-            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteInfosTableViewCell", forIndexPath: indexPath) as? FavoriteInfosTableViewCell else { break }
+        case .news:
+            guard let _cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteInfosTableViewCell", for: indexPath) as? FavoriteInfosTableViewCell else { break }
             
-            if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
+            if let news = self.fetchedResultsController?.object(at: indexPath) as? FavoriteNews {
                 // Title
                 _cell.lblTitle.text = news.title
                 // Image
                 if let imageURLString = news.image,
-                    imageURL = NSURL(string: imageURLString) {
-                    _cell.imgView.sd_setImageWithURL(imageURL,
-                        placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                        completed: nil)
+                    let imageURL = URL(string: imageURLString) {
+                    _cell.imgView.sd_setImage(with: imageURL,
+                                              placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              completed: nil)
                 }
             }
             
             cell = _cell
-        case .Discounts:
-            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteInfosTableViewCell", forIndexPath: indexPath) as? FavoriteInfosTableViewCell else { break }
+        case .discounts:
+            guard let _cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteInfosTableViewCell", for: indexPath) as? FavoriteInfosTableViewCell else { break }
             
-            if let discount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteDiscount {
+            if let discount = self.fetchedResultsController?.object(at: indexPath) as? FavoriteDiscount {
                 // Title
                 _cell.lblTitle.text = discount.title
                 // Image
                 if let imageURLString = discount.coverImage,
-                    imageURL = NSURL(string: imageURLString) {
-                    _cell.imgView.sd_setImageWithURL(imageURL,
-                                                     placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                                     options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                                                     completed: nil)
+                    let imageURL = URL(string: imageURLString) {
+                    _cell.imgView.sd_setImage(with: imageURL,
+                                              placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              completed: nil)
                 }
             }
             
             cell = _cell
-        case .Products:
-            guard let _cell = tableView.dequeueReusableCellWithIdentifier("FavoriteProductsTableViewCell", forIndexPath: indexPath) as? FavoriteProductsTableViewCell else { break }
+        case .products:
+            guard let _cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteProductsTableViewCell", for: indexPath) as? FavoriteProductsTableViewCell else { break }
             
-            if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
-                MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                    if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                        product = localFavoriteProduct.relatedProduct(localContext) {
+            if let favoriteProduct = self.fetchedResultsController?.object(at: indexPath) as? FavoriteProduct {
+                MagicalRecord.save(blockAndWait: { (localContext) -> Void in
+                    if let localFavoriteProduct = favoriteProduct.mr_(in: localContext),
+                        let product = localFavoriteProduct.relatedProduct(localContext) {
                             // Title
                             _cell.lblTitle?.text = product.title
                             // Brand
@@ -181,11 +181,11 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
                             // Image
                             if let images = product.images as? NSArray,
-                                imageURLString = images.firstObject as? String,
-                                imageURL = NSURL(string: imageURLString) {
-                                _cell.imgView?.sd_setImageWithURL(imageURL,
+                                let imageURLString = images.firstObject as? String,
+                                let imageURL = URL(string: imageURLString) {
+                                _cell.imgView?.sd_setImage(with: imageURL,
                                     placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                                    options: [.continueInBackground, .allowInvalidSSLCertificates],
                                     completed: nil)
                             }
                     }
@@ -198,24 +198,24 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         return (cell)!
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         var nextViewController: UIViewController?
         
         switch (self.type) {
-        case .News:
-            if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews {
+        case .news:
+            if let news = self.fetchedResultsController?.object(at: indexPath) as? FavoriteNews {
                 // Prepare cover image
                 var image: UIImage?
                 if let imageURLString = news.image,
-                    imageURL = NSURL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                    image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+                    let imageURL = URL(string: imageURLString) {
+                    let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
+                    image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
                 }
                 
                 // Prepare view controller
@@ -227,14 +227,14 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 nextViewController = viewController
             }
-        case .Discounts:
-            if let discount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteDiscount {
+        case .discounts:
+            if let discount = self.fetchedResultsController?.object(at: indexPath) as? FavoriteDiscount {
                 // Prepare cover image
                 var image: UIImage?
                 if let imageURLString = discount.coverImage,
-                    imageURL = NSURL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                    image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+                    let imageURL = URL(string: imageURLString) {
+                    let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
+                    image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
                 }
                 
                 // Prepare view controller
@@ -246,12 +246,12 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 nextViewController = viewController
             }
-        case .Products:
-            if let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct {
-                let diskContext = NSManagedObjectContext.MR_defaultContext()
-                diskContext.performBlockAndWait({
-                    if let localFavoriteProduct = favoriteProduct.MR_inContext(diskContext),
-                        product = localFavoriteProduct.relatedProduct(diskContext) {
+        case .products:
+            if let favoriteProduct = self.fetchedResultsController?.object(at: indexPath) as? FavoriteProduct {
+                let diskContext = NSManagedObjectContext.mr_default()
+                diskContext.performAndWait({
+                    if let localFavoriteProduct = favoriteProduct.mr_(in: diskContext),
+                        let product = localFavoriteProduct.relatedProduct(diskContext) {
                         let viewController = ProductViewController.instantiate()
                         viewController.product = product
                         viewController.productIndex = indexPath.row
@@ -269,16 +269,16 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     // Delete favorites
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
             UserManager.shared.loginOrDo() { () -> () in
                 switch (self.type) {
-                case .News:
-                    guard let favoriteNews = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteNews else {
+                case .news:
+                    guard let favoriteNews = self.fetchedResultsController?.object(at: indexPath) as? FavoriteNews else {
                         return
                     }
                     MBProgressHUD.show(self.view)
@@ -288,15 +288,15 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             return
                         }
                         // If succeeded to delete
-                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                             MBProgressHUD.hide(self.view)
-                            if let localFavoriteNews = favoriteNews.MR_inContext(localContext) {
-                                localFavoriteNews.MR_deleteEntityInContext(localContext)
+                            if let localFavoriteNews = favoriteNews.mr_(in: localContext) {
+                                localFavoriteNews.mr_deleteEntity(in: localContext)
                             }
                         })
                     }
-                case .Discounts:
-                    guard let favoriteDiscount = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteDiscount else {
+                case .discounts:
+                    guard let favoriteDiscount = self.fetchedResultsController?.object(at: indexPath) as? FavoriteDiscount else {
                         return
                     }
                     MBProgressHUD.show(self.view)
@@ -306,25 +306,25 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             return
                         }
                         // If succeeded to delete
-                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                             MBProgressHUD.hide(self.view)
-                            if let localFavoriteDiscount = favoriteDiscount.MR_inContext(localContext) {
-                                localFavoriteDiscount.MR_deleteEntityInContext(localContext)
+                            if let localFavoriteDiscount = favoriteDiscount.mr_(in: localContext) {
+                                localFavoriteDiscount.mr_deleteEntity(in: localContext)
                             }
                         })
                     }
-                case .Products:
-                    guard let favoriteProduct = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? FavoriteProduct else {
+                case .products:
+                    guard let favoriteProduct = self.fetchedResultsController?.object(at: indexPath) as? FavoriteProduct else {
                         return
                     }
                     MBProgressHUD.show(self.view)
-                    MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                        if let localFavoriteProduct = favoriteProduct.MR_inContext(localContext),
-                            product = localFavoriteProduct.relatedProduct(localContext) {
-                            product.toggleFavorite({ (data: AnyObject?) -> () in
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    MagicalRecord.save(blockAndWait: { (localContext) -> Void in
+                        if let localFavoriteProduct = favoriteProduct.mr_(in: localContext),
+                            let product = localFavoriteProduct.relatedProduct(localContext) {
+                            product.toggleFavorite({ (data: Any?) -> () in
+                                DispatchQueue.main.async {
                                     MBProgressHUD.hide(self.view)
-                                })
+                                }
                             })
                         } else {
                             MBProgressHUD.hide(self.view)
@@ -340,47 +340,49 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
 extension FavoritesViewController {
     
     func setupRefreshControls() {
-        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+        guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             switch (self.type) {
-            case .News:
+            case .news:
                 DataManager.shared.requestNewsFavorites() { _, _ -> () in
                     self.endRefreshing(0)
                 }
-            case .Discounts:
+            case .discounts:
                 DataManager.shared.requestDiscountFavorites() { _, _ -> () in
                     self.endRefreshing(0)
                 }
-            case .Products:
+            case .products:
                 DataManager.shared.requestProductFavorites() { _, _ -> () in
                     self.endRefreshing(0)
                 }
             }
             self.beginRefreshing()
-        })
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeLabel?.hidden = true
+        }) else {
+            return
+        }
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), for: .refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
+        header.lastUpdatedTimeLabel?.isHidden = true
         self.tableView().mj_header = header
     }
     
     func beginRefreshing() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func endRefreshing(resultCount: Int) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    func endRefreshing(_ resultCount: Int) {
+        DispatchQueue.main.async {
             self.tableView().mj_header.endRefreshing()
-        })
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
 
 // MARK: UIGestureRecognizerDelegate
 extension FavoritesViewController: UIGestureRecognizerDelegate {
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
@@ -388,15 +390,15 @@ extension FavoritesViewController: UIGestureRecognizerDelegate {
 // MARK: SwitchPrevNextItemDelegate
 extension FavoritesViewController: SwitchPrevNextItemDelegate {
     
-    func hasNextItem(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+    func hasNextItem(_ indexPath: IndexPath, isNext: Bool) -> Bool {
         return self.fetchedResultsController?.fetchedObjects?.isEmpty == false
     }
     
-    func getNextItem(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+    func getNextItem(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
         guard let completion = completion else { return }
         
         guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return
-            completion(indexPath: nil, item: nil)
+            completion(nil, nil)
         }
         
         var newIndex = indexPath.row + (isNext ? 1 : -1)
@@ -407,18 +409,18 @@ extension FavoritesViewController: SwitchPrevNextItemDelegate {
             newIndex = 0
         }
         
-        completion(indexPath: NSIndexPath(forRow: newIndex, inSection: 0), item: fetchedResults[newIndex])
+        completion(IndexPath(row: newIndex, section: 0), fetchedResults[newIndex])
     }
     
-    func didShowItem(indexPath: NSIndexPath, isNext: Bool) {
-        self.tableView().scrollToRowAtIndexPath(indexPath, atScrollPosition: isNext ? .Top : .Bottom, animated: false)
+    func didShowItem(_ indexPath: IndexPath, isNext: Bool) {
+        self.tableView().scrollToRow(at: indexPath, at: isNext ? .top : .bottom, animated: false)
     }
 }
 
 // MARK: ProductViewControllerDelegate
 extension FavoritesViewController: ProductViewControllerDelegate {
     
-    func getNextProduct(currentIndex: Int?) -> (Int?, Product?)? {
+    func getNextProduct(_ currentIndex: Int?) -> (Int?, Product?)? {
         guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return nil }
         
         var currentProductIndex = -1
@@ -437,8 +439,8 @@ extension FavoritesViewController: ProductViewControllerDelegate {
         return nil
     }
     
-    func didShowNextProduct(product: Product, index: Int) {
-        self.tableView().scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
+    func didShowNextProduct(_ product: Product, index: Int) {
+        self.tableView().scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
     }
 }
 

@@ -12,16 +12,16 @@ import CoreData
 
 class Store: NSManagedObject {
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Store?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Store?) {
         var store: Store? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
             
-            store = Store.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            store = Store.mr_findFirst(with: FmtPredicate("id == %@", id), in: context)
             if store == nil {
-                store = Store.MR_createEntityInContext(context)
+                store = Store.mr_createEntity(in: context)
                 store?.id = id
             }
             
@@ -35,11 +35,11 @@ class Store: NSManagedObject {
                 store.phoneNumber = data["phoneNumber"] as? String
                 store.brandId = data["brandId"] as? NSNumber
                 if let longitude = data["longitude"] as? NSNumber,
-                    latitude = data["latitude"] as? NSNumber {
+                    let latitude = data["latitude"] as? NSNumber {
                         store.longitude = longitude
                         store.latitude = latitude
                 } else {
-                    store.MR_deleteEntityInContext(context)
+                    store.mr_deleteEntity(in: context)
                 }
             }
         }
@@ -47,7 +47,7 @@ class Store: NSManagedObject {
         if let context = context {
             importDataClosure(context)
         } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                 importDataClosure(localContext)
             })
         }
@@ -55,15 +55,15 @@ class Store: NSManagedObject {
         return store
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 for data in datas {
                     Store.importData(data, localContext)
                 }
                 
                 }, completion: { (_, error) -> Void in
-                    if let completion = completion { completion(nil, error) }
+                    if let completion = completion { completion(nil, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }

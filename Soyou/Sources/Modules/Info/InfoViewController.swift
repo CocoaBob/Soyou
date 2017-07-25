@@ -27,7 +27,7 @@ class InfoViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.edgesForExtendedLayout = UIRectEdge.All
+        self.edgesForExtendedLayout = UIRectEdge.all
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
         
@@ -51,12 +51,12 @@ class InfoViewController: UIViewController {
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
         self.transition?.handleEdgePanBackGesture = false
         self.transition?.transitionDuration = 0.3
-        let animationOpts: UIViewAnimationOptions = .CurveEaseOut
+        let animationOpts: UIViewAnimationOptions = .curveEaseOut
         let keyFrameOpts: UIViewKeyframeAnimationOptions = UIViewKeyframeAnimationOptions(rawValue: animationOpts.rawValue)
-        self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.CalculationModeCubic, keyFrameOpts]
+        self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.calculationModeCubic, keyFrameOpts]
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
         self.hideToolbar(false)
@@ -81,22 +81,22 @@ extension InfoViewController {
             
             // Customize menu (Optional)
             let parameters: [CAPSPageMenuOption] = [
-                .MenuItemSeparatorWidth(0),
-                .ScrollMenuBackgroundColor(UIColor.whiteColor()),
-                .SelectionIndicatorColor(UIColor.darkGrayColor()),
-                .SelectedMenuItemLabelColor(UIColor.darkGrayColor()),
-                .UnselectedMenuItemLabelColor(UIColor.lightGrayColor()),
-                .UseMenuLikeSegmentedControl(true),
-                .CenterMenuItems(true),
-                .MenuItemFont(UIFont.boldSystemFontOfSize(15)),
-                .MenuMargin(10.0),
-                .MenuHeight(Cons.UI.heightPageMenuInfo),
-                .AddBottomMenuHairline(true),
-                .BottomMenuHairlineColor(UIColor.whiteColor())
+                .menuItemSeparatorWidth(0),
+                .scrollMenuBackgroundColor(UIColor.white),
+                .selectionIndicatorColor(UIColor.darkGray),
+                .selectedMenuItemLabelColor(UIColor.darkGray),
+                .unselectedMenuItemLabelColor(UIColor.lightGray),
+                .useMenuLikeSegmentedControl(true),
+                .centerMenuItems(true),
+                .menuItemFont(UIFont.boldSystemFont(ofSize: 15)),
+                .menuMargin(10.0),
+                .menuHeight(Cons.UI.heightPageMenuInfo),
+                .addBottomMenuHairline(true),
+                .bottomMenuHairlineColor(UIColor.white)
             ]
             
             // Create CAPSPageMenu
-            let topInset = UIApplication.sharedApplication().statusBarFrame.height
+            let topInset = UIApplication.shared.statusBarFrame.height
             self.pageMenu = CAPSPageMenu(
                 viewControllers: self.pageMenuViewControllers,
                 frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.height - topInset),
@@ -105,7 +105,7 @@ extension InfoViewController {
             
             // Add CAPSPageMenu
             if let pageMenu = self.pageMenu {
-                pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+                pageMenu.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
                 self.subViewsContainer.addSubview(pageMenu.view)
                 pageMenu.view.frame = CGRect(x: 0, y: topInset, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height - topInset)
             }
@@ -116,7 +116,7 @@ extension InfoViewController {
 // MARK: CAPSPageMenuDelegate
 extension InfoViewController: CAPSPageMenuDelegate {
     
-    func didMoveToPage(controller: UIViewController, index: Int) {
+    func didMoveToPage(_ controller: UIViewController, index: Int) {
         self.pageMenuCurrentPageIndex = index
     }
 }
@@ -124,18 +124,18 @@ extension InfoViewController: CAPSPageMenuDelegate {
 // MARK: ZoomInteractiveTransition
 extension InfoViewController: ZoomTransitionProtocol {
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    func view(forZoomTransition isSource: Bool) -> UIView? {
         guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return nil }
-        return viewController.viewForZoomTransition(isSource)
+        return viewController.view(forZoomTransition: isSource)
     }
     
-    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+    func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
         guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return nil }
-        return viewController.initialZoomViewSnapshotFromProposedSnapshot(snapshot)
+        return viewController.initialZoomViewSnapshot(fromProposedSnapshot: snapshot)
     }
     
-    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+    func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
         guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return false }
-        return viewController.shouldAllowZoomTransitionForOperation(operation, fromViewController: fromVC, toViewController: toVC)
+        return viewController.shouldAllowZoomTransition(for: operation, from: fromVC, to: toVC)
     }
 }

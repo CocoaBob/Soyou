@@ -8,8 +8,8 @@
 
 protocol ProductViewControllerDelegate {
     
-    func getNextProduct(currentIndex: Int?) -> (Int?, Product?)?
-    func didShowNextProduct(product: Product, index: Int)
+    func getNextProduct(_ currentIndex: Int?) -> (Int?, Product?)?
+    func didShowNextProduct(_ product: Product, index: Int)
 }
 
 class ProductViewController: UIViewController {
@@ -47,21 +47,21 @@ class ProductViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = UIColor(rgba:Cons.UI.colorLike)
+    let btnLikeActiveColor = Cons.UI.colorLike
     let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
-    let btnFavActiveColor = UIColor(rgba:Cons.UI.colorHeart)
+    let btnFavActiveColor = Cons.UI.colorHeart
     let btnFavInactiveColor = UIToolbar.appearance().tintColor
     
     // Status bar cover
     var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
-        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.width, height: UIApplication.sharedApplication().statusBarFrame.height)
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIApplication.shared.statusBarFrame.height)
     )
     
     // Class methods
     class func instantiate() -> ProductViewController {
-        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductViewController") as? ProductViewController)!
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
     }
     
     // Life cycle
@@ -76,34 +76,34 @@ class ProductViewController: UIViewController {
         super.viewDidLoad()
         
         // Status bar
-        self.statusBarCover.backgroundColor = UIColor.whiteColor()
+        self.statusBarCover.backgroundColor = UIColor.white
         
         // Toolbar
-        self.btnLike = UIButton(type: .System)
-        self.btnFav = UIButton(type: .System)
+        self.btnLike = UIButton(type: .system)
+        self.btnFav = UIButton(type: .system)
         
-        self.btnLike?.titleLabel?.font = UIFont.systemFontOfSize(10)
+        self.btnLike?.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         self.btnLike?.titleEdgeInsets = UIEdgeInsets(top: -20, left: -0, bottom: 1, right: 0)
-        self.btnLike?.backgroundColor = UIColor.clearColor()
+        self.btnLike?.backgroundColor = UIColor.clear
         self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnLike?.setImage(UIImage(named: "img_thumb"), forState: .Normal)
+        self.btnLike?.setImage(UIImage(named: "img_thumb"), for: .normal)
         self.btnLike?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
-        self.btnLike?.addTarget(self, action: #selector(ProductViewController.like(_:)), forControlEvents: .TouchUpInside)
+        self.btnLike?.addTarget(self, action: #selector(ProductViewController.like(_:)), for: .touchUpInside)
         
-        self.btnFav?.backgroundColor = UIColor.clearColor()
+        self.btnFav?.backgroundColor = UIColor.clear
         self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnFav?.setImage(UIImage(named: "img_heart"), forState: .Normal)
+        self.btnFav?.setImage(UIImage(named: "img_heart"), for: .normal)
         self.btnFav?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
-        self.btnFav?.addTarget(self, action: #selector(ProductViewController.star(_:)), forControlEvents: .TouchUpInside)
+        self.btnFav?.addTarget(self, action: #selector(ProductViewController.star(_:)), for: .touchUpInside)
         
-        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
-        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .plain, target: self, action: #selector(ProductViewController.next(_:)))
         let fav = UIBarButtonItem(customView: self.btnFav!)
         let like = UIBarButtonItem(customView: self.btnLike!)
         self.toolbarItems = [ space, next, space, fav, space, like, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
-        next.enabled = false
+        next.isEnabled = false
         self.nextProductBarButtonItem = next
         
         // Fix scroll view insets
@@ -113,7 +113,7 @@ class ProductViewController: UIViewController {
         self.loadProduct(false)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // Hide navigation bar if it's visible again
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
@@ -127,14 +127,14 @@ class ProductViewController: UIViewController {
         self.showToolbar(animated)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeStatusBarCover()
         // Make sure interactive gesture's delegate is nil before disappearing
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // Update Status Bar Cover
         self.removeStatusBarCover()
@@ -142,15 +142,15 @@ class ProductViewController: UIViewController {
         self.isEdgeSwiping = false
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.default
     }
 }
 
 // MARK: Load products
 extension ProductViewController {
     
-    func loadProduct(isNext: Bool) {
+    func loadProduct(_ isNext: Bool) {
         // Setup images for carousel View
         self.setupCarouselView()
         // SubViewControllers
@@ -168,7 +168,7 @@ extension ProductViewController {
             self.nextProduct = nil
         }
         // Next button status
-        self.nextProductBarButtonItem?.enabled = self.nextProduct != nil
+        self.nextProductBarButtonItem?.isEnabled = self.nextProduct != nil
     }
     
     func loadNextProduct() {
@@ -180,7 +180,7 @@ extension ProductViewController {
             let transition = CATransition()
             transition.type = kCATransitionPush
             transition.subtype = kCATransitionFromTop
-            self.view.layer .addAnimation(transition, forKey: "transition")
+            self.view.layer .add(transition, forKey: "transition")
             self.delegate?.didShowNextProduct(nextProduct, index: self.productIndex ?? 0)
         }
     }
@@ -189,18 +189,18 @@ extension ProductViewController {
 // MARK: Status Bar Cover
 extension ProductViewController: UIScrollViewDelegate {
     
-    private func addStatusBarCover() {
+    fileprivate func addStatusBarCover() {
         isStatusBarCoverVisible = true
         self.tabBarController?.view.addSubview(self.statusBarCover)
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
+        UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
             self.statusBarCover.alpha = 1
         })
     }
     
-    private func removeStatusBarCover() {
+    fileprivate func removeStatusBarCover() {
         isStatusBarCoverVisible = false
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
+        UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
             self.statusBarCover.alpha = 0
             }, completion: { (finished) -> Void in
@@ -212,7 +212,7 @@ extension ProductViewController: UIScrollViewDelegate {
 // MARK: Carousel View
 extension ProductViewController {
     
-    private func setupCarouselView() {
+    fileprivate func setupCarouselView() {
         // Update the frame of carousel view
         let carouselViewHeight = self.view.frame.width / self.carouselViewRatio
         self.carouselViewHeight?.constant = carouselViewHeight
@@ -224,19 +224,19 @@ extension ProductViewController {
         var images: [String]?
         var title: String?
         self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            guard let localProduct = self.product?.MR_inContext(localContext) else { return }
+            guard let localProduct = self.product?.mr_(in: localContext) else { return }
             images = localProduct.images as? [String]
             title = localProduct.title
         })
         let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: carouselViewHeight)
         if let images = images {
             // Reset self.photos
-            self.photos = Array(count: images.count, repeatedValue: IDMPhoto())
+            self.photos = Array(repeating: IDMPhoto(), count: images.count)
             // Add 1st image
             if let firstImage = self.firstImage {
                 // ImageView for Carousel
                 let firstImageView = UIImageView(frame: imageViewFrame)
-                firstImageView.contentMode = .ScaleAspectFit
+                firstImageView.contentMode = .scaleAspectFit
                 firstImageView.image = firstImage
                 self.imageViews.append(firstImageView)
                 // Photo for IDMPhotoBrowser
@@ -248,20 +248,21 @@ extension ProductViewController {
             if self.firstImage == nil || images.count > 1 {
                 for index in (self.firstImage != nil) ? (1..<images.count) : (0..<images.count) {
                     let imageURLString = images[index]
-                    if let imageURL = NSURL(string: imageURLString) {
+                    if let imageURL = URL(string: imageURLString) {
                         // Photo for IDMPhotoBrowser
-                        self.photos[index] = IDMPhoto(URL: imageURL)
+                        self.photos[index] = IDMPhoto(url: imageURL)
                         // ImageView for Carousel
                         let placeholder = UIImage(named: "img_placeholder_1_1_m")
                         let imageView = UIImageView(frame: imageViewFrame)
-                        imageView.contentMode = .ScaleAspectFit
-                        imageView.sd_setImageWithURL(
+                        imageView.contentMode = .scaleAspectFit
+                        imageView.sd_setImage(with: 
                             imageURL,
                             placeholderImage: placeholder,
-                            options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                            options: [.continueInBackground, .allowInvalidSSLCertificates],
                             completed: { (image, error, cacheType, url) -> Void in
-                                let photo = IDMPhoto(image: image ?? placeholder)
-                                self.photos[index] = photo
+                                if let photo = IDMPhoto(image: image ?? placeholder) {
+                                    self.photos[index] = photo
+                                }
                         })
                         self.imageViews.append(imageView)
                     }
@@ -273,7 +274,7 @@ extension ProductViewController {
         self.carouselView.delegate = self
         if let title = title {
             self.carouselView.textLabel.numberOfLines = 0
-            self.carouselView.textLabel.font = UIFont.boldSystemFontOfSize(17)
+            self.carouselView.textLabel.font = UIFont.boldSystemFont(ofSize: 17)
             self.carouselView.textLabelShow = true
             self.carouselView.textString = title
             self.carouselView.textInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
@@ -288,7 +289,7 @@ extension ProductViewController {
 // MARK: Sub View Controllers
 extension ProductViewController {
     
-    func setupSubViewControllers(isNext: Bool) {
+    func setupSubViewControllers(_ isNext: Bool) {
         guard let product = self.product else { return }
         
         // Add page menu to the scroll view's subViewsContainer
@@ -298,31 +299,31 @@ extension ProductViewController {
             // Prices VC
             self.productPricesViewController.productViewController = self
             self.productPricesViewController.title = NSLocalizedString("product_prices_vc_title")
-            self.productPricesViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+            self.productPricesViewController.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
             viewControllers.append(self.productPricesViewController)
             
             // Descriptions VC
             self.productDescriptionsViewController.productViewController = self
             self.productDescriptionsViewController.title = NSLocalizedString("product_descriptions_vc_title")
             self.productDescriptionsViewController.webViewHeightDelegate = self
-            self.productDescriptionsViewController.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+            self.productDescriptionsViewController.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
             
             viewControllers.append(self.productDescriptionsViewController)
             
             // Customize menu (Optional)
             let parameters: [CAPSPageMenuOption] = [
-                .MenuItemSeparatorWidth(0),
-                .ScrollMenuBackgroundColor(UIColor.whiteColor()),
-                .SelectionIndicatorColor(UIColor.darkGrayColor()),
-                .SelectedMenuItemLabelColor(UIColor.darkGrayColor()),
-                .UnselectedMenuItemLabelColor(UIColor.lightGrayColor()),
-                .UseMenuLikeSegmentedControl(true),
-                .CenterMenuItems(true),
-                .MenuItemFont(UIFont.systemFontOfSize(13)),
-                .MenuMargin(10.0),
-                .MenuHeight(Cons.UI.heightPageMenuProduct),
-                .AddBottomMenuHairline(true),
-                .BottomMenuHairlineColor(UIColor.whiteColor())
+                .menuItemSeparatorWidth(0),
+                .scrollMenuBackgroundColor(UIColor.white),
+                .selectionIndicatorColor(UIColor.darkGray),
+                .selectedMenuItemLabelColor(UIColor.darkGray),
+                .unselectedMenuItemLabelColor(UIColor.lightGray),
+                .useMenuLikeSegmentedControl(true),
+                .centerMenuItems(true),
+                .menuItemFont(UIFont.systemFont(ofSize: 13)),
+                .menuMargin(10.0),
+                .menuHeight(Cons.UI.heightPageMenuProduct),
+                .addBottomMenuHairline(true),
+                .bottomMenuHairlineColor(UIColor.white)
             ]
             
             // Create CAPSPageMenu
@@ -333,7 +334,7 @@ extension ProductViewController {
             
             // Add CAPSPageMenu
             if let pageMenu = self.pageMenu {
-                pageMenu.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+                pageMenu.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
                 self.subViewsContainer.addSubview(pageMenu.view)
                 pageMenu.view.frame = CGRect(x: 0, y: 0, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height)
             }
@@ -363,19 +364,19 @@ extension ProductViewController {
 // MARK: Control view height
 extension ProductViewController: WebViewHeightDelegate {
 
-    func webView(webView: UIWebView, didChangeHeight height: CGFloat) {
+    func webView(_ webView: UIWebView, didChangeHeight height: CGFloat) {
         descriptionViewHeight = height
         self.updateViewsContainerHeight(true)
     }
     
-    func updateViewsContainerHeight(animated: Bool) {
-        let pricesViewHeight = self.productPricesViewController.tableView.contentSize.height ?? 0
+    func updateViewsContainerHeight(_ animated: Bool) {
+        let pricesViewHeight = self.productPricesViewController.tableView.contentSize.height
         let descriptionsViewHeight = descriptionViewHeight
         let maxHeight = max(descriptionsViewHeight, pricesViewHeight)
         self.viewsContainerHeight?.constant = maxHeight + Cons.UI.heightPageMenuProduct + 20 // Bottom margin 20
         self.view.setNeedsLayout()
         if animated {
-            UIView.animateWithDuration(0.3) { () -> Void in
+            UIView.animate(withDuration: 0.3) { () -> Void in
                 self.view.layoutIfNeeded()
             }
         } else {
@@ -387,17 +388,17 @@ extension ProductViewController: WebViewHeightDelegate {
 // MARK: PFCarouselView
 extension ProductViewController: PFCarouselViewDelegate {
     
-    func numberOfPagesInCarouselView(carouselView: PFCarouselView!) -> Int {
+    func numberOfPages(in carouselView: PFCarouselView!) -> Int {
         return self.imageViews.count
     }
     
-    func carouselView(carouselView: PFCarouselView!, setupContentViewAtIndex index: Int) -> UIView! {
+    func carouselView(_ carouselView: PFCarouselView!, setupContentViewAt index: Int) -> UIView! {
         let imageView = self.imageViews[index]
         imageView.frame = carouselView.bounds
         return imageView
     }
     
-    func carouselView(carouselView: PFCarouselView!, didSelectViewAtIndex index: Int) {
+    func carouselView(_ carouselView: PFCarouselView!, didSelectViewAt index: Int) {
         let imageView = self.imageViews[index]
         IDMPhotoBrowser.present(self.photos, index: UInt(index), view: imageView, scaleImage: imageView.image, viewVC: self)
     }
@@ -406,7 +407,7 @@ extension ProductViewController: PFCarouselViewDelegate {
 // MARK: UIGestureRecognizerDelegate
 extension ProductViewController: UIGestureRecognizerDelegate {
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
             self.isEdgeSwiping = true
         }
@@ -417,11 +418,11 @@ extension ProductViewController: UIGestureRecognizerDelegate {
 // MARK: ZoomInteractiveTransition
 extension ProductViewController: ZoomTransitionProtocol {
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    func view(forZoomTransition isSource: Bool) -> UIView? {
         return self.imageViews.first
     }
     
-    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+    func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
         if (!self.imageViews.isEmpty) {
             let imageView = self.imageViews[0]
             let returnImageView = UIImageView(image: imageView.image)
@@ -432,14 +433,14 @@ extension ProductViewController: ZoomTransitionProtocol {
         return nil
     }
     
-    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+    func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
         // No zoom transition when edge swiping
         if self.isEdgeSwiping {
             return false
         }
         // Only available for opening a product from products view controller
-        if ((operation == .Push && fromVC is ProductsViewController && toVC === self) ||
-            (operation == .Pop && fromVC === self && toVC is ProductsViewController)) {
+        if ((operation == .push && fromVC is ProductsViewController && toVC === self) ||
+            (operation == .pop && fromVC === self && toVC is ProductsViewController)) {
                 return true
         }
         return false
@@ -449,32 +450,32 @@ extension ProductViewController: ZoomTransitionProtocol {
 // MARK: Like button
 extension ProductViewController {
     
-    private func updateLikeNumber() {
+    fileprivate func updateLikeNumber() {
         self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localProduct = self.product?.MR_inContext(localContext) {
+            if let localProduct = self.product?.mr_(in: localContext) {
                 // Update like number
                 guard let productID = localProduct.id else { return }
                 DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
                     if let responseObject = responseObject as? [String:AnyObject],
-                        data = responseObject["data"] as? [String:AnyObject],
-                        likeNumber = data["likeNumber"] as? NSNumber {
-                        self.likeBtnNumber = likeNumber.integerValue
+                        let data = responseObject["data"] as? [String:AnyObject],
+                        let likeNumber = data["likeNumber"] as? NSNumber {
+                        self.likeBtnNumber = likeNumber.intValue
                     }
                 }
                 
                 // Update like button color
-                let diskContext = NSManagedObjectContext.MR_defaultContext()
-                diskContext.performBlockAndWait({
-                    guard let diskProduct = Product.MR_findFirstByAttribute("id", withValue: productID, inContext: diskContext) else { return }
+                let diskContext = NSManagedObjectContext.mr_default()
+                diskContext.performAndWait({
+                    guard let diskProduct = Product.mr_findFirst(byAttribute: "id", withValue: productID, in: diskContext) else { return }
                     self.updateLikeBtnColor(diskProduct.appIsLiked?.boolValue)
                 })
             }
         })
     }
     
-    private func updateLikeBtnColor(isLiked: Bool?) {
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            if isLiked != nil && isLiked!.boolValue {
+    fileprivate func updateLikeBtnColor(_ isLiked: Bool?) {
+        DispatchQueue.main.async {
+            if isLiked != nil && isLiked! {
                 self.btnLike?.tintColor = self.btnLikeActiveColor
             } else {
                 self.btnLike?.tintColor = self.btnLikeInactiveColor
@@ -482,16 +483,16 @@ extension ProductViewController {
         }
     }
     
-    private var likeBtnNumber: Int? {
+    fileprivate var likeBtnNumber: Int? {
         set(newValue) {
             if newValue != nil && newValue! > 0 {
-                self.btnLike?.setTitle("\(newValue!)", forState: .Normal)
+                self.btnLike?.setTitle("\(newValue!)", for: .normal)
             } else {
-                self.btnLike?.setTitle("", forState: .Normal)
+                self.btnLike?.setTitle("", for: .normal)
             }
         }
         get {
-            if let title = self.btnLike?.titleForState(.Normal) {
+            if let title = self.btnLike?.title(for: .normal) {
                 return Int(title)
             } else {
                 return 0
@@ -503,10 +504,10 @@ extension ProductViewController {
 // MARK: Fav button
 extension ProductViewController {
     
-    private var isFavorite: Bool {
+    fileprivate var isFavorite: Bool {
         set(newValue) {
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self.btnFav?.setImage(UIImage(named: newValue ? "img_heart_selected" : "img_heart"), forState: .Normal)
+            DispatchQueue.main.async {
+                self.btnFav?.setImage(UIImage(named: newValue ? "img_heart_selected" : "img_heart"), for: .normal)
                 self.btnFav?.tintColor = newValue ? self.btnFavActiveColor : self.btnFavInactiveColor
             }
         }
@@ -519,15 +520,15 @@ extension ProductViewController {
 // MARK: Actions
 extension ProductViewController {
     
-    @IBAction func back(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func back(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    func next(sender: AnyObject) {
+    func next(_ sender: AnyObject) {
         self.loadNextProduct()
     }
     
-    @IBAction func share(sender: AnyObject) {
+    @IBAction func share(_ sender: AnyObject) {
         MBProgressHUD.show(self.view)
         
         var productID: String?
@@ -536,14 +537,14 @@ extension ProductViewController {
         let userCurrency = CurrencyManager.shared.userCurrency
         
         self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            let localProduct = self.product?.MR_inContext(localContext)
+            let localProduct = self.product?.mr_(in: localContext)
             // If there's no SKU
             if let oldID = localProduct?.id {
                 productID = "\(oldID)"
             }
             // If SKU exists, use SKU
             if let objectData = localProduct?.sku,
-                object = Utils.decrypt(objectData) as? String {
+                let object = Utils.decrypt(objectData) as? String {
                 productID = object
             }
             if let descriptions = localProduct?.descriptions {
@@ -555,15 +556,15 @@ extension ProductViewController {
         // Descriptions
         var descriptions: String?
         if let htmlString = htmlString,
-            htmlData = htmlString.dataUsingEncoding(NSUTF8StringEncoding) {
+            let htmlData = htmlString.data(using: String.Encoding.utf8) {
                 do {
                     let attributedString = try NSAttributedString(data: htmlData,
-                        options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
-                            NSCharacterEncodingDocumentAttribute:NSNumber(unsignedInteger: NSUTF8StringEncoding)],
-                        documentAttributes: nil)
-                    var contentString = attributedString.string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                                                                  options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
+                                                                            NSCharacterEncodingDocumentAttribute:String.Encoding.utf8],
+                                                                  documentAttributes: nil)
+                    var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     if contentString.characters.count > 256 {
-                        contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(256))
+                        contentString = contentString[contentString.startIndex...contentString.index(contentString.startIndex, offsetBy: 256)]
                     }
                     descriptions = contentString
                 } catch {
@@ -574,21 +575,21 @@ extension ProductViewController {
         // Title
         if let strTitle = title {
             if strTitle.characters.count > 128 {
-                title = strTitle.substringToIndex(strTitle.startIndex.advancedBy(128))
+                title = strTitle[strTitle.startIndex...strTitle.index(strTitle.startIndex, offsetBy: 128)]
             }
         }
         
-        var items = [AnyObject]()
+        var items = [Any]()
         if let item = self.imageViews.first?.image {
             items.append(item)
         }
         if let item = title {
-            items.append(item)
+            items.append(item as AnyObject)
         }
         if let item = descriptions {
-            items.append(item)
+            items.append(item as AnyObject)
         }
-        if let productID = productID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)&targetCurrency=\(userCurrency)") {
+        if let productID = productID, let item = URL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)&targetCurrency=\(userCurrency)") {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
@@ -596,18 +597,18 @@ extension ProductViewController {
         })
     }
     
-    func like(sender: AnyObject) {
+    func like(_ sender: AnyObject) {
         self.product?.doLike({ (likeNumber: NSNumber, isLiked: NSNumber) -> () in
             // Update like color
             self.updateLikeBtnColor(isLiked.boolValue)
             // Update like number
-            self.likeBtnNumber = likeNumber.integerValue
+            self.likeBtnNumber = likeNumber.intValue
         })
     }
     
-    func star(sender: AnyObject) {
+    func star(_ sender: AnyObject) {
         UserManager.shared.loginOrDo() { () -> () in
-            self.product?.toggleFavorite({ (data: AnyObject?) -> () in
+            self.product?.toggleFavorite({ (data: Any?) -> () in
                 // Toggle the value of isFavorite
                 self.isFavorite = !self.isFavorite
             })

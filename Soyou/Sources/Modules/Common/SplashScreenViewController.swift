@@ -10,19 +10,19 @@ class SplashScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        self.view.backgroundColor = Cons.UI.colorBG
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if let hud = MBProgressHUD.show(self.view) {
-            hud.mode = MBProgressHUDMode.Indeterminate
+            hud.mode = MBProgressHUDMode.indeterminate
             hud.label.text = NSLocalizedString("initializing_database")
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         MBProgressHUD.hide(self.view)
     }

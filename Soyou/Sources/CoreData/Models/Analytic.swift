@@ -14,7 +14,7 @@ import CoreData
 class Analytic: NSManagedObject {
     
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (Analytic?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ context: NSManagedObjectContext) -> (Analytic?) {
         guard let data = data else {
             return nil
         }
@@ -23,9 +23,9 @@ class Analytic: NSManagedObject {
             return nil
         }
         
-        var analytic: Analytic? = Analytic.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+        var analytic: Analytic? = Analytic.mr_findFirst(with: FmtPredicate("id == %@", id), in: context)
         if analytic == nil {
-            analytic = Analytic.MR_createEntityInContext(context)
+            analytic = Analytic.mr_createEntity(in: context)
             analytic?.id = id
         }
 
@@ -33,20 +33,20 @@ class Analytic: NSManagedObject {
             analytic.data = data["data"] as? String
             analytic.target = data["target"] as? NSNumber
             analytic.action = data["action"] as? NSNumber
-            analytic.operatedAt = data["operatedAt"] as? NSDate
+            analytic.operatedAt = data["operatedAt"] as? Date
         }
         
         return analytic
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ deleteNonExisting: Bool, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ deleteNonExisting: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 if let completion = completion { completion(nil, FmtError(0, nil)) }
                 return
             }
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 var ids = [NSNumber]()
                 
                 // Import new data
@@ -57,10 +57,10 @@ class Analytic: NSManagedObject {
                 }
                 
                 // Delete non existing items
-                Analytic.MR_deleteAllMatchingPredicate(FmtPredicate("NOT (id IN %@)", ids), inContext: localContext)
+                Analytic.mr_deleteAll(matching: FmtPredicate("NOT (id IN %@)", ids), in: localContext)
                 
                 }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
+                    if let completion = completion { completion(responseObject, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }

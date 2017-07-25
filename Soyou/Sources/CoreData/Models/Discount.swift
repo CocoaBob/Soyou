@@ -20,32 +20,32 @@ import CoreData
 
 class Discount: NSManagedObject {
     
-    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (Discount?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (Discount?) {
         var discount: Discount? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
             
-            let request = Discount.MR_requestFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            let request = Discount.mr_requestFirst(with: FmtPredicate("id == %@", id), in: context)
             request.includesSubentities = false
-            discount = Discount.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
+            discount = Discount.mr_executeFetchRequestAndReturnFirstObject(request, in: context)
             if discount == nil {
-                discount = Discount.MR_createEntityInContext(context)
+                discount = Discount.mr_createEntity(in: context)
                 discount?.id = id
             }
             
             if let discount = discount {
                 if let value = data["publishdate"] as? String {
-                    discount.publishdate = Cons.utcDateFormatter.dateFromString(value)
+                    discount.publishdate = Cons.utcDateFormatter.date(from: value)
                 }
                 if let value = data["dateModification"] as? String {
-                    let newDateModification = Cons.utcDateFormatter.dateFromString(value)
+                    let newDateModification = Cons.utcDateFormatter.date(from: value)
                     if isComplete {
-                        discount.appIsUpdated = NSNumber(bool: true)
+                        discount.appIsUpdated = NSNumber(value: true as Bool)
                     } else {
                         if newDateModification != discount.dateModification {
-                            discount.appIsUpdated = NSNumber(bool: false) // Needs to be updated
+                            discount.appIsUpdated = NSNumber(value: false as Bool) // Needs to be updated
                         }
                     }
                     discount.dateModification = newDateModification
@@ -60,7 +60,7 @@ class Discount: NSManagedObject {
                     discount.url = data["url"] as? String
                 }
                 if let value = data["expireDate"] as? String {
-                    discount.expireDate = Cons.utcDateFormatter.dateFromString(value)
+                    discount.expireDate = Cons.utcDateFormatter.date(from: value)
                 }
             }
         }
@@ -68,7 +68,7 @@ class Discount: NSManagedObject {
         if let context = context {
             importDataClosure(context)
         } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                 importDataClosure(localContext)
             })
         }
@@ -76,21 +76,21 @@ class Discount: NSManagedObject {
         return discount
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 if let completion = completion { completion(nil, FmtError(0, nil)) }
                 return
             }
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 // Delete old data
                 if isOverridden {
-                    let request = Discount.MR_requestAllWithPredicate(FmtPredicate("1==1"), inContext: localContext)
+                    let request = Discount.mr_requestAll(with: FmtPredicate("1==1"), in: localContext)
                     request.includesSubentities = false
-                    if let results = Discount.MR_executeFetchRequest(request, inContext: localContext) {
+                    if let results = Discount.mr_executeFetchRequest(request, in: localContext) {
                         for discount in results {
-                            discount.MR_deleteEntityInContext(localContext)
+                            discount.mr_deleteEntity(in: localContext)
                         }
                     }
                 }
@@ -99,7 +99,7 @@ class Discount: NSManagedObject {
                     Discount.importData(data, isComplete, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                if let completion = completion { completion(responseObject, error) }
+                if let completion = completion { completion(responseObject, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }
@@ -107,12 +107,12 @@ class Discount: NSManagedObject {
     }
     
     // Favorite
-    func relatedFavoriteDiscount(context: NSManagedObjectContext?) -> FavoriteDiscount? {
+    func relatedFavoriteDiscount(_ context: NSManagedObjectContext?) -> FavoriteDiscount? {
         if let newsID = self.id {
             if let context = context {
-                return FavoriteDiscount.MR_findFirstByAttribute("id", withValue: newsID, inContext: context)
+                return FavoriteDiscount.mr_findFirst(byAttribute: "id", withValue: newsID, in: context)
             } else {
-                return FavoriteDiscount.MR_findFirstByAttribute("id", withValue: newsID)
+                return FavoriteDiscount.mr_findFirst(byAttribute: "id", withValue: newsID)
             }
         }
         return nil
@@ -121,11 +121,11 @@ class Discount: NSManagedObject {
     func isFavorite() -> Bool {
         var returnValue = false
         
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
             if self is FavoriteDiscount {
                 returnValue = true
             } else {
-                if let _ = self.MR_inContext(localContext)?.relatedFavoriteDiscount(localContext) {
+                if let _ = self.mr_(in: localContext)?.relatedFavoriteDiscount(localContext) {
                     returnValue = true
                 }
             }
@@ -134,9 +134,9 @@ class Discount: NSManagedObject {
         return returnValue
     }
     
-    class func toggleFavorite(discountID: NSNumber, completion: DataClosure?) {
+    class func toggleFavorite(_ discountID: NSNumber, completion: DataClosure?) {
         // Find the favorite discount
-        let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.MR_findFirstByAttribute("id", withValue: discountID)
+        let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.mr_findFirst(byAttribute: "id", withValue: discountID)
         
         // Was favorite?
         let wasFavorite = favoriteDiscount != nil
@@ -157,17 +157,17 @@ class Discount: NSManagedObject {
     }
     
     // Create/Update FavoriteDiscount, or delete FavoriteDiscount
-    class func updateFavorite(discountID: NSNumber, isFavorite: Bool) {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            let request = Discount.MR_requestFirstByAttribute("id", withValue: discountID, inContext: localContext)
+    class func updateFavorite(_ discountID: NSNumber, isFavorite: Bool) {
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            let request = Discount.mr_requestFirst(byAttribute: "id", withValue: discountID, in: localContext)
             request.includesSubentities = false
-            let originalDiscount: Discount? = Discount.MR_executeFetchRequestAndReturnFirstObject(request, inContext: localContext)
-            let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.MR_findFirstByAttribute("id", withValue: discountID, inContext: localContext)
-            var localFavoriteDiscount = favoriteDiscount?.MR_inContext(localContext)
+            let originalDiscount: Discount? = Discount.mr_executeFetchRequestAndReturnFirstObject(request, in: localContext)
+            let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.mr_findFirst(byAttribute: "id", withValue: discountID, in: localContext)
+            var localFavoriteDiscount = favoriteDiscount?.mr_(in: localContext)
             if isFavorite {
                 if localFavoriteDiscount == nil {
-                    localFavoriteDiscount = FavoriteDiscount.MR_createEntityInContext(localContext)
-                    if let localDiscount = originalDiscount?.MR_inContext(localContext) {
+                    localFavoriteDiscount = FavoriteDiscount.mr_createEntity(in: localContext)
+                    if let localDiscount = originalDiscount?.mr_(in: localContext) {
                         localFavoriteDiscount?.id = localDiscount.id
                         localFavoriteDiscount?.author = localDiscount.author
                         localFavoriteDiscount?.title = localDiscount.title
@@ -180,12 +180,12 @@ class Discount: NSManagedObject {
                         localFavoriteDiscount?.url = localDiscount.url
                         
                         localFavoriteDiscount?.appIsUpdated = localDiscount.appIsUpdated
-                        localFavoriteDiscount?.appIsFavorite = NSNumber(bool: true)
+                        localFavoriteDiscount?.appIsFavorite = NSNumber(value: true)
                     }
                 }
-                localFavoriteDiscount?.dateFavorite = NSDate()
+                localFavoriteDiscount?.dateFavorite = Date()
             } else {
-                localFavoriteDiscount?.MR_deleteEntityInContext(localContext)
+                localFavoriteDiscount?.mr_deleteEntity(in: localContext)
             }
         })
     }

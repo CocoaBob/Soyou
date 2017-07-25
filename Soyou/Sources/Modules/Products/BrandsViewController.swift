@@ -14,22 +14,22 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     
     var isListMode: Bool = false
     
-    private var checkLoadingTimer: NSTimer? // If DataManager is updating data, check if brands data is ready
-    @IBOutlet private var _feedbackButton: UIButton!
-    @IBOutlet private var _reloadButton: UIButton!
-    @IBOutlet private var _loadingLabel: UILabel!
-    @IBOutlet private var _loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet private var _loadingView: UIView!
+    fileprivate var checkLoadingTimer: Timer? // If DataManager is updating data, check if brands data is ready
+    @IBOutlet fileprivate var _feedbackButton: UIButton!
+    @IBOutlet fileprivate var _reloadButton: UIButton!
+    @IBOutlet fileprivate var _loadingLabel: UILabel!
+    @IBOutlet fileprivate var _loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate var _loadingView: UIView!
     var isLoadingViewVisible: Bool = true {
         didSet {
             if self.isLoadingViewVisible {
                 self._loadingView.alpha = 1
-                self._loadingView.hidden = false
+                self._loadingView.isHidden = false
             } else {
-                UIView.animateWithDuration(0.3, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     self._loadingView.alpha = 0
                 }) { (finished) in
-                    self._loadingView.hidden = true
+                    self._loadingView.isHidden = true
                 }
             }
         }
@@ -45,9 +45,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         return isListMode ? _tableView : nil
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        return Brand.MR_fetchAllGroupedBy(isListMode ? "brandIndex" : nil,
-                                          withPredicate: isListMode ? nil : FmtPredicate("isHot == true"),
+    override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
+        return Brand.mr_fetchAllGrouped(by: isListMode ? "brandIndex" : nil,
+                                        with: isListMode ? nil : FmtPredicate("isHot == true"),
                                           sortedBy: isListMode ? "brandIndex,order,id" : "order,id",
                                           ascending: true)
     }
@@ -55,11 +55,11 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     // Properties
     var transition: ZoomInteractiveTransition?
     
-    var selectedIndexPath: NSIndexPath?
+    var selectedIndexPath: IndexPath?
     
     // Class methods
     class func instantiate() -> BrandsViewController {
-        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("BrandsViewController") as? BrandsViewController)!
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewController(withIdentifier: "BrandsViewController") as! BrandsViewController
     }
     
     // Life cycle
@@ -78,7 +78,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     
     deinit {
         // Stop observing data updating
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.brandsUpdatingDidFinishNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Cons.DB.brandsUpdatingDidFinishNotification), object: nil)
     }
     
     override func viewDidLoad() {
@@ -92,7 +92,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             _collectionView.delegate = nil
             _collectionView.removeFromSuperview()
             
-            _tableView.hidden = false
+            _tableView.isHidden = false
             _tableView.dataSource = self
             _tableView.delegate = self
             
@@ -106,7 +106,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             _tableView.delegate = nil
             _tableView.removeFromSuperview()
             
-            _collectionView.hidden = false
+            _collectionView.isHidden = false
             _collectionView.dataSource = self
             _collectionView.delegate = self
             
@@ -121,7 +121,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         self.setupSearchController()
         
         // Observe data updating
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BrandsViewController.reloadDataWithoutCompletion), name: Cons.DB.brandsUpdatingDidFinishNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BrandsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.brandsUpdatingDidFinishNotification), object: nil)
         
         // Load data
         self.showLoadingIndicator()
@@ -131,15 +131,15 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         self.transition = ZoomInteractiveTransition(navigationController: self.navigationController)
         self.transition?.handleEdgePanBackGesture = false
         self.transition?.transitionDuration = 0.3
-        let animationOpts: UIViewAnimationOptions = .CurveEaseOut
+        let animationOpts: UIViewAnimationOptions = .curveEaseOut
         let keyFrameOpts: UIViewKeyframeAnimationOptions = UIViewKeyframeAnimationOptions(rawValue: animationOpts.rawValue)
-        self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.CalculationModeCubic, keyFrameOpts]
+        self.transition?.transitionAnimationOption = [UIViewKeyframeAnimationOptions.calculationModeCubic, keyFrameOpts]
         
         // Report problem button
-        self._feedbackButton.setTitle(NSLocalizedString("brands_vc_beedback"), forState: .Normal)
+        self._feedbackButton.setTitle(NSLocalizedString("brands_vc_beedback"), for: .normal)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         // Hide toolbar. No animation because it might need to be shown immediately
@@ -148,48 +148,66 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         self.definesPresentationContext = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = false
+    }
+    
+    override func reloadData(_ completion: (() -> Void)?) {
+        // Reload Data
+        super.reloadData {
+            // Original completion
+            if let completion = completion { completion() }
+            
+            // After searching is completed, if there are results, hide the indicator
+            if self.fetchedResultsController?.fetchedObjects?.count ?? 0 > 0 {
+                self.isLoadingViewVisible = false
+                self.endCheckIsLoadingTimer()
+            } else {
+                self.isLoadingViewVisible = true
+                self.checkIsLoading()
+                self.beginCheckIsLoadingTimer()
+            }
+        }
     }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.fetchedResultsController?.sections?.count ?? 0
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("BrandsCollectionViewCell", forIndexPath: indexPath) as? BrandsCollectionViewCell)!
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCollectionViewCell", for: indexPath as IndexPath) as? BrandsCollectionViewCell)!
         
-        let brand = self.brandAtIndexPath(indexPath)!
+        let brand = self.brandAtIndexPath(indexPath as IndexPath)!
             
         if let label = brand.label {
             cell.lblTitle.text = label
         }
         
         if let imageURLString = brand.imageUrl,
-            imageURL = NSURL(string: imageURLString) {
-            cell.fgImageView?.sd_setImageWithURL(imageURL,
+            let imageURL = URL(string: imageURLString) {
+            cell.fgImageView?.sd_setImage(with: imageURL,
                                                  placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
-                                                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .DelayPlaceholder])
+                                                 options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder])
         }
 
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "MoreCollectionReusableView", forIndexPath: indexPath)
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "MoreCollectionReusableView", for: indexPath as IndexPath)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
         
         let brand = self.brandAtIndexPath(indexPath)!
@@ -198,8 +216,8 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         // Prepare attributes
         var imageURLString: String? = nil
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            guard let localBrand = brand.MR_inContext(localContext) else { return }
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
+            guard let localBrand = brand.mr_(in: localContext) else { return }
             brandViewController.brandID = localBrand.id
             brandViewController.brandName = localBrand.label
             brandViewController.brandCategories = localBrand.categories as? [NSDictionary]
@@ -209,14 +227,14 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         // Load brand image
         var image: UIImage?
         if let imageURLString = imageURLString,
-            imageURL = NSURL(string: imageURLString) {
+            let imageURL = URL(string: imageURLString) {
             brandViewController.brandImageURL = imageURL
             
-            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-            image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL as URL!)
+            image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
         }
         if image == nil {
-            if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? BrandsCollectionViewCell {
+            if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAt: indexPath as IndexPath) as? BrandsCollectionViewCell {
                 image = cell.fgImageView.image
             }
         }
@@ -230,25 +248,25 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController?.sections?.count ?? 0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let brand = self.brandAtIndexPath(indexPath)!
-        let cell = (tableView.dequeueReusableCellWithIdentifier("BrandsTableViewCell", forIndexPath: indexPath) as? BrandsTableViewCell)!
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let brand = self.brandAtIndexPath(indexPath as IndexPath)!
+        let cell = (tableView.dequeueReusableCell(withIdentifier: "BrandsTableViewCell", for: indexPath as IndexPath) as? BrandsTableViewCell)!
         
         cell.lblTitle.text = brand.label ?? ""
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         
         let brand = self.brandAtIndexPath(indexPath)!
         
@@ -256,8 +274,8 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Prepare attributes
         var imageURLString: String? = nil
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            guard let localBrand = brand.MR_inContext(localContext) else { return }
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
+            guard let localBrand = brand.mr_(in: localContext) else { return }
             brandViewController.brandID = localBrand.id
             brandViewController.brandName = localBrand.label
             brandViewController.brandCategories = localBrand.categories as? [NSDictionary]
@@ -267,11 +285,11 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         // Load brand image
         var image: UIImage?
         if let imageURLString = imageURLString,
-            imageURL = NSURL(string: imageURLString) {
+            let imageURL = URL(string: imageURLString) {
             brandViewController.brandImageURL = imageURL
             
-            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-            image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL as URL!)
+            image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
         }
         brandViewController.brandImage = image
         
@@ -279,15 +297,15 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(brandViewController, animated: true)
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 22
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.fetchedResultsController?.sections?[section].name
     }
     
-    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         var titles = [String]()
         if let sectionInfos = self.fetchedResultsController?.sections {
             for sectionInfo in sectionInfos {
@@ -304,8 +322,8 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
 extension BrandsViewController {
     
     func setupTableView() {
-        _tableView.sectionIndexColor = UIColor.grayColor()
-        _tableView.sectionIndexBackgroundColor = UIColor.clearColor()
+        _tableView.sectionIndexColor = UIColor.gray
+        _tableView.sectionIndexBackgroundColor = UIColor.clear
         _tableView.sectionIndexTrackingBackgroundColor = UIColor(white: 0, alpha: 0.05)
     }
 }
@@ -314,7 +332,7 @@ extension BrandsViewController {
 extension BrandsViewController {
     
     func setupCollectionView() {
-        _collectionView.indicatorStyle = .White
+        _collectionView.indicatorStyle = .white
 
         // Create a waterfall layout
         let layout = UICollectionViewFlowLayout()
@@ -337,7 +355,7 @@ extension BrandsViewController {
         _collectionView.collectionViewLayout = layout
         
         // Collection view attributes
-        _collectionView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        _collectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         _collectionView.alwaysBounceVertical = true
         
         // Load data
@@ -345,7 +363,7 @@ extension BrandsViewController {
     }
     
     //** Size for the cells in the Waterfall Layout */
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAt indexPath: IndexPath!) -> CGSize {
         let width = (collectionView.bounds.width - 3) / 2
         return CGSize(width: width, height: width * 2 / 3)
     }
@@ -354,20 +372,20 @@ extension BrandsViewController {
 // MARK: ZoomInteractiveTransition
 extension BrandsViewController: ZoomTransitionProtocol {
     
-    private func imageViewForZoomTransition() -> UIImageView? {
+    fileprivate func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            cell = _collectionView.cellForItemAtIndexPath(indexPath) as? BrandsCollectionViewCell,
-            imageView = cell.fgImageView {
+            let cell = _collectionView.cellForItem(at: indexPath as IndexPath) as? BrandsCollectionViewCell,
+            let imageView = cell.fgImageView {
                 return imageView
         }
         return nil
     }
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    func view(forZoomTransition isSource: Bool) -> UIView? {
         return self.imageViewForZoomTransition()
     }
     
-    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+    func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode
@@ -377,9 +395,9 @@ extension BrandsViewController: ZoomTransitionProtocol {
         return nil
     }
     
-    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
-        if ((operation == .Push && fromVC === self && toVC is BrandViewController) ||
-            (operation == .Pop && fromVC is BrandViewController && toVC === self)) {
+    func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
+        if ((operation == .push && fromVC === self && toVC is BrandViewController) ||
+            (operation == .pop && fromVC is BrandViewController && toVC === self)) {
             return true
         }
         return false
@@ -389,29 +407,11 @@ extension BrandsViewController: ZoomTransitionProtocol {
 // MARK: FetchedResultsController
 extension BrandsViewController {
     
-    func brandAtIndexPath(indexPath: NSIndexPath) -> Brand? {
+    func brandAtIndexPath(_ indexPath: IndexPath) -> Brand? {
         if let section = self.fetchedResultsController?.sections?[indexPath.section] {
             return section.objects?[indexPath.row] as? Brand
         }
         return nil
-    }
-    
-    override func reloadData(completion: (() -> Void)?) {
-        // Reload Data
-        super.reloadData {
-            // Original completion
-            if let completion = completion { completion() }
-            
-            // After searching is completed, if there are results, hide the indicator
-            if self.fetchedResultsController?.fetchedObjects?.count ?? 0 > 0 {
-                self.isLoadingViewVisible = false
-                self.endCheckIsLoadingTimer()
-            } else {
-                self.isLoadingViewVisible = true
-                self.checkIsLoading()
-                self.beginCheckIsLoadingTimer()
-            }
-        }
     }
 }
 
@@ -419,13 +419,13 @@ extension BrandsViewController {
 extension BrandsViewController: UISearchControllerDelegate {
     
     func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: #selector(BrandViewController.showSearchController))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(BrandViewController.showSearchController))
     }
     
     func showSearchController() {
         if isListMode {
             self.navigationItem.setHidesBackButton(true, animated: false)
-            self.navigationItem.setRightBarButtonItem(nil, animated: false)
+            self.navigationItem.setRightBarButton(nil, animated: false)
             self.navigationItem.titleView = self.searchController!.searchBar
         }
         self.searchController!.searchBar.becomeFirstResponder()
@@ -456,7 +456,7 @@ extension BrandsViewController: UISearchControllerDelegate {
         }
     }
     
-    func willDismissSearchController(searchController: UISearchController) {
+    func willDismissSearchController(_ searchController: UISearchController) {
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.hideSearchController()
     }
@@ -465,11 +465,11 @@ extension BrandsViewController: UISearchControllerDelegate {
 // MARK: - UINavigationControllerDelegate
 extension BrandsViewController: UINavigationControllerDelegate {
     
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         viewController.viewWillAppear(animated)
     }
     
-    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         viewController.viewDidAppear(animated)
     }
 }
@@ -477,12 +477,12 @@ extension BrandsViewController: UINavigationControllerDelegate {
 // MARK: Updating data
 extension BrandsViewController {
     
-    private func beginCheckIsLoadingTimer() {
+    fileprivate func beginCheckIsLoadingTimer() {
         self.endCheckIsLoadingTimer()
-        self.checkLoadingTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(BrandsViewController.checkIsLoading), userInfo: nil, repeats: true)
+        self.checkLoadingTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(BrandsViewController.checkIsLoading), userInfo: nil, repeats: true)
     }
     
-    private func endCheckIsLoadingTimer() {
+    fileprivate func endCheckIsLoadingTimer() {
         if self.checkLoadingTimer != nil {
             self.checkLoadingTimer?.invalidate()
             self.checkLoadingTimer = nil
@@ -498,16 +498,16 @@ extension BrandsViewController {
         }
     }
     
-    private func showLoadingIndicator() {
-        self._reloadButton.hidden = true
-        self._loadingIndicator.hidden = false
+    fileprivate func showLoadingIndicator() {
+        self._reloadButton.isHidden = true
+        self._loadingIndicator.isHidden = false
         self._loadingIndicator.startAnimating()
         self._loadingLabel.text = NSLocalizedString("brands_vc_no_data_label_loading")
     }
     
-    private func showReloadButton() {
-        self._reloadButton.hidden = false
-        self._loadingIndicator.hidden = true
+    fileprivate func showReloadButton() {
+        self._reloadButton.isHidden = false
+        self._loadingIndicator.isHidden = true
         self._loadingIndicator.stopAnimating()
         self._loadingLabel.text = NSLocalizedString("brands_vc_no_data_label_reload")
     }
@@ -567,7 +567,7 @@ class MoreCollectionReusableView: UICollectionReusableView {
         super.awakeFromNib()
         self.prepareForReuse()
         lblTitle.text = NSLocalizedString("brands_vc_all_brands")
-        lblTitle.layer.shadowColor = UIColor(white: 0, alpha: 0.5).CGColor
+        lblTitle.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
         lblTitle.layer.shadowOpacity = 1
         lblTitle.layer.shadowRadius = 2
         lblTitle.layer.shadowOffset = CGSize.zero

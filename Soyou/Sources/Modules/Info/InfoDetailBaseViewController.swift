@@ -29,14 +29,14 @@ class InfoDetailBaseViewController: UIViewController {
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
     // Toolbar
-    var btnLike: UIButton = UIButton(type: .System)
-    var btnFav: UIButton = UIButton(type: .System)
-    var btnComment: UIButton = UIButton(type: .System)
+    var btnLike: UIButton = UIButton(type: .system)
+    var btnFav: UIButton = UIButton(type: .system)
+    var btnComment: UIButton = UIButton(type: .system)
     
     // Status Bar Cover
     var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
-        CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.width, height: UIApplication.sharedApplication().statusBarFrame.height)
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIApplication.shared.statusBarFrame.height)
     )
     
     @IBOutlet var webView: UIWebView?
@@ -46,7 +46,7 @@ class InfoDetailBaseViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> InfoDetailBaseViewController {
-        return (UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewControllerWithIdentifier("InfoDetailBaseViewController") as? InfoDetailBaseViewController)!
+        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "InfoDetailBaseViewController") as! InfoDetailBaseViewController
     }
     
     // Lif cycle
@@ -64,39 +64,39 @@ class InfoDetailBaseViewController: UIViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(InfoDetailBaseViewController.tapHandler(_:)))
         tapGR.numberOfTapsRequired = 1
         tapGR.numberOfTouchesRequired = 1
-        tapGR.delegate = self // shouldRecognizeSimultaneouslyWithGestureRecognizer
+        tapGR.delegate = self // shouldRecognizeSimultaneouslyWith
         self.webView?.addGestureRecognizer(tapGR)
         
         // Status Bar Cover
-        self.statusBarCover.backgroundColor = UIColor.whiteColor()
+        self.statusBarCover.backgroundColor = UIColor.white
         
         // Toolbar buttons
-        self.btnLike.titleLabel?.font = UIFont.systemFontOfSize(10)
+        self.btnLike.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         self.btnLike.titleEdgeInsets = UIEdgeInsets(top: -20, left: 0, bottom: 1, right: 0)
-        self.btnLike.backgroundColor = UIColor.clearColor()
+        self.btnLike.backgroundColor = UIColor.clear
         self.btnLike.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnLike.setImage(UIImage(named: "img_thumb"), forState: .Normal)
+        self.btnLike.setImage(UIImage(named: "img_thumb"), for: .normal)
         self.btnLike.imageEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 1, right: 0) // Adjust image position
-        self.btnLike.addTarget(self, action: #selector(InfoDetailBaseViewController.like(_:)), forControlEvents: .TouchUpInside)
+        self.btnLike.addTarget(self, action: #selector(InfoDetailBaseViewController.like(_:)), for: .touchUpInside)
         
-        self.btnFav.backgroundColor = UIColor.clearColor()
+        self.btnFav.backgroundColor = UIColor.clear
         self.btnFav.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnFav.setImage(UIImage(named: "img_heart"), forState: .Normal)
-        self.btnFav.addTarget(self, action: #selector(InfoDetailBaseViewController.star(_:)), forControlEvents: .TouchUpInside)
+        self.btnFav.setImage(UIImage(named: "img_heart"), for: .normal)
+        self.btnFav.addTarget(self, action: #selector(InfoDetailBaseViewController.star(_:)), for: .touchUpInside)
         
-        self.btnComment.titleLabel?.font = UIFont.systemFontOfSize(10)
+        self.btnComment.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         self.btnComment.titleLabel?.layer.cornerRadius = 3
         self.btnComment.titleLabel?.clipsToBounds = true
-        self.btnComment.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.btnComment.setTitleColor(UIColor.white, for: .normal)
         self.btnComment.titleEdgeInsets = UIEdgeInsets(top: -20, left: 0, bottom: 1, right: 0)
-        self.btnComment.backgroundColor = UIColor.clearColor()
+        self.btnComment.backgroundColor = UIColor.clear
         self.btnComment.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnComment.setImage(UIImage(named: "img_comments"), forState: .Normal)
-        self.btnComment.addTarget(self, action: #selector(InfoDetailBaseViewController.comment(_:)), forControlEvents: .TouchUpInside)
-        self.btnComment.titleLabel?.backgroundColor = UIColor(rgba:Cons.UI.colorComment)
+        self.btnComment.setImage(UIImage(named: "img_comments"), for: .normal)
+        self.btnComment.addTarget(self, action: #selector(InfoDetailBaseViewController.comment(_:)), for: .touchUpInside)
+        self.btnComment.titleLabel?.backgroundColor = Cons.UI.colorComment
         
-        let space = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: Selector())
-        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .Plain, target: self, action: #selector(ProductViewController.next(_:)))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .plain, target: self, action: #selector(ProductViewController.next(_:)))
         let fav = UIBarButtonItem(customView: self.btnFav)
         let like = UIBarButtonItem(customView: self.btnLike)
         let comment = UIBarButtonItem(customView: self.btnComment)
@@ -104,7 +104,7 @@ class InfoDetailBaseViewController: UIViewController {
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         // Setup next button
-        next.enabled = false
+        next.isEnabled = false
         self.nextInfoBarButtonItem = next
         
         // Fix scroll view insets
@@ -114,7 +114,7 @@ class InfoDetailBaseViewController: UIViewController {
         self.loadData()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // Hide navigation bar if it's visible again
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
@@ -126,7 +126,7 @@ class InfoDetailBaseViewController: UIViewController {
         self.showToolbar(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Update Status Bar Cover
         self.updateStatusBarCover()
@@ -134,7 +134,7 @@ class InfoDetailBaseViewController: UIViewController {
         self.scrollView?.delegate = self
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Update Status Bar Cover
         self.removeStatusBarCover()
@@ -146,7 +146,7 @@ class InfoDetailBaseViewController: UIViewController {
         self.scrollView?.delegate = nil
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
@@ -156,8 +156,8 @@ class InfoDetailBaseViewController: UIViewController {
         self.updateExtraInfo()
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return isStatusBarCoverVisible ? UIStatusBarStyle.Default : UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return isStatusBarCoverVisible ? UIStatusBarStyle.default : UIStatusBarStyle.lightContent
     }
     
     // For subclasses
@@ -174,21 +174,21 @@ class InfoDetailBaseViewController: UIViewController {
 // MARK: Web image tap gesture handler
 extension InfoDetailBaseViewController {
     
-    func tapHandler(tapGR: UITapGestureRecognizer) {
+    func tapHandler(_ tapGR: UITapGestureRecognizer) {
         guard let webView = self.webView else {
             return
         }
         
-        var touchPoint = tapGR.locationInView(self.webView)
+        var touchPoint = tapGR.location(in: self.webView)
         var offset = CGPoint.zero
-        if let xOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageXOffset"),
-            yOffset = webView.stringByEvaluatingJavaScriptFromString("window.pageYOffset") {
+        if let xOffset = webView.stringByEvaluatingJavaScript(from: "window.pageXOffset"),
+            let yOffset = webView.stringByEvaluatingJavaScript(from: "window.pageYOffset") {
             offset.x = CGFloat((xOffset as NSString).doubleValue)
             offset.y = CGFloat((yOffset as NSString).doubleValue)
         }
         var windowSize = CGSize.zero
-        if let width = webView.stringByEvaluatingJavaScriptFromString("window.innerWidth"),
-            height = webView.stringByEvaluatingJavaScriptFromString("window.innerHeight") {
+        if let width = webView.stringByEvaluatingJavaScript(from: "window.innerWidth"),
+            let height = webView.stringByEvaluatingJavaScript(from: "window.innerHeight") {
             windowSize.width = CGFloat((width as NSString).doubleValue)
             windowSize.height = CGFloat((height as NSString).doubleValue)
         }
@@ -197,13 +197,13 @@ extension InfoDetailBaseViewController {
         touchPoint.x *= factor
         touchPoint.y = (touchPoint.y - webView.scrollView.contentInset.top) * factor
         
-        guard let tagName = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).tagName") else {
+        guard let tagName = webView.stringByEvaluatingJavaScript(from: "document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).tagName") else {
             return
         }
         
-        if "IMG".caseInsensitiveCompare(tagName) == .OrderedSame {
-            if let imageURLString: String = webView.stringByEvaluatingJavaScriptFromString("document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
-                photoIndex = self.webViewImageURLs.indexOf(imageURLString) {
+        if "IMG".caseInsensitiveCompare(tagName) == .orderedSame {
+            if let imageURLString: String = webView.stringByEvaluatingJavaScript(from: "document.elementFromPoint(\(touchPoint.x), \(touchPoint.y)).src"),
+                let photoIndex = self.webViewImageURLs.index(of: imageURLString) {
                 IDMPhotoBrowser.present(self.webViewPhotos, index: UInt(photoIndex), view: nil, scaleImage: nil, viewVC: self)
             }
         }
@@ -213,12 +213,12 @@ extension InfoDetailBaseViewController {
 // MARK: Status Bar Cover
 extension InfoDetailBaseViewController: UIScrollViewDelegate {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Update Status Bar Cover
         self.updateStatusBarCover()
     }
     
-    private func updateStatusBarCover() {
+    fileprivate func updateStatusBarCover() {
         guard let scrollView = self.scrollView else { return }
         if !isStatusBarCoverVisible && scrollView.contentOffset.y >= 0 {
             self.addStatusBarCover()
@@ -227,18 +227,18 @@ extension InfoDetailBaseViewController: UIScrollViewDelegate {
         }
     }
     
-    private func addStatusBarCover() {
+    fileprivate func addStatusBarCover() {
         isStatusBarCoverVisible = true
         self.tabBarController?.view.addSubview(self.statusBarCover)
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
+        UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
             self.statusBarCover.alpha = 1
         })
     }
     
-    private func removeStatusBarCover() {
+    fileprivate func removeStatusBarCover() {
         isStatusBarCoverVisible = false
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
+        UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
             self.statusBarCover.alpha = 0
             }, completion: { (finished) -> Void in
@@ -252,18 +252,18 @@ extension InfoDetailBaseViewController {
     
     var isFavorite: Bool {
         set(newValue) {
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            DispatchQueue.main.async {
                 if newValue == true {
-                    self.btnFav.setImage(UIImage(named: "img_heart_selected"), forState: .Normal)
-                    self.btnFav.tintColor = UIColor(rgba:Cons.UI.colorHeart)
+                    self.btnFav.setImage(UIImage(named: "img_heart_selected"), for: .normal)
+                    self.btnFav.tintColor = Cons.UI.colorHeart
                 } else {
-                    self.btnFav.setImage(UIImage(named: "img_heart"), forState: .Normal)
+                    self.btnFav.setImage(UIImage(named: "img_heart"), for: .normal)
                     self.btnFav.tintColor = UIToolbar.appearance().tintColor
                 }
             }
         }
         get {
-            return self.btnFav.tintColor == UIColor(rgba:Cons.UI.colorHeart)
+            return self.btnFav.tintColor == Cons.UI.colorHeart
         }
     }
 }
@@ -271,26 +271,26 @@ extension InfoDetailBaseViewController {
 // MARK: Like button
 extension InfoDetailBaseViewController {
     
-    func updateLikeBtnColor(isLiked: Bool) {
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.btnLike.tintColor = isLiked ? UIColor(rgba: Cons.UI.colorLike) : UIToolbar.appearance().tintColor
+    func updateLikeBtnColor(_ isLiked: Bool) {
+        DispatchQueue.main.async {
+            self.btnLike.tintColor = isLiked ? Cons.UI.colorLike : UIToolbar.appearance().tintColor
         }
     }
     
     var likeBtnIsLiked: Bool {
-        return self.btnLike.tintColor == UIColor(rgba: Cons.UI.colorLike)
+        return self.btnLike.tintColor == Cons.UI.colorLike
     }
     
     var likeBtnNumber: Int? {
         set(newValue) {
             if newValue != nil && newValue! > 0 {
-                self.btnLike.setTitle("\(newValue!)", forState: .Normal)
+                self.btnLike.setTitle("\(newValue!)", for: .normal)
             } else {
-                self.btnLike.setTitle("", forState: .Normal)
+                self.btnLike.setTitle("", for: .normal)
             }
         }
         get {
-            if let title = self.btnLike.titleForState(.Normal) {
+            if let title = self.btnLike.title(for: .normal) {
                 return Int(title)
             } else {
                 return 0
@@ -305,13 +305,13 @@ extension InfoDetailBaseViewController {
     var commentBtnNumber: Int? {
         set(newValue) {
             if newValue != nil && newValue! >= 0 {
-                self.btnComment.setTitle(" \(newValue!) ", forState: .Normal)
+                self.btnComment.setTitle(" \(newValue!) ", for: .normal)
             } else {
-                self.btnComment.setTitle("", forState: .Normal)
+                self.btnComment.setTitle("", for: .normal)
             }
         }
         get {
-            if let title = self.btnComment.titleForState(.Normal) {
+            if let title = self.btnComment.title(for: .normal) {
                 return Int(title)
             } else {
                 return 0
@@ -335,27 +335,27 @@ extension InfoDetailBaseViewController {
             let transition = CATransition()
             transition.type = kCATransitionPush
             transition.subtype = kCATransitionFromTop
-            self.view.layer .addAnimation(transition, forKey: "transition")
-            self.delegate?.didShowItem(NSIndexPath(forRow: self.infoIndex ?? 0, inSection: 0), isNext: true)
+            self.view.layer .add(transition, forKey: "transition")
+            self.delegate?.didShowItem(IndexPath(row: self.infoIndex ?? 0, section: 0), isNext: true)
         }
     }
     
-    func loadWebView(title title: String?, content: String?) {
-        if let webView = self.webView, content = content, title = title {
+    func loadWebView(title: String?, content: String?) {
+        if let webView = self.webView, let content = content, let title = title {
             var cssContent: String?
             var htmlContent: String?
             do {
-                cssContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("news", ofType: "css")!)
-                htmlContent = try String(contentsOfFile: NSBundle.mainBundle().pathForResource("news", ofType: "html")!)
+                cssContent = try String(contentsOfFile: Bundle.main.path(forResource: "news", ofType: "css")!)
+                htmlContent = try String(contentsOfFile: Bundle.main.path(forResource: "news", ofType: "html")!)
             } catch {
                 
             }
             if var cssContent = cssContent,
-                htmlContent = htmlContent {
-                cssContent = cssContent.stringByReplacingOccurrencesOfString("__COVER_HEIGHT__", withString: "0")
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__TITLE__", withString: title)
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CONTENT__", withString: content)
-                htmlContent = htmlContent.stringByReplacingOccurrencesOfString("__CSS__", withString: cssContent)
+                var htmlContent = htmlContent {
+                cssContent = cssContent.replacingOccurrences(of: "__COVER_HEIGHT__", with: "0")
+                htmlContent = htmlContent.replacingOccurrences(of: "__TITLE__", with: title)
+                htmlContent = htmlContent.replacingOccurrences(of: "__CONTENT__", with: content)
+                htmlContent = htmlContent.replacingOccurrences(of: "__CSS__", with: cssContent)
                 webView.loadHTMLString(htmlContent, baseURL: nil)
             }
         }
@@ -365,9 +365,9 @@ extension InfoDetailBaseViewController {
 // MARK: Images
 extension InfoDetailBaseViewController {
     
-    func loadAllImagesFromWebView(webView: UIWebView) {
-        if let imageURLsJSONString = webView.stringByEvaluatingJavaScriptFromString("(function() {var images=document.querySelectorAll(\"img\");var imageUrls=[];[].forEach.call(images, function(el) { imageUrls[imageUrls.length] = el.src;}); return JSON.stringify(imageUrls);})()"),
-            imageURLs = GetObjectFromJSONString(imageURLsJSONString) {
+    func loadAllImagesFromWebView(_ webView: UIWebView) {
+        if let imageURLsJSONString = webView.stringByEvaluatingJavaScript(from: "(function() {var images=document.querySelectorAll(\"img\");var imageUrls=[];[].forEach.call(images, function(el) { imageUrls[imageUrls.length] = el.src;}); return JSON.stringify(imageUrls);})()"),
+            let imageURLs = GetObjectFromJSONString(imageURLsJSONString) {
             // All URLs
             if let imageURLs = imageURLs as? [String] {
                 self.webViewImageURLs = imageURLs
@@ -376,15 +376,15 @@ extension InfoDetailBaseViewController {
             // All IDMPhotos
             var webViewPhotos = [IDMPhoto]()
             for strURL in self.webViewImageURLs {
-                if let imageURL = NSURL(string: strURL) {
-                    if let imageResponse = NSURLCache.sharedURLCache().cachedResponseForRequest(NSURLRequest(URL: imageURL)),
-                        image = UIImage(data: imageResponse.data) {
+                if let imageURL = URL(string: strURL) {
+                    if let imageResponse = URLCache.shared.cachedResponse(for: URLRequest(url: imageURL)),
+                        let image = UIImage(data: imageResponse.data) {
                         webViewPhotos.append(IDMPhoto(image:image))
                     } else {
-                        webViewPhotos.append(IDMPhoto(URL: imageURL))
+                        webViewPhotos.append(IDMPhoto(url: imageURL))
                     }
                 } else {
-                    self.webViewImageURLs.removeAtIndex(self.webViewImageURLs.indexOf(strURL)!)
+                    self.webViewImageURLs.remove(at: self.webViewImageURLs.index(of: strURL)!)
                 }
             }
             self.webViewPhotos = webViewPhotos
@@ -395,7 +395,7 @@ extension InfoDetailBaseViewController {
 // MARK: UIWebViewDelegate
 extension InfoDetailBaseViewController: UIWebViewDelegate {
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         self.loadAllImagesFromWebView(webView)
     }
 }
@@ -410,12 +410,12 @@ extension InfoDetailBaseViewController {
         let headerHeight = self.view.bounds.width * image.size.height / image.size.width
         // Header View
         let headerView = UIImageView(image: image)
-        headerView.contentMode = .ScaleAspectFill
+        headerView.contentMode = .scaleAspectFill
         // Parallax View
         if let scrollView = self.scrollView {
             scrollView.parallaxHeader.height = headerHeight
             scrollView.parallaxHeader.view = headerView
-            scrollView.parallaxHeader.mode = .Fill
+            scrollView.parallaxHeader.mode = .fill
         }
     }
 }
@@ -424,14 +424,14 @@ extension InfoDetailBaseViewController {
 extension InfoDetailBaseViewController: UIGestureRecognizerDelegate {
     
     // To allow UIWebView's tap gesture recognizer work
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer is UIScreenEdgePanGestureRecognizer {
             return false
         }
         return true
     }
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
             self.isEdgeSwiping = true
         }
@@ -442,7 +442,7 @@ extension InfoDetailBaseViewController: UIGestureRecognizerDelegate {
 // MARK: ZoomInteractiveTransition
 extension InfoDetailBaseViewController: ZoomTransitionProtocol {
     
-    private func imageViewForZoomTransition() -> UIImageView? {
+    fileprivate func imageViewForZoomTransition() -> UIImageView? {
         if let parallaxHeaderView = self.scrollView?.parallaxHeader.view {
             parallaxHeaderView.setNeedsLayout()
             parallaxHeaderView.layoutIfNeeded()
@@ -451,11 +451,11 @@ extension InfoDetailBaseViewController: ZoomTransitionProtocol {
         return nil
     }
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    func view(forZoomTransition isSource: Bool) -> UIView? {
         return self.imageViewForZoomTransition()
     }
     
-    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+    func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode
@@ -464,15 +464,15 @@ extension InfoDetailBaseViewController: ZoomTransitionProtocol {
         return nil
     }
     
-    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+    func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
         // No zoom transition when edge swiping
         if self.isEdgeSwiping {
             return false
         }
         // Only available for opening/closing a news from/to news view controller
-        if ((operation == .Push && fromVC is InfoViewController && toVC === self)) {
+        if ((operation == .push && fromVC is InfoViewController && toVC === self)) {
             return true
-        } else if ((operation == .Pop && fromVC === self && toVC is InfoViewController)) {
+        } else if ((operation == .pop && fromVC === self && toVC is InfoViewController)) {
             // If parallex header is invisible, no need of the zooming animation
             if let scrollView = self.scrollView {
                 if scrollView.contentOffset.y >= 0 {
@@ -488,27 +488,27 @@ extension InfoDetailBaseViewController: ZoomTransitionProtocol {
 // MARK: Actions
 extension InfoDetailBaseViewController {
     
-    @IBAction func back(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func back(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func next(sender: AnyObject) {
+    @IBAction func next(_ sender: AnyObject) {
         self.loadNextData()
     }
     
-    @IBAction func share(sender: AnyObject) {
+    @IBAction func share(_ sender: AnyObject) {
         self.share()
     }
     
-    @IBAction func like(sender: AnyObject) {
+    @IBAction func like(_ sender: AnyObject) {
         self.like()
     }
     
-    @IBAction func star(sender: AnyObject) {
+    @IBAction func star(_ sender: AnyObject) {
         self.star()
     }
     
-    @IBAction func comment(sender: AnyObject) {
+    @IBAction func comment(_ sender: AnyObject) {
         self.comment()
     }
 }

@@ -12,29 +12,29 @@ import CoreData
 
 class FavoriteDiscount: Discount {
     
-    override class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteDiscount?) {
+    @discardableResult override class func importData(_ data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (FavoriteDiscount?) {
         var discount: FavoriteDiscount? = nil
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
             
-            discount = FavoriteDiscount.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            discount = FavoriteDiscount.mr_findFirst(with: FmtPredicate("id == %@", id), in: context)
             if discount == nil {
-                discount = FavoriteDiscount.MR_createEntityInContext(context)
+                discount = FavoriteDiscount.mr_createEntity(in: context)
                 discount?.id = id
             }
             
             if let discount = discount {
                 if let value = data["publishdate"] as? String {
-                    discount.publishdate = Cons.utcDateFormatter.dateFromString(value)
+                    discount.publishdate = Cons.utcDateFormatter.date(from: value)
                 }
                 if let value = data["dateModification"] as? String {
-                    let newDateModification = Cons.utcDateFormatter.dateFromString(value)
+                    let newDateModification = Cons.utcDateFormatter.date(from: value)
                     if isComplete {
-                        discount.appIsUpdated = NSNumber(bool: true)
+                        discount.appIsUpdated = NSNumber(value: true as Bool)
                     } else {
                         if newDateModification != discount.dateModification {
-                            discount.appIsUpdated = NSNumber(bool: false) // Needs to be updated
+                            discount.appIsUpdated = NSNumber(value: false as Bool) // Needs to be updated
                         }
                     }
                     discount.dateModification = newDateModification
@@ -49,16 +49,16 @@ class FavoriteDiscount: Discount {
                     discount.url = data["url"] as? String
                 }
                 if let value = data["expireDate"] as? String {
-                    discount.expireDate = Cons.utcDateFormatter.dateFromString(value)
+                    discount.expireDate = Cons.utcDateFormatter.date(from: value)
                 }
-                discount.appIsFavorite = NSNumber(bool: true)
+                discount.appIsFavorite = NSNumber(value: true as Bool)
             }
         }
         
         if let context = context {
             importDataClosure(context)
         } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                 importDataClosure(localContext)
             })
         }
@@ -66,45 +66,45 @@ class FavoriteDiscount: Discount {
         return discount
     }
     
-    override class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
+    override class func importDatas(_ datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 if let completion = completion { completion(nil, FmtError(0, nil)) }
                 return
             }
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 // Import new data
                 for data in datas {
                     FavoriteDiscount.importData(data, isComplete, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                if let completion = completion { completion(responseObject, error) }
+                if let completion = completion { completion(responseObject, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }
         }
     }
     
-    class func updateWithData(data: [NSDictionary], _ completion: CompletionClosure?) {
+    class func updateWithData(_ data: [NSDictionary], _ completion: CompletionClosure?) {
         // Create a dictionary of all favorite discounts
         var favoriteIDs = [NSNumber]()
-        var favoriteDates = [NSNumber: NSDate]()
+        var favoriteDates = [NSNumber: Date]()
         for dict in data {
-            if let discountID = dict["id"] as? NSNumber, dateModification = dict["dateModification"] as? String {
+            if let discountID = dict["id"] as? NSNumber, let dateModification = dict["dateModification"] as? String {
                 favoriteIDs.append(discountID)
-                favoriteDates[discountID] = Cons.utcDateFormatter.dateFromString(dateModification)
+                favoriteDates[discountID] = Cons.utcDateFormatter.date(from: dateModification)
             }
         }
         
-        MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
             // Filter all existing ones, delete remotely deleted ones.
-            if let allFavoritesDiscounts = FavoriteDiscount.MR_findAllInContext(localContext) as? [FavoriteDiscount] {
+            if let allFavoritesDiscounts = FavoriteDiscount.mr_findAll(in: localContext) as? [FavoriteDiscount] {
                 for favoriteDiscount in allFavoritesDiscounts {
-                    if let discountID = favoriteDiscount.id, index = favoriteIDs.indexOf(discountID) {
-                        favoriteIDs.removeAtIndex(index)
+                    if let discountID = favoriteDiscount.id, let index = favoriteIDs.index(of: discountID) {
+                        favoriteIDs.remove(at: index)
                     } else {
-                        favoriteDiscount.MR_deleteEntityInContext(localContext)
+                        favoriteDiscount.mr_deleteEntity(in: localContext)
                     }
                 }
             }
@@ -114,9 +114,9 @@ class FavoriteDiscount: Discount {
                 DataManager.shared.requestDiscounts(favoriteIDs, { responseObject, error in
                     if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                         FavoriteDiscount.importDatas(data, false, false, { (responseObject, error) -> () in
-                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+                            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                                 // Update favorite dates
-                                if let allFavoritesDiscounts = FavoriteDiscount.MR_findAllInContext(localContext) as? [FavoriteDiscount] {
+                                if let allFavoritesDiscounts = FavoriteDiscount.mr_findAll(in: localContext) as? [FavoriteDiscount] {
                                     for favoriteDiscount in allFavoritesDiscounts {
                                         if let discountID = favoriteDiscount.id {
                                             favoriteDiscount.dateFavorite = favoriteDates[discountID]
@@ -137,21 +137,21 @@ class FavoriteDiscount: Discount {
     }
     
     class func deleteAll() {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            FavoriteDiscount.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            FavoriteDiscount.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
         })
     }
     
-    func relatedDiscount(context: NSManagedObjectContext?) -> Discount? {
+    func relatedDiscount(_ context: NSManagedObjectContext?) -> Discount? {
         if let dicsountID = self.id {
             if let context = context {
-                let request = Discount.MR_requestFirstWithPredicate(FmtPredicate("id == %@", dicsountID), inContext: context)
+                let request = Discount.mr_requestFirst(with: FmtPredicate("id == %@", dicsountID), in: context)
                 request.includesSubentities = false
-                return Discount.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
+                return Discount.mr_executeFetchRequestAndReturnFirstObject(request, in: context)
             } else {
-                let request = Discount.MR_requestFirstWithPredicate(FmtPredicate("id == %@", dicsountID))
+                let request = Discount.mr_requestFirst(with: FmtPredicate("id == %@", dicsountID))
                 request.includesSubentities = false
-                return Discount.MR_executeFetchRequestAndReturnFirstObject(request)
+                return Discount.mr_executeFetchRequestAndReturnFirstObject(request)
             }
         }
         return nil

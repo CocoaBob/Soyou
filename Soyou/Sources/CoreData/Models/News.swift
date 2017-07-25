@@ -20,32 +20,32 @@ import CoreData
 
 class News: NSManagedObject {
 
-    class func importData(data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (News?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ isComplete: Bool, _ context: NSManagedObjectContext?) -> (News?) {
         var news: News? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             guard let id = data["id"] as? NSNumber else { return }
             
-            let request = News.MR_requestFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            let request = News.mr_requestFirst(with: FmtPredicate("id == %@", id), in: context)
             request.includesSubentities = false
-            news = News.MR_executeFetchRequestAndReturnFirstObject(request, inContext: context)
+            news = News.mr_executeFetchRequestAndReturnFirstObject(request, in: context)
             if news == nil {
-                news = News.MR_createEntityInContext(context)
+                news = News.mr_createEntity(in: context)
                 news?.id = id
             }
             
             if let news = news {
                 if let value = data["datePublication"] as? String {
-                    news.datePublication = Cons.utcDateFormatter.dateFromString(value)
+                    news.datePublication = Cons.utcDateFormatter.date(from: value)
                 }
                 if let value = data["dateModification"] as? String {
-                    let newDateModification = Cons.utcDateFormatter.dateFromString(value)
+                    let newDateModification = Cons.utcDateFormatter.date(from: value)
                     if isComplete {
-                        news.appIsUpdated = NSNumber(bool: true)
+                        news.appIsUpdated = NSNumber(value: true as Bool)
                     } else {
                         if newDateModification != news.dateModification {
-                            news.appIsUpdated = NSNumber(bool: false) // Needs to be updated
+                            news.appIsUpdated = NSNumber(value: false as Bool) // Needs to be updated
                         }
                     }
                     news.dateModification = newDateModification
@@ -65,7 +65,7 @@ class News: NSManagedObject {
         if let context = context {
             importDataClosure(context)
         } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                 importDataClosure(localContext)
             })
         }
@@ -73,21 +73,21 @@ class News: NSManagedObject {
         return news
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 if let completion = completion { completion(nil, FmtError(0, nil)) }
                 return
             }
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 // Delete old data
                 if isOverridden {
-                    let request = News.MR_requestAllWithPredicate(FmtPredicate("1==1"), inContext: localContext)
+                    let request = News.mr_requestAll(with: FmtPredicate("1==1"), in: localContext)
                     request.includesSubentities = false
-                    if let results = News.MR_executeFetchRequest(request, inContext: localContext) {
+                    if let results = News.mr_executeFetchRequest(request, in: localContext) {
                         for news in results {
-                            news.MR_deleteEntityInContext(localContext)
+                            news.mr_deleteEntity(in: localContext)
                         }
                     }
                 }
@@ -96,7 +96,7 @@ class News: NSManagedObject {
                     News.importData(data, isComplete, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                if let completion = completion { completion(responseObject, error) }
+                if let completion = completion { completion(responseObject as AnyObject?, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }
@@ -104,12 +104,12 @@ class News: NSManagedObject {
     }
     
     // Favorite
-    func relatedFavoriteNews(context: NSManagedObjectContext?) -> FavoriteNews? {
+    func relatedFavoriteNews(_ context: NSManagedObjectContext?) -> FavoriteNews? {
         if let newsID = self.id {
             if let context = context {
-                return FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID, inContext: context)
+                return FavoriteNews.mr_findFirst(byAttribute: "id", withValue: newsID, in: context)
             } else {
-                return FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID)
+                return FavoriteNews.mr_findFirst(byAttribute: "id", withValue: newsID)
             }
         }
         return nil
@@ -118,11 +118,11 @@ class News: NSManagedObject {
     func isFavorite() -> Bool {
         var returnValue = false
         
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
             if self is FavoriteNews {
                 returnValue = true
             } else {
-                if let _ = self.MR_inContext(localContext)?.relatedFavoriteNews(localContext) {
+                if let _ = self.mr_(in: localContext)?.relatedFavoriteNews(localContext) {
                     returnValue = true
                 }
             }
@@ -131,9 +131,9 @@ class News: NSManagedObject {
         return returnValue
     }
     
-    class func toggleFavorite(newsID: NSNumber, completion: DataClosure?) {
+    class func toggleFavorite(_ newsID: NSNumber, completion: DataClosure?) {
         // Find the favorite news
-        let favoriteNews: FavoriteNews? = FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID)
+        let favoriteNews: FavoriteNews? = FavoriteNews.mr_findFirst(byAttribute: "id", withValue: newsID)
         
         // Was favorite?
         let wasFavorite = favoriteNews != nil
@@ -154,17 +154,17 @@ class News: NSManagedObject {
     }
     
     // Create/Update FavoriteNews, or delete FavoriteNews
-    class func updateFavorite(newsID: NSNumber, isFavorite: Bool) {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            let request = News.MR_requestFirstByAttribute("id", withValue: newsID, inContext: localContext)
+    class func updateFavorite(_ newsID: NSNumber, isFavorite: Bool) {
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            let request = News.mr_requestFirst(byAttribute: "id", withValue: newsID, in: localContext)
             request.includesSubentities = false
-            let originalNews: News? = News.MR_executeFetchRequestAndReturnFirstObject(request, inContext: localContext)
-            let favoriteNews: FavoriteNews? = FavoriteNews.MR_findFirstByAttribute("id", withValue: newsID, inContext: localContext)
-            var localFavoriteNews = favoriteNews?.MR_inContext(localContext)
+            let originalNews: News? = News.mr_executeFetchRequestAndReturnFirstObject(request, in: localContext)
+            let favoriteNews: FavoriteNews? = FavoriteNews.mr_findFirst(byAttribute: "id", withValue: newsID, in: localContext)
+            var localFavoriteNews = favoriteNews?.mr_(in: localContext)
             if isFavorite {
                 if localFavoriteNews == nil {
-                    localFavoriteNews = FavoriteNews.MR_createEntityInContext(localContext)
-                    if let localNews = originalNews?.MR_inContext(localContext) {
+                    localFavoriteNews = FavoriteNews.mr_createEntity(in: localContext)
+                    if let localNews = originalNews?.mr_(in: localContext) {
                         localFavoriteNews?.id = localNews.id
                         localFavoriteNews?.author = localNews.author
                         localFavoriteNews?.title = localNews.title
@@ -178,12 +178,12 @@ class News: NSManagedObject {
                         
                         localFavoriteNews?.appIsLiked = localNews.appIsLiked
                         localFavoriteNews?.appIsUpdated = localNews.appIsUpdated
-                        localFavoriteNews?.appIsFavorite = NSNumber(bool: true)
+                        localFavoriteNews?.appIsFavorite = NSNumber(value: true)
                     }
                 }
-                localFavoriteNews?.dateFavorite = NSDate()
+                localFavoriteNews?.dateFavorite = Date()
             } else {
-                localFavoriteNews?.MR_deleteEntityInContext(localContext)
+                localFavoriteNews?.mr_deleteEntity(in: localContext)
             }
         })
     }
@@ -191,18 +191,18 @@ class News: NSManagedObject {
     // Like
     func isLiked() -> Bool {
         var returnValue = false
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
             // Find original news and favorite news
             var originalNews: News?
             var favoriteNews: FavoriteNews?
             if self is FavoriteNews {
                 if let news = self as? FavoriteNews {
                     favoriteNews = news
-                    originalNews = news.MR_inContext(localContext)?.relatedNews(localContext)
+                    originalNews = news.mr_(in: localContext)?.relatedNews(localContext)
                 }
             } else {
                 originalNews = self
-                favoriteNews = self.MR_inContext(localContext)?.relatedFavoriteNews(localContext)
+                favoriteNews = self.mr_(in: localContext)?.relatedFavoriteNews(localContext)
             }
             
             // If any one of them is true, set both to true
@@ -222,11 +222,11 @@ class News: NSManagedObject {
         return returnValue
     }
     
-    func toggleLike(completion: DataClosure?) {
+    func toggleLike(_ completion: DataClosure?) {
         var _wasLiked: Bool?
         var _newsID: NSNumber?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            let localSelf = self.MR_inContext(localContext)
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            let localSelf = self.mr_(in: localContext)
             _newsID = localSelf?.id
             _wasLiked = localSelf?.isLiked()
         })
@@ -239,23 +239,23 @@ class News: NSManagedObject {
             guard let data = responseObject["data"] else { return }
             
             // Remember if it's liked or not
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                 // Find original news and favorite news
                 var originalNews: News?
                 var favoriteNews: FavoriteNews?
                 if self is FavoriteNews {
                     if let news = self as? FavoriteNews {
-                        favoriteNews = news.MR_inContext(localContext)
-                        originalNews = news.MR_inContext(localContext)?.relatedNews(localContext)
+                        favoriteNews = news.mr_(in: localContext)
+                        originalNews = news.mr_(in: localContext)?.relatedNews(localContext)
                     }
                 } else {
-                    originalNews = self.MR_inContext(localContext)
-                    favoriteNews = self.MR_inContext(localContext)?.relatedFavoriteNews(localContext)
+                    originalNews = self.mr_(in: localContext)
+                    favoriteNews = self.mr_(in: localContext)?.relatedFavoriteNews(localContext)
                 }
                 
-                originalNews?.appIsLiked = NSNumber(bool: !wasLiked)
-                favoriteNews?.appIsLiked = NSNumber(bool: !wasLiked)
-                favoriteNews?.appIsFavorite = NSNumber(bool: true)
+                originalNews?.appIsLiked = NSNumber(value: !wasLiked)
+                favoriteNews?.appIsLiked = NSNumber(value: !wasLiked)
+                favoriteNews?.appIsFavorite = NSNumber(value: true)
             })
             
             if let completion = completion {

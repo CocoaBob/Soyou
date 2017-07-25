@@ -13,38 +13,38 @@ import CoreData
 class FavoriteProduct: NSManagedObject {
     
     class func deleteAll() {
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            FavoriteProduct.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            FavoriteProduct.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
         })
     }
     
-    class func updateWithData(data: [NSDictionary], _ completion: CompletionClosure?) {
+    class func updateWithData(_ data: [NSDictionary], _ completion: CompletionClosure?) {
         // Create a dictionary of all favorite news
         var favoriteIDs = [NSNumber]()
-        var favoriteDates = [NSNumber: NSDate]()
+        var favoriteDates = [NSNumber: Date]()
         for dict in data {
-            if let newsID = dict["id"] as? NSNumber, dateModification = dict["dateModification"] as? String {
+            if let newsID = dict["id"] as? NSNumber, let dateModification = dict["dateModification"] as? String {
                 favoriteIDs.append(newsID)
-                favoriteDates[newsID] = Cons.utcDateFormatter.dateFromString(dateModification)
+                favoriteDates[newsID] = Cons.utcDateFormatter.date(from: dateModification)
             }
         }
         
         // Filter all existing ones, delete remotely deleted ones.
-        MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-            if let allFavoriteProducts = FavoriteProduct.MR_findAllInContext(localContext) as? [FavoriteProduct] {
+        MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
+            if let allFavoriteProducts = FavoriteProduct.mr_findAll(in: localContext) as? [FavoriteProduct] {
                 for favoriteProduct in allFavoriteProducts {
-                    if let newsID = favoriteProduct.id, index = favoriteIDs.indexOf(newsID) {
+                    if let newsID = favoriteProduct.id, let index = favoriteIDs.index(of: newsID) {
                         favoriteProduct.dateFavorite = favoriteDates[newsID]
-                        favoriteIDs.removeAtIndex(index)
+                        favoriteIDs.remove(at: index)
                     } else {
-                        favoriteProduct.MR_deleteEntityInContext(localContext)
+                        favoriteProduct.mr_deleteEntity(in: localContext)
                     }
                 }
             }
             
             // Import all new product favorites
             for productID in favoriteIDs {
-                let favoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
+                let favoriteProduct = FavoriteProduct.mr_createEntity(in: localContext)
                 favoriteProduct?.id = productID
                 favoriteProduct?.dateFavorite = favoriteDates[productID]
             }
@@ -54,12 +54,12 @@ class FavoriteProduct: NSManagedObject {
         })
     }
     
-    func relatedProduct(context: NSManagedObjectContext?) -> Product? {
+    func relatedProduct(_ context: NSManagedObjectContext?) -> Product? {
         if let productID = self.id {
             if let context = context {
-                return Product.MR_findFirstByAttribute("id", withValue: productID, inContext: context)
+                return Product.mr_findFirst(byAttribute: "id", withValue: productID, in: context)
             } else {
-                return Product.MR_findFirstByAttribute("id", withValue: productID)
+                return Product.mr_findFirst(byAttribute: "id", withValue: productID)
             }
         }
         return nil

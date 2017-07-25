@@ -13,7 +13,7 @@ import CoreData
 class Brand: NSManagedObject {
 
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext) -> (Brand?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ context: NSManagedObjectContext) -> (Brand?) {
         guard let data = data else {
             return nil
         }
@@ -22,9 +22,9 @@ class Brand: NSManagedObject {
             return nil
         }
         
-        var brand: Brand? = Brand.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+        var brand: Brand? = Brand.mr_findFirst(with: FmtPredicate("id == %@", id), in: context)
         if brand == nil {
-            brand = Brand.MR_createEntityInContext(context)
+            brand = Brand.mr_createEntity(in: context)
             brand?.id = id
         }
         
@@ -41,14 +41,14 @@ class Brand: NSManagedObject {
         return brand
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ deleteNonExisting: Bool, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ deleteNonExisting: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 if let completion = completion { completion(nil, FmtError(0, nil)) }
                 return
             }
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 var ids = [NSNumber]()
                 
                 // Import new data
@@ -59,10 +59,10 @@ class Brand: NSManagedObject {
                 }
                 
                 // Delete non existing items
-                Brand.MR_deleteAllMatchingPredicate(FmtPredicate("NOT (id IN %@)", ids), inContext: localContext)
+                Brand.mr_deleteAll(matching: FmtPredicate("NOT (id IN %@)", ids), in: localContext)
                 
                 }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
+                    if let completion = completion { completion(responseObject, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }

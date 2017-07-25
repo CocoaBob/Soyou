@@ -9,28 +9,28 @@
 // MARK: Top/Bottom bars and scroll view insets
 extension UIViewController {
     
-    func hideToolbar(animated: Bool) {
+    func hideToolbar(_ animated: Bool) {
         if let navController = self.navigationController {
-            if !navController.toolbarHidden {
+            if !navController.isToolbarHidden {
                 navController.setToolbarHidden(true, animated: animated)
             }
         }
     }
     
-    func showToolbar(animated: Bool) {
+    func showToolbar(_ animated: Bool) {
         if let navController = self.navigationController {
-            if navController.toolbarHidden {
+            if navController.isToolbarHidden {
                 navController.setToolbarHidden(false, animated: animated)
             }
         }
     }
     
-    func topInset(parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool) -> CGFloat {
+    func topInset(_ parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool) -> CGFloat {
         var topInset: CGFloat = parallaxHeaderHeight
         if statusBarIsVisible {
             topInset += 20
-//            if !UIApplication.sharedApplication().statusBarHidden {
-//                let statusBarFrame = UIApplication.sharedApplication().keyWindow?.convertRect(UIApplication.sharedApplication().statusBarFrame, fromView: self.view)
+//            if !UIApplication.shared.statusBarHidden {
+//                let statusBarFrame = UIApplication.shared.keyWindow?.convert(UIApplication.shared.statusBarFrame, from: self.view)
 //                if let statusBarHeight = statusBarFrame?.height {
 //                    topInset += statusBarHeight
 //                }
@@ -53,7 +53,7 @@ extension UIViewController {
         return topInset
     }
     
-    func bottomInset(toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) -> CGFloat {
+    func bottomInset(_ toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) -> CGFloat {
         var bottomInset: CGFloat = 0
         if toolbarIsVisible {
             var navigationController: UINavigationController?
@@ -88,8 +88,8 @@ extension UIViewController {
         return bottomInset
     }
     
-    func updateScrollViewInset(scrollView: UIScrollView, _ parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool, _ toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) {
-        self.edgesForExtendedLayout = UIRectEdge.All
+    func updateScrollViewInset(_ scrollView: UIScrollView, _ parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool, _ toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) {
+        self.edgesForExtendedLayout = UIRectEdge.all
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
         let topInset = self.topInset(parallaxHeaderHeight, statusBarIsVisible, navBarIsVisible)
@@ -102,8 +102,8 @@ extension UIViewController {
 
 import ObjectiveC
 
-private var __rotationAnimationDuration: NSTimeInterval = 0
-private var __rotationAnimationOptions: UIViewAnimationOptions = .TransitionNone
+private var __rotationAnimationDuration: TimeInterval = 0
+private var __rotationAnimationOptions: UIViewAnimationOptions = []
 private var __isRotationAnimation: Bool = false
 private var __isDismissingKeyboard: Bool = false
 private var __isKeyboardVisible: Bool = false
@@ -116,28 +116,28 @@ extension UIViewController {
     
     // Should be called in viewWillAppear:
     func keyboardControlInstall() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillChangeFrame(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardDidChangeFrame(_:)), name: UIKeyboardDidChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.keyboardWillChangeFrame(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.keyboardDidChangeFrame(_:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     // Should be called in viewDidDisappear:
     func keyboardControlUninstall() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidChangeFrameNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     // Called on step: #1
     // Called on iOS >= 8 from
     // viewWillTransitionToSize:withTransitionCoordinator:
-    func keyboardControlRotateWithTransitionCoordinator(coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animateAlongsideTransition({ (context: UIViewControllerTransitionCoordinatorContext) -> Void in
+    func keyboardControlRotateWithTransitionCoordinator(_ coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
             // called on step: #2
-            __rotationAnimationDuration = context.transitionDuration()
-            var option = context.completionCurve()
+            __rotationAnimationDuration = context.transitionDuration
+            var option = context.completionCurve
             option = UIViewAnimationCurve(rawValue: option.rawValue | (option.rawValue << 16))!
             __rotationAnimationOptions = UIViewAnimationOptions(rawValue: UInt(option.rawValue))
             __isRotationAnimation = true
@@ -150,21 +150,21 @@ extension UIViewController {
     
     // Called on iOS-7 and below on steps: #2, #4
     // Called on iOS-8 on steps: #3, #4, #6, #7
-    func keyboardWillChangeFrame(notification: NSNotification) {
+    func keyboardWillChangeFrame(_ notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
-        guard var finalKeyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue else { return }
+        guard var finalKeyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         
         // Convert the finalKeyboardFrame to view coordinates to take into account any rotation
         // factors applied to the window’s contents as a result of interface orientation changes.
-        finalKeyboardFrame = self.view.convertRect(finalKeyboardFrame, fromView: self.view.window)
+        finalKeyboardFrame = self.view.convert(finalKeyboardFrame, from: self.view.window)
         
         if (!__isRotationAnimation) {
             // Get the animation curve and duration frp, keyboard notification info
-            guard let animationCurve = userInfo[UIKeyboardAnimationCurveUserInfoKey] else { return }
-            guard var option = UIViewAnimationCurve(rawValue: animationCurve.integerValue) else { return }
+            guard let animationCurve = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber else { return }
+            guard var option = UIViewAnimationCurve(rawValue: animationCurve.intValue) else { return }
             option = UIViewAnimationCurve(rawValue: option.rawValue | (option.rawValue << 16))!
-            guard let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] else { return }
-            let rotationAnimationDuration: NSTimeInterval = animationDuration.doubleValue
+            guard let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber else { return }
+            let rotationAnimationDuration: TimeInterval = animationDuration.doubleValue
             // On iOS8 if the rotationAnimationDuration is 0,
             // then the quicktype panel is being shown/hidden and the code executed here will be animated automatically
             if (rotationAnimationDuration == 0) {
@@ -173,7 +173,7 @@ extension UIViewController {
                 self.adjustViewsForKeyboardFrame(finalKeyboardFrame, true, rotationAnimationDuration, UIViewAnimationOptions(rawValue: UInt(option.rawValue)))
             }
         } else {
-            if UIView.areAnimationsEnabled() {
+            if UIView.areAnimationsEnabled {
                 self.adjustViewsForKeyboardFrame(finalKeyboardFrame, false, 0, UIViewAnimationOptions(rawValue: 0))
             } else {
                 UIView.setAnimationsEnabled(true)
@@ -183,21 +183,21 @@ extension UIViewController {
         }
     }
     
-    func keyboardDidChangeFrame(notification: NSNotification) {
+    func keyboardDidChangeFrame(_ notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
-        guard var finalKeyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue else { return }
+        guard var finalKeyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         
         // Convert the finalKeyboardFrame to view coordinates to take into account any rotation
         // factors applied to the window’s contents as a result of interface orientation changes.
-        finalKeyboardFrame = self.view.convertRect(finalKeyboardFrame, fromView: self.view.window)
+        finalKeyboardFrame = self.view.convert(finalKeyboardFrame, from: self.view.window)
         
         self.adjustViewsForKeyboardFrame(finalKeyboardFrame, false, 0, UIViewAnimationOptions(rawValue: 0))
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: NSNotification) {
         var navigationItem: UINavigationItem?
-        if self.parentViewController != nil && self.parentViewController != self.navigationController {
-            navigationItem = self.parentViewController?.navigationItem
+        if self.parent != nil && self.parent != self.navigationController {
+            navigationItem = self.parent?.navigationItem
         } else {
             navigationItem = self.navigationItem
         }
@@ -212,16 +212,16 @@ extension UIViewController {
             objc_setAssociatedObject(self, &__originalRightBarButtonItemKey, navigationItem.rightBarButtonItem, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             objc_setAssociatedObject(self, &__originalRightBarButtonItemsKey, navigationItem.rightBarButtonItems, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             UIView.setAnimationsEnabled(false)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .Plain, target: self, action: #selector(UIViewController.dismissKeyboard))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_keyboard_close"), style: .plain, target: self, action: #selector(UIViewController.dismissKeyboard))
             navigationItem.rightBarButtonItem?.tag = __dismissKeyboardBarButtonItemTag
             UIView.setAnimationsEnabled(true)
         }
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: NSNotification) {
         var navigationItem: UINavigationItem?
-        if self.parentViewController != nil && self.parentViewController != self.navigationController {
-            navigationItem = self.parentViewController?.navigationItem
+        if self.parent != nil && self.parent != self.navigationController {
+            navigationItem = self.parent?.navigationItem
         } else {
             navigationItem = self.navigationItem
         }
@@ -240,7 +240,7 @@ extension UIViewController {
         }
     }
     
-    func adjustViewsForKeyboardFrame(keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: NSTimeInterval, _ options: UIViewAnimationOptions) {
+    func adjustViewsForKeyboardFrame(_ keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: TimeInterval, _ options: UIViewAnimationOptions) {
         let updateFrameClosure: () -> () = { () -> () in
             var frame = self.view.frame
             frame.size.height = keyboardFrame.origin.y
@@ -255,20 +255,20 @@ extension UIViewController {
         }
         
         if isAnimated {
-            UIView.animateWithDuration(duration, delay: 0, options: options, animations: updateFrameClosure, completion: nil)
+            UIView.animate(withDuration: duration, delay: 0, options: options, animations: updateFrameClosure, completion: nil)
         } else {
             updateFrameClosure()
         }
     }
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return !__isDismissingKeyboard
     }
     
     func dismissKeyboard() {
         __isDismissingKeyboard = true
         self.view.endEditing(true)
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
             __isDismissingKeyboard = false
         }
     }
@@ -277,23 +277,23 @@ extension UIViewController {
 // MARK: Child View Controller
 extension UIViewController {
 
-    func showChildViewController(newChildViewController: UIViewController, _ animated: Bool, _ isInverted: Bool, _ completion: () -> Void) {
+    func showChildViewController(_ newChildViewController: UIViewController, _ animated: Bool, _ isInverted: Bool, _ completion: () -> Void) {
         let completionClosure: ((UIViewController) -> ()) = { newChildViewController in
             for childViewController in self.childViewControllers {
                 if childViewController == newChildViewController {
                     continue
                 }
-                childViewController.willMoveToParentViewController(nil)
+                childViewController.willMove(toParentViewController: nil)
                 childViewController.view.removeFromSuperview()
                 childViewController.removeFromParentViewController()
             }
         }
         
-        newChildViewController.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        newChildViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         if let oldChildViewController = self.childViewControllers.last {
             // Prepare ChildViewController hierarchy
-            oldChildViewController.willMoveToParentViewController(nil)
+            oldChildViewController.willMove(toParentViewController: nil)
             self.addChildViewController(newChildViewController)
             
             // Prepare frames
@@ -313,17 +313,17 @@ extension UIViewController {
             UIView.setAnimationsEnabled(true)
             
             // Animation
-            self.transitionFromViewController(oldChildViewController,
-                toViewController: newChildViewController,
+            self.transition(from: oldChildViewController,
+                            to: newChildViewController,
                 duration: 0.25,
-                options: .CurveEaseInOut,
+                options: .curveEaseInOut,
                 animations: { () -> Void in
                     oldChildViewController.view.frame = oldViewFrameEnd
                     newChildViewController.view.frame = newViewFrameEnd
                 },
                 completion: { (finished) -> Void in
                     oldChildViewController.removeFromParentViewController()
-                    newChildViewController.didMoveToParentViewController(self)
+                    newChildViewController.didMove(toParentViewController: self)
                     
                     completionClosure(newChildViewController)
             })
@@ -331,7 +331,7 @@ extension UIViewController {
             self.addChildViewController(newChildViewController)
             newChildViewController.view.frame = self.view.bounds
             self.view.addSubview(newChildViewController.view)
-            newChildViewController.didMoveToParentViewController(self)
+            newChildViewController.didMove(toParentViewController: self)
             completionClosure(newChildViewController)
         }
     }
@@ -341,7 +341,7 @@ extension UIViewController {
 extension UIViewController {
 
     @IBAction func dismissSelf() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -350,14 +350,14 @@ extension UIViewController {
     
     func animationBlockForZoomTransition() -> ZoomAnimationBlock! {
         return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!) -> Void in
-            animatedSnapshot.transform = CGAffineTransformMakeScale(1.05, 1.05)
+            animatedSnapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
         }
     }
     
     func completionBlockForZoomTransition() -> ZoomCompletionBlock! {
         return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!, completion: (() -> Void)?) -> Void in
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
-                animatedSnapshot.transform = CGAffineTransformIdentity
+            UIView.animate(withDuration: 0.1, animations: { () -> Void in
+                animatedSnapshot.transform = CGAffineTransform.identity
                 }, completion: { (Bool) -> Void in
                     if let completion = completion {
                         completion()
@@ -370,7 +370,7 @@ extension UIViewController {
 // MARK: Find top view controller
 extension UIViewController {
     
-    func toppestViewController(base: UIViewController?) -> UIViewController? {
+    func toppestViewController(_ base: UIViewController?) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return toppestViewController(nav.visibleViewController)
         }
@@ -397,7 +397,7 @@ extension UIViewController {
 
 protocol SwitchPrevNextItemDelegate {
     
-    func hasNextItem(indexPath: NSIndexPath, isNext: Bool) -> Bool
-    func getNextItem(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?)
-    func didShowItem(indexPath: NSIndexPath, isNext: Bool)
+    func hasNextItem(_ indexPath: IndexPath, isNext: Bool) -> Bool
+    func getNextItem(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?)
+    func didShowItem(_ indexPath: IndexPath, isNext: Bool)
 }

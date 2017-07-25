@@ -16,8 +16,8 @@ class Product: NSManagedObject {
         var returnValue = false
         
         self.managedObjectContext?.runBlockAndWait({ (ramContext: NSManagedObjectContext!) -> Void in
-            MagicalRecord.saveWithBlockAndWait({ (diskContext) in
-                if let _ = self.MR_inContext(ramContext)?.relatedFavoriteProduct(diskContext) {
+            MagicalRecord.save(blockAndWait: { (diskContext) in
+                if let _ = self.mr_(in: ramContext)?.relatedFavoriteProduct(diskContext) {
                     returnValue = true
                 }
             })
@@ -25,11 +25,11 @@ class Product: NSManagedObject {
         return returnValue
     }
     
-    func importData(data: NSDictionary?) {
+    func importData(_ data: NSDictionary?) {
         guard let data = data else { return }
         self.id = data["id"] as? NSNumber
         if let sku = data["sku"] as? String {
-            self.sku = Utils.encrypt(sku)
+            self.sku = Utils.encrypt(sku as AnyObject)
         } else {
             self.sku = nil
         }
@@ -53,7 +53,7 @@ class Product: NSManagedObject {
         self.title = data["title"] as? String
     }
     
-    class func importData(data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Product?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ context: NSManagedObjectContext?) -> (Product?) {
         var product: Product? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
@@ -61,9 +61,9 @@ class Product: NSManagedObject {
             
             guard let id = data["id"] as? NSNumber else { return }
             
-            product = Product.MR_findFirstWithPredicate(FmtPredicate("id == %@", id), inContext: context)
+            product = Product.mr_findFirst(with: FmtPredicate("id == %@", id), in: context)
             if product == nil {
-                product = Product.MR_createEntityInContext(context)
+                product = Product.mr_createEntity(in: context)
                 product?.id = id
             }
             
@@ -79,7 +79,7 @@ class Product: NSManagedObject {
                 searchText += normalizedSearchText(product.surname)
                 searchText += normalizedSearchText(product.title)
                 
-                searchText = searchText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                searchText = searchText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 if searchText.characters.isEmpty {
                     product.appSearchText = nil
                 } else {
@@ -91,7 +91,7 @@ class Product: NSManagedObject {
         if let context = context {
             importDataClosure(context)
         } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
                 importDataClosure(localContext)
             })
         }
@@ -99,9 +99,9 @@ class Product: NSManagedObject {
         return product
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlockAndWait({ (localContext) in
+            MagicalRecord.save(blockAndWait: { (localContext) in
                 for data in datas {
                     Product.importData(data, localContext)
                 }
@@ -112,11 +112,11 @@ class Product: NSManagedObject {
         }
     }
     
-    class func productsWithData(datas: [NSDictionary]?) -> [Product]? {
+    class func productsWithData(_ datas: [NSDictionary]?) -> [Product]? {
         if let datas = datas {
             var products = [Product]()
             for data in datas {
-                if let product = Product.MR_createEntityInContext(DataManager.shared.memoryContext()) {
+                if let product = Product.mr_createEntity(in: DataManager.shared.memoryContext()) {
                     product.importData(data)
                     products.append(product)
                 }
@@ -126,21 +126,21 @@ class Product: NSManagedObject {
         return nil
     }
     
-    func doLike(completion: ((NSNumber, NSNumber)->())?) {
+    func doLike(_ completion: ((NSNumber, NSNumber)->())?) {
         self.managedObjectContext?.runBlockAndWait({ (memoryContext: NSManagedObjectContext!) -> Void in
-            if let memoryProduct = self.MR_inContext(memoryContext) {
-                MagicalRecord.saveWithBlockAndWait({ (diskContext: NSManagedObjectContext!) -> Void in
+            if let memoryProduct = self.mr_(in: memoryContext) {
+                MagicalRecord.save(blockAndWait: { (diskContext: NSManagedObjectContext!) -> Void in
                     guard let productID = memoryProduct.id else { return }
-                    guard let diskProduct = Product.MR_findFirstByAttribute("id", withValue: productID, inContext: diskContext) else { return }
+                    guard let diskProduct = Product.mr_findFirst(byAttribute: "id", withValue: productID, in: diskContext) else { return }
                     let appWasLiked = diskProduct.appIsLiked != nil && diskProduct.appIsLiked!.boolValue
                     // Update only when response is received
                     DataManager.shared.likeProduct(diskProduct.id!, wasLiked: appWasLiked) { responseObject, error in
                         guard let responseObject = responseObject as? [String: AnyObject] else { return }
                         guard let likeNumber = responseObject["data"] as? NSNumber else { return }
-                        let isLiked = NSNumber(bool: !appWasLiked)
+                        let isLiked = NSNumber(value: !appWasLiked)
                         // Remember if it's liked or not
-                        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                            if let diskProduct = diskProduct.MR_inContext(localContext) {
+                        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
+                            if let diskProduct = diskProduct.mr_(in: localContext) {
                                 diskProduct.appIsLiked = isLiked
                             }
                         })
@@ -154,18 +154,18 @@ class Product: NSManagedObject {
         })
     }
     
-    func toggleFavorite(completion: DataClosure?) {
+    func toggleFavorite(_ completion: DataClosure?) {
         // Product ID
         var selfProductID: NSNumber?
         self.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            selfProductID = self.MR_inContext(localContext)?.id
+            selfProductID = self.mr_(in: localContext)?.id
         })
         guard let productID = selfProductID else { return }
         
         // Find the favorite product
         var favoriteProduct: FavoriteProduct?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            favoriteProduct = FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: localContext)
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
+            favoriteProduct = FavoriteProduct.mr_findFirst(byAttribute: "id", withValue: productID, in: localContext)
         })
         
         // Was favorite?
@@ -178,16 +178,16 @@ class Product: NSManagedObject {
             }
             
             // Create/Update FavoriteProduct, or delete FavoriteProduct
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                var localFavoriteProduct = favoriteProduct?.MR_inContext(localContext)
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
+                var localFavoriteProduct = favoriteProduct?.mr_(in: localContext)
                 if wasFavorite {
-                    favoriteProduct?.MR_deleteEntityInContext(localContext)
+                    favoriteProduct?.mr_deleteEntity(in: localContext)
                 } else {
                     if localFavoriteProduct == nil {
-                        localFavoriteProduct = FavoriteProduct.MR_createEntityInContext(localContext)
+                        localFavoriteProduct = FavoriteProduct.mr_createEntity(in: localContext)
                         localFavoriteProduct?.id = productID
                     }
-                    localFavoriteProduct?.dateFavorite = NSDate()
+                    localFavoriteProduct?.dateFavorite = Date()
                 }
             })
             // Completion
@@ -198,20 +198,20 @@ class Product: NSManagedObject {
     }
     
     // Remove all characters that are not alphabets/syllabaries/ideographs/digits
-    class func normalizedSearchText(text: String?) -> String {
+    class func normalizedSearchText(_ text: String?) -> String {
         if let text = text {
-            return " " + text.componentsSeparatedByCharactersInSet(NSCharacterSet.alphanumericCharacterSet().invertedSet).joinWithSeparator("").lowercaseString
+            return " " + text.components(separatedBy: (CharacterSet.alphanumerics as CharacterSet).inverted).joined(separator: "").lowercased()
         } else {
             return ""
         }
     }
     
-    func relatedFavoriteProduct(context: NSManagedObjectContext?) -> FavoriteProduct? {
+    func relatedFavoriteProduct(_ context: NSManagedObjectContext?) -> FavoriteProduct? {
         if let productID = self.id {
             if let context = context {
-                return FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID, inContext: context)
+                return FavoriteProduct.mr_findFirst(byAttribute: "id", withValue: productID, in: context)
             } else {
-                return FavoriteProduct.MR_findFirstByAttribute("id", withValue: productID)
+                return FavoriteProduct.mr_findFirst(byAttribute: "id", withValue: productID)
             }
         }
         return nil

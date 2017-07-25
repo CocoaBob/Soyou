@@ -12,15 +12,15 @@ import CoreData
 
 class Region: NSManagedObject {
     
-    class func importData(data: NSDictionary?, _ index: Int, _ context: NSManagedObjectContext?) -> (Region?) {
+    @discardableResult class func importData(_ data: NSDictionary?, _ index: Int, _ context: NSManagedObjectContext?) -> (Region?) {
         var region: Region? = nil
         
         let importDataClosure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
             guard let data = data else { return }
             
-            region = Region.MR_createEntityInContext(context)
+            region = Region.mr_createEntity(in: context)
             if let region = region {
-                region.appOrder = NSNumber(integer: index)
+                region.appOrder = NSNumber(value: index as Int)
                 region.code = data["code"] as? String
                 region.currency = data["currency"] as? String
             }
@@ -29,7 +29,7 @@ class Region: NSManagedObject {
         if let context = context {
             importDataClosure(context)
         } else {
-            MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
                 importDataClosure(localContext)
             })
         }
@@ -37,19 +37,19 @@ class Region: NSManagedObject {
         return region
     }
     
-    class func importDatas(datas: [NSDictionary]?, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ completion: CompletionClosure?) {
         if let datas = datas {
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) -> Void in
                 // Delete all regions
-                Region.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+                Region.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
                 
                 // Save new regions in order
-                for (index, data) in datas.enumerate() {
+                for (index, data) in datas.enumerated() {
                     Region.importData(data, index, localContext)
                 }
                 
                 }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error) }
+                    if let completion = completion { completion(responseObject as AnyObject?, error as NSError?) }
             })
         } else {
             if let completion = completion { completion(nil, FmtError(0, nil)) }

@@ -19,11 +19,11 @@ extension Discount {
     @NSManaged var author: String?
     @NSManaged var content: String?
     @NSManaged var coverImage: String?
-    @NSManaged var dateModification: NSDate?
-    @NSManaged var expireDate: NSDate?
+    @NSManaged var dateModification: Date?
+    @NSManaged var expireDate: Date?
     @NSManaged var id: NSNumber?
     @NSManaged var isOnline: NSNumber?
-    @NSManaged var publishdate: NSDate?
+    @NSManaged var publishdate: Date?
     @NSManaged var title: String?
     @NSManaged var url: String?
 

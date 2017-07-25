@@ -15,6 +15,6 @@ extension Analytic {
     @NSManaged var data: String?
     @NSManaged var target: NSNumber?
     @NSManaged var action: NSNumber?
-    @NSManaged var operatedAt: NSDate?
+    @NSManaged var operatedAt: Date?
     
 }

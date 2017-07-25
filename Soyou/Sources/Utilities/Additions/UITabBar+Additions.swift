@@ -8,7 +8,7 @@
 
 extension UITabBar {
     
-    override public func actionForLayer(layer: CALayer, forKey event: String) -> CAAction? {
+    open override func action(for layer: CALayer, forKey event: String) -> CAAction? {
         if "position" == event {
             let transition = CATransition()
             
@@ -26,6 +26,6 @@ extension UITabBar {
             
             return transition
         }
-        return super.actionForLayer(layer, forKey: event)
+        return super.action(for: layer, forKey: event)
     }
 }

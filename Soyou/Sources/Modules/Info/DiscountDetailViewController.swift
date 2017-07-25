@@ -26,10 +26,10 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override var infoTitle: String! {
         get {
             var returnValue = ""
-            MagicalRecord.saveWithBlockAndWait { (localContext) in
+            MagicalRecord.save(blockAndWait: { (localContext) in
                 let discount = self.info as? Discount
-                returnValue = discount?.MR_inContext(localContext)?.title ?? ""
-            }
+                returnValue = discount?.mr_(in: localContext)?.title ?? ""
+            })
             return returnValue
         }
         set {
@@ -38,11 +38,11 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     
     override var infoID: NSNumber! {
         get {
-            var returnValue = NSNumber(int: -1)
-            MagicalRecord.saveWithBlockAndWait { (localContext) in
+            var returnValue = NSNumber(value: -1)
+            MagicalRecord.save(blockAndWait: { (localContext) in
                 let discount = self.info as? Discount
-                returnValue = discount?.MR_inContext(localContext)?.id ?? -1
-            }
+                returnValue = discount?.mr_(in: localContext)?.id ?? -1
+            })
             return returnValue
         }
         set {
@@ -53,13 +53,13 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override func updateExtraInfo() {
         DataManager.shared.requestDiscountInfo(self.infoID) { responseObject, error in
             if let responseObject = responseObject as? [String:AnyObject],
-                data = responseObject["data"] as? [String:AnyObject] {
+                let data = responseObject["data"] as? [String:AnyObject] {
                 let json = JSON(data)
                 self.likeBtnNumber = json["likeNumber"].int
                 let isFavorite = json["isFavorite"].boolValue
                 if isFavorite != self.isFavorite {
                     self.isFavorite = isFavorite
-                    Discount.updateFavorite(self.infoID, isFavorite: isFavorite.boolValue)
+                    Discount.updateFavorite(self.infoID, isFavorite: isFavorite)
                 }
                 self.commentBtnNumber = json["commentNumber"].int
                 self.updateLikeBtnColor(json["isLiked"].boolValue)
@@ -72,45 +72,45 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         MBProgressHUD.show(self.view)
         
         var htmlString: String?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localDiscount = self.discount?.MR_inContext(localContext) {
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            if let localDiscount = self.discount?.mr_(in: localContext) {
                 htmlString = localDiscount.content
             }
         })
         var descriptions: String?
         if let htmlString = htmlString,
-            htmlData = htmlString.dataUsingEncoding(NSUTF8StringEncoding) {
+            let htmlData = htmlString.data(using: String.Encoding.utf8) {
             do {
                 let attributedString = try NSAttributedString(data: htmlData,
                                                               options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
-                                                                NSCharacterEncodingDocumentAttribute:NSNumber(unsignedInteger: NSUTF8StringEncoding)],
+                                                                        NSCharacterEncodingDocumentAttribute:String.Encoding.utf8],
                                                               documentAttributes: nil)
-                var contentString = attributedString.string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 if contentString.characters.count > 256 {
-                    contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(256))
+                    contentString = contentString[contentString.startIndex...contentString.index(contentString.startIndex, offsetBy: 256)]
                 }
                 descriptions = contentString
             } catch {
                 
             }
         }
-        var items = [AnyObject]()
+        var items = [Any]()
         if let item = self.headerImage {
             items.append(item)
         }
         if var item = self.infoTitle {
             if item.characters.count > 128 {
-                item = item.substringToIndex(item.startIndex.advancedBy(128))
+                item = item[item.startIndex...item.index(item.startIndex, offsetBy: 128)]
             }
-            items.append(item)
+            items.append(item as AnyObject)
         }
         if let item = self.infoID {
             items.append(item)
         }
         if let item = descriptions {
-            items.append(item)
+            items.append(item as AnyObject)
         }
-        if let infoID = self.infoID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/discounts?id=\(infoID)") {
+        if let infoID = self.infoID, let item = URL(string: "\(Cons.Svr.shareBaseURL)/discounts?id=\(infoID)") {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
@@ -127,7 +127,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
                 
                 // Update like number
                 if let likeNumber = data as? NSNumber {
-                    self.likeBtnNumber = likeNumber.integerValue
+                    self.likeBtnNumber = likeNumber.intValue
                 }
                 
                 self.updateLikeBtnColor(!wasLiked)
@@ -147,9 +147,9 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override func comment() {
         let commentsViewController = InfoCommentsViewController.instantiate()
         commentsViewController.infoID = self.infoID
-        commentsViewController.dataProvider = { (relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> () in
-            DataManager.shared.requestCommentsForDiscount(self.infoID, Cons.Svr.commentRequestSize, relativeID, { (data, error) in
-                completion(data: data)
+        commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
+            DataManager.shared.requestCommentsForDiscount(self.infoID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in
+                completion(data)
             })
         }
         self.navigationController?.pushViewController(commentsViewController, animated: true)
@@ -159,7 +159,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
 // MARK: Data
 extension DiscountDetailViewController {
     
-    private func loadDiscount(discount: Discount, context: NSManagedObjectContext) {
+    fileprivate func loadDiscount(_ discount: Discount, context: NSManagedObjectContext) {
         // Load HTML
         self.loadWebView(title: discount.title, content: discount.content)
         
@@ -171,32 +171,32 @@ extension DiscountDetailViewController {
         
         // Cover Image
         if (self.headerImage == nil) {
-            if let imageURLString = discount.coverImage, imageURL = NSURL(string: imageURLString) {
-                let imageManager = SDWebImageManager.sharedManager()
-                let cacheKey = imageManager.cacheKeyForURL(imageURL)
-                var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCacheForKey(cacheKey)
+            if let imageURLString = discount.coverImage, let imageURL = URL(string: imageURLString) {
+                let imageManager = SDWebImageManager.shared()
+                let cacheKey = imageManager?.cacheKey(for: imageURL)
+                var cachedImage: UIImage? = imageManager?.imageCache.imageFromMemoryCache(forKey: cacheKey)
                 if cachedImage == nil {
-                    cachedImage = imageManager.imageCache.imageFromDiskCacheForKey(cacheKey)
+                    cachedImage = imageManager?.imageCache.imageFromDiskCache(forKey: cacheKey)
                 }
                 if let cachedImage = cachedImage {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         self.headerImage = cachedImage
                         self.setupParallaxHeader()
                     }
                 } else {
-                    SDWebImageManager.sharedManager().downloadImageWithURL(
-                        imageURL,
-                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                    SDWebImageManager.shared().downloadImage(
+                        with: imageURL,
+                        options: [.continueInBackground, .allowInvalidSSLCertificates],
                         progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
                             
                         },
-                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
-                            dispatch_async(dispatch_get_main_queue()) {
+                        completed: { (image, error, type, finished, url) -> Void in
+                            DispatchQueue.main.async {
                                 self.headerImage = image
                                 self.setupParallaxHeader()
                             }
-                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                                if let localDiscount = self.discount?.MR_inContext(localContext) {
+                            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
+                                if let localDiscount = self.discount?.mr_(in: localContext) {
                                     self.loadWebView(title: localDiscount.title, content: localDiscount.content)
                                 }
                             })
@@ -211,8 +211,8 @@ extension DiscountDetailViewController {
         
         self.webView?.loadHTMLString("<html></html>", baseURL: nil)
         
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localDiscount = self.discount?.MR_inContext(localContext) {
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            if let localDiscount = self.discount?.mr_(in: localContext) {
                 if localDiscount.appIsUpdated == nil || !localDiscount.appIsUpdated!.boolValue {
                     needsToLoad = true
                 }
@@ -231,16 +231,16 @@ extension DiscountDetailViewController {
                             Discount.importData(data, true, nil)
                         }
                     }
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localDiscount = self.discount?.MR_inContext(localContext) {
+                    MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+                        if let localDiscount = self.discount?.mr_(in: localContext) {
                             self.loadDiscount(localDiscount, context: localContext)
                         }
                     })
                 }
             }
         } else {
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                if let localDiscount = self.discount?.MR_inContext(localContext) {
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
+                if let localDiscount = self.discount?.mr_(in: localContext) {
                     self.loadDiscount(localDiscount, context: localContext)
                 }
             })
@@ -250,8 +250,8 @@ extension DiscountDetailViewController {
         self.setupParallaxHeader()
         
         // Prepare next discount
-        self.delegate?.getNextItem(NSIndexPath(forRow: self.infoIndex ?? 0, inSection: 0), isNext: true, completion: { (indexPath, item) in
-            if let index = indexPath?.row, discount = item as? Discount {
+        self.delegate?.getNextItem(IndexPath(row: self.infoIndex ?? 0, section: 0), isNext: true, completion: { (indexPath, item) in
+            if let index = indexPath?.row, let discount = item as? Discount {
                 self.nextInfoIndex = index
                 self.nextInfo = discount
             } else {
@@ -259,7 +259,7 @@ extension DiscountDetailViewController {
                 self.nextInfo = nil
             }
             // Next button status
-            self.nextInfoBarButtonItem?.enabled = self.nextInfo != nil
+            self.nextInfoBarButtonItem?.isEnabled = self.nextInfo != nil
         })
     }
 }

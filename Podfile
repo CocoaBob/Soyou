@@ -15,14 +15,14 @@ target :'Soyou' do
 	pod "CHTCollectionViewWaterfallLayout"
 	pod "EAIntroView"
 	pod "FCUUID"
-	pod "FlagKit"
+	pod "FlagKit", :git => 'git://github.com/gastonkosut/FlagKit', :commit => '3a337be5f5458c91b5d7dfb4b735ec8a77c444ab'
 	pod "IDMPhotoBrowser"
 	pod "MagicalRecord", '~> 2.3'
 	pod "MBProgressHUD"
 	pod "MJRefresh"
 	pod "MXParallaxHeader", :git => 'git://github.com/developforapple/MXParallaxHeader', :commit => '1491e2b86b1112a560f2dc78b3437299293ef60e'
 	pod "NYSegmentedControl"
-	pod "PageMenu"
+	pod "PageMenu", :git => 'git://github.com/JoeFerrucci/PageMenu', :commit => '3477a47af6d01480c98f4095959e4a5d1e91a841'
 	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '880826c7f361c3065ca23a4696a4d19d7e1da6d3'
 	pod "QNNetDiag"
 	pod "SCLAlertView"
@@ -52,4 +52,12 @@ target :'Soyou' do
     pod "Google/SignIn"
     
 #    pod "Alamofire"
+end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['SWIFT_VERSION'] = '3.0'
+        end
+    end
 end

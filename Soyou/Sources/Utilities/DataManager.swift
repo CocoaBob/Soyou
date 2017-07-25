@@ -12,7 +12,7 @@ class DataManager {
     
     var isUpdatingData = false {
         didSet {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = isUpdatingData
+            UIApplication.shared.isNetworkActivityIndicatorVisible = isUpdatingData
         }
     }
     
@@ -20,10 +20,10 @@ class DataManager {
     // MARK: General
     //////////////////////////////////////
     
-    private func handleError(error: NSError?) {
+    fileprivate func handleError(_ error: NSError?) {
         DLog(error)
         
-        if let response = error?.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? NSHTTPURLResponse {
+        if let response = (error as NSError?)?.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? HTTPURLResponse {
             // If 401 error, logout
             if response.statusCode == 401 {
                 UserManager.shared.logOut()
@@ -31,27 +31,27 @@ class DataManager {
         }
     }
     
-    private func completeWithData(data: AnyObject?, completion: CompletionClosure?) {
+    fileprivate func completeWithData(_ data: Any?, completion: CompletionClosure?) {
         if let completion = completion { completion(data, nil) }
     }
     
-    private func completeWithError(error: NSError?, completion: CompletionClosure?) {
+    fileprivate func completeWithError(_ error: NSError?, completion: CompletionClosure?) {
         self.handleError(error)
         if let completion = completion { completion(nil, error) }
     }
     
-    class func getResponseData(responseObject: AnyObject?) -> AnyObject? {
-        guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return nil }
+    class func getResponseData(_ responseObject: Any?) -> Any? {
+        guard let responseObject = responseObject as? Dictionary<String, Any> else { return nil }
         return responseObject["data"]
     }
     
-    class func showRequestFailedAlert(error: NSError?) {
-        let responseObject = AFNetworkingGetResponseObjectFromError(error)
+    class func showRequestFailedAlert(_ error: NSError?) {
+        let responseObject = AFNetworkingGetResponseObjectFromError(error as NSError?)
         DLog(responseObject)
         // Show error
-        if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-            data = responseObject["data"] as? [String],
-            message = data.first {
+        if let responseObject = responseObject as? Dictionary<String, Any>,
+            let data = responseObject["data"] as? [String],
+            let message = data.first {
             SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message), closeButtonTitle: NSLocalizedString("alert_button_ok"))
         } else {
             SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: error?.localizedDescription ?? "", closeButtonTitle: NSLocalizedString("alert_button_ok"))
@@ -62,7 +62,7 @@ class DataManager {
     // MARK: Currency
     //////////////////////////////////////
     
-    func requestCurrencyChanges(currencies: [NSDictionary], _ completion: CompletionClosure?) {
+    func requestCurrencyChanges(_ currencies: [NSDictionary], _ completion: CompletionClosure?) {
         RequestManager.shared.requestCurrencyChanges(currencies, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -83,7 +83,7 @@ class DataManager {
         })
     }
     
-    func login(email: String, _ password: String, _ completion: CompletionClosure?) {
+    func login(_ email: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.login(email, password, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                 for (key, value) in data {
@@ -101,7 +101,7 @@ class DataManager {
         })
     }
     
-    func logout(completion: CompletionClosure?) {
+    func logout(_ completion: CompletionClosure?) {
         RequestManager.shared.logout({ responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -109,7 +109,7 @@ class DataManager {
         })
     }
     
-    func register(email: String, _ password: String, _ gender: String, _ completion: CompletionClosure?) {
+    func register(_ email: String, _ password: String, _ gender: String, _ completion: CompletionClosure?) {
         RequestManager.shared.register(email, password, gender, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -117,7 +117,7 @@ class DataManager {
         })
     }
     
-    func loginThird(type: String, _ accessToken: String, _ thirdId: String, _ username: String?, _ gender: String?, _ completion: CompletionClosure?) {
+    func loginThird(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String?, _ gender: String?, _ completion: CompletionClosure?) {
         RequestManager.shared.loginThird(type, accessToken, thirdId, username ?? "", gender ?? "", { responseObject in
             DLog(responseObject)
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
@@ -136,7 +136,7 @@ class DataManager {
         })
     }
     
-    func requestVerifyCode(email: String, _ completion: CompletionClosure?) {
+    func requestVerifyCode(_ email: String, _ completion: CompletionClosure?) {
         RequestManager.shared.requestVerifyCode(email, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -144,7 +144,7 @@ class DataManager {
         })
     }
     
-    func resetPassword(verifyCode: String, _ password: String, _ completion: CompletionClosure?) {
+    func resetPassword(_ verifyCode: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.resetPassword(verifyCode, password, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                 if let token = data["token"]! as? String {
@@ -167,7 +167,7 @@ class DataManager {
     // MARK: User
     //////////////////////////////////////
     
-    func modifyEmail(email: String, _ completion: CompletionClosure?) {
+    func modifyEmail(_ email: String, _ completion: CompletionClosure?) {
         RequestManager.shared.modifyEmail(email, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -175,7 +175,7 @@ class DataManager {
         })
     }
     
-    func modifyUserInfo(field:String, _ value:String, _ completion: CompletionClosure?) {
+    func modifyUserInfo(_ field:String, _ value:String, _ completion: CompletionClosure?) {
         RequestManager.shared.modifyUserInfo(field, value, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -187,16 +187,20 @@ class DataManager {
     // MARK: Products
     //////////////////////////////////////
     
-    func requestAllBrands(completion: CompletionClosure?) {
+    func requestAllBrands(_ completion: CompletionClosure?) {
         RequestManager.shared.requestAllBrands({ responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                     Brand.importDatas(data, true, { (_, _) -> () in
                         // After importing, cache all brand images
-                        MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                            if let brands = Brand.MR_findAllInContext(localContext) as? [Brand] {
+                        MagicalRecord.save({ (localContext) -> Void in
+                            if let brands = Brand.mr_findAll(in: localContext) as? [Brand] {
                                 for brand in brands {
-                                    if let imageURL = brand.imageUrl, url = NSURL(string: imageURL) {
-                                        SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                    if let imageURL = brand.imageUrl, let url = URL(string: imageURL) {
+                                        SDWebImageManager.shared().downloadImage(
+                                            with: url,
+                                            options: .lowPriority,
+                                            progress: { (_, _) -> Void in },
+                                            completed: { (_, _, _, _, _) -> Void in })
                                     }
                                 }
                             }
@@ -204,7 +208,7 @@ class DataManager {
                                 self.completeWithData(responseObject, completion: completion)
                         })
                         // Notify observers
-                        NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.brandsUpdatingDidFinishNotification, object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Cons.DB.brandsUpdatingDidFinishNotification), object: nil)
                     })
                 } else {
                     self.completeWithData(responseObject, completion: completion)
@@ -214,7 +218,7 @@ class DataManager {
         })
     }
     
-    func requestProductInfo(id: String, _ completion: CompletionClosure?) {
+    func requestProductInfo(_ id: String, _ completion: CompletionClosure?) {
         RequestManager.shared.requestProductInfo(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -226,7 +230,7 @@ class DataManager {
     // MARK: Favorites Discounts
     //////////////////////////////////////
     
-    func favoriteDiscount(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+    func favoriteDiscount(_ id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteDiscount(id, operation: wasFavorite ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -234,8 +238,8 @@ class DataManager {
         })
     }
     
-    func requestDiscountFavorites(completion: CompletionClosure?) {
-        let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
+    func requestDiscountFavorites(_ completion: CompletionClosure?) {
+        let responseHandlerClosure = { (responseObject: Any?) -> () in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 FavoriteDiscount.updateWithData(data, completion)
             } else {
@@ -255,7 +259,7 @@ class DataManager {
     // MARK: Favorites News
     //////////////////////////////////////
     
-    func favoriteNews(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+    func favoriteNews(_ id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteNews(id, operation: wasFavorite ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -263,8 +267,8 @@ class DataManager {
         })
     }
     
-    func requestNewsFavorites(completion: CompletionClosure?) {
-        let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
+    func requestNewsFavorites(_ completion: CompletionClosure?) {
+        let responseHandlerClosure = { (responseObject: Any?) -> () in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 FavoriteNews.updateWithData(data, completion)
             } else {
@@ -284,10 +288,10 @@ class DataManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func requestProductFavorites(completion: CompletionClosure?) {
-        let responseHandlerClosure = { (responseObject: AnyObject?) -> () in
-            if let responseObject = responseObject as? [String:AnyObject],
-                data = responseObject["data"] as? [NSDictionary] {
+    func requestProductFavorites(_ completion: CompletionClosure?) {
+        let responseHandlerClosure = { (responseObject: Any?) -> () in
+            if let responseObject = responseObject as? [String:Any],
+                let data = responseObject["data"] as? [NSDictionary] {
                 FavoriteProduct.updateWithData(data, completion)
             }
         }
@@ -298,7 +302,7 @@ class DataManager {
         RequestManager.shared.requestProductFavorites(responseHandlerClosure, errorHandlerClosure)
     }
     
-    func favoriteProduct(id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+    func favoriteProduct(_ id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteProduct(id, operation: wasFavorite ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -310,7 +314,7 @@ class DataManager {
     // MARK: News
     //////////////////////////////////////
     
-    func likeNews(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
+    func likeNews(_ id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeNews(id, operation: wasLiked ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -318,16 +322,20 @@ class DataManager {
         })
     }
     
-    func requestNewsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
+    func requestNewsList(_ relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsList(Cons.Svr.infoRequestSize, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 News.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
                     // After importing, cache all news images
-                    MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                        if let allNews = News.MR_findAllInContext(localContext) as? [News] {
+                    MagicalRecord.save({ (localContext) -> Void in
+                        if let allNews = News.mr_findAll(in: localContext) as? [News] {
                             for news in allNews {
-                                if let imageURL = news.image, url = NSURL(string: imageURL) {
-                                    SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                if let imageURL = news.image, let url = URL(string: imageURL) {
+                                    SDWebImageManager.shared().downloadImage(
+                                        with: url,
+                                        options: .lowPriority,
+                                        progress: { (_, _) -> Void in },
+                                        completed: { (_, _, _, _, _) -> Void in })
                                 }
                             }
                         }
@@ -335,7 +343,7 @@ class DataManager {
                             self.completeWithData(responseObject, completion: completion)
                     })
                     // Notify observers
-                    NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.newsUpdatingDidFinishNotification, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Cons.DB.newsUpdatingDidFinishNotification), object: nil)
                 })
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
@@ -345,7 +353,7 @@ class DataManager {
         })
     }
     
-    func requestNewsByID(id: NSNumber, _ completion: CompletionClosure?) {
+    func requestNewsByID(_ id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsByID(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -353,7 +361,7 @@ class DataManager {
         })
     }
     
-    func requestNews(ids: [NSNumber], _ completion: CompletionClosure?) {
+    func requestNews(_ ids: [NSNumber], _ completion: CompletionClosure?) {
         RequestManager.shared.requestNews(ids, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -361,7 +369,7 @@ class DataManager {
         })
     }
     
-    func requestNewsInfo(id: NSNumber, _ completion: CompletionClosure?) {
+    func requestNewsInfo(_ id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsInfo(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -373,7 +381,7 @@ class DataManager {
     // MARK: Discounts
     //////////////////////////////////////
     
-    func likeDiscount(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
+    func likeDiscount(_ id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeDiscount(id, operation: wasLiked ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -381,16 +389,20 @@ class DataManager {
         })
     }
     
-    func requestDiscountsList(relativeID: NSNumber?, _ completion: CompletionClosure?) {
+    func requestDiscountsList(_ relativeID: NSNumber?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountsList(Cons.Svr.infoRequestSize, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 Discount.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
                     // After importing, cache all news images
-                    MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                        if let allDiscounts = Discount.MR_findAllInContext(localContext) as? [Discount] {
+                    MagicalRecord.save({ (localContext) -> Void in
+                        if let allDiscounts = Discount.mr_findAll(in: localContext) as? [Discount] {
                             for discount in allDiscounts {
-                                if let imageURL = discount.coverImage, url = NSURL(string: imageURL) {
-                                    SDWebImageManager.sharedManager().downloadImageWithURL(url, options: .LowPriority, progress: { (_, _) -> Void in }, completed: { (_, _, _, _, _) -> Void in })
+                                if let imageURL = discount.coverImage, let url = URL(string: imageURL) {
+                                    SDWebImageManager.shared().downloadImage(
+                                        with: url,
+                                        options: .lowPriority,
+                                        progress: { (_, _) -> Void in },
+                                        completed: { (_, _, _, _, _) -> Void in })
                                 }
                             }
                         }
@@ -398,7 +410,7 @@ class DataManager {
                         self.completeWithData(responseObject, completion: completion)
                     })
                     // Notify observers
-                    NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.discountsUpdatingDidFinishNotification, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Cons.DB.discountsUpdatingDidFinishNotification), object: nil)
                 })
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
@@ -408,7 +420,7 @@ class DataManager {
         })
     }
     
-    func requestDiscountByID(id: NSNumber, _ completion: CompletionClosure?) {
+    func requestDiscountByID(_ id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountByID(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -416,7 +428,7 @@ class DataManager {
         })
     }
     
-    func requestDiscounts(ids: [NSNumber], _ completion: CompletionClosure?) {
+    func requestDiscounts(_ ids: [NSNumber], _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscounts(ids, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -424,7 +436,7 @@ class DataManager {
         })
     }
     
-    func requestDiscountInfo(id: NSNumber, _ completion: CompletionClosure?) {
+    func requestDiscountInfo(_ id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountInfo(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -432,7 +444,7 @@ class DataManager {
         })
     }
     
-    func createCommentForDiscount(id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
+    func createCommentForDiscount(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
         RequestManager.shared.createCommentForDiscount(id, commentId, comment, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -440,7 +452,7 @@ class DataManager {
         })
     }
     
-    func requestCommentsForDiscount(id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
+    func requestCommentsForDiscount(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
         RequestManager.shared.requestCommentsForDiscount(id, count, relativeID, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -452,7 +464,7 @@ class DataManager {
     // MARK: Notification
     //////////////////////////////////////
     
-    func registerForNotification(forceRegister: Bool) {
+    func registerForNotification(_ forceRegister: Bool) {
         // If hasn't registered
         if forceRegister || !UserDefaults.boolForKey(Cons.App.hasRegisteredForNotification) {
             UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
@@ -473,7 +485,7 @@ class DataManager {
     // MARK: Products
     //////////////////////////////////////
     
-    func translateProduct(id: NSNumber, _ completion: CompletionClosure?) {
+    func translateProduct(_ id: NSNumber, _ completion: CompletionClosure?) {
         RequestManager.shared.translateProduct(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -481,7 +493,7 @@ class DataManager {
         })
     }
     
-    func likeProduct(id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
+    func likeProduct(_ id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeProduct(id, operation: wasLiked ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -496,33 +508,33 @@ class DataManager {
     var _requestProductsError: NSError?
     var _requestProductsImportedIndex = 0
     
-    var _requestProductsQueue: NSOperationQueue?
-    private func requestProductsQueue() -> NSOperationQueue {
+    var _requestProductsQueue: OperationQueue?
+    fileprivate func requestProductsQueue() -> OperationQueue {
         if _requestProductsQueue == nil {
-            _requestProductsQueue = NSOperationQueue()
+            _requestProductsQueue = OperationQueue()
             _requestProductsQueue?.maxConcurrentOperationCount = 1
         }
-        return _requestProductsQueue ?? NSOperationQueue()
+        return _requestProductsQueue ?? OperationQueue()
     }
     
-    var _importProductsQueue: NSOperationQueue?
-    private func importProductsQueue() -> NSOperationQueue {
+    var _importProductsQueue: OperationQueue?
+    fileprivate func importProductsQueue() -> OperationQueue {
         if _importProductsQueue == nil {
-            _importProductsQueue = NSOperationQueue()
-            _importProductsQueue?.maxConcurrentOperationCount = NSProcessInfo.processInfo().activeProcessorCount
+            _importProductsQueue = OperationQueue()
+            _importProductsQueue?.maxConcurrentOperationCount = ProcessInfo.processInfo.activeProcessorCount
         }
-        return _importProductsQueue ?? NSOperationQueue()
+        return _importProductsQueue ?? OperationQueue()
     }
     
-    private func requestNextProducts() {
+    fileprivate func requestNextProducts() {
         // No need to request more if it's requesting, or we are waiting for importing
         if (self.requestProductsQueue().operations.count > 1 ||
-            self.importProductsQueue().operations.count > NSProcessInfo.processInfo().activeProcessorCount) {
+            self.importProductsQueue().operations.count > ProcessInfo.processInfo.activeProcessorCount) {
             return
         }
         
-        self.requestProductsQueue().addOperationWithBlock {
-            // Error
+        self.requestProductsQueue().addOperation {
+            // NSError
             if self._requestProductsError != nil {
                 self.completeWithError(self._requestProductsError, completion: self._requestProductsCompletionHandler)
                 return
@@ -565,9 +577,9 @@ class DataManager {
         }
     }
     
-    private func importProducts(data: [NSDictionary]?) {
-        self.importProductsQueue().addOperationWithBlock {
-            // Error
+    fileprivate func importProducts(_ data: [NSDictionary]?) {
+        self.importProductsQueue().addOperation {
+            // NSError
             if self._requestProductsError != nil {
                 self.completeWithError(self._requestProductsError, completion: self._requestProductsCompletionHandler)
                 return
@@ -580,7 +592,7 @@ class DataManager {
                 
                 // Update progress
                 self._requestProductsImportedIndex += data?.count ?? 0
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.updateProductsProgress(self._requestProductsImportedIndex, total: self._requestProductIDs.count)
                 }
                 
@@ -595,7 +607,7 @@ class DataManager {
     }
     
     // Helper methods for Products
-    private func loadProducts(productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
+    fileprivate func loadProducts(_ productIDs: [NSNumber], index: Int, size: Int, completion: CompletionClosure?) {
         _requestProductIDs = productIDs
         _requestProductsIndex = index
         _requestProductsSize = size
@@ -610,27 +622,27 @@ class DataManager {
         }
         
         // Request next
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.updateProductsProgress(0, total: self._requestProductIDs.count)
         }
         self.requestNextProducts()
     }
     
-    private func handleModifiedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
+    fileprivate func handleModifiedProductsIDs(_ responseObject: Any?, _ error: NSError?, _ completion: CompletionClosure?) {
         if error != nil {
             self.completeWithError(error, completion: completion)
             return
         }
-        if let responseObject = responseObject as? [String:AnyObject],
-            timestamp = responseObject["timestamp"] as? String,
-            productIDs = responseObject["products"] as? [NSNumber] {
-            DLog(FmtString("Number of modified products = %d",productIDs.count))
+        if let responseObject = responseObject as? [String:Any],
+            let timestamp = responseObject["timestamp"] as? String,
+            let productIDs = responseObject["products"] as? [NSNumber] {
+            DLog(FmtString("NSNumber of modified products = %d",productIDs.count))
             // Load products
             self.loadProducts(productIDs, index: 0, size: 1000, completion: { responseObject, error in
                 self.updateProductsProgress((error != nil ? -1 : 1), total: 1)
                 if error == nil {
                     // If no error, save the last request timestamp
-                    self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampProductIDs)
+                    self.setAppInfo(timestamp , forKey: Cons.DB.lastRequestTimestampProductIDs)
                     self.completeWithData(nil, completion: completion)
                 } else {
                     self.completeWithError(error, completion: completion)
@@ -641,7 +653,7 @@ class DataManager {
         }
     }
     
-    private func requestModifiedProductIDs(completion: CompletionClosure?) {
+    fileprivate func requestModifiedProductIDs(_ completion: CompletionClosure?) {
         let timestamp = self.getAppInfo(Cons.DB.lastRequestTimestampProductIDs)
         DLog(FmtString("lastRequestTimestampProductIDs = %@",timestamp ?? ""))
         RequestManager.shared.requestModifiedProductIDs(
@@ -656,29 +668,29 @@ class DataManager {
         })
     }
     
-    private func handleDeletedProductsIDs(responseObject: AnyObject?, _ error: NSError?, _ completion: CompletionClosure?) {
+    fileprivate func handleDeletedProductsIDs(_ responseObject: Any?, _ error: NSError?, _ completion: CompletionClosure?) {
         if error != nil {
             self.completeWithError(error, completion: completion)
             return
         }
-        if let responseObject = responseObject as? [String:AnyObject],
-            productIDs = responseObject["products"] as? [NSNumber] {
-            DLog(FmtString("Number of deleted products = %d",productIDs.count))
+        if let responseObject = responseObject as? [String:Any],
+            let productIDs = responseObject["products"] as? [NSNumber] {
+            DLog(FmtString("NSNumber of deleted products = %d",productIDs.count))
             let timestamp = responseObject["timestamp"] as? String
             self.setAppInfo(timestamp ?? "", forKey: Cons.DB.lastRequestTimestampDeletedProductIDs)
-            MagicalRecord.saveWithBlock({ (localContext) -> Void in
-                Product.MR_deleteAllMatchingPredicate(FmtPredicate("id IN %@", productIDs), inContext: localContext)
+            MagicalRecord.save({ (localContext) -> Void in
+                Product.mr_deleteAll(matching: FmtPredicate("id IN %@", productIDs), in: localContext)
                 }, completion: { (_, _) -> Void in
                     self.completeWithData(nil, completion: completion)
                     // Notify observers
-                    NSNotificationCenter.defaultCenter().postNotificationName(Cons.DB.productsUpdatingDidFinishNotification, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Cons.DB.productsUpdatingDidFinishNotification), object: nil)
             })
         } else {
             self.completeWithError(FmtError(0, nil), completion: completion)
         }
     }
     
-    private func requestDeletedProductIDs(error: NSError?, _ completion: CompletionClosure?) {
+    fileprivate func requestDeletedProductIDs(_ error: NSError?, _ completion: CompletionClosure?) {
         if error != nil {
             self.completeWithError(error, completion: completion)
             return
@@ -697,7 +709,7 @@ class DataManager {
         })
     }
     
-    func updateProducts(completion: CompletionClosure?) {
+    func updateProducts(_ completion: CompletionClosure?) {
         self.requestModifiedProductIDs { responseObject, error in
             self.handleModifiedProductsIDs(responseObject, error) { responseObject, error in
                 self.requestDeletedProductIDs(error) { responseObject, error in
@@ -711,7 +723,7 @@ class DataManager {
     // MARK: Search Products
     //////////////////////////////////////
     
-    func searchProducts(query: String?, _ brandId: NSNumber?, _ category: NSNumber?, _ page: Int?, _ completion: CompletionClosure?) {
+    func searchProducts(_ query: String?, _ brandId: NSNumber?, _ category: NSNumber?, _ page: Int?, _ completion: CompletionClosure?) {
         if query == nil && brandId == nil && category == nil && page == 0 {
             if let completion = completion { completion(nil, nil) }
         } else {
@@ -732,7 +744,7 @@ class DataManager {
     // MARK: Region
     //////////////////////////////////////
     
-    func requestAllRegions(completion: CompletionClosure?) {
+    func requestAllRegions(_ completion: CompletionClosure?) {
         RequestManager.shared.requestAllRegions({ responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 Region.importDatas(data, { (_, _) -> () in
@@ -751,14 +763,14 @@ class DataManager {
     // MARK: Store
     //////////////////////////////////////
     
-    func requestAllStores(completion: CompletionClosure?) {
+    func requestAllStores(_ completion: CompletionClosure?) {
         let timestamp = self.getAppInfo(Cons.DB.lastRequestTimestampStores)
         DLog(FmtString("lastRequestTimestampStores = %@",timestamp ?? ""))
         RequestManager.shared.requestAllStores(timestamp, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary,
-                stores = data["stores"] as? [NSDictionary] {
+                let stores = data["stores"] as? [NSDictionary] {
                 // Import data
-                DLog(FmtString("Number of modified stores = %d",stores.count))
+                DLog(FmtString("NSNumber of modified stores = %d",stores.count))
                 Store.importDatas(stores, { (_, _) -> () in
                     // Succeeded to import, save timestamp for next request
                     let timestamp = data["timestamp"] as? String
@@ -777,11 +789,11 @@ class DataManager {
     // MARK: Update data
     //////////////////////////////////////
     
-    func updateData(completion: CompletionClosure?) {
+    func updateData(_ completion: CompletionClosure?) {
         if !self.isUpdatingData {
             // If it's more than 1 day since the last update
-            if let lastUpdateDate = UserDefaults.objectForKey(Cons.App.lastUpdateDate) as? NSDate {
-                if NSDate().timeIntervalSinceDate(lastUpdateDate) < Cons.App.updateInterval {
+            if let lastUpdateDate = UserDefaults.objectForKey(Cons.App.lastUpdateDate) as? Date {
+                if Date().timeIntervalSince(lastUpdateDate) < Cons.App.updateInterval {
                     return
                 }
             }
@@ -802,7 +814,7 @@ class DataManager {
                     
                     // If there was no error
                     if !hasError {
-                        UserDefaults.setObject(NSDate(), forKey: Cons.App.lastUpdateDate)
+                        UserDefaults.setObject(Date(), forKey: Cons.App.lastUpdateDate)
                     }
                 }
             }
@@ -817,7 +829,7 @@ class DataManager {
     }
     
 //    var _isWTStatusBarVisible = false
-    func updateProductsProgress(current: Int, total: Int) {
+    func updateProductsProgress(_ current: Int, total: Int) {
         DLog("Updating products: \(current) / \(total)")
 //        if current == -1 {
 //            if (_isWTStatusBarVisible) {
@@ -843,22 +855,23 @@ class DataManager {
     // MARK: Helpers
     //////////////////////////////////////
     
-    func getAppInfo(key: String) -> String? {
+    func getAppInfo(_ key: String) -> String? {
         var returnValue: String?
-        MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-            if let lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: key, inContext: localContext) {
+        MagicalRecord.save(blockAndWait: { (localContext) -> Void in
+            // mr_findFirst(byAttribute attribute: String, withValue searchValue: Any, in context: NSManagedObjectContext) -> Self?
+            if let lastRequestTimestamp = AppData.mr_findFirst(byAttribute: "key", withValue: key, in: localContext) {
                 returnValue = lastRequestTimestamp.value
             }
         })
         return returnValue
     }
     
-    func setAppInfo(timestamp: String?, forKey key: String) {
+    func setAppInfo(_ timestamp: String?, forKey key: String) {
         if let timestamp = timestamp {
-            MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-                var lastRequestTimestamp = AppData.MR_findFirstByAttribute("key", withValue: key, inContext: localContext)
+            MagicalRecord.save(blockAndWait: { (localContext) -> Void in
+                var lastRequestTimestamp = AppData.mr_findFirst(byAttribute: "key", withValue: key, in: localContext)
                 if lastRequestTimestamp == nil {
-                    lastRequestTimestamp = AppData.MR_createEntityInContext(localContext)
+                    lastRequestTimestamp = AppData.mr_createEntity(in: localContext)
                     lastRequestTimestamp?.key = key
                 }
                 lastRequestTimestamp?.value = timestamp
@@ -875,8 +888,8 @@ class DataManager {
         if let memoryContext = _memoryContext {
             return memoryContext
         } else {
-            let inMemoryStoreCoordinator = NSPersistentStoreCoordinator.MR_coordinatorWithInMemoryStore()
-            let memoryContext = NSManagedObjectContext.MR_contextWithStoreCoordinator(inMemoryStoreCoordinator)
+            let inMemoryStoreCoordinator = NSPersistentStoreCoordinator.mr_coordinatorWithInMemoryStore()
+            let memoryContext = NSManagedObjectContext.mr_context(with: inMemoryStoreCoordinator)
             _memoryContext = memoryContext
             return memoryContext
         }
@@ -887,7 +900,7 @@ class DataManager {
     //////////////////////////////////////
     
     func analyticsAppBecomeActive() {
-        RequestManager.shared.sendAnalyticsData(NSNumber(integer: 3), NSNumber(integer: 6), "null", { responseObject in
+        RequestManager.shared.sendAnalyticsData(NSNumber(value: 3), NSNumber(value: 6), "null", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)

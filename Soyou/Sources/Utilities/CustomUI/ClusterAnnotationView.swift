@@ -8,6 +8,30 @@
 
 import UIKit
 import MapKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ClusterAnnotationView: MKAnnotationView {
     @IBOutlet var countLabel: UILabel!
@@ -40,13 +64,9 @@ class ClusterAnnotationView: MKAnnotationView {
         count = 1
         isUniqueLocation = false
         
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         self.setUpLabel()
         
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,15 +75,15 @@ class ClusterAnnotationView: MKAnnotationView {
     
     func setUpLabel() {
         countLabel = UILabel(frame: self.bounds)
-        countLabel.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
-        countLabel.textAlignment = .Center
-        countLabel.backgroundColor = UIColor.clearColor()
-        countLabel.textColor = UIColor.whiteColor()
+        countLabel.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        countLabel.textAlignment = .center
+        countLabel.backgroundColor = UIColor.clear
+        countLabel.textColor = UIColor.white
         countLabel.adjustsFontSizeToFitWidth = true
         countLabel.minimumScaleFactor = 2
         countLabel.numberOfLines = 1
-        countLabel.font = UIFont.boldSystemFontOfSize(12)
-        countLabel.baselineAdjustment = .AlignCenters
+        countLabel.font = UIFont.boldSystemFont(ofSize: 12)
+        countLabel.baselineAdjustment = .alignCenters
         
         self.addSubview(countLabel)
     }

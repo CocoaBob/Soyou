@@ -9,6 +9,20 @@
 import UIKit
 import CoreData
 
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -18,20 +32,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shortcutItemType = ""
     var uiIsInitialized = false
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Crashlytics
         Fabric.with([Crashlytics.self])
-        Crashlytics.sharedInstance().setUserIdentifier(UIDevice.currentDevice().identifierForVendor?.UUIDString)
+        Crashlytics.sharedInstance().setUserIdentifier(UIDevice.current.identifierForVendor?.uuidString)
         
         // AFNetworkActivityIndicatorManager
-        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
+        AFNetworkActivityIndicatorManager.shared().isEnabled = true
 
         // Exclude database from iCloud backup
         FileManager.excludeFromBackup(FileManager.dbDir)
         
         // Setup SDWebImage cache
-        SDImageCache.sharedImageCache().shouldDecompressImages = false
-        SDWebImageDownloader.sharedDownloader().shouldDecompressImages = false
+        SDImageCache.shared().shouldDecompressImages = false
+        SDWebImageDownloader.shared().shouldDecompressImages = false
         
         // Setup themes
         Themes.setupAppearances()
@@ -46,12 +60,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataManager.shared.registerForNotification(false)
         
         // Setup Database asynchronously
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
 //            // Setup WTStatusBar
 //            WTStatusBar.setStatusText("")
-//            WTStatusBar.setTextColor(UIColor.clearColor())
-//            WTStatusBar.setBackgroundColor(UIColor.clearColor())
-//            WTStatusBar.setProgressBarColor(UIColor(rgba: Cons.UI.colorTheme))
+//            WTStatusBar.setTextColor(UIColor.clear)
+//            WTStatusBar.setBackgroundColor(UIColor.clear)
+//            WTStatusBar.setProgressBarColor(Cons.UI.colorTheme)
             
             // Initializing database
             self.setupDatabase()
@@ -72,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.showShortcutView()
             
             // Show Introduction view
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 // Make sure NewsViewController's viewWillAppear is called before showIntroView()
                 self.checkIfShowIntroView()
             }
@@ -81,52 +95,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         MagicalRecord.cleanUp()
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         self.updateDataAfterLaunching()
         
         // Clear badge
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
-    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         DLog("applicationDidReceiveMemoryWarning")
         
         // Delete memory cache
-        SDImageCache.sharedImageCache().clearMemory()
+        SDImageCache.shared().clearMemory()
     }
     
     @available(iOS 9.0, *)
-    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         self.shortcutItemType = shortcutItem.type
         self.showShortcutView()
     }
     
     // iOS < 9
-    func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
-        return DDSocialShareHandler.sharedInstance().application(application, handleOpenURL: url, sourceApplication: nil, annotation: nil)
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+        return DDSocialShareHandler.sharedInstance().application(application, handleOpen: url, sourceApplication: nil, annotation: nil)
     }
     
     // iOS < 9
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return DDSocialShareHandler.sharedInstance().application(application, handleOpenURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return DDSocialShareHandler.sharedInstance().application(application, handleOpen: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
     // iOS >= 9
-    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        return DDSocialShareHandler.sharedInstance().application(app, openURL: url, options: options)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        var newOptions = [String: Any]()
+        options.forEach { newOptions[$0.rawValue] = $1 }
+        return DDSocialShareHandler.sharedInstance().application(app, open: url, options: newOptions )
     }
 }
 
 // MARK: Notifications
 extension AppDelegate {
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let characterSet: NSCharacterSet = NSCharacterSet(charactersInString:"<>")
-        let pushNotificationDeviceTokenString = deviceToken.description.stringByTrimmingCharactersInSet(characterSet).stringByReplacingOccurrencesOfString(" ", withString:"")
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let characterSet: CharacterSet = CharacterSet(charactersIn:"<>")
+        let pushNotificationDeviceTokenString = deviceToken.description.trimmingCharacters(in: characterSet).replacingOccurrences(of: " ", with:"")
         if pushNotificationDeviceTokenString != UserManager.shared.deviceToken {
             UserManager.shared.deviceToken = pushNotificationDeviceTokenString
             UserDefaults.setBool(false, forKey: Cons.App.hasRegisteredForNotification)
@@ -134,14 +150,14 @@ extension AppDelegate {
         
         DataManager.shared.registerForNotification(false)
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Cons.Usr.DidRegisterForRemoteNotifications, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Cons.Usr.DidRegisterForRemoteNotifications), object: nil)
     }
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         DLog(error)
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         DLog(userInfo)
     }
 
@@ -151,7 +167,7 @@ extension AppDelegate {
 extension AppDelegate {
     
     func setupWindow() {
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = UINavigationController(rootViewController: SplashScreenViewController())
         self.window?.makeKeyAndVisible()
     }
@@ -161,9 +177,9 @@ extension AppDelegate {
         self.checkIfUpgraded()
         
         // Setup Database
-        MagicalRecord.setLoggingLevel(.Error)
+        MagicalRecord.setLoggingLevel(.error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
-        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreAtURL(FileManager.dbURL)
+        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStore(at: FileManager.dbURL)
         self.dbIsInitialized = true
     }
     
@@ -183,12 +199,12 @@ extension AppDelegate {
     }
     
     func setupSocialServices() {
-        DDSocialShareHandler.sharedInstance().registerPlatform(.WeChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.QQ, appKey: "1105338972")
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Facebook)
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Google)
-        DDSocialShareHandler.sharedInstance().registerPlatform(.Twitter, appKey: "wjOno5zRnBwENYuXtbYCS7bw5", appSecret: "vVlY71WUqP0rTc1D7vK6tqylB2PJpEhpMM88VvVVG3ONfwtu7I")
+        DDSocialShareHandler.sharedInstance().register(.weChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
+        DDSocialShareHandler.sharedInstance().register(.sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
+        DDSocialShareHandler.sharedInstance().register(.QQ, appKey: "1105338972")
+        DDSocialShareHandler.sharedInstance().register(.facebook)
+        DDSocialShareHandler.sharedInstance().register(.google)
+        DDSocialShareHandler.sharedInstance().register(.twitter, appKey: "wjOno5zRnBwENYuXtbYCS7bw5", appSecret: "vVlY71WUqP0rTc1D7vK6tqylB2PJpEhpMM88VvVVG3ONfwtu7I")
     }
     
     func showShortcutView() {
@@ -220,52 +236,53 @@ extension AppDelegate {
     
     func checkIfUpgraded() {
         let lastInstalledBuild = UserDefaults.stringForKey(Cons.App.lastInstalledBuild)
-        let currentAppBuild = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
-        if let lastInstalledBuild = lastInstalledBuild, currentAppVersion = currentAppBuild {
+        let currentAppBuild = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String
+        if let lastInstalledBuild = lastInstalledBuild, let currentAppVersion = currentAppBuild {
             if lastInstalledBuild == currentAppVersion {
                 return
             }
         }
         
-        UserDefaults.setObject(currentAppBuild, forKey: Cons.App.lastInstalledBuild)
+        UserDefaults.setObject(currentAppBuild as AnyObject?, forKey: Cons.App.lastInstalledBuild)
         
+        // TODO
         // Database schema changed in commit 417, delete old database
-        if lastInstalledBuild == nil || Int(lastInstalledBuild ?? "0") < 417 {
-            guard let dbPath = FileManager.dbURL.path else {
-                return
-            }
-            if NSFileManager.defaultManager().fileExistsAtPath(dbPath) {
-                do {
-                    try NSFileManager.defaultManager().removeItemAtURL(FileManager.dbURL)
-                } catch {
-                    DLog(error)
-                }
-            }
-        }
+//        if lastInstalledBuild == nil || Int(lastInstalledBuild ?? "0") < 417 {
+//            guard let dbPath = FileManager.dbURL.path else {
+//                return
+//            }
+//            if Foundation.FileManager.default.fileExists(atPath: dbPath) {
+//                do {
+//                    try Foundation.FileManager.default.removeItem(at: FileManager.dbURL as URL)
+//                } catch {
+//                    DLog(error)
+//                }
+//            }
+//        }
     }
     
     func needsToShowIntroView() -> Bool {
         // If not first time to launch version 1.x
         // TODO: Remove in v1.5
-        if let _ = UserDefaults.stringForKey(Cons.App.lastInstalledBuild) {
-            return false
-        }
+//        if let _ = UserDefaults.stringForKey(Cons.App.lastInstalledBuild) {
+//            return false
+//        }
         
         let lastIntroVersion = UserDefaults.stringForKey(Cons.App.lastIntroVersion)
-        let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String
+        let currentAppVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString" as String) as? String
         
         // If versions are same, skip
-        if let lastIntroVersion = lastIntroVersion, currentAppVersion = currentAppVersion {
+        if let lastIntroVersion = lastIntroVersion, let currentAppVersion = currentAppVersion {
             if lastIntroVersion == currentAppVersion {
                 return false
             }
         }
         
         // If main versions are same, skip
-        if let lastMainVersion = lastIntroVersion?.componentsSeparatedByString(".").first,
-            currMainVersion = currentAppVersion?.componentsSeparatedByString(".").first,
-            lastMainVersionInt = Int(lastMainVersion),
-            currMainVersionInt = Int(currMainVersion) {
+        if let lastMainVersion = lastIntroVersion?.components(separatedBy: ".").first,
+            let currMainVersion = currentAppVersion?.components(separatedBy: ".").first,
+            let lastMainVersionInt = Int(lastMainVersion),
+            let currMainVersionInt = Int(currMainVersion) {
             if lastMainVersionInt >= currMainVersionInt {
                 return false
             }
@@ -276,10 +293,10 @@ extension AppDelegate {
     
     func checkIfShowIntroView() {
         if self.needsToShowIntroView() {
-            let currentAppVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String
+            let currentAppVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString" as String) as? String
             
             // Remember the current version
-            UserDefaults.setObject(currentAppVersion ?? "", forKey: Cons.App.lastIntroVersion)
+            UserDefaults.setObject(currentAppVersion as AnyObject?, forKey: Cons.App.lastIntroVersion)
             
             IntroViewController.shared.showIntroView()
         }
@@ -287,22 +304,22 @@ extension AppDelegate {
     
     func showSearchView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
-            navController = tabBarController.viewControllers?[1] as? UINavigationController,
-            brandsViewController = navController.viewControllers.first as? BrandsViewController {
+            let navController = tabBarController.viewControllers?[1] as? UINavigationController,
+            let brandsViewController = navController.viewControllers.first as? BrandsViewController {
             tabBarController.selectedIndex = 1
-            navController.popToRootViewControllerAnimated(false)
+            navController.popToRootViewController(animated: false)
             let _ = brandsViewController.view
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async {
                 brandsViewController.searchController?.searchBar.becomeFirstResponder()
-            })
+            }
         }
     }
     
     func showFavoritesView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
-            navController = tabBarController.viewControllers?[2] as? UINavigationController {
+            let navController = tabBarController.viewControllers?[2] as? UINavigationController {
             tabBarController.selectedIndex = 2
-            navController.popToRootViewControllerAnimated(false)
+            navController.popToRootViewController(animated: false)
         }
     }
 }
@@ -310,7 +327,7 @@ extension AppDelegate {
 // MARK: UITabBarControllerDelegate
 extension AppDelegate: UITabBarControllerDelegate {
     
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         let toppestViewController = viewController.toppestViewController()
         toppestViewController?.viewDidAppear(false)
     }

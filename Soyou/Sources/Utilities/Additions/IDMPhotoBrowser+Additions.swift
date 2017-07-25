@@ -8,8 +8,9 @@
 
 extension IDMPhotoBrowser {
     
-    class func present(photos: [IDMPhoto]!, index: UInt!, view: UIView?, scaleImage: UIImage?, viewVC: UIViewController!) {
-        let photoBrowser = (view != nil) ? IDMPhotoBrowser(photos: photos, animatedFromView: view) : IDMPhotoBrowser(photos: photos)
+    class func present(_ photos: [IDMPhoto]!, index: UInt!, view: UIView?, scaleImage: UIImage?, viewVC: UIViewController!) {
+        let _photoBrowser = (view != nil) ? IDMPhotoBrowser(photos: photos, animatedFrom: view) : IDMPhotoBrowser(photos: photos)
+        guard let photoBrowser = _photoBrowser else { return }
         if scaleImage != nil {
             photoBrowser.scaleImage = scaleImage
         }
@@ -25,6 +26,6 @@ extension IDMPhotoBrowser {
         
         photoBrowser.setInitialPageIndex(index)
         
-        viewVC.presentViewController(photoBrowser, animated: true, completion: nil)
+        viewVC.present(photoBrowser, animated: true, completion: nil)
     }
 }

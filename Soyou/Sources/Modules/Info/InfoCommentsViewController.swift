@@ -63,7 +63,7 @@ struct Comment {
         self.importDataFromJSON(json)
     }
     
-    mutating func importDataFromJSON(json: JSON) {
+    mutating func importDataFromJSON(_ json: JSON) {
         self.id = json["id"].intValue
         self.username = json["username"].stringValue
         self.matricule = json["matricule"].intValue
@@ -82,12 +82,12 @@ class InfoCommentsViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var btnWriteComment: UIButton!
     
-    var dataProvider: ((relativeID: Int?, completion: ((data: AnyObject?) -> ())) -> ())?
+    var dataProvider: ((_ relativeID: Int?, _ completion: @escaping ((_ data: Any?) -> ())) -> ())?
     var isCallingDataProvider = false
     
     // Class methods
     class func instantiate() -> InfoCommentsViewController {
-        return (UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewControllerWithIdentifier("InfoCommentsViewController") as? InfoCommentsViewController)!
+        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "InfoCommentsViewController") as! InfoCommentsViewController
     }
     
     // UIViewController methods
@@ -95,7 +95,7 @@ class InfoCommentsViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("comments_vc_title")
-        self.btnWriteComment.setTitle(NSLocalizedString("comments_vc_write_comment"), forState: .Normal)
+        self.btnWriteComment.setTitle(NSLocalizedString("comments_vc_write_comment"), for: .normal)
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
@@ -110,17 +110,17 @@ class InfoCommentsViewController: UIViewController {
         
         // Setup context menu
         let reply = UIMenuItem(title: NSLocalizedString("comments_vc_menu_reply"), action: #selector(InfoCommentsTableViewCell.reply))
-        UIMenuController.sharedMenuController().menuItems = [reply]
-        UIMenuController.sharedMenuController().update()
+        UIMenuController.shared.menuItems = [reply]
+        UIMenuController.shared.update()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         self.hideToolbar(false)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.loadData(nil)
@@ -131,7 +131,7 @@ class InfoCommentsViewController: UIViewController {
 // MARK: Comments data
 extension InfoCommentsViewController {
     
-    private func loadData(relativeID: Int?) {
+    fileprivate func loadData(_ relativeID: Int?) {
         // Avoid multiple calling
         if self.isCallingDataProvider {
             return
@@ -139,9 +139,9 @@ extension InfoCommentsViewController {
         if let dataProvider = self.dataProvider {
             self.isCallingDataProvider = true
             self.beginRefreshing()
-            dataProvider(relativeID: relativeID, completion: { (responseObject) in
-                guard let responseObject = responseObject as? [String: AnyObject] else { return }
-                guard let data = responseObject["data"] as? [NSDictionary] else { return }
+            dataProvider(relativeID, { (responseObject) in
+                guard let responseObject = responseObject as? [String: Any] else { return }
+                guard let data = responseObject["data"] else { return }
                 
                 let hasEarlierComments = self.appendCommentsWithData(data)
                 self.tableView.reloadData()
@@ -156,20 +156,20 @@ extension InfoCommentsViewController {
         }
     }
     
-    private func loadNextData() {
-        if let lastID = self.commentIDs.last, lastComment = self.commentsByID[lastID] {
+    fileprivate func loadNextData() {
+        if let lastID = self.commentIDs.last, let lastComment = self.commentsByID[lastID] {
             self.loadData(lastComment.id)
         } else {
             self.loadData(0)
         }
     }
     
-    private func loadNewData() {
+    fileprivate func loadNewData() {
         self.loadData(nil)
     }
     
     // Return true if get earlier comments
-    private func appendCommentsWithData(data: AnyObject) -> Bool {
+    fileprivate func appendCommentsWithData(_ data: Any) -> Bool {
         var hasSmallerID = false
         let json = JSON(data)
         if !json.isEmpty {
@@ -183,7 +183,7 @@ extension InfoCommentsViewController {
                     hasSmallerID = hasSmallerID || (commentID < lastSmallestID)
                 }
             }
-            self.commentIDs.sortInPlace(>)
+            self.commentIDs.sort(by: >)
         }
         return hasSmallerID
     }
@@ -192,16 +192,16 @@ extension InfoCommentsViewController {
 //// MARK: UITableViewDataSource, UITableViewDelegate
 extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.commentIDs.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = (tableView.dequeueReusableCellWithIdentifier("InfoCommentsTableViewCell", forIndexPath: indexPath) as? InfoCommentsTableViewCell)!
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = (tableView.dequeueReusableCell(withIdentifier: "InfoCommentsTableViewCell", for: indexPath) as? InfoCommentsTableViewCell)!
         
         cell.infoCommentsViewController = self
         
@@ -212,26 +212,26 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
         
         cell.becomeFirstResponder()
-        UIMenuController.sharedMenuController().setTargetRect(cell.bounds, inView: cell)
-        UIMenuController.sharedMenuController().setMenuVisible(true, animated: true)
+        UIMenuController.shared.setTargetRect(cell.bounds, in: cell)
+        UIMenuController.shared.setMenuVisible(true, animated: true)
     }
     
     // MARK: Context menu
-    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
     }
 }
 
@@ -246,7 +246,7 @@ extension InfoCommentsViewController {
 // MARK: Post new comments {
 extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
     
-    func postNewComment(replyToComment: Comment?) {
+    func postNewComment(_ replyToComment: Comment?) {
         let infoNewCommentViewController = InfoNewCommentViewController.instantiate()
         infoNewCommentViewController.infoID = self.infoID
         infoNewCommentViewController.replyToComment = replyToComment
@@ -263,34 +263,34 @@ extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
 extension InfoCommentsViewController {
     
     func setupRefreshControls() {
-        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+        guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             self.loadNewData()
             self.beginRefreshing()
-        })
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeLabel?.hidden = true
+        }) else { return }
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), for: .refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
+        header.lastUpdatedTimeLabel?.isHidden = true
         self.tableView.mj_header = header
         
-        let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+        guard let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
             self.loadNextData()
-        })
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        footer.automaticallyHidden = false
+        }) else { return }
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), for: .pulling)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), for: .refreshing)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
+        footer.isAutomaticallyHidden = false
         self.tableView.mj_footer = footer
     }
     
     func beginRefreshing() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func endRefreshing(hasEarlierData: Bool?) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    func endRefreshing(_ hasEarlierData: Bool?) {
+        DispatchQueue.main.async {
             if self.tableView.mj_header.isRefreshing() {
                 self.tableView.mj_header.endRefreshing()
             }
@@ -305,12 +305,13 @@ extension InfoCommentsViewController {
                     self.tableView.mj_footer.endRefreshing()
                 }
             }
-        })
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
 
 class InfoCommentsTableViewCell: UITableViewCell {
+    
     @IBOutlet var tvContent: UITextView!
     var comment: Comment!
     weak var infoCommentsViewController: InfoCommentsViewController!
@@ -326,32 +327,32 @@ class InfoCommentsTableViewCell: UITableViewCell {
         self.tvContent.text = nil
     }
     
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder: Bool {
         return true
     }
     
-    func setup(comment: Comment) {
+    func setup(_ comment: Comment) {
         self.comment = comment
-        var attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
+        var attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.black]
         let attributedString = NSMutableAttributedString(string: comment.username, attributes: attributes)
-        attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(5.0)]
-        attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\n", attributes: attributes))
-        attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.blackColor()]
-        attributedString.appendAttributedString(NSMutableAttributedString(string: comment.comment, attributes: attributes))
-        if let parentUsername = self.comment.parentUsername, parentComment = self.comment.parentComment {
-            attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(5.0)]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "\n\n", attributes: attributes))
-            attributes = [NSFontAttributeName : UIFont.boldSystemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "\(parentUsername): ", attributes: attributes))
-            attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0), NSForegroundColorAttributeName: UIColor.grayColor()]
-            attributedString.appendAttributedString(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
+        attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 5.0)]
+        attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
+        attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.black]
+        attributedString.append(NSMutableAttributedString(string: comment.comment, attributes: attributes))
+        if let parentUsername = self.comment.parentUsername, let parentComment = self.comment.parentComment {
+            attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 5.0)]
+            attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
+            attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.gray]
+            attributedString.append(NSMutableAttributedString(string: "\(parentUsername): ", attributes: attributes))
+            attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.gray]
+            attributedString.append(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
         }
         self.tvContent.attributedText = attributedString
     }
     
     // MARK: Context menu
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == #selector(NSObject.copy(_:)) || action == #selector(InfoCommentsTableViewCell.reply) {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(copy(_:)) || action == #selector(InfoCommentsTableViewCell.reply) {
             return true
         }
         return false
@@ -361,7 +362,7 @@ class InfoCommentsTableViewCell: UITableViewCell {
         self.infoCommentsViewController.postNewComment(self.comment)
     }
     
-    override func copy(sender: AnyObject?) {
-        UIPasteboard.generalPasteboard().string = self.comment.comment
+    override func copy(_ sender: Any?) {
+        UIPasteboard.general.string = self.comment.comment
     }
 }

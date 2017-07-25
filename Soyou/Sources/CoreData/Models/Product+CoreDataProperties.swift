@@ -27,9 +27,9 @@ extension Product {
     @NSManaged var keywords: String?
     @NSManaged var likeNumber: NSNumber?
     @NSManaged var order: NSNumber?
-    @NSManaged var prices: NSData?
+    @NSManaged var prices: Data?
     @NSManaged var reference: String?
-    @NSManaged var sku: NSData?
+    @NSManaged var sku: Data?
     @NSManaged var surname: String?
     @NSManaged var title: String?
 

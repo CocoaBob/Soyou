@@ -10,21 +10,21 @@ import Foundation
 
 class FileManager: NSObject {
     
-    static var docDir: NSURL = {
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    static var docDir: URL = {
+        let urls = Foundation.FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls.first!
     }()
     
-    static var appSupportDir: NSURL = {
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
+    static var appSupportDir: URL = {
+        let urls = Foundation.FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
         return urls.first!
     }()
     
-    static var dbDir: NSURL = {
-        let url = FileManager.appSupportDir.URLByAppendingPathComponent("Soyou")
-        if !NSFileManager.defaultManager().fileExistsAtPath(url.path!) {
+    static var dbDir: URL = {
+        let url = FileManager.appSupportDir.appendingPathComponent("Soyou")
+        if !Foundation.FileManager.default.fileExists(atPath: url.path) {
             do {
-                try NSFileManager.defaultManager().createDirectoryAtPath(url.path!, withIntermediateDirectories: true, attributes: nil)
+                try Foundation.FileManager.default.createDirectory(atPath: url.path, withIntermediateDirectories: true, attributes: nil)
             } catch {
                 DLog(error)
             }
@@ -32,12 +32,12 @@ class FileManager: NSObject {
         return url
     }()
     
-    static var dbURL: NSURL = {
-        return FileManager.dbDir.URLByAppendingPathComponent("Soyou.sqlite")
+    static var dbURL: URL = {
+        return FileManager.dbDir.appendingPathComponent("Soyou.sqlite")
     }()
     
-    static func excludeFromBackup(pathURL: NSURL) -> Bool {
-        if let _ = try? pathURL.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey) {
+    @discardableResult static func excludeFromBackup(_ pathURL: URL) -> Bool {
+        if let _ = try? (pathURL as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey) {
             return true
         } else {
             return false

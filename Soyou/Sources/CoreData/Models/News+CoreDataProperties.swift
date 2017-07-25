@@ -19,8 +19,8 @@ extension News {
     @NSManaged var appIsUpdated: NSNumber?
     @NSManaged var author: String?
     @NSManaged var content: String?
-    @NSManaged var dateModification: NSDate?
-    @NSManaged var datePublication: NSDate?
+    @NSManaged var dateModification: Date?
+    @NSManaged var datePublication: Date?
     @NSManaged var id: NSNumber?
     @NSManaged var image: String?
     @NSManaged var isOnline: NSNumber?

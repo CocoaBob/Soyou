@@ -15,8 +15,8 @@ class ProductPricesViewController: UIViewController {
     var product: Product? {
         didSet {
             self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                guard let localProduct = self.product?.MR_inContext(localContext) else { return }
-                if let objectData = localProduct.prices, object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
+                guard let localProduct = self.product?.mr_(in: localContext) else { return }
+                if let objectData = localProduct.prices, let object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
                     self.prices = object
                 } else {
                     self.prices = nil
@@ -30,16 +30,16 @@ class ProductPricesViewController: UIViewController {
     var prices: [[String: AnyObject]]? {
         didSet {
             if let _prices = prices {
-                for (index, var price) in _prices.enumerate() {
-                    price["priceUserCurrency"] = CurrencyManager.shared.priceInUserCurrencyFromPriceItem(price)
+                for (index, var price) in _prices.enumerated() {
+                    price["priceUserCurrency"] = CurrencyManager.shared.priceInUserCurrencyFromPriceItem(price as NSDictionary)
                     prices![index] = price
                 }
                 
-                prices!.sortInPlace({
+                prices!.sort(by: {
                     let item0 = $0 as [String: AnyObject]
                     let item1 = $1 as [String: AnyObject]
                     if let price0 = item0["priceUserCurrency"] as? NSNumber,
-                        price1 = item1["priceUserCurrency"] as? NSNumber {
+                        let price1 = item1["priceUserCurrency"] as? NSNumber {
                             return price0.doubleValue < price1.doubleValue
                     }
                     return false
@@ -50,7 +50,7 @@ class ProductPricesViewController: UIViewController {
     
     // Class methods
     class func instantiate() -> ProductPricesViewController {
-        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductPricesViewController") as? ProductPricesViewController)!
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewController(withIdentifier: "ProductPricesViewController") as! ProductPricesViewController
     }
     
     // Life cycle
@@ -73,15 +73,15 @@ class ProductPricesViewController: UIViewController {
 // MARK: Table View
 extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.prices?.count ?? 0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let prices = self.prices else { return UITableViewCell() }
         guard let item: [String: AnyObject] = prices[indexPath.section] else { return UITableViewCell() }
         guard let price = item["price"] as? NSNumber else { return UITableViewCell() }
@@ -91,14 +91,14 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         var cell: UITableViewCell?
         
         if indexPath.row == 0 {
-            let _cell = (tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCountry", forIndexPath: indexPath) as? ProductPricesTableViewCellCountry)!
+            let _cell = (tableView.dequeueReusableCell(withIdentifier: "ProductPricesTableViewCellCountry", for: indexPath) as? ProductPricesTableViewCellCountry)!
             
-            if let countryCode = countryCode, image = UIImage(flagImageWithCountryCode: countryCode) {
+            if let countryCode = countryCode, let image = UIImage(flagImageWithCountryCode: countryCode) {
                 _cell.imgView.image = image
             } else {
                 _cell.imgView.image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.World)
             }
-            if let countryCode = countryCode, countryName = CurrencyManager.shared.countryName(countryCode) {
+            if let countryCode = countryCode, let countryName = CurrencyManager.shared.countryName(countryCode) {
                 _cell.lblTitle.text = countryName
             } else {
                 _cell.lblTitle.text = NSLocalizedString("product_prices_vc_official_price_unknown_country")
@@ -106,16 +106,16 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             
             // Hide website label if not available
             if let officialUrlString = item["officialUrl"] as? String {
-                _cell.lblAccessory.hidden = officialUrlString.characters.isEmpty
-                _cell.accessoryType = _cell.lblAccessory.hidden ? .None : .DisclosureIndicator
+                _cell.lblAccessory.isHidden = officialUrlString.characters.isEmpty
+                _cell.accessoryType = _cell.lblAccessory.isHidden ? .none : .disclosureIndicator
             } else {
-                _cell.lblAccessory.hidden = true
-                _cell.accessoryType = .None
+                _cell.lblAccessory.isHidden = true
+                _cell.accessoryType = .none
             }
 
             cell = _cell
         } else {
-            let _cell = (tableView.dequeueReusableCellWithIdentifier("ProductPricesTableViewCellCurrency", forIndexPath: indexPath) as? ProductPricesTableViewCellCurrency)!
+            let _cell = (tableView.dequeueReusableCell(withIdentifier: "ProductPricesTableViewCellCurrency", for: indexPath) as? ProductPricesTableViewCellCurrency)!
             if currencyCode != nil {
                 _cell.lblRetailCurrency.text = CurrencyManager.shared.currencyNameFromCurrencyCode(currencyCode ?? "")
             } else {
@@ -135,7 +135,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         return cell!
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 40
         } else {
@@ -143,8 +143,8 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
             guard let prices = self.prices else { return }
@@ -153,14 +153,15 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             if officialUrlString.characters.isEmpty {
                 return
             }
-            guard let officialUrl = NSURL(string: officialUrlString) else { return }
+            guard let officialUrl = URL(string: officialUrlString) else { return }
             if #available(iOS 9.0, *) {
-                let webViewController = SFSafariViewController(URL: officialUrl, entersReaderIfAvailable: false)
-                self.productViewController?.presentViewController(webViewController, animated: true, completion: nil)
+                let webViewController = SFSafariViewController(url: officialUrl, entersReaderIfAvailable: false)
+                self.productViewController?.present(webViewController, animated: true, completion: nil)
             } else {
-                let webViewController = SVWebViewController(URL: officialUrl)
-                self.productViewController?.navigationController?.pushViewController(webViewController, animated: true)
-                self.productViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
+                if let webViewController = SVWebViewController(url: officialUrl) {
+                    self.productViewController?.navigationController?.pushViewController(webViewController, animated: true)
+                    self.productViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
+                }
             }
         } else {
             
@@ -172,7 +173,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
 extension ProductPricesViewController {
     
     func reloadData() {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }

@@ -9,20 +9,20 @@
 protocol StoreMapSearchResultsViewControllerDelegate {
     
     func searchRegion() -> MKCoordinateRegion
-    func didSelectSearchResult(mapItem: MKMapItem)
+    func didSelectSearchResult(_ mapItem: MKMapItem)
     
 }
 
 class StoreMapSearchResultsViewController: UITableViewController {
     
     var delegate: StoreMapSearchResultsViewControllerDelegate?
-    var searchTimer: NSTimer?
+    var searchTimer: Timer?
     var searchText: String?
     var searchResults: [MKMapItem] = [MKMapItem]()
     
     // Class methods
     class func instantiate() -> StoreMapSearchResultsViewController {
-        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("StoreMapSearchResultsViewController") as? StoreMapSearchResultsViewController)!
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewController(withIdentifier: "StoreMapSearchResultsViewController") as! StoreMapSearchResultsViewController
     }
     
 }
@@ -30,16 +30,16 @@ class StoreMapSearchResultsViewController: UITableViewController {
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension StoreMapSearchResultsViewController {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.searchResults.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "StoreMapSearchResultsTableViewCell")
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "StoreMapSearchResultsTableViewCell")
         
         let item = self.searchResults[indexPath.row]
         
@@ -47,7 +47,7 @@ extension StoreMapSearchResultsViewController {
         
         // Address
         cell.detailTextLabel?.text = item.placemark.addressString()
-        if let countryCode = item.placemark.countryCode, image = UIImage(flagImageWithCountryCode: countryCode) {
+        if let countryCode = item.placemark.countryCode, let image = UIImage(flagImageWithCountryCode: countryCode) {
             cell.imageView?.image = image
         } else {
             cell.imageView?.image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.World)
@@ -56,8 +56,8 @@ extension StoreMapSearchResultsViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         self.delegate?.didSelectSearchResult(self.searchResults[indexPath.row])
     }
@@ -68,7 +68,7 @@ extension StoreMapSearchResultsViewController: UISearchResultsUpdating {
     
     func startSearchTimer() {
         stopSearchTimer()
-        self.searchTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(StoreMapSearchResultsViewController.searchAddress), userInfo: nil, repeats: false)
+        self.searchTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(StoreMapSearchResultsViewController.searchAddress), userInfo: nil, repeats: false)
     }
     
     func stopSearchTimer() {
@@ -76,10 +76,10 @@ extension StoreMapSearchResultsViewController: UISearchResultsUpdating {
         self.searchTimer = nil
     }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         self.stopSearchTimer()
         
-        if searchController.active {
+        if searchController.isActive {
             self.searchText = searchController.searchBar.text
         } else {
             self.searchText = nil
@@ -99,7 +99,7 @@ extension StoreMapSearchResultsViewController {
         }
         request.naturalLanguageQuery = self.searchText
         let search = MKLocalSearch(request: request)
-        search.startWithCompletionHandler { (response: MKLocalSearchResponse?, error: NSError?) -> Void in
+        search.start { (response: MKLocalSearchResponse?, error: Error?) -> Void in
             if let mapItems = response?.mapItems {
                 self.searchResults = mapItems
                 self.tableView.reloadData()

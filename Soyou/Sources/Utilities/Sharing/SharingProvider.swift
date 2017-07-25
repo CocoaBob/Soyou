@@ -14,17 +14,17 @@ class SharingProvider {
 //        UIActivityTypePostToFacebook,
 //        UIActivityTypePostToTwitter,
 //        UIActivityTypePostToWeibo, // SinaWeibo
-        UIActivityTypeMessage,
-        UIActivityTypeMail,
-        UIActivityTypePrint,
-        UIActivityTypeCopyToPasteboard,
-        UIActivityTypeAssignToContact,
-        UIActivityTypeSaveToCameraRoll,
-        UIActivityTypeAddToReadingList,
-        UIActivityTypePostToFlickr,
-        UIActivityTypePostToVimeo,
-//        UIActivityTypePostToTencentWeibo,
-        UIActivityTypeAirDrop,
-//        UIActivityTypeOpenInIBooks
+        UIActivityType.message,
+        UIActivityType.mail,
+        UIActivityType.print,
+        UIActivityType.copyToPasteboard,
+        UIActivityType.assignToContact,
+        UIActivityType.saveToCameraRoll,
+        UIActivityType.addToReadingList,
+        UIActivityType.postToFlickr,
+        UIActivityType.postToVimeo,
+//        UIActivityType.postToTencentWeibo,
+        UIActivityType.airDrop,
+//        UIActivityType.openInIBooks
     ]
 }

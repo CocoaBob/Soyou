@@ -10,13 +10,13 @@ import UIKit
 
 class WeChatActivityGeneral: UIActivity {
     var title: String?
-    var url: NSURL?
+    var url: URL?
     var image: UIImage?
     var descriptions: String?
     var isSessionScene = true
     
-    override func canPerformWithActivityItems(activityItems: [AnyObject]) -> Bool {
-        if WXApi.isWXAppInstalled() && WXApi.isWXAppSupportApi() {
+    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
+        if WXApi.isWXAppInstalled() && WXApi.isWXAppSupport() {
             for item in activityItems {
                 if item is UIImage {
                     return true
@@ -24,7 +24,7 @@ class WeChatActivityGeneral: UIActivity {
                 if item is String {
                     return true
                 }
-                if item is NSURL {
+                if item is URL {
                     return true
                 }
             }
@@ -32,7 +32,7 @@ class WeChatActivityGeneral: UIActivity {
         return false
     }
     
-    override func prepareWithActivityItems(activityItems: [AnyObject]) {
+    override func prepare(withActivityItems activityItems: [Any]) {
         for item in activityItems {
             if item is UIImage {
                 image = item as? UIImage
@@ -44,13 +44,13 @@ class WeChatActivityGeneral: UIActivity {
                     title = item
                 }
             }
-            if item is NSURL {
-                url = item as? NSURL
+            if item is URL {
+                url = item as? URL
             }
         }
     }
     
-    override func performActivity() {
+    override func perform() {
         let message = WXMediaMessage()
         
         message.title = title
@@ -69,7 +69,7 @@ class WeChatActivityGeneral: UIActivity {
                 message.mediaObject = imageObject
             }
             
-            message.setThumbImage(image.resizedImageByMagick("200x200#"))
+            message.setThumbImage(image.resizedImage(byMagick: "200x200#"))
         }
         
         let req =  SendMessageToWXReq()
@@ -82,7 +82,7 @@ class WeChatActivityGeneral: UIActivity {
             req.scene = Int32(WXSceneTimeline.rawValue)
         }
         
-        WXApi.sendReq(req)
+        WXApi.send(req)
         self.activityDidFinish(true)
     }
 }

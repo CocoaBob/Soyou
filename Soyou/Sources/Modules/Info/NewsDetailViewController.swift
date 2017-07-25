@@ -35,10 +35,10 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     override var infoTitle: String! {
         get {
             var returnValue = ""
-            MagicalRecord.saveWithBlockAndWait { (localContext) in
+            MagicalRecord.save(blockAndWait: { (localContext) in
                 let news = self.info as? News
-                returnValue = news?.MR_inContext(localContext)?.title ?? ""
-            }
+                returnValue = news?.mr_(in: localContext)?.title ?? ""
+            })
             return returnValue
         }
         set {
@@ -47,11 +47,11 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     
     override var infoID: NSNumber! {
         get {
-            var returnValue = NSNumber(int: -1)
-            MagicalRecord.saveWithBlockAndWait { (localContext) in
+            var returnValue = NSNumber(value: -1)
+            MagicalRecord.save(blockAndWait: { (localContext) in
                 let news = self.info as? News
-                returnValue = news?.MR_inContext(localContext)?.id ?? -1
-            }
+                returnValue = news?.mr_(in: localContext)?.id ?? -1
+            })
             return returnValue
         }
         set {
@@ -62,9 +62,9 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     override func updateExtraInfo() {
         DataManager.shared.requestNewsInfo(self.infoID) { responseObject, error in
             if let responseObject = responseObject as? [String:AnyObject],
-                data = responseObject["data"] as? [String:AnyObject],
-                likeNumber = data["likeNumber"] as? NSNumber {
-                self.likeBtnNumber = likeNumber.integerValue
+                let data = responseObject["data"] as? [String:AnyObject],
+                let likeNumber = data["likeNumber"] as? NSNumber {
+                self.likeBtnNumber = likeNumber.intValue
             }
         }
     }
@@ -74,45 +74,45 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         MBProgressHUD.show(self.view)
         
         var htmlString: String?
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            if let localNews = self.news?.mr_(in: localContext) {
                 htmlString = localNews.content
             }
         })
         var descriptions: String?
         if let htmlString = htmlString,
-            htmlData = htmlString.dataUsingEncoding(NSUTF8StringEncoding) {
+            let htmlData = htmlString.data(using: String.Encoding.utf8) {
             do {
                 let attributedString = try NSAttributedString(data: htmlData,
                                                               options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
-                                                                NSCharacterEncodingDocumentAttribute:NSNumber(unsignedInteger: NSUTF8StringEncoding)],
+                                                                        NSCharacterEncodingDocumentAttribute:String.Encoding.utf8],
                                                               documentAttributes: nil)
-                var contentString = attributedString.string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 if contentString.characters.count > 256 {
-                    contentString = contentString.substringToIndex(contentString.startIndex.advancedBy(256))
+                    contentString = contentString[contentString.startIndex...contentString.index(contentString.startIndex, offsetBy: 256)]
                 }
                 descriptions = contentString
             } catch {
                 
             }
         }
-        var items = [AnyObject]()
+        var items = [Any]()
         if let item = self.headerImage {
             items.append(item)
         }
         if var item = self.infoTitle {
             if item.characters.count > 128 {
-                item = item.substringToIndex(item.startIndex.advancedBy(128))
+                item = item[item.startIndex...item.index(item.startIndex, offsetBy: 128)]
             }
-            items.append(item)
+            items.append(item as AnyObject)
         }
         if let item = self.infoID {
             items.append(item)
         }
         if let item = descriptions {
-            items.append(item)
+            items.append(item as AnyObject)
         }
-        if let infoID = self.infoID, item = NSURL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(infoID)") {
+        if let infoID = self.infoID, let item = URL(string: "\(Cons.Svr.shareBaseURL)/news?id=\(infoID)") {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in
@@ -121,18 +121,18 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     }
     
     override func like() {
-        self.news?.toggleLike() { (likeNumber: AnyObject?) -> () in
+        self.news?.toggleLike() { (likeNumber: Any?) -> () in
             // Update like number
             if let likeNumber = likeNumber as? NSNumber {
-                self.likeBtnNumber = likeNumber.integerValue
+                self.likeBtnNumber = likeNumber.intValue
             }
             
             // Update like color
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                let isLiked = self.news?.MR_inContext(localContext)?.isLiked()
-                dispatch_async(dispatch_get_main_queue(), {
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
+                let isLiked = self.news?.mr_(in: localContext)?.isLiked()
+                DispatchQueue.main.async {
                     self.updateLikeBtnColor(isLiked ?? false)
-                })
+                }
             })
         }
     }
@@ -150,7 +150,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
 // MARK: Data
 extension NewsDetailViewController {
     
-    private func loadNews(news: News, context: NSManagedObjectContext) {
+    fileprivate func loadNews(_ news: News, context: NSManagedObjectContext) {
         // Load HTML
         self.loadWebView(title: news.title, content: news.content)
         
@@ -163,32 +163,32 @@ extension NewsDetailViewController {
         
         // Cover Image
         if (self.headerImage == nil) {
-            if let imageURLString = news.image, imageURL = NSURL(string: imageURLString) {
-                let imageManager = SDWebImageManager.sharedManager()
-                let cacheKey = imageManager.cacheKeyForURL(imageURL)
-                var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCacheForKey(cacheKey)
+            if let imageURLString = news.image, let imageURL = URL(string: imageURLString),
+                let imageManager = SDWebImageManager.shared() {
+                let cacheKey = imageManager.cacheKey(for: imageURL)
+                var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCache(forKey: cacheKey)
                 if cachedImage == nil {
-                    cachedImage = imageManager.imageCache.imageFromDiskCacheForKey(cacheKey)
+                    cachedImage = imageManager.imageCache.imageFromDiskCache(forKey: cacheKey)
                 }
                 if let cachedImage = cachedImage {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         self.headerImage = cachedImage
                         self.setupParallaxHeader()
                     }
                 } else {
-                    SDWebImageManager.sharedManager().downloadImageWithURL(
-                        imageURL,
-                        options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
+                    SDWebImageManager.shared().downloadImage(
+                        with: imageURL,
+                        options: [.continueInBackground, .allowInvalidSSLCertificates],
                         progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
                             
                         },
-                        completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, finished: Bool, url: NSURL!) -> Void in
-                            dispatch_async(dispatch_get_main_queue()) {
+                        completed: { (image, error, type, finished, url) -> Void in
+                            DispatchQueue.main.async {
                                 self.headerImage = image
                                 self.setupParallaxHeader()
                             }
-                            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                                if let localNews = self.news?.MR_inContext(localContext) {
+                            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
+                                if let localNews = self.news?.mr_(in: localContext) {
                                     self.loadWebView(title: localNews.title, content: localNews.content)
                                 }
                             })
@@ -203,8 +203,8 @@ extension NewsDetailViewController {
         
         self.webView?.loadHTMLString("<html></html>", baseURL: nil)
         
-        MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localNews = self.news?.MR_inContext(localContext) {
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            if let localNews = self.news?.mr_(in: localContext) {
                 if localNews.appIsUpdated == nil || !localNews.appIsUpdated!.boolValue {
                     needsToLoad = true
                 }
@@ -223,16 +223,16 @@ extension NewsDetailViewController {
                             News.importData(data, true, nil)
                         }
                     }
-                    MagicalRecord.saveWithBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                        if let localNews = self.news?.MR_inContext(localContext) {
+                    MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+                        if let localNews = self.news?.mr_(in: localContext) {
                             self.loadNews(localNews, context: localContext)
                         }
                     })
                 }
             }
         } else {
-            MagicalRecord.saveWithBlock({ (localContext: NSManagedObjectContext!) -> Void in
-                if let localNews = self.news?.MR_inContext(localContext) {
+            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
+                if let localNews = self.news?.mr_(in: localContext) {
                     self.loadNews(localNews, context: localContext)
                 }
             })
@@ -242,8 +242,8 @@ extension NewsDetailViewController {
         self.setupParallaxHeader()
         
         // Prepare next news
-        self.delegate?.getNextItem(NSIndexPath(forRow: self.infoIndex ?? 0, inSection: 0), isNext: true, completion: { (indexPath, item) in
-            if let index = indexPath?.row, news = item as? News {
+        self.delegate?.getNextItem(IndexPath(row: self.infoIndex ?? 0, section: 0), isNext: true, completion: { (indexPath, item) in
+            if let index = indexPath?.row, let news = item as? News {
                 self.nextInfoIndex = index
                 self.nextInfo = news
             } else {
@@ -251,7 +251,7 @@ extension NewsDetailViewController {
                 self.nextInfo = nil
             }
             // Next button status
-            self.nextInfoBarButtonItem?.enabled = self.nextInfo != nil
+            self.nextInfoBarButtonItem?.isEnabled = self.nextInfo != nil
         })
     }
 }

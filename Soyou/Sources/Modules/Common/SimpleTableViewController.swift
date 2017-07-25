@@ -50,13 +50,13 @@ struct Cell {
         height: CGFloat? = nil,
         tintColor: UIColor? = nil,
         separatorInset: UIEdgeInsets? = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
-        accessoryType: UITableViewCellAccessoryType = .None,
-        selectionStyle: UITableViewCellSelectionStyle = .Default) {
-            self.height = height
-            self.tintColor = tintColor
-            self.separatorInset = separatorInset
-            self.accessoryType = accessoryType
-            self.selectionStyle = selectionStyle
+        accessoryType: UITableViewCellAccessoryType = .none,
+        selectionStyle: UITableViewCellSelectionStyle = .default) {
+        self.height = height
+        self.tintColor = tintColor
+        self.separatorInset = separatorInset
+        self.accessoryType = accessoryType
+        self.selectionStyle = selectionStyle
     }
 }
 
@@ -66,9 +66,9 @@ struct Row {
     var image: UIImage?
     var title: Text?
     var subTitle: Text?
-    var userInfo: [String:AnyObject]?
-    var setupCell: ((UITableView, UITableViewCell, NSIndexPath)->())?
-    var didSelect: ((UITableView, NSIndexPath)->())?
+    var userInfo: [String: Any]?
+    var setupCell: ((UITableView, UITableViewCell, IndexPath)->())?
+    var didSelect: ((UITableView, IndexPath)->())?
     
     init(
         type: CellType = .CenterTitle,
@@ -76,9 +76,9 @@ struct Row {
         image: UIImage? = nil,
         title: Text? = nil,
         subTitle: Text? = nil,
-        userInfo: [String:AnyObject]? = nil,
-        setupCell: ((UITableView, UITableViewCell, NSIndexPath)->())? = nil,
-        didSelect: ((UITableView, NSIndexPath)->())? = nil) {
+        userInfo: [String: Any]? = nil,
+        setupCell: ((UITableView, UITableViewCell, IndexPath)->())? = nil,
+        didSelect: ((UITableView, IndexPath)->())? = nil) {
         self.type = type
         self.cell = cell
         self.image = image
@@ -99,29 +99,29 @@ struct Section {
         headerTitle: String? = nil,
         footerTitle: String? = nil,
         rows: [Row]) {
-            self.headerTitle = headerTitle
-            self.footerTitle = footerTitle
-            self.rows = rows
+        self.headerTitle = headerTitle
+        self.footerTitle = footerTitle
+        self.rows = rows
     }
-
+    
 }
 
 class SimpleTableViewController: UIViewController {
     
     var tableView: UITableView!
     
-    private var tableStyle: UITableViewStyle?
+    fileprivate var tableStyle: UITableViewStyle?
     
     var sections = [Section]()
     var editedText: String?
-    var selectedIndexPath: NSIndexPath?
+    var selectedIndexPath: IndexPath?
     var completion: (() -> ())?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -139,8 +139,8 @@ class SimpleTableViewController: UIViewController {
         
         // If created programmatically
         if self.tableView == nil {
-            self.tableView = UITableView(frame: self.view.bounds, style: self.tableStyle ?? .Grouped)
-            self.tableView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+            self.tableView = UITableView(frame: self.view.bounds, style: self.tableStyle ?? .grouped)
+            self.tableView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.view.addSubview(self.tableView)
@@ -156,15 +156,15 @@ class SimpleTableViewController: UIViewController {
 //        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         // Background Color
-        self.tableView.backgroundColor = UIColor(rgba: Cons.UI.colorBG)
+        self.tableView.backgroundColor = Cons.UI.colorBG
         
         // Register custom cells
-        self.tableView.registerNib(UINib(nibName: "TableViewCellCenterTitle",           bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "CenterTitle")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitle",             bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitle")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellIconTitleContent",      bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "IconTitleContent")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitle",             bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitle")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellLeftTitleRightDetail",  bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "LeftTitleRightDetail")
-        self.tableView.registerNib(UINib(nibName: "TableViewCellTextField",             bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TextField")
+        self.tableView.register(UINib(nibName: "TableViewCellCenterTitle",           bundle: Bundle.main), forCellReuseIdentifier: "CenterTitle")
+        self.tableView.register(UINib(nibName: "TableViewCellIconTitle",             bundle: Bundle.main), forCellReuseIdentifier: "IconTitle")
+        self.tableView.register(UINib(nibName: "TableViewCellIconTitleContent",      bundle: Bundle.main), forCellReuseIdentifier: "IconTitleContent")
+        self.tableView.register(UINib(nibName: "TableViewCellLeftTitle",             bundle: Bundle.main), forCellReuseIdentifier: "LeftTitle")
+        self.tableView.register(UINib(nibName: "TableViewCellLeftTitleRightDetail",  bundle: Bundle.main), forCellReuseIdentifier: "LeftTitleRightDetail")
+        self.tableView.register(UINib(nibName: "TableViewCellTextField",             bundle: Bundle.main), forCellReuseIdentifier: "TextField")
         
         // Setup table data
         if sections.isEmpty {
@@ -172,7 +172,7 @@ class SimpleTableViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if let nextTextField = self.findNextTextField(nil, nil) {
@@ -184,18 +184,18 @@ class SimpleTableViewController: UIViewController {
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].rows.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = sections[indexPath.section].rows[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(row.type.rawValue, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: row.type.rawValue, for: indexPath)
         
         switch row.type {
         case .CenterTitle:
@@ -209,12 +209,14 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             }
         case .IconTitle:
             guard let rowCell = cell as? TableViewCellIconTitle else { break }
-            rowCell.imgView.image = row.image
-            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.width ||
-                rowCell.imgView.image?.size.height > rowCell.imgView.frame.height) {
-                rowCell.imgView.contentMode = .ScaleAspectFit
-            } else {
-                rowCell.imgView.contentMode = .Center
+            if let image = row.image {
+                rowCell.imgView.image = image
+                if (image.size.width > rowCell.imgView.frame.width ||
+                    image.size.height > rowCell.imgView.frame.height) {
+                    rowCell.imgView.contentMode = .scaleAspectFit
+                } else {
+                    rowCell.imgView.contentMode = .center
+                }
             }
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
@@ -225,20 +227,22 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             }
         case .IconTitleContent:
             guard let rowCell = cell as? TableViewCellIconTitleContent else { break }
-            rowCell.imgView.image = row.image
             if rowCell.imageRatioConstraint != nil {
                 rowCell.imgView.removeConstraint(rowCell.imageRatioConstraint!)
             }
-            let ratioConstraint = NSLayoutConstraint(item: rowCell.imgView, attribute: .Height, relatedBy: .Equal, toItem: rowCell.imgView, attribute: .Width, multiplier: (row.image?.size.height ?? 9999) / (row.image?.size.width ?? 1), constant: 0)
+            if let image = row.image {
+                rowCell.imgView.image = image
+                if (image.size.width > rowCell.imgView.frame.width ||
+                    image.size.height > rowCell.imgView.frame.height) {
+                    rowCell.imgView.contentMode = .scaleAspectFit
+                } else {
+                    rowCell.imgView.contentMode = .center
+                }
+            }
+            let ratioConstraint = NSLayoutConstraint(item: rowCell.imgView, attribute: .height, relatedBy: .equal, toItem: rowCell.imgView, attribute: .width, multiplier: (row.image?.size.height ?? 9999) / (row.image?.size.width ?? 1), constant: 0)
             rowCell.imageRatioConstraint = ratioConstraint
             rowCell.imgView.addConstraint(ratioConstraint)
             rowCell.lblTitle.text = row.title?.text
-            if (rowCell.imgView.image?.size.width > rowCell.imgView.frame.width ||
-                rowCell.imgView.image?.size.height > rowCell.imgView.frame.height) {
-                rowCell.imgView.contentMode = .ScaleAspectFit
-            } else {
-                rowCell.imgView.contentMode = .Center
-            }
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color
             }
@@ -294,7 +298,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             if let font = row.title?.font {
                 rowCell.tfTitle.font = font
             }
-            rowCell.tfTitle.addTarget(self, action: #selector(SimpleTableViewController.textFieldDidEdit(_:)), forControlEvents: UIControlEvents.EditingChanged)
+            rowCell.tfTitle.addTarget(self, action: #selector(SimpleTableViewController.textFieldDidEdit(_:)), for: UIControlEvents.editingChanged)
         }
         
         cell.accessoryType = row.cell.accessoryType
@@ -313,37 +317,37 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = sections[indexPath.section].rows[indexPath.row]
         return row.cell.height ?? UITableViewAutomaticDimension
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section].headerTitle
     }
-        
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return (sections[section].headerTitle != nil) ? UITableViewAutomaticDimension : 15
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
     
-    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return sections[section].footerTitle
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return (sections[section].footerTitle != nil) ? UITableViewAutomaticDimension : 5
     }
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let row = sections[indexPath.section].rows[indexPath.row]
         if let didSelectClosure = row.didSelect {
@@ -356,10 +360,10 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
 
 // MARK: UITextFieldDelegate
 extension SimpleTableViewController: UITextFieldDelegate {
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        let position = textField.convertPoint(CGPoint.zero, toView: self.tableView)
-        guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return true }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let position = textField.convert(CGPoint.zero, to: self.tableView)
+        guard let indexPath = self.tableView.indexPathForRow(at: position) else { return true }
         
         if let nextTextField = self.findNextTextField(textField, indexPath) {
             nextTextField.becomeFirstResponder()
@@ -374,10 +378,10 @@ extension SimpleTableViewController: UITextFieldDelegate {
 // MARK: Actions
 extension SimpleTableViewController {
     
-    func textFieldDidEdit(textField: UITextField) {
+    func textFieldDidEdit(_ textField: UITextField) {
         self.editedText = textField.text
-        let position = textField.convertPoint(CGPoint.zero, toView: self.tableView)
-        guard let indexPath = self.tableView.indexPathForRowAtPoint(position) else { return }
+        let position = textField.convert(CGPoint.zero, to: self.tableView)
+        guard let indexPath = self.tableView.indexPathForRow(at: position) else { return }
         let row = sections[indexPath.section].rows[indexPath.row]
         textField.textColor = row.title?.color
     }
@@ -391,20 +395,20 @@ extension SimpleTableViewController {
 
 // MARK: Build hierarchy
 extension SimpleTableViewController {
-
+    
     func rebuildTable() {
     }
 }
 
 // MARK: Routines
 extension SimpleTableViewController {
-
-    func findNextTextField(textField: UITextField?, _ indexPath: NSIndexPath?) -> UITextField? {
+    
+    func findNextTextField(_ textField: UITextField?, _ indexPath: IndexPath?) -> UITextField? {
         for idxSection in (indexPath != nil ? indexPath!.section : 0)..<self.sections.count {
             for idxRow in (indexPath != nil ? indexPath!.row : 0)..<self.sections[idxSection].rows.count {
                 let row = sections[idxSection].rows[idxRow]
                 if row.type == .TextField {
-                    if let tableViewCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: idxRow, inSection: idxSection)) as? TableViewCellTextField {
+                    if let tableViewCell = self.tableView.cellForRow(at: IndexPath(row: idxRow, section: idxSection)) as? TableViewCellTextField {
                         if tableViewCell.tfTitle != textField {
                             return tableViewCell.tfTitle
                         }
@@ -415,7 +419,7 @@ extension SimpleTableViewController {
         return nil
     }
     
-    func updateSelectionCheckmark(indexPath: NSIndexPath) -> Bool {
+    @discardableResult func updateSelectionCheckmark(_ indexPath: IndexPath) -> Bool {
         var isChanged = false
         var newSections = [Section]()
         for indexSection in 0..<self.sections.count {
@@ -423,7 +427,7 @@ extension SimpleTableViewController {
             var newRows = [Row]()
             for indexRow in 0..<section.rows.count {
                 var row = section.rows[indexRow]
-                let newAccessoryType = (indexSection == indexPath.section && indexRow == indexPath.row) ? UITableViewCellAccessoryType.Checkmark : .None
+                let newAccessoryType = (indexSection == indexPath.section && indexRow == indexPath.row) ? UITableViewCellAccessoryType.checkmark : .none
                 if row.cell.accessoryType != newAccessoryType {
                     row.cell.accessoryType = newAccessoryType
                     isChanged = true

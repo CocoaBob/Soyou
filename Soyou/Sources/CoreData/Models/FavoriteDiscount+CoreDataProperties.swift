@@ -14,6 +14,6 @@ import CoreData
 
 extension FavoriteDiscount {
     
-    @NSManaged var dateFavorite: NSDate?
+    @NSManaged var dateFavorite: Date?
 
 }

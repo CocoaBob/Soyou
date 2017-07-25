@@ -8,8 +8,8 @@
 
 class NewsViewController: InfoListBaseViewController {
     
-    override func createFetchedResultsController() -> NSFetchedResultsController? {
-        let fetchedResultsController = News.MR_fetchAllGroupedBy(nil, withPredicate: FmtPredicate("appIsFavorite == false"), sortedBy: "datePublication:false,id:false", ascending: false)
+    override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
+        let fetchedResultsController = News.mr_fetchAllGrouped(by: nil, with: FmtPredicate("appIsFavorite == false"), sortedBy: "datePublication:false,id:false", ascending: false)
         fetchedResultsController.fetchRequest.includesSubentities = false
         return fetchedResultsController
     }
@@ -23,21 +23,21 @@ class NewsViewController: InfoListBaseViewController {
     
     deinit {
         // Stop observing data updating
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Cons.DB.newsUpdatingDidFinishNotification), object: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("news_vc_title")
-        self.view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         
         // Observe data updating
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewsViewController.reloadDataWithoutCompletion), name: Cons.DB.newsUpdatingDidFinishNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(NewsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.newsUpdatingDidFinishNotification), object: nil)
     }
     
     // MARK: Data
-    override func loadData(relativeID: NSNumber?) {
+    override func loadData(_ relativeID: NSNumber?) {
         DataManager.shared.requestNewsList(relativeID) { responseObject, error in
             guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
             guard let data = responseObject["data"] as? [NSDictionary] else { return }
@@ -53,15 +53,15 @@ class NewsViewController: InfoListBaseViewController {
     }
     
     // MARK: SwitchPrevNextItemDelegate
-    override func hasNextInfo(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+    override func hasNextInfo(_ indexPath: IndexPath, isNext: Bool) -> Bool {
         return self.fetchedResultsController?.fetchedObjects?.count ?? 0 > 1
     }
     
-    override func getNextInfo(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+    override func getNextInfo(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
         guard let completion = completion else { return }
         
         guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return
-            completion(indexPath: nil, item: nil)
+            completion(nil, nil)
         }
         
         var newIndex = indexPath.row + (isNext ? 1 : -1)
@@ -72,16 +72,16 @@ class NewsViewController: InfoListBaseViewController {
             newIndex = 0
         }
         
-        completion(indexPath: NSIndexPath(forRow: newIndex, inSection: 0), item: fetchedResults[newIndex])
+        completion(IndexPath(row: newIndex, section: 0), fetchedResults[newIndex])
     }
     
-    override func sizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize? {
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News,
-            imageURLString = news.image,
-            imageURL = NSURL(string: imageURLString) {
-            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-            let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-            if image != nil {
+    override func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {
+        if let news = self.fetchedResultsController?.object(at: indexPath) as? News,
+            let imageURLString = news.image,
+            let imageURL = URL(string: imageURLString) {
+            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
+            let _image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
+            if let image = _image {
                 return CGSize(width: image.size.width, height: image.size.height)
             }
         }
@@ -93,23 +93,23 @@ class NewsViewController: InfoListBaseViewController {
 // MARK: - CollectionView Delegate Methods
 extension NewsViewController {
     
-    override func cellForItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func cellForItem(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         var returnValue: UICollectionViewCell?
         
-        if let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News,
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCell", forIndexPath: indexPath) as? InfoCollectionViewCell {
+        if let news = self.fetchedResultsController?.object(at: indexPath) as? News,
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath) as? InfoCollectionViewCell {
             cell.lblTitle.text = news.title
             if let imageURLString = news.image,
-                imageURL = NSURL(string: imageURLString) {
-                cell.fgImageView.sd_setImageWithURL(imageURL,
+                let imageURL = URL(string: imageURLString) {
+                cell.fgImageView.sd_setImage(with: imageURL,
                                                     placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                                                    options: [.ContinueInBackground, .AllowInvalidSSLCertificates, .HighPriority],
-                                                    completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                                                    options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                                    completed: { (image, error, type, url) -> Void in
                                                         if (image != nil &&
-                                                            !self.collectionView().dragging &&
-                                                            !self.collectionView().decelerating &&
-                                                            self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
-                                                            self.collectionView().reloadItemsAtIndexPaths([indexPath])
+                                                            !self.collectionView().isDragging &&
+                                                            !self.collectionView().isDecelerating &&
+                                                            self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
+                                                            self.collectionView().reloadItems(at: [indexPath])
                                                         }
                 })
             }
@@ -118,27 +118,27 @@ extension NewsViewController {
         
         if returnValue == nil {
             // We can't return a cell without a reuse identifier
-            returnValue = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCell", forIndexPath: indexPath) as? InfoCollectionViewCell
+            returnValue = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath) as? InfoCollectionViewCell
         }
         
         return returnValue!
     }
     
-    override func didSelectItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) {
-        guard let news = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? News else {
+    override func didSelectItemAtIndexPath(_ collectionView: UICollectionView, indexPath: IndexPath) {
+        guard let news = self.fetchedResultsController?.object(at: indexPath) as? News else {
             return
         }
         
-        MagicalRecord.saveWithBlockAndWait { (localContext: NSManagedObjectContext!) -> Void in
-            guard let localNews = news.MR_inContext(localContext) else { return }
-            guard let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? InfoCollectionViewCell else { return }
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
+            guard let localNews = news.mr_(in: localContext) else { return }
+            guard let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAt: indexPath) as? InfoCollectionViewCell else { return }
             
             // Prepare cover image
             var image: UIImage?
             if let imageURLString = localNews.image,
-                imageURL = NSURL(string: imageURLString) {
-                let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-                image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
+                let imageURL = URL(string: imageURLString) {
+                let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
+                image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
             }
             
             if image == nil {
@@ -154,6 +154,6 @@ extension NewsViewController {
             
             // Push view controller
             self.infoViewController?.navigationController?.pushViewController(detailViewController, animated: true)
-        }
+        })
     }
 }

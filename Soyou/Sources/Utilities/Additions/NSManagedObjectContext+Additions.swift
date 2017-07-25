@@ -11,7 +11,7 @@ extension NSManagedObjectContext {
     func ancestorContext() -> NSManagedObjectContext {
         var ancestor = self
         while true {
-            if let parent = ancestor.parentContext {
+            if let parent = ancestor.parent {
                 ancestor = parent
             } else {
                 break
@@ -20,34 +20,35 @@ extension NSManagedObjectContext {
         return ancestor
     }
     
-    func saveWithBlockAndWait(block: ((NSManagedObjectContext)->())?) {
+    func save(blockAndWait block: ((NSManagedObjectContext)->())?) {
         let savingContext = self.ancestorContext()
-        let localContext = NSManagedObjectContext.MR_contextWithParent(savingContext)
-        localContext.performBlockAndWait { 
-            localContext.MR_setWorkingName(#function)
+        let localContext = NSManagedObjectContext.mr_context(withParent: savingContext)
+        localContext.performAndWait { 
+            localContext.mr_setWorkingName(#function)
             if let block = block {
                 block(localContext)
             }
-            localContext.MR_saveToPersistentStoreAndWait()
+            localContext.mr_saveToPersistentStoreAndWait()
         }
     }
     
-    func runBlockAndWait(block: ((NSManagedObjectContext)->())?) {
+    func runBlockAndWait(_ block: ((NSManagedObjectContext)->())?) {
         let savingContext = self.ancestorContext()
-        let localContext = NSManagedObjectContext.MR_contextWithParent(savingContext)
-        localContext.performBlockAndWait {
-            localContext.MR_setWorkingName(#function)
+        let localContext = NSManagedObjectContext.mr_context(withParent: savingContext)
+        localContext.performAndWait {
+            localContext.mr_setWorkingName(#function)
             if let block = block {
                 block(localContext)
             }
         }
     }
     
-    func runBlock(block: ((NSManagedObjectContext)->())?) {
+    func runBlock(_ block: ((NSManagedObjectContext)->())?) {
         let savingContext = self.ancestorContext()
-        let localContext = NSManagedObjectContext.MR_contextWithParent(savingContext)
-        localContext.performBlock() {
-            localContext.MR_setWorkingName(#function)
+        let localContext = NSManagedObjectContext.mr_context(withParent: savingContext)
+        localContext.perform() {
+            
+            localContext.mr_setWorkingName(#function)
             if let block = block {
                 block(localContext)
             }

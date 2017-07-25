@@ -34,7 +34,6 @@
 		4525C0F81C5B8B4200C26992 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F41C5B8B4200C26992 /* Store.swift */; };
 		4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */; };
 		4525C0FA1C5B8B4200C26992 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F61C5B8B4200C26992 /* Region.swift */; };
-		4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */; };
 		452799AB1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */; };
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
@@ -67,7 +66,7 @@
 		456BCAC01C60117900590295 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCABF1C60117900590295 /* Contacts.framework */; };
 		456BCAC21C6018D600590295 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCAC11C6018D600590295 /* SafariServices.framework */; };
 		456FC8B61C5A5885003D0DF6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456FC8B51C5A5885003D0DF6 /* StoreKit.framework */; };
-		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4571872D1CC42E5F009B5112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4571872C1CC42E5F009B5112 /* GoogleService-Info.plist */; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
 		457777831BFCB60100805D79 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777811BFCB60100805D79 /* News.swift */; };
@@ -184,7 +183,6 @@
 		4525C0F41C5B8B4200C26992 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Region+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4525C0F61C5B8B4200C26992 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
-		4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Additions.swift"; sourceTree = "<group>"; };
 		452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDMPhotoBrowser+Additions.swift"; sourceTree = "<group>"; };
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
@@ -366,7 +364,6 @@
 				452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */,
 				454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */,
 				45B77BE71C792B54002FBAFE /* MKPlacemark+Additions.swift */,
-				4526D5991BFF5BEE00DBFA4B /* NSDate+Additions.swift */,
 				453CBCE61CD656040073FE43 /* NSManagedObjectContext+Additions.swift */,
 				45A41B4E1C9F372A00D48185 /* NSUserDefaults+Additions.swift */,
 				4534D54C1C230EC600F4DDA5 /* String+Additions.swift */,
@@ -799,7 +796,6 @@
 			buildConfigurationList = 45E7CE361BF8C05F00FAB7D6 /* Build configuration list for PBXNativeTarget "Soyou" */;
 			buildPhases = (
 				9C2A8C7457B99D62764703FC /* [CP] Check Pods Manifest.lock */,
-				455078891C99F64B005412C4 /* Run Script Swiftlint */,
 				45BED0921C8A66E7002E375B /* Update CFBundleVersion */,
 				45E7CE071BF8C05F00FAB7D6 /* Sources */,
 				45E7CE081BF8C05F00FAB7D6 /* Frameworks */,
@@ -826,12 +822,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Soyou;
 				TargetAttributes = {
 					45E7CE0A1BF8C05F00FAB7D6 = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 2H429X3TEM;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -892,20 +889,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		455078891C99F64B005412C4 /* Run Script Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script Swiftlint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
-		};
 		456123731C8F12C5008BEA82 /* Show warnings for TODO:FIXME: */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -975,7 +958,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		F2C1AD98841B28D007FC6FA4 /* [CP] Embed Pods Frameworks */ = {
@@ -1022,7 +1005,6 @@
 				45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */,
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
-				4526D59A1BFF5BEE00DBFA4B /* NSDate+Additions.swift in Sources */,
 				4597B2381D30FACE00287873 /* DDFacebookHandler.m in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */,
@@ -1126,6 +1108,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1134,8 +1117,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1170,6 +1155,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1178,8 +1164,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1209,6 +1197,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 462473FC94E32BEE53A41955 /* Pods-Soyou.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = YES;
@@ -1224,6 +1213,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1232,6 +1222,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A89E907C840F3D4707B5726D /* Pods-Soyou.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = YES;
@@ -1247,6 +1238,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

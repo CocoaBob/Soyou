@@ -9,18 +9,18 @@
 class ProductsViewController: AsyncedFetchedResultsViewController {
     
     // Override AsyncedFetchedResultsViewController
-    @IBOutlet private var _collectionView: UICollectionView!
+    @IBOutlet fileprivate var _collectionView: UICollectionView!
     
-    @IBOutlet private var _swipeUpIndicator: UIView!
-    @IBOutlet private var _swipeUpIndicatorBottomConstraint: NSLayoutConstraint!
-    private var _swipeUpIndicatorIsVisible = true
+    @IBOutlet fileprivate var _swipeUpIndicator: UIView!
+    @IBOutlet fileprivate var _swipeUpIndicatorBottomConstraint: NSLayoutConstraint!
+    fileprivate var _swipeUpIndicatorIsVisible = true
     
-    @IBOutlet private var _loadingView: UIView!
-    @IBOutlet private var _loadingViewLabel: UILabel!
+    @IBOutlet fileprivate var _loadingView: UIView!
+    @IBOutlet fileprivate var _loadingViewLabel: UILabel!
     var isLoadingViewVisible: Bool = true {
         didSet {
-            self._loadingView.hidden = !isLoadingViewVisible
-            self.collectionView().mj_footer.hidden = isLoadingViewVisible
+            self._loadingView.isHidden = !isLoadingViewVisible
+            self.collectionView().mj_footer.isHidden = isLoadingViewVisible
         }
     }
     
@@ -39,7 +39,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
     var lastCellSize = CGSize(width: 1, height: 1)
     
     // Properties
-    var selectedIndexPath: NSIndexPath?
+    var selectedIndexPath: IndexPath?
     
     var categoryName: String?
     var categoryID: NSNumber?
@@ -47,7 +47,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
     
     // Class methods
     class func instantiate() -> ProductsViewController {
-        return (UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewControllerWithIdentifier("ProductsViewController") as? ProductsViewController)!
+        return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewController(withIdentifier: "ProductsViewController") as! ProductsViewController
     }
     
     // Life cycle
@@ -63,7 +63,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
     
     deinit {
         // Stop observing data updating
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: Cons.DB.productsUpdatingDidFinishNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Cons.DB.productsUpdatingDidFinishNotification), object: nil)
     }
     
     override func viewDidLoad() {
@@ -103,7 +103,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
         self.hideSwipeUpIndicator()
         
         // Observe data updating
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductsViewController.reloadDataWithoutCompletion), name: Cons.DB.productsUpdatingDidFinishNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.productsUpdatingDidFinishNotification), object: nil)
         
         // Load data
         if !self.isSearchResultsViewController {
@@ -111,7 +111,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         
@@ -122,14 +122,14 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
         self.definesPresentationContext = true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Reload in case if appIsFavorite is changed
         self.reloadVisibleCells()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // For navigation bar search bar
         self.definesPresentationContext = false
@@ -148,7 +148,7 @@ extension ProductsViewController {
         return _collectionView
     }
     
-    override func createFetchRequest(context: NSManagedObjectContext) -> NSFetchRequest? {
+    override func createFetchRequest(_ context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
         // If it's search results view controller
         // If search keywords is empty
         if (self.isSearchResultsViewController && self.searchKeywordsIsEmpty()) {
@@ -176,11 +176,10 @@ extension ProductsViewController {
         }
         
         // Create fetch request
-        let request = Product.MR_requestAllSortedBy(
-            "order,id",
-            ascending: true,
-            withPredicate: CompoundAndPredicate(predicates),
-            inContext: context)
+        let request = Product.mr_requestAllSorted(by: "order,id",
+                                                  ascending: true,
+                                                  with: CompoundAndPredicate(predicates),
+                                                  in: context)
         
         // Setup fetch request
         self.fetchLimit = Cons.App.productsPageSize
@@ -192,7 +191,7 @@ extension ProductsViewController {
 // MARK: ProductViewControllerDelegate
 extension ProductsViewController: ProductViewControllerDelegate {
     
-    func getNextProduct(currentIndex: Int?) -> (Int?, Product?)? {
+    func getNextProduct(_ currentIndex: Int?) -> (Int?, Product?)? {
         guard let fetchedResults = self.fetchedResults else { return nil }
         
         var currentProductIndex = -1
@@ -209,25 +208,25 @@ extension ProductsViewController: ProductViewControllerDelegate {
         return nil
     }
     
-    func didShowNextProduct(product: Product, index: Int) {
-        self.collectionView().scrollToItemAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Top, animated: false)
-        self.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+    func didShowNextProduct(_ product: Product, index: Int) {
+        self.collectionView().scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: false)
+        self.selectedIndexPath = IndexPath(row: index, section: 0)
     }
 }
 
 // MARK: CollectionView Delegate Methods
 extension ProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return (self.fetchedResults != nil) ? 1 : 0
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.fetchedResults?.count ?? 0
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = (collectionView.dequeueReusableCellWithReuseIdentifier("ProductsCollectionViewCell", forIndexPath: indexPath) as? ProductsCollectionViewCell)!
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as? ProductsCollectionViewCell)!
         
         if let product = self.fetchedResults?[indexPath.row] as? Product {
             cell.lblTitle?.text = product.title
@@ -237,28 +236,30 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
             cell.fgImageView.image = nil
             
             if let images = product.images as? NSArray,
-                imageURLString = images.firstObject as? String,
-                imageURL = NSURL(string: imageURLString) {
+                let imageURLString = images.firstObject as? String,
+                let imageURL = URL(string: imageURLString) {
                 let countBeforeUpdating = self.fetchedResults?.count
                 if let imageView = cell.fgImageView {
-                    imageView.sd_setImageWithURL(imageURL,
+                    imageView.sd_setImage(with: imageURL,
                                                  placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
-                                                 options: [.ContinueInBackground, .AllowInvalidSSLCertificates],
-                                                 completed: { (image: UIImage!, error: NSError!, type: SDImageCacheType, url: NSURL!) -> Void in
+                                                 options: [.continueInBackground, .allowInvalidSSLCertificates],
+                                                 completed: { (image, error, type, url) -> Void in
                                                     // Update image if it's still visible
-                                                    if (image != nil && self.collectionView().indexPathsForVisibleItems().contains(indexPath)) {
-                                                        // Update the image with an animation
-                                                        UIView.transitionWithView(imageView,
-                                                            duration: 0.3,
-                                                            options: UIViewAnimationOptions.TransitionCrossDissolve,
-                                                            animations: { imageView.image = image },
-                                                            completion: nil)
-                                                        
-                                                        // If image ratio is different, reload the cell to update layout
-                                                        let imageViewRatio = imageView.frame.height / imageView.frame.width
-                                                        let imageRatio = image.size.height / image.size.width
-                                                        if (abs(imageViewRatio - imageRatio) > 0.01 && self.fetchedResults?.count == countBeforeUpdating) {
-                                                            self.collectionView().reloadItemsAtIndexPaths([indexPath])
+                                                    if (self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
+                                                        if let image = image {
+                                                            // Update the image with an animation
+                                                            UIView.transition(with: imageView,
+                                                                              duration: 0.3,
+                                                                              options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                              animations: { imageView.image = image },
+                                                                              completion: nil)
+                                                            
+                                                            // If image ratio is different, reload the cell to update layout
+                                                            let imageViewRatio = imageView.frame.height / imageView.frame.width
+                                                            let imageRatio = image.size.height / image.size.width
+                                                            if (abs(imageViewRatio - imageRatio) > 0.01 && self.fetchedResults?.count == countBeforeUpdating) {
+                                                                self.collectionView().reloadItems(at: [indexPath])
+                                                            }
                                                         }
                                                     }
                     })
@@ -271,7 +272,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
         
         guard let product = self.fetchedResults?[indexPath.row] as? Product else {
@@ -283,9 +284,9 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         productViewController.product = product
         productViewController.productIndex = indexPath.row
         
-        if let cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
-            imageView = cell.fgImageView,
-            image = imageView.image {
+        if let cell = self.collectionView().cellForItem(at: indexPath) as? ProductsCollectionViewCell,
+            let imageView = cell.fgImageView,
+            let image = imageView.image {
                 productViewController.firstImage = image
         }
         if self.isSearchResultsViewController {
@@ -299,7 +300,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
 // MARK: UIScrollViewDelegate
 extension ProductsViewController {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // If it's the end of the scroll view
         if scrollView.contentOffset.y >= scrollView.contentSize.height - (scrollView.bounds.height - scrollView.contentInset.bottom) {
             self.showSwipeUpIndicator()
@@ -314,11 +315,11 @@ extension ProductsViewController {
         // If indicator invisible
         if (!_swipeUpIndicatorIsVisible &&
             // If it isn't "no more data" status
-            self.collectionView().mj_footer.state != .NoMoreData) {
+            self.collectionView().mj_footer.state != .noMoreData) {
             _swipeUpIndicatorIsVisible = true
             self._swipeUpIndicator.alpha = 0
-            self._swipeUpIndicator.hidden = false
-            UIView.animateWithDuration(0.3, animations: {
+            self._swipeUpIndicator.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {
                 self._swipeUpIndicator.alpha = 1
                 self._swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom
                 self._swipeUpIndicator.setNeedsLayout()
@@ -333,13 +334,13 @@ extension ProductsViewController {
     
     func hideSwipeUpIndicator() {
         if self._swipeUpIndicatorIsVisible {
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self._swipeUpIndicator.alpha = 0
                 self._swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom - 32
                 self._swipeUpIndicator.setNeedsLayout()
                 self._swipeUpIndicator.layoutIfNeeded()
                 }, completion: { (_) in
-                    self._swipeUpIndicator.hidden = true
+                    self._swipeUpIndicator.isHidden = true
                     self._swipeUpIndicatorIsVisible = false
             })
         }
@@ -349,36 +350,36 @@ extension ProductsViewController {
 // MARK: ZoomInteractiveTransition
 extension ProductsViewController: ZoomTransitionProtocol {
     
-    private func imageViewForZoomTransition() -> UIImageView? {
+    fileprivate func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? ProductsCollectionViewCell,
-            imageView = cell.fgImageView {
+            let cell = self.collectionView().cellForItem(at: indexPath) as? ProductsCollectionViewCell,
+            let imageView = cell.fgImageView {
                 return imageView
         }
         return nil
     }
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    func view(forZoomTransition isSource: Bool) -> UIView? {
         return self.imageViewForZoomTransition()
     }
     
-    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+    func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
-            returnImageView.contentMode = .ScaleAspectFit
+            returnImageView.contentMode = .scaleAspectFit
             returnImageView.clipsToBounds = true
             return returnImageView
         }
         return nil
     }
     
-    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+    func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
         if self.isSearchResultsViewController || self.presentedViewController is UISearchController {
             return false
         }
         // Only available for opening a product from products view controller
-        if ((operation == .Push && fromVC === self && toVC is ProductViewController) ||
-            (operation == .Pop && fromVC is ProductViewController && toVC === self)) {
+        if ((operation == .push && fromVC === self && toVC is ProductViewController) ||
+            (operation == .pop && fromVC is ProductViewController && toVC === self)) {
                 return true
         }
         return false
@@ -393,7 +394,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         let layout = CHTCollectionViewWaterfallLayout()
         
         // Change individual layout attributes for the spacing between cells
-        layout.itemRenderDirection = .LeftToRight
+        layout.itemRenderDirection = .leftToRight
         layout.minimumColumnSpacing = cellMargin
         layout.minimumInteritemSpacing = cellMargin
         layout.sectionInset = UIEdgeInsets(top: cellMargin, left: cellMargin, bottom: cellMargin, right: cellMargin)
@@ -404,21 +405,20 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         (self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout)?.columnCount = 2
         
         // Collection view attributes
-        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.collectionView().autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         self.collectionView().alwaysBounceVertical = true
     }
     
     //** Size for the cells in the Waterfall Layout */
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAt indexPath: IndexPath!) -> CGSize {
         var size = self.lastCellSize // Default size for product
         
         if let product = self.fetchedResults?[indexPath.row] as? Product,
-            images = product.images as? NSArray,
-            imageURLString = images.firstObject as? String,
-            imageURL = NSURL(string: imageURLString) {
-            let cacheKey = SDWebImageManager.sharedManager().cacheKeyForURL(imageURL)
-            let image = SDImageCache.sharedImageCache().imageFromDiskCacheForKey(cacheKey)
-            if image != nil {
+            let images = product.images as? NSArray,
+            let imageURLString = images.firstObject as? String,
+            let imageURL = URL(string: imageURLString) {
+            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
+            if let image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey) {
                 let cellHeight = self.cellWidth * image.size.height / image.size.width + bottomMargin
                 size = CGSize(width: self.cellWidth, height: cellHeight)
                 self.lastCellSize = size
@@ -432,33 +432,33 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
 extension ProductsViewController {
     
     func setupLoadMoreControl() {        
-        let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+        guard let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
             self.loadMore({ offset, resultCount in
                 self.endRefreshing(resultCount)
             })
             self.beginRefreshing()
-        })
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        footer.automaticallyHidden = true
+        }) else { return }
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), for: .pulling)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), for: .refreshing)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
+        footer.isAutomaticallyHidden = true
         self.collectionView().mj_footer = footer
     }
     
     func beginRefreshing() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func endRefreshing(resultCount: Int) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    func endRefreshing(_ resultCount: Int) {
+        DispatchQueue.main.async {
             if resultCount > 0 {
                 self.collectionView().mj_footer.endRefreshing()
             } else {
                 self.collectionView().mj_footer.endRefreshingWithNoMoreData()
             }
-        })
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
     func resetNoMoreDataStatus() {
@@ -469,13 +469,13 @@ extension ProductsViewController {
 // MARK: Actions
 extension ProductsViewController {
     
-    @IBAction func favProduct(sender: UIButton) {
-        let position = sender.convertPoint(CGPoint.zero, toView: self.collectionView())
-        guard let indexPath = self.collectionView().indexPathForItemAtPoint(position) else { return }
+    @IBAction func favProduct(_ sender: UIButton) {
+        let position = sender.convert(CGPoint.zero, to: self.collectionView())
+        guard let indexPath = self.collectionView().indexPathForItem(at: position) else { return }
         UserManager.shared.loginOrDo() { () -> () in
             if let product = self.fetchedResults?[indexPath.row] as? Product {
-                product.toggleFavorite({ (data: AnyObject?) -> () in
-                    self.collectionView().reloadItemsAtIndexPaths([indexPath])
+                product.toggleFavorite({ (data: Any?) -> () in
+                    self.collectionView().reloadItems(at: [indexPath])
                 })
             }
         }
@@ -485,7 +485,7 @@ extension ProductsViewController {
 // MARK: FetchedResultsController
 extension ProductsViewController {
     
-    func searchFinished(offset: Int, _ resultCount: Int, _ completion: ((Int, Int) -> Void)?) {
+    func searchFinished(_ offset: Int, _ resultCount: Int, _ completion: ((Int, Int) -> Void)?) {
         // New search, reset no more data status
         self.resetNoMoreDataStatus()
         // Scrolls to top
@@ -513,18 +513,18 @@ extension ProductsViewController {
         }
     }
     
-    private func queryServer(completion: ((Int, Int) -> Void)?) {
+    fileprivate func queryServer(_ completion: ((Int, Int) -> Void)?) {
         // The offset for current fetch
         let offset = self.fetchOffset
         // Delete all old memory objects before a new search
         if offset == 0 {
             DataManager.shared.memoryContext().runBlockAndWait({ (localContext) in
-                Product.MR_deleteAllMatchingPredicate(FmtPredicate("1==1"), inContext: localContext)
+                Product.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
             })
         }
         
         // Query parameters
-        let queryString = self.searchKeywords?.joinWithSeparator(" ")
+        let queryString = self.searchKeywords?.joined(separator: " ")
         let brandID = self.brandID
         let categoryID = self.categoryID
         let pageIndex = self.fetchLimit != 0 ? offset/self.fetchLimit : 0
@@ -533,23 +533,23 @@ extension ProductsViewController {
             if !self.hasAppendedFetchedResultsForOffset(offset) {
                 if let results = responseObject as? [Product] {
                     self.appendFetchedResults(results)
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async {
                         // Reload UI
                         self.reloadUI()
                         // Completed
-                        if let completion = completion { completion(offset, results.count ?? 0) }
-                    })
+                        if let completion = completion { completion(offset, results.count) }
+                    }
                 }
             }
         }
     }
     
     // Load data from server and local, we use the one who comes first
-    override func reloadData(completion: ((Int, Int) -> Void)?) {
+    override func reloadData(_ completion: ((Int, Int) -> Void)?) {
         // If the results were not empty
         if self.fetchedResults?.count ?? 0 > 0 {
             // Stop image caching, as all the cells are reloaded, the old completion block will reload non-existing cells
-            SDWebImageManager.sharedManager().cancelAll()
+            SDWebImageManager.shared().cancelAll()
         }
         // Show indicator
         if self.isSearchResultsViewController && self.searchKeywordsIsEmpty() {
@@ -569,7 +569,7 @@ extension ProductsViewController {
     }
     
     // Load data from server and local, we use the one who comes first
-    override func loadMore(completion: ((Int, Int) -> Void)?) {
+    override func loadMore(_ completion: ((Int, Int) -> Void)?) {
         // Search Products locally
         super.loadMore(completion)
         // Search products remotely on server
@@ -601,14 +601,14 @@ extension ProductsViewController: UISearchResultsUpdating {
         self.isLoadingViewVisible = true
     }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         // Avoid hiding the searchResultsController if search text field is empty
         if self.fetchedResults?.count ?? 0 > 0 {
-            searchController.searchResultsController?.view.hidden = false
+            searchController.searchResultsController?.view.isHidden = false
         }
         
         var newSearchKeywords: [String]?
-        if searchController.active {
+        if searchController.isActive {
             newSearchKeywords = self.getSearchKeywords(searchController.searchBar.text)
         } else {
             newSearchKeywords = nil
@@ -620,7 +620,7 @@ extension ProductsViewController: UISearchResultsUpdating {
         if newSearchKeywords == nil && oldSearchKeywords == nil {
             // Same, no need to search
             return
-        } else if let newSearchKeywords = newSearchKeywords, oldSearchKeywords = oldSearchKeywords {
+        } else if let newSearchKeywords = newSearchKeywords, let oldSearchKeywords = oldSearchKeywords {
             if newSearchKeywords == oldSearchKeywords {
                 // Same, no need to search
                 return
@@ -636,16 +636,16 @@ extension ProductsViewController: UISearchResultsUpdating {
 // MARK: UISearchBarDelegate
 extension ProductsViewController: UISearchBarDelegate {
     
-    func getSearchKeywords(searchText: String?) -> [String]? {
+    func getSearchKeywords(_ searchText: String?) -> [String]? {
         if let searchText = searchText {
             let searchKeywords = searchText.characters.split() { $0 == " " }.flatMap() { String($0) }
-            return searchKeywords.map({Product.normalizedSearchText($0).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())})
+            return searchKeywords.map({Product.normalizedSearchText($0).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)})
         } else {
             return nil
         }
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.searchKeywords = self.getSearchKeywords(searchBar.text)
         self.reloadData(nil)
     }
@@ -655,12 +655,12 @@ extension ProductsViewController: UISearchBarDelegate {
 extension ProductsViewController: UISearchControllerDelegate {
     
     func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: #selector(ProductsViewController.showSearchController))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(ProductsViewController.showSearchController))
     }
     
     func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationItem.setRightBarButtonItem(nil, animated: false)
+        self.navigationItem.setRightBarButton(nil, animated: false)
         self.navigationItem.titleView = self.searchController!.searchBar
         self.searchController!.searchBar.becomeFirstResponder()
     }
@@ -686,7 +686,7 @@ extension ProductsViewController: UISearchControllerDelegate {
         self.searchController!.hidesNavigationBarDuringPresentation = false
     }
     
-    func willDismissSearchController(searchController: UISearchController) {
+    func willDismissSearchController(_ searchController: UISearchController) {
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.hideSearchController()
     }
@@ -699,7 +699,7 @@ extension ProductsViewController {
         // If it isSearchResultsViewController == false
         // If it isSearchResultsViewController == true && search keywords isn't empty
         if (!self.isSearchResultsViewController || !self.searchKeywordsIsEmpty()) {
-            self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+            self.collectionView().reloadItems(at: self.collectionView().indexPathsForVisibleItems)
         }
     }
 }
@@ -715,14 +715,14 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     var isFavorite: Bool? {
         didSet {
             if UserManager.shared.isLoggedIn {
-                self.updateFavoriteButton(isFavorite != nil && isFavorite!.boolValue)
+                self.updateFavoriteButton(isFavorite != nil && isFavorite!)
             } else {
                 isFavorite = false
             }
         }
     }
     
-    func updateFavoriteButton(isFavorite: Bool) {
-        self.btnFav.setImage(UIImage(named: isFavorite ? "img_heart_shadow_selected" : "img_heart_shadow"), forState: UIControlState.Normal)
+    func updateFavoriteButton(_ isFavorite: Bool) {
+        self.btnFav.setImage(UIImage(named: isFavorite ? "img_heart_shadow_selected" : "img_heart_shadow"), for: UIControlState.normal)
     }
 }

@@ -19,11 +19,11 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
     }
     
     // Properties
-    var selectedIndexPath: NSIndexPath?
+    var selectedIndexPath: IndexPath?
     
     // Class methods
     class func instantiate() -> InfoListBaseViewController {
-        return (UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewControllerWithIdentifier("InfoListBaseViewController") as? InfoListBaseViewController)!
+        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "InfoListBaseViewController") as! InfoListBaseViewController
     }
     
     override func viewDidLoad() {
@@ -41,24 +41,24 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         self.reloadData(nil)
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         updateColumnCount(Int(floor(size.width / 240)))
     }
     
     // Methods to be overridden
-    func hasNextInfo(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+    func hasNextInfo(_ indexPath: IndexPath, isNext: Bool) -> Bool {
         return false
     }
     
-    func getNextInfo(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+    func getNextInfo(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
     }
     
-    func didShowInfo(indexPath: NSIndexPath, isNext: Bool) {
-        self.collectionView().scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
+    func didShowInfo(_ indexPath: IndexPath, isNext: Bool) {
+        self.collectionView().scrollToItem(at: indexPath, at: .top, animated: false)
         self.selectedIndexPath = indexPath
     }
     
-    func sizeForItemAtIndexPath(indexPath: NSIndexPath) -> CGSize? {
+    func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {
         return nil
     }
 }
@@ -66,7 +66,7 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
 // MARK: Data
 extension InfoListBaseViewController {
     
-    func loadData(relativeID: NSNumber?) {
+    func loadData(_ relativeID: NSNumber?) {
         
     }
     
@@ -78,15 +78,15 @@ extension InfoListBaseViewController {
 // MARK: SwitchPrevNextItemDelegate
 extension InfoListBaseViewController: SwitchPrevNextItemDelegate {
     
-    func hasNextItem(indexPath: NSIndexPath, isNext: Bool) -> Bool {
+    func hasNextItem(_ indexPath: IndexPath, isNext: Bool) -> Bool {
         return self.hasNextInfo(indexPath, isNext: isNext)
     }
     
-    func getNextItem(indexPath: NSIndexPath, isNext: Bool, completion: ((indexPath: NSIndexPath?, item: Any?)->())?) {
+    func getNextItem(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
         self.getNextInfo(indexPath, isNext: isNext, completion: completion)
     }
     
-    func didShowItem(indexPath: NSIndexPath, isNext: Bool) {
+    func didShowItem(_ indexPath: IndexPath, isNext: Bool) {
         self.didShowInfo(indexPath, isNext: isNext)
     }
 }
@@ -94,28 +94,28 @@ extension InfoListBaseViewController: SwitchPrevNextItemDelegate {
 // MARK: - CollectionView Delegate Methods
 extension InfoListBaseViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func cellForItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("InfoCollectionViewCell", forIndexPath: indexPath)
+    func cellForItem(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath)
         return cell
     }
     
-    func didSelectItemAtIndexPath(collectionView: UICollectionView, indexPath: NSIndexPath) {
+    func didSelectItemAtIndexPath(_ collectionView: UICollectionView, indexPath: IndexPath) {
 
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.fetchedResultsController?.sections?.count ?? 0
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return self.cellForItemAtIndexPath(collectionView, indexPath: indexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return self.cellForItem(collectionView: collectionView, indexPath: indexPath)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
         self.didSelectItemAtIndexPath(collectionView, indexPath: indexPath)
     }
@@ -124,14 +124,14 @@ extension InfoListBaseViewController: UICollectionViewDelegate, UICollectionView
 // MARK: - UIScrollViewDelegate
 extension InfoListBaseViewController: UIScrollViewDelegate {
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
-            self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+            self.collectionView().reloadItems(at: self.collectionView().indexPathsForVisibleItems)
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        self.collectionView().reloadItemsAtIndexPaths(self.collectionView().indexPathsForVisibleItems())
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.collectionView().reloadItems(at: self.collectionView().indexPathsForVisibleItems)
     }
 }
 
@@ -139,13 +139,13 @@ extension InfoListBaseViewController: UIScrollViewDelegate {
 extension InfoListBaseViewController: CHTCollectionViewDelegateWaterfallLayout {
     
     func setupCollectionView() {
-        self.collectionView().indicatorStyle = .White
+        self.collectionView().indicatorStyle = .white
         
         // Create a waterfall layout
         let layout = CHTCollectionViewWaterfallLayout()
         
         // Change individual layout attributes for the spacing between cells
-        layout.itemRenderDirection = .LeftToRight
+        layout.itemRenderDirection = .leftToRight
         layout.minimumColumnSpacing = 1
         layout.minimumInteritemSpacing = 1
         
@@ -155,11 +155,11 @@ extension InfoListBaseViewController: CHTCollectionViewDelegateWaterfallLayout {
         updateColumnCount(Int(floor(self.view.frame.width / 568)))
         
         // Collection view attributes
-        self.collectionView().autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
+        self.collectionView().autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         self.collectionView().alwaysBounceVertical = true
     }
     
-    func updateColumnCount(count: Int) {
+    func updateColumnCount(_ count: Int) {
         // Update column count
         (self.collectionView().collectionViewLayout as? CHTCollectionViewWaterfallLayout)?.columnCount = max(count, 1)
         
@@ -168,13 +168,13 @@ extension InfoListBaseViewController: CHTCollectionViewDelegateWaterfallLayout {
 //            if count > 1 {
 //                layout.sectionInset = UIEdgeInsetsMake(0, 4, 0, 4)
 //            } else {
-            layout.sectionInset = UIEdgeInsetsZero
+            layout.sectionInset = UIEdgeInsets.zero
 //            }
         }
     }
     
     //** Size for the cells in the Waterfall Layout */
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAt indexPath: IndexPath!) -> CGSize {
         var size = CGSize(width: 3, height: 2) // Default size
         
         if let newSize = self.sizeForItemAtIndexPath(indexPath) {
@@ -188,19 +188,19 @@ extension InfoListBaseViewController: CHTCollectionViewDelegateWaterfallLayout {
 // MARK: ZoomInteractiveTransition
 extension InfoListBaseViewController {
     
-    private func imageViewForZoomTransition() -> UIImageView? {
+    fileprivate func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
-            cell = self.collectionView().cellForItemAtIndexPath(indexPath) as? InfoCollectionViewCell {
+            let cell = self.collectionView().cellForItem(at: indexPath) as? InfoCollectionViewCell {
             return cell.fgImageView
         }
         return nil
     }
     
-    func viewForZoomTransition(isSource: Bool) -> UIView? {
+    func view(forZoomTransition isSource: Bool) -> UIView? {
         return self.imageViewForZoomTransition()
     }
     
-    func initialZoomViewSnapshotFromProposedSnapshot(snapshot: UIImageView!) -> UIImageView? {
+    func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
         if let imageView = self.imageViewForZoomTransition() {
             let returnImageView = UIImageView(image: imageView.image)
             returnImageView.contentMode = imageView.contentMode
@@ -209,10 +209,10 @@ extension InfoListBaseViewController {
         return nil
     }
     
-    func shouldAllowZoomTransitionForOperation(operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController!, toViewController toVC: UIViewController!) -> Bool {
+    func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
         // Only available for opening/closing an info from/to info base view controller
-        if ((operation == .Push && fromVC === self.infoViewController && toVC is InfoDetailBaseViewController) ||
-            (operation == .Pop && fromVC is InfoDetailBaseViewController && toVC === self.infoViewController)) {
+        if ((operation == .push && fromVC === self.infoViewController && toVC is InfoDetailBaseViewController) ||
+            (operation == .pop && fromVC is InfoDetailBaseViewController && toVC === self.infoViewController)) {
             return true
         }
         return false
@@ -223,42 +223,42 @@ extension InfoListBaseViewController {
 extension InfoListBaseViewController {
     
     func setupRefreshControls() {
-        let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+        guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             self.loadData(nil)
             self.beginRefreshing()
-        })
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), forState: .Idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), forState: .Pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), forState: .Refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        header.lastUpdatedTimeLabel?.hidden = true
+        }) else { return }
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), for: .refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
+        header.lastUpdatedTimeLabel?.isHidden = true
         self.collectionView().mj_header = header
         
-        let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+        guard let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
             self.loadNextData()
-        })
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), forState: .Idle)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), forState: .Pulling)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), forState: .Refreshing)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), forState: .NoMoreData)
-        footer.automaticallyHidden = false
+        }) else { return }
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), for: .pulling)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), for: .refreshing)
+        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
+        footer.isAutomaticallyHidden = false
         self.collectionView().mj_footer = footer
     }
     
     func beginRefreshing() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func endRefreshing(resultCount: Int) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    func endRefreshing(_ resultCount: Int) {
+        DispatchQueue.main.async {
             self.collectionView().mj_header.endRefreshing()
             if resultCount > 0 {
                 self.collectionView().mj_footer.endRefreshing()
             } else {
                 self.collectionView().mj_footer.endRefreshingWithNoMoreData()
             }
-        })
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
 
@@ -274,7 +274,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
         
         self.lblTitle.clipsToBounds = true
         self.lblTitle.layer.shadowRadius = 1
-        self.lblTitle.layer.shadowColor = UIColor.blackColor().CGColor
+        self.lblTitle.layer.shadowColor = UIColor.black.cgColor
         self.lblTitle.layer.shadowOpacity = 1
         self.lblTitle.layer.shadowOffset = CGSize.zero
     }

@@ -10,19 +10,19 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     var newVersionAlert: SCLAlertView?
     
-    override init(baseURL url: NSURL?) {
+    override init(baseURL url: URL?) {
         super.init(baseURL: url)
         
         requestSerializer = AFJSONRequestSerializer()
         responseSerializer = AFJSONResponseSerializer()
-        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.None)
+        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
         self.securityPolicy.validatesDomainName = false
         self.securityPolicy.allowInvalidCertificates = true
         
         // Use self-signed certificates in X.509 DER format, now we have 1 certificate
         var data: [NSData] = [NSData]()
         for name: String in ["server"] {
-            let path: String? = NSBundle.mainBundle().pathForResource(name, ofType: "cer")
+            let path: String? = Bundle.main.path(forResource: name, ofType: "cer")
             if let path = path {
                 let keyData: NSData = NSData(contentsOfFile: path)!
                 data.append(keyData)
@@ -35,9 +35,17 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func requestExternal(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: AnyObject?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestExternal(_ method: String,
+                         _ path: String,
+                         _ modeUI: Bool,
+                         _ isSynchronous: Bool,
+                         _ headers: Dictionary<String,String>?,
+                         _ parameters: Any?,
+                         _ userInfo: Dictionary<String,Any>?,
+                         _ onSuccess: DataClosure?,
+                         _ onFailure: ErrorClosure?) {
         DLog(path)
-        guard let path = path.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+        guard let path = path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             let error = FmtError(0, "Failed to encode URL")
             if let onFailure = onFailure { onFailure(error) }
             return
@@ -47,7 +55,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Handlers of success and failure
-        let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
+        let success: (AFHTTPRequestOperation, Any?) -> () = { (operation, responseObject) -> () in
             modeUI ? MBProgressHUD.hide() : ()
             self.handleSuccessWithoutServerVersionCheck(operation, responseObject, path, onSuccess, onFailure)
         }
@@ -58,16 +66,16 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Build the URL
-        guard let urlString = NSURL(string: path, relativeToURL: self.baseURL)?.absoluteString else {
+        guard let urlString = URL(string: path, relativeTo: self.baseURL)?.absoluteString else {
             let error = FmtError(0, "Failed to build URL")
             if let onFailure = onFailure { onFailure(error) }
             return
         }
         
         // Setup request
-        let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
+        let request: NSMutableURLRequest = self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
         request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
-        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate()), forHTTPHeaderField: "request-time")
+        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate), forHTTPHeaderField: "request-time")
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -75,35 +83,35 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Setup operation
-        let operation: AFHTTPRequestOperation = self.HTTPRequestOperationWithRequest(request, success: nil, failure: nil)
+        let operation: AFHTTPRequestOperation = self.httpRequestOperation(with: request as URLRequest, success: nil, failure: nil)
         if let userInfo = userInfo { operation.userInfo = userInfo }
         if isSynchronous {
             operation.start()
             operation.waitUntilFinished()
-            if operation.cancelled {
+            if operation.isCancelled {
                 modeUI ? MBProgressHUD.hide() : ()
             } else {
                 if operation.error == nil {
                     success(operation, operation.responseObject)
                 } else {
-                    failure(operation, operation.error!)
+                    failure(operation, operation.error! as NSError)
                 }
             }
         } else {
-            operation.setCompletionBlockWithSuccess(success, failure: failure)
+            operation.setCompletionBlockWithSuccess(success, failure: failure as? (AFHTTPRequestOperation, Error) -> Void)
             self.operationQueue.addOperation(operation)
         }
     }
     
-    func request(method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: AnyObject?, _ userInfo: Dictionary<String,AnyObject>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        let languageCode = NSLocale.preferredLanguages().first ?? "zh"
+    func request(_ method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Any?, _ userInfo: Dictionary<String,Any>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let languageCode = Locale.preferredLanguages.first ?? "zh"
         var languageCountryCode = "zh-CN"
         if languageCode.hasPrefix("en") {
             languageCountryCode = "en-US"
         }
         let newPath = path + "?lang=" + languageCountryCode
         DLog("--> \"\(newPath)\"")
-        guard let path = newPath.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) else {
+        guard let path = newPath.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
             let error = FmtError(0, "Failed to encode URL")
             if let onFailure = onFailure { onFailure(error) }
             return
@@ -113,9 +121,9 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Handlers of success and failure
-        let success: (AFHTTPRequestOperation, AnyObject?) -> () = { (operation, responseObject) -> () in
+        let success: (AFHTTPRequestOperation, Any?) -> () = { (operation, responseObject) -> () in
             modeUI ? MBProgressHUD.hide() : ()
-            DLog("<-- [\((responseObject?["data"])?.count)]")
+            DLog("<-- [\(((responseObject as? [String: NSDictionary])?["data"])?.count ?? 0)]")
             self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
         }
         
@@ -126,16 +134,16 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Build the URL
-        guard let urlString = NSURL(string: path, relativeToURL: self.baseURL)?.absoluteString else {
+        guard let urlString = URL(string: path, relativeTo: self.baseURL)?.absoluteString else {
             let error = FmtError(0, "Failed to build URL")
             if let onFailure = onFailure { onFailure(error) }
             return
         }
         
         // Setup request
-        let request: NSMutableURLRequest = self.requestSerializer.requestWithMethod(method, URLString: urlString, parameters: parameters, error: nil)
+        let request: NSMutableURLRequest = self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
         request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
-        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate()), forHTTPHeaderField: "request-time")
+        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate), forHTTPHeaderField: "request-time")
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -143,31 +151,31 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Setup operation
-        let operation: AFHTTPRequestOperation = self.HTTPRequestOperationWithRequest(request, success: nil, failure: nil)
+        let operation: AFHTTPRequestOperation = self.httpRequestOperation(with: request as URLRequest, success: nil, failure: nil)
         if let userInfo = userInfo { operation.userInfo = userInfo }
         if isSynchronous {
             operation.start()
             operation.waitUntilFinished()
-            if operation.cancelled {
+            if operation.isCancelled {
                 modeUI ? MBProgressHUD.hide() : ()
             } else {
                 if operation.error == nil {
                     success(operation, operation.responseObject)
                 } else {
-                    failure(operation, operation.error!)
+                    failure(operation, operation.error! as NSError)
                 }
             }
         } else {
-            operation.setCompletionBlockWithSuccess(success, failure: failure)
+            operation.setCompletionBlockWithSuccess(success, failure: failure as? (AFHTTPRequestOperation, Error) -> Void)
             self.operationQueue.addOperation(operation)
         }
     }
     
-    private func handleSuccessWithoutServerVersionCheck(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    fileprivate func handleSuccessWithoutServerVersionCheck(_ operation: AFHTTPRequestOperation, _ responseObject: Any?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         if let onSuccess = onSuccess { onSuccess(responseObject) }
     }
     
-    private func handleSuccess(operation: AFHTTPRequestOperation, _ responseObject: AnyObject?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    fileprivate func handleSuccess(_ operation: AFHTTPRequestOperation, _ responseObject: Any?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         var isSoyouServer = false
         var isCurVerAccepted = false
         var verServer: String? = nil
@@ -176,7 +184,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             if let serverVersion = headers["Server-Version"] as? String {
                 isSoyouServer = true
                 verServer = serverVersion
-                if serverVersion.rangeOfString(verLocalMin) != nil {
+                if serverVersion.range(of: verLocalMin) != nil {
                     isCurVerAccepted = true
                 }
             }
@@ -191,9 +199,9 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                     self.newVersionAlert = nil
                     Utils.openAppStorePage()
                 }
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async {
                     self.newVersionAlert!.showNotice(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("app_new_version_available"))
-                })
+                }
             }
             
             if let onFailure = onFailure { onFailure(error) }
@@ -202,7 +210,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         if let onSuccess = onSuccess { onSuccess(responseObject) }
     }
     
-    private func handleFailure(operation: AFHTTPRequestOperation, _ error: NSError?, _ onFailure: ErrorClosure?) {
+    fileprivate func handleFailure(_ operation: AFHTTPRequestOperation, _ error: NSError?, _ onFailure: ErrorClosure?) {
         if let onFailure = onFailure { onFailure(error) }
     }
 }

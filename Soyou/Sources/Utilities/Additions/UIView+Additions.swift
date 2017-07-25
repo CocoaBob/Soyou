@@ -31,26 +31,26 @@ extension UIView {
     @IBInspectable var borderColor: UIColor? {
         get {
             if let color = self.layer.borderColor {
-                return UIColor(CGColor: color)
+                return UIColor(cgColor: color)
             } else {
                 return nil
             }
         }
         set {
-            self.layer.borderColor = newValue?.CGColor
+            self.layer.borderColor = newValue?.cgColor
         }
     }
     
     @IBInspectable var shadowColor: UIColor? {
         get {
             if let color = self.layer.shadowColor {
-                return UIColor(CGColor: color)
+                return UIColor(cgColor: color)
             } else {
                 return nil
             }
         }
         set {
-            self.layer.shadowColor = newValue?.CGColor
+            self.layer.shadowColor = newValue?.cgColor
         }
     }
     

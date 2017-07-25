@@ -10,36 +10,36 @@ import Foundation
 
 class UserDefaults {
     
-    class func objectForKey(key: String) -> AnyObject? {
-        return NSUserDefaults.standardUserDefaults().objectForKey(key)
+    class func objectForKey(_ key: String) -> Any? {
+        return Foundation.UserDefaults.standard.object(forKey: key)
     }
     
-    class func integerForKey(key: String) -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(key)
+    class func integerForKey(_ key: String) -> Int {
+        return Foundation.UserDefaults.standard.integer(forKey: key)
     }
     
-    class func boolForKey(key: String) -> Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey(key)
+    class func boolForKey(_ key: String) -> Bool {
+        return Foundation.UserDefaults.standard.bool(forKey: key)
     }
     
-    class func floatForKey(key: String) -> Float {
-        return NSUserDefaults.standardUserDefaults().floatForKey(key)
+    class func floatForKey(_ key: String) -> Float {
+        return Foundation.UserDefaults.standard.float(forKey: key)
     }
     
-    class func stringForKey(key: String) -> String? {
-        return NSUserDefaults.standardUserDefaults().stringForKey(key)
+    class func stringForKey(_ key: String) -> String? {
+        return Foundation.UserDefaults.standard.string(forKey: key)
     }
     
-    class func dataForKey(key: String) -> NSData? {
-        return NSUserDefaults.standardUserDefaults().dataForKey(key)
+    class func dataForKey(_ key: String) -> Data? {
+        return Foundation.UserDefaults.standard.data(forKey: key)
     }
     
-    class func arrayForKey(key: String) -> NSArray? {
-        return NSUserDefaults.standardUserDefaults().arrayForKey(key)
+    class func arrayForKey(_ key: String) -> NSArray? {
+        return Foundation.UserDefaults.standard.array(forKey: key) as NSArray?
     }
     
-    class func dictionaryForKey(key: String) -> NSDictionary? {
-        return NSUserDefaults.standardUserDefaults().dictionaryForKey(key)
+    class func dictionaryForKey(_ key: String) -> NSDictionary? {
+        return Foundation.UserDefaults.standard.dictionary(forKey: key) as NSDictionary?
     }
     
 
@@ -47,56 +47,56 @@ class UserDefaults {
     // MARK: - Get value with default value
     //-------------------------------------------------------------------------------------------
     
-    class func getObject(key: String, defaultValue: AnyObject) -> AnyObject? {
+    class func getObject(_ key: String, defaultValue: Any) -> Any? {
         if objectForKey(key) == nil {
             return defaultValue
         }
         return objectForKey(key)
     }
     
-    class func getInt(key: String, defaultValue: Int) -> Int {
+    class func getInt(_ key: String, defaultValue: Int) -> Int {
         if objectForKey(key) == nil {
             return defaultValue
         }
         return integerForKey(key)
     }
     
-    class func getBool(key: String, defaultValue: Bool) -> Bool {
+    class func getBool(_ key: String, defaultValue: Bool) -> Bool {
         if objectForKey(key) == nil {
             return defaultValue
         }
         return boolForKey(key)
     }
     
-    class func getFloat(key: String, defaultValue: Float) -> Float {
+    class func getFloat(_ key: String, defaultValue: Float) -> Float {
         if objectForKey(key) == nil {
             return defaultValue
         }
         return floatForKey(key)
     }
     
-    class func getString(key: String, defaultValue: String) -> String? {
+    class func getString(_ key: String, defaultValue: String) -> String? {
         if objectForKey(key) == nil {
             return defaultValue
         }
         return stringForKey(key)
     }
     
-    class func getData(key: String, defaultValue: NSData) -> NSData? {
+    class func getData(_ key: String, defaultValue: Data) -> Data? {
         if objectForKey(key) == nil {
             return defaultValue
         }
         return dataForKey(key)
     }
     
-    class func getArray(key: String, defaultValue: NSArray) -> NSArray? {
+    class func getArray(_ key: String, defaultValue: NSArray) -> NSArray? {
         if objectForKey(key) == nil {
             return defaultValue
         }
         return arrayForKey(key)
     }
     
-    class func getDictionary(key: String, defaultValue: NSDictionary) -> NSDictionary? {
+    class func getDictionary(_ key: String, defaultValue: NSDictionary) -> NSDictionary? {
         if objectForKey(key) == nil {
             return defaultValue
         }
@@ -108,49 +108,49 @@ class UserDefaults {
     // MARK: - Set value
     //-------------------------------------------------------------------------------------------
     
-    class func setObject(value: AnyObject?, forKey key: String) {
+    class func setObject(_ value: Any?, forKey key: String) {
         if value == nil {
-            NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
+            Foundation.UserDefaults.standard.removeObject(forKey: key)
         } else {
-            NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
+            Foundation.UserDefaults.standard.set(value, forKey: key)
         }
-        NSUserDefaults.standardUserDefaults().synchronize()
+        Foundation.UserDefaults.standard.synchronize()
     }
     
-    class func setInt(value: Int, forKey key: String) {
-        NSUserDefaults.standardUserDefaults().setInteger(value, forKey: key)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    class func setInt(_ value: Int, forKey key: String) {
+        Foundation.UserDefaults.standard.set(value, forKey: key)
+        Foundation.UserDefaults.standard.synchronize()
     }
     
-    class func setBool(value: Bool, forKey key: String) {
-        NSUserDefaults.standardUserDefaults().setBool(value, forKey: key)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    class func setBool(_ value: Bool, forKey key: String) {
+        Foundation.UserDefaults.standard.set(value, forKey: key)
+        Foundation.UserDefaults.standard.synchronize()
     }
     
-    class func setFloat(value: Float, forKey key: String) {
-        NSUserDefaults.standardUserDefaults().setFloat(value, forKey: key)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    class func setFloat(_ value: Float, forKey key: String) {
+        Foundation.UserDefaults.standard.set(value, forKey: key)
+        Foundation.UserDefaults.standard.synchronize()
     }
     
-    class func setString(value: NSString?, forKey key: String) {
+    class func setString(_ value: NSString?, forKey key: String) {
         if (value == nil) {
-            NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
+            Foundation.UserDefaults.standard.removeObject(forKey: key)
         } else {
-            NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
+            Foundation.UserDefaults.standard.set(value, forKey: key)
         }
-        NSUserDefaults.standardUserDefaults().synchronize()
+        Foundation.UserDefaults.standard.synchronize()
     }
     
-    class func setData(value: NSData, forKey key: String) {
+    class func setData(_ value: Data, forKey key: String) {
         setObject(value, forKey: key)
     }
     
-    class func setArray(value: NSArray, forKey key: String) {
+    class func setArray(_ value: NSArray, forKey key: String) {
         setObject(value, forKey: key)
     }
     
     
-    class func setDictionary(value: NSDictionary, forKey key: String) {
+    class func setDictionary(_ value: NSDictionary, forKey key: String) {
         setObject(value, forKey: key)
     }
     
@@ -160,6 +160,6 @@ class UserDefaults {
     //-------------------------------------------------------------------------------------------
     
     class func Sync() {
-        NSUserDefaults.standardUserDefaults().synchronize()
+        Foundation.UserDefaults.standard.synchronize()
     }
 }

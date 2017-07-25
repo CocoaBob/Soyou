@@ -67,60 +67,61 @@ public struct Cons {
     }
     
     struct UI {
-        static let colorWindow                              = "#545454"
-        static let colorNavBar                              = "#000000"
-        static let colorToolbar                             = "#545454"
-        static let colorTab                                 = "#545454"
-        static let colorBGNavBar                            = "#F5F4F2"
-        static let colorBG                                  = "#EDEAE5"
-        static let colorTheme                               = "#FFB94B"
-        static let colorLike                                = "#00B8F4"
-        static let colorHeart                               = "#FF5EAA"
-        static let colorComment                             = "#20B4F1"
-        static let colorStore                               = "#E84917"
-        static let colorStoreMapCopy                        = "#59C843"
-        static let colorStoreMapOpen                        = "#0095FF"
+        static let colorWindow                              = UIColor(hex8: 0x545454FF)
+        static let colorNavBar                              = UIColor(hex8: 0x000000FF)
+        static let colorToolbar                             = UIColor(hex8: 0x545454FF)
+        static let colorTab                                 = UIColor(hex8: 0x545454FF)
+        static let colorBGNavBar                            = UIColor(hex8: 0xF5F4F2FF)
+        static let colorBG                                  = UIColor(hex8: 0xEDEAE5FF)
+        static let colorTheme                               = UIColor(hex8: 0xFFB94BFF)
+        static let colorLike                                = UIColor(hex8: 0x00B8F4FF)
+        static let colorHeart                               = UIColor(hex8: 0xFF5EAAFF)
+        static let colorComment                             = UIColor(hex8: 0x20B4F1FF)
+        static let colorStore                               = UIColor(hex8: 0xE84917FF)
+        static let colorStoreMapCopy                        = UIColor(hex8: 0x59C843FF)
+        static let colorStoreMapOpen                        = UIColor(hex8: 0x0095FFFF)
         static let heightPageMenuProduct                    = CGFloat(30.0)
         static let heightPageMenuInfo                       = CGFloat(44.0)
     }
     
-    static var utcDateFormatter: NSDateFormatter {
+    static var utcDateFormatter: DateFormatter {
         get {
-            let _utcDateFormatter = NSDateFormatter()
+            let _utcDateFormatter = DateFormatter()
             _utcDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-            _utcDateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
+            _utcDateFormatter.timeZone = TimeZone(abbreviation: "UTC")
             return _utcDateFormatter
         }
     }
 }
 
-typealias DataClosure = (AnyObject?)->()
+typealias DataClosure = (Any?)->()
 typealias ErrorClosure = (NSError?)->()
 typealias VoidClosure = ()->()
-typealias CompletionClosure = (AnyObject?, NSError?)->()
+typealias CompletionClosure = (Any?, NSError?)->()
 
-func FmtPredicate(fmt: String, _ args: CVarArgType...) -> NSPredicate {
+func FmtPredicate(_ fmt: String, _ args: CVarArg...) -> NSPredicate {
     return NSPredicate(format: fmt, arguments: getVaList(args))
 }
 
-func FmtString(fmt: String, _ args: CVarArgType...) -> String {
+func FmtString(_ fmt: String, _ args: CVarArg...) -> String {
     return String(format: fmt, arguments: args)
 }
 
-func FmtString(fmt: String, _ args: [CVarArgType]) -> String {
+func FmtString(_ fmt: String, _ args: [CVarArg]) -> String {
     return String(format: fmt, arguments: args)
 }
 
-func CompoundAndPredicate(predicates: [NSPredicate]) -> NSCompoundPredicate {
-    return NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: predicates)
+func CompoundAndPredicate(_ predicates: [NSPredicate]) -> NSCompoundPredicate {
+    return NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: predicates)
 }
 
-func CompoundOrPredicate(predicates: [NSPredicate]) -> NSCompoundPredicate {
-    return NSCompoundPredicate(type: NSCompoundPredicateType.OrPredicateType, subpredicates: predicates)
+func CompoundOrPredicate(_ predicates: [NSPredicate]) -> NSCompoundPredicate {
+    return NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.or, subpredicates: predicates)
 }
+
 
 var _emptyError = NSError(domain: "SoyouError", code: 0, userInfo: nil)
-func FmtError(code: Int, _ msg: String?, _ args: CVarArgType...) -> NSError {
+func FmtError(_ code: Int, _ msg: String?, _ args: CVarArg...) -> NSError {
     if code == 0 && msg == nil {
         return _emptyError
     } else {
@@ -128,12 +129,15 @@ func FmtError(code: Int, _ msg: String?, _ args: CVarArgType...) -> NSError {
     }
 }
 
-func NSLocalizedString(key: String) -> String {
+func NSLocalizedString(_ key: String) -> String {
     return NSLocalizedString(key, comment: "")
 }
 
-func DispatchAfter(delay:Double, closure:()->()) {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+func DispatchAfter(_ delay:Double, closure:@escaping ()->()) {
+    
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay) {
+        closure()
+    }
 }
 
 /**
@@ -149,15 +153,15 @@ func DispatchAfter(delay:Double, closure:()->()) {
  :param: function The name of the function, defaults to the function within which the call is made.
  :param: line     The line number, defaults to the line number within the file that the call is made.
  */
-func DLog<T>(@autoclosure object: () -> T, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
+func DLog<T>(_ object: @autoclosure () -> T, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
         
-        let fileURL = NSURL(string: file)?.lastPathComponent ?? "Unknown"
-        let queue = NSThread.isMainThread() ? "UI" : "BG"
+        let fileURL = URL(string: file)?.lastPathComponent ?? "Unknown"
+        let queue = Thread.isMainThread ? "UI" : "BG"
         
-        let strFileName = fileURL.stringByPaddingToLength(40, withString: " ", startingAtIndex: 0)
-        let strFunction = (function+"()").stringByPaddingToLength(32, withString: " ", startingAtIndex: 0)
+        let strFileName = fileURL.padding(toLength: 40, withPad: " ", startingAt: 0)
+        let strFunction = (function+"()").padding(toLength: 32, withPad: " ", startingAt: 0)
         let strLineNmbr = FmtString("%04d", line)
         
         print("[\(queue)] \(strFileName) \(strFunction) [-\(strLineNmbr)]: \(value)")

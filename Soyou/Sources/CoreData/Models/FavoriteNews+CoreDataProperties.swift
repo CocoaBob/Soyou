@@ -14,6 +14,6 @@ import CoreData
 
 extension FavoriteNews {
 
-    @NSManaged var dateFavorite: NSDate?
+    @NSManaged var dateFavorite: Date?
 
 }

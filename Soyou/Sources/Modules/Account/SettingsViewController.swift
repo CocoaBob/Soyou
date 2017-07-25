@@ -10,8 +10,8 @@ class SettingsViewController: SimpleTableViewController {
     
     var cacheSize: Double = 0
     
-    private var locationManager: CLLocationManager?
-    private var registerPushNotificationTimer: NSTimer?
+    fileprivate var locationManager: CLLocationManager?
+    fileprivate var registerPushNotificationTimer: Timer?
     
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
@@ -24,7 +24,7 @@ class SettingsViewController: SimpleTableViewController {
         self.title = NSLocalizedString("settings_vc_title")
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -36,27 +36,27 @@ class SettingsViewController: SimpleTableViewController {
         super.viewDidLoad()
         
         // Navigation Bar Items
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(UIViewController.dismissSelf))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(UIViewController.dismissSelf))
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.refreshUI()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Register notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsViewController.applicationWillResignActiveNotification), name: UIApplicationWillResignActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsViewController.applicationDidBecomeActiveNotification), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsViewController.applicationWillResignActiveNotification), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsViewController.applicationDidBecomeActiveNotification), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Unregister notification
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
 }
 
@@ -64,21 +64,21 @@ class SettingsViewController: SimpleTableViewController {
 extension SettingsViewController {
     
     override func rebuildTable() {
-        let application = UIApplication.sharedApplication()
+        let application = UIApplication.shared
         // Gether info about Push Notifications
-        let registeredTypes = application.currentUserNotificationSettings()?.types
-        let isRegisteredForNotifications = application.isRegisteredForRemoteNotifications()
+        let registeredTypes = application.currentUserNotificationSettings?.types
+        let isRegisteredForNotifications = application.isRegisteredForRemoteNotifications
         var notificationTypes = [String]()
-        if registeredTypes?.contains(UIUserNotificationType.Badge) == true {
+        if registeredTypes?.contains(UIUserNotificationType.badge) == true {
             notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_badge"))
         }
-        if registeredTypes?.contains(UIUserNotificationType.Sound) == true {
+        if registeredTypes?.contains(UIUserNotificationType.sound) == true {
             notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_sound"))
         }
-        if registeredTypes?.contains(UIUserNotificationType.Alert) == true {
+        if registeredTypes?.contains(UIUserNotificationType.alert) == true {
             notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_banner"))
         }
-        let notificationTypesString = notificationTypes.joinWithSeparator(",")
+        let notificationTypesString = notificationTypes.joined(separator: ",")
         var notificationSubTitle = isRegisteredForNotifications ? NSLocalizedString("settings_vc_cell_notification_enabled") : NSLocalizedString("settings_vc_cell_notification_not_enabled")
         if isRegisteredForNotifications && notificationTypes.count != 3 {
             notificationSubTitle = notificationTypesString
@@ -88,17 +88,17 @@ extension SettingsViewController {
             Section(
                 rows: [
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_currency")),
                         subTitle: Text(text: CurrencyManager.shared.userCurrencyName),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.changeMyCurrency()
                     }),
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_language")),
-                        subTitle: Text(text: CurrencyManager.shared.languageName(NSLocale.preferredLanguages().first ?? "")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        subTitle: Text(text: CurrencyManager.shared.languageName(Locale.preferredLanguages.first ?? "")),
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.changeLanguage()
                     })
                 ]
@@ -106,17 +106,17 @@ extension SettingsViewController {
             Section(
                 rows: [
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: .Default),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator, selectionStyle: .default),
                         title: Text(text: NSLocalizedString("settings_vc_cell_notification")),
                         subTitle: Text(text: notificationSubTitle),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.registerPushNotification()
                     }),
                     Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator, selectionStyle: .Default),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator, selectionStyle: .default),
                         title: Text(text: NSLocalizedString("settings_vc_cell_localization")),
                         subTitle: Text(text: self.locationServiceStatus()),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.requestLocationServicePermission()
                     })
                 ]
@@ -124,45 +124,45 @@ extension SettingsViewController {
             Section(
                 rows: [
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_intro")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             IntroViewController.shared.showIntroView()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_about")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.showAbout()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_credits")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.showCredits()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_feedback")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.sendFeedback()
                     }),
 //                    Row(type: .LeftTitle,
-//                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+//                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
 //                        title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
-//                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+//                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
 //                            self.analyzeNetwork()
 //                    }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_review")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.review()
                     }),
                     Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .DisclosureIndicator),
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_share")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.share()
                     }),
                 ]
@@ -170,9 +170,9 @@ extension SettingsViewController {
             Section(
                 rows: [
                     Row(type: .CenterTitle,
-                        cell: Cell(height: 44, accessoryType: .None),
+                        cell: Cell(height: 44, accessoryType: .none),
                         title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache")),
-                        didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.clearCache()
                     })
                 ]
@@ -185,26 +185,26 @@ extension SettingsViewController {
 extension SettingsViewController {
     
     func showAbout() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
+        let simpleViewController = SimpleTableViewController(tableStyle: .grouped)
         // UI
         simpleViewController.title = NSLocalizedString("settings_vc_cell_about")
         let _ = simpleViewController.view
-        simpleViewController.tableView.separatorStyle = .None
+        simpleViewController.tableView.separatorStyle = .none
         // Data
         var title = "\n" + NSLocalizedString("app_about_title")
-        if let shortVersionString = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString" as String) as? String {
+        if let shortVersionString = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString" as String) as? String {
             title += " v" + shortVersionString
         }
-        if let version = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String {
+        if let version = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String {
             title += "(\(version))"
         }
         simpleViewController.sections = [
             Section(
                 rows: [
                     Row(type: .IconTitleContent,
-                        cell: Cell(accessoryType: .None),
-                        title: Text(text: title, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGrayColor()),
-                        subTitle: Text(text: NSLocalizedString("app_about_content") + "\n", font: UIFont.systemFontOfSize(16), color: UIColor.grayColor())
+                        cell: Cell(accessoryType: .none),
+                        title: Text(text: title, font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 17), color: UIColor.darkGray),
+                        subTitle: Text(text: NSLocalizedString("app_about_content") + "\n", font: UIFont.systemFont(ofSize: 16), color: UIColor.gray)
                     )
                 ]
             )
@@ -214,7 +214,7 @@ extension SettingsViewController {
     }
     
     func showCredits() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
+        let simpleViewController = SimpleTableViewController(tableStyle: .grouped)
         // UI
         simpleViewController.title = NSLocalizedString("settings_vc_cell_credits")
         // Data
@@ -222,28 +222,28 @@ extension SettingsViewController {
             Section(
                 rows: [
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0), accessoryType: .none),
                         image: UIImage(named: "img_credits_jiyun"),
-                        title: Text(text: "\nJiyun", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
-                        subTitle: Text(text: "General Developer", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
+                        title: Text(text: "\nJiyun", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGray),
+                        subTitle: Text(text: "General Developer", font: UIFont.systemFont(ofSize: 13), color: UIColor.gray)
                     ),
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0), accessoryType: .none),
                         image: UIImage(named: "img_credits_cocoabob"),
-                        title: Text(text: "\nCocoaBob", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
-                        subTitle: Text(text: "iOS Developer", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
+                        title: Text(text: "\nCocoaBob", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGray),
+                        subTitle: Text(text: "iOS Developer", font: UIFont.systemFont(ofSize: 13), color: UIColor.gray)
                     ),
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, separatorInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0), accessoryType: .none),
                         image: UIImage(named: "img_credits_chenglian"),
-                        title: Text(text: "\nChenglian", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
-                        subTitle: Text(text: "Creative Director", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
+                        title: Text(text: "\nChenglian", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGray),
+                        subTitle: Text(text: "Creative Director", font: UIFont.systemFont(ofSize: 13), color: UIColor.gray)
                     ),
                     Row(type: .IconTitleContent,
-                        cell: Cell(height: 108, accessoryType: .None, separatorInset: UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 0)),
+                        cell: Cell(height: 108, separatorInset: UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 0), accessoryType: .none),
                         image: UIImage(named: "img_credits_niuniu"),
-                        title: Text(text: "\nNiuniu", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGrayColor()),
-                        subTitle: Text(text: "Villain Creature", font: UIFont.systemFontOfSize(13), color: UIColor.grayColor())
+                        title: Text(text: "\nNiuniu", font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 16), color: UIColor.darkGray),
+                        subTitle: Text(text: "Villain Creature", font: UIFont.systemFont(ofSize: 13), color: UIColor.gray)
                     )
                 ]
             )
@@ -272,10 +272,10 @@ extension SettingsViewController {
     
     func changeLanguage() {
         var currentLanguageSelection: String?
-        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
+        let simpleViewController = SimpleTableViewController(tableStyle: .grouped)
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
-        simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
+        simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = false
         simpleViewController.title = NSLocalizedString("settings_vc_cell_language")
         // Data
         let langCode = [("zh-Hans", "CN"), ("en-US", "GB")]
@@ -283,22 +283,22 @@ extension SettingsViewController {
         var rows = [Row]()
         for (langCode, countryCode) in langCode {
             let row = Row(type: .IconTitle,
-                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None),
-                image: UIImage(flagImageWithCountryCode: countryCode),
-                title: Text(text: CurrencyManager.shared.languageName(langCode) ?? ""),
-                userInfo: ["language":langCode],
-                didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
-                    let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
-                    simpleViewController.navigationItem.rightBarButtonItem?.enabled = (row.title?.text != currentLanguageSelection)
-                    if simpleViewController.updateSelectionCheckmark(indexPath) {
-                        var rowsToReload = [indexPath]
-                        if let selectedIndexPath = simpleViewController.selectedIndexPath {
-                            rowsToReload.append(selectedIndexPath)
-                        }
-                        simpleViewController.tableView.beginUpdates()
-                        simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
-                        simpleViewController.tableView.endUpdates()
-                    }
+                          cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
+                          image: UIImage(flagImageWithCountryCode: countryCode),
+                          title: Text(text: CurrencyManager.shared.languageName(langCode) ?? ""),
+                          userInfo: ["language":langCode],
+                          didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                            let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
+                            simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = (row.title?.text != currentLanguageSelection)
+                            if simpleViewController.updateSelectionCheckmark(indexPath) {
+                                var rowsToReload = [indexPath]
+                                if let selectedIndexPath = simpleViewController.selectedIndexPath {
+                                    rowsToReload.append(selectedIndexPath)
+                                }
+                                simpleViewController.tableView.beginUpdates()
+                                simpleViewController.tableView.reloadRows(at: rowsToReload, with: .fade)
+                                simpleViewController.tableView.endUpdates()
+                            }
             })
             rows.append(row)
         }
@@ -307,9 +307,9 @@ extension SettingsViewController {
                 rows: rows
             )
         ]
-        if let currentLanguageCode = NSLocale.preferredLanguages().first {
+        if let currentLanguageCode = Locale.preferredLanguages.first {
             let selectedRow = currentLanguageCode.hasPrefix("zh") ? 0 : 1
-            simpleViewController.selectedIndexPath = NSIndexPath(forRow: selectedRow, inSection: 0)
+            simpleViewController.selectedIndexPath = IndexPath(row: selectedRow, section: 0)
             currentLanguageSelection = simpleViewController.sections.first?.rows[selectedRow].title?.text
             simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
         }
@@ -317,16 +317,16 @@ extension SettingsViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             if let selectedIndexPath = simpleViewController.selectedIndexPath,
-                rows = simpleViewController.sections.first?.rows {
+                let rows = simpleViewController.sections.first?.rows {
                     let row = rows[selectedIndexPath.row]
                     if let userInfo = row.userInfo,
-                        regionCode = userInfo["language"] as? String {
+                        let regionCode = userInfo["language"] as? String {
                             // Set language
                             UserDefaults.setObject([regionCode], forKey: "AppleLanguages")
                             
                         let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
                         alertView.addButton(NSLocalizedString("settings_vc_cell_language_set_done")) { () -> Void in
-                            self.navigationController?.popViewControllerAnimated(true)
+                            self.navigationController?.popViewController(animated: true)
                         }
                         alertView.showSuccess(NSLocalizedString("settings_vc_cell_language_set_title"), subTitle: NSLocalizedString("settings_vc_cell_language_set_subtitle"))
                     }
@@ -337,10 +337,10 @@ extension SettingsViewController {
     }
     
     func changeMyCurrency() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .Grouped)
+        let simpleViewController = SimpleTableViewController(tableStyle: .grouped)
         // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
-        simpleViewController.navigationItem.rightBarButtonItem?.enabled = false
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
+        simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = false
         simpleViewController.title = NSLocalizedString("settings_vc_cell_choose_currency")
         // Data
         var rows = [Row]()
@@ -353,8 +353,8 @@ extension SettingsViewController {
             }
         }
         var sortedCurrencyNames: [String] = allCurrencyNameCodePairs.map { $0.0 }
-        sortedCurrencyNames.sortInPlace {
-            $0.compare($1, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], locale: CurrencyManager.shared.displayLocale) == .OrderedAscending
+        sortedCurrencyNames.sort {
+            $0.compare($1, options: [.caseInsensitive, .diacriticInsensitive], locale: CurrencyManager.shared.displayLocale) == .orderedAscending
         }
         
         for currencyName in sortedCurrencyNames {
@@ -371,19 +371,19 @@ extension SettingsViewController {
                 }
             }
             let row = Row(type: .IconTitle,
-                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .None),
+                cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
                 image: image,
                 title: Text(text: currencyName),
-                didSelect: {(tableView: UITableView, indexPath: NSIndexPath) -> Void in
+                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                     let selectedCurrencyName = sortedCurrencyNames[indexPath.row]
-                    simpleViewController.navigationItem.rightBarButtonItem?.enabled = (selectedCurrencyName != CurrencyManager.shared.userCurrencyName)
+                    simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = (selectedCurrencyName != CurrencyManager.shared.userCurrencyName)
                     if simpleViewController.updateSelectionCheckmark(indexPath) {
                         var rowsToReload = [indexPath]
                         if let selectedIndexPath = simpleViewController.selectedIndexPath {
                             rowsToReload.append(selectedIndexPath)
                         }
                         simpleViewController.tableView.beginUpdates()
-                        simpleViewController.tableView.reloadRowsAtIndexPaths(rowsToReload, withRowAnimation: .Fade)
+                        simpleViewController.tableView.reloadRows(at: rowsToReload, with: .fade)
                         simpleViewController.tableView.endUpdates()
                     }
             })
@@ -395,8 +395,8 @@ extension SettingsViewController {
             )
         ]
         
-        if let index = sortedCurrencyNames.indexOf(CurrencyManager.shared.userCurrencyName) {
-            simpleViewController.selectedIndexPath = NSIndexPath(forRow: index, inSection: 0)
+        if let index = sortedCurrencyNames.index(of: CurrencyManager.shared.userCurrencyName) {
+            simpleViewController.selectedIndexPath = IndexPath(row: index, section: 0)
             simpleViewController.updateSelectionCheckmark(simpleViewController.selectedIndexPath!)
         }
         // Handler
@@ -409,15 +409,15 @@ extension SettingsViewController {
                 // Set user currency
                 MBProgressHUD.show()
                 CurrencyManager.shared.updateCurrencyRates(selectedCurrencyCode) { (responseObject, error) -> () in
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async {
                         MBProgressHUD.hide()
                         if let error = error {
                             DataManager.showRequestFailedAlert(error)
                         } else {
-                            simpleViewController.navigationController?.popViewControllerAnimated(true)
-                            CurrencyManager.shared.userCurrency = selectedCurrencyCode ?? ""
+                            simpleViewController.navigationController?.popViewController(animated: true)
+                            CurrencyManager.shared.userCurrency = selectedCurrencyCode 
                         }
-                    })
+                    }
                 }
             }
         }
@@ -426,8 +426,8 @@ extension SettingsViewController {
     }
     
     func openSettings() {
-        if let url = NSURL(string: UIApplicationOpenSettingsURLString) {
-            UIApplication.sharedApplication().openURL(url)
+        if let url = URL(string: UIApplicationOpenSettingsURLString) {
+            UIApplication.shared.openURL(url)
         }
     }
     
@@ -435,10 +435,10 @@ extension SettingsViewController {
         self.updateCacheSize(nil)
         
         // Delete cached NSURL responses
-        NSURLCache.sharedURLCache().removeAllCachedResponses()
+        URLCache.shared.removeAllCachedResponses()
         
         // Delete disk caches
-        SDImageCache.sharedImageCache().clearDiskOnCompletion { () -> Void in
+        SDImageCache.shared().clearDisk { () -> Void in
             self.calculateCacheSize()
         }
     }
@@ -448,9 +448,9 @@ extension SettingsViewController {
 extension SettingsViewController {
     
     func registerPushNotification() {
-        self.registerPushNotificationTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: #selector(SettingsViewController.finishedRequestingNotifications), userInfo: nil, repeats: false)
-        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil))
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+        self.registerPushNotificationTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(SettingsViewController.finishedRequestingNotifications), userInfo: nil, repeats: false)
+        UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
+        UIApplication.shared.registerForRemoteNotifications()
     }
     
     func applicationWillResignActiveNotification() {
@@ -467,7 +467,7 @@ extension SettingsViewController {
     }
     
     func requestLocationServicePermission() {
-        if CLLocationManager.authorizationStatus() == .NotDetermined {
+        if CLLocationManager.authorizationStatus() == .notDetermined {
             self.locationManager = CLLocationManager()
             self.locationManager?.delegate = self
             self.locationManager?.requestWhenInUseAuthorization()
@@ -480,8 +480,8 @@ extension SettingsViewController {
 // MARK: Routines
 extension SettingsViewController {
     
-    func updateCacheSize(cacheSize: Double?) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    func updateCacheSize(_ cacheSize: Double?) {
+        DispatchQueue.main.async {
             // Size in string
             let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1048576.0) : "..."
             
@@ -489,16 +489,16 @@ extension SettingsViewController {
             var row = self.sections[3].rows[0]
             row.title?.text = cacheSize != nil ? (NSLocalizedString("settings_vc_cell_clear_cache") + " (" + strSize + ")") : NSLocalizedString("settings_vc_cell_clearing_cache")
             self.sections[3].rows = [row]
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 3)], withRowAnimation: .Fade)
-        })
+            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 3)], with: .fade)
+        }
     }
     
     func calculateCacheSize() {
-        // NSURLCache
-        self.cacheSize = Double(NSURLCache.sharedURLCache().currentDiskUsage)
+        // URLCache
+        self.cacheSize = Double(URLCache.shared.currentDiskUsage)
         
         // SDImageCache
-        SDImageCache.sharedImageCache().calculateSizeWithCompletionBlock { (fileCount, totalSize) -> Void in
+        SDImageCache.shared().calculateSize { (fileCount, totalSize) -> Void in
             self.cacheSize += Double(totalSize)
             self.updateCacheSize(self.cacheSize)
         }
@@ -518,13 +518,13 @@ extension SettingsViewController {
 extension SettingsViewController: CLLocationManagerDelegate {
     
     func locationServiceStatus() -> String {
-        return NSLocalizedString((CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse) ? "settings_vc_cell_localization_enabled" : "settings_vc_cell_localization_not_enabled")
+        return NSLocalizedString((CLLocationManager.authorizationStatus() == .authorizedWhenInUse) ? "settings_vc_cell_localization_enabled" : "settings_vc_cell_localization_not_enabled")
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        DispatchQueue.main.async {
             self.rebuildTable()
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 1)], withRowAnimation: .Fade)
+            self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
         }
     }
 }
