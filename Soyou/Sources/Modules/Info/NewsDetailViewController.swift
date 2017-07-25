@@ -163,12 +163,14 @@ extension NewsDetailViewController {
         
         // Cover Image
         if (self.headerImage == nil) {
-            if let imageURLString = news.image, let imageURL = URL(string: imageURLString),
-                let imageManager = SDWebImageManager.shared() {
+            if let imageURLString = news.image,
+                let imageURL = URL(string: imageURLString)
+            {
+                let imageManager = SDWebImageManager.shared()
                 let cacheKey = imageManager.cacheKey(for: imageURL)
-                var cachedImage: UIImage? = imageManager.imageCache.imageFromMemoryCache(forKey: cacheKey)
+                var cachedImage: UIImage? = imageManager.imageCache?.imageFromMemoryCache(forKey: cacheKey)
                 if cachedImage == nil {
-                    cachedImage = imageManager.imageCache.imageFromDiskCache(forKey: cacheKey)
+                    cachedImage = imageManager.imageCache?.imageFromDiskCache(forKey: cacheKey)
                 }
                 if let cachedImage = cachedImage {
                     DispatchQueue.main.async {
@@ -176,13 +178,11 @@ extension NewsDetailViewController {
                         self.setupParallaxHeader()
                     }
                 } else {
-                    SDWebImageManager.shared().downloadImage(
+                    SDWebImageManager.shared().imageDownloader?.downloadImage(
                         with: imageURL,
                         options: [.continueInBackground, .allowInvalidSSLCertificates],
-                        progress: { (receivedSize: NSInteger, expectedSize: NSInteger) -> Void in
-                            
-                        },
-                        completed: { (image, error, type, finished, url) -> Void in
+                        progress: nil,
+                        completed: { (image, data, error, finished) -> Void in
                             DispatchQueue.main.async {
                                 self.headerImage = image
                                 self.setupParallaxHeader()

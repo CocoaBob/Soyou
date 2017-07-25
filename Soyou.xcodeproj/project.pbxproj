@@ -66,7 +66,6 @@
 		456BCAC01C60117900590295 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCABF1C60117900590295 /* Contacts.framework */; };
 		456BCAC21C6018D600590295 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456BCAC11C6018D600590295 /* SafariServices.framework */; };
 		456FC8B61C5A5885003D0DF6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456FC8B51C5A5885003D0DF6 /* StoreKit.framework */; };
-		4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */ = {isa = PBXBuildFile; fileRef = 4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4571872D1CC42E5F009B5112 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4571872C1CC42E5F009B5112 /* GoogleService-Info.plist */; };
 		457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777801BFCB60100805D79 /* News+CoreDataProperties.swift */; };
 		457777831BFCB60100805D79 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457777811BFCB60100805D79 /* News.swift */; };
@@ -147,7 +146,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				4570A5851C43DDFA004274DE /* IDMPBLocalizations.bundle in Copy Bundles */,
 			);
 			name = "Copy Bundles";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,7 +216,6 @@
 		456BCABF1C60117900590295 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		456BCAC11C6018D600590295 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		456FC8B51C5A5885003D0DF6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = IDMPBLocalizations.bundle; path = ../../Pods/IDMPhotoBrowser/Classes/IDMPBLocalizations.bundle; sourceTree = "<group>"; };
 		4571872C1CC42E5F009B5112 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		457777801BFCB60100805D79 /* News+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "News+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		457777811BFCB60100805D79 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
@@ -394,7 +391,6 @@
 			isa = PBXGroup;
 			children = (
 				456478F71C6E095C00798EB2 /* 1Password.xcassets */,
-				4570A5841C43DDFA004274DE /* IDMPBLocalizations.bundle */,
 				4568E28F1BF90797009A6164 /* Assets.xcassets */,
 				45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */,
 				4555BBAB1BFFEEB500A01B41 /* server.cer */,

@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FileManager.excludeFromBackup(FileManager.dbDir)
         
         // Setup SDWebImage cache
-        SDImageCache.shared().shouldDecompressImages = false
         SDWebImageDownloader.shared().shouldDecompressImages = false
         
         // Setup themes

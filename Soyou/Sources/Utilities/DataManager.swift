@@ -196,11 +196,11 @@ class DataManager {
                             if let brands = Brand.mr_findAll(in: localContext) as? [Brand] {
                                 for brand in brands {
                                     if let imageURL = brand.imageUrl, let url = URL(string: imageURL) {
-                                        SDWebImageManager.shared().downloadImage(
+                                        SDWebImageManager.shared().imageDownloader?.downloadImage(
                                             with: url,
                                             options: .lowPriority,
-                                            progress: { (_, _) -> Void in },
-                                            completed: { (_, _, _, _, _) -> Void in })
+                                            progress: nil,
+                                            completed: nil)
                                     }
                                 }
                             }
@@ -331,11 +331,11 @@ class DataManager {
                         if let allNews = News.mr_findAll(in: localContext) as? [News] {
                             for news in allNews {
                                 if let imageURL = news.image, let url = URL(string: imageURL) {
-                                    SDWebImageManager.shared().downloadImage(
+                                    SDWebImageManager.shared().imageDownloader?.downloadImage(
                                         with: url,
                                         options: .lowPriority,
-                                        progress: { (_, _) -> Void in },
-                                        completed: { (_, _, _, _, _) -> Void in })
+                                        progress: nil,
+                                        completed: nil)
                                 }
                             }
                         }
@@ -398,11 +398,11 @@ class DataManager {
                         if let allDiscounts = Discount.mr_findAll(in: localContext) as? [Discount] {
                             for discount in allDiscounts {
                                 if let imageURL = discount.coverImage, let url = URL(string: imageURL) {
-                                    SDWebImageManager.shared().downloadImage(
+                                    SDWebImageManager.shared().imageDownloader?.downloadImage(
                                         with: url,
                                         options: .lowPriority,
-                                        progress: { (_, _) -> Void in },
-                                        completed: { (_, _, _, _, _) -> Void in })
+                                        progress: nil,
+                                        completed: nil)
                                 }
                             }
                         }

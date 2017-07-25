@@ -66,11 +66,11 @@ class BrandViewController: UIViewController {
     var brandCategories: [NSDictionary]?
     var brandImageURL: URL? {
         didSet {
-            SDWebImageManager.shared().downloadImage(
+            SDWebImageManager.shared().imageDownloader?.downloadImage(
                 with: brandImageURL,
                 options: [.continueInBackground, .allowInvalidSSLCertificates],
-                progress: { (_, _) -> Void in },
-                completed: { (image, error, type, finished, url) -> Void in
+                progress: nil,
+                completed: { (image, data, error, finished) -> Void in
                     self.brandImage = image
             })
         }

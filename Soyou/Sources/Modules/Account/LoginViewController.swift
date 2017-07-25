@@ -559,16 +559,17 @@ extension LoginViewController {
 // MARK: NYSegmentedControlDataSource
 extension LoginViewController: NYSegmentedControlDataSource {
     
-    func numberOfSegments(of control: NYSegmentedControl!) -> UInt {
+    func number(ofSegments control: NYSegmentedControl) -> UInt {
         return 3
     }
     
-    func segmentedControl(_ control: NYSegmentedControl!, titleAt index: Int) -> String! {
-        if index == Cons.Usr.genderSecretIndex {
+    func segmentedControl(_ control: NYSegmentedControl, titleForSegmentAt index: UInt) -> String {
+        let indexInt = Int(index)
+        if indexInt == Cons.Usr.genderSecretIndex {
             return NSLocalizedString("user_info_gender_secret")
-        } else if index == Cons.Usr.genderMaleIndex {
+        } else if indexInt == Cons.Usr.genderMaleIndex {
             return NSLocalizedString("user_info_gender_male")
-        } else if index == Cons.Usr.genderFemaleIndex {
+        } else if indexInt == Cons.Usr.genderFemaleIndex {
             return NSLocalizedString("user_info_gender_female")
         }
         return ""
