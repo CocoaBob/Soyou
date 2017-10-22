@@ -1,0 +1,252 @@
+PODS:
+  - 1PasswordExtension (1.8.4)
+  - ActionSheetPicker-3.0 (2.2.0)
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Base64nl (1.2)
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
+  - CCHMapClusterController (1.7.0)
+  - CHTCollectionViewWaterfallLayout (0.9.6):
+    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.6)
+  - CHTCollectionViewWaterfallLayout/ObjC (0.9.6)
+  - Crashlytics (3.8.5):
+    - Fabric (~> 1.6.3)
+  - DACircularProgress (2.3.1)
+  - DDThirdShareLibrary/TencentSDK (0.0.9)
+  - EAIntroView (2.10.0):
+    - EARestrictedScrollView (~> 1.1.0)
+  - EARestrictedScrollView (1.1.0)
+  - Fabric (1.6.12)
+  - FBSDKCoreKit (4.24.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.24.0):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.24.0):
+    - FBSDKCoreKit
+  - FCUUID (1.3.1):
+    - UICKeyChainStore (~> 2.1.0)
+  - FirebaseAnalytics (3.9.0):
+    - FirebaseCore (~> 3.6)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.6.0):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.10):
+    - FirebaseCore (~> 3.6)
+  - FlagKit (1.1.1)
+  - Google/Core (3.1.0):
+    - FirebaseAnalytics (~> 3.2)
+  - Google/SignIn (3.1.0):
+    - Google/Core
+    - GoogleSignIn (~> 4.0)
+  - GoogleSignIn (4.0.2):
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
+    - GTMOAuth2 (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/DebugUtils (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.1):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.1)
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
+  - GTMOAuth2 (1.1.4):
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.1.11):
+    - GTMSessionFetcher/Full (= 1.1.11)
+  - GTMSessionFetcher/Core (1.1.11)
+  - GTMSessionFetcher/Full (1.1.11):
+    - GTMSessionFetcher/Core (= 1.1.11)
+  - IDMPhotoBrowser (1.11.3):
+    - DACircularProgress
+    - pop
+    - SDWebImage (= 4.0.0)
+  - libWeChatSDK (1.7.5)
+  - MagicalRecord (2.3.2):
+    - MagicalRecord/Core (= 2.3.2)
+  - MagicalRecord/Core (2.3.2)
+  - MBProgressHUD (1.0.0)
+  - MJRefresh (3.1.12)
+  - MXParallaxHeader (0.5.1)
+  - NYSegmentedControl (1.1.0)
+  - PageMenu (1.3.0)
+  - PFCarouselView (0.7.0)
+  - pop (1.0.10)
+  - QNNetDiag (0.0.4)
+  - SCLAlertView (0.7.0)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
+  - SMCalloutView (2.1.5)
+  - SSZipArchive (2.0.1)
+  - SVWebViewController (1.0)
+  - SwiftyJSON (3.1.4)
+  - TwitterCore (2.8.0):
+    - Fabric
+  - TwitterKit (2.8.1):
+    - TwitterCore (>= 2.8)
+  - UICKeyChainStore (2.1.1)
+  - UIColor_Hex_Swift (3.0.2)
+  - UIImage-ResizeMagick (0.0.1)
+  - UIView+Shake (1.3.0)
+  - WeiboSDK (3.1.3)
+  - ZoomInteractiveTransition (0.4.0)
+
+DEPENDENCIES:
+  - 1PasswordExtension
+  - ActionSheetPicker-3.0
+  - AFNetworking (~> 2)
+  - Base64nl
+  - CCHMapClusterController
+  - CHTCollectionViewWaterfallLayout
+  - Crashlytics
+  - DDThirdShareLibrary/TencentSDK
+  - EAIntroView
+  - Fabric
+  - FBSDKLoginKit
+  - FBSDKShareKit
+  - FCUUID
+  - FlagKit (from `git://github.com/gastonkosut/FlagKit`, commit `3a337be5f5458c91b5d7dfb4b735ec8a77c444ab`)
+  - Google/SignIn
+  - IDMPhotoBrowser
+  - libWeChatSDK
+  - MagicalRecord (~> 2.3)
+  - MBProgressHUD
+  - MJRefresh
+  - MXParallaxHeader (from `git://github.com/developforapple/MXParallaxHeader`, commit `1491e2b86b1112a560f2dc78b3437299293ef60e`)
+  - NYSegmentedControl
+  - PageMenu (from `git://github.com/JoeFerrucci/PageMenu`, commit `3477a47af6d01480c98f4095959e4a5d1e91a841`)
+  - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `880826c7f361c3065ca23a4696a4d19d7e1da6d3`)
+  - QNNetDiag
+  - SCLAlertView
+  - SDWebImage
+  - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
+  - SSZipArchive
+  - SVWebViewController
+  - SwiftyJSON
+  - TwitterKit (~> 2)
+  - UICKeyChainStore
+  - UIColor_Hex_Swift
+  - UIImage-ResizeMagick
+  - UIView+Shake
+  - WeiboSDK (~> 3.1.3)
+  - ZoomInteractiveTransition
+
+EXTERNAL SOURCES:
+  FlagKit:
+    :commit: 3a337be5f5458c91b5d7dfb4b735ec8a77c444ab
+    :git: git://github.com/gastonkosut/FlagKit
+  MXParallaxHeader:
+    :commit: 1491e2b86b1112a560f2dc78b3437299293ef60e
+    :git: git://github.com/developforapple/MXParallaxHeader
+  PageMenu:
+    :commit: 3477a47af6d01480c98f4095959e4a5d1e91a841
+    :git: git://github.com/JoeFerrucci/PageMenu
+  PFCarouselView:
+    :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
+    :git: git://github.com/CocoaBob/PFCarouselView
+  SMCalloutView:
+    :commit: bad0864b06019d764519dab9a53409de889c87fc
+    :git: git://github.com/CocoaBob/calloutview
+
+CHECKOUT OPTIONS:
+  FlagKit:
+    :commit: 3a337be5f5458c91b5d7dfb4b735ec8a77c444ab
+    :git: git://github.com/gastonkosut/FlagKit
+  MXParallaxHeader:
+    :commit: 1491e2b86b1112a560f2dc78b3437299293ef60e
+    :git: git://github.com/developforapple/MXParallaxHeader
+  PageMenu:
+    :commit: 3477a47af6d01480c98f4095959e4a5d1e91a841
+    :git: git://github.com/JoeFerrucci/PageMenu
+  PFCarouselView:
+    :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
+    :git: git://github.com/CocoaBob/PFCarouselView
+  SMCalloutView:
+    :commit: bad0864b06019d764519dab9a53409de889c87fc
+    :git: git://github.com/CocoaBob/calloutview
+
+SPEC CHECKSUMS:
+  1PasswordExtension: e775a29310c65851e5a6cec1afc349ab4e334e47
+  ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  Base64nl: a497bdcd1c01ea793d36b399016195a8713c0e95
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  CCHMapClusterController: d8cd12cd5682ec6cd76d911ac7198f981b6cc1b8
+  CHTCollectionViewWaterfallLayout: f4dab06db57b36dcf29e802594175acc76c56615
+  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  DDThirdShareLibrary: c87b0b8f78c957b5bf73214e6d9535b8acd6c910
+  EAIntroView: 3494b7bbd1212e3a4f7e8d16194a1b00e7b9abb2
+  EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
+  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
+  FBSDKCoreKit: f8c9eb0dd34a9cd277c7b60da4b32226d142502d
+  FBSDKLoginKit: 1214c6d5a1c4995b694d8db8a9ba6910c6028acf
+  FBSDKShareKit: a2ed9d7781a4eda9ac20d7404305e795b10251ac
+  FCUUID: bb054fc90cd7cd99320f9f6ff8e130fe607fba05
+  FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
+  FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
+  FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
+  FlagKit: a51b3c62dd29816fb11732bf45cdcf258d70b9f0
+  Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
+  GoogleSignIn: d7ad83f13480e1f30453471d00d19b5293ac46af
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
+  GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
+  IDMPhotoBrowser: b96159fe4adb991a844068eb17dab9c0b7d7e51a
+  libWeChatSDK: e34a813bccc704856a33943bde8279be4e4c82a0
+  MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  MXParallaxHeader: b40fabd42d1bb76f6d1a713ceae5628f69241bd6
+  NYSegmentedControl: a92726c9e459919549f94328389ffcdaecefebfe
+  PageMenu: b132da9e56950f0720b8f1c7d9d731f635ebcdcb
+  PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
+  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  QNNetDiag: f38e43c4f89aef14c1cc6b474a41e07bbe8b2820
+  SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
+  SSZipArchive: 6678776f378494909195d3f1b3f00d91e76084f9
+  SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
+  TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
+  UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
+  UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
+  UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
+  UIView+Shake: 3ccbf966d40a76ea2cdbdd48d8219d322d5df5f5
+  WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
+  ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
+
+PODFILE CHECKSUM: e37f594d75eae3faea6aaf303e10f5cdcce6b98f
+
+COCOAPODS: 1.2.0

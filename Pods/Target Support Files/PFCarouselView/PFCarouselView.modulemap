@@ -1,0 +1,6 @@
+framework module PFCarouselView {
+  umbrella header "PFCarouselView-umbrella.h"
+
+  export *
+  module * { export * }
+}

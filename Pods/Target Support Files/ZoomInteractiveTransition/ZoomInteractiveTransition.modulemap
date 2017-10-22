@@ -1,0 +1,6 @@
+framework module ZoomInteractiveTransition {
+  umbrella header "ZoomInteractiveTransition-umbrella.h"
+
+  export *
+  module * { export * }
+}
