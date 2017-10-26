@@ -30,7 +30,6 @@
 @import NYSegmentedControl;
 @import PageMenu;
 @import PFCarouselView;
-@import QNNetDiag;
 @import SCLAlertView;
 @import SMCalloutView;
 @import SSZipArchive;

@@ -100,7 +100,6 @@ PODS:
   - PageMenu (1.3.0)
   - PFCarouselView (0.7.0)
   - pop (1.0.10)
-  - QNNetDiag (0.0.4)
   - SCLAlertView (0.7.0)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
@@ -145,7 +144,6 @@ DEPENDENCIES:
   - NYSegmentedControl
   - PageMenu (from `git://github.com/JoeFerrucci/PageMenu`, commit `3477a47af6d01480c98f4095959e4a5d1e91a841`)
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, commit `880826c7f361c3065ca23a4696a4d19d7e1da6d3`)
-  - QNNetDiag
   - SCLAlertView
   - SDWebImage
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, commit `bad0864b06019d764519dab9a53409de889c87fc`)
@@ -231,7 +229,6 @@ SPEC CHECKSUMS:
   PageMenu: b132da9e56950f0720b8f1c7d9d731f635ebcdcb
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
-  QNNetDiag: f38e43c4f89aef14c1cc6b474a41e07bbe8b2820
   SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
@@ -247,6 +244,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: e37f594d75eae3faea6aaf303e10f5cdcce6b98f
+PODFILE CHECKSUM: ede18e58c043eff1dc457c8228ae4ba1c6172396
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.3.1

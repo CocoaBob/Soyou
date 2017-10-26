@@ -103,65 +103,12 @@ extension Utils {
         return diagnosticString.data(using: String.Encoding.utf8)
     }
     
-    func networkDiagnosticData(_ completionHandler: ((Data?)->())?) {
-        guard let keyWindow = UIApplication.shared.keyWindow else {
-            if let completionHandler = completionHandler { completionHandler(nil) }
-            return
-        }
-        
-        // Add text view
-        let textView = UITextView(frame: CGRect(x: 0, y: 0, width: 64, height: 64))
-        textView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        textView.textColor = UIColor.green
-        textView.font = UIFont(name: "Menlo", size: 9)
-        textView.contentInset = UIEdgeInsets(top: 72, left: 0, bottom: 56, right: 0)
-        textView.isEditable = false
-        textView.isSelectable = false
-        keyWindow.addSubview(textView)
-        
-        // Constraint
-        var viewBindingsDict = [String: AnyObject]()
-        viewBindingsDict["textView"] = textView
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        keyWindow.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
-        keyWindow.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[textView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewBindingsDict))
-        textView.setNeedsLayout()
-        textView.layoutIfNeeded()
-        
-        // Show indicator
-        if let progressHUD = MBProgressHUD.show() {
-            progressHUD.label.text = NSLocalizedString("brands_vc_beedback_waiting_title")
-            progressHUD.detailsLabel.text = NSLocalizedString("brands_vc_beedback_waiting_detail")
-        }
-        
-        // Start traceroute
-        let outputLogger = QNNOutputLogger() { logs in
-            DispatchQueue.main.async {
-                textView.text = logs
-                textView.scrollRectToVisible(CGRect(x:0, y:textView.contentSize.height, width:1, height:1), animated: false)
-            }
-        }
-        QNNTraceRoute.start("api.soyou.io", output:outputLogger) { records in
-            // Remove logs
-            textView.removeFromSuperview()
-            // Remove indicator
-            MBProgressHUD.hide()
-            if let completionHandler = completionHandler {
-                let result = outputLogger.logs.data(using: String.Encoding.utf8)
-                completionHandler(result)
-            }
-        }
-    }
-    
     func sendDiagnosticReport(_ fromViewController: UIViewController) {
         let completion = { (testResponseString: String) in
             let testResponseData = testResponseString.data(using: String.Encoding.utf8)
-            Utils.shared.networkDiagnosticData() { result in
-                Utils.shared.sendFeedbackEmail(fromViewController, attachments: [
-                    "SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData()),
-                    "NetworkDiagnostic.zip": Utils.compressData("NetworkDiagnostic.txt", result),
-                    "TestResponse.zip": Utils.compressData("TestResponse.txt", testResponseData)])
-            }
+            Utils.shared.sendFeedbackEmail(fromViewController, attachments: [
+                "SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData()),
+                "TestResponse.zip": Utils.compressData("TestResponse.txt", testResponseData)])
         }
         RequestManager.shared.requestAllBrands({ (responseObject) in
             completion("\(String(describing: responseObject))")
@@ -234,23 +181,5 @@ extension Utils {
     class func decrypt(_ data: Data) -> AnyObject? {
         let objectData = removeRandomPrefix(data)
         return NSKeyedUnarchiver.unarchiveObject(with: objectData) as AnyObject?
-    }
-}
-
-// MARK: QNNOutput for traceroute
-class QNNOutputLogger: NSObject, QNNOutputDelegate {
-    
-    var updateHandler: ((String)->())?
-    var logs: String = ""
-    
-    init(_ updateHandler: ((String)->())?) {
-        self.updateHandler = updateHandler
-    }
-    
-    func write(_ line: String) {
-        self.logs += line
-        if let updateHandler = updateHandler {
-            updateHandler(self.logs)
-        }
     }
 }
