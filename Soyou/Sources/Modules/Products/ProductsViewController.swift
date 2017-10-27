@@ -661,7 +661,8 @@ extension ProductsViewController: UISearchControllerDelegate {
     func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.setRightBarButton(nil, animated: false)
-        self.navigationItem.titleView = self.searchController!.searchBar
+        let searchBar = self.searchController!.searchBar
+        self.navigationItem.titleView = searchBar
         self.searchController!.searchBar.becomeFirstResponder()
     }
     

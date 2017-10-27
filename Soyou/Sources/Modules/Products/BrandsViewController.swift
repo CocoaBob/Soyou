@@ -87,6 +87,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         // To let ProductsViewController's viewWillAppear()/viewDidAppear() be called
         self.navigationController?.delegate = self
         
+        // Setup Search Controller
+        self.setupSearchController()
+        
         if isListMode {
             _collectionView.dataSource = nil
             _collectionView.delegate = nil
@@ -95,9 +98,6 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             _tableView.isHidden = false
             _tableView.dataSource = self
             _tableView.delegate = self
-            
-            // Fix scroll view insets
-            self.updateScrollViewInset(_tableView, 0, true, true, false, true)
             
             // Setups
             self.setupTableView()
@@ -110,15 +110,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             _collectionView.dataSource = self
             _collectionView.delegate = self
             
-            // Fix scroll view insets
-            self.updateScrollViewInset(_collectionView, 0, true, true, false, true)
-            
             // Setups
             self.setupCollectionView()
         }
-        
-        // Setup Search Controller
-        self.setupSearchController()
         
         // Observe data updating
         NotificationCenter.default.addObserver(self, selector: #selector(BrandsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.brandsUpdatingDidFinishNotification), object: nil)
@@ -146,6 +140,16 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         self.hideToolbar(false)
         // For navigation bar search bar
         self.definesPresentationContext = true
+        // Fix scroll view insets
+        if isListMode {
+            self.updateScrollViewInset(_tableView, 0, true, true, false, true)
+            self.navigationController?.navigationBar.layoutIfNeeded()
+            _tableView.layoutIfNeeded()
+        } else {
+            self.updateScrollViewInset(_collectionView, 0, true, true, false, true)
+            self.navigationController?.navigationBar.layoutIfNeeded()
+            _collectionView.layoutIfNeeded()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -329,7 +333,7 @@ extension BrandsViewController {
 }
 
 // MARK: - CollectionView Waterfall Layout
-extension BrandsViewController {
+extension BrandsViewController: UICollectionViewDelegateFlowLayout {
     
     func setupCollectionView() {
         _collectionView.indicatorStyle = .white
@@ -363,7 +367,7 @@ extension BrandsViewController {
     }
     
     //** Size for the cells in the Waterfall Layout */
-    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAt indexPath: IndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.bounds.width - 3) / 2
         return CGSize(width: width, height: width * 2 / 3)
     }
@@ -426,7 +430,8 @@ extension BrandsViewController: UISearchControllerDelegate {
         if isListMode {
             self.navigationItem.setHidesBackButton(true, animated: false)
             self.navigationItem.setRightBarButton(nil, animated: false)
-            self.navigationItem.titleView = self.searchController!.searchBar
+            let searchBar = self.searchController!.searchBar
+            self.navigationItem.titleView = searchBar
         }
         self.searchController!.searchBar.becomeFirstResponder()
     }
@@ -452,7 +457,8 @@ extension BrandsViewController: UISearchControllerDelegate {
         if isListMode {
             self.setupRightBarButtonItem()
         } else {
-            self.navigationItem.titleView = self.searchController!.searchBar
+            let searchBar = self.searchController!.searchBar
+            self.navigationItem.titleView = searchBar
         }
     }
     

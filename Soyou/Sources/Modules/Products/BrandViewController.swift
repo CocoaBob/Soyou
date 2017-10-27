@@ -122,11 +122,11 @@ class BrandViewController: UIViewController {
         // Parallax Header
         self.setupParallaxHeader()
         
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height , true, true, false, false)
-        
         // Setup Search Controller
         self.setupSearchController()
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height , true, true, false, false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -471,7 +471,8 @@ extension BrandViewController: UISearchControllerDelegate {
     func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.setRightBarButton(nil, animated: false)
-        self.navigationItem.titleView = self.searchController!.searchBar
+        let searchBar = self.searchController!.searchBar
+        self.navigationItem.titleView = searchBar
         self.searchController!.searchBar.becomeFirstResponder()
     }
     

@@ -45,7 +45,15 @@ extension UIViewController {
                 navigationController = _navigationController
             }
             if let navigationController = navigationController {
-                topInset += navigationController.navigationBar.frame.height
+                if #available(iOS 11.0, *) {
+                    if self.navigationItem.titleView is UISearchBar {
+                        topInset += self.navigationItem.titleView?.frame.height ?? 0
+                    } else {
+                        topInset += navigationController.navigationBar.frame.height
+                    }
+                } else {
+                    topInset += navigationController.navigationBar.frame.height
+                }
             } else {
                 topInset += 44
             }

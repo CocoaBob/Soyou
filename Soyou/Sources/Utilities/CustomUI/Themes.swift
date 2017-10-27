@@ -27,5 +27,10 @@ class Themes {
         
         // UITableViewHeaderFooterView
 //        UITableViewHeaderFooterView.appearance().tintColor = UIColor.clear
+        
+        // UIScrollView
+        if #available(iOS 11.0, *) {
+            UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
+        }
     }
 }

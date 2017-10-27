@@ -47,7 +47,11 @@ extension AsyncedFetchedResultsViewController {
     
     // Used to avoid appending the same result multiple times.
     func hasAppendedFetchedResultsForOffset(_ offset: Int) -> Bool {
-        return (self.fetchedResults?.count)! > offset
+        if let results = self.fetchedResults {
+            return results.count > offset
+        } else {
+            return false
+        }
     }
     
     func appendFetchedResults(_ results: [AnyObject]?) {
