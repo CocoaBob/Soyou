@@ -21,11 +21,11 @@ class RequestManager {
     //////////////////////////////////////
     
     func getSyncExternal(_ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.requestExternal("GET", path, false, true, nil, nil, nil, onSuccess, onFailure)
+        requestOperationManager.requestExternal("GET", path, false, true, nil, [:], nil, onSuccess, onFailure)
     }
     
     func getAsyncExternal(_ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        requestOperationManager.requestExternal("GET", path, false, false, nil, nil, nil, onSuccess, onFailure)
+        requestOperationManager.requestExternal("GET", path, false, false, nil, [:], nil, onSuccess, onFailure)
     }
     
     func getAsync(_ path: String, _ api: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -53,7 +53,7 @@ class RequestManager {
     }
     
     func logout(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/auth/logout", "Auth", nil, onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/auth/logout", "Auth", [:], onSuccess, onFailure)
     }
     
     func register(_ email: String, _ password: String, _ gender: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
