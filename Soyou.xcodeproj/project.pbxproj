@@ -1280,7 +1280,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 462473FC94E32BEE53A41955 /* Pods-Soyou.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1309,7 +1308,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A89E907C840F3D4707B5726D /* Pods-Soyou.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

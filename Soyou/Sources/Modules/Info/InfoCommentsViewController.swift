@@ -291,10 +291,10 @@ extension InfoCommentsViewController {
     
     func endRefreshing(_ hasEarlierData: Bool?) {
         DispatchQueue.main.async {
-            if self.tableView.mj_header.isRefreshing() {
+            if self.tableView.mj_header.isRefreshing {
                 self.tableView.mj_header.endRefreshing()
             }
-            if self.tableView.mj_footer.isRefreshing() {
+            if self.tableView.mj_footer.isRefreshing {
                 if let hasEarlierData = hasEarlierData {
                     if hasEarlierData {
                         self.tableView.mj_footer.endRefreshing()

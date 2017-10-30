@@ -288,7 +288,7 @@ extension BrandViewController {
         // Image
         guard let image = brandImage else { return }
         // Height
-        let headerHeight = self.view.bounds.width * image.size.height / image.size.width
+        let headerHeight = self.view.bounds.width * min(image.size.height / image.size.width, 2.0 / 3.0)
         // Header View
         let headerView = UIImageView(image: image)
         headerView.contentMode = .scaleAspectFill

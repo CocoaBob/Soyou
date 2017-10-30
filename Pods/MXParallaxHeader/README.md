@@ -12,7 +12,7 @@ In addition, MXScrollView is a UIScrollView subclass with the ability to hook th
 
 |             UIScrollView        |           MXScrollViewController          |
 |---------------------------------|-------------------------------------------|
-|![Demo](Example/UIScrollView.gif)|![Demo](Example/MXScrollViewController.gif)|
+|![Demo](Example-objc/demo1.gif)|![Demo](Example-objc/demo2.gif)|
 
 ## Usage
 
@@ -21,8 +21,6 @@ If you want to try it, simply run:
 ```
 pod try MXParallaxHeader
 ```
-
-Or clone the repo and run `pod install` from the Example directory first.
 
 + Adding a parallax header to a UIScrollView is straightforward, e.g:
 
