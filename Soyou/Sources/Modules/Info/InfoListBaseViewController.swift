@@ -66,11 +66,11 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
 // MARK: Data
 extension InfoListBaseViewController {
     
-    func loadData(_ relativeID: NSNumber?) {
+    @objc func loadData(_ relativeID: NSNumber?) {
         
     }
     
-    func loadNextData() {
+    @objc func loadNextData() {
         
     }
 }

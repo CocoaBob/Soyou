@@ -174,7 +174,7 @@ class InfoDetailBaseViewController: UIViewController {
 // MARK: Web image tap gesture handler
 extension InfoDetailBaseViewController {
     
-    func tapHandler(_ tapGR: UITapGestureRecognizer) {
+    @objc func tapHandler(_ tapGR: UITapGestureRecognizer) {
         guard let webView = self.webView else {
             return
         }

@@ -524,7 +524,7 @@ extension ProductViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func next(_ sender: AnyObject) {
+    @objc func next(_ sender: AnyObject) {
         self.loadNextProduct()
     }
     
@@ -559,12 +559,12 @@ extension ProductViewController {
             let htmlData = htmlString.data(using: String.Encoding.utf8) {
                 do {
                     let attributedString = try NSAttributedString(data: htmlData,
-                                                                  options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
-                                                                            NSCharacterEncodingDocumentAttribute:String.Encoding.utf8],
+                                                                  options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html,
+                                                                            NSAttributedString.DocumentReadingOptionKey.characterEncoding:String.Encoding.utf8],
                                                                   documentAttributes: nil)
                     var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                    if contentString.characters.count > 256 {
-                        contentString = contentString[contentString.startIndex...contentString.index(contentString.startIndex, offsetBy: 256)]
+                    if contentString.count > 256 {
+                        contentString = String(contentString[..<contentString.index(contentString.startIndex, offsetBy: 256)])
                     }
                     descriptions = contentString
                 } catch {
@@ -574,8 +574,8 @@ extension ProductViewController {
         
         // Title
         if let strTitle = title {
-            if strTitle.characters.count > 128 {
-                title = strTitle[strTitle.startIndex...strTitle.index(strTitle.startIndex, offsetBy: 128)]
+            if strTitle.count > 128 {
+                title = String(strTitle[..<strTitle.index(strTitle.startIndex, offsetBy: 128)])
             }
         }
         
@@ -597,7 +597,7 @@ extension ProductViewController {
         })
     }
     
-    func like(_ sender: AnyObject) {
+    @objc func like(_ sender: AnyObject) {
         self.product?.doLike({ (likeNumber: NSNumber, isLiked: NSNumber) -> () in
             // Update like color
             self.updateLikeBtnColor(isLiked.boolValue)
@@ -606,7 +606,7 @@ extension ProductViewController {
         })
     }
     
-    func star(_ sender: AnyObject) {
+    @objc func star(_ sender: AnyObject) {
         UserManager.shared.loginOrDo() { () -> () in
             self.product?.toggleFavorite({ (data: Any?) -> () in
                 // Toggle the value of isFavorite

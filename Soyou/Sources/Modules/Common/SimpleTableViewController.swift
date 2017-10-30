@@ -378,7 +378,7 @@ extension SimpleTableViewController: UITextFieldDelegate {
 // MARK: Actions
 extension SimpleTableViewController {
     
-    func textFieldDidEdit(_ textField: UITextField) {
+    @objc func textFieldDidEdit(_ textField: UITextField) {
         self.editedText = textField.text
         let position = textField.convert(CGPoint.zero, to: self.tableView)
         guard let indexPath = self.tableView.indexPathForRow(at: position) else { return }

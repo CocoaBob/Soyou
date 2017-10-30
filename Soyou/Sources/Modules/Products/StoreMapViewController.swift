@@ -277,7 +277,7 @@ extension StoreMapViewController {
         return nil
     }
     
-    func copyAddress(_ sender: UIButton) {
+    @objc func copyAddress(_ sender: UIButton) {
         if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
             let store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             let address = FmtString("%@\n%@\n%@\n%@\n%@",store.title ?? "", store.address ?? "", store.zipcode ?? "", store.city ?? "", store.country ?? "")
@@ -295,7 +295,7 @@ extension StoreMapViewController {
         }
     }
     
-    func openMap(_ sender: UIButton) {
+    @objc func openMap(_ sender: UIButton) {
         if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
             let store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             var addressDictionary = [String: String]()
@@ -351,7 +351,7 @@ extension StoreMapViewController: UISearchControllerDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(StoreMapViewController.showSearchController))
     }
     
-    func showSearchController() {
+    @objc func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.setRightBarButton(nil, animated: false)
         let searchBar = self.searchController!.searchBar

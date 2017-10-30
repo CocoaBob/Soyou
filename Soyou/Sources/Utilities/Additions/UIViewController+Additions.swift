@@ -158,7 +158,7 @@ extension UIViewController {
     
     // Called on iOS-7 and below on steps: #2, #4
     // Called on iOS-8 on steps: #3, #4, #6, #7
-    func keyboardWillChangeFrame(_ notification: NSNotification) {
+    @objc func keyboardWillChangeFrame(_ notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
         guard var finalKeyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         
@@ -191,7 +191,7 @@ extension UIViewController {
         }
     }
     
-    func keyboardDidChangeFrame(_ notification: NSNotification) {
+    @objc func keyboardDidChangeFrame(_ notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
         guard var finalKeyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         
@@ -202,7 +202,7 @@ extension UIViewController {
         self.adjustViewsForKeyboardFrame(finalKeyboardFrame, false, 0, UIViewAnimationOptions(rawValue: 0))
     }
     
-    func keyboardWillShow(_ notification: NSNotification) {
+    @objc func keyboardWillShow(_ notification: NSNotification) {
         var navigationItem: UINavigationItem?
         if self.parent != nil && self.parent != self.navigationController {
             navigationItem = self.parent?.navigationItem
@@ -226,7 +226,7 @@ extension UIViewController {
         }
     }
     
-    func keyboardWillHide(_ notification: NSNotification) {
+    @objc func keyboardWillHide(_ notification: NSNotification) {
         var navigationItem: UINavigationItem?
         if self.parent != nil && self.parent != self.navigationController {
             navigationItem = self.parent?.navigationItem
@@ -273,7 +273,7 @@ extension UIViewController {
         return !__isDismissingKeyboard
     }
     
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         __isDismissingKeyboard = true
         self.view.endEditing(true)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {

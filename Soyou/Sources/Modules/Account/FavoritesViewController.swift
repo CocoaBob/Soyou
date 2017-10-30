@@ -86,7 +86,7 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         self.hideToolbar(false)
         
         // Reload data
-        self.reloadData { resultCount in
+        self.reloadData {
             self.tableView().reloadData()
         }
     }

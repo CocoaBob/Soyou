@@ -453,15 +453,15 @@ extension SettingsViewController {
         UIApplication.shared.registerForRemoteNotifications()
     }
     
-    func applicationWillResignActiveNotification() {
+    @objc func applicationWillResignActiveNotification() {
         self.registerPushNotificationTimer?.invalidate()
     }
     
-    func applicationDidBecomeActiveNotification() {
+    @objc func applicationDidBecomeActiveNotification() {
         self.refreshUI()
     }
     
-    func finishedRequestingNotifications() {
+    @objc func finishedRequestingNotifications() {
         self.registerPushNotificationTimer?.invalidate()
         self.openSettings()
     }

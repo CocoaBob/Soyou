@@ -180,7 +180,7 @@ extension UserViewController {
         }
     }
     
-    func avatarAction() {
+    @objc func avatarAction() {
         UserManager.shared.loginOrDo() { () -> () in
             self.present(UINavigationController(rootViewController: ProfileViewController()), animated: true, completion: nil)
         }

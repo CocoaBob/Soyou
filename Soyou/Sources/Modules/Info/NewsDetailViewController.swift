@@ -84,12 +84,12 @@ class NewsDetailViewController: InfoDetailBaseViewController {
             let htmlData = htmlString.data(using: String.Encoding.utf8) {
             do {
                 let attributedString = try NSAttributedString(data: htmlData,
-                                                              options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,
-                                                                        NSCharacterEncodingDocumentAttribute:String.Encoding.utf8],
+                                                              options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html,
+                                                                        NSAttributedString.DocumentReadingOptionKey.characterEncoding:String.Encoding.utf8],
                                                               documentAttributes: nil)
                 var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                if contentString.characters.count > 256 {
-                    contentString = contentString[contentString.startIndex...contentString.index(contentString.startIndex, offsetBy: 256)]
+                if contentString.count > 256 {
+                    contentString = String(contentString[..<contentString.index(contentString.startIndex, offsetBy: 256)])
                 }
                 descriptions = contentString
             } catch {
@@ -101,8 +101,8 @@ class NewsDetailViewController: InfoDetailBaseViewController {
             items.append(item)
         }
         if var item = self.infoTitle {
-            if item.characters.count > 128 {
-                item = item[item.startIndex...item.index(item.startIndex, offsetBy: 128)]
+            if item.count > 128 {
+                item = String(item[..<item.index(item.startIndex, offsetBy: 128)])
             }
             items.append(item as AnyObject)
         }

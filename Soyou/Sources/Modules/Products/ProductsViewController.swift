@@ -638,7 +638,7 @@ extension ProductsViewController: UISearchBarDelegate {
     
     func getSearchKeywords(_ searchText: String?) -> [String]? {
         if let searchText = searchText {
-            let searchKeywords = searchText.characters.split() { $0 == " " }.flatMap() { String($0) }
+            let searchKeywords = searchText.components(separatedBy: " ")
             return searchKeywords.map({Product.normalizedSearchText($0).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)})
         } else {
             return nil
@@ -658,7 +658,7 @@ extension ProductsViewController: UISearchControllerDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(ProductsViewController.showSearchController))
     }
     
-    func showSearchController() {
+    @objc func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.setRightBarButton(nil, animated: false)
         let searchBar = self.searchController!.searchBar

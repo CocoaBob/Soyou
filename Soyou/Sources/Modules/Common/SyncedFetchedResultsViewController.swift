@@ -53,18 +53,18 @@ class SyncedFetchedResultsViewController: UIViewController {
 extension SyncedFetchedResultsViewController {
     
     // Should be overridden by sub-class
-    func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
+    @objc func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
         assert(false)
         return nil
     }
     
     // Should be overridden by sub-class
-    func tableView() -> UITableView? {
+    @objc func tableView() -> UITableView? {
         return nil
     }
     
     // Should be overridden by sub-class
-    func collectionView() -> UICollectionView? {
+    @objc func collectionView() -> UICollectionView? {
         return nil
     }
 }

@@ -333,18 +333,18 @@ class InfoCommentsTableViewCell: UITableViewCell {
     
     func setup(_ comment: Comment) {
         self.comment = comment
-        var attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.black]
+        var attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.black]
         let attributedString = NSMutableAttributedString(string: comment.username, attributes: attributes)
-        attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 5.0)]
+        attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 5.0)]
         attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
-        attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.black]
+        attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.black]
         attributedString.append(NSMutableAttributedString(string: comment.comment, attributes: attributes))
         if let parentUsername = self.comment.parentUsername, let parentComment = self.comment.parentComment {
-            attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 5.0)]
+            attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 5.0)]
             attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
-            attributes = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.gray]
+            attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
             attributedString.append(NSMutableAttributedString(string: "\(parentUsername): ", attributes: attributes))
-            attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: UIColor.gray]
+            attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
             attributedString.append(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
         }
         self.tvContent.attributedText = attributedString
@@ -358,7 +358,7 @@ class InfoCommentsTableViewCell: UITableViewCell {
         return false
     }
     
-    func reply() {
+    @objc func reply() {
         self.infoCommentsViewController.postNewComment(self.comment)
     }
     

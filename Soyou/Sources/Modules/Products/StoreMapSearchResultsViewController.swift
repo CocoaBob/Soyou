@@ -92,7 +92,7 @@ extension StoreMapSearchResultsViewController: UISearchResultsUpdating {
 // MARK: Rountines
 extension StoreMapSearchResultsViewController {
     
-    func searchAddress() {
+    @objc func searchAddress() {
         let request = MKLocalSearchRequest()
         if let region = self.delegate?.searchRegion() {
             request.region = region

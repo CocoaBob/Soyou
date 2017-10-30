@@ -593,7 +593,7 @@ extension LoginViewController {
         }
     }
     
-    func findLoginFrom1Password(_ sender: AnyObject?) {
+    @objc func findLoginFrom1Password(_ sender: AnyObject?) {
         OnePasswordExtension.shared().findLogin(forURLString: "soyou.io", for: self, sender: sender) { loginDictionary, error in
             self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
@@ -601,7 +601,7 @@ extension LoginViewController {
         }
     }
     
-    func saveLoginTo1Password(_ sender: AnyObject?) {
+    @objc func saveLoginTo1Password(_ sender: AnyObject?) {
         OnePasswordExtension.shared().storeLogin(forURLString: "soyou.io", loginDetails: nil, passwordGenerationOptions: nil, for: self, sender: sender) { loginDictionary, error in
             self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
@@ -610,7 +610,7 @@ extension LoginViewController {
         }
     }
     
-    func changePasswordIn1Password(_ sender: AnyObject?) {
+    @objc func changePasswordIn1Password(_ sender: AnyObject?) {
         OnePasswordExtension.shared().changePasswordForLogin(forURLString: "soyou.io", loginDetails: nil, passwordGenerationOptions: nil, for: self, sender: sender) { loginDictionary, error in
             self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String

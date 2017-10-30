@@ -495,7 +495,7 @@ extension BrandsViewController {
         }
     }
     
-    func checkIsLoading() {
+    @objc func checkIsLoading() {
         if DataManager.shared.isUpdatingData {
             self.showLoadingIndicator()
         } else {

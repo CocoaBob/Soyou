@@ -151,13 +151,13 @@ extension IntroViewController: EAIntroDelegate {
 // MARK: Actions
 extension IntroViewController {
     
-    func enableLocation(_ sender: UIButton) {
+    @objc func enableLocation(_ sender: UIButton) {
         self.locationManager = CLLocationManager()
         self.locationManager?.delegate = self
         self.locationManager?.requestWhenInUseAuthorization()
     }
     
-    func enableNotification(_ sender: UIButton) {
+    @objc func enableNotification(_ sender: UIButton) {
         UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert],
                                                                                          categories: nil))
         UIApplication.shared.registerForRemoteNotifications()
@@ -192,7 +192,7 @@ extension IntroViewController: CLLocationManagerDelegate {
     
     // Notifications
     // Cons.Usr.DidRegisterForRemoteNotifications
-    func didRegisterForRemoteNotifications() {
+    @objc func didRegisterForRemoteNotifications() {
         if UIApplication.shared.isRegisteredForRemoteNotifications {
             if let page = self.introView?.pages[IntroViewPage.news.rawValue] as? EAIntroPage {
                 if let subViews = page.subviews as? [UIView] {
