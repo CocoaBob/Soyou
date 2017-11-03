@@ -184,10 +184,10 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                                 let imageURLString = images.firstObject as? String,
                                 let imageURL = URL(string: imageURLString) {
                                 _cell.imgView?.sd_setImage(with: imageURL,
-                                    placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                    options: [.continueInBackground, .allowInvalidSSLCertificates],
-                                    completed: nil)
-                            }
+                                                           placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                                           options: [.continueInBackground, .allowInvalidSSLCertificates],
+                                                           completed: nil)
+                        }
                     }
                 })
             }

@@ -255,14 +255,13 @@ extension ProductViewController {
                         let placeholder = UIImage(named: "img_placeholder_1_1_m")
                         let imageView = UIImageView(frame: imageViewFrame)
                         imageView.contentMode = .scaleAspectFit
-                        imageView.sd_setImage(with: 
-                            imageURL,
-                            placeholderImage: placeholder,
-                            options: [.continueInBackground, .allowInvalidSSLCertificates],
-                            completed: { (image, error, cacheType, url) -> Void in
-                                if let photo = IDMPhoto(image: image ?? placeholder) {
-                                    self.photos[index] = photo
-                                }
+                        imageView.sd_setImage(with: imageURL,
+                                              placeholderImage: placeholder,
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates],
+                                              completed: { (image, error, cacheType, url) -> Void in
+                                                if let photo = IDMPhoto(image: image ?? placeholder) {
+                                                    self.photos[index] = photo
+                                                }
                         })
                         self.imageViews.append(imageView)
                     }
@@ -558,9 +557,10 @@ extension ProductViewController {
         if let htmlString = htmlString,
             let htmlData = htmlString.data(using: String.Encoding.utf8) {
                 do {
+                    let options = [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,
+                                   NSAttributedString.DocumentReadingOptionKey.characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)] as [NSAttributedString.DocumentReadingOptionKey : Any]
                     let attributedString = try NSAttributedString(data: htmlData,
-                                                                  options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html,
-                                                                            NSAttributedString.DocumentReadingOptionKey.characterEncoding:String.Encoding.utf8],
+                                                                  options: options,
                                                                   documentAttributes: nil)
                     var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     if contentString.count > 256 {

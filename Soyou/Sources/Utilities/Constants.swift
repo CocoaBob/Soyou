@@ -17,7 +17,7 @@ public struct Cons {
 //        static let reqAPIKey                                = "17843599-f079-4c57-bb39-d9ca8344abd"
 //#else
         static let hostname                                 = "api.soyou.io"
-        static let shareBaseURL                             = "http://share.soyou.io:8090/#"
+        static let shareBaseURL                             = "http://share.soyou.io/#"
         static let reqAPIKey                                = "\(1155919*2*3*7)"+"-f079-4c57-bb39-d9ca8344abd7"
 //#endif
         

@@ -39,8 +39,8 @@ extension Utils {
     
     class func shareItems(_ items: [Any], completion: (() -> Void)?) {
         if let vc = UIApplication.shared.keyWindow?.rootViewController?.toppestViewController() {
-            let activityView = UIActivityViewController(activityItems: items, applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
-            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
+            let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
+//            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
             vc.present(activityView, animated: true, completion: completion)
         }
     }

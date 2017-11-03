@@ -84,8 +84,8 @@ class NewsDetailViewController: InfoDetailBaseViewController {
             let htmlData = htmlString.data(using: String.Encoding.utf8) {
             do {
                 let attributedString = try NSAttributedString(data: htmlData,
-                                                              options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html,
-                                                                        NSAttributedString.DocumentReadingOptionKey.characterEncoding:String.Encoding.utf8],
+                                                              options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,
+                                                                        NSAttributedString.DocumentReadingOptionKey.characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)],
                                                               documentAttributes: nil)
                 var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 if contentString.count > 256 {

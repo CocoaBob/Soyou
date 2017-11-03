@@ -241,27 +241,27 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 let countBeforeUpdating = self.fetchedResults?.count
                 if let imageView = cell.fgImageView {
                     imageView.sd_setImage(with: imageURL,
-                                                 placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
-                                                 options: [.continueInBackground, .allowInvalidSSLCertificates],
-                                                 completed: { (image, error, type, url) -> Void in
-                                                    // Update image if it's still visible
-                                                    if (self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
-                                                        if let image = image {
-                                                            // Update the image with an animation
-                                                            UIView.transition(with: imageView,
-                                                                              duration: 0.3,
-                                                                              options: UIViewAnimationOptions.transitionCrossDissolve,
-                                                                              animations: { imageView.image = image },
-                                                                              completion: nil)
-                                                            
-                                                            // If image ratio is different, reload the cell to update layout
-                                                            let imageViewRatio = imageView.frame.height / imageView.frame.width
-                                                            let imageRatio = image.size.height / image.size.width
-                                                            if (abs(imageViewRatio - imageRatio) > 0.01 && self.fetchedResults?.count == countBeforeUpdating) {
-                                                                self.collectionView().reloadItems(at: [indexPath])
-                                                            }
-                                                        }
+                                          placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
+                                          options: [.continueInBackground, .allowInvalidSSLCertificates],
+                                          completed: { (image, error, type, url) -> Void in
+                                            // Update image if it's still visible
+                                            if (self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
+                                                if let image = image {
+                                                    // Update the image with an animation
+                                                    UIView.transition(with: imageView,
+                                                                      duration: 0.3,
+                                                                      options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                      animations: { imageView.image = image },
+                                                                      completion: nil)
+                                                    
+                                                    // If image ratio is different, reload the cell to update layout
+                                                    let imageViewRatio = imageView.frame.height / imageView.frame.width
+                                                    let imageRatio = image.size.height / image.size.width
+                                                    if (abs(imageViewRatio - imageRatio) > 0.01 && self.fetchedResults?.count == countBeforeUpdating) {
+                                                        self.collectionView().reloadItems(at: [indexPath])
                                                     }
+                                                }
+                                            }
                     })
                 }
             } else {

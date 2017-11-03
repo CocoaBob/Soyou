@@ -162,12 +162,12 @@ extension UserViewController {
                 placeholderImage: UserManager.shared.defaultAvatarImage(),
                 options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder])
             self.imgViewAvatar.sd_setImage(with: url,
-                                                  placeholderImage: UserManager.shared.defaultAvatarImage(),
-                                                  options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
-                                                  completed: { (image, error, type, url) in
-                                                    if error == nil {
-                                                        self.addAvatarBorder()
-                                                    }
+                                           placeholderImage: UserManager.shared.defaultAvatarImage(),
+                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
+                                           completed: { (image, error, type, url) in
+                                            if error == nil {
+                                                self.addAvatarBorder()
+                                            }
             })
         } else {
             self.imgViewAvatar.image = UserManager.shared.defaultAvatarImage()

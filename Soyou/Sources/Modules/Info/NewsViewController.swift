@@ -102,15 +102,15 @@ extension NewsViewController {
             if let imageURLString = news.image,
                 let imageURL = URL(string: imageURLString) {
                 cell.fgImageView.sd_setImage(with: imageURL,
-                                                    placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                                                    options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                                    completed: { (image, error, type, url) -> Void in
-                                                        if (image != nil &&
-                                                            !self.collectionView().isDragging &&
-                                                            !self.collectionView().isDecelerating &&
-                                                            self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
-                                                            self.collectionView().reloadItems(at: [indexPath])
-                                                        }
+                                             placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
+                                             options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                             completed: { (image, error, type, url) -> Void in
+                                                if (image != nil &&
+                                                    !self.collectionView().isDragging &&
+                                                    !self.collectionView().isDecelerating &&
+                                                    self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
+                                                    self.collectionView().reloadItems(at: [indexPath])
+                                                }
                 })
             }
             returnValue = cell
