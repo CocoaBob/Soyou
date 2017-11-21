@@ -45,15 +45,7 @@ extension UIViewController {
                 navigationController = _navigationController
             }
             if let navigationController = navigationController {
-                if #available(iOS 11.0, *) {
-                    if self.navigationItem.titleView is UISearchBar {
-                        topInset += self.navigationItem.titleView?.frame.height ?? 0
-                    } else {
-                        topInset += navigationController.navigationBar.frame.height
-                    }
-                } else {
-                    topInset += navigationController.navigationBar.frame.height
-                }
+                topInset += navigationController.navigationBar.frame.height
             } else {
                 topInset += 44
             }
@@ -98,8 +90,11 @@ extension UIViewController {
     
     func updateScrollViewInset(_ scrollView: UIScrollView, _ parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool, _ toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) {
         if #available(iOS 11.0, *) {
-            return
+            if UIDevice.isX() {
+                return
+            }
         }
+        
         self.edgesForExtendedLayout = UIRectEdge.all
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false

@@ -103,7 +103,10 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
         self.hideSwipeUpIndicator()
         
         // Observe data updating
-        NotificationCenter.default.addObserver(self, selector: #selector(ProductsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.productsUpdatingDidFinishNotification), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ProductsViewController.reloadDataWithoutCompletion),
+                                               name: NSNotification.Name(rawValue: Cons.DB.productsUpdatingDidFinishNotification),
+                                               object: nil)
         
         // Load data
         if !self.isSearchResultsViewController {
@@ -663,17 +666,17 @@ extension ProductsViewController: UISearchControllerDelegate {
         self.navigationItem.setRightBarButton(nil, animated: false)
         let searchBar = self.searchController!.searchBar
         self.navigationItem.titleView = searchBar
+        self.navigationController?.navigationBar.setNeedsLayout()
         self.searchController!.searchBar.becomeFirstResponder()
     }
     
     func hideSearchController() {
         self.setupRightBarButtonItem()
         self.navigationItem.titleView = nil
+        self.navigationController?.navigationBar.setNeedsLayout()
     }
     
     func setupSearchController() {
-        self.setupRightBarButtonItem()
-
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
         searchResultsController.searchFromViewController = self
@@ -684,7 +687,10 @@ extension ProductsViewController: UISearchControllerDelegate {
         self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.delegate = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("products_vc_search_bar_placeholder"), self.categoryName ?? "")
+        self.searchController!.searchBar.showsCancelButton = false
         self.searchController!.hidesNavigationBarDuringPresentation = false
+        
+        self.setupRightBarButtonItem()
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {

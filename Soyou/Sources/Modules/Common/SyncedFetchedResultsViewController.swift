@@ -44,7 +44,7 @@ class SyncedFetchedResultsViewController: UIViewController {
         }
     }
     
-    func reloadDataWithoutCompletion() {
+    @objc func reloadDataWithoutCompletion() {
         self.reloadData(nil)
     }
 }

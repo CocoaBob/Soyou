@@ -356,6 +356,7 @@ extension StoreMapViewController: UISearchControllerDelegate {
         self.navigationItem.setRightBarButton(nil, animated: false)
         let searchBar = self.searchController!.searchBar
         self.navigationItem.titleView = searchBar
+        self.navigationController?.navigationBar.setNeedsLayout()
         self.searchController!.searchBar.becomeFirstResponder()
     }
     
@@ -363,18 +364,20 @@ extension StoreMapViewController: UISearchControllerDelegate {
         self.removeSearchResultAnnotation()
         self.setupRightBarButtonItem()
         self.navigationItem.titleView = nil
+        self.navigationController?.navigationBar.setNeedsLayout()
     }
     
     func setupSearchController() {
-        self.setupRightBarButtonItem()
-        
         let storeMapSearchResultsViewController = StoreMapSearchResultsViewController.instantiate()
         storeMapSearchResultsViewController.delegate = self
         self.searchController = UISearchController(searchResultsController: storeMapSearchResultsViewController)
         self.searchController!.delegate = self
         self.searchController!.searchResultsUpdater = storeMapSearchResultsViewController
         self.searchController!.searchBar.placeholder = NSLocalizedString("store_map_vc_search_bar_placeholder")
+        self.searchController!.searchBar.showsCancelButton = false
         self.searchController!.hidesNavigationBarDuringPresentation = false
+        
+        self.setupRightBarButtonItem()
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {

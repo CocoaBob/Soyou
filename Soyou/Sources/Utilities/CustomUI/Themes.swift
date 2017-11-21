@@ -25,12 +25,13 @@ class Themes {
         UIToolbar.appearance().isTranslucent = true
         UIToolbar.appearance().tintColor = Cons.UI.colorToolbar
         
-        // UITableViewHeaderFooterView
-//        UITableViewHeaderFooterView.appearance().tintColor = UIColor.clear
-        
         // UIScrollView
         if #available(iOS 11.0, *) {
-            UIScrollView.appearance().contentInsetAdjustmentBehavior = .always
+            if UIDevice.isX() {
+                UIScrollView.appearance().contentInsetAdjustmentBehavior = .always
+            } else {
+                UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
+            }
         }
     }
 }

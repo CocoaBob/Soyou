@@ -473,17 +473,17 @@ extension BrandViewController: UISearchControllerDelegate {
         self.navigationItem.setRightBarButton(nil, animated: false)
         let searchBar = self.searchController!.searchBar
         self.navigationItem.titleView = searchBar
+        self.navigationController?.navigationBar.setNeedsLayout()
         self.searchController!.searchBar.becomeFirstResponder()
     }
     
     func hideSearchController() {
         self.setupRightBarButtonItem()
         self.navigationItem.titleView = nil
+        self.navigationController?.navigationBar.setNeedsLayout()
     }
     
     func setupSearchController() {
-        self.setupRightBarButtonItem()
-        
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
         searchResultsController.searchFromViewController = self
@@ -493,7 +493,10 @@ extension BrandViewController: UISearchControllerDelegate {
         self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.delegate = searchResultsController
         self.searchController!.searchBar.placeholder = FmtString(NSLocalizedString("brand_vc_search_bar_placeholder"),self.brandName ?? "")
+        self.searchController!.searchBar.showsCancelButton = false
         self.searchController!.hidesNavigationBarDuringPresentation = false
+        
+        self.setupRightBarButtonItem()
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {

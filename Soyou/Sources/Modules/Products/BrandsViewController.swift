@@ -426,12 +426,13 @@ extension BrandsViewController: UISearchControllerDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(BrandViewController.showSearchController))
     }
     
-    func showSearchController() {
+    @objc func showSearchController() {
         if isListMode {
             self.navigationItem.setHidesBackButton(true, animated: false)
             self.navigationItem.setRightBarButton(nil, animated: false)
             let searchBar = self.searchController!.searchBar
             self.navigationItem.titleView = searchBar
+            self.navigationController?.navigationBar.setNeedsLayout()
         }
         self.searchController!.searchBar.becomeFirstResponder()
     }
@@ -440,6 +441,7 @@ extension BrandsViewController: UISearchControllerDelegate {
         if isListMode {
             self.setupRightBarButtonItem()
             self.navigationItem.titleView = nil
+            self.navigationController?.navigationBar.setNeedsLayout()
         }
     }
     
@@ -452,6 +454,7 @@ extension BrandsViewController: UISearchControllerDelegate {
         self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.delegate = searchResultsController
         self.searchController!.searchBar.placeholder = NSLocalizedString("brands_vc_search_bar_placeholder")
+        self.searchController!.searchBar.showsCancelButton = false
         self.searchController!.hidesNavigationBarDuringPresentation = false
         
         if isListMode {

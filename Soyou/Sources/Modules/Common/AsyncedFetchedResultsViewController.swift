@@ -118,7 +118,7 @@ extension AsyncedFetchedResultsViewController {
         self.fetch(completion)
     }
     
-    func reloadDataWithoutCompletion() {
+    @objc func reloadDataWithoutCompletion() {
         self.reloadData(nil)
     }
     

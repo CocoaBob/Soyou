@@ -52,6 +52,7 @@
 		455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455D06AB1C0391A600D81ABF /* InfoPlist.strings */; };
 		455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06AE1C0394E200D81ABF /* SettingsViewController.swift */; };
 		455D06B41C03950300D81ABF /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06B31C03950300D81ABF /* UserViewController.swift */; };
+		455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */; };
 		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
 		456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456478F71C6E095C00798EB2 /* 1Password.xcassets */; };
 		456833B91D3009EA006A5B3F /* InfoCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */; };
@@ -200,6 +201,7 @@
 		455D06AC1C0391A700D81ABF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		455D06AE1C0394E200D81ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		455D06B31C03950300D81ABF /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Additions.swift"; sourceTree = "<group>"; };
 		45640AF31C51A934009984EC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		456478F71C6E095C00798EB2 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = 1Password.xcassets; path = Pods/1PasswordExtension/1Password.xcassets; sourceTree = SOURCE_ROOT; };
 		456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoCommentsViewController.swift; sourceTree = "<group>"; };
@@ -364,10 +366,11 @@
 				453CBCE61CD656040073FE43 /* NSManagedObjectContext+Additions.swift */,
 				45A41B4E1C9F372A00D48185 /* NSUserDefaults+Additions.swift */,
 				4534D54C1C230EC600F4DDA5 /* String+Additions.swift */,
-				45243C681C17A514005D476D /* UIViewController+Additions.swift */,
+				455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */,
 				45CD72CA1C189894004583FC /* UITabBar+Additions.swift */,
 				45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */,
 				4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */,
+				45243C681C17A514005D476D /* UIViewController+Additions.swift */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1128,6 +1131,7 @@
 				459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */,
 				452799AB1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift in Sources */,
 				45D9B36D1C39B3F600D7E899 /* ProductViewController.swift in Sources */,
+				455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */,
 				45CFA59B1C2B1585007D38F3 /* BrandsViewController.swift in Sources */,
 				4524C0AD1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift in Sources */,
 				4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */,
