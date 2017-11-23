@@ -108,7 +108,7 @@ struct Section {
 
 class SimpleTableViewController: UIViewController {
     
-    var tableView: UITableView!
+    @objc var tableView: UITableView!
     
     fileprivate var tableStyle: UITableViewStyle?
     
@@ -169,6 +169,10 @@ class SimpleTableViewController: UIViewController {
         // Setup table data
         if sections.isEmpty {
             self.rebuildTable()
+        }
+        
+        if #available(iOS 11.0, *) {
+            self.tableView.contentInsetAdjustmentBehavior = .always
         }
     }
     

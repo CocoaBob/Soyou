@@ -25,6 +25,13 @@ class StoreMapSearchResultsViewController: UITableViewController {
         return UIStoryboard(name: "ProductsViewController", bundle: nil).instantiateViewController(withIdentifier: "StoreMapSearchResultsViewController") as! StoreMapSearchResultsViewController
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if #available(iOS 11.0, *) {
+            self.tableView.contentInsetAdjustmentBehavior = .always
+        }
+    }
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
