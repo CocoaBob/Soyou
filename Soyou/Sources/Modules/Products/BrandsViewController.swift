@@ -431,8 +431,13 @@ extension BrandsViewController: UISearchControllerDelegate {
             self.navigationItem.setHidesBackButton(true, animated: false)
             self.navigationItem.setRightBarButton(nil, animated: false)
             let searchBar = self.searchController!.searchBar
-            self.navigationItem.titleView = searchBar
-            self.navigationController?.navigationBar.setNeedsLayout()
+            if #available(iOS 11.0, *) {
+                let searchBarContainer = SearchBarContainerView(searchBar: searchBar)
+                searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+                self.navigationItem.titleView = searchBarContainer
+            } else {
+                self.navigationItem.titleView = searchBar
+            }
         }
         self.searchController!.searchBar.becomeFirstResponder()
     }
@@ -441,7 +446,6 @@ extension BrandsViewController: UISearchControllerDelegate {
         if isListMode {
             self.setupRightBarButtonItem()
             self.navigationItem.titleView = nil
-            self.navigationController?.navigationBar.setNeedsLayout()
         }
     }
     
@@ -461,7 +465,13 @@ extension BrandsViewController: UISearchControllerDelegate {
             self.setupRightBarButtonItem()
         } else {
             let searchBar = self.searchController!.searchBar
-            self.navigationItem.titleView = searchBar
+            if #available(iOS 11.0, *) {
+                let searchBarContainer = SearchBarContainerView(searchBar: searchBar)
+                searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+                self.navigationItem.titleView = searchBarContainer
+            } else {
+                self.navigationItem.titleView = searchBar
+            }
         }
     }
     

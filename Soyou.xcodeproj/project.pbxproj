@@ -48,6 +48,7 @@
 		454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */; };
 		454ECE9C1C567AE5003A0E94 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE9A1C567AE5003A0E94 /* User.swift */; };
 		4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4555BBAB1BFFEEB500A01B41 /* server.cer */; };
+		4556F9231FC763CE0077D436 /* SearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */; };
 		455D06A61C0388C700D81ABF /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06A51C0388C700D81ABF /* Themes.swift */; };
 		455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455D06AB1C0391A600D81ABF /* InfoPlist.strings */; };
 		455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06AE1C0394E200D81ABF /* SettingsViewController.swift */; };
@@ -196,6 +197,7 @@
 		454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454ECE9A1C567AE5003A0E94 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4555BBAB1BFFEEB500A01B41 /* server.cer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.cer; sourceTree = "<group>"; };
+		4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarContainerView.swift; sourceTree = "<group>"; };
 		455D06A51C0388C700D81ABF /* Themes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		455D06AA1C0391A600D81ABF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		455D06AC1C0391A700D81ABF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -517,16 +519,17 @@
 			isa = PBXGroup;
 			children = (
 				456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */,
-				4590F8C91C52A1AA00329ECA /* TableViewCells.swift */,
+				4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */,
 				4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */,
 				4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */,
 				45ADAB461C6517120040E570 /* TableViewCellIconTitleContent.xib */,
 				45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */,
 				45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */,
+				4590F8C91C52A1AA00329ECA /* TableViewCells.swift */,
 				4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */,
 				45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */,
-				455D06A51C0388C700D81ABF /* Themes.swift */,
 				4534D54A1C230A8E00F4DDA5 /* TextFields.swift */,
+				455D06A51C0388C700D81ABF /* Themes.swift */,
 			);
 			path = CustomUI;
 			sourceTree = "<group>";
@@ -1069,6 +1072,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4556F9231FC763CE0077D436 /* SearchBarContainerView.swift in Sources */,
 				45C3AA511C6C99AA00BA7CDE /* IntroViewController.swift in Sources */,
 				45016E581C14EC25004034BC /* Product.swift in Sources */,
 				45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */,

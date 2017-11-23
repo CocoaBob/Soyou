@@ -108,7 +108,7 @@ class InfoDetailBaseViewController: UIViewController {
         self.nextInfoBarButtonItem = next
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, true, false)
+        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, false, false)
         
         // Load content
         self.loadData()
