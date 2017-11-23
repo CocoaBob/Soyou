@@ -184,6 +184,7 @@
 		4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Region+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4525C0F61C5B8B4200C26992 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDMPhotoBrowser+Additions.swift"; sourceTree = "<group>"; };
+		4530CFD41FC7732C005EEB52 /* Soyou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Soyou.entitlements; sourceTree = "<group>"; };
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
@@ -444,11 +445,12 @@
 		4568E29C1BF90797009A6164 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4568E29D1BF90797009A6164 /* Info.plist */,
 				4571872C1CC42E5F009B5112 /* GoogleService-Info.plist */,
-				4568E2F71BF922B7009A6164 /* Soyou-Bridging-Header.h */,
-				4577778A1BFCE15700805D79 /* Localizable.strings */,
+				4568E29D1BF90797009A6164 /* Info.plist */,
 				455D06AB1C0391A600D81ABF /* InfoPlist.strings */,
+				4577778A1BFCE15700805D79 /* Localizable.strings */,
+				4568E2F71BF922B7009A6164 /* Soyou-Bridging-Header.h */,
+				4530CFD41FC7732C005EEB52 /* Soyou.entitlements */,
 			);
 			name = "Supporting Files";
 			path = "Soyou/Supporting Files";
@@ -1290,6 +1292,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Soyou/Supporting Files/Soyou.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2H429X3TEM;
 				ENABLE_BITCODE = YES;
@@ -1318,6 +1321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Soyou/Supporting Files/Soyou.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2H429X3TEM;
 				ENABLE_BITCODE = YES;
