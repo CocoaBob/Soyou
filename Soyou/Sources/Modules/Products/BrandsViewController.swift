@@ -99,6 +99,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             _tableView.dataSource = self
             _tableView.delegate = self
             
+            // Fix scroll view insets
+            self.updateScrollViewInset(_tableView, 0, true, true, false, true)
+            
             // Setups
             self.setupTableView()
         } else {
@@ -109,6 +112,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             _collectionView.isHidden = false
             _collectionView.dataSource = self
             _collectionView.delegate = self
+            
+            // Fix scroll view insets
+            self.updateScrollViewInset(_collectionView, 0, true, true, false, true)
             
             // Setups
             self.setupCollectionView()
@@ -140,16 +146,6 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         self.hideToolbar(false)
         // For navigation bar search bar
         self.definesPresentationContext = true
-        // Fix scroll view insets
-        if isListMode {
-            self.updateScrollViewInset(_tableView, 0, true, true, false, true)
-            self.navigationController?.navigationBar.layoutIfNeeded()
-            _tableView.layoutIfNeeded()
-        } else {
-            self.updateScrollViewInset(_collectionView, 0, true, true, false, true)
-            self.navigationController?.navigationBar.layoutIfNeeded()
-            _collectionView.layoutIfNeeded()
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
