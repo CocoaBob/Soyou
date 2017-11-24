@@ -170,7 +170,7 @@ extension Utils {
     }
     
     fileprivate class func removeRandomPrefix(_ data: Data) -> Data {
-        return data.subdata(in: 0..<data.count - 2)
+        return data.subdata(in: 0..<data.count - 1)
     }
     
     class func encrypt(_ object: AnyObject) -> Data {
@@ -180,6 +180,7 @@ extension Utils {
     
     class func decrypt(_ data: Data) -> AnyObject? {
         let objectData = removeRandomPrefix(data)
-        return NSKeyedUnarchiver.unarchiveObject(with: objectData) as AnyObject?
+        let object = NSKeyedUnarchiver.unarchiveObject(with: objectData)
+        return object as AnyObject?
     }
 }
