@@ -28,16 +28,16 @@ class AsyncedFetchedResultsViewController: UIViewController {
 // MARK: Subclass methods
 extension AsyncedFetchedResultsViewController {
     
-    func createFetchRequest(_ context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
+    @objc func createFetchRequest(_ context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
         assert(false)
         return nil
     }
     
-    func tableView() -> UITableView? {
+    @objc func tableView() -> UITableView? {
         return nil
     }
     
-    func collectionView() -> UICollectionView? {
+    @objc func collectionView() -> UICollectionView? {
         return nil
     }
 }
@@ -107,7 +107,7 @@ extension AsyncedFetchedResultsViewController {
         }
     }
     
-    func reloadData(_ completion: ((Int, Int) -> Void)?) {
+    @objc func reloadData(_ completion: ((Int, Int) -> Void)?) {
         // Clear last fetch
         self.clearFetchResults()
         
@@ -122,7 +122,7 @@ extension AsyncedFetchedResultsViewController {
         self.reloadData(nil)
     }
     
-    func loadMore(_ completion: ((Int, Int) -> Void)?) {
+    @objc func loadMore(_ completion: ((Int, Int) -> Void)?) {
         // Fetch offset
         self.fetchOffset += self.fetchLimit
         

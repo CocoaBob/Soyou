@@ -106,7 +106,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             
             // Hide website label if not available
             if let officialUrlString = item["officialUrl"] as? String {
-                _cell.lblAccessory.isHidden = officialUrlString.characters.isEmpty
+                _cell.lblAccessory.isHidden = officialUrlString.isEmpty
                 _cell.accessoryType = _cell.lblAccessory.isHidden ? .none : .disclosureIndicator
             } else {
                 _cell.lblAccessory.isHidden = true
@@ -150,7 +150,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
             guard let prices = self.prices else { return }
             guard let item: [String: AnyObject] = prices[indexPath.section] else { return }
             guard let officialUrlString = item["officialUrl"] as? String else { return }
-            if officialUrlString.characters.isEmpty {
+            if officialUrlString.isEmpty {
                 return
             }
             guard let officialUrl = URL(string: officialUrlString) else { return }

@@ -91,7 +91,7 @@ class CurrencyManager {
 
     fileprivate func parseCurrencyRate(_ data: NSDictionary, time: String) -> NSDictionary? {
         if let name = data["Name"] as? String {
-            let codes = name.characters.split {$0 == "/"}.map(String.init)
+            let codes = name.split {$0 == "/"}.map(String.init)
             let result: NSDictionary = [
                 "rate": (data["Rate"] as? String)!,
                 "updatedAt": time,

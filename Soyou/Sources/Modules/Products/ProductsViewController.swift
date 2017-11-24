@@ -169,7 +169,7 @@ extension ProductsViewController {
         if let searchKeywords = self.searchKeywords {
             var searchKeywordsPredicates = [NSPredicate]()
             for searchKeyword in searchKeywords {
-                if !searchKeyword.characters.isEmpty {
+                if !searchKeyword.isEmpty {
                     searchKeywordsPredicates.append(FmtPredicate("appSearchText CONTAINS[cd] %@", searchKeyword))
                 }
             }

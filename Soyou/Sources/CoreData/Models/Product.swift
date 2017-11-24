@@ -80,7 +80,7 @@ class Product: NSManagedObject {
                 searchText += normalizedSearchText(product.title)
                 
                 searchText = searchText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                if searchText.characters.isEmpty {
+                if searchText.isEmpty {
                     product.appSearchText = nil
                 } else {
                     product.appSearchText = searchText
