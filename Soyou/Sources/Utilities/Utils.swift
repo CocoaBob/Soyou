@@ -39,17 +39,20 @@ extension Utils {
     
     class func shareItems(_ items: [Any], completion: (() -> Void)?) {
         if let vc = UIApplication.shared.keyWindow?.rootViewController?.toppestViewController() {
-            let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            let activityView = UIActivityViewController(activityItems: items,
+                                                        applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
 //            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
             vc.present(activityView, animated: true, completion: completion)
         }
     }
     
+    
     class func shareApp() {
         guard let keyWindow = UIApplication.shared.keyWindow else { return }
         MBProgressHUD.show(keyWindow)
         DispatchQueue.main.async {
-            if let image = UIImage(named: "img_share_icon"), let url = URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
+            if let image = UIImage(named: "img_share_icon"),
+                let url = URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
                 Utils.shareItems(
                     [image, NSLocalizedString("user_vc_feedback_alert_share_title"), NSLocalizedString("user_vc_feedback_alert_share_description"), url],
                     completion: { () -> Void in
