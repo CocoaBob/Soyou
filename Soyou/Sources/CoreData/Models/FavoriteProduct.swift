@@ -53,15 +53,4 @@ class FavoriteProduct: NSManagedObject {
             if let completion = completion { completion(nil, FmtError(0, nil)) }
         })
     }
-    
-    func relatedProduct(_ context: NSManagedObjectContext?) -> Product? {
-        if let productID = self.id {
-            if let context = context {
-                return Product.mr_findFirst(byAttribute: "id", withValue: productID, in: context)
-            } else {
-                return Product.mr_findFirst(byAttribute: "id", withValue: productID)
-            }
-        }
-        return nil
-    }
 }

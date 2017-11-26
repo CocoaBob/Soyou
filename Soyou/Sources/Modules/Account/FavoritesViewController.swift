@@ -19,6 +19,8 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var _emptyView: UIView!
     @IBOutlet var _emptyViewLabel: UILabel!
     
+    var loadedProducts = [NSNumber: Product]()
+    
     var isEmptyViewVisible: Bool = true {
         didSet {
             self._emptyView.isHidden = !isEmptyViewVisible
@@ -176,7 +178,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             if let favoriteProduct = self.fetchedResultsController?.object(at: indexPath) as? FavoriteProduct {
                 MagicalRecord.save(blockAndWait: { (localContext) -> Void in
                     if let localFavoriteProduct = favoriteProduct.mr_(in: localContext),
-                        let product = localFavoriteProduct.relatedProduct(localContext) {
+                        let productID = localFavoriteProduct.id {
+                        if let product = self.loadedProducts[productID] {
                             // Title
                             _cell.lblTitle?.text = product.title
                             // Brand
@@ -191,6 +194,11 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                                            options: [.continueInBackground, .allowInvalidSSLCertificates],
                                                            completed: nil)
+                            }
+                        } else {
+                            self.loadProduct(productID) { _ in
+                                self.tableView().reloadRows(at: [indexPath], with: .fade)
+                            }
                         }
                     }
                 })
@@ -255,12 +263,21 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 let diskContext = NSManagedObjectContext.mr_default()
                 diskContext.performAndWait({
                     if let localFavoriteProduct = favoriteProduct.mr_(in: diskContext),
-                        let product = localFavoriteProduct.relatedProduct(diskContext) {
-                        let viewController = ProductViewController.instantiate()
-                        viewController.product = product
-                        viewController.productIndex = indexPath.row
-                        viewController.delegate = self
-                        nextViewController = viewController
+                        let productID = localFavoriteProduct.id {
+                        let completion =  { (product: Product) -> () in
+                            let viewController = ProductViewController.instantiate()
+                            viewController.product = product
+                            viewController.productIndex = indexPath.row
+                            viewController.delegate = self
+                            nextViewController = viewController
+                        }
+                        if let product = self.loadedProducts[productID] {
+                            completion(product)
+                        } else {
+                            self.loadProduct(productID) { product in
+                                completion(product)
+                            }
+                        }
                     }
                 })
             }
@@ -324,12 +341,21 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     MBProgressHUD.show(self.view)
                     MagicalRecord.save(blockAndWait: { (localContext) -> Void in
                         if let localFavoriteProduct = favoriteProduct.mr_(in: localContext),
-                            let product = localFavoriteProduct.relatedProduct(localContext) {
-                            product.toggleFavorite({ (data: Any?) -> () in
-                                DispatchQueue.main.async {
-                                    MBProgressHUD.hide(self.view)
+                            let productID = localFavoriteProduct.id {
+                            let completion =  { (product: Product) -> () in
+                                product.toggleFavorite({ (data: Any?) -> () in
+                                    DispatchQueue.main.async {
+                                        MBProgressHUD.hide(self.view)
+                                    }
+                                })
+                            }
+                            if let product = self.loadedProducts[productID] {
+                                completion(product)
+                            } else {
+                                self.loadProduct(productID) { product in
+                                    completion(product)
                                 }
-                            })
+                            }
                         } else {
                             MBProgressHUD.hide(self.view)
                         }
@@ -434,9 +460,11 @@ extension FavoritesViewController: ProductViewControllerDelegate {
         
         let nextProductIndex = currentProductIndex + 1
         if nextProductIndex < fetchedResults.count {
-            if let favoriteProduct =  fetchedResults[nextProductIndex] as? FavoriteProduct {
-                let product = favoriteProduct.relatedProduct(nil)
-                return (nextProductIndex, product)
+            if let favoriteProduct =  fetchedResults[nextProductIndex] as? FavoriteProduct,
+                let productID = favoriteProduct.id {
+                if let product = self.loadedProducts[productID] {
+                    return (nextProductIndex, product)
+                }
             }
         }
         
@@ -445,6 +473,20 @@ extension FavoritesViewController: ProductViewControllerDelegate {
     
     func didShowNextProduct(_ product: Product, index: Int) {
         self.tableView().scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
+    }
+}
+
+// MARK: - Load Product
+extension FavoritesViewController {
+    
+    func loadProduct(_ id: NSNumber, _ completion: @escaping (_ product: Product) -> ()) {
+        DataManager.shared.loadProducts([id], { (responseObject, error) in
+            if let products = responseObject as? [Product],
+                let product = products.first {
+                self.loadedProducts[id] = product
+                completion(product)
+            }
+        })
     }
 }
 

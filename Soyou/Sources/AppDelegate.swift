@@ -59,13 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataManager.shared.registerForNotification(false)
         
         // Setup Database asynchronously
-        DispatchQueue.main.async {
-//            // Setup WTStatusBar
-//            WTStatusBar.setStatusText("")
-//            WTStatusBar.setTextColor(UIColor.clear)
-//            WTStatusBar.setBackgroundColor(UIColor.clear)
-//            WTStatusBar.setProgressBarColor(Cons.UI.colorTheme)
-            
+        DispatchQueue.main.async {            
             // Initializing database
             self.setupDatabase()
             

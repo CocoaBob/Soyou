@@ -34,7 +34,6 @@ target :'Soyou' do
 	pod "UIColor_Hex_Swift"
 	pod "UIImage-ResizeMagick"
 	pod "UIView+Shake"
-    #pod "WTStatusBar", :git => 'git://github.com/CocoaBob/WTStatusBar', :commit => '42bd2739315f1a24e3e1bf96e8d30a0430bf51b9'
 	pod "ZoomInteractiveTransition"
 
 	#Continuous Integration
