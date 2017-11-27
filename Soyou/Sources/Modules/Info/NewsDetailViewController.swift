@@ -163,7 +163,6 @@ extension NewsDetailViewController {
         
         // Like button
         updateLikeBtnColor(news.isLiked())
-        updateExtraInfo()
         
         // Favorite button
         self.isFavorite = news.isFavorite()

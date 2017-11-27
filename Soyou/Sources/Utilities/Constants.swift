@@ -24,7 +24,7 @@ public struct Cons {
         // Number of News/Discounts for each request
         static let infoRequestSize                          = 5
         // Number of Comments for each request
-        static let commentRequestSize                       = 3
+        static let commentRequestSize                       = 16
         
         static let reqAuthorizationKey                      = "reqAuthorizationKey"
     }

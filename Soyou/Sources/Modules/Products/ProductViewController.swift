@@ -134,6 +134,8 @@ class ProductViewController: UIViewController {
         self.addStatusBarCover()
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
+        // Like/Comment
+        self.updateExtraInfo()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -164,8 +166,6 @@ extension ProductViewController {
         self.setupCarouselView()
         // SubViewControllers
         self.setupSubViewControllers(isNext)
-        // Like button status
-        updateLikeNumber()
         // Favorite button status
         self.isFavorite = self.product?.isFavorite() ?? false
         // Prepare next product
@@ -458,16 +458,19 @@ extension ProductViewController: ZoomTransitionProtocol {
 // MARK: Like button
 extension ProductViewController {
     
-    fileprivate func updateLikeNumber() {
+    fileprivate func updateExtraInfo() {
         self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             if let localProduct = self.product?.mr_(in: localContext) {
                 // Update like number
                 guard let productID = localProduct.id else { return }
                 DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
                     if let responseObject = responseObject as? [String:AnyObject],
-                        let data = responseObject["data"] as? [String:AnyObject],
-                        let likeNumber = data["likeNumber"] as? NSNumber {
-                        self.likeBtnNumber = likeNumber.intValue
+                        let data = responseObject["data"] as? [String:AnyObject] {
+                        let json = JSON(data)
+                        self.likeBtnNumber = json["likeNumber"].int
+//                        let isFavorite = json["isFavorite"].boolValue
+                        self.commentBtnNumber = json["commentNumber"].int
+                        self.updateLikeBtnColor(json["isLiked"].boolValue)
                     }
                 }
                 

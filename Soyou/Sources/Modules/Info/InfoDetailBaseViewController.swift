@@ -124,6 +124,8 @@ class InfoDetailBaseViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
+        // Update favorite/like/comments
+        self.updateExtraInfo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -151,9 +153,6 @@ class InfoDetailBaseViewController: UIViewController {
         
         // Reset isEdgeSwiping to false, if interactive transition is cancelled
         self.isEdgeSwiping = false
-        
-        // Update favorite/like/comments
-        self.updateExtraInfo()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -318,7 +317,7 @@ extension InfoDetailBaseViewController {
 // MARK: Data
 extension InfoDetailBaseViewController {
     
-    func loadData() {
+    @objc func loadData() {
     }
     
     func loadNextData() {
