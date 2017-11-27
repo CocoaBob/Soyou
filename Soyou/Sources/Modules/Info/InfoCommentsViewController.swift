@@ -82,8 +82,10 @@ class InfoCommentsViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var btnWriteComment: UIButton!
     
-    var dataProvider: ((_ relativeID: Int?, _ completion: @escaping ((_ data: Any?) -> ())) -> ())?
+    var dataProvider: ((_ relativeID: Int?, _ completion: @escaping DataClosure) -> ())?
     var isCallingDataProvider = false
+    
+    var commentCreator: ((_ id: NSNumber, _ commentId: NSNumber, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
     
     // Class methods
     class func instantiate() -> InfoCommentsViewController {
@@ -251,6 +253,7 @@ extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
         infoNewCommentViewController.infoID = self.infoID
         infoNewCommentViewController.replyToComment = replyToComment
         infoNewCommentViewController.delegate = self
+        infoNewCommentViewController.commentCreator = self.commentCreator
         self.navigationController?.pushViewController(infoNewCommentViewController, animated: true)
     }
     

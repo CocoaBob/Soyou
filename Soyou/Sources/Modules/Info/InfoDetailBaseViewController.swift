@@ -253,13 +253,8 @@ extension InfoDetailBaseViewController {
     var isFavorite: Bool {
         set(newValue) {
             DispatchQueue.main.async {
-                if newValue == true {
-                    self.btnFav.setImage(UIImage(named: "img_heart_selected"), for: .normal)
-                    self.btnFav.tintColor = Cons.UI.colorHeart
-                } else {
-                    self.btnFav.setImage(UIImage(named: "img_heart"), for: .normal)
-                    self.btnFav.tintColor = UIToolbar.appearance().tintColor
-                }
+                self.btnFav.setImage(UIImage(named: newValue ? "img_heart_selected" : "img_heart"), for: .normal)
+                self.btnFav.tintColor = newValue ? Cons.UI.colorHeart : UIToolbar.appearance().tintColor
             }
         }
         get {

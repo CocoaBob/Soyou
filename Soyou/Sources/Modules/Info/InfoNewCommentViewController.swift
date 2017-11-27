@@ -16,6 +16,7 @@ class InfoNewCommentViewController: UIViewController {
     var infoID: NSNumber!
     var replyToComment: Comment?
     var delegate: InfoNewCommentViewControllerDelegate?
+    var commentCreator: ((_ id: NSNumber, _ commentId: NSNumber, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
     
     @IBOutlet var tvContent: UITextView!
     
@@ -82,7 +83,7 @@ extension InfoNewCommentViewController {
     
     @IBAction func post() {
         UserManager.shared.loginOrDo {
-            DataManager.shared.createCommentForDiscount(self.infoID, NSNumber(value: self.replyToComment?.id ?? 0), self.tvContent.text) { (responseObject, error) in
+            self.commentCreator?(self.infoID, NSNumber(value: self.replyToComment?.id ?? 0), self.tvContent.text) { (responseObject, error) in
                 if error == nil {
                     self.navigationController?.popViewController(animated: true)
                     if let delegate = self.delegate {

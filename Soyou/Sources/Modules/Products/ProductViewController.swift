@@ -47,11 +47,8 @@ class ProductViewController: UIViewController {
     
     // Toolbar
     var btnLike: UIButton?
-    let btnLikeActiveColor = Cons.UI.colorLike
-    let btnLikeInactiveColor = UIToolbar.appearance().tintColor
     var btnFav: UIButton?
-    let btnFavActiveColor = Cons.UI.colorHeart
-    let btnFavInactiveColor = UIToolbar.appearance().tintColor
+    var btnComment: UIButton = UIButton(type: .system)
     
     // Status bar cover
     var isStatusBarCoverVisible = false
@@ -96,11 +93,23 @@ class ProductViewController: UIViewController {
         self.btnFav?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
         self.btnFav?.addTarget(self, action: #selector(ProductViewController.star(_:)), for: .touchUpInside)
         
+        self.btnComment.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+        self.btnComment.titleLabel?.layer.cornerRadius = 3
+        self.btnComment.titleLabel?.clipsToBounds = true
+        self.btnComment.setTitleColor(UIColor.white, for: .normal)
+        self.btnComment.titleEdgeInsets = UIEdgeInsets(top: -20, left: 0, bottom: 1, right: 0)
+        self.btnComment.backgroundColor = UIColor.clear
+        self.btnComment.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
+        self.btnComment.setImage(UIImage(named: "img_comments"), for: .normal)
+        self.btnComment.addTarget(self, action: #selector(InfoDetailBaseViewController.comment(_:)), for: .touchUpInside)
+        self.btnComment.titleLabel?.backgroundColor = Cons.UI.colorComment
+        
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .plain, target: self, action: #selector(ProductViewController.next(_:)))
         let fav = UIBarButtonItem(customView: self.btnFav!)
         let like = UIBarButtonItem(customView: self.btnLike!)
-        self.toolbarItems = [ space, next, space, fav, space, like, space]
+        let comment = UIBarButtonItem(customView: self.btnComment)
+        self.toolbarItems = [ space, next, space, fav, space, like, space, comment, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         next.isEnabled = false
@@ -474,11 +483,7 @@ extension ProductViewController {
     
     fileprivate func updateLikeBtnColor(_ isLiked: Bool?) {
         DispatchQueue.main.async {
-            if isLiked != nil && isLiked! {
-                self.btnLike?.tintColor = self.btnLikeActiveColor
-            } else {
-                self.btnLike?.tintColor = self.btnLikeInactiveColor
-            }
+            self.btnLike?.tintColor = (isLiked ?? false) ? Cons.UI.colorLike : UIToolbar.appearance().tintColor
         }
     }
     
@@ -507,11 +512,32 @@ extension ProductViewController {
         set(newValue) {
             DispatchQueue.main.async {
                 self.btnFav?.setImage(UIImage(named: newValue ? "img_heart_selected" : "img_heart"), for: .normal)
-                self.btnFav?.tintColor = newValue ? self.btnFavActiveColor : self.btnFavInactiveColor
+                self.btnFav?.tintColor = newValue ? Cons.UI.colorHeart : UIToolbar.appearance().tintColor
             }
         }
         get {
-            return self.btnFav?.tintColor == btnFavActiveColor
+            return self.btnFav?.tintColor == Cons.UI.colorHeart
+        }
+    }
+}
+
+// MARK: Comment button
+extension ProductViewController {
+    
+    var commentBtnNumber: Int? {
+        set(newValue) {
+            if newValue != nil && newValue! >= 0 {
+                self.btnComment.setTitle(" \(newValue!) ", for: .normal)
+            } else {
+                self.btnComment.setTitle("", for: .normal)
+            }
+        }
+        get {
+            if let title = self.btnComment.title(for: .normal) {
+                return Int(title)
+            } else {
+                return 0
+            }
         }
     }
 }
@@ -613,5 +639,23 @@ extension ProductViewController {
                 self.isFavorite = !self.isFavorite
             })
         }
+    }
+    
+    @objc func comment(_ sender: AnyObject) {
+        self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            let localProduct = self.product?.mr_(in: localContext)
+            guard let productID = localProduct?.id else { return }
+            let commentsViewController = InfoCommentsViewController.instantiate()
+            commentsViewController.infoID = productID
+            commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
+                DataManager.shared.requestCommentsForProduct(productID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in
+                    completion(data)
+                })
+            }
+            commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
+                DataManager.shared.createCommentForProduct(id, commentId, comment, completion)
+            }
+            self.navigationController?.pushViewController(commentsViewController, animated: true)
+        })
     }
 }

@@ -379,6 +379,22 @@ class DataManager {
         })
     }
     
+    func createCommentForNews(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.createCommentForNews(id, commentId, comment, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestCommentsForNews(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestCommentsForNews(id, count, relativeID, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Discounts
     //////////////////////////////////////
@@ -511,6 +527,22 @@ class DataManager {
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
             }
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func createCommentForProduct(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.createCommentForProduct(id, commentId, comment, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestCommentsForProduct(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestCommentsForProduct(id, count, relativeID, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)
         })

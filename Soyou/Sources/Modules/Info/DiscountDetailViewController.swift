@@ -152,6 +152,9 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
                 completion(data)
             })
         }
+        commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
+            DataManager.shared.createCommentForDiscount(id, commentId, comment, completion)
+        }
         self.navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }

@@ -22,16 +22,6 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         return (instance as? NewsDetailViewController)!
     }
     
-    // Subclass overridden
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Remove comment button
-        if let toolbarItems = self.toolbarItems {
-            self.toolbarItems = Array(toolbarItems[0..<(toolbarItems.count - 2)])
-        }
-    }
-    
     override var infoTitle: String! {
         get {
             var returnValue = ""
@@ -62,9 +52,12 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     override func updateExtraInfo() {
         DataManager.shared.requestNewsInfo(self.infoID) { responseObject, error in
             if let responseObject = responseObject as? [String:AnyObject],
-                let data = responseObject["data"] as? [String:AnyObject],
-                let likeNumber = data["likeNumber"] as? NSNumber {
-                self.likeBtnNumber = likeNumber.intValue
+                let data = responseObject["data"] as? [String:AnyObject] {
+                let json = JSON(data)
+                self.likeBtnNumber = json["likeNumber"].int
+//                let isFavorite = json["isFavorite"].boolValue
+                self.commentBtnNumber = json["commentNumber"].int
+                self.updateLikeBtnColor(json["isLiked"].boolValue)
             }
         }
     }
@@ -144,6 +137,20 @@ class NewsDetailViewController: InfoDetailBaseViewController {
                 self.isFavorite = !self.isFavorite
             }
         }
+    }
+    
+    override func comment() {
+        let commentsViewController = InfoCommentsViewController.instantiate()
+        commentsViewController.infoID = self.infoID
+        commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
+            DataManager.shared.requestCommentsForNews(self.infoID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in
+                completion(data)
+            })
+        }
+        commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
+            DataManager.shared.createCommentForNews(id, commentId, comment, completion)
+        }
+        self.navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }
 

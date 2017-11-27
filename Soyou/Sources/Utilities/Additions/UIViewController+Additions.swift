@@ -246,7 +246,7 @@ extension UIViewController {
         }
     }
     
-    func adjustViewsForKeyboardFrame(_ keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: TimeInterval, _ options: UIViewAnimationOptions) {
+    @objc func adjustViewsForKeyboardFrame(_ keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: TimeInterval, _ options: UIViewAnimationOptions) {
         let updateFrameClosure: () -> () = { () -> () in
             var frame = self.view.frame
             frame.size.height = keyboardFrame.origin.y

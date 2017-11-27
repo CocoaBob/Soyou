@@ -152,6 +152,14 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/extra", "News", onSuccess, onFailure)
     }
     
+    func createCommentForNews(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/news/\(id)/comments/\(commentId)", "News", ["comment": comment], onSuccess, onFailure)
+    }
+    
+    func requestCommentsForNews(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/comments/\(count)/\(relativeID ?? 0)", "News", onSuccess, onFailure)
+    }
+    
     //////////////////////////////////////
     // MARK: Discounts
     //////////////////////////////////////
@@ -227,6 +235,14 @@ class RequestManager {
     
     func requestProductInfo(_ id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/extra", "Products", onSuccess, onFailure)
+    }
+    
+    func createCommentForProduct(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/products/\(id)/comments/\(commentId)", "Products", ["comment": comment], onSuccess, onFailure)
+    }
+    
+    func requestCommentsForProduct(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/comments/\(count)/\(relativeID ?? 0)", "Products", onSuccess, onFailure)
     }
     
     func requestCurrencyChanges(_ currencies: [NSDictionary], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
