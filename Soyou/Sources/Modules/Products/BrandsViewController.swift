@@ -571,6 +571,7 @@ class BrandsCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        fgImageView.image = nil
         lblTitle.text = nil
     }
 }
