@@ -197,7 +197,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             }
                         } else {
                             self.loadProduct(productID) { _ in
-                                self.tableView().reloadRows(at: [indexPath], with: .fade)
+                                self.tableView().reloadRows(at: [indexPath], with: .none)
                             }
                         }
                     }
