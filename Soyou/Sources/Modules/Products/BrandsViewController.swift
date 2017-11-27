@@ -158,7 +158,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         // Reload Data
         super.reloadData {
             // Original completion
-            if let completion = completion { completion() }
+            completion?()
             
             // After searching is completed, if there are results, hide the indicator
             if self.fetchedResultsController?.fetchedObjects?.count ?? 0 > 0 {

@@ -391,9 +391,7 @@ extension SimpleTableViewController {
     }
     
     func doneAction() {
-        if let completion = self.completion {
-            completion()
-        }
+        completion?()
     }
 }
 

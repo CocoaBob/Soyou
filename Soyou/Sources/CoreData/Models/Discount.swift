@@ -80,7 +80,7 @@ class Discount: NSManagedObject {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
-                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                completion?(nil, FmtError(0, nil))
                 return
             }
             MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
@@ -99,10 +99,10 @@ class Discount: NSManagedObject {
                     Discount.importData(data, isComplete, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                if let completion = completion { completion(responseObject, error as NSError?) }
+                completion?(responseObject, error as NSError?)
             })
         } else {
-            if let completion = completion { completion(nil, FmtError(0, nil)) }
+            completion?(nil, FmtError(0, nil))
         }
     }
     
@@ -150,9 +150,7 @@ class Discount: NSManagedObject {
             self.updateFavorite(discountID, isFavorite: !wasFavorite)
             
             // Completion
-            if let completion = completion {
-                completion(responseObject)
-            }
+            completion?(responseObject)
         }
     }
     

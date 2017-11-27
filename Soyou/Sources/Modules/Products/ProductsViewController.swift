@@ -495,7 +495,7 @@ extension ProductsViewController {
         self.collectionView().setContentOffset(CGPoint(x: 0, y: -self.collectionView().contentInset.top), animated: false)
         
         // Original completion
-        if let completion = completion { completion(offset, resultCount) }
+        completion?(offset, resultCount)
         
         // After searching is completed, if there are results, hide the indicator
         if self.fetchedResults?.count ?? 0 > 0 {
@@ -540,7 +540,7 @@ extension ProductsViewController {
                         // Reload UI
                         self.reloadUI()
                         // Completed
-                        if let completion = completion { completion(offset, results.count) }
+                        completion?(offset, results.count)
                     }
                 }
             }

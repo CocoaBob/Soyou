@@ -196,10 +196,10 @@ class CurrencyManager {
                 if currencyRates.count > 0 {
                     CurrencyRate.importDatas(currencyRates, completion)
                 } else {
-                    if let completion = completion { completion(responseObject, error) }
+                    completion?(responseObject, error)
                 }
             } else {
-                if let completion = completion { completion(responseObject, error) }
+                completion?(responseObject, error)
             }
         }
     }

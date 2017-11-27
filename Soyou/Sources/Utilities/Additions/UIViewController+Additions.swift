@@ -364,10 +364,8 @@ extension UIViewController {
         return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!, completion: (() -> Void)?) -> Void in
             UIView.animate(withDuration: 0.1, animations: { () -> Void in
                 animatedSnapshot.transform = CGAffineTransform.identity
-                }, completion: { (Bool) -> Void in
-                    if let completion = completion {
-                        completion()
-                    }
+            }, completion: { (Bool) -> Void in
+                completion?()
             })
         }
     }

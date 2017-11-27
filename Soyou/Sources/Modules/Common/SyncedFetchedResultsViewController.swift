@@ -40,7 +40,7 @@ class SyncedFetchedResultsViewController: UIViewController {
                 collectionView.reloadData()
             }
             // Completed
-            if let completion = completion { completion() }
+            completion?()
         }
     }
     

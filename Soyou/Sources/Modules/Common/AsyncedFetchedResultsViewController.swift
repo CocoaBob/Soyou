@@ -86,7 +86,7 @@ extension AsyncedFetchedResultsViewController {
                     // Reload UI
                     self.reloadUI()
                     // Completed
-                    if let completion = completion { completion(offset, result.finalResult?.count ?? 0) }
+                    completion?(offset, result.finalResult?.count ?? 0)
                 }
             }
         }

@@ -77,7 +77,7 @@ class News: NSManagedObject {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
-                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                completion?(nil, FmtError(0, nil))
                 return
             }
             MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
@@ -96,10 +96,10 @@ class News: NSManagedObject {
                     News.importData(data, isComplete, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                if let completion = completion { completion(responseObject as AnyObject?, error as NSError?) }
+                completion?(responseObject as AnyObject?, error as NSError?)
             })
         } else {
-            if let completion = completion { completion(nil, FmtError(0, nil)) }
+            completion?(nil, FmtError(0, nil))
         }
     }
     
@@ -147,9 +147,7 @@ class News: NSManagedObject {
             self.updateFavorite(newsID, isFavorite: !wasFavorite)
             
             // Completion
-            if let completion = completion {
-                completion(responseObject)
-            }
+            completion?(responseObject)
         }
     }
     
@@ -258,9 +256,7 @@ class News: NSManagedObject {
                 favoriteNews?.appIsFavorite = NSNumber(value: true)
             })
             
-            if let completion = completion {
-                completion(data)
-            }
+            completion?(data)
         }
     }
 }

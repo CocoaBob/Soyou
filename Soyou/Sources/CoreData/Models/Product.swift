@@ -106,9 +106,9 @@ class Product: NSManagedObject {
                     Product.importData(data, localContext)
                 }
             })
-            if let completion = completion { completion(nil, nil) }
+            completion?(nil, nil)
         } else {
-            if let completion = completion { completion(nil, FmtError(0, nil)) }
+            completion?(nil, FmtError(0, nil))
         }
     }
     
@@ -145,9 +145,7 @@ class Product: NSManagedObject {
                             }
                         })
                         // Completion
-                        if let completion = completion {
-                            completion(likeNumber, isLiked)
-                        }
+                        completion?(likeNumber, isLiked)
                     }
                 })
             }
@@ -191,9 +189,7 @@ class Product: NSManagedObject {
                 }
             })
             // Completion
-            if let completion = completion {
-                completion(responseObject)
-            }
+            completion?(responseObject)
         }
     }
     

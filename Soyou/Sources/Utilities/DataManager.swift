@@ -32,12 +32,12 @@ class DataManager {
     }
     
     fileprivate func completeWithData(_ data: Any?, completion: CompletionClosure?) {
-        if let completion = completion { completion(data, nil) }
+        completion?(data, nil)
     }
     
     fileprivate func completeWithError(_ error: NSError?, completion: CompletionClosure?) {
         self.handleError(error)
-        if let completion = completion { completion(nil, error) }
+        completion?(nil, error)
     }
     
     class func getResponseData(_ responseObject: Any?) -> Any? {
@@ -522,7 +522,7 @@ class DataManager {
     
     func searchProducts(_ query: String?, _ brandId: NSNumber?, _ category: NSNumber?, _ page: Int?, _ completion: CompletionClosure?) {
         if query == nil && brandId == nil && category == nil && page == 0 {
-            if let completion = completion { completion(nil, nil) }
+            completion?(nil, nil)
         } else {
             RequestManager.shared.searchProducts(query, brandId, (category != nil ? [category!] : nil), page, { responseObject in
                 if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {

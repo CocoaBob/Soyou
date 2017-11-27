@@ -49,10 +49,10 @@ class Region: NSManagedObject {
                 }
                 
                 }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject as AnyObject?, error as NSError?) }
+                    completion?(responseObject as AnyObject?, error as NSError?)
             })
         } else {
-            if let completion = completion { completion(nil, FmtError(0, nil)) }
+            completion?(nil, FmtError(0, nil))
         }
     }
 }

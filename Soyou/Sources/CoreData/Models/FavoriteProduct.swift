@@ -50,7 +50,7 @@ class FavoriteProduct: NSManagedObject {
             }
             
             // Completion
-            if let completion = completion { completion(nil, FmtError(0, nil)) }
+            completion?(nil, FmtError(0, nil))
         })
     }
 }

@@ -71,7 +71,7 @@ class FavoriteNews: News {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
-                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                completion?(nil, FmtError(0, nil))
                 return
             }
             MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
@@ -81,10 +81,10 @@ class FavoriteNews: News {
                 }
                 
                 }, completion: { (responseObject, error) -> Void in
-                    if let completion = completion { completion(responseObject, error as NSError?) }
+                    completion?(responseObject, error as NSError?)
             })
         } else {
-            if let completion = completion { completion(nil, FmtError(0, nil)) }
+            completion?(nil, FmtError(0, nil))
         }
     }
     
@@ -125,15 +125,15 @@ class FavoriteNews: News {
                                         }
                                     }
                                 }
-                                if let completion = completion { completion(responseObject, error) }
+                                completion?(responseObject, error)
                             })
                         })
                     } else {
-                        if let completion = completion { completion(nil, FmtError(0, nil)) }
+                        completion?(nil, FmtError(0, nil))
                     }
                 })
             } else {
-                if let completion = completion { completion(nil, FmtError(0, nil)) }
+                completion?(nil, FmtError(0, nil))
             }
         })
     }

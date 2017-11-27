@@ -238,7 +238,7 @@ extension UserManager {
     
     func loginOrDo(_ completion: VoidClosure?) {
         if self.isLoggedIn {
-            if let completion = completion { completion() }
+            completion?()
         } else {
             let viewController = LoginViewController.instantiate(.login)
             UIApplication.shared.keyWindow?.rootViewController?.present(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
