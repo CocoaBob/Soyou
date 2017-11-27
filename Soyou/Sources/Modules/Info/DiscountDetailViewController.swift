@@ -166,6 +166,9 @@ extension DiscountDetailViewController {
         // Load HTML
         self.loadWebView(title: discount.title, content: discount.content)
         
+        // Like/Comments
+        self.updateExtraInfo()
+        
         // Favorite button
         self.isFavorite = discount.isFavorite()
         

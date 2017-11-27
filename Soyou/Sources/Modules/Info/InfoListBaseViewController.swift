@@ -94,12 +94,12 @@ extension InfoListBaseViewController: SwitchPrevNextItemDelegate {
 // MARK: - CollectionView Delegate Methods
 extension InfoListBaseViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func cellForItem(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    @objc func cellForItem(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath)
         return cell
     }
     
-    func didSelectItemAtIndexPath(_ collectionView: UICollectionView, indexPath: IndexPath) {
+    @objc func didSelectItemAtIndexPath(_ collectionView: UICollectionView, indexPath: IndexPath) {
 
     }
     

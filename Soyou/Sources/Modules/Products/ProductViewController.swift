@@ -168,6 +168,8 @@ extension ProductViewController {
         self.setupSubViewControllers(isNext)
         // Favorite button status
         self.isFavorite = self.product?.isFavorite() ?? false
+        // Like/Comment
+        self.updateExtraInfo()
         // Prepare next product
         if let (index, product) = self.delegate?.getNextProduct(self.productIndex) {
             self.nextProductIndex = index

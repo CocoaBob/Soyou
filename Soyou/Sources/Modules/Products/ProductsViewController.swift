@@ -212,6 +212,7 @@ extension ProductsViewController: ProductViewControllerDelegate {
     }
     
     func didShowNextProduct(_ product: Product, index: Int) {
+        let index = min(self.fetchedResults?.count ?? 0, index)
         self.collectionView().scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: false)
         self.selectedIndexPath = IndexPath(row: index, section: 0)
     }

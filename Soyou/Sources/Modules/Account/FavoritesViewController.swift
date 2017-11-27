@@ -439,11 +439,17 @@ extension FavoritesViewController: SwitchPrevNextItemDelegate {
             newIndex = 0
         }
         
-        completion(IndexPath(row: newIndex, section: 0), fetchedResults[newIndex])
+        if newIndex == indexPath.row {
+            completion(nil, nil)
+        } else {
+            completion(IndexPath(row: newIndex, section: 0), fetchedResults[newIndex])
+        }
     }
     
     func didShowItem(_ indexPath: IndexPath, isNext: Bool) {
-        self.tableView().scrollToRow(at: indexPath, at: isNext ? .top : .bottom, animated: false)
+        let count = self.fetchedResultsController?.sections?.first?.numberOfObjects ?? 0
+        let index = min(max(0, count - 1), indexPath.row)
+        self.tableView().scrollToRow(at: IndexPath(row: index, section: 0), at: isNext ? .top : .bottom, animated: false)
     }
 }
 
@@ -472,6 +478,8 @@ extension FavoritesViewController: ProductViewControllerDelegate {
     }
     
     func didShowNextProduct(_ product: Product, index: Int) {
+        let count = self.fetchedResultsController?.sections?.first?.numberOfObjects ?? 0
+        let index = min(max(0, count - 1), index)
         self.tableView().scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
     }
 }

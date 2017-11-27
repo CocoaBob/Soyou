@@ -162,7 +162,10 @@ extension NewsDetailViewController {
         self.loadWebView(title: news.title, content: news.content)
         
         // Like button
-        updateLikeBtnColor(news.isLiked())
+        self.updateLikeBtnColor(news.isLiked())
+        
+        // Like/Comments
+        self.updateExtraInfo()
         
         // Favorite button
         self.isFavorite = news.isFavorite()
