@@ -192,28 +192,8 @@ class CurrencyManager {
         }
         
         DataManager.shared.requestCurrencyChanges(currencyChanges) { responseObject, error in
-            if let responseObject = responseObject as? [String:AnyObject],
-                let query = responseObject["query"] as? NSDictionary,
-                let cnt = query["count"] as? Int,
-                let time = query["created"] as? String,
-                let results = query["results"] as? NSDictionary,
-                let rate = results["rate"] {
-                if cnt > 0 {
-                    var currencyRates = [NSDictionary]()
-                    var rates: [NSDictionary]?
-                    if let rate = rate as? NSDictionary {
-                        rates = [rate]
-                    } else if let rate = rate as? [NSDictionary] {
-                        rates = rate
-                    }
-                    if let rates = rates {
-                        for rate in rates {
-                            if let currency = self.parseCurrencyRate(rate, time: time) {
-                                currencyRates.append(currency)
-                            }
-                        }
-                    }
-                    
+            if let currencyRates = responseObject as? [NSDictionary] {
+                if currencyRates.count > 0 {
                     CurrencyRate.importDatas(currencyRates, completion)
                 } else {
                     if let completion = completion { completion(responseObject, error) }

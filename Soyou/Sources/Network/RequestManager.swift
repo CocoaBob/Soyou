@@ -230,22 +230,18 @@ class RequestManager {
     }
     
     func requestCurrencyChanges(_ currencies: [NSDictionary], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        
-        let url = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.xchange where pair in (\"__CURRENCIES__\")&format=json&env=store://datatables.org/alltableswithkeys"
-        
-        var _currenciies: [String] = [String]()
+        var _currencies: [String] = [String]()
         for currency in currencies {
             if let sourceCode = currency["sourceCode"],
                 let targetCode = currency["targetCode"] {
-                _currenciies.append("\(sourceCode)\(targetCode)")
+                _currencies.append("\(sourceCode):\(targetCode)")
             }
         }
-        
-        if _currenciies.isEmpty {
+        if _currencies.isEmpty {
             if let onFailure = onFailure { onFailure(nil) }
         } else {
-            let requestURL = url.replacingOccurrences(of: "__CURRENCIES__", with: _currenciies.joined(separator: ","))
-            getAsyncExternal(requestURL, onSuccess, onFailure)
+            let currencies = _currencies.joined(separator: ",")
+            getAsync("/api/\(Cons.Svr.apiVersion)/currencyRates/\(currencies)", "Products", onSuccess, onFailure)
         }
     }
     

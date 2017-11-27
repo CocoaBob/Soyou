@@ -64,7 +64,9 @@ class DataManager {
     
     func requestCurrencyChanges(_ currencies: [NSDictionary], _ completion: CompletionClosure?) {
         RequestManager.shared.requestCurrencyChanges(currencies, { responseObject in
-            self.completeWithData(responseObject, completion: completion)
+            if let data = DataManager.getResponseData(responseObject) as? NSArray {
+                self.completeWithData(data, completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })
