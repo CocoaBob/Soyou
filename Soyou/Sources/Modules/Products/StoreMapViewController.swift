@@ -200,7 +200,9 @@ extension StoreMapViewController: MKMapViewDelegate {
                     span.latitudeDelta /= 2.0
                     span.longitudeDelta /= 2.0
                     region = MKCoordinateRegionMake(annotation.coordinate, span)
-                    self.mapView.setRegion(region, animated: true)
+                    UIView.animate(withDuration: 0.3) {
+                        self.mapView.setRegion(region, animated: true)
+                    }
                     return
                 }
             }
