@@ -27,11 +27,7 @@ class Themes {
         
         // UIScrollView
         if #available(iOS 11.0, *) {
-            if UIDevice.isX() {
-                UIScrollView.appearance().contentInsetAdjustmentBehavior = .always
-            } else {
-                UIScrollView.appearance().contentInsetAdjustmentBehavior = .never
-            }
+            UIScrollView.appearance().contentInsetAdjustmentBehavior = .always
         }
     }
 }

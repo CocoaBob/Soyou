@@ -170,10 +170,6 @@ class SimpleTableViewController: UIViewController {
         if sections.isEmpty {
             self.rebuildTable()
         }
-        
-        if #available(iOS 11.0, *) {
-            self.tableView.contentInsetAdjustmentBehavior = .always
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -398,7 +394,7 @@ extension SimpleTableViewController {
 // MARK: Build hierarchy
 extension SimpleTableViewController {
     
-    func rebuildTable() {
+    @objc func rebuildTable() {
     }
 }
 

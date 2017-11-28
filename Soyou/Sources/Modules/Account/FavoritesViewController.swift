@@ -77,10 +77,6 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         
         // Setup refresh controls
         setupRefreshControls()
-        
-        if #available(iOS 11.0, *) {
-            self.tableView().contentInsetAdjustmentBehavior = .always
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

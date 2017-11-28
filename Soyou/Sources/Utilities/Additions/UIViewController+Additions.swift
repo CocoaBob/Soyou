@@ -92,9 +92,10 @@ extension UIViewController {
         if #available(iOS 11.0, *) {
             if UIDevice.isX() {
                 return
+            } else {
+                scrollView.contentInsetAdjustmentBehavior = .never
             }
         }
-        
         self.edgesForExtendedLayout = UIRectEdge.all
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
