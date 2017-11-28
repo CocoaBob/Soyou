@@ -89,11 +89,12 @@ class InfoDetailBaseViewController: UIViewController {
         self.btnComment.titleLabel?.backgroundColor = Cons.UI.colorComment
         
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .plain, target: self, action: #selector(ProductViewController.back(_:)))
+        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .plain, target: self, action: #selector(InfoDetailBaseViewController.back(_:)))
         let fav = UIBarButtonItem(customView: self.btnFav)
         let like = UIBarButtonItem(customView: self.btnLike)
         let comment = UIBarButtonItem(customView: self.btnComment)
-        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space]
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .plain, target: self, action: #selector(InfoDetailBaseViewController.share(_:)))
+        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space, share, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         // Fix scroll view insets

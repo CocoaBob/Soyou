@@ -96,7 +96,8 @@ class ProductViewController: UIViewController {
         let fav = UIBarButtonItem(customView: self.btnFav!)
         let like = UIBarButtonItem(customView: self.btnLike!)
         let comment = UIBarButtonItem(customView: self.btnComment)
-        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space]
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .plain, target: self, action: #selector(ProductViewController.share(_:)))
+        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space, share, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         // Fix scroll view insets
