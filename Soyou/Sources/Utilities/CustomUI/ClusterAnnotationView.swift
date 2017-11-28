@@ -8,38 +8,14 @@
 
 import UIKit
 import MapKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class ClusterAnnotationView: MKAnnotationView {
     @IBOutlet var countLabel: UILabel!
     
-    var count: Int? {
+    var count: Int = 1 {
         didSet {
 //            self.canShowCallout = count == 1
-            countLabel.text = "\(count!)"
+            countLabel.text = "\(count)"
             self.setNeedsLayout()
         }
     }
@@ -54,14 +30,12 @@ class ClusterAnnotationView: MKAnnotationView {
     
     init() {
         super.init(annotation: nil, reuseIdentifier: nil)
-        count = 1
         isUniqueLocation = false
     }
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         
-        count = 1
         isUniqueLocation = false
         
         self.backgroundColor = UIColor.clear
