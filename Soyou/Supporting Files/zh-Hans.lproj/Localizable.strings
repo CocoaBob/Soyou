@@ -117,7 +117,7 @@
 "profile_vc_cell_logout_warning_title"="退出账户";
 "profile_vc_cell_logout_warning"="您确定要退出吗？";
 "profile_vc_cell_logout_warning_sure"="确定";
-"profile_vc_modify_title_prefix"="修改";
+"profile_vc_change_title_prefix"="修改";
 "profile_vc_cell_new_email_placeholder"="您的邮箱地址";
 "profile_vc_cell_confirm_new_email_placeholder"="请再次输入您的邮箱地址";
 "profile_vc_change_email_alert_message"="请查收您的邮箱以激活新地址。";

@@ -125,7 +125,7 @@ extension ProfileViewController {
         let simpleViewController = SimpleTableViewController()
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
-        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_account_username")
+        simpleViewController.title = NSLocalizedString("profile_vc_change_title_prefix") + NSLocalizedString("profile_vc_cell_account_username")
         // Data
         simpleViewController.sections = [
             Section(
@@ -162,7 +162,7 @@ extension ProfileViewController {
         let simpleViewController = SimpleTableViewController()
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
-        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_account_email")
+        simpleViewController.title = NSLocalizedString("profile_vc_change_title_prefix") + NSLocalizedString("profile_vc_cell_account_email")
         // Data
         simpleViewController.sections = [
             Section(
@@ -236,7 +236,7 @@ extension ProfileViewController {
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = false
-        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_region")
+        simpleViewController.title = NSLocalizedString("profile_vc_change_title_prefix") + NSLocalizedString("profile_vc_cell_basics_region")
         // Data
         if let regions = Region.mr_findAllSorted(by: "appOrder", ascending: true) {
             let regionCodes = regions.flatMap {($0 as? Region)?.code}
@@ -309,7 +309,7 @@ extension ProfileViewController {
         // UI
         simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
         simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = false
-        simpleViewController.title = NSLocalizedString("profile_vc_modify_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
+        simpleViewController.title = NSLocalizedString("profile_vc_change_title_prefix") + NSLocalizedString("profile_vc_cell_basics_gender")
         // Data
         var rows = [Row]()
         for titleCode in ["user_info_gender_secret","user_info_gender_male","user_info_gender_female"] {

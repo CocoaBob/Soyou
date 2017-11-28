@@ -115,7 +115,7 @@
 "profile_vc_cell_logout_warning_title"="Logout";
 "profile_vc_cell_logout_warning"="Are you sure you want to logout your account?";
 "profile_vc_cell_logout_warning_sure"="Sure";
-"profile_vc_modify_title_prefix"="Modify ";
+"profile_vc_change_title_prefix"="Change ";
 "profile_vc_cell_new_email_placeholder"="Your Email address";
 "profile_vc_cell_confirm_new_email_placeholder"="Confirm";
 "profile_vc_change_email_alert_message"="Please check your Email to activate your new Email address.";
