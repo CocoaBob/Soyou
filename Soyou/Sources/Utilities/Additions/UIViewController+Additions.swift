@@ -396,12 +396,3 @@ extension UIViewController {
         return self.toppestViewController(self)
     }
 }
-
-// MARK: Load previous / next item
-
-protocol SwitchPrevNextItemDelegate {
-    
-    func hasNextItem(_ indexPath: IndexPath, isNext: Bool) -> Bool
-    func getNextItem(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?)
-    func didShowItem(_ indexPath: IndexPath, isNext: Bool)
-}

@@ -191,33 +191,6 @@ extension ProductsViewController {
     }
 }
 
-// MARK: ProductViewControllerDelegate
-extension ProductsViewController: ProductViewControllerDelegate {
-    
-    func getNextProduct(_ currentIndex: Int?) -> (Int?, Product?)? {
-        guard let fetchedResults = self.fetchedResults else { return nil }
-        
-        var currentProductIndex = -1
-        if let currentIndex = currentIndex {
-            currentProductIndex = currentIndex
-        }
-        
-        let nextProductIndex = currentProductIndex + 1
-        if nextProductIndex < fetchedResults.count {
-            let product = fetchedResults[nextProductIndex] as? Product
-            return (nextProductIndex, product)
-        }
-        
-        return nil
-    }
-    
-    func didShowNextProduct(_ product: Product, index: Int) {
-        let index = min(self.fetchedResults?.count ?? 0, index)
-        self.collectionView().scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: false)
-        self.selectedIndexPath = IndexPath(row: index, section: 0)
-    }
-}
-
 // MARK: CollectionView Delegate Methods
 extension ProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -284,9 +257,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
         }
             
         let productViewController = ProductViewController.instantiate()
-        productViewController.delegate = self
         productViewController.product = product
-        productViewController.productIndex = indexPath.row
         
         if let cell = self.collectionView().cellForItem(at: indexPath) as? ProductsCollectionViewCell,
             let imageView = cell.fgImageView,

@@ -249,18 +249,5 @@ extension DiscountDetailViewController {
         
         // Parallax Header
         self.setupParallaxHeader()
-        
-        // Prepare next discount
-        self.delegate?.getNextItem(IndexPath(row: self.infoIndex ?? 0, section: 0), isNext: true, completion: { (indexPath, item) in
-            if let index = indexPath?.row, let discount = item as? Discount {
-                self.nextInfoIndex = index
-                self.nextInfo = discount
-            } else {
-                self.nextInfoIndex = nil
-                self.nextInfo = nil
-            }
-            // Next button status
-            self.nextInfoBarButtonItem?.isEnabled = self.nextInfo != nil
-        })
     }
 }

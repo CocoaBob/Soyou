@@ -232,9 +232,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 // Prepare view controller
                 let viewController = NewsDetailViewController.instantiate()
-                viewController.delegate = self
                 viewController.info = news
-                viewController.infoIndex = indexPath.row
                 viewController.headerImage = image
                 
                 nextViewController = viewController
@@ -251,9 +249,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 // Prepare view controller
                 let viewController = DiscountDetailViewController.instantiate()
-                viewController.delegate = self
                 viewController.info = discount
-                viewController.infoIndex = indexPath.row
                 viewController.headerImage = image
                 
                 nextViewController = viewController
@@ -267,8 +263,6 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         let completion =  { (product: Product) -> () in
                             let viewController = ProductViewController.instantiate()
                             viewController.product = product
-                            viewController.productIndex = indexPath.row
-                            viewController.delegate = self
                             nextViewController = viewController
                         }
                         if let product = self.loadedProducts[productID] {
@@ -414,73 +408,6 @@ extension FavoritesViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
-    }
-}
-
-// MARK: SwitchPrevNextItemDelegate
-extension FavoritesViewController: SwitchPrevNextItemDelegate {
-    
-    func hasNextItem(_ indexPath: IndexPath, isNext: Bool) -> Bool {
-        return self.fetchedResultsController?.fetchedObjects?.isEmpty == false
-    }
-    
-    func getNextItem(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
-        guard let completion = completion else { return }
-        
-        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return
-            completion(nil, nil)
-        }
-        
-        var newIndex = indexPath.row + (isNext ? 1 : -1)
-        if newIndex < 0 {
-            newIndex = fetchedResults.count - 1
-        }
-        if newIndex > fetchedResults.count - 1 {
-            newIndex = 0
-        }
-        
-        if newIndex == indexPath.row {
-            completion(nil, nil)
-        } else {
-            completion(IndexPath(row: newIndex, section: 0), fetchedResults[newIndex])
-        }
-    }
-    
-    func didShowItem(_ indexPath: IndexPath, isNext: Bool) {
-        let count = self.fetchedResultsController?.sections?.first?.numberOfObjects ?? 0
-        let index = min(max(0, count - 1), indexPath.row)
-        self.tableView().scrollToRow(at: IndexPath(row: index, section: 0), at: isNext ? .top : .bottom, animated: false)
-    }
-}
-
-// MARK: ProductViewControllerDelegate
-extension FavoritesViewController: ProductViewControllerDelegate {
-    
-    func getNextProduct(_ currentIndex: Int?) -> (Int?, Product?)? {
-        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return nil }
-        
-        var currentProductIndex = -1
-        if let currentIndex = currentIndex {
-            currentProductIndex = currentIndex
-        }
-        
-        let nextProductIndex = currentProductIndex + 1
-        if nextProductIndex < fetchedResults.count {
-            if let favoriteProduct =  fetchedResults[nextProductIndex] as? FavoriteProduct,
-                let productID = favoriteProduct.id {
-                if let product = self.loadedProducts[productID] {
-                    return (nextProductIndex, product)
-                }
-            }
-        }
-        
-        return nil
-    }
-    
-    func didShowNextProduct(_ product: Product, index: Int) {
-        let count = self.fetchedResultsController?.sections?.first?.numberOfObjects ?? 0
-        let index = min(max(0, count - 1), index)
-        self.tableView().scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
     }
 }
 

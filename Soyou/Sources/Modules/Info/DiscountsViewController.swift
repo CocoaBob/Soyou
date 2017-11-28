@@ -52,29 +52,6 @@ class DiscountsViewController: InfoListBaseViewController {
         self.beginRefreshing()
     }
     
-    // MARK: SwitchPrevNextItemDelegate
-    override func hasNextInfo(_ indexPath: IndexPath, isNext: Bool) -> Bool {
-        return self.fetchedResultsController?.fetchedObjects?.count ?? 0 > 1
-    }
-    
-    override func getNextInfo(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
-        guard let completion = completion else { return }
-        
-        guard let fetchedResults = self.fetchedResultsController?.fetchedObjects else { return
-            completion(nil, nil)
-        }
-        
-        var newIndex = indexPath.row + (isNext ? 1 : -1)
-        if newIndex < 0 {
-            newIndex = fetchedResults.count - 1
-        }
-        if newIndex > fetchedResults.count - 1 {
-            newIndex = 0
-        }
-        
-        completion(IndexPath(row: newIndex, section: 0), fetchedResults[newIndex])
-    }
-    
     override func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {
         if let discount = self.fetchedResultsController?.object(at: indexPath) as? Discount,
             let imageURLString = discount.coverImage,
@@ -136,9 +113,7 @@ extension DiscountsViewController {
             
             // Prepare view controller
             let detailViewController = DiscountDetailViewController.instantiate()
-            detailViewController.delegate = self
             detailViewController.info = localDiscount
-            detailViewController.infoIndex = indexPath.row
             detailViewController.headerImage = image
             
             // Push view controller

@@ -45,14 +45,6 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         updateColumnCount(Int(floor(size.width / 240)))
     }
     
-    // Methods to be overridden
-    func hasNextInfo(_ indexPath: IndexPath, isNext: Bool) -> Bool {
-        return false
-    }
-    
-    func getNextInfo(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
-    }
-    
     func didShowInfo(_ indexPath: IndexPath, isNext: Bool) {
         self.collectionView().scrollToItem(at: indexPath, at: .top, animated: false)
         self.selectedIndexPath = indexPath
@@ -72,22 +64,6 @@ extension InfoListBaseViewController {
     
     @objc func loadNextData() {
         
-    }
-}
-
-// MARK: SwitchPrevNextItemDelegate
-extension InfoListBaseViewController: SwitchPrevNextItemDelegate {
-    
-    func hasNextItem(_ indexPath: IndexPath, isNext: Bool) -> Bool {
-        return self.hasNextInfo(indexPath, isNext: isNext)
-    }
-    
-    func getNextItem(_ indexPath: IndexPath, isNext: Bool, completion: ((_ indexPath: IndexPath?, _ item: Any?)->())?) {
-        self.getNextInfo(indexPath, isNext: isNext, completion: completion)
-    }
-    
-    func didShowItem(_ indexPath: IndexPath, isNext: Bool) {
-        self.didShowInfo(indexPath, isNext: isNext)
     }
 }
 

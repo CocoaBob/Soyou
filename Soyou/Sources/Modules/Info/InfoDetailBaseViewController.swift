@@ -18,13 +18,6 @@ class InfoDetailBaseViewController: UIViewController {
     var infoTitle: String!
     var infoID: NSNumber!
     
-    // For next item
-    var delegate: SwitchPrevNextItemDelegate?
-    var infoIndex: Int?
-    var nextInfo: AnyObject?
-    var nextInfoIndex: Int?
-    var nextInfoBarButtonItem: UIBarButtonItem?
-    
     // Properties
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
     
@@ -96,16 +89,12 @@ class InfoDetailBaseViewController: UIViewController {
         self.btnComment.titleLabel?.backgroundColor = Cons.UI.colorComment
         
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .plain, target: self, action: #selector(ProductViewController.next(_:)))
+        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .plain, target: self, action: #selector(ProductViewController.back(_:)))
         let fav = UIBarButtonItem(customView: self.btnFav)
         let like = UIBarButtonItem(customView: self.btnLike)
         let comment = UIBarButtonItem(customView: self.btnComment)
-        self.toolbarItems = [ space, next, space, fav, space, like, space, comment, space]
+        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
-        
-        // Setup next button
-        next.isEnabled = false
-        self.nextInfoBarButtonItem = next
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, false, false)
@@ -320,20 +309,6 @@ extension InfoDetailBaseViewController {
     @objc func loadData() {
     }
     
-    func loadNextData() {
-        if let nextInfo = self.nextInfo {
-            self.info = nextInfo
-            self.headerImage = nil
-            self.infoIndex = self.nextInfoIndex
-            self.loadData()
-            let transition = CATransition()
-            transition.type = kCATransitionPush
-            transition.subtype = kCATransitionFromTop
-            self.view.layer .add(transition, forKey: "transition")
-            self.delegate?.didShowItem(IndexPath(row: self.infoIndex ?? 0, section: 0), isNext: true)
-        }
-    }
-    
     func loadWebView(title: String?, content: String?) {
         if let webView = self.webView, let content = content, let title = title {
             var cssContent: String?
@@ -484,10 +459,6 @@ extension InfoDetailBaseViewController {
     
     @IBAction func back(_ sender: AnyObject) {
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func next(_ sender: AnyObject) {
-        self.loadNextData()
     }
     
     @IBAction func share(_ sender: AnyObject) {

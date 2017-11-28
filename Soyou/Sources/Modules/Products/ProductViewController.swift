@@ -6,20 +6,7 @@
 //  Copyright © 2016 Soyou. All rights reserved.
 //
 
-protocol ProductViewControllerDelegate {
-    
-    func getNextProduct(_ currentIndex: Int?) -> (Int?, Product?)?
-    func didShowNextProduct(_ product: Product, index: Int)
-}
-
 class ProductViewController: UIViewController {
-    
-    // For next product
-    var delegate: ProductViewControllerDelegate?
-    var nextProductBarButtonItem: UIBarButtonItem?
-    var productIndex: Int?
-    var nextProduct: Product?
-    var nextProductIndex: Int?
     
     // Properties
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
@@ -105,21 +92,18 @@ class ProductViewController: UIViewController {
         self.btnComment.titleLabel?.backgroundColor = Cons.UI.colorComment
         
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let next = UIBarButtonItem(image: UIImage(named:"img_arrow_down"), style: .plain, target: self, action: #selector(ProductViewController.next(_:)))
+        let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .plain, target: self, action: #selector(ProductViewController.back(_:)))
         let fav = UIBarButtonItem(customView: self.btnFav!)
         let like = UIBarButtonItem(customView: self.btnLike!)
         let comment = UIBarButtonItem(customView: self.btnComment)
-        self.toolbarItems = [ space, next, space, fav, space, like, space, comment, space]
+        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
-        
-        next.isEnabled = false
-        self.nextProductBarButtonItem = next
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.scrollView, 0, true, false, false, false)
         
         // Load content
-        self.loadProduct(false)
+        self.loadProduct()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -161,39 +145,15 @@ class ProductViewController: UIViewController {
 // MARK: Load products
 extension ProductViewController {
     
-    func loadProduct(_ isNext: Bool) {
+    func loadProduct() {
         // Setup images for carousel View
         self.setupCarouselView()
         // SubViewControllers
-        self.setupSubViewControllers(isNext)
+        self.setupSubViewControllers()
         // Favorite button status
         self.isFavorite = self.product?.isFavorite() ?? false
         // Like/Comment
         self.updateExtraInfo()
-        // Prepare next product
-        if let (index, product) = self.delegate?.getNextProduct(self.productIndex) {
-            self.nextProductIndex = index
-            self.nextProduct = product
-        } else {
-            self.nextProductIndex = nil
-            self.nextProduct = nil
-        }
-        // Next button status
-        self.nextProductBarButtonItem?.isEnabled = self.nextProduct != nil
-    }
-    
-    func loadNextProduct() {
-        if let nextProduct = self.nextProduct {
-            self.product = nextProduct
-            self.firstImage = nil
-            self.productIndex = self.nextProductIndex
-            self.loadProduct(true)
-            let transition = CATransition()
-            transition.type = kCATransitionPush
-            transition.subtype = kCATransitionFromTop
-            self.view.layer .add(transition, forKey: "transition")
-            self.delegate?.didShowNextProduct(nextProduct, index: self.productIndex ?? 0)
-        }
     }
 }
 
@@ -299,7 +259,7 @@ extension ProductViewController {
 // MARK: Sub View Controllers
 extension ProductViewController {
     
-    func setupSubViewControllers(_ isNext: Bool) {
+    func setupSubViewControllers() {
         guard let product = self.product else { return }
         
         // Add page menu to the scroll view's subViewsContainer
@@ -355,12 +315,6 @@ extension ProductViewController {
         
         // Update height
         self.updateViewsContainerHeight(false)
-                
-        // Reload data
-        if isNext {
-            self.productPricesViewController.reloadData()
-            self.productDescriptionsViewController.reloadData()
-        }
         
         // Preselect sub view
         if let noPrices = self.productPricesViewController.prices?.isEmpty {
@@ -552,10 +506,6 @@ extension ProductViewController {
     
     @IBAction func back(_ sender: AnyObject) {
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func next(_ sender: AnyObject) {
-        self.loadNextProduct()
     }
     
     @IBAction func share(_ sender: AnyObject) {

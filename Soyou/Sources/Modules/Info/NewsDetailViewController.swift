@@ -249,18 +249,5 @@ extension NewsDetailViewController {
         
         // Parallax Header
         self.setupParallaxHeader()
-        
-        // Prepare next news
-        self.delegate?.getNextItem(IndexPath(row: self.infoIndex ?? 0, section: 0), isNext: true, completion: { (indexPath, item) in
-            if let index = indexPath?.row, let news = item as? News {
-                self.nextInfoIndex = index
-                self.nextInfo = news
-            } else {
-                self.nextInfoIndex = nil
-                self.nextInfo = nil
-            }
-            // Next button status
-            self.nextInfoBarButtonItem?.isEnabled = self.nextInfo != nil
-        })
     }
 }
