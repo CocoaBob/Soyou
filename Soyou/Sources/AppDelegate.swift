@@ -140,7 +140,6 @@ extension AppDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         DLog(userInfo)
     }
-
 }
 
 // MARK: Routines
@@ -156,10 +155,8 @@ extension AppDelegate {
                                           width: UIScreen.main.bounds.width,
                                           height: UIApplication.shared.statusBarFrame.height)
         self.overlayWindow.windowLevel = UIWindowLevelStatusBar
-        self.overlayWindow.backgroundColor = UIColor.clear
-        self.overlayWindow.layer.borderColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5).cgColor
         let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
-        self.overlayWindow.layer.borderWidth = isSTGMode ? 2 : 0
+        self.overlayWindow.backgroundColor = isSTGMode ? UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.1) : UIColor.clear
         self.overlayWindow.rootViewController = UIViewController()
         self.overlayWindow.isHidden = false
     }

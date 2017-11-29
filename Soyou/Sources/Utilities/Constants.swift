@@ -11,8 +11,8 @@ public struct Cons {
         static let serverVersion                            = "0.0.5"
         static let apiVersion                               = "v1"
         
-        static let hostnameSTG                              = "34.252.107.19"
-        static let shareBaseURLSTG                          = "http://34.252.107.19/#"
+        static let hostnameSTG                              = "test-api.soyou.io"
+        static let shareBaseURLSTG                          = "http://test-api.soyou.io/#"
         static let reqAPIKeySTG                             = "17843599-f079-4c57-bb39-d9ca8344abd"
         static let hostnamePROD                             = "api.soyou.io"
         static let shareBaseURLPROD                         = "http://share.soyou.io/#"

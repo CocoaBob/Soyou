@@ -127,7 +127,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, Any?) -> () = { (operation, responseObject) -> () in
             modeUI ? MBProgressHUD.hide() : ()
-            DLog("<-- [\(((responseObject as? [String: NSDictionary])?["data"])?.count ?? 0)]")
+            DLog("<-- [\(((responseObject as? Dictionary<String, Any>)?["data"] as? [Any])?.count ?? 0)]")
             self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
         }
         

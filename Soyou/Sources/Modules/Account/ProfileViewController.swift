@@ -370,10 +370,12 @@ extension ProfileViewController {
     @objc func toggleSTGMode() {
         // Update setting
         UserDefaults.setBool(!UserDefaults.boolForKey(Cons.App.isSTGMode), forKey: Cons.App.isSTGMode)
-        // Reinitialize url
-        RequestManager.shared.initRequestOperationManager()
         // Clear network cache
         URLCache.shared.removeAllCachedResponses()
+        // Reinitialize url
+        RequestManager.shared.initRequestOperationManager()
+        // Logout the current user
+        UserManager.shared.logOut()
         // Update status bar color
         (UIApplication.shared.delegate as? AppDelegate)?.setupOverlayWindow()
     }

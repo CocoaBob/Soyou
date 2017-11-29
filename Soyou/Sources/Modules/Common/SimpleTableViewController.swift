@@ -145,6 +145,7 @@ class SimpleTableViewController: UIViewController {
             self.tableView.dataSource = self
             self.view.addSubview(self.tableView)
         }
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         
         self.tableView.estimatedRowHeight = 44
         self.tableView.rowHeight = UITableViewAutomaticDimension
