@@ -11,15 +11,12 @@ public struct Cons {
         static let serverVersion                            = "0.0.5"
         static let apiVersion                               = "v1"
         
-//#if DEBUG
-//        static let hostname                                 = "test-api.soyou.io"
-//        static let shareBaseURL                             = "http://test-share.soyou.io:8090/#"
-//        static let reqAPIKey                                = "17843599-f079-4c57-bb39-d9ca8344abd"
-//#else
-        static let hostname                                 = "api.soyou.io"
-        static let shareBaseURL                             = "http://share.soyou.io/#"
-        static let reqAPIKey                                = "\(1155919*2*3*7)"+"-f079-4c57-bb39-d9ca8344abd7"
-//#endif
+        static let hostnameSTG                              = "34.252.107.19"
+        static let shareBaseURLSTG                          = "http://34.252.107.19/#"
+        static let reqAPIKeySTG                             = "17843599-f079-4c57-bb39-d9ca8344abd"
+        static let hostnamePROD                             = "api.soyou.io"
+        static let shareBaseURLPROD                         = "http://share.soyou.io/#"
+        static let reqAPIKeyPROD                            = "48548598-f079-4c57-bb39-d9ca8344abd7"
         
         // Number of News/Discounts for each request
         static let infoRequestSize                          = 5
@@ -53,6 +50,7 @@ public struct Cons {
         static let lastUpdateDate                           = "lastUpdateDate"                          // Stored in NSUserDefaults
         static let updateInterval                           = 0.0                                       // 0 second
         static let productsPageSize                         = 100                                       // the number of products / page
+        static let isSTGMode                                = "isSTGMode"                               // Stored in NSUserDefaults
     }
     
     struct DB {

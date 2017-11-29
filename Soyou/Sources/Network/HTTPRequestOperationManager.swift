@@ -9,9 +9,13 @@
 class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     var newVersionAlert: SCLAlertView?
+    var reqAPIKey: String = Cons.Svr.reqAPIKeyPROD
     
     override init(baseURL url: URL?) {
         super.init(baseURL: url)
+        
+        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
+        self.reqAPIKey = isSTGMode ? Cons.Svr.reqAPIKeySTG : Cons.Svr.reqAPIKeyPROD
         
         requestSerializer = AFJSONRequestSerializer()
         responseSerializer = AFJSONResponseSerializer()
@@ -74,7 +78,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
-        request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
+        request.addValue(self.reqAPIKey, forHTTPHeaderField: "apiKey")
         request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate), forHTTPHeaderField: "request-time")
         if let headers = headers {
             for (key, value) in headers {
@@ -142,7 +146,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
-        request.addValue(Cons.Svr.reqAPIKey, forHTTPHeaderField: "apiKey")
+        request.addValue(self.reqAPIKey, forHTTPHeaderField: "apiKey")
         request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate), forHTTPHeaderField: "request-time")
         if let headers = headers {
             for (key, value) in headers {

@@ -571,7 +571,10 @@ extension ProductViewController {
         if let item = descriptions {
             items.append(item as AnyObject)
         }
-        if let productID = productID, let item = URL(string: "\(Cons.Svr.shareBaseURL)/product?id=\(productID)&targetCurrency=\(userCurrency)") {
+        
+        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
+        let shareBaseURL = isSTGMode ? Cons.Svr.shareBaseURLSTG : Cons.Svr.shareBaseURLPROD
+        if let productID = productID, let item = URL(string: "\(shareBaseURL)/product?id=\(productID)&targetCurrency=\(userCurrency)") {
             items.append(item)
         }
         Utils.shareItems(items, completion: { () -> Void in

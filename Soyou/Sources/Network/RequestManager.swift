@@ -13,7 +13,13 @@ class RequestManager {
     static let shared = RequestManager()
     
     init() {
-        self.requestOperationManager = HTTPRequestOperationManager(baseURL:URL(string: "https://" + Cons.Svr.hostname))
+        self.initRequestOperationManager()
+    }
+    
+    func initRequestOperationManager() {
+        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
+        let hostname = isSTGMode ? Cons.Svr.hostnameSTG : Cons.Svr.hostnamePROD
+        self.requestOperationManager = HTTPRequestOperationManager(baseURL:URL(string: "https://" + hostname))
     }
     
     //////////////////////////////////////

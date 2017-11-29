@@ -13,6 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var overlayWindow = UIWindow()
     
     var dbIsInitialized = false
     var shortcutItemType = ""
@@ -37,6 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup the window (must before MBProgressHUD)
         self.setupWindow()
+        
+        // Setup the overlay window
+        self.setupOverlayWindow()
         
         // Setup Social Services
         self.setupSocialServices()
@@ -149,6 +153,19 @@ extension AppDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = UINavigationController(rootViewController: SplashScreenViewController())
         self.window?.makeKeyAndVisible()
+    }
+    
+    func setupOverlayWindow() {
+        self.overlayWindow.frame = CGRect(x: 0, y: 0,
+                                          width: UIScreen.main.bounds.width,
+                                          height: UIApplication.shared.statusBarFrame.height)
+        self.overlayWindow.windowLevel = UIWindowLevelStatusBar
+        self.overlayWindow.backgroundColor = UIColor.clear
+        self.overlayWindow.layer.borderColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5).cgColor
+        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
+        self.overlayWindow.layer.borderWidth = isSTGMode ? 2 : 0
+        self.overlayWindow.rootViewController = UIViewController()
+        self.overlayWindow.isHidden = false
     }
     
     func setupDatabase() {

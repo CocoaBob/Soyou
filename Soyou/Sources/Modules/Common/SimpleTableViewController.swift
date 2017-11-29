@@ -386,7 +386,7 @@ extension SimpleTableViewController {
         textField.textColor = row.title?.color
     }
     
-    func doneAction() {
+    @objc func doneAction() {
         completion?()
     }
 }
