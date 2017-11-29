@@ -251,7 +251,7 @@ extension ProfileViewController {
             for regionCode in regionCodes {
                 let row = Row(type: .IconTitle,
                               cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
-                              image: UIImage(flagImageWithCountryCode: regionCode),
+                              image: Flag(countryCode: regionCode)?.image(style: .roundedRect),
                               title: Text(text: CurrencyManager.shared.countryName(regionCode) ?? ""),
                               userInfo: ["code": regionCode],
                               didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in

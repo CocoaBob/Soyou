@@ -182,8 +182,8 @@ extension IntroViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
-            if let page = self.introView?.pages[IntroViewPage.map.rawValue] as? EAIntroPage {
-                if let subViews = page.subviews as? [UIView] {
+            if let page = self.introView?.pages[IntroViewPage.map.rawValue] {
+                if let subViews = page.subviews {
                     self.removeSubviews(subViews)
                 }
             }
@@ -194,8 +194,8 @@ extension IntroViewController: CLLocationManagerDelegate {
     // Cons.Usr.DidRegisterForRemoteNotifications
     @objc func didRegisterForRemoteNotifications() {
         if UIApplication.shared.isRegisteredForRemoteNotifications {
-            if let page = self.introView?.pages[IntroViewPage.news.rawValue] as? EAIntroPage {
-                if let subViews = page.subviews as? [UIView] {
+            if let page = self.introView?.pages[IntroViewPage.news.rawValue] {
+                if let subViews = page.subviews {
                     self.removeSubviews(subViews)
                 }
             }

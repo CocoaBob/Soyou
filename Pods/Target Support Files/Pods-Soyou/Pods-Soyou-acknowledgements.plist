@@ -309,7 +309,9 @@ SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright (c) 2013-2016 Evgeny Aleksandrov
+			<string>MIT License
+
+Copyright (c) 2013-2017 Evgeny Aleksandrov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1445,7 +1447,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
 </string>
 			<key>License</key>
-			<string>UA</string>
+			<string>University of Alabama</string>
 			<key>Title</key>
 			<string>PageMenu</string>
 			<key>Type</key>
@@ -1760,7 +1762,7 @@ OTHER DEALINGS IN THE SOFTWARE.</string>
 			<key>FooterText</key>
 			<string>The MIT License (MIT)
 
-Copyright (c) 2016 Ruoyu Fu
+Copyright (c) 2017 Ruoyu Fu
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -284,7 +284,7 @@ extension SettingsViewController {
         for (langCode, countryCode) in langCode {
             let row = Row(type: .IconTitle,
                           cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
-                          image: UIImage(flagImageWithCountryCode: countryCode),
+                          image: Flag(countryCode: countryCode)?.image(style: .roundedRect),
                           title: Text(text: CurrencyManager.shared.languageName(langCode) ?? ""),
                           userInfo: ["language":langCode],
                           didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
@@ -364,11 +364,7 @@ extension SettingsViewController {
             }
             var image: UIImage?
             if let countryCode = countryCode {
-                if countryCode == "EU" {
-                    image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.EuropeanUnion)
-                } else {
-                    image = UIImage(flagImageWithCountryCode: countryCode)
-                }
+                image = Flag(countryCode: countryCode)?.image(style: .roundedRect)
             }
             let row = Row(type: .IconTitle,
                 cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),

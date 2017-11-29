@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 use_frameworks!
-platform :ios, '8.0'
+platform :ios, '10.0'
 project "Soyou"
 
 inhibit_all_warnings!
@@ -15,18 +15,18 @@ target :'Soyou' do
 	pod "CHTCollectionViewWaterfallLayout"
 	pod "EAIntroView"
 	pod "FCUUID"
-	pod "FlagKit", :git => 'git://github.com/gastonkosut/FlagKit', :commit => '3a337be5f5458c91b5d7dfb4b735ec8a77c444ab'
+	pod "FlagKit", :git => 'git://github.com/choco/FlagKit', :branch => 'master'
 	pod "IDMPhotoBrowser"
 	pod "MagicalRecord", '~> 2.3'
 	pod "MBProgressHUD"
 	pod "MJRefresh"
 	pod "MXParallaxHeader", :git => 'git://github.com/maxep/MXParallaxHeader', :branch => 'master'
 	pod "NYSegmentedControl"
-	pod "PageMenu", :git => 'git://github.com/JoeFerrucci/PageMenu', :commit => '3477a47af6d01480c98f4095959e4a5d1e91a841'
-	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :commit => '880826c7f361c3065ca23a4696a4d19d7e1da6d3'
+	pod "PageMenu", :git => 'git://github.com/JoeFerrucci/PageMenu', :branch => 'master'
+	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :branch => 'master'
 	pod "SCLAlertView"
 	pod "SDWebImage"
-	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :commit => 'bad0864b06019d764519dab9a53409de889c87fc'
+	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :branch => 'master'
 	pod "SSZipArchive"
     pod "SVWebViewController"
     pod "SwiftyJSON"
@@ -46,7 +46,8 @@ target :'Soyou' do
     pod "WeiboSDK", '~> 3.1.3'
     pod "FBSDKLoginKit"
     pod "FBSDKShareKit"
-    pod "TwitterKit",'~> 2'
+    pod "TwitterKit", '~> 2'
+    pod "TwitterCore", '~> 2'
     pod "Google/SignIn"
     
 #    pod "Alamofire"

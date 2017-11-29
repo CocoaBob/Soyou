@@ -93,10 +93,10 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         if indexPath.row == 0 {
             let _cell = (tableView.dequeueReusableCell(withIdentifier: "ProductPricesTableViewCellCountry", for: indexPath) as? ProductPricesTableViewCellCountry)!
             
-            if let countryCode = countryCode, let image = UIImage(flagImageWithCountryCode: countryCode) {
+            if let countryCode = countryCode, let image = Flag(countryCode: countryCode)?.image(style: .roundedRect) {
                 _cell.imgView.image = image
             } else {
-                _cell.imgView.image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.World)
+                _cell.imgView.image = nil
             }
             if let countryCode = countryCode, let countryName = CurrencyManager.shared.countryName(countryCode) {
                 _cell.lblTitle.text = countryName

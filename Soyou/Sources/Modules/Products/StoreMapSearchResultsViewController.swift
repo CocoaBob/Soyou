@@ -50,10 +50,10 @@ extension StoreMapSearchResultsViewController {
         
         // Address
         cell.detailTextLabel?.text = item.placemark.addressString()
-        if let countryCode = item.placemark.countryCode, let image = UIImage(flagImageWithCountryCode: countryCode) {
+        if let countryCode = item.placemark.countryCode, let image = Flag(countryCode: countryCode)?.image(style: .roundedRect) {
             cell.imageView?.image = image
         } else {
-            cell.imageView?.image = UIImage(flagImageForSpecialFlag: FlagKit.SpecialFlag.World)
+            cell.imageView?.image = nil
         }
         
         return cell
