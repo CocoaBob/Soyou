@@ -38,10 +38,15 @@ class NewsViewController: InfoListBaseViewController {
     
     // MARK: Data
     override func loadData(_ relativeID: NSNumber?) {
+        if relativeID == nil {
+            MagicalRecord.save({ (localContext) in
+                News.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
+            })
+        }
         DataManager.shared.requestNewsList(relativeID) { responseObject, error in
             guard let responseObject = responseObject as? Dictionary<String, AnyObject> else { return }
             guard let data = responseObject["data"] as? [NSDictionary] else { return }
-            
+
             self.endRefreshing(data.count)
         }
     }

@@ -428,7 +428,8 @@ class DataManager {
                         self.completeWithData(responseObject, completion: completion)
                     })
                     // Notify observers
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Cons.DB.discountsUpdatingDidFinishNotification), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Cons.DB.discountsUpdatingDidFinishNotification),
+                                                    object: nil)
                 })
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
