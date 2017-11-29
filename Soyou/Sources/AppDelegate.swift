@@ -39,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup the window (must before MBProgressHUD)
         self.setupWindow()
         
+        // Setup view controllers (Must after setupWindow())
+        self.setupTabBarController()
+        
         // Setup the overlay window
         self.setupOverlayWindow()
         
@@ -48,31 +51,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // In case if it hasn't been registered on the server
         DataManager.shared.registerForNotification(false)
         
-        // Setup Database asynchronously
-        DispatchQueue.main.async {            
-            // Initializing database
-            self.setupDatabase()
-            
-            // Load current user
-            UserManager.shared.loadCurrentUser(false)
-            
-            // Get Username from database
-            Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
-            
-            // Setup view controllers (Must after initializing the database)
-            self.setupTabBarController()
-            
-            // Check updates
-            self.updateDataAfterLaunching()
-            
-            // If app is launched by 3D Touch shortcut menu
-            self.showShortcutView()
-            
-            // Show Introduction view
-            DispatchQueue.main.async {
-                // Make sure NewsViewController's viewWillAppear is called before showIntroView()
-                self.checkIfShowIntroView()
-            }
+        // Initializing database
+        self.setupDatabase()
+        
+        // Load current user
+        UserManager.shared.loadCurrentUser(false)
+        
+        // Get Username from database
+        Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
+        
+        // Check updates
+        self.updateDataAfterLaunching()
+        
+        // If app is launched by 3D Touch shortcut menu
+        self.showShortcutView()
+        
+        // Show Introduction view
+        DispatchQueue.main.async {
+            // Make sure NewsViewController's viewWillAppear is called before showIntroView()
+            self.checkIfShowIntroView()
         }
         
         return true
@@ -151,7 +148,6 @@ extension AppDelegate {
     
     func setupWindow() {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = UINavigationController(rootViewController: SplashScreenViewController())
         self.window?.makeKeyAndVisible()
     }
     

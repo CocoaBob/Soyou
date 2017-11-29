@@ -210,7 +210,6 @@
 "alert_button_close"="Close";
 "alert_button_cancel"="Cancel";
 "currency_unknown"="Unknown Currency";
-"initializing_database"="Initializing...";
 
 /* Product descriptions */
 "product_surname"="Surname";

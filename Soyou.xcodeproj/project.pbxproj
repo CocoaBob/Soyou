@@ -75,7 +75,6 @@
 		457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* RequestManager.swift */; };
 		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
-		45876AD91CDD0BD7009CB4C1 /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45876AD81CDD0BD7009CB4C1 /* SplashScreenViewController.swift */; };
 		4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */; };
 		4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C91C52A1AA00329ECA /* TableViewCells.swift */; };
 		4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */; };
@@ -229,7 +228,6 @@
 		457D1EB71BFBDE9700D451D0 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		45876AD81CDD0BD7009CB4C1 /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
 		4590F8C91C52A1AA00329ECA /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
 		4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellSectionHeader.xib; sourceTree = "<group>"; };
@@ -487,7 +485,6 @@
 				4568E2F51BF92182009A6164 /* AsyncedFetchedResultsViewController.swift */,
 				45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */,
 				4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */,
-				45876AD81CDD0BD7009CB4C1 /* SplashScreenViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1143,7 +1140,6 @@
 				4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */,
 				45A41B4F1C9F372A00D48185 /* NSUserDefaults+Additions.swift in Sources */,
 				45EE80C91CF659A8004AE158 /* Discount+CoreDataProperties.swift in Sources */,
-				45876AD91CDD0BD7009CB4C1 /* SplashScreenViewController.swift in Sources */,
 				0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
 				45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */,

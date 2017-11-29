@@ -19,7 +19,7 @@ class RequestManager {
     func initRequestOperationManager() {
         let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
         let hostname = isSTGMode ? Cons.Svr.hostnameSTG : Cons.Svr.hostnamePROD
-        self.requestOperationManager = HTTPRequestOperationManager(baseURL:URL(string: "https://" + hostname))
+        requestOperationManager = HTTPRequestOperationManager(baseURL:URL(string: "https://" + hostname))
     }
     
     //////////////////////////////////////
