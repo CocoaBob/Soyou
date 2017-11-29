@@ -372,6 +372,8 @@ extension ProfileViewController {
         UserDefaults.setBool(!UserDefaults.boolForKey(Cons.App.isSTGMode), forKey: Cons.App.isSTGMode)
         // Reinitialize url
         RequestManager.shared.initRequestOperationManager()
+        // Clear network cache
+        URLCache.shared.removeAllCachedResponses()
         // Update status bar color
         (UIApplication.shared.delegate as? AppDelegate)?.setupOverlayWindow()
     }
