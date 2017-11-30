@@ -14,6 +14,7 @@
 //            "username": "jiyuny",
 //            "matricule": 100001,
 //            "comment": "哈哈哈就",
+//            "canDelete": 1,
 //            "parentUsername": null,
 //            "parentMatricule": null,
 //            "parentComment": null
@@ -23,6 +24,7 @@
 //            "username": "jiyuny",
 //            "matricule": 100001,
 //            "comment": "Hh",
+//            "canDelete": 0,
 //            "parentUsername": "CocoaBob",
 //            "parentMatricule": 100003,
 //            "parentComment": "Test Comment at 491439367.379247"
@@ -35,6 +37,7 @@ struct Comment {
     var username: String = ""
     var matricule: Int = -1
     var comment: String = ""
+    var canDelete: Int = 0
     var parentUsername: String?
     var parentMatricule: Int?
     var parentComment: String?
@@ -43,6 +46,7 @@ struct Comment {
          username: String = "",
          matricule: Int = -1,
          comment: String = "",
+         canDelete: Int = 0,
          parentUsername: String? = nil,
          parentMatricule: Int? = nil,
          parentComment: String? = nil) {
@@ -50,6 +54,7 @@ struct Comment {
         self.username = username
         self.matricule = matricule
         self.comment = comment
+        self.canDelete = canDelete
         self.parentUsername = parentUsername
         self.parentMatricule = parentMatricule
         self.parentComment = parentComment
@@ -68,6 +73,7 @@ struct Comment {
         self.username = json["username"].stringValue
         self.matricule = json["matricule"].intValue
         self.comment = json["comment"].stringValue
+        self.canDelete = json["canDelete"].intValue
         self.parentUsername = json["parentUsername"].string
         self.parentMatricule = json["parentMatricule"].int
         self.parentComment = json["parentComment"].string
@@ -224,6 +230,17 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
         UIMenuController.shared.setMenuVisible(true, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if let comment = self.commentsByID[self.commentIDs[indexPath.row]] {
+            return comment.canDelete == 1
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        self.deleteComment(commentID: self.commentIDs[indexPath.row])
+    }
+    
     // MARK: Context menu
     func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -242,6 +259,20 @@ extension InfoCommentsViewController {
     
     @IBAction func writeComment() {
         self.postNewComment(nil)
+    }
+    
+    func deleteComment(commentID: Int) {
+        guard let comment = self.commentsByID[commentID] else {
+            return
+        }
+        
+        let alertController = UIAlertController(title: NSLocalizedString("comments_vc_delete_comment"), message: NSLocalizedString("comments_vc_delete_comment_alert"), preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_confirm"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
+            print("Will delete comment \(comment.matricule)")
+            // Reload comments after deleting
+        }))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"), style: UIAlertActionStyle.cancel, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -349,6 +380,10 @@ class InfoCommentsTableViewCell: UITableViewCell {
             attributedString.append(NSMutableAttributedString(string: "\(parentUsername): ", attributes: attributes))
             attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
             attributedString.append(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
+        } else if let _ = self.comment.parentMatricule {
+            // If there's parentMatricule, but no parentUsername and parentComment, it means the parent comment has been deleted
+            attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
+            attributedString.append(NSMutableAttributedString(string: NSLocalizedString("comments_vc_menu_reply"), attributes: attributes))
         }
         self.tvContent.attributedText = attributedString
     }
