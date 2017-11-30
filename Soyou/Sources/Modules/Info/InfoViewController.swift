@@ -96,7 +96,7 @@ extension InfoViewController {
             ]
             
             // Create CAPSPageMenu
-            let topInset = UIApplication.shared.statusBarFrame.height
+            let topInset = Cons.UI.statusBarHeight
             self.pageMenu = CAPSPageMenu(
                 viewControllers: self.pageMenuViewControllers,
                 frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.height - topInset),
@@ -107,7 +107,10 @@ extension InfoViewController {
             if let pageMenu = self.pageMenu {
                 pageMenu.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
                 self.subViewsContainer.addSubview(pageMenu.view)
-                pageMenu.view.frame = CGRect(x: 0, y: topInset, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height - topInset)
+                pageMenu.view.frame = CGRect(x: 0,
+                                             y: topInset,
+                                             width: self.subViewsContainer.frame.width,
+                                             height: self.subViewsContainer.frame.height - topInset)
             }
         }
     }

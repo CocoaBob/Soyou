@@ -310,7 +310,11 @@ extension BrandViewController: UITableViewDataSource, UITableViewDelegate {
         footerView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         let marginH = footerView.layoutMargins.left + footerView.layoutMargins.right
         let marginV = footerView.layoutMargins.top + footerView.layoutMargins.bottom
-        footerView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: (viewWidth - marginH) * 0.5 + marginV)
+        let screenRatio = UIScreen.main.bounds.height / UIScreen.main.bounds.width
+        footerView.frame = CGRect(x: 0,
+                                  y: 0,
+                                  width: viewWidth,
+                                  height: (viewWidth - marginH) * screenRatio / 3.0  + marginV)
         self.tableView.tableFooterView = footerView // Reset footer view to update the frame
     }
     

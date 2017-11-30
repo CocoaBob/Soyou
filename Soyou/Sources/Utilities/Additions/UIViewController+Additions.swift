@@ -28,13 +28,7 @@ extension UIViewController {
     func topInset(_ parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool) -> CGFloat {
         var topInset: CGFloat = parallaxHeaderHeight
         if statusBarIsVisible {
-            topInset += 20
-//            if !UIApplication.shared.statusBarHidden {
-//                let statusBarFrame = UIApplication.shared.keyWindow?.convert(UIApplication.shared.statusBarFrame, from: self.view)
-//                if let statusBarHeight = statusBarFrame?.height {
-//                    topInset += statusBarHeight
-//                }
-//            }
+            topInset += Cons.UI.statusBarHeight
         }
         if navBarIsVisible {
             var navigationController: UINavigationController?
@@ -90,11 +84,7 @@ extension UIViewController {
     
     func updateScrollViewInset(_ scrollView: UIScrollView, _ parallaxHeaderHeight: CGFloat, _ statusBarIsVisible: Bool, _ navBarIsVisible: Bool, _ toolbarIsVisible: Bool, _ tabBarIsVisible: Bool) {
         if #available(iOS 11.0, *) {
-            if UIDevice.isX() {
-                return
-            } else {
-                scrollView.contentInsetAdjustmentBehavior = .never
-            }
+            scrollView.contentInsetAdjustmentBehavior = .never
         }
         self.edgesForExtendedLayout = UIRectEdge.all
         self.extendedLayoutIncludesOpaqueBars = true

@@ -299,10 +299,10 @@ extension ProductsViewController {
                 self._swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom
                 self._swipeUpIndicator.setNeedsLayout()
                 self._swipeUpIndicator.layoutIfNeeded()
-                }, completion: { (_) in
-                    DispatchAfter(0.5, closure: {
-                        self.hideSwipeUpIndicator()
-                    })
+            }, completion: { (_) in
+                DispatchAfter(0.5, closure: {
+                    self.hideSwipeUpIndicator()
+                })
             })
         }
     }
@@ -311,12 +311,12 @@ extension ProductsViewController {
         if self._swipeUpIndicatorIsVisible {
             UIView.animate(withDuration: 0.3, animations: {
                 self._swipeUpIndicator.alpha = 0
-                self._swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom - 32
+                self._swipeUpIndicatorBottomConstraint.constant = self.collectionView().contentInset.bottom - (UIDevice.isX() ? 56 : 32)
                 self._swipeUpIndicator.setNeedsLayout()
                 self._swipeUpIndicator.layoutIfNeeded()
-                }, completion: { (_) in
-                    self._swipeUpIndicator.isHidden = true
-                    self._swipeUpIndicatorIsVisible = false
+            }, completion: { (_) in
+                self._swipeUpIndicator.isHidden = true
+                self._swipeUpIndicatorIsVisible = false
             })
         }
     }

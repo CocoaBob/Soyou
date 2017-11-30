@@ -80,6 +80,8 @@ public struct Cons {
         static let colorStoreMapOpen                        = UIColor(hex8: 0x0095FFFF)
         static let heightPageMenuProduct                    = CGFloat(30.0)
         static let heightPageMenuInfo                       = CGFloat(44.0)
+        static let statusBarHeight                          = CGFloat(UIDevice.isX() ? 44.0 : 20.0)
+//        static let statusBarHeight                          = CGFloat(UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height)
     }
     
     static var utcDateFormatter: DateFormatter {

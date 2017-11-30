@@ -29,7 +29,7 @@ class InfoDetailBaseViewController: UIViewController {
     // Status Bar Cover
     var isStatusBarCoverVisible = false
     let statusBarCover = UIView(frame:
-        CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIApplication.shared.statusBarFrame.height)
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: Cons.UI.statusBarHeight)
     )
     
     @IBOutlet var webView: UIWebView?
@@ -230,8 +230,8 @@ extension InfoDetailBaseViewController: UIScrollViewDelegate {
         UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
             self.statusBarCover.alpha = 0
-            }, completion: { (finished) -> Void in
-                self.statusBarCover.removeFromSuperview()
+        }, completion: { (finished) -> Void in
+            self.statusBarCover.removeFromSuperview()
         })
     }
 }

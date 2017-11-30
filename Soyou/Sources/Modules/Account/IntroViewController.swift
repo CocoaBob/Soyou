@@ -173,10 +173,10 @@ extension IntroViewController: CLLocationManagerDelegate {
                 view.transform = CGAffineTransform(scaleX: 1, y: 0.1)
                 view.alpha = 0
             }
-            }, completion: { finished -> Void in
-                for view in subviews {
-                    view.removeFromSuperview()
-                }
+        }, completion: { finished -> Void in
+            for view in subviews {
+                view.removeFromSuperview()
+            }
         })
     }
     

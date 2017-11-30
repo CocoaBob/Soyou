@@ -9,6 +9,10 @@
 extension UIDevice {
     
     static func isX() -> Bool {
-        return UIScreen.main.bounds.height == 812
+        if #available(iOS 11.0, *) {
+            return UIScreen.main.bounds.height == 812
+        } else {
+            return false
+        }
     }
 }
