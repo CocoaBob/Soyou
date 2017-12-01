@@ -188,9 +188,9 @@ extension CommentsViewController {
                 let commentID = comment.id
                 if !self.commentIDs.contains(commentID) {
                     self.commentIDs.append(commentID)
-                    self.commentsByID[comment.id] = comment
-                    hasSmallerID = hasSmallerID || (commentID < lastSmallestID)
                 }
+                hasSmallerID = hasSmallerID || (commentID < lastSmallestID)
+                self.commentsByID[comment.id] = comment
             }
             self.commentIDs.sort(by: >)
         }
@@ -371,8 +371,10 @@ class CommentsTableViewCell: UITableViewCell {
     
     @IBOutlet var lblUsername: UILabel!
     @IBOutlet var imgMore: UIImageView!
-    @IBOutlet var tvContent: UITextView!
-    @IBOutlet var tvParentContent: UITextView!
+    @IBOutlet var lblComment: UILabel!
+    @IBOutlet var marginConstraint: NSLayoutConstraint!
+    @IBOutlet var lblParentComment: UILabel!
+    @IBOutlet var viewQuote: UIView!
     
     var comment: Comment!
     weak var CommentsViewController: CommentsViewController!
@@ -381,25 +383,31 @@ class CommentsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         self.separatorInset = UIEdgeInsets.zero
         self.layoutMargins = UIEdgeInsets.zero
-        self.tvContent.textContainerInset = UIEdgeInsets.zero
-        self.tvContent.textContainer.lineFragmentPadding = 0
-        self.tvContent.setContentHuggingPriority(UILayoutPriority.required, for: UILayoutConstraintAxis.vertical)
-        self.tvParentContent.textContainerInset = UIEdgeInsets.zero
-        self.tvParentContent.textContainer.lineFragmentPadding = 0
-        self.tvParentContent.setContentHuggingPriority(UILayoutPriority.required, for: UILayoutConstraintAxis.vertical)
         self.prepareForReuse()
     }
     
     override func prepareForReuse() {
         self.lblUsername.text = nil
         self.imgMore.isHidden = true
-        self.tvContent.text = nil
-        self.tvParentContent.text = nil
-        self.tvParentContent.font = UIFont.systemFont(ofSize: 7)
+        self.lblComment.text = nil
+        self.lblParentComment.text = nil
+        self.lblParentComment.font = UIFont.systemFont(ofSize: 7)
     }
     
     override var canBecomeFirstResponder: Bool {
         return true
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        let bgColor = self.viewQuote.backgroundColor
+        super.setHighlighted(highlighted, animated: animated)
+        self.viewQuote.backgroundColor = bgColor
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        let bgColor = self.viewQuote.backgroundColor
+        super.setSelected(selected, animated: animated)
+        self.viewQuote.backgroundColor = bgColor
     }
     
     func setup(_ comment: Comment) {
@@ -412,7 +420,7 @@ class CommentsTableViewCell: UITableViewCell {
         let attr1 = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0),
                      NSAttributedStringKey.foregroundColor: UIColor.darkGray]
         let attrStr1 = NSAttributedString(string: comment.comment, attributes: attr1)
-        self.tvContent.attributedText = attrStr1
+        self.lblComment.attributedText = attrStr1
         // Parent Comment
         let attrStr2 = NSMutableAttributedString()
         if let parentUsername = self.comment.parentUsername, let parentComment = self.comment.parentComment {
@@ -430,12 +438,11 @@ class CommentsTableViewCell: UITableViewCell {
                                                             NSAttributedStringKey.foregroundColor: UIColor.gray]))
         }
         if attrStr2.length > 0 {
-            self.tvParentContent.textContainerInset = UIEdgeInsetsMake(8, 0, 8, 0)
-            self.tvParentContent.attributedText = attrStr2
+            self.lblParentComment.attributedText = attrStr2
+            self.marginConstraint.constant = 8
         } else {
-            self.tvParentContent.textContainerInset = UIEdgeInsets.zero
-            self.tvParentContent.attributedText = nil
-            // NSAttributedString(string: "", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 5.0)])
+            self.lblParentComment.attributedText = nil
+            self.marginConstraint.constant = 0
         }
     }
     

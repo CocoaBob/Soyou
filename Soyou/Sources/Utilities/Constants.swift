@@ -19,9 +19,9 @@ public struct Cons {
         static let reqAPIKeyPROD                            = "48548598-f079-4c57-bb39-d9ca8344abd7"
         
         // Number of News/Discounts for each request
-        static let infoRequestSize                          = 5
+        static let infoRequestSize                          = 10
         // Number of Comments for each request
-        static let commentRequestSize                       = 16
+        static let commentRequestSize                       = 32
         
         static let reqAuthorizationKey                      = "reqAuthorizationKey"
     }
