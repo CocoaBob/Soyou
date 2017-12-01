@@ -98,7 +98,11 @@ class InfoDetailBaseViewController: UIViewController {
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, false, false)
+        if UIDevice.isX() {
+            self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, true, false, false, true)
+        } else {
+            self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, false, false)
+        }
         
         // Load content
         self.loadData()
@@ -146,7 +150,11 @@ class InfoDetailBaseViewController: UIViewController {
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return isStatusBarCoverVisible ? UIStatusBarStyle.default : UIStatusBarStyle.lightContent
+        if UIDevice.isX() {
+            return UIStatusBarStyle.default
+        } else {
+            return isStatusBarCoverVisible ? UIStatusBarStyle.default : UIStatusBarStyle.lightContent
+        }
     }
     
     // For subclasses

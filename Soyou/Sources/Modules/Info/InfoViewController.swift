@@ -83,6 +83,7 @@ extension InfoViewController {
             let parameters: [CAPSPageMenuOption] = [
                 .menuItemSeparatorWidth(0),
                 .scrollMenuBackgroundColor(UIColor.white),
+                .viewBackgroundColor(Cons.UI.colorBG),
                 .selectionIndicatorColor(UIColor.darkGray),
                 .selectedMenuItemLabelColor(UIColor.darkGray),
                 .unselectedMenuItemLabelColor(UIColor.lightGray),

@@ -27,8 +27,8 @@
 "comments_vc_title"="Comments";
 "comments_vc_compose_comment"="Compose Comment";
 "comments_vc_menu_reply"="Reply";
-"comments_vc_delete_comment"="Delete Comment";
-"comments_vc_delete_comment_alert"="Confirm to delete this comment?";
+"comments_vc_delete_comment_alert"="Delete this comment?";
+"comments_vc_delete_comment_alert_action"="Delete";
 "comments_vc_deleted_parent"="Sorry, the original comment has been deleted";
 
 /* New comment View Controller */
@@ -212,7 +212,6 @@
 "alert_button_ok"="OK";
 "alert_button_close"="Close";
 "alert_button_cancel"="Cancel";
-"alert_button_confirm"="Confirm";
 "currency_unknown"="Unknown Currency";
 
 /* Product descriptions */

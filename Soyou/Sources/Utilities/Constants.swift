@@ -70,7 +70,7 @@ public struct Cons {
         static let colorToolbar                             = UIColor(hex8: 0x545454FF)
         static let colorTab                                 = UIColor(hex8: 0x545454FF)
         static let colorBGNavBar                            = UIColor(hex8: 0xF5F4F2FF)
-        static let colorBG                                  = UIColor(hex8: 0xEDEAE5FF)
+        static let colorBG                                  = UIColor(hex8: 0xE9E6E0FF)
         static let colorTheme                               = UIColor(hex8: 0xFFB94BFF)
         static let colorLike                                = UIColor(hex8: 0x00B8F4FF)
         static let colorHeart                               = UIColor(hex8: 0xFF5EAAFF)

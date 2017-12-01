@@ -118,7 +118,7 @@ class CommentsViewController: UIViewController {
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         // Setup context menu
-        let reply = UIMenuItem(title: NSLocalizedString("comments_vc_menu_reply"), action: #selector(InfoCommentsTableViewCell.reply))
+        let reply = UIMenuItem(title: NSLocalizedString("comments_vc_menu_reply"), action: #selector(CommentsTableViewCell.reply))
         UIMenuController.shared.menuItems = [reply]
         UIMenuController.shared.update()
     }
@@ -210,7 +210,7 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = (tableView.dequeueReusableCell(withIdentifier: "InfoCommentsTableViewCell", for: indexPath) as? InfoCommentsTableViewCell)!
+        let cell = (tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as? CommentsTableViewCell)!
         
         cell.CommentsViewController = self
         
@@ -272,11 +272,11 @@ extension CommentsViewController {
             return
         }
         
-        let alertController = UIAlertController(title: NSLocalizedString("comments_vc_delete_comment"),
+        let alertController = UIAlertController(title: nil,
                                                 message: NSLocalizedString("comments_vc_delete_comment_alert"),
                                                 preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_confirm"),
-                                                style: UIAlertActionStyle.default,
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("comments_vc_delete_comment_alert_action"),
+                                                style: UIAlertActionStyle.destructive,
                                                 handler: { (action: UIAlertAction) -> Void in
                                                     if let commentDeletor = self.commentDeletor {
                                                         MBProgressHUD.show(self.view)
@@ -367,21 +367,35 @@ extension CommentsViewController {
     }
 }
 
-class InfoCommentsTableViewCell: UITableViewCell {
+class CommentsTableViewCell: UITableViewCell {
     
+    @IBOutlet var lblUsername: UILabel!
+    @IBOutlet var imgMore: UIImageView!
     @IBOutlet var tvContent: UITextView!
+    @IBOutlet var tvParentContent: UITextView!
+    
     var comment: Comment!
     weak var CommentsViewController: CommentsViewController!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        self.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.separatorInset = UIEdgeInsets.zero
+        self.layoutMargins = UIEdgeInsets.zero
+        self.tvContent.textContainerInset = UIEdgeInsets.zero
+        self.tvContent.textContainer.lineFragmentPadding = 0
+        self.tvContent.setContentHuggingPriority(UILayoutPriority.required, for: UILayoutConstraintAxis.vertical)
+        self.tvParentContent.textContainerInset = UIEdgeInsets.zero
+        self.tvParentContent.textContainer.lineFragmentPadding = 0
+        self.tvParentContent.setContentHuggingPriority(UILayoutPriority.required, for: UILayoutConstraintAxis.vertical)
         self.prepareForReuse()
     }
     
     override func prepareForReuse() {
+        self.lblUsername.text = nil
+        self.imgMore.isHidden = true
         self.tvContent.text = nil
+        self.tvParentContent.text = nil
+        self.tvParentContent.font = UIFont.systemFont(ofSize: 7)
     }
     
     override var canBecomeFirstResponder: Bool {
@@ -390,33 +404,44 @@ class InfoCommentsTableViewCell: UITableViewCell {
     
     func setup(_ comment: Comment) {
         self.comment = comment
-        var attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.black]
-        let attributedString = NSMutableAttributedString(string: comment.username, attributes: attributes)
-        attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 5.0)]
-        attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
-        attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.black]
-        attributedString.append(NSMutableAttributedString(string: comment.comment, attributes: attributes))
+        // Username
+        self.lblUsername.text = self.comment.username
+        // More
+        self.imgMore.isHidden = self.comment.canDelete == 0
+        // Comment
+        let attr1 = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0),
+                     NSAttributedStringKey.foregroundColor: UIColor.darkGray]
+        let attrStr1 = NSAttributedString(string: comment.comment, attributes: attr1)
+        self.tvContent.attributedText = attrStr1
+        // Parent Comment
+        let attrStr2 = NSMutableAttributedString()
         if let parentUsername = self.comment.parentUsername, let parentComment = self.comment.parentComment {
-            attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 5.0)]
-            attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
-            attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
-            attributedString.append(NSMutableAttributedString(string: "\(parentUsername): ", attributes: attributes))
-            attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
-            attributedString.append(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
+            attrStr2.append(NSAttributedString(string: "\(parentUsername): ",
+                attributes: [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 15.0),
+                             NSAttributedStringKey.foregroundColor: UIColor.gray]))
+            attrStr2.append(NSAttributedString(string: "\(parentComment)",
+                attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0),
+                             NSAttributedStringKey.foregroundColor: UIColor.gray]))
         }
         // If there's parentMatricule, but no parentUsername and parentComment, it means the parent comment has been deleted
         else if let _ = self.comment.parentMatricule {
-            attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 5.0)]
-            attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
-            attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
-            attributedString.append(NSMutableAttributedString(string: NSLocalizedString("comments_vc_deleted_parent"), attributes: attributes))
+            attrStr2.append(NSAttributedString(string: NSLocalizedString("comments_vc_deleted_parent"),
+                                               attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0),
+                                                            NSAttributedStringKey.foregroundColor: UIColor.gray]))
         }
-        self.tvContent.attributedText = attributedString
+        if attrStr2.length > 0 {
+            self.tvParentContent.textContainerInset = UIEdgeInsetsMake(8, 0, 8, 0)
+            self.tvParentContent.attributedText = attrStr2
+        } else {
+            self.tvParentContent.textContainerInset = UIEdgeInsets.zero
+            self.tvParentContent.attributedText = nil
+            // NSAttributedString(string: "", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 5.0)])
+        }
     }
     
     // MARK: Context menu
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(copy(_:)) || action == #selector(InfoCommentsTableViewCell.reply) {
+        if action == #selector(copy(_:)) || action == #selector(CommentsTableViewCell.reply) {
             return true
         } else if action == #selector(delete(_:)) && self.comment.canDelete == 1 {
             return true

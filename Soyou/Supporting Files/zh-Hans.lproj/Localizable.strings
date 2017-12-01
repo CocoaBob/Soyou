@@ -29,8 +29,8 @@
 "comments_vc_title"="点评";
 "comments_vc_compose_comment"="撰写评论";
 "comments_vc_menu_reply"="回复";
-"comments_vc_delete_comment"="删除评论";
 "comments_vc_delete_comment_alert"="确认删除评论？";
+"comments_vc_delete_comment_alert_action"="删除";
 "comments_vc_deleted_parent"="抱歉，原评论已被删除";
 
 /* New comment View Controller */
@@ -213,7 +213,6 @@
 "alert_button_ok"="确认";
 "alert_button_close"="关闭";
 "alert_button_cancel"="取消";
-"alert_button_confirm"="确认";
 "currency_unknown"="未知汇率";
 
 /* Product descriptions */
