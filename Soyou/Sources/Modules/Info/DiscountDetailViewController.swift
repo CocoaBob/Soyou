@@ -211,6 +211,9 @@ extension DiscountDetailViewController {
                 }
             }
         }
+        
+        // Analytics
+        DataManager.shared.analyticsViewDiscount(id: discount.id?.intValue ?? -1)
     }
     
     override func loadData() {

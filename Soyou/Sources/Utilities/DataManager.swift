@@ -736,4 +736,28 @@ class DataManager {
             self.completeWithError(error, completion: nil)
         })
     }
+    
+    func analyticsViewNews(id: Int) {
+        RequestManager.shared.sendAnalyticsData(NSNumber(value: 1), NSNumber(value: 1), "{ \"type\": \"news\", \"id\": \(id)}", { responseObject in
+            DLog(responseObject)
+        }, { error in
+            self.completeWithError(error, completion: nil)
+        })
+    }
+    
+    func analyticsViewDiscount(id: Int) {
+        RequestManager.shared.sendAnalyticsData(NSNumber(value: 4), NSNumber(value: 1), "{ \"type\": \"discount\", \"id\": \(id)}", { responseObject in
+            DLog(responseObject)
+        }, { error in
+            self.completeWithError(error, completion: nil)
+        })
+    }
+    
+    func analyticsViewProduct(sku: String) {
+        RequestManager.shared.sendAnalyticsData(NSNumber(value: 2), NSNumber(value: 1), "{ \"type\": \"product\", \"sku\": \"\(sku)\"}", { responseObject in
+            DLog(responseObject)
+        }, { error in
+            self.completeWithError(error, completion: nil)
+        })
+    }
 }

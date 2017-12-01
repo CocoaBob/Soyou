@@ -105,6 +105,14 @@ class ProductViewController: UIViewController {
         
         // Load content
         self.loadProduct()
+        
+        // Analytics
+        self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+            guard let localProduct = self.product?.mr_(in: localContext) else { return }
+            if let skuData = localProduct.sku, let sku = Utils.decrypt(skuData) as? String {
+                DataManager.shared.analyticsViewProduct(sku: sku)
+            }
+        })
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -211,6 +211,9 @@ extension NewsDetailViewController {
                 }
             }
         }
+        
+        // Analytics
+        DataManager.shared.analyticsViewNews(id: news.id?.intValue ?? -1)
     }
     
     override func loadData() {
