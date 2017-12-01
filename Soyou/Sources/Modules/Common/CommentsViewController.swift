@@ -72,11 +72,11 @@ struct Comment {
         self.id = json["id"].intValue
         self.username = json["username"].stringValue
         self.matricule = json["matricule"].intValue
-        self.comment = json["comment"].stringValue
+        self.comment = json["comment"].stringValue.removingPercentEncoding ?? ""
         self.canDelete = json["canDelete"].intValue
         self.parentUsername = json["parentUsername"].string
         self.parentMatricule = json["parentMatricule"].int
-        self.parentComment = json["parentComment"].string
+        self.parentComment = json["parentComment"].string?.removingPercentEncoding
     }
 }
 

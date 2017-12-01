@@ -83,7 +83,12 @@ extension CommentComposeViewController {
     
     @IBAction func post() {
         UserManager.shared.loginOrDo {
-            self.commentCreator?(self.infoID, NSNumber(value: self.replyToComment?.id ?? 0), self.tvContent.text) { (responseObject, error) in
+            var comment = self.tvContent.text ?? ""
+            if comment.count == 0 {
+                return
+            }
+            comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
+            self.commentCreator?(self.infoID, NSNumber(value: self.replyToComment?.id ?? 0), comment) { (responseObject, error) in
                 if error == nil {
                     self.navigationController?.popViewController(animated: true)
                     if let delegate = self.delegate {
