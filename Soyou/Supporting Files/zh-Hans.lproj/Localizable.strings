@@ -27,7 +27,7 @@
 
 /* Comments View Controller */
 "comments_vc_title"="点评";
-"comments_vc_write_comment"="撰写评论";
+"comments_vc_compose_comment"="撰写评论";
 "comments_vc_menu_reply"="回复";
 "comments_vc_delete_comment"="删除评论";
 "comments_vc_delete_comment_alert"="确认删除评论？";

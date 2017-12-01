@@ -148,7 +148,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     }
     
     override func comment() {
-        let commentsViewController = InfoCommentsViewController.instantiate()
+        let commentsViewController = CommentsViewController.instantiate()
         commentsViewController.infoID = self.infoID
         commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
             DataManager.shared.requestCommentsForDiscount(self.infoID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in

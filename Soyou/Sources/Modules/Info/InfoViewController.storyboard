@@ -93,10 +93,10 @@
             </objects>
             <point key="canvasLocation" x="541" y="398"/>
         </scene>
-        <!--Info Comments View Controller-->
+        <!--Comments View Controller-->
         <scene sceneID="qAR-Rp-UgF">
             <objects>
-                <viewController storyboardIdentifier="InfoCommentsViewController" id="Sn6-Nx-zBB" customClass="InfoCommentsViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CommentsViewController" id="Sn6-Nx-zBB" customClass="CommentsViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="teS-aB-bFA"/>
                         <viewControllerLayoutGuide type="bottom" id="iCy-Tb-AXP"/>
@@ -145,11 +145,11 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQF-WT-yLd">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <state key="normal" title="Write comment">
+                                        <state key="normal" title="Compose Comment">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="writeComment" destination="Sn6-Nx-zBB" eventType="touchUpInside" id="v8l-cn-iIW"/>
+                                            <action selector="composeComment" destination="Sn6-Nx-zBB" eventType="touchUpInside" id="A1a-rj-q7k"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -178,7 +178,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="rmd-R1-wWW"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="btnWriteComment" destination="VQF-WT-yLd" id="jgc-lN-jM2"/>
+                        <outlet property="btnComposeComment" destination="VQF-WT-yLd" id="jgc-lN-jM2"/>
                         <outlet property="tableView" destination="r42-Wu-G6k" id="DTC-hl-C4n"/>
                     </connections>
                 </viewController>
@@ -225,10 +225,10 @@
             </objects>
             <point key="canvasLocation" x="1251" y="398"/>
         </scene>
-        <!--Info New Comment View Controller-->
+        <!--Comment Compose View Controller-->
         <scene sceneID="gcd-sh-9ub">
             <objects>
-                <viewController storyboardIdentifier="InfoNewCommentViewController" id="RpK-wK-4KT" customClass="InfoNewCommentViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CommentComposeViewController" id="RpK-wK-4KT" customClass="CommentComposeViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lLF-H9-wWZ"/>
                         <viewControllerLayoutGuide type="bottom" id="lj6-UU-WgW"/>

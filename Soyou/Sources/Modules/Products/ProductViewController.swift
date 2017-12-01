@@ -604,7 +604,7 @@ extension ProductViewController {
         self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = self.product?.mr_(in: localContext)
             guard let productID = localProduct?.id else { return }
-            let commentsViewController = InfoCommentsViewController.instantiate()
+            let commentsViewController = CommentsViewController.instantiate()
             commentsViewController.infoID = productID
             commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
                 DataManager.shared.requestCommentsForProduct(productID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in

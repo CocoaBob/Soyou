@@ -1,5 +1,5 @@
 //
-//  InfoCommentsViewController.swift
+//  CommentsViewController.swift
 //  Soyou
 //
 //  Created by CocoaBob on 08/07/16.
@@ -73,20 +73,20 @@ struct Comment {
         self.username = json["username"].stringValue
         self.matricule = json["matricule"].intValue
         self.comment = json["comment"].stringValue
-        self.canDelete = json["CanDelete"].intValue
+        self.canDelete = json["canDelete"].intValue
         self.parentUsername = json["parentUsername"].string
         self.parentMatricule = json["parentMatricule"].int
         self.parentComment = json["parentComment"].string
     }
 }
 
-class InfoCommentsViewController: UIViewController {
+class CommentsViewController: UIViewController {
     
     var infoID: NSNumber!
     var commentIDs = [Int]()
     var commentsByID = [Int: Comment]()
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var btnWriteComment: UIButton!
+    @IBOutlet var btnComposeComment: UIButton!
     
     var dataProvider: ((_ relativeID: Int?, _ completion: @escaping DataClosure) -> ())?
     var isCallingDataProvider = false
@@ -95,8 +95,8 @@ class InfoCommentsViewController: UIViewController {
     var commentDeletor: ((_ commentID: Int, _ completion: @escaping CompletionClosure) -> ())?
     
     // Class methods
-    class func instantiate() -> InfoCommentsViewController {
-        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "InfoCommentsViewController") as! InfoCommentsViewController
+    class func instantiate() -> CommentsViewController {
+        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "CommentsViewController") as! CommentsViewController
     }
     
     // UIViewController methods
@@ -104,7 +104,7 @@ class InfoCommentsViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("comments_vc_title")
-        self.btnWriteComment.setTitle(NSLocalizedString("comments_vc_write_comment"), for: .normal)
+        self.btnComposeComment.setTitle(NSLocalizedString("comments_vc_compose_comment"), for: .normal)
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
@@ -138,7 +138,7 @@ class InfoCommentsViewController: UIViewController {
 }
 
 // MARK: Comments data
-extension InfoCommentsViewController {
+extension CommentsViewController {
     
     fileprivate func loadData(_ relativeID: Int?) {
         // Avoid multiple calling
@@ -199,7 +199,7 @@ extension InfoCommentsViewController {
 }
 
 //// MARK: UITableViewDataSource, UITableViewDelegate
-extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate {
+extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -212,7 +212,7 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = (tableView.dequeueReusableCell(withIdentifier: "InfoCommentsTableViewCell", for: indexPath) as? InfoCommentsTableViewCell)!
         
-        cell.infoCommentsViewController = self
+        cell.CommentsViewController = self
         
         if let comment = self.commentsByID[self.commentIDs[indexPath.row]] {
             cell.setup(comment)
@@ -256,10 +256,12 @@ extension InfoCommentsViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 // MARK: Actions
-extension InfoCommentsViewController {
+extension CommentsViewController {
     
-    @IBAction func writeComment() {
-        self.postNewComment(nil)
+    @IBAction func composeComment() {
+        UserManager.shared.loginOrDo {
+            self.postNewComment(nil)
+        }
     }
     
     func deleteComment(commentID: Int) {
@@ -298,15 +300,15 @@ extension InfoCommentsViewController {
 }
 
 // MARK: Post new comments {
-extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
+extension CommentsViewController: CommentComposeViewControllerDelegate {
     
     func postNewComment(_ replyToComment: Comment?) {
-        let infoNewCommentViewController = InfoNewCommentViewController.instantiate()
-        infoNewCommentViewController.infoID = self.infoID
-        infoNewCommentViewController.replyToComment = replyToComment
-        infoNewCommentViewController.delegate = self
-        infoNewCommentViewController.commentCreator = self.commentCreator
-        self.navigationController?.pushViewController(infoNewCommentViewController, animated: true)
+        let commentComposeViewController = CommentComposeViewController.instantiate()
+        commentComposeViewController.infoID = self.infoID
+        commentComposeViewController.replyToComment = replyToComment
+        commentComposeViewController.delegate = self
+        commentComposeViewController.commentCreator = self.commentCreator
+        self.navigationController?.pushViewController(commentComposeViewController, animated: true)
     }
     
     func didPostNewComment() {
@@ -315,7 +317,7 @@ extension InfoCommentsViewController: InfoNewCommentViewControllerDelegate {
 }
 
 // MARK: - Refreshing
-extension InfoCommentsViewController {
+extension CommentsViewController {
     
     func setupRefreshControls() {
         guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
@@ -369,7 +371,7 @@ class InfoCommentsTableViewCell: UITableViewCell {
     
     @IBOutlet var tvContent: UITextView!
     var comment: Comment!
-    weak var infoCommentsViewController: InfoCommentsViewController!
+    weak var CommentsViewController: CommentsViewController!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -423,7 +425,7 @@ class InfoCommentsTableViewCell: UITableViewCell {
     }
     
     @objc func reply() {
-        self.infoCommentsViewController.postNewComment(self.comment)
+        self.CommentsViewController.postNewComment(self.comment)
     }
     
     override func copy(_ sender: Any?) {
@@ -431,6 +433,6 @@ class InfoCommentsTableViewCell: UITableViewCell {
     }
     
     override func delete(_ sender: Any?) {
-        self.infoCommentsViewController.deleteComment(commentID: self.comment.id)
+        self.CommentsViewController.deleteComment(commentID: self.comment.id)
     }
 }

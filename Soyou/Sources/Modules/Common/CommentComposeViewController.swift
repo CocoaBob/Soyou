@@ -1,28 +1,28 @@
 //
-//  InfoNewCommentViewController.swift
+//  CommentComposeViewController.swift
 //  Soyou
 //
 //  Created by CocoaBob on 29/07/16.
 //  Copyright © 2016 Soyou. All rights reserved.
 //
 
-protocol InfoNewCommentViewControllerDelegate {
+protocol CommentComposeViewControllerDelegate {
     
     func didPostNewComment()
 }
 
-class InfoNewCommentViewController: UIViewController {
+class CommentComposeViewController: UIViewController {
     
     var infoID: NSNumber!
     var replyToComment: Comment?
-    var delegate: InfoNewCommentViewControllerDelegate?
+    var delegate: CommentComposeViewControllerDelegate?
     var commentCreator: ((_ id: NSNumber, _ commentId: NSNumber, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
     
     @IBOutlet var tvContent: UITextView!
     
     // Class methods
-    class func instantiate() -> InfoNewCommentViewController {
-        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "InfoNewCommentViewController") as! InfoNewCommentViewController
+    class func instantiate() -> CommentComposeViewController {
+        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "CommentComposeViewController") as! CommentComposeViewController
     }
     
     // UIViewController methods
@@ -32,7 +32,7 @@ class InfoNewCommentViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("new_comment_vc_title_post"),
                                                                  style: .plain,
                                                                  target: self,
-                                                                 action: #selector(InfoNewCommentViewController.post))
+                                                                 action: #selector(CommentComposeViewController.post))
         
         self.tvContent.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
@@ -68,7 +68,7 @@ class InfoNewCommentViewController: UIViewController {
 }
 
 // MARK: KeyboardControl
-extension InfoNewCommentViewController {
+extension CommentComposeViewController {
     
     override func adjustViewsForKeyboardFrame(_ keyboardFrame: CGRect, _ isAnimated: Bool, _ duration: TimeInterval, _ options: UIViewAnimationOptions) {
         super.adjustViewsForKeyboardFrame(keyboardFrame, isAnimated, duration, options)
@@ -79,7 +79,7 @@ extension InfoNewCommentViewController {
 }
 
 // MARK: Actions
-extension InfoNewCommentViewController {
+extension CommentComposeViewController {
     
     @IBAction func post() {
         UserManager.shared.loginOrDo {

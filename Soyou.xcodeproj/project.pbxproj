@@ -56,7 +56,7 @@
 		455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */; };
 		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
 		456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456478F71C6E095C00798EB2 /* 1Password.xcassets */; };
-		456833B91D3009EA006A5B3F /* InfoCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */; };
+		456833B91D3009EA006A5B3F /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456833B81D3009EA006A5B3F /* CommentsViewController.swift */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
 		4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2971BF90797009A6164 /* Soyou.xcdatamodeld */; };
@@ -107,7 +107,7 @@
 		45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */; };
 		45B8233D1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */; };
 		45B8233F1C56C9260034DA98 /* TableViewCellTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */; };
-		45B873F91D4AC046008256A6 /* InfoNewCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B873F81D4AC046008256A6 /* InfoNewCommentViewController.swift */; };
+		45B873F91D4AC046008256A6 /* CommentComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */; };
 		45BED0911C8A3DDF002E375B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BED0901C8A3DDF002E375B /* DataManager.swift */; };
 		45C3AA511C6C99AA00BA7CDE /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */; };
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
@@ -206,7 +206,7 @@
 		455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Additions.swift"; sourceTree = "<group>"; };
 		45640AF31C51A934009984EC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		456478F71C6E095C00798EB2 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = 1Password.xcassets; path = Pods/1PasswordExtension/1Password.xcassets; sourceTree = SOURCE_ROOT; };
-		456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoCommentsViewController.swift; sourceTree = "<group>"; };
+		456833B81D3009EA006A5B3F /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4568E2981BF90797009A6164 /* Soyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Soyou.xcdatamodel; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 		45B8233A1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellLeftTitle.xib; sourceTree = "<group>"; };
 		45B8233B1C56B8DD0034DA98 /* TableViewCellLeftTitleRightDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellLeftTitleRightDetail.xib; sourceTree = "<group>"; };
 		45B8233E1C56C9260034DA98 /* TableViewCellTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellTextField.xib; sourceTree = "<group>"; };
-		45B873F81D4AC046008256A6 /* InfoNewCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoNewCommentViewController.swift; sourceTree = "<group>"; };
+		45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentComposeViewController.swift; sourceTree = "<group>"; };
 		45BED0901C8A3DDF002E375B /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
@@ -483,8 +483,10 @@
 			isa = PBXGroup;
 			children = (
 				4568E2F51BF92182009A6164 /* AsyncedFetchedResultsViewController.swift */,
-				45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */,
+				45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */,
+				456833B81D3009EA006A5B3F /* CommentsViewController.swift */,
 				4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */,
+				45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -727,8 +729,6 @@
 				45F5C29D1D01DFA70024B5DF /* InfoViewController.swift */,
 				45F5C29B1D01DFA70024B5DF /* InfoListBaseViewController.swift */,
 				45F5C29A1D01DFA70024B5DF /* InfoDetailBaseViewController.swift */,
-				456833B81D3009EA006A5B3F /* InfoCommentsViewController.swift */,
-				45B873F81D4AC046008256A6 /* InfoNewCommentViewController.swift */,
 				45F5C29F1D01DFA70024B5DF /* NewsViewController.swift */,
 				45F5C29E1D01DFA70024B5DF /* NewsDetailViewController.swift */,
 				45F5C2991D01DFA70024B5DF /* DiscountsViewController.swift */,
@@ -1098,7 +1098,7 @@
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */,
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
-				456833B91D3009EA006A5B3F /* InfoCommentsViewController.swift in Sources */,
+				456833B91D3009EA006A5B3F /* CommentsViewController.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,
 				4597B2361D30FACE00287873 /* DDLinkupItem.m in Sources */,
 				459E90DA1D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel in Sources */,
@@ -1157,7 +1157,7 @@
 				454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */,
 				4597B23A1D30FACE00287873 /* DDSocialAuthHandler.m in Sources */,
 				45E67EE11C58EB0500806929 /* FavoriteNews.swift in Sources */,
-				45B873F91D4AC046008256A6 /* InfoNewCommentViewController.swift in Sources */,
+				45B873F91D4AC046008256A6 /* CommentComposeViewController.swift in Sources */,
 				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 				454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */,
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,

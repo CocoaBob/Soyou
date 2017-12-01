@@ -25,15 +25,15 @@
 
 /* Comments View Controller */
 "comments_vc_title"="Comments";
-"comments_vc_write_comment"="Write Comment";
+"comments_vc_compose_comment"="Compose Comment";
 "comments_vc_menu_reply"="Reply";
 "comments_vc_delete_comment"="Delete Comment";
 "comments_vc_delete_comment_alert"="Confirm to delete this comment?";
-"comments_vc_deleted_parent"="Sorry, comment has been deleted";
+"comments_vc_deleted_parent"="Sorry, the original comment has been deleted";
 
 /* New comment View Controller */
 "new_comment_vc_title_reply"="Reply to %@";
-"new_comment_vc_title_new"="Write Comment";
+"new_comment_vc_title_new"="Compose Comment";
 "new_comment_vc_title_post"="Post";
 
 /* News View Controller */
