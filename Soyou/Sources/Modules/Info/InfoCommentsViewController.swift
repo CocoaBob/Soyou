@@ -73,7 +73,7 @@ struct Comment {
         self.username = json["username"].stringValue
         self.matricule = json["matricule"].intValue
         self.comment = json["comment"].stringValue
-        self.canDelete = json["canDelete"].intValue
+        self.canDelete = json["CanDelete"].intValue
         self.parentUsername = json["parentUsername"].string
         self.parentMatricule = json["parentMatricule"].int
         self.parentComment = json["parentComment"].string
@@ -92,6 +92,7 @@ class InfoCommentsViewController: UIViewController {
     var isCallingDataProvider = false
     
     var commentCreator: ((_ id: NSNumber, _ commentId: NSNumber, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
+    var commentDeletor: ((_ commentID: Int, _ completion: @escaping CompletionClosure) -> ())?
     
     // Class methods
     class func instantiate() -> InfoCommentsViewController {
@@ -262,16 +263,36 @@ extension InfoCommentsViewController {
     }
     
     func deleteComment(commentID: Int) {
-        guard let comment = self.commentsByID[commentID] else {
+        guard let _ = self.commentsByID[commentID] else {
+            if let index = self.commentIDs.index(of: commentID) {
+                self.commentIDs.remove(at: index)
+            }
             return
         }
         
-        let alertController = UIAlertController(title: NSLocalizedString("comments_vc_delete_comment"), message: NSLocalizedString("comments_vc_delete_comment_alert"), preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_confirm"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
-            print("Will delete comment \(comment.matricule)")
-            // Reload comments after deleting
+        let alertController = UIAlertController(title: NSLocalizedString("comments_vc_delete_comment"),
+                                                message: NSLocalizedString("comments_vc_delete_comment_alert"),
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_confirm"),
+                                                style: UIAlertActionStyle.default,
+                                                handler: { (action: UIAlertAction) -> Void in
+                                                    if let commentDeletor = self.commentDeletor {
+                                                        MBProgressHUD.show(self.view)
+                                                        commentDeletor(commentID) { (responseObject, error) -> () in
+                                                            if error == nil {
+                                                                self.commentsByID.removeValue(forKey: commentID)
+                                                                if let index = self.commentIDs.index(of: commentID) {
+                                                                    self.commentIDs.remove(at: index)
+                                                                }
+                                                                self.tableView.reloadData()
+                                                            }
+                                                            MBProgressHUD.hide(self.view)
+                                                        }
+                                                    }
         }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"), style: UIAlertActionStyle.cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                style: UIAlertActionStyle.cancel,
+                                                handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
 }
@@ -380,10 +401,13 @@ class InfoCommentsTableViewCell: UITableViewCell {
             attributedString.append(NSMutableAttributedString(string: "\(parentUsername): ", attributes: attributes))
             attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
             attributedString.append(NSMutableAttributedString(string: "\(parentComment)", attributes: attributes))
-        } else if let _ = self.comment.parentMatricule {
-            // If there's parentMatricule, but no parentUsername and parentComment, it means the parent comment has been deleted
+        }
+        // If there's parentMatricule, but no parentUsername and parentComment, it means the parent comment has been deleted
+        else if let _ = self.comment.parentMatricule {
+            attributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 5.0)]
+            attributedString.append(NSMutableAttributedString(string: "\n\n", attributes: attributes))
             attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: UIColor.gray]
-            attributedString.append(NSMutableAttributedString(string: NSLocalizedString("comments_vc_menu_reply"), attributes: attributes))
+            attributedString.append(NSMutableAttributedString(string: NSLocalizedString("comments_vc_deleted_parent"), attributes: attributes))
         }
         self.tvContent.attributedText = attributedString
     }
@@ -391,6 +415,8 @@ class InfoCommentsTableViewCell: UITableViewCell {
     // MARK: Context menu
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if action == #selector(copy(_:)) || action == #selector(InfoCommentsTableViewCell.reply) {
+            return true
+        } else if action == #selector(delete(_:)) && self.comment.canDelete == 1 {
             return true
         }
         return false
@@ -402,5 +428,9 @@ class InfoCommentsTableViewCell: UITableViewCell {
     
     override func copy(_ sender: Any?) {
         UIPasteboard.general.string = self.comment.comment
+    }
+    
+    override func delete(_ sender: Any?) {
+        self.infoCommentsViewController.deleteComment(commentID: self.comment.id)
     }
 }

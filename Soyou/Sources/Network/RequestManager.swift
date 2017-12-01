@@ -166,6 +166,11 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/comments/\(count)/\(relativeID ?? 0)", "News", onSuccess, onFailure)
     }
     
+    func deleteCommentsForNews(_ ids: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let strIDs = ids.reduce("") { $0 + ($0.count > 0 ? "," : "") + "\($1)"}
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/news/comments/\(strIDs)", "News", onSuccess, onFailure)
+    }
+    
     //////////////////////////////////////
     // MARK: Discounts
     //////////////////////////////////////
@@ -197,6 +202,11 @@ class RequestManager {
     
     func requestCommentsForDiscount(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/comments/\(count)/\(relativeID ?? 0)", "Discounts", onSuccess, onFailure)
+    }
+    
+    func deleteCommentsForDiscount(_ ids: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let strIDs = ids.reduce("") { $0 + ($0.count > 0 ? "," : "") + "\($1)"}
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/discounts/comments/\(strIDs)", "Discounts", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
@@ -265,6 +275,11 @@ class RequestManager {
             let currencies = _currencies.joined(separator: ",")
             getAsync("/api/\(Cons.Svr.apiVersion)/currencyRates/\(currencies)", "Products", onSuccess, onFailure)
         }
+    }
+    
+    func deleteCommentsForProduct(_ ids: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let strIDs = ids.reduce("") { $0 + ($0.count > 0 ? "," : "") + "\($1)"}
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/products/comments/\(strIDs)", "Products", onSuccess, onFailure)
     }
     
     //////////////////////////////////////

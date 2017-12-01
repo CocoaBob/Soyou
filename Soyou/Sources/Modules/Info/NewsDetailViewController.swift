@@ -153,6 +153,9 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
             DataManager.shared.createCommentForNews(id, commentId, comment, completion)
         }
+        commentsViewController.commentDeletor = { (commentID: Int, completion: @escaping CompletionClosure) -> () in
+            DataManager.shared.deleteCommentsForNews([commentID], completion)
+        }
         self.navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }

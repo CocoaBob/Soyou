@@ -158,6 +158,9 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
             DataManager.shared.createCommentForDiscount(id, commentId, comment, completion)
         }
+        commentsViewController.commentDeletor = { (commentID: Int, completion: @escaping CompletionClosure) -> () in
+            DataManager.shared.deleteCommentsForDiscount([commentID], completion)
+        }
         self.navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }

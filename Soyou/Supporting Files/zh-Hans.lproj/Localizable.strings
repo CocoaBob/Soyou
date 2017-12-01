@@ -34,7 +34,7 @@
 "comments_vc_deleted_parent"="抱歉，原评论已被删除";
 
 /* New comment View Controller */
-"new_comment_vc_title_reply"="回复%@";
+"new_comment_vc_title_reply"="回复 %@";
 "new_comment_vc_title_new"="撰写评论";
 "new_comment_vc_title_post"="发布";
 

@@ -614,6 +614,9 @@ extension ProductViewController {
             commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
                 DataManager.shared.createCommentForProduct(id, commentId, comment, completion)
             }
+            commentsViewController.commentDeletor = { (commentID: Int, completion: @escaping CompletionClosure) -> () in
+                DataManager.shared.deleteCommentsForProduct([commentID], completion)
+            }
             self.navigationController?.pushViewController(commentsViewController, animated: true)
         })
     }

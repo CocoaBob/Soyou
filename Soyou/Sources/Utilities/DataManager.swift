@@ -395,6 +395,14 @@ class DataManager {
         })
     }
     
+    func deleteCommentsForNews(_ ids: [Int], _ completion: CompletionClosure?) {
+        RequestManager.shared.deleteCommentsForNews(ids, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Discounts
     //////////////////////////////////////
@@ -479,6 +487,14 @@ class DataManager {
         })
     }
     
+    func deleteCommentsForDiscount(_ ids: [Int], _ completion: CompletionClosure?) {
+        RequestManager.shared.deleteCommentsForDiscount(ids, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Notification
     //////////////////////////////////////
@@ -543,6 +559,14 @@ class DataManager {
     
     func requestCommentsForProduct(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
         RequestManager.shared.requestCommentsForProduct(id, count, relativeID, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func deleteCommentsForProduct(_ ids: [Int], _ completion: CompletionClosure?) {
+        RequestManager.shared.deleteCommentsForProduct(ids, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)
