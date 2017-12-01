@@ -34,12 +34,10 @@ class CurrencyRate: NSManagedObject {
         if let currencyRate = currencyRate {
             currencyRate.sourceCode = sourceCode
             currencyRate.targetCode = targetCode
-            currencyRate.updatedAt = data["updatedAt"] as? Date
-            if let value = data["rate"] as? String,
-                let doubleValue = Double(value) {
-                currencyRate.rate = NSNumber(value: doubleValue as Double)
+            if let value = data["rate"] as? Double {
+                currencyRate.rate = NSNumber(value: value)
             } else {
-                currencyRate.rate = NSNumber(value: 1 as Double)
+                currencyRate.rate = NSNumber(value: 1.0)
             }
         }
         

@@ -88,22 +88,6 @@ class CurrencyManager {
             return _userCurrencyName!
         }
     }
-
-    fileprivate func parseCurrencyRate(_ data: NSDictionary, time: String) -> NSDictionary? {
-        if let name = data["Name"] as? String {
-            let codes = name.split {$0 == "/"}.map(String.init)
-            let result: NSDictionary = [
-                "rate": (data["Rate"] as? String)!,
-                "updatedAt": time,
-                "sourceCode": codes[0],
-                "targetCode": codes[1]
-            ]
-            
-            return result
-        }
-        
-        return nil
-    }
     
     func currencyRates() -> [CurrencyRate]? {
         if self.allCurrencyRates == nil || self.allCurrencyRates!.isEmpty {
