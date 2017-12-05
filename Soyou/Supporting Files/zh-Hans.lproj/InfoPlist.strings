@@ -10,3 +10,4 @@
 "CFBundleName"="奢有";
 "shortcut_search"="搜索";
 "shortcut_favorites"="收藏夹";
+"NSLocationWhenInUseUsageDescription"="我们将使用您的位置帮您定位品牌商店。";

@@ -94,7 +94,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>722</string>
+	<string>724</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -226,7 +226,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Translated in InfoPlist.strings</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

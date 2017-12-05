@@ -10,3 +10,4 @@
 "CFBundleName"="Soyou";
 "shortcut_search"="Search";
 "shortcut_favorites"="Favorites";
+"NSLocationWhenInUseUsageDescription"="We will use your location to help you locate brand stores.";
