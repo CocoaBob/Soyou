@@ -154,15 +154,8 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
                 return
             }
             guard let officialUrl = URL(string: officialUrlString) else { return }
-            if #available(iOS 9.0, *) {
-                let webViewController = SFSafariViewController(url: officialUrl, entersReaderIfAvailable: false)
-                self.productViewController?.present(webViewController, animated: true, completion: nil)
-            } else {
-                if let webViewController = SVWebViewController(url: officialUrl) {
-                    self.productViewController?.navigationController?.pushViewController(webViewController, animated: true)
-                    self.productViewController?.navigationController?.setNavigationBarHidden(false, animated: true)
-                }
-            }
+            let webViewController = SFSafariViewController(url: officialUrl, entersReaderIfAvailable: false)
+            self.productViewController?.present(webViewController, animated: true, completion: nil)
         } else {
             
         }

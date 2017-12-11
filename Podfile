@@ -28,7 +28,6 @@ target :'Soyou' do
 	pod "SDWebImage"
 	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :branch => 'master'
 	pod "SSZipArchive"
-    pod "SVWebViewController"
     pod "SwiftyJSON"
 	pod "UICKeyChainStore"
 	pod "UIColor_Hex_Swift"

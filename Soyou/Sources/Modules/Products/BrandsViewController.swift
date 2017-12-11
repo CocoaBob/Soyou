@@ -345,11 +345,7 @@ extension BrandsViewController: UICollectionViewDelegateFlowLayout {
         // Header view / Footer view
         layout.headerReferenceSize = CGSize(width: 0, height: 44.0)
         
-        if #available(iOS 9.0, *) {
-            layout.sectionHeadersPinToVisibleBounds = true
-        } else {
-            // Fallback on earlier versions
-        }
+        layout.sectionHeadersPinToVisibleBounds = true
         
         // Add the waterfall layout to your collection view
         _collectionView.collectionViewLayout = layout

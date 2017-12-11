@@ -106,7 +106,6 @@ PODS:
   - SDWebImage/Core (4.0.0)
   - SMCalloutView (2.1.5)
   - SSZipArchive (2.1.1)
-  - SVWebViewController (1.0)
   - SwiftyJSON (4.0.0)
   - TwitterCore (2.8.0):
     - Fabric
@@ -148,7 +147,6 @@ DEPENDENCIES:
   - SDWebImage
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, branch `master`)
   - SSZipArchive
-  - SVWebViewController
   - SwiftyJSON
   - TwitterCore (~> 2)
   - TwitterKit (~> 2)
@@ -234,7 +232,6 @@ SPEC CHECKSUMS:
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
-  SVWebViewController: c36dda7326e81fcae0abf5d02bf7bbf7e41be901
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
@@ -245,6 +242,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: 5b381456221053892529551721fc42f79bd32717
+PODFILE CHECKSUM: 835a38f1b32073b8785a1cddffcd90cca99d5378
 
 COCOAPODS: 1.3.1

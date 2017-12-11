@@ -376,6 +376,20 @@ extension InfoDetailBaseViewController: UIWebViewDelegate {
     func webViewDidFinishLoad(_ webView: UIWebView) {
         self.loadAllImagesFromWebView(webView)
     }
+    
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        DLog(request)
+        guard let url = request.url else {
+            return true
+        }
+        if url.absoluteString == "about:blank" {
+            return true
+        }
+        
+        let webViewController = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+        self.present(webViewController, animated: true, completion: nil)
+        return false
+    }
 }
 
 // MARK: Parallax Header

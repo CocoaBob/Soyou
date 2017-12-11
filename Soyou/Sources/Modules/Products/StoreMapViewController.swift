@@ -301,17 +301,10 @@ extension StoreMapViewController {
         if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
             let store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             var addressDictionary = [String: String]()
-            if #available(iOS 9.0, *) {
-                addressDictionary[CNPostalAddressStreetKey] = store.address ?? ""
-                addressDictionary[CNPostalAddressCityKey] = store.city ?? ""
-                addressDictionary[CNPostalAddressPostalCodeKey] = store.zipcode ?? ""
-                addressDictionary[CNPostalAddressCountryKey] = store.country ?? ""
-            } else {
-                addressDictionary[kABPersonAddressStreetKey as String] = store.address ?? ""
-                addressDictionary[kABPersonAddressCityKey as String] = store.city ?? ""
-                addressDictionary[kABPersonAddressZIPKey as String] = store.zipcode ?? ""
-                addressDictionary[kABPersonAddressCountryKey as String] = store.country ?? ""
-            }
+            addressDictionary[CNPostalAddressStreetKey] = store.address ?? ""
+            addressDictionary[CNPostalAddressCityKey] = store.city ?? ""
+            addressDictionary[CNPostalAddressPostalCodeKey] = store.zipcode ?? ""
+            addressDictionary[CNPostalAddressCountryKey] = store.country ?? ""
             let coordinate = CLLocationCoordinate2DMake(CLLocationDegrees(store.latitude?.doubleValue ?? 0), CLLocationDegrees(store.longitude?.doubleValue ?? 0))
             let placemark = MKPlacemark(
                 coordinate: coordinate,
