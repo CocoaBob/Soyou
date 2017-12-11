@@ -12,7 +12,11 @@
 #import "IDMPhoto.h"
 #import "IDMPhotoProtocol.h"
 #import "IDMCaptionView.h"
+#import "IDMPhotoDataSource.h"
+#import "IDMBrowserDelegate.h"
 #import "IDMTapDetectingImageView.h"
+
+#import <SDWebImage/SDImageCacheConfig.h>
 
 // Delgate
 @class IDMPhotoBrowser;
@@ -26,10 +30,11 @@
 - (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser didDismissActionSheetWithButtonIndex:(NSUInteger)buttonIndex photoIndex:(NSUInteger)photoIndex;
 - (IDMCaptionView *)photoBrowser:(IDMPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index;
 - (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser imageFailed:(NSUInteger)index imageView:(IDMTapDetectingImageView *)imageView;
+- (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser setupToolbar:(NSUInteger)index toolbar:(UIToolbar *) toolbar;
 @end
 
 // IDMPhotoBrowser
-@interface IDMPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
+@interface IDMPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, IDMBrowserDelegate>
 
 // Properties
 @property (nonatomic, strong) id <IDMPhotoBrowserDelegate> delegate;
@@ -75,6 +80,9 @@
 // Init
 - (id)initWithPhotos:(NSArray *)photosArray;
 
+// Init with data source, for more flexibility over a fixed array
+- (id)initWithDataSource:(NSObject<IDMPhotoDataSource> *)photoDataSource;
+
 // Init (animated from view)
 - (id)initWithPhotos:(NSArray *)photosArray animatedFromView:(UIView*)view;
 
@@ -92,5 +100,8 @@
 
 // Get IDMPhoto at index
 - (id<IDMPhoto>)photoAtIndex:(NSUInteger)index;
+
+// Add view that will be hidden on touch
+-(void)addToolbarView:(UIView *)view;
 
 @end

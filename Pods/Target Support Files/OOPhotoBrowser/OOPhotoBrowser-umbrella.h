@@ -10,15 +10,18 @@
 #endif
 #endif
 
+#import "IDMBrowserDelegate.h"
 #import "IDMCaptionView.h"
 #import "IDMPBConstants.h"
 #import "IDMPhoto.h"
 #import "IDMPhotoBrowser.h"
+#import "IDMPhotoDataSource.h"
 #import "IDMPhotoProtocol.h"
 #import "IDMTapDetectingImageView.h"
 #import "IDMTapDetectingView.h"
+#import "IDMUtils.h"
 #import "IDMZoomingScrollView.h"
 
-FOUNDATION_EXPORT double IDMPhotoBrowserVersionNumber;
-FOUNDATION_EXPORT const unsigned char IDMPhotoBrowserVersionString[];
+FOUNDATION_EXPORT double OOPhotoBrowserVersionNumber;
+FOUNDATION_EXPORT const unsigned char OOPhotoBrowserVersionString[];
 

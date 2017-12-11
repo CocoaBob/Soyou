@@ -23,7 +23,7 @@
 @import CHTCollectionViewWaterfallLayout;
 @import EAIntroView;
 @import FCUUID;
-@import IDMPhotoBrowser;
+@import OOPhotoBrowser;
 @import MagicalRecord;
 @import MBProgressHUD;
 @import MJRefresh;

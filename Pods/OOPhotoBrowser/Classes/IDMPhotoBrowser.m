@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "IDMPhotoBrowser.h"
 #import "IDMZoomingScrollView.h"
+#import "IDMUtils.h"
 
 #import "pop/POP.h"
 
@@ -21,6 +22,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 @interface IDMPhotoBrowser () {
 	// Data
     NSMutableArray *_photos;
+    NSObject<IDMPhotoDataSource> *_source;
 
 	// Views
 	UIScrollView *_pagingScrollView;
@@ -41,6 +43,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
     UIBarButtonItem *_counterButton;
     UILabel *_counterLabel;
+    NSMutableArray *_toolbarViews;
 
     // Actions
     UIActionSheet *_actionsSheet;
@@ -61,7 +64,9 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 	BOOL _rotating;
     BOOL _viewIsActive; // active as in it's in the view heirarchy
     BOOL _autoHide;
+    BOOL _adjustScrollAfterReload;
     NSInteger _initalPageIndex;
+    CGFloat _statusBarHeight;
 
     BOOL _isdraggingPhoto;
 
@@ -73,6 +78,9 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 	// iOS 7
     UIViewController *_applicationTopViewController;
     int _previousModalPresentationStyle;
+
+    // used to keep track of the last set of images loaded
+    @private NSUInteger loadedImageIndex;
 }
 
 // Private Properties
@@ -156,9 +164,11 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 		_performingLayout = NO; // Reset on view did appear
 		_rotating = NO;
         _viewIsActive = NO;
+        _adjustScrollAfterReload = NO;
         _visiblePages = [NSMutableSet new];
         _recycledPages = [NSMutableSet new];
         _photos = [NSMutableArray new];
+        _toolbarViews = [NSMutableArray new];
 
         _initalPageIndex = 0;
         _autoHide = YES;
@@ -190,9 +200,14 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 
         _isdraggingPhoto = NO;
         
+        _statusBarHeight = 20.f;
         _doneButtonRightInset = 20.f;
-        _doneButtonTopInset = 30.f;
+        // relative to status bar and safeAreaInsets
+        _doneButtonTopInset = 10.f;
+
         _doneButtonSize = CGSizeMake(55.f, 26.f);
+
+        loadedImageIndex = -1;
 
 		if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
             self.automaticallyAdjustsScrollViewInsets = NO;
@@ -209,6 +224,11 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
                                                  selector:@selector(handleIDMPhotoLoadingDidEndNotification:)
                                                      name:IDMPhoto_LOADING_DID_END_NOTIFICATION
                                                    object:nil];
+
+        // turn off memory caching to avoid excessive memory usage
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        SDImageCacheConfig *config = manager.imageCache.config;
+        config.shouldCacheImagesInMemory = NO;
     }
 	
     return self;
@@ -219,6 +239,13 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 		_photos = [[NSMutableArray alloc] initWithArray:photosArray];
 	}
 	return self;
+}
+
+- (id)initWithDataSource:(NSObject<IDMPhotoDataSource> *)photoDataSource {
+    if ((self = [self init])) {
+        _source = photoDataSource;
+    }
+    return self;
 }
 
 - (id)initWithPhotos:(NSArray *)photosArray animatedFromView:(UIView*)view {
@@ -253,7 +280,11 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 }
 
 - (void)releaseAllUnderlyingPhotos {
-    for (id p in _photos) { if (p != [NSNull null]) [p unloadUnderlyingImage]; } // Release photos
+    // Release photos
+    for (int i = 0; i < [self numberOfPhotos]; i++) {
+        id p = [self photoAtIndex:i];
+        if (p != [NSNull null]) [p unloadUnderlyingImage];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -478,8 +509,19 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 
     CGSize imageSize = image.size;
 
-    CGFloat maxWidth = CGRectGetWidth(_applicationWindow.bounds);
-    CGFloat maxHeight = CGRectGetHeight(_applicationWindow.bounds);
+    CGRect bounds = _applicationWindow.bounds;
+    // adjust bounds as the photo browser does
+    if (@available(iOS 11.0, *)) {
+        // use the windows safe area inset
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        UIEdgeInsets insets = UIEdgeInsetsMake(_statusBarHeight, 0, 0, 0);
+        if (window != NULL) {
+            insets = window.safeAreaInsets;
+        }
+        bounds = [self adjustForSafeArea:bounds adjustForStatusBar:NO forInsets:insets];
+    }
+    CGFloat maxWidth = CGRectGetWidth(bounds);
+    CGFloat maxHeight = CGRectGetHeight(bounds);
 
     CGRect animationFrame = CGRectZero;
 
@@ -497,7 +539,6 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     if (!presenting) {
         animationFrame.origin.y += scrollView.frame.origin.y;
     }
-
     return animationFrame;
 }
 
@@ -679,7 +720,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     [_panGesture setMaximumNumberOfTouches:1];
 
     // Update
-    //[self reloadData];
+    [self reloadData];
 
 	// Super
     [super viewDidLoad];
@@ -687,7 +728,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 
 - (void)viewWillAppear:(BOOL)animated {
     // Update
-    [self reloadData];
+//    [self reloadData];
 
 
     if ([_delegate respondsToSelector:@selector(willAppearPhotoBrowser:)]) {
@@ -804,6 +845,10 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     NSUInteger numberOfPhotos = [self numberOfPhotos];
 
 	// Setup pages
+    // Remove views first to avoid adding twice
+    for (IDMZoomingScrollView *page in _visiblePages) {
+        [page removeFromSuperview];
+    }
     [_visiblePages removeAllObjects];
     [_recycledPages removeAllObjects];
 
@@ -848,6 +893,9 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 
     [_toolbar setItems:items];
 	[self updateToolbar];
+    if ([_delegate respondsToSelector:@selector(photoBrowser:setupToolbar:toolbar:)]) {
+        [_delegate photoBrowser:self setupToolbar:_currentPageIndex toolbar:_toolbar];
+    }
 
     // Content offset
 	_pagingScrollView.contentOffset = [self contentOffsetForPageAtIndex:_currentPageIndex];
@@ -870,13 +918,25 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 
     // Layout
     [self.view setNeedsLayout];
+
+    // if we're scrolling while the reload occurs then we need to adjust when
+    // the scroll stops. This is done in `scrollDidEndDecelerating`
+    if (_pagingScrollView.frame.origin.x != [self contentOffsetForPageAtIndex:_currentPageIndex].x) {
+        _adjustScrollAfterReload = YES;
+    }
 }
 
 - (NSUInteger)numberOfPhotos {
-    return _photos.count;
+    if (_source) {
+        return [_source numberOfPhotos];
+    }
+    return [_photos count];
 }
 
 - (id<IDMPhoto>)photoAtIndex:(NSUInteger)index {
+    if (_source) {
+        return [_source photoAtIndex:index];
+    }
     return _photos[index];
 }
 
@@ -914,27 +974,79 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 - (void)loadAdjacentPhotosIfNecessary:(id<IDMPhoto>)photo {
     IDMZoomingScrollView *page = [self pageDisplayingPhoto:photo];
     if (page) {
-        // If page is current page then initiate loading of previous and next pages
-        NSUInteger pageIndex = PAGE_INDEX(page);
+        // If page is current page then initiate loading of previous and next
+        // pages
+        int pageIndex = (int)PAGE_INDEX(page);
+        int numberOfPhotos = (int)[self numberOfPhotos];
         if (_currentPageIndex == pageIndex) {
-            if (pageIndex > 0) {
-                // Preload index - 1
-                id <IDMPhoto> photo = [self photoAtIndex:pageIndex-1];
-                if (![photo underlyingImage]) {
-                    [photo loadUnderlyingImageAndNotify];
-                    IDMLog(@"Pre-loading image at index %i", pageIndex-1);
+            // preload and unload images in background
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+            dispatch_async(queue, ^{
+                // Preload photos
+                if (pageIndex > 0) {
+                    // Preload index - 1
+                    [self loadAtIndex:pageIndex - 1];
                 }
-            }
-            if (pageIndex < [self numberOfPhotos] - 1) {
-                // Preload index + 1
-                id <IDMPhoto> photo = [self photoAtIndex:pageIndex+1];
-                if (![photo underlyingImage]) {
-                    [photo loadUnderlyingImageAndNotify];
-                    IDMLog(@"Pre-loading image at index %i", pageIndex+1);
+                if (pageIndex < numberOfPhotos - 1) {
+                    // Preload index + 1
+                    [self loadAtIndex:pageIndex + 1];
                 }
+                // Unload photos
+                if (pageIndex < numberOfPhotos - 2) {
+                    // Unload index + 2
+                    [self unloadAtIndex:pageIndex + 2];
+                }
+                if (pageIndex > 1) {
+                    // Preload index - 2
+                    [self unloadAtIndex:pageIndex - 2];
+                }
+            });
+            // Load images from data source if it's set
+            if (_source){
+                // load more images if we're 5 from the end and the number of
+                // photos is greater than 5 from the last time we loaded images
+                // If we've reached the last photo then we must reload since
+                // there may be less than 5 photos
+                if ((pageIndex > numberOfPhotos - 5)
+                    && ((numberOfPhotos > loadedImageIndex + 5) ||
+                        (pageIndex == numberOfPhotos - 1))) {
+                        // use loadedImageIndex to determine whether there are
+                        // actually no more images
+                        loadedImageIndex = pageIndex;
+                        [_source loadMoreImages:self];
+                    }
             }
         }
     }
+}
+
+-(void)loadAtIndex:(NSUInteger)index {
+    id <IDMPhoto> photo = [self photoAtIndex:index];
+    if (![photo underlyingImage]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [photo loadUnderlyingImageAndNotify];
+            IDMLog(@"Pre-loading image at index %i", index);
+        });
+    }
+}
+
+-(void)unloadAtIndex:(NSUInteger)index {
+    id <IDMPhoto> photo = [self photoAtIndex:index];
+    if ([photo underlyingImage]) {
+        [photo unloadUnderlyingImage];
+        IDMLog(@"Unloading image at index %i", index);
+    }
+}
+
+-(void)addToolbarView:(UIView *)view {
+    [_toolbarViews addObject:view];
+    [self.view addSubview:view];
+}
+
+#pragma mark - IDMPhotoDataSource Loading Notification
+
+- (void) imagesLoaded {
+    [self reloadData];
 }
 
 #pragma mark - IDMPhoto Loading Notification
@@ -969,10 +1081,11 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 	CGRect visibleBounds = _pagingScrollView.bounds;
 	NSInteger iFirstIndex = (NSInteger) floorf((CGRectGetMinX(visibleBounds)+PADDING*2) / CGRectGetWidth(visibleBounds));
 	NSInteger iLastIndex  = (NSInteger) floorf((CGRectGetMaxX(visibleBounds)-PADDING*2-1) / CGRectGetWidth(visibleBounds));
+    NSUInteger maxVal = [self numberOfPhotos] - 1;
     if (iFirstIndex < 0) iFirstIndex = 0;
-    if (iFirstIndex > [self numberOfPhotos] - 1) iFirstIndex = [self numberOfPhotos] - 1;
+    if (iFirstIndex > maxVal) iFirstIndex = maxVal;
     if (iLastIndex < 0) iLastIndex = 0;
-    if (iLastIndex > [self numberOfPhotos] - 1) iLastIndex = [self numberOfPhotos] - 1;
+    if (iLastIndex > maxVal) iLastIndex = maxVal;
 
 	// Recycle no longer needed pages
     NSInteger pageIndex;
@@ -1078,6 +1191,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     CGRect frame = self.view.bounds;
     frame.origin.x -= PADDING;
     frame.size.width += (2 * PADDING);
+    frame = [self adjustForSafeArea:frame adjustForStatusBar:false];
     return frame;
 }
 
@@ -1111,21 +1225,20 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 }
 
 - (CGRect)frameForToolbarAtOrientation:(UIInterfaceOrientation)orientation {
-    CGFloat height = 44;
+    CGFloat height = 32;
 
-    if ([self isLandscape:orientation])
-        height = 32;
-
-    return CGRectMake(0, self.view.bounds.size.height - height, self.view.bounds.size.width, height);
+    CGRect rtn = CGRectMake(0, self.view.bounds.size.height - height, self.view.bounds.size.width, height);
+    rtn = [self adjustForSafeArea:rtn adjustForStatusBar:true];
+    return rtn;
 }
 
 - (CGRect)frameForDoneButtonAtOrientation:(UIInterfaceOrientation)orientation {
     CGRect screenBound = self.view.bounds;
     CGFloat screenWidth = screenBound.size.width;
 
-    // if ([self isLandscape:orientation]) screenWidth = screenBound.size.height;
-
-    return CGRectMake(screenWidth - self.doneButtonRightInset - self.doneButtonSize.width, self.doneButtonTopInset, self.doneButtonSize.width, self.doneButtonSize.height);
+    CGRect rtn = CGRectMake(screenWidth - self.doneButtonRightInset - self.doneButtonSize.width, self.doneButtonTopInset, self.doneButtonSize.width, self.doneButtonSize.height);
+    rtn = [self adjustForSafeArea:rtn adjustForStatusBar:true];
+    return rtn;
 }
 
 - (CGRect)frameForCaptionView:(IDMCaptionView *)captionView atIndex:(NSUInteger)index {
@@ -1135,6 +1248,18 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     CGRect captionFrame = CGRectMake(pageFrame.origin.x, pageFrame.size.height - captionSize.height - (_toolbar.superview?_toolbar.frame.size.height:0), pageFrame.size.width, captionSize.height);
 
     return captionFrame;
+}
+
+- (CGRect)adjustForSafeArea:(CGRect)rect adjustForStatusBar:(BOOL)adjust {
+    if (@available(iOS 11.0, *)) {
+        return [self adjustForSafeArea:rect adjustForStatusBar:adjust forInsets:self.view.safeAreaInsets];
+    }
+    UIEdgeInsets insets = UIEdgeInsetsMake(_statusBarHeight, 0, 0, 0);
+    return [self adjustForSafeArea:rect adjustForStatusBar:adjust forInsets:insets];
+}
+
+- (CGRect)adjustForSafeArea:(CGRect)rect adjustForStatusBar:(BOOL)adjust forInsets:(UIEdgeInsets) insets {
+    return [IDMUtils adjustRect:rect forSafeAreaInsets:insets forBounds:self.view.bounds adjustForStatusBar:adjust statusBarHeight:_statusBarHeight];
 }
 
 #pragma mark - UIScrollView Delegate
@@ -1149,8 +1274,9 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     // Calculate current page
     CGRect visibleBounds = _pagingScrollView.bounds;
     NSInteger index = (NSInteger) (floorf(CGRectGetMidX(visibleBounds) / CGRectGetWidth(visibleBounds)));
+    NSUInteger maxVal = [self numberOfPhotos] - 1;
     if (index < 0) index = 0;
-    if (index > [self numberOfPhotos] - 1) index = [self numberOfPhotos] - 1;
+    if (index > maxVal) index = maxVal;
     NSUInteger previousCurrentPage = _currentPageIndex;
     _currentPageIndex = index;
     if (_currentPageIndex != previousCurrentPage) {
@@ -1170,6 +1296,14 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	// Update toolbar when page changes
 	if(! _arrowButtonsChangePhotosAnimated) [self updateToolbar];
+    if (_adjustScrollAfterReload) {
+        // scroll to the current image - this fixes a bug where adding new data
+        // while scrolling can leave the view halfway between two images
+        CGRect frame = _pagingScrollView.frame;
+        frame.origin = [self contentOffsetForPageAtIndex:_currentPageIndex];
+        [_pagingScrollView scrollRectToVisible:frame animated:YES];
+    }
+    _adjustScrollAfterReload = NO;
 }
 
 #pragma mark - Toolbar
@@ -1221,6 +1355,9 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
     NSMutableSet *captionViews = [[NSMutableSet alloc] initWithCapacity:_visiblePages.count];
     for (IDMZoomingScrollView *page in _visiblePages) {
         if (page.captionView) [captionViews addObject:page.captionView];
+    }
+    for (UIView *view in _toolbarViews)  {
+        [captionViews addObject:view];
     }
 
     // Hide/show bars

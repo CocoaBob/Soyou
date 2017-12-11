@@ -147,7 +147,6 @@
     }
 }
 
-// Image failed so just show black!
 - (void)displayImageFailure {
     [_progressView removeFromSuperview];
 }

@@ -16,7 +16,7 @@ target :'Soyou' do
 	pod "EAIntroView"
 	pod "FCUUID"
 	pod "FlagKit", :git => 'git://github.com/choco/FlagKit', :branch => 'master'
-	pod "IDMPhotoBrowser"
+	pod "OOPhotoBrowser"
 	pod "MagicalRecord", '~> 2.3'
 	pod "MBProgressHUD"
 	pod "MJRefresh"
