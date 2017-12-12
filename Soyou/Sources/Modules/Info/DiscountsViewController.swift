@@ -22,8 +22,8 @@ class DiscountsViewController: InfoListBaseViewController {
     }
     
     deinit {
-        // Stop observing data updating
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Cons.DB.discountsUpdatingDidFinishNotification), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
     override func viewDidLoad() {
@@ -37,6 +37,19 @@ class DiscountsViewController: InfoListBaseViewController {
                                                selector: #selector(DiscountsViewController.reloadDataWithoutCompletion),
                                                name: NSNotification.Name(rawValue: Cons.DB.discountsUpdatingDidFinishNotification),
                                                object: nil)
+        
+        // Observe UIApplicationDidBecomeActive to update EXPIRED labels
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(DiscountsViewController.updateVisibleCells),
+                                               name: Notification.Name.UIApplicationDidBecomeActive,
+                                               object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Update EXPIRED labels
+        self.updateVisibleCells()
     }
     
     // MARK: Data
@@ -69,7 +82,6 @@ class DiscountsViewController: InfoListBaseViewController {
         return nil
     }
 }
-
 
 // MARK: - CollectionView Delegate Methods
 extension DiscountsViewController {
@@ -125,5 +137,15 @@ extension DiscountsViewController {
             // Push view controller
             self.infoViewController?.navigationController?.pushViewController(detailViewController, animated: true)
         })
+    }
+}
+
+// MARK: - Discounts
+extension DiscountsViewController {
+
+    @objc func updateVisibleCells() {
+        DispatchQueue.main.async {
+            self.collectionView().reloadItems(at: self.collectionView().indexPathsForVisibleItems)
+        }
     }
 }
