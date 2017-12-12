@@ -41,6 +41,7 @@
 
 /* Discounts View Controller */
 "discouts_vc_title"="Discounts";
+"discouts_vc_expired"="EXPIRED";
 
 /* Brands View Controller */
 "brands_vc_title"="All brands";

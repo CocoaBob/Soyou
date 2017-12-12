@@ -81,7 +81,7 @@ extension DiscountsViewController {
         cell.lblTitle.text = discount.title
         if let imageURLString = discount.coverImage,
             let imageURL = URL(string: imageURLString) {
-            cell.fgImageView.sd_setImage(with: imageURL,
+            cell.bgImageView.sd_setImage(with: imageURL,
                                          placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                          completed: { (image, error, type, url) -> Void in
@@ -93,7 +93,8 @@ extension DiscountsViewController {
                                             }
             })
         }
-        
+        cell.fgCover.isHidden = (discount.expireDate?.timeIntervalSinceNow ?? 0) > 0
+        cell.lblExpired.text = NSLocalizedString("discouts_vc_expired")
         return cell
     }
     
@@ -113,7 +114,7 @@ extension DiscountsViewController {
             }
             
             if image == nil {
-                image = cell.fgImageView.image
+                image = cell.bgImageView.image
             }
             
             // Prepare view controller

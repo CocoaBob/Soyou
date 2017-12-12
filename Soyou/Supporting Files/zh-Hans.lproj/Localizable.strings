@@ -43,6 +43,7 @@
 
 /* Discounts View Controller */
 "discouts_vc_title"="折扣";
+"discouts_vc_expired"="已过期";
 
 /* Brands View Controller */
 "brands_vc_title"="全部品牌";

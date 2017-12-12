@@ -80,7 +80,7 @@ extension NewsViewController {
             cell.lblTitle.text = news.title
             if let imageURLString = news.image,
                 let imageURL = URL(string: imageURLString) {
-                cell.fgImageView.sd_setImage(with: imageURL,
+                cell.bgImageView.sd_setImage(with: imageURL,
                                              placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                              completed: { (image, error, type, url) -> Void in
@@ -121,7 +121,7 @@ extension NewsViewController {
             }
             
             if image == nil {
-                image = cell.fgImageView.image
+                image = cell.bgImageView.image
             }
             
             // Prepare view controller

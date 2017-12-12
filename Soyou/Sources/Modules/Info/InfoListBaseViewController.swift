@@ -167,7 +167,7 @@ extension InfoListBaseViewController {
     fileprivate func imageViewForZoomTransition() -> UIImageView? {
         if let indexPath = self.selectedIndexPath,
             let cell = self.collectionView().cellForItem(at: indexPath) as? InfoCollectionViewCell {
-            return cell.fgImageView
+            return cell.bgImageView
         }
         return nil
     }
@@ -241,8 +241,10 @@ extension InfoListBaseViewController {
 // MARK: - Custom cells
 
 class InfoCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var fgImageView: UIImageView!
+    @IBOutlet var bgImageView: UIImageView!
+    @IBOutlet var fgCover: UIView!
     @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var lblExpired: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -257,5 +259,6 @@ class InfoCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         lblTitle.text = nil
+        fgCover.isHidden = true
     }
 }
