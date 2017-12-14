@@ -119,6 +119,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         Utils.shareItems(items, completion: { () -> Void in
             MBProgressHUD.hide(self.view)
         })
+        DataManager.shared.analyticsShareNews(id: self.discount?.id?.intValue ?? -1)
     }
     
     override func like() {

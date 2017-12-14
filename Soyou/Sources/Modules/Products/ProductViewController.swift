@@ -588,6 +588,7 @@ extension ProductViewController {
         Utils.shareItems(items, completion: { () -> Void in
             MBProgressHUD.hide(self.view)
         })
+        DataManager.shared.analyticsShareNews(id: self.product?.id?.intValue ?? -1)
     }
     
     @objc func like(_ sender: AnyObject) {
