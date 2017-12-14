@@ -70,8 +70,8 @@ extension InfoViewController {
         // Add page menu to the scroll view's subViewsContainer
         if self.pageMenu == nil {
             // News VC
-            self.pageMenuViewControllers.append(self.newsViewController)
             self.pageMenuViewControllers.append(self.discountsViewController)
+            self.pageMenuViewControllers.append(self.newsViewController)
             
             // Setup view controllers
             let _ = self.pageMenuViewControllers.map {
