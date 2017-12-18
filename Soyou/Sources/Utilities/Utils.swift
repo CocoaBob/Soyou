@@ -30,7 +30,14 @@ class Utils: NSObject {
 extension Utils {
     
     class func openAppStorePage() {
-        UIApplication.shared.openURL(URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8")!)
+        guard let url = URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") else {
+            return
+        }
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [UIApplicationOpenURLOptionUniversalLinksOnly : NSNumber(value: true)], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
     }
 }
 
@@ -39,13 +46,11 @@ extension Utils {
     
     class func shareItems(_ items: [Any], completion: (() -> Void)?) {
         if let vc = UIApplication.shared.keyWindow?.rootViewController?.toppestViewController() {
-            let activityView = UIActivityViewController(activityItems: items,
-                                                        applicationActivities: [WeChatSessionActivity(), WeChatMomentsActivity()])
+            let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
 //            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
             vc.present(activityView, animated: true, completion: completion)
         }
     }
-    
     
     class func shareApp() {
         guard let keyWindow = UIApplication.shared.keyWindow else { return }

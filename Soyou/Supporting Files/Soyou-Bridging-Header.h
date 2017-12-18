@@ -61,8 +61,8 @@
 #import "DDSocialAuthHandler.h"
 #import "DDSocialShareHandler.h"
 @import FBSDKCoreKit;
-#import <libWeChatSDK/WXApiObject.h>
-#import <libWeChatSDK/WXApi.h>
+#import <WechatOpenSDK/WXApiObject.h>
+#import <WechatOpenSDK/WXApi.h>
 #import <TwitterKit/TwitterKit.h>
 #import <TwitterKit/TWTRAPIClient.h>
 #import <TwitterKit/TWTRUser.h>

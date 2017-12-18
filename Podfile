@@ -41,7 +41,7 @@ target :'Soyou' do
 
     #SNS SDKs
     pod "DDThirdShareLibrary/TencentSDK"
-    pod "libWeChatSDK"
+    pod "WechatOpenSDK"
     pod "WeiboSDK", '~> 3.1.3'
     pod "FBSDKLoginKit"
     pod "FBSDKShareKit"

@@ -93,6 +93,11 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         if let item = self.headerImage {
             items.append(item)
         }
+        for photo in self.webViewPhotos {
+            if let item = photo.underlyingImage() {
+                items.append(item)
+            }
+        }
         if var item = self.infoTitle {
             if item.count > 128 {
                 item = String(item[..<item.index(item.startIndex, offsetBy: 128)])
@@ -105,7 +110,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         if let item = descriptions {
             items.append(item as AnyObject)
         }
-        
+
         let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
         let shareBaseURL = isSTGMode ? Cons.Svr.shareBaseURLSTG : Cons.Svr.shareBaseURLPROD
         if let infoID = self.infoID, let item = URL(string: "\(shareBaseURL)/news?id=\(infoID)") {

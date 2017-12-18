@@ -1903,6 +1903,17 @@ SOFTWARE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
+			<string>Copyright 2017 tencent.com. All rights reserved.
+</string>
+			<key>License</key>
+			<string>Copyright</string>
+			<key>Title</key>
+			<string>WechatOpenSDK</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string></string>
 			<key>License</key>
 			<string>Commercial</string>
@@ -1938,17 +1949,6 @@ SOFTWARE.</string>
 			<string>MIT</string>
 			<key>Title</key>
 			<string>ZoomInteractiveTransition</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright (c) 2012 Tencent. All rights reserved.
-</string>
-			<key>License</key>
-			<string>Copyright</string>
-			<key>Title</key>
-			<string>libWeChatSDK</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

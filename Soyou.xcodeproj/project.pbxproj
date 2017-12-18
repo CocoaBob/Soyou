@@ -23,9 +23,6 @@
 		0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C7B1C3B2098001CC36D /* Utils.swift */; };
 		45016E581C14EC25004034BC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E561C14EC25004034BC /* Product.swift */; };
 		45034D121C29954D00026027 /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D0D1C29954D00026027 /* SharingProvider.swift */; };
-		45034D131C29954D00026027 /* WeChatActivityGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D0F1C29954D00026027 /* WeChatActivityGeneral.swift */; };
-		45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D101C29954D00026027 /* WeChatMomentsActivity.swift */; };
-		45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D111C29954D00026027 /* WeChatSessionActivity.swift */; };
 		4506ED711C221797003B5018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4506ED701C221797003B5018 /* LoginViewController.swift */; };
 		45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243C681C17A514005D476D /* UIViewController+Additions.swift */; };
 		4524C0AD1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524C0AB1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift */; };
@@ -1112,7 +1109,6 @@
 				45F5C2A21D01DFA70024B5DF /* InfoDetailBaseViewController.swift in Sources */,
 				453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */,
 				45EE80CA1CF659A8004AE158 /* Discount.swift in Sources */,
-				45034D141C29954D00026027 /* WeChatMomentsActivity.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
 				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
 				4597B23F1D30FACE00287873 /* DDTencentHandler.m in Sources */,
@@ -1122,7 +1118,6 @@
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */,
 				45F5C2A31D01DFA70024B5DF /* InfoListBaseViewController.swift in Sources */,
-				45034D151C29954D00026027 /* WeChatSessionActivity.swift in Sources */,
 				454499271C6601350075DE82 /* AppData.swift in Sources */,
 				45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */,
 				456BCABC1C5D0ADD00590295 /* StoreMapViewController.swift in Sources */,
@@ -1142,7 +1137,6 @@
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
 				45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */,
 				455D06B41C03950300D81ABF /* UserViewController.swift in Sources */,
-				45034D131C29954D00026027 /* WeChatActivityGeneral.swift in Sources */,
 				4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */,
 				45D418AD1C1B935200685DFC /* Brand.swift in Sources */,
 				4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */,
