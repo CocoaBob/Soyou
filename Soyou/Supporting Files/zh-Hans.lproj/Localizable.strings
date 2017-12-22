@@ -21,6 +21,12 @@
 "wechat_session" = "微信";
 "wechat_moments" = "朋友圈";
 
+/* Photo Picker */
+"photo_picker_default_title"="当前页面";
+"photo_picker_tap_to_change"="点击切换相册";
+"photo_picker_cancel"="取消";
+"photo_picker_share"="分享";
+
 /* Info View Controller */
 "info_vc_title"="资讯";
 "info_vc_tab_title"="资讯";

@@ -72,6 +72,9 @@
 		457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* RequestManager.swift */; };
 		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
+		458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */; };
+		458B2E4A1FECA28700BD6843 /* PicturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 458B2E481FECA28600BD6843 /* PicturePickerCell.xib */; };
+		458B2E4B1FECA28700BD6843 /* PicturePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E491FECA28700BD6843 /* PicturePickerCell.swift */; };
 		4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */; };
 		4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C91C52A1AA00329ECA /* TableViewCells.swift */; };
 		4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */; };
@@ -225,6 +228,9 @@
 		457D1EB71BFBDE9700D451D0 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturePickerViewController.swift; sourceTree = "<group>"; };
+		458B2E481FECA28600BD6843 /* PicturePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PicturePickerCell.xib; sourceTree = "<group>"; };
+		458B2E491FECA28700BD6843 /* PicturePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicturePickerCell.swift; sourceTree = "<group>"; };
 		4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
 		4590F8C91C52A1AA00329ECA /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
 		4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellSectionHeader.xib; sourceTree = "<group>"; };
@@ -482,6 +488,9 @@
 				4568E2F51BF92182009A6164 /* AsyncedFetchedResultsViewController.swift */,
 				45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */,
 				456833B81D3009EA006A5B3F /* CommentsViewController.swift */,
+				458B2E491FECA28700BD6843 /* PicturePickerCell.swift */,
+				458B2E481FECA28600BD6843 /* PicturePickerCell.xib */,
+				458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */,
 				4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */,
 				45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */,
 			);
@@ -860,6 +869,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				458B2E4A1FECA28700BD6843 /* PicturePickerCell.xib in Resources */,
 				45F5C2A41D01DFA70024B5DF /* InfoViewController.storyboard in Resources */,
 				45ADAB471C6517120040E570 /* TableViewCellIconTitleContent.xib in Resources */,
 				4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */,
@@ -1007,6 +1017,7 @@
 				"${BUILT_PRODUCTS_DIR}/SMCalloutView/SMCalloutView.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/TLPhotoPicker/TLPhotoPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/UICKeyChainStore/UICKeyChainStore.framework",
 				"${BUILT_PRODUCTS_DIR}/UIColor_Hex_Swift/UIColor_Hex_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImage-ResizeMagick/UIImage_ResizeMagick.framework",
@@ -1047,6 +1058,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SMCalloutView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TLPhotoPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UICKeyChainStore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIColor_Hex_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImage_ResizeMagick.framework",
@@ -1089,6 +1101,7 @@
 				45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */,
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
+				458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */,
 				4597B2381D30FACE00287873 /* DDFacebookHandler.m in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */,
@@ -1102,6 +1115,7 @@
 				457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */,
 				45F5C2A11D01DFA70024B5DF /* DiscountsViewController.swift in Sources */,
 				4524C0AE1C67C5D00027046F /* FavoriteProduct.swift in Sources */,
+				458B2E4B1FECA28700BD6843 /* PicturePickerCell.swift in Sources */,
 				45F5C2A61D01DFA70024B5DF /* NewsDetailViewController.swift in Sources */,
 				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
@@ -1229,6 +1243,7 @@
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1270,6 +1285,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1299,7 +1315,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1328,7 +1343,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

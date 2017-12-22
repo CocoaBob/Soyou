@@ -36,6 +36,10 @@ class FileManager: NSObject {
         return FileManager.dbDir.appendingPathComponent("Soyou.sqlite")
     }()
     
+    static var cacheURL: URL {
+        return FileManager.dbDir.appendingPathComponent("cache")
+    }
+    
     @discardableResult static func excludeFromBackup(_ pathURL: URL) -> Bool {
         if let _ = try? (pathURL as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey) {
             return true

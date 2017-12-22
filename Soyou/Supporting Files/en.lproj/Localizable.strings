@@ -19,6 +19,12 @@
 "wechat_session" = "WeChat";
 "wechat_moments" = "Moments";
 
+/* Photo Picker */
+"photo_picker_default_title"="Current Page";
+"photo_picker_tap_to_change"="Tap to change";
+"photo_picker_cancel"="Cancel";
+"photo_picker_share"="Share";
+
 /* Info View Controller */
 "info_vc_title"="Info";
 "info_vc_tab_title"="Info";

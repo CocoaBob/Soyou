@@ -11,3 +11,4 @@
 "shortcut_search"="Search";
 "shortcut_favorites"="Favorites";
 "NSLocationWhenInUseUsageDescription"="We will use your location to help you locate brand stores.";
+"NSPhotoLibraryUsageDescription"="You will be able to share photos.";

@@ -44,12 +44,15 @@ extension Utils {
 // MARK: Share
 extension Utils {
     
-    class func shareItems(_ items: [Any], completion: (() -> Void)?) {
+    class func shareItems(items: [Any], completion: (() -> Void)?) {
         if let vc = UIApplication.shared.keyWindow?.rootViewController?.toppestViewController() {
-            let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
-//            activityView.excludedActivityTypes = SharingProvider.excludedActivityTypes
-            vc.present(activityView, animated: true, completion: completion)
+            self.shareItems(from: vc, items: items, completion: completion)
         }
+    }
+    
+    class func shareItems(from viewController: UIViewController, items: [Any], completion: (() -> Void)?) {
+        let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        viewController.present(activityView, animated: true, completion: completion)
     }
     
     class func shareApp() {
@@ -59,7 +62,7 @@ extension Utils {
             if let image = UIImage(named: "img_share_icon"),
                 let url = URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") {
                 Utils.shareItems(
-                    [image, NSLocalizedString("user_vc_feedback_alert_share_title"), NSLocalizedString("user_vc_feedback_alert_share_description"), url],
+                    items: [image, NSLocalizedString("user_vc_feedback_alert_share_title"), NSLocalizedString("user_vc_feedback_alert_share_description"), url],
                     completion: { () -> Void in
                     MBProgressHUD.hide(keyWindow)
                 })

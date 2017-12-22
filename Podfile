@@ -29,6 +29,7 @@ target :'Soyou' do
 	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :branch => 'master'
 	pod "SSZipArchive"
     pod "SwiftyJSON"
+    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :branch => 'master'
 	pod "UICKeyChainStore"
 	pod "UIColor_Hex_Swift"
 	pod "UIImage-ResizeMagick"
@@ -52,10 +53,15 @@ target :'Soyou' do
 #    pod "Alamofire"
 end
 
+Swift4Targets = ['TLPhotoPicker']
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
-            config.build_settings['SWIFT_VERSION'] = '3.0'
+            if Swift4Targets.include? target.name
+                config.build_settings['SWIFT_VERSION'] = '4'
+                else
+                config.build_settings['SWIFT_VERSION'] = '3.2'
+            end
         end
     end
 end

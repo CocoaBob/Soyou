@@ -163,7 +163,7 @@ extension SettingsViewController {
                         cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("settings_vc_cell_share")),
                         didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.share()
+                            self.shareURL()
                     }),
                 ]
             ),
@@ -266,7 +266,7 @@ extension SettingsViewController {
         Utils.openAppStorePage()
     }
     
-    func share() {
+    func shareURL() {
         Utils.shareApp()
     }
     

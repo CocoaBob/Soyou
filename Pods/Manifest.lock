@@ -106,6 +106,7 @@ PODS:
   - SMCalloutView (2.1.5)
   - SSZipArchive (2.1.1)
   - SwiftyJSON (4.0.0)
+  - TLPhotoPicker (1.4.1)
   - TwitterCore (2.8.0):
     - Fabric
   - TwitterKit (2.8.1):
@@ -147,6 +148,7 @@ DEPENDENCIES:
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, branch `master`)
   - SSZipArchive
   - SwiftyJSON
+  - TLPhotoPicker (from `git://github.com/CocoaBob/TLPhotoPicker`, branch `master`)
   - TwitterCore (~> 2)
   - TwitterKit (~> 2)
   - UICKeyChainStore
@@ -173,6 +175,9 @@ EXTERNAL SOURCES:
   SMCalloutView:
     :branch: master
     :git: git://github.com/CocoaBob/calloutview
+  TLPhotoPicker:
+    :branch: master
+    :git: git://github.com/CocoaBob/TLPhotoPicker
 
 CHECKOUT OPTIONS:
   FlagKit:
@@ -190,6 +195,9 @@ CHECKOUT OPTIONS:
   SMCalloutView:
     :commit: bad0864b06019d764519dab9a53409de889c87fc
     :git: git://github.com/CocoaBob/calloutview
+  TLPhotoPicker:
+    :commit: 2b94af97250d0d5a31fbb574ae1ef272441988a5
+    :git: git://github.com/CocoaBob/TLPhotoPicker
 
 SPEC CHECKSUMS:
   1PasswordExtension: e775a29310c65851e5a6cec1afc349ab4e334e47
@@ -232,6 +240,7 @@ SPEC CHECKSUMS:
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  TLPhotoPicker: 0ae8f7551ce71461cb8537f20460e71235054745
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
   UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
@@ -242,6 +251,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: f0e8af711e8b2ce5009955671ec9b0e406e6347b
+PODFILE CHECKSUM: 854e8071165515fd0840b7d2c27a710938cb2c80
 
 COCOAPODS: 1.3.1

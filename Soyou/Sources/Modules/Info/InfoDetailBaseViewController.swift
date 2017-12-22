@@ -6,7 +6,7 @@
 //  Copyright © 2016 Soyou. All rights reserved.
 //
 
-class InfoDetailBaseViewController: UIViewController {
+class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControllerDelegate {
     
     // Header/Webview Data
     var headerImage: UIImage?
@@ -93,8 +93,9 @@ class InfoDetailBaseViewController: UIViewController {
         let fav = UIBarButtonItem(customView: self.btnFav)
         let like = UIBarButtonItem(customView: self.btnLike)
         let comment = UIBarButtonItem(customView: self.btnComment)
-        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .plain, target: self, action: #selector(InfoDetailBaseViewController.share(_:)))
-        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space, share, space]
+        let shareURL = UIBarButtonItem(image: UIImage(named:"img_share"), style: .plain, target: self, action: #selector(InfoDetailBaseViewController.shareURL(_:)))
+        let sharePic = UIBarButtonItem(image: UIImage(named:"img_moments"), style: .plain, target: self, action: #selector(InfoDetailBaseViewController.sharePictures(_:)))
+        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space, shareURL, space, sharePic, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         // Fix scroll view insets
@@ -162,10 +163,32 @@ class InfoDetailBaseViewController: UIViewController {
     func updateExtraInfo() {}
     
     // MARK: Bar button items
-    func share() {}
     func like() {}
     func star() {}
     func comment() {}
+    func shareURL() {}
+    
+    func sharePictures() {
+        MBProgressHUD.show(self.view)
+        var assets = [TLPHAsset]()
+        if let image = self.headerImage {
+            assets.append(TLPHAsset(image: image))
+        }
+        if let webView = self.webView {
+            self.loadAllImagesFromWebView(webView)
+        }
+        for photo in self.webViewPhotos {
+            if let image = photo.underlyingImage() {
+                assets.append(TLPHAsset(image: image))
+            }
+        }
+        PicturePickerViewController.present(from: self, assets: assets, delegate: self)
+        MBProgressHUD.hide(self.view)
+    }
+    
+    func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
+        
+    }
 }
 
 // MARK: Web image tap gesture handler
@@ -344,12 +367,9 @@ extension InfoDetailBaseViewController {
 extension InfoDetailBaseViewController {
     
     func loadAllImagesFromWebView(_ webView: UIWebView) {
-        if let imageURLsJSONString = webView.stringByEvaluatingJavaScript(from: "(function() {var images=document.querySelectorAll(\"img\");var imageUrls=[];[].forEach.call(images, function(el) { imageUrls[imageUrls.length] = el.src;}); return JSON.stringify(imageUrls);})()"),
-            let imageURLs = GetObjectFromJSONString(imageURLsJSONString) {
+        if let imageURLs = webView.stringByEvaluatingJavaScript(from: "var imgs = []; for (var i = 0; i < document.images.length; i++) { imgs.push(document.images[i].src) }; imgs.toString();")?.components(separatedBy: ",") {
             // All URLs
-            if let imageURLs = imageURLs as? [String] {
-                self.webViewImageURLs = imageURLs
-            }
+            self.webViewImageURLs = imageURLs
             
             // All IDMPhotos
             var webViewPhotos = [IDMPhoto]()
@@ -484,8 +504,12 @@ extension InfoDetailBaseViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func share(_ sender: AnyObject) {
-        self.share()
+    @IBAction func shareURL(_ sender: AnyObject) {
+        self.shareURL()
+    }
+    
+    @IBAction func sharePictures(_ sender: AnyObject) {
+        self.sharePictures()
     }
     
     @IBAction func like(_ sender: AnyObject) {

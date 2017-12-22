@@ -68,7 +68,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     }
     
     // MARK: Bar button items
-    override func share() {
+    override func shareURL() {
         MBProgressHUD.show(self.view)
         
         var htmlString: String?
@@ -77,23 +77,6 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
                 htmlString = localDiscount.content
             }
         })
-        var descriptions: String?
-        if let htmlString = htmlString,
-            let htmlData = htmlString.data(using: String.Encoding.utf8) {
-            do {
-                let attributedString = try NSAttributedString(data: htmlData,
-                                                              options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,
-                                                                        NSAttributedString.DocumentReadingOptionKey.characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)],
-                                                              documentAttributes: nil)
-                var contentString = attributedString.string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                if contentString.count > 256 {
-                    contentString = String(contentString[..<contentString.index(contentString.startIndex, offsetBy: 256)])
-                }
-                descriptions = contentString
-            } catch {
-                
-            }
-        }
         var items = [Any]()
         if let item = self.headerImage {
             items.append(item)
@@ -107,16 +90,12 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         if let item = self.infoID {
             items.append(item)
         }
-        if let item = descriptions {
-            items.append(item as AnyObject)
-        }
-        
         let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
         let shareBaseURL = isSTGMode ? Cons.Svr.shareBaseURLSTG : Cons.Svr.shareBaseURLPROD
         if let infoID = self.infoID, let item = URL(string: "\(shareBaseURL)/discounts?id=\(infoID)") {
             items.append(item)
         }
-        Utils.shareItems(items, completion: { () -> Void in
+        Utils.shareItems(items: items, completion: { () -> Void in
             MBProgressHUD.hide(self.view)
         })
         DataManager.shared.analyticsShareNews(id: self.discount?.id?.intValue ?? -1)
@@ -163,6 +142,16 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
             DataManager.shared.deleteCommentsForDiscount([commentID], completion)
         }
         self.navigationController?.pushViewController(commentsViewController, animated: true)
+    }
+    
+    override func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
+        guard tlphAssets.count > 0 else { return }
+        MBProgressHUD.show(self.view)
+        let images = tlphAssets.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "854x854") }
+        Utils.shareItems(from: self, items: images, completion: { () -> Void in
+            MBProgressHUD.hide(self.view)
+        })
+        DataManager.shared.analyticsShareNews(id: self.discount?.id?.intValue ?? -1)
     }
 }
 

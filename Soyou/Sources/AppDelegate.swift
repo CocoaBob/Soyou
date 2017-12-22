@@ -27,8 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // AFNetworkActivityIndicatorManager
         AFNetworkActivityIndicatorManager.shared().isEnabled = true
 
-        // Exclude database from iCloud backup
+        // Exclude database & cache from iCloud backup
         FileManager.excludeFromBackup(FileManager.dbDir)
+        FileManager.excludeFromBackup(FileManager.cacheURL)
+        
+        // Setup URLCache
+        URLCache.shared = URLCache(memoryCapacity:64*1024*1024, diskCapacity:512*1024*1024, diskPath:FileManager.cacheURL.path)
         
         // Setup SDWebImage cache
         SDWebImageDownloader.shared().shouldDecompressImages = false

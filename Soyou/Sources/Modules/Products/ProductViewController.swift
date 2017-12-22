@@ -96,7 +96,7 @@ class ProductViewController: UIViewController {
         let fav = UIBarButtonItem(customView: self.btnFav!)
         let like = UIBarButtonItem(customView: self.btnLike!)
         let comment = UIBarButtonItem(customView: self.btnComment)
-        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .plain, target: self, action: #selector(ProductViewController.share(_:)))
+        let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .plain, target: self, action: #selector(ProductViewController.shareURL(_:)))
         self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space, share, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
@@ -517,7 +517,7 @@ extension ProductViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func share(_ sender: AnyObject) {
+    @IBAction func shareURL(_ sender: AnyObject) {
         MBProgressHUD.show(self.view)
         
         var productID: String?
@@ -585,7 +585,7 @@ extension ProductViewController {
         if let productID = productID, let item = URL(string: "\(shareBaseURL)/product?id=\(productID)&targetCurrency=\(userCurrency)") {
             items.append(item)
         }
-        Utils.shareItems(items, completion: { () -> Void in
+        Utils.shareItems(items: items, completion: { () -> Void in
             MBProgressHUD.hide(self.view)
         })
         DataManager.shared.analyticsShareNews(id: self.product?.id?.intValue ?? -1)
