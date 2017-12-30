@@ -8,9 +8,9 @@
 
 class PicturePickerViewController: TLPhotosPickerViewController {
     
-    static func present(from viewController: UIViewController,
-                        assets: [TLPHAsset],
-                        delegate: TLPhotosPickerViewControllerDelegate) {
+    static func sharePhotos(from fromVC: UIViewController,
+                            assets: [TLPHAsset],
+                            delegate: TLPhotosPickerViewControllerDelegate) {
         var configure = TLPhotosPickerConfigure()
         configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
         configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
@@ -25,7 +25,6 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.singleSelectedMode = false
         configure.maxSelectedAssets = 9
         configure.fetchOption = nil
-//        configure.selectedColor = UIColor.clear
         configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
         configure.nibSet = (nibName: "PicturePickerCell", bundle: Bundle.main)
         
@@ -35,8 +34,32 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         vc.configure = configure
         vc.delegate = delegate
         
-        viewController.present(vc, animated: true, completion: nil)
-        vc.focusCollection(collection: collection)
+        fromVC.present(vc, animated: true, completion: nil)
+    }
+    
+    static func pickOnePhoto(from fromVC: UIViewController,
+                             delegate: TLPhotosPickerViewControllerDelegate) {
+        var configure = TLPhotosPickerConfigure()
+        configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
+        configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
+        configure.cancelTitle = NSLocalizedString("photo_picker_cancel")
+        configure.doneTitle = NSLocalizedString("photo_picker_confirm")
+        configure.usedCameraButton = true
+        configure.usedPrefetch = false
+        configure.allowedLivePhotos = false
+        configure.allowedVideo = false
+        configure.allowedVideoRecording = false
+        configure.numberOfColumn = 3
+        configure.singleSelectedMode = true
+        configure.maxSelectedAssets = 1
+        configure.fetchOption = nil
+        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
+        
+        let vc = PicturePickerViewController()
+        vc.configure = configure
+        vc.delegate = delegate
+        
+        fromVC.present(vc, animated: true, completion: nil)
     }
 }
 

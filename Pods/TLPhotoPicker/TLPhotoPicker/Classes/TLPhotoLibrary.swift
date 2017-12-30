@@ -12,7 +12,7 @@ import Photos
 protocol TLPhotoLibraryDelegate: class {
     func loadCameraRollCollection(collection: TLAssetsCollection)
     func loadCompleteAllCollection(collections: [TLAssetsCollection])
-    func focusCollection(collection: TLAssetsCollection)
+    func focusCollection(collection: TLAssetsCollection?)
 }
 
 class TLPhotoLibrary {

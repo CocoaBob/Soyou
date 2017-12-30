@@ -69,6 +69,13 @@ extension ProfileViewController {
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change")),
                         didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.changeEmail()
+                        }),
+                    Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                        title: Text(text: NSLocalizedString("profile_vc_cell_profile_image")),
+                        subTitle: Text(text: NSLocalizedString("profile_vc_cell_profile_image_change")),
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                            self.changeProfileImage()
                         })
                 ]
             ),
@@ -233,6 +240,26 @@ extension ProfileViewController {
         self.navigationController?.pushViewController(simpleViewController, animated: true)
     }
     
+    func changeProfileImage() {
+        PicturePickerViewController.pickOnePhoto(from: self, delegate: self)
+    }
+}
+
+// MARK: Change Profile Image
+extension ProfileViewController: TLPhotosPickerViewControllerDelegate {
+    
+    func willDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
+        guard let asset = tlphAssets.first, let image = asset.fullResolutionImage else {
+            return
+        }
+        MBProgressHUD.show(self.view)
+        DataManager.shared.modifyProfileImage(image) {  responseObject, error in
+            MBProgressHUD.hide(self.view)
+            if let data = DataManager.getResponseData(responseObject) as? [String: String] {
+                UserManager.shared.avatar = data["profileUrl"]
+            }
+        }
+    }
 }
 
 // MARK: Change Region

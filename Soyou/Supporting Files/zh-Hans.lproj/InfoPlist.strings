@@ -12,3 +12,4 @@
 "shortcut_favorites"="收藏夹";
 "NSLocationWhenInUseUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
 "NSPhotoLibraryUsageDescription"="您将可以分享照片。";
+"NSCameraUsageDescription"="您将可以拍摄照片。";

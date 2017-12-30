@@ -20,10 +20,11 @@
 "wechat_moments" = "Moments";
 
 /* Photo Picker */
-"photo_picker_default_title"="Current Page";
+"photo_picker_default_title"="Albums";
 "photo_picker_tap_to_change"="Tap to change";
 "photo_picker_cancel"="Cancel";
 "photo_picker_share"="Share";
+"photo_picker_confirm"="Confirm";
 
 /* Info View Controller */
 "info_vc_title"="Info";
@@ -119,6 +120,8 @@
 "profile_vc_cell_account_username"="Username";
 "profile_vc_cell_account_email"="Email";
 "profile_vc_cell_account_email_change"="Change Email";
+"profile_vc_cell_profile_image"="Avatar";
+"profile_vc_cell_profile_image_change"="Change Avatar";
 "profile_vc_cell_basics_gender"="Gender";
 "profile_vc_cell_basics_region"="Region";
 "profile_vc_cell_logout"="Logout";

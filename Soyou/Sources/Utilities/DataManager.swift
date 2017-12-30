@@ -185,6 +185,17 @@ class DataManager {
         })
     }
     
+    func modifyProfileImage(_ image:UIImage, _ completion: CompletionClosure?) {
+        guard let imageData = UIImageJPEGRepresentation(image, 0.75) else {
+            return
+        }
+        RequestManager.shared.modifyProfileImage(imageData, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Products
     //////////////////////////////////////

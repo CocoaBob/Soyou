@@ -108,6 +108,10 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     }
     
     func request(_ method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Any?, _ userInfo: Dictionary<String,Any>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        self.request(method, path, modeUI, isSynchronous, headers, parameters, false, userInfo, onSuccess, onFailure)
+    }
+    
+    func request(_ method: String, _ path: String, _ modeUI: Bool, _ isSynchronous: Bool, _ headers: Dictionary<String,String>?, _ parameters: Any?, _ multiForm: Bool, _ userInfo: Dictionary<String,Any>?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         let languageCode = Locale.preferredLanguages.first ?? "zh"
         var languageCountryCode = "zh-CN"
         if languageCode.hasPrefix("en") {
@@ -145,7 +149,23 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Setup request
-        let request: NSMutableURLRequest = self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
+        let request: NSMutableURLRequest = multiForm ?
+            self.requestSerializer.multipartFormRequest(withMethod: method,
+                                                        urlString: urlString,
+                                                        parameters: nil,
+                                                        constructingBodyWith: { (formData) in
+                                                            guard let dict = parameters as? Dictionary<String, Data> else {
+                                                                return
+                                                            }
+                                                            for (key, value) in dict {
+                                                                formData.appendPart(withFileData: value,
+                                                                                    name: key,
+                                                                                    fileName: "avatar.jpg",
+                                                                                    mimeType: "image/jpeg")
+                                                            }
+                                                        },
+                                                        error: nil) :
+            self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
         request.addValue(self.reqAPIKey, forHTTPHeaderField: "apiKey")
         request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate), forHTTPHeaderField: "request-time")
         if let headers = headers {

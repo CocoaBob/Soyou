@@ -336,6 +336,19 @@ class RequestManager {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/info", "UserInfo", ["field": field, "value": value], onSuccess, onFailure)
     }
     
+    func modifyProfileImage(_ imageData:Data, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        requestOperationManager.request("POST",
+                                        "/api/\(Cons.Svr.apiVersion)/secure/user/profileImg",
+                                        false,
+                                        false,
+                                        ["api": "UserProfile", "authorization": UserManager.shared.token ?? ""],
+                                        ["profileImg": imageData],
+                                        true,
+                                        nil,
+                                        onSuccess,
+                                        onFailure)
+    }
+    
     //////////////////////////////////////
     // MARK: Analytics
     //////////////////////////////////////

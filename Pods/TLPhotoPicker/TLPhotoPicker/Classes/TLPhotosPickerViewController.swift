@@ -434,6 +434,9 @@ extension TLPhotosPickerViewController: TLPhotoLibraryDelegate {
         var allCollections = [collection]
         if let customCollection = self.customCollection {
             allCollections.insert(customCollection, at: 0)
+            self.focusCollection(collection: customCollection)
+        } else {
+            self.focusCollection(collection: collection)
         }
         self.collections = allCollections
         self.indicator.stopAnimating()
@@ -446,12 +449,13 @@ extension TLPhotosPickerViewController: TLPhotoLibraryDelegate {
         if let customCollection = self.customCollection {
             allCollections.insert(customCollection, at: 0)
         }
+        self.focusCollection(collection: allCollections.first)
         self.collections = allCollections
         self.reloadTableView()
         self.registerChangeObserver()
     }
     
-    public func focusCollection(collection: TLAssetsCollection) {
+    public func focusCollection(collection: TLAssetsCollection?) {
         self.focusedCollection = collection
         self.updateTitle()
     }

@@ -53,10 +53,12 @@ class UserViewController: SimpleTableViewController {
         
         // Observe UserManager.shared.token
         UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextUserViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextUserViewController)
     }
     
     deinit {
         UserManager.shared.removeObserver(self, forKeyPath: "token")
+        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -159,11 +161,8 @@ extension UserViewController {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
             self.imgViewAvatar.sd_setImage(with: url,
-                placeholderImage: UserManager.shared.defaultAvatarImage(),
-                options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder])
-            self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
-                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
+                                           options: [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
                                            completed: { (image, error, type, url) in
                                             if error == nil {
                                                 self.addAvatarBorder()

@@ -196,7 +196,7 @@ CHECKOUT OPTIONS:
     :commit: bad0864b06019d764519dab9a53409de889c87fc
     :git: git://github.com/CocoaBob/calloutview
   TLPhotoPicker:
-    :commit: 2b94af97250d0d5a31fbb574ae1ef272441988a5
+    :commit: 6a6b98f4f58b1fca056a981bd9eaec9741a5be1a
     :git: git://github.com/CocoaBob/TLPhotoPicker
 
 SPEC CHECKSUMS:
