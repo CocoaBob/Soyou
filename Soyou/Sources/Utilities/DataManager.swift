@@ -93,8 +93,11 @@ class DataManager {
                         UserManager.shared[key] = value
                     }
                 }
-                if let token = data["token"]! as? String {
+                if let token = data["token"] as? String {
                     UserManager.shared.logIn(token)
+                }
+                if let profileUrl = data["profileUrl"] as? String {
+                    UserManager.shared.avatar = profileUrl
                 }
             }
             self.completeWithData(responseObject, completion: completion)
