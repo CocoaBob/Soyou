@@ -93,6 +93,11 @@
 "store_map_vc_location_service_unavailable_content"="定位服务被禁用，请修改设置。";
 "store_map_vc_go_to_settings"="去设置";
 
+/* Circles View Controller */
+"circles_vc_title"="奢友圈";
+"circles_vc_tab_title"="奢友圈";
+"circles_vc_empty_label"="快来发布您的第一条分享吧";
+
 /* User View Controller */
 "user_vc_login"="立即登录，同步您的收藏夹";
 "user_vc_username_unknown"="用户名尚未设置";

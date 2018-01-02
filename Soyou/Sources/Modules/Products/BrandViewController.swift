@@ -126,7 +126,7 @@ class BrandViewController: UIViewController {
         self.setupSearchController()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height , true, true, false, false)
+        self.updateScrollViewInset(self.tableView, self.tableView.parallaxHeader.height, true, true, false, false)
     }
     
     override func viewWillAppear(_ animated: Bool) {

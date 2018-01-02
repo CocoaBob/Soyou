@@ -26,6 +26,8 @@
 		4506ED711C221797003B5018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4506ED701C221797003B5018 /* LoginViewController.swift */; };
 		450D475F1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */; };
 		450D47601FFC176700A2F3D1 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475E1FFC176700A2F3D1 /* Circle.swift */; };
+		450D47621FFC288300A2F3D1 /* CirclesViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 450D47611FFC288300A2F3D1 /* CirclesViewController.storyboard */; };
+		450D47641FFC288E00A2F3D1 /* CirclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D47631FFC288E00A2F3D1 /* CirclesViewController.swift */; };
 		45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243C681C17A514005D476D /* UIViewController+Additions.swift */; };
 		4524C0AD1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524C0AB1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift */; };
 		4524C0AE1C67C5D00027046F /* FavoriteProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524C0AC1C67C5D00027046F /* FavoriteProduct.swift */; };
@@ -179,6 +181,8 @@
 		4506ED701C221797003B5018 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Circle+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		450D475E1FFC176700A2F3D1 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
+		450D47611FFC288300A2F3D1 /* CirclesViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CirclesViewController.storyboard; sourceTree = "<group>"; };
+		450D47631FFC288E00A2F3D1 /* CirclesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirclesViewController.swift; sourceTree = "<group>"; };
 		45243C681C17A514005D476D /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		4524C0AB1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4524C0AC1C67C5D00027046F /* FavoriteProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteProduct.swift; sourceTree = "<group>"; };
@@ -367,6 +371,8 @@
 		450D475C1FF9C6C600A2F3D1 /* Circles */ = {
 			isa = PBXGroup;
 			children = (
+				450D47611FFC288300A2F3D1 /* CirclesViewController.storyboard */,
+				450D47631FFC288E00A2F3D1 /* CirclesViewController.swift */,
 			);
 			path = Circles;
 			sourceTree = "<group>";
@@ -897,6 +903,7 @@
 				456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */,
 				0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */,
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
+				450D47621FFC288300A2F3D1 /* CirclesViewController.storyboard in Resources */,
 				4597B2411D30FACE00287873 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */,
@@ -1116,6 +1123,7 @@
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
 				458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */,
+				450D47641FFC288E00A2F3D1 /* CirclesViewController.swift in Sources */,
 				4597B2381D30FACE00287873 /* DDFacebookHandler.m in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */,

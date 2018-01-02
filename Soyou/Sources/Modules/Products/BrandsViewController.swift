@@ -73,7 +73,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         self.title = NSLocalizedString("brands_vc_title")
         
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("brands_vc_tab_title"), image: UIImage(named: "img_tab_tag"), selectedImage: UIImage(named: "img_tab_tag_selected"))
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("brands_vc_tab_title"),
+                                       image: UIImage(named: "img_tab_tag"),
+                                       selectedImage: UIImage(named: "img_tab_tag_selected"))
     }
     
     deinit {

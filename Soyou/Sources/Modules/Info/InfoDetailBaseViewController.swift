@@ -100,9 +100,9 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
         
         // Fix scroll view insets
         if UIDevice.isX() {
-            self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, true, false, false, true)
+            self.updateScrollViewInset(self.webView!.scrollView, 0, true, false, false, true)
         } else {
-            self.updateScrollViewInset(self.webView!.scrollView, self.scrollView?.parallaxHeader.height ?? 0, false, false, false, false)
+            self.updateScrollViewInset(self.webView!.scrollView, 0, false, false, false, false)
         }
         
         // Load content

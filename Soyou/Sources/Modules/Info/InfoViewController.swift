@@ -35,7 +35,9 @@ class InfoViewController: UIViewController {
         self.title = NSLocalizedString("info_vc_title")
         
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("info_vc_tab_title"), image: UIImage(named: "img_tab_news"), selectedImage: UIImage(named: "img_tab_news_selected"))
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("info_vc_tab_title"),
+                                       image: UIImage(named: "img_tab_news"),
+                                       selectedImage: UIImage(named: "img_tab_news_selected"))
         
         // Bars
         self.hidesBottomBarWhenPushed = false

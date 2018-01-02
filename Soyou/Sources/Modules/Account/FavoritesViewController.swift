@@ -15,10 +15,6 @@ enum FavoriteType: Int {
 class FavoritesViewController: SyncedFetchedResultsViewController {
     
     // Override SyncedFetchedResultsViewController
-    @IBOutlet var _tableView: UITableView!
-    @IBOutlet var _emptyView: UIView!
-    @IBOutlet var _emptyViewLabel: UILabel!
-    
     var loadedProducts = [Int: Product]()
     
     var isEmptyViewVisible: Bool = true {
@@ -43,6 +39,9 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
     }
     
     // Properties
+    @IBOutlet var _tableView: UITableView!
+    @IBOutlet var _emptyView: UIView!
+    @IBOutlet var _emptyViewLabel: UILabel!
     var type: FavoriteType = .products
     
     // Class methods
@@ -51,10 +50,6 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
     }
     
     // Life cycle
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

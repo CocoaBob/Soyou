@@ -659,7 +659,13 @@ class DataManager {
     
     func requestPreviousCicles(_ timestamp: String, _ userID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestPreviousCicles(timestamp, userID, { responseObject in
-            self.completeWithData(responseObject, completion: completion)
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                Circle.importDatas(data, true, { (_, _) -> () in
+                    self.completeWithData(responseObject, completion: completion)
+                })
+            } else {
+                self.completeWithData(responseObject, completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })
@@ -667,7 +673,13 @@ class DataManager {
     
     func requestNextCicles(_ timestamp: String, _ userID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNextCicles(timestamp, userID, { responseObject in
-            self.completeWithData(responseObject, completion: completion)
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                Circle.importDatas(data, true, { (_, _) -> () in
+                    self.completeWithData(responseObject, completion: completion)
+                })
+            } else {
+                self.completeWithData(responseObject, completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })

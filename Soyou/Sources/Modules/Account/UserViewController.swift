@@ -23,7 +23,9 @@ class UserViewController: SimpleTableViewController {
         self.hidesBottomBarWhenPushed = false
                 
         // UITabBarItem
-        self.tabBarItem = UITabBarItem(title: NSLocalizedString("user_vc_tab_title"), image: UIImage(named: "img_tab_user"), selectedImage: UIImage(named: "img_tab_user_selected"))
+        self.tabBarItem = UITabBarItem(title: NSLocalizedString("user_vc_tab_title"),
+                                       image: UIImage(named: "img_tab_user"),
+                                       selectedImage: UIImage(named: "img_tab_user_selected"))
     }
     
     override func viewDidLoad() {
@@ -66,7 +68,7 @@ class UserViewController: SimpleTableViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
         // Update login status
-        updateUserInfo()
+        updateUserInfo(false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,7 +82,7 @@ class UserViewController: SimpleTableViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &KVOContextUserViewController {
             // Update login status
-            updateUserInfo()
+            updateUserInfo(true)
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -157,12 +159,16 @@ extension UserViewController {
         self.imgViewAvatar.layer.borderWidth = 0
     }
     
-    func updateUserInfo() {
+    func updateUserInfo(_ reloadAvatar: Bool) {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+            if reloadAvatar {
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+            }
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
-                                           options: [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
+                                           options: options,
                                            completed: { (image, error, type, url) in
                                             if error == nil {
                                                 self.addAvatarBorder()

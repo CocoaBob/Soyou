@@ -91,6 +91,11 @@
 "store_map_vc_location_service_unavailable_content"="Location service isn't allowed, please modify the settings.";
 "store_map_vc_go_to_settings"="Go to Settings";
 
+/* Circles View Controller */
+"circles_vc_title"="Circles";
+"circles_vc_tab_title"="Circles";
+"circles_vc_empty_label"="Post your first diary";
+
 /* User View Controller */
 "user_vc_login"="Login to sync favorites";
 "user_vc_username_unknown"="Username unknown";
