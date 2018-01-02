@@ -131,7 +131,7 @@ class News: NSManagedObject {
         return returnValue
     }
     
-    class func toggleFavorite(_ newsID: NSNumber, completion: DataClosure?) {
+    class func toggleFavorite(_ newsID: Int, completion: DataClosure?) {
         // Find the favorite news
         let favoriteNews: FavoriteNews? = FavoriteNews.mr_findFirst(byAttribute: "id", withValue: newsID)
         
@@ -152,7 +152,7 @@ class News: NSManagedObject {
     }
     
     // Create/Update FavoriteNews, or delete FavoriteNews
-    class func updateFavorite(_ newsID: NSNumber, isFavorite: Bool) {
+    class func updateFavorite(_ newsID: Int, isFavorite: Bool) {
         MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
             let request = News.mr_requestFirst(byAttribute: "id", withValue: newsID, in: localContext)
             request.includesSubentities = false
@@ -222,10 +222,10 @@ class News: NSManagedObject {
     
     func toggleLike(_ completion: DataClosure?) {
         var _wasLiked: Bool?
-        var _newsID: NSNumber?
+        var _newsID: Int?
         MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
             let localSelf = self.mr_(in: localContext)
-            _newsID = localSelf?.id
+            _newsID = localSelf?.id as? Int
             _wasLiked = localSelf?.isLiked()
         })
         guard let wasLiked = _wasLiked else { return }

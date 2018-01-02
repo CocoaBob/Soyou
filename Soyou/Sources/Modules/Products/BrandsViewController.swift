@@ -218,7 +218,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         var imageURLString: String? = nil
         MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
             guard let localBrand = brand.mr_(in: localContext) else { return }
-            brandViewController.brandID = localBrand.id
+            brandViewController.brandID = localBrand.id as! Int
             brandViewController.brandName = localBrand.label
             brandViewController.brandCategories = localBrand.categories as? [NSDictionary]
             imageURLString = localBrand.imageUrl
@@ -276,7 +276,7 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         var imageURLString: String? = nil
         MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
             guard let localBrand = brand.mr_(in: localContext) else { return }
-            brandViewController.brandID = localBrand.id
+            brandViewController.brandID = localBrand.id as! Int
             brandViewController.brandName = localBrand.label
             brandViewController.brandCategories = localBrand.categories as? [NSDictionary]
             imageURLString = localBrand.imageUrl

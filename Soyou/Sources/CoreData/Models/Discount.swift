@@ -134,7 +134,7 @@ class Discount: NSManagedObject {
         return returnValue
     }
     
-    class func toggleFavorite(_ discountID: NSNumber, completion: DataClosure?) {
+    class func toggleFavorite(_ discountID: Int, completion: DataClosure?) {
         // Find the favorite discount
         let favoriteDiscount: FavoriteDiscount? = FavoriteDiscount.mr_findFirst(byAttribute: "id", withValue: discountID)
         
@@ -155,7 +155,7 @@ class Discount: NSManagedObject {
     }
     
     // Create/Update FavoriteDiscount, or delete FavoriteDiscount
-    class func updateFavorite(_ discountID: NSNumber, isFavorite: Bool) {
+    class func updateFavorite(_ discountID: Int, isFavorite: Bool) {
         MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
             let request = Discount.mr_requestFirst(byAttribute: "id", withValue: discountID, in: localContext)
             request.includesSubentities = false

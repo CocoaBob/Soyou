@@ -36,12 +36,12 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         }
     }
     
-    override var infoID: NSNumber! {
+    override var infoID: Int! {
         get {
-            var returnValue = NSNumber(value: -1)
+            var returnValue = -1
             MagicalRecord.save(blockAndWait: { (localContext) in
                 let discount = self.info as? Discount
-                returnValue = discount?.mr_(in: localContext)?.id ?? -1
+                returnValue = discount?.mr_(in: localContext)?.id as? Int ?? -1
             })
             return returnValue
         }
@@ -71,12 +71,6 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override func shareURL() {
         MBProgressHUD.show(self.view)
         
-        var htmlString: String?
-        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
-            if let localDiscount = self.discount?.mr_(in: localContext) {
-                htmlString = localDiscount.content
-            }
-        })
         var items = [Any]()
         if let item = self.headerImage {
             items.append(item)
@@ -131,11 +125,11 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         let commentsViewController = CommentsViewController.instantiate()
         commentsViewController.infoID = self.infoID
         commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
-            DataManager.shared.requestCommentsForDiscount(self.infoID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in
+            DataManager.shared.requestCommentsForDiscount(self.infoID, Cons.Svr.commentRequestSize, relativeID, { (data: Any?, error: NSError?) in
                 completion(data)
             })
         }
-        commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
+        commentsViewController.commentCreator = { (id: Int, commentId: Int?, comment: String, completion: @escaping CompletionClosure) -> () in
             DataManager.shared.createCommentForDiscount(id, commentId, comment, completion)
         }
         commentsViewController.commentDeletor = { (commentID: Int, completion: @escaping CompletionClosure) -> () in

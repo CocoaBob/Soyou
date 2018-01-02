@@ -88,10 +88,10 @@ class FavoriteDiscount: Discount {
     
     class func updateWithData(_ data: [NSDictionary], _ completion: CompletionClosure?) {
         // Create a dictionary of all favorite discounts
-        var favoriteIDs = [NSNumber]()
-        var favoriteDates = [NSNumber: Date]()
+        var favoriteIDs = [Int]()
+        var favoriteDates = [Int: Date]()
         for dict in data {
-            if let discountID = dict["id"] as? NSNumber, let dateModification = dict["dateModification"] as? String {
+            if let discountID = dict["id"] as? Int, let dateModification = dict["dateModification"] as? String {
                 favoriteIDs.append(discountID)
                 favoriteDates[discountID] = Cons.utcDateFormatter.date(from: dateModification)
             }
@@ -101,7 +101,7 @@ class FavoriteDiscount: Discount {
             // Filter all existing ones, delete remotely deleted ones.
             if let allFavoritesDiscounts = FavoriteDiscount.mr_findAll(in: localContext) as? [FavoriteDiscount] {
                 for favoriteDiscount in allFavoritesDiscounts {
-                    if let discountID = favoriteDiscount.id, let index = favoriteIDs.index(of: discountID) {
+                    if let discountID = favoriteDiscount.id as? Int, let index = favoriteIDs.index(of: discountID) {
                         favoriteIDs.remove(at: index)
                     } else {
                         favoriteDiscount.mr_deleteEntity(in: localContext)
@@ -118,7 +118,7 @@ class FavoriteDiscount: Discount {
                                 // Update favorite dates
                                 if let allFavoritesDiscounts = FavoriteDiscount.mr_findAll(in: localContext) as? [FavoriteDiscount] {
                                     for favoriteDiscount in allFavoritesDiscounts {
-                                        if let discountID = favoriteDiscount.id {
+                                        if let discountID = favoriteDiscount.id as? Int {
                                             favoriteDiscount.dateFavorite = favoriteDates[discountID]
                                         }
                                     }

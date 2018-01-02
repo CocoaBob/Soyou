@@ -37,7 +37,7 @@ class NewsViewController: InfoListBaseViewController {
     }
     
     // MARK: Data
-    override func loadData(_ relativeID: NSNumber?) {
+    override func loadData(_ relativeID: Int?) {
         self.beginRefreshing()
         DataManager.shared.requestNewsList(relativeID) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
@@ -51,7 +51,7 @@ class NewsViewController: InfoListBaseViewController {
     
     override func loadNextData() {
         let lastNews = self.fetchedResultsController?.fetchedObjects?.last as? News
-        self.loadData(lastNews?.id)
+        self.loadData(lastNews?.id as? Int)
     }
     
     override func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {

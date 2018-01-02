@@ -53,7 +53,7 @@ class DiscountsViewController: InfoListBaseViewController {
     }
     
     // MARK: Data
-    override func loadData(_ relativeID: NSNumber?) {
+    override func loadData(_ relativeID: Int?) {
         self.beginRefreshing()
         DataManager.shared.requestDiscountsList(relativeID) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
@@ -67,7 +67,7 @@ class DiscountsViewController: InfoListBaseViewController {
     
     override func loadNextData() {
         let lastDiscount = self.fetchedResultsController?.fetchedObjects?.last as? Discount
-        self.loadData(lastDiscount?.id)
+        self.loadData(lastDiscount?.id as? Int)
     }
     
     override func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {

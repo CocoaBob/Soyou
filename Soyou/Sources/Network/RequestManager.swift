@@ -95,7 +95,7 @@ class RequestManager {
     //////////////////////////////////////
     
     // Add (remove) news to (from) favorite
-    func favoriteNews(_ id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func favoriteNews(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -108,7 +108,7 @@ class RequestManager {
     //////////////////////////////////////
     
     // Add (remove) discount to (from) favorite
-    func favoriteDiscount(_ id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func favoriteDiscount(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/discounts/\(id)", "FavoriteDiscounts", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -120,11 +120,11 @@ class RequestManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func favoriteProduct(_ id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func favoriteProduct(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", ["operation": operation], onSuccess, onFailure)
     }
     
-    func requestProductFavoritesByCategory(_ categoryId: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestProductFavoritesByCategory(_ categoryId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/category-products/\(categoryId)", "FavoriteProductsByCategory", onSuccess, onFailure)
     }
     
@@ -132,37 +132,36 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products", "FavoriteProducts", onSuccess, onFailure)
     }
     
-    
     //////////////////////////////////////
     // MARK: News
     //////////////////////////////////////
     
-    func likeNews(_ id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeNews(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/like", "News", ["operation": operation], onSuccess, onFailure)
     }
     
-    func requestNewsList(_ count: Int, _ relativeNewsID: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestNewsList(_ count: Int, _ relativeNewsID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         let path = (relativeNewsID != nil) ? "/api/\(Cons.Svr.apiVersion)/news/previous/\(count)/\(relativeNewsID!)" : "/api/\(Cons.Svr.apiVersion)/news/latest/\(count)"
         getAsync(path, "News", onSuccess, onFailure)
     }
     
-    func requestNewsByID(_ id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestNewsByID(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)", "News", onSuccess, onFailure)
     }
     
-    func requestNews(_ ids: [NSNumber], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestNews(_ ids: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/news", "News", ["ids": ids], onSuccess, onFailure)
     }
     
-    func requestNewsInfo(_ id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestNewsInfo(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/extra", "News", onSuccess, onFailure)
     }
     
-    func createCommentForNews(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/news/\(id)/comments/\(commentId)", "News", ["comment": comment], onSuccess, onFailure)
+    func createCommentForNews(_ id: Int, _ commentId: Int?, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/news/\(id)/comments/\(commentId ?? 0)", "News", ["comment": comment], onSuccess, onFailure)
     }
     
-    func requestCommentsForNews(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestCommentsForNews(_ id: Int, _ count: Int, _ relativeID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/comments/\(count)/\(relativeID ?? 0)", "News", onSuccess, onFailure)
     }
     
@@ -175,32 +174,32 @@ class RequestManager {
     // MARK: Discounts
     //////////////////////////////////////
     
-    func likeDiscount(_ id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeDiscount(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/discounts/\(id)/like", "Discounts", ["operation": operation], onSuccess, onFailure)
     }
     
-    func requestDiscountsList(_ count: Int, _ relativeID: NSNumber?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestDiscountsList(_ count: Int, _ relativeID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         let path = (relativeID != nil) ? "/api/\(Cons.Svr.apiVersion)/discounts/previous/\(count)/\(relativeID!)" : "/api/\(Cons.Svr.apiVersion)/discounts/latest/\(count)"
         getAsync(path, "Discounts", onSuccess, onFailure)
     }
     
-    func requestDiscountByID(_ id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestDiscountByID(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)", "Discounts", onSuccess, onFailure)
     }
     
-    func requestDiscounts(_ ids: [NSNumber], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestDiscounts(_ ids: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/discounts", "Discounts", ["ids": ids], onSuccess, onFailure)
     }
     
-    func requestDiscountInfo(_ id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestDiscountInfo(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/extra", "Discounts", onSuccess, onFailure)
     }
     
-    func createCommentForDiscount(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/discounts/\(id)/comments/\(commentId)", "Discounts", ["comment": comment], onSuccess, onFailure)
+    func createCommentForDiscount(_ id: Int, _ commentId: Int?, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/discounts/\(id)/comments/\(commentId ?? 0)", "Discounts", ["comment": comment], onSuccess, onFailure)
     }
     
-    func requestCommentsForDiscount(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestCommentsForDiscount(_ id: Int, _ count: Int, _ relativeID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/discounts/\(id)/comments/\(count)/\(relativeID ?? 0)", "Discounts", onSuccess, onFailure)
     }
     
@@ -225,19 +224,19 @@ class RequestManager {
     // MARK: Products
     //////////////////////////////////////
     
-    func translateProduct(_ id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func translateProduct(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/translation", "Products", onSuccess, onFailure)
     }
     
-    func likeProduct(_ id: NSNumber, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeProduct(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/like", "Products", ["operation": operation], onSuccess, onFailure)
     }
     
-    func requestProducts(_ ids: [NSNumber], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestProducts(_ ids: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", ["ids": ids], onSuccess, onFailure)
     }
     
-    func requestProduct(_ id: NSNumber, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestProduct(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)", "Products", onSuccess, onFailure)
     }
     
@@ -253,11 +252,11 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/extra", "Products", onSuccess, onFailure)
     }
     
-    func createCommentForProduct(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/products/\(id)/comments/\(commentId)", "Products", ["comment": comment], onSuccess, onFailure)
+    func createCommentForProduct(_ id: Int, _ commentId: Int?, _ comment: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/products/\(id)/comments/\(commentId ?? 0)", "Products", ["comment": comment], onSuccess, onFailure)
     }
     
-    func requestCommentsForProduct(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func requestCommentsForProduct(_ id: Int, _ count: Int, _ relativeID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/comments/\(count)/\(relativeID ?? 0)", "Products", onSuccess, onFailure)
     }
     
@@ -286,7 +285,7 @@ class RequestManager {
     // MARK: Search Products
     //////////////////////////////////////
     
-    func searchProducts(_ query: String?, _ brandId: NSNumber?, _ categories: [NSNumber]?, _ page: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func searchProducts(_ query: String?, _ brandId: Int?, _ categories: [Int]?, _ page: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         var params = [String: Any]()
         params["page"] = page
         params["size"] = Cons.App.productsPageSize
@@ -325,6 +324,49 @@ class RequestManager {
     }
     
     //////////////////////////////////////
+    // MARK: Circles
+    //////////////////////////////////////
+    
+    func requestPreviousCicles(_ timestamp: String, _ userID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/circle/\(userID ?? 0)/previous/\(timestamp)", "Circle", onSuccess, onFailure)
+    }
+    
+    func requestNextCicles(_ timestamp: String, _ userID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/circle/\(userID ?? 0)/next/\(timestamp)", "Circle", onSuccess, onFailure)
+    }
+    
+    func createCicle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        if text == nil && imgs == nil {
+            return
+        }
+        var params = [String: Any]()
+        params["visibility"] = visibility
+        if let text = text {
+            params["text"] = text
+        }
+        if let imgs = imgs {
+            params["imgs"] = imgs
+        }
+        postAsync("/api/\(Cons.Svr.apiVersion)/circle", "Circle", params, onSuccess, onFailure)
+    }
+    
+    func deleteCircle(_ id: Int,  _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)", "Circle", onSuccess, onFailure)
+    }
+    
+    func createCommentForCircle(_ id: Int, _ comment: String, _ parentUserId: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)/comments/\(parentUserId ?? 0)", "Circle", ["comment": comment], onSuccess, onFailure)
+    }
+    
+    func deleteCommentForCircle(_ id: Int, _ commentId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)/comments/\(commentId)", "Circle", onSuccess, onFailure)
+    }
+    
+    func likeCircle(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)/like", "Circle", ["operation": operation], onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
     // MARK: User Info
     //////////////////////////////////////
     
@@ -353,7 +395,7 @@ class RequestManager {
     // MARK: Analytics
     //////////////////////////////////////
     
-    func sendAnalyticsData(_ target: NSNumber, _ action: NSNumber, _ data: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func sendAnalyticsData(_ target: Int, _ action: Int, _ data: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         let operatedAt = Cons.utcDateFormatter.string(from: Date())
         let params = ["target": target, "action": action, "data": data, "operatedAt": operatedAt, "uuid": UserManager.shared.uuid, "device": "iOS"] as [String : Any]
         postAsync("/api/\(Cons.Svr.apiVersion)/analytics", "Analytics", params, onSuccess, onFailure)

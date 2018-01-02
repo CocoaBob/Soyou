@@ -8,9 +8,9 @@
 
 // MARK: CategoryItem
 private class CategoryItem {
-    var id: NSNumber = 0.0
+    var id: Int = 0
     var label: String = ""
-    var order: NSNumber = 0
+    var order: Int = 0
     var level: Int = 0
     var parent: CategoryItem?
     var children: [CategoryItem] = [CategoryItem]()
@@ -24,11 +24,11 @@ extension CategoryItem: Equatable, Comparable {
 }
 
 private func == (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
-    return (lhs.id.intValue == rhs.id.intValue)
+    return (lhs.id == rhs.id)
 }
 
 private func < (lhs: CategoryItem, rhs: CategoryItem) -> Bool {
-    if (lhs.order.intValue < rhs.order.intValue) {
+    if (lhs.order < rhs.order) {
         return true
     } else {
         return (lhs.label.compare(rhs.label, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: Locale(identifier: "zh_CN")) == .orderedAscending)
@@ -61,7 +61,7 @@ class BrandViewController: UIViewController {
     fileprivate var _categoryItems = [CategoryItem]()
     fileprivate var _tableViewItems = [BrandTableViewItem]()
     
-    var brandID: NSNumber?
+    var brandID: Int?
     var brandName: String?
     var brandCategories: [NSDictionary]?
     var brandImageURL: URL? {
@@ -175,7 +175,7 @@ class BrandViewController: UIViewController {
 // MARK: Data
 extension BrandViewController {
     
-    fileprivate func findCategoryItemWithID(_ items: [CategoryItem], searchingID: NSNumber) -> CategoryItem? {
+    fileprivate func findCategoryItemWithID(_ items: [CategoryItem], searchingID: Int) -> CategoryItem? {
         for item in items {
             if item.id == searchingID {
                 return item
@@ -202,9 +202,9 @@ extension BrandViewController {
         // Add sections
         for dict in categories {
             if let parentID = dict["parentId"], parentID is NSNull,
-                let id = dict["id"] as? NSNumber,
+                let id = dict["id"] as? Int,
                 let label = dict["label"] as? String,
-                let order = dict["order"] as? NSNumber {
+                let order = dict["order"] as? Int {
                     let item = CategoryItem()
                     item.id = id
                     item.label = label
@@ -217,11 +217,11 @@ extension BrandViewController {
         // Add children
         while !categories.isEmpty {
             for dict in categories {
-                if let parentID = dict["parentId"] as? NSNumber,
+                if let parentID = dict["parentId"] as? Int,
                     let parentItem = findCategoryItemWithID(_categoryItems, searchingID: parentID),
-                    let id = dict["id"] as? NSNumber,
+                    let id = dict["id"] as? Int,
                     let label = dict["label"] as? String,
-                    let order = dict["order"] as? NSNumber {
+                    let order = dict["order"] as? Int {
                         let item = CategoryItem()
                         item.id = id
                         item.label = label
@@ -453,7 +453,7 @@ extension BrandViewController {
     fileprivate func presentProductsViewController(_ item: CategoryItem) {
         let productsViewController = ProductsViewController.instantiate()
         productsViewController.categoryName = item.label
-        productsViewController.categoryID = item.id
+        productsViewController.categoryID = item.id as? Int
         productsViewController.brandID = self.brandID
         self.navigationController?.pushViewController(productsViewController, animated: true)
     }

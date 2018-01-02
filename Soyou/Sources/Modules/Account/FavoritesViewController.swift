@@ -19,7 +19,7 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var _emptyView: UIView!
     @IBOutlet var _emptyViewLabel: UILabel!
     
-    var loadedProducts = [NSNumber: Product]()
+    var loadedProducts = [Int: Product]()
     
     var isEmptyViewVisible: Bool = true {
         didSet {
@@ -174,7 +174,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             if let favoriteProduct = self.fetchedResultsController?.object(at: indexPath) as? FavoriteProduct {
                 MagicalRecord.save(blockAndWait: { (localContext) -> Void in
                     if let localFavoriteProduct = favoriteProduct.mr_(in: localContext),
-                        let productID = localFavoriteProduct.id {
+                        let productID = localFavoriteProduct.id as? Int {
                         if let product = self.loadedProducts[productID] {
                             // Title
                             _cell.lblTitle?.text = product.title
@@ -255,7 +255,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 let diskContext = NSManagedObjectContext.mr_default()
                 diskContext.performAndWait({
                     if let localFavoriteProduct = favoriteProduct.mr_(in: diskContext),
-                        let productID = localFavoriteProduct.id {
+                        let productID = localFavoriteProduct.id as? Int {
                         let completion =  { (product: Product) -> () in
                             let viewController = ProductViewController.instantiate()
                             viewController.product = product
@@ -293,7 +293,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         return
                     }
                     MBProgressHUD.show(self.view)
-                    DataManager.shared.favoriteNews(favoriteNews.id!, wasFavorite: true) { responseObject, error in
+                    DataManager.shared.favoriteNews(favoriteNews.id! as! Int, wasFavorite: true) { responseObject, error in
                         // If any error
                         if error != nil {
                             return
@@ -311,7 +311,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                         return
                     }
                     MBProgressHUD.show(self.view)
-                    DataManager.shared.favoriteDiscount(favoriteDiscount.id!, wasFavorite: true) { responseObject, error in
+                    DataManager.shared.favoriteDiscount(favoriteDiscount.id! as! Int, wasFavorite: true) { responseObject, error in
                         // If any error
                         if error != nil {
                             return
@@ -331,7 +331,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     MBProgressHUD.show(self.view)
                     MagicalRecord.save(blockAndWait: { (localContext) -> Void in
                         if let localFavoriteProduct = favoriteProduct.mr_(in: localContext),
-                            let productID = localFavoriteProduct.id {
+                            let productID = localFavoriteProduct.id as? Int {
                             let completion =  { (product: Product) -> () in
                                 product.toggleFavorite({ (data: Any?) -> () in
                                     DispatchQueue.main.async {
@@ -410,7 +410,7 @@ extension FavoritesViewController: UIGestureRecognizerDelegate {
 // MARK: - Load Product
 extension FavoritesViewController {
     
-    func loadProduct(_ id: NSNumber, _ completion: @escaping (_ product: Product) -> ()) {
+    func loadProduct(_ id: Int, _ completion: @escaping (_ product: Product) -> ()) {
         DataManager.shared.loadProducts([id], { (responseObject, error) in
             if let products = responseObject as? [Product],
                 let product = products.first {

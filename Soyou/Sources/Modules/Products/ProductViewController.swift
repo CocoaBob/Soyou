@@ -612,15 +612,15 @@ extension ProductViewController {
     @objc func comment(_ sender: AnyObject) {
         self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             let localProduct = self.product?.mr_(in: localContext)
-            guard let productID = localProduct?.id else { return }
+            guard let productID = localProduct?.id as? Int else { return }
             let commentsViewController = CommentsViewController.instantiate()
             commentsViewController.infoID = productID
             commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
-                DataManager.shared.requestCommentsForProduct(productID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in
+                DataManager.shared.requestCommentsForProduct(productID, Cons.Svr.commentRequestSize, relativeID, { (data: Any?, error: NSError?) in
                     completion(data)
                 })
             }
-            commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
+            commentsViewController.commentCreator = { (id: Int, commentId: Int?, comment: String, completion: @escaping CompletionClosure) -> () in
                 DataManager.shared.createCommentForProduct(id, commentId, comment, completion)
             }
             commentsViewController.commentDeletor = { (commentID: Int, completion: @escaping CompletionClosure) -> () in

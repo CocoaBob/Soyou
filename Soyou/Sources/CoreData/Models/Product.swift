@@ -134,7 +134,8 @@ class Product: NSManagedObject {
                     guard let diskProduct = Product.mr_findFirst(byAttribute: "id", withValue: productID, in: diskContext) else { return }
                     let appWasLiked = diskProduct.appIsLiked != nil && diskProduct.appIsLiked!.boolValue
                     // Update only when response is received
-                    DataManager.shared.likeProduct(diskProduct.id!, wasLiked: appWasLiked) { responseObject, error in
+                    guard let diskProductID = diskProduct.id as? Int else { return }
+                    DataManager.shared.likeProduct(diskProductID, wasLiked: appWasLiked) { responseObject, error in
                         guard let responseObject = responseObject as? [String: AnyObject] else { return }
                         guard let likeNumber = responseObject["data"] as? NSNumber else { return }
                         let isLiked = NSNumber(value: !appWasLiked)
@@ -158,7 +159,7 @@ class Product: NSManagedObject {
         self.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
             selfProductID = self.mr_(in: localContext)?.id
         })
-        guard let productID = selfProductID else { return }
+        guard let productID = selfProductID as? Int else { return }
         
         // Find the favorite product
         var favoriteProduct: FavoriteProduct?
@@ -183,7 +184,7 @@ class Product: NSManagedObject {
                 } else {
                     if localFavoriteProduct == nil {
                         localFavoriteProduct = FavoriteProduct.mr_createEntity(in: localContext)
-                        localFavoriteProduct?.id = productID
+                        localFavoriteProduct?.id = productID as NSNumber
                     }
                     localFavoriteProduct?.dateFavorite = Date()
                 }

@@ -53,16 +53,13 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
     func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {
         return nil
     }
-}
-
-// MARK: Data
-extension InfoListBaseViewController {
     
-    @objc func loadData(_ relativeID: NSNumber?) {
+    // MARK: Data
+    func loadData(_ relativeID: Int?) {
         
     }
     
-    @objc func loadNextData() {
+    func loadNextData() {
         
     }
 }

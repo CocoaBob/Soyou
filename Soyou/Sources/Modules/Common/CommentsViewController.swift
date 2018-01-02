@@ -82,7 +82,7 @@ struct Comment {
 
 class CommentsViewController: UIViewController {
     
-    var infoID: NSNumber!
+    var infoID: Int!
     var commentIDs = [Int]()
     var commentsByID = [Int: Comment]()
     @IBOutlet var tableView: UITableView!
@@ -91,7 +91,7 @@ class CommentsViewController: UIViewController {
     var dataProvider: ((_ relativeID: Int?, _ completion: @escaping DataClosure) -> ())?
     var isCallingDataProvider = false
     
-    var commentCreator: ((_ id: NSNumber, _ commentId: NSNumber, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
+    var commentCreator: ((_ id: Int, _ commentId: Int?, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
     var commentDeletor: ((_ commentID: Int, _ completion: @escaping CompletionClosure) -> ())?
     
     // Class methods

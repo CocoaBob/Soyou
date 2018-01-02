@@ -18,7 +18,7 @@ class StoreMapViewController: UIViewController {
     fileprivate var calloutView: SMCalloutView!
     
     var isFullMap: Bool = false
-    var brandID: NSNumber?
+    var brandID: Int?
     var brandName: String?
     
     var searchController: UISearchController?
@@ -129,12 +129,12 @@ extension StoreMapViewController: MKMapViewDelegate {
     
     func addStoreAnnotations() {
         DispatchQueue.global(qos: .background).async {
-            guard let brandID = self.brandID else { return }
+            guard let brandID = self.brandID as NSNumber? else { return }
             if let stores = Store.mr_findAll(with: FmtPredicate("brandId == %@", brandID)) as? [Store] {
                 var annotations = [StoreMapAnnotation]()
                 for store in stores {
                     let annotation = StoreMapAnnotation()
-                    annotation.storeID = store.id
+                    annotation.storeID = store.id as? Int
                     annotation.coordinate = CLLocationCoordinate2DMake(store.latitude!.doubleValue, store.longitude!.doubleValue)
                     annotation.title = store.title
                     let addressString = store.address != nil ? (store.address! + "\n") : ""
@@ -406,7 +406,7 @@ extension StoreMapViewController: StoreMapSearchResultsViewControllerDelegate {
 // MARK: Custom Annotation
 class StoreMapAnnotation: MKPointAnnotation {
     
-    var storeID: NSNumber?
+    var storeID: Int?
 }
 
 

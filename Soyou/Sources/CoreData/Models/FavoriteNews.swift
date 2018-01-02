@@ -25,7 +25,7 @@ class FavoriteNews: News {
             news = FavoriteNews.mr_findFirst(with: FmtPredicate("id == %@", id), in: context)
             if news == nil {
                 news = FavoriteNews.mr_createEntity(in: context)
-                news?.id = id
+                news?.id = id as NSNumber
             }
             
             if let news = news {
@@ -90,10 +90,10 @@ class FavoriteNews: News {
     
     class func updateWithData(_ data: [NSDictionary], _ completion: CompletionClosure?) {
         // Create a dictionary of all favorite news
-        var favoriteIDs = [NSNumber]()
-        var favoriteDates = [NSNumber: Date]()
+        var favoriteIDs = [Int]()
+        var favoriteDates = [Int: Date]()
         for dict in data {
-            if let newsID = dict["id"] as? NSNumber, let dateModification = dict["dateModification"] as? String {
+            if let newsID = dict["id"] as? Int, let dateModification = dict["dateModification"] as? String {
                 favoriteIDs.append(newsID)
                 favoriteDates[newsID] = Cons.utcDateFormatter.date(from: dateModification)
             }
@@ -103,7 +103,7 @@ class FavoriteNews: News {
             // Filter all existing ones, delete remotely deleted ones.
             if let allFavoritesNews = FavoriteNews.mr_findAll(in: localContext) as? [FavoriteNews] {
                 for favoriteNews in allFavoritesNews {
-                    if let newsID = favoriteNews.id, let index = favoriteIDs.index(of: newsID) {
+                    if let newsID = favoriteNews.id as? Int, let index = favoriteIDs.index(of: newsID) {
                         favoriteIDs.remove(at: index)
                     } else {
                         favoriteNews.mr_deleteEntity(in: localContext)
@@ -120,7 +120,7 @@ class FavoriteNews: News {
                                 // Update favorite dates
                                 if let allFavoritesNews = FavoriteNews.mr_findAll(in: localContext) as? [FavoriteNews] {
                                     for favoriteNews in allFavoritesNews {
-                                        if let newsID = favoriteNews.id {
+                                        if let newsID = favoriteNews.id as? Int {
                                             favoriteNews.dateFavorite = favoriteDates[newsID]
                                         }
                                     }

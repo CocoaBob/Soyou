@@ -26,7 +26,7 @@ class ProductDescriptionsViewController: UIViewController {
                 self.brand = localProduct.brandLabel
                 self.reference = localProduct.reference
                 self.dimension = localProduct.dimension
-                self.id = localProduct.id
+                self.id = localProduct.id as? Int
             })
             
             // Load Content
@@ -37,7 +37,7 @@ class ProductDescriptionsViewController: UIViewController {
     var surname: String?
     var brand: String?
     var reference: String?
-    var id: NSNumber?
+    var id: Int?
     var descriptionZH: String?
     var isDisplayingTranslatedText = false
     var dimension: String?

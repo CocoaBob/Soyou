@@ -246,7 +246,7 @@ class DataManager {
     // MARK: Favorites Discounts
     //////////////////////////////////////
     
-    func favoriteDiscount(_ id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+    func favoriteDiscount(_ id: Int, wasFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteDiscount(id, operation: wasFavorite ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -275,7 +275,7 @@ class DataManager {
     // MARK: Favorites News
     //////////////////////////////////////
     
-    func favoriteNews(_ id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+    func favoriteNews(_ id: Int, wasFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteNews(id, operation: wasFavorite ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -318,7 +318,7 @@ class DataManager {
         RequestManager.shared.requestProductFavorites(responseHandlerClosure, errorHandlerClosure)
     }
     
-    func favoriteProduct(_ id: NSNumber, wasFavorite: Bool, _ completion: CompletionClosure?) {
+    func favoriteProduct(_ id: Int, wasFavorite: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.favoriteProduct(id, operation: wasFavorite ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -330,7 +330,7 @@ class DataManager {
     // MARK: News
     //////////////////////////////////////
     
-    func likeNews(_ id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
+    func likeNews(_ id: Int, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeNews(id, operation: wasLiked ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -338,7 +338,7 @@ class DataManager {
         })
     }
     
-    func requestNewsList(_ relativeID: NSNumber?, _ completion: CompletionClosure?) {
+    func requestNewsList(_ relativeID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsList(Cons.Svr.infoRequestSize, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 News.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
@@ -369,7 +369,7 @@ class DataManager {
         })
     }
     
-    func requestNewsByID(_ id: NSNumber, _ completion: CompletionClosure?) {
+    func requestNewsByID(_ id: Int, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsByID(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -377,7 +377,7 @@ class DataManager {
         })
     }
     
-    func requestNews(_ ids: [NSNumber], _ completion: CompletionClosure?) {
+    func requestNews(_ ids: [Int], _ completion: CompletionClosure?) {
         RequestManager.shared.requestNews(ids, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -385,7 +385,7 @@ class DataManager {
         })
     }
     
-    func requestNewsInfo(_ id: NSNumber, _ completion: CompletionClosure?) {
+    func requestNewsInfo(_ id: Int, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNewsInfo(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -393,7 +393,7 @@ class DataManager {
         })
     }
     
-    func createCommentForNews(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
+    func createCommentForNews(_ id: Int, _ commentId: Int?, _ comment: String, _ completion: CompletionClosure?) {
         RequestManager.shared.createCommentForNews(id, commentId, comment, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -401,7 +401,7 @@ class DataManager {
         })
     }
     
-    func requestCommentsForNews(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
+    func requestCommentsForNews(_ id: Int, _ count: Int, _ relativeID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestCommentsForNews(id, count, relativeID, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -421,7 +421,7 @@ class DataManager {
     // MARK: Discounts
     //////////////////////////////////////
     
-    func likeDiscount(_ id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
+    func likeDiscount(_ id: Int, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeDiscount(id, operation: wasLiked ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -429,7 +429,7 @@ class DataManager {
         })
     }
     
-    func requestDiscountsList(_ relativeID: NSNumber?, _ completion: CompletionClosure?) {
+    func requestDiscountsList(_ relativeID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountsList(Cons.Svr.infoRequestSize, relativeID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 Discount.importDatas(data, (relativeID != nil) ? false : true, false, { (_, _) -> () in
@@ -461,7 +461,7 @@ class DataManager {
         })
     }
     
-    func requestDiscountByID(_ id: NSNumber, _ completion: CompletionClosure?) {
+    func requestDiscountByID(_ id: Int, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountByID(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -469,7 +469,7 @@ class DataManager {
         })
     }
     
-    func requestDiscounts(_ ids: [NSNumber], _ completion: CompletionClosure?) {
+    func requestDiscounts(_ ids: [Int], _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscounts(ids, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -477,7 +477,7 @@ class DataManager {
         })
     }
     
-    func requestDiscountInfo(_ id: NSNumber, _ completion: CompletionClosure?) {
+    func requestDiscountInfo(_ id: Int, _ completion: CompletionClosure?) {
         RequestManager.shared.requestDiscountInfo(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -485,7 +485,7 @@ class DataManager {
         })
     }
     
-    func createCommentForDiscount(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
+    func createCommentForDiscount(_ id: Int, _ commentId: Int?, _ comment: String, _ completion: CompletionClosure?) {
         RequestManager.shared.createCommentForDiscount(id, commentId, comment, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -493,7 +493,7 @@ class DataManager {
         })
     }
     
-    func requestCommentsForDiscount(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
+    func requestCommentsForDiscount(_ id: Int, _ count: Int, _ relativeID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestCommentsForDiscount(id, count, relativeID, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -534,7 +534,7 @@ class DataManager {
     // MARK: Products
     //////////////////////////////////////
     
-    func translateProduct(_ id: NSNumber, _ completion: CompletionClosure?) {
+    func translateProduct(_ id: Int, _ completion: CompletionClosure?) {
         RequestManager.shared.translateProduct(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -542,7 +542,7 @@ class DataManager {
         })
     }
     
-    func likeProduct(_ id: NSNumber, wasLiked: Bool, _ completion: CompletionClosure?) {
+    func likeProduct(_ id: Int, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeProduct(id, operation: wasLiked ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -550,7 +550,7 @@ class DataManager {
         })
     }
     
-    func loadProducts(_ productIDs: [NSNumber], _ completion: CompletionClosure?) {
+    func loadProducts(_ productIDs: [Int], _ completion: CompletionClosure?) {
         RequestManager.shared.requestProducts(productIDs, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
                 let products = Product.productsWithData(data)
@@ -563,7 +563,7 @@ class DataManager {
         })
     }
     
-    func createCommentForProduct(_ id: NSNumber, _ commentId: NSNumber = 0, _ comment: String, _ completion: CompletionClosure?) {
+    func createCommentForProduct(_ id: Int, _ commentId: Int?, _ comment: String, _ completion: CompletionClosure?) {
         RequestManager.shared.createCommentForProduct(id, commentId, comment, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -571,7 +571,7 @@ class DataManager {
         })
     }
     
-    func requestCommentsForProduct(_ id: NSNumber, _ count: Int, _ relativeID: NSNumber? = 0, _ completion: CompletionClosure?) {
+    func requestCommentsForProduct(_ id: Int, _ count: Int, _ relativeID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestCommentsForProduct(id, count, relativeID, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -591,7 +591,7 @@ class DataManager {
     // MARK: Search Products
     //////////////////////////////////////
     
-    func searchProducts(_ query: String?, _ brandId: NSNumber?, _ category: NSNumber?, _ page: Int?, _ completion: CompletionClosure?) {
+    func searchProducts(_ query: String?, _ brandId: Int?, _ category: Int?, _ page: Int?, _ completion: CompletionClosure?) {
         if query == nil && brandId == nil && category == nil && page == 0 {
             completion?(nil, nil)
         } else {
@@ -638,7 +638,7 @@ class DataManager {
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary,
                 let stores = data["stores"] as? [NSDictionary] {
                 // Import data
-                DLog(FmtString("NSNumber of modified stores = %d",stores.count))
+                DLog(FmtString("Int of modified stores = %d",stores.count))
                 Store.importDatas(stores, { (_, _) -> () in
                     // Succeeded to import, save timestamp for next request
                     let timestamp = data["timestamp"] as? String
@@ -648,6 +648,66 @@ class DataManager {
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
             }
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    //////////////////////////////////////
+    // MARK: Circles
+    //////////////////////////////////////
+    
+    func requestPreviousCicles(_ timestamp: String, _ userID: Int?, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestPreviousCicles(timestamp, userID, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func requestNextCicles(_ timestamp: String, _ userID: Int?, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestNextCicles(timestamp, userID, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func createCicle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.createCicle(text, imgs, visibility, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func deleteCircle(_ id: Int,  _ completion: CompletionClosure?) {
+        RequestManager.shared.deleteCircle(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func createCommentForCircle(_ id: Int, _ comment: String, _ parentUserId: Int?, _ completion: CompletionClosure?) {
+        RequestManager.shared.createCommentForCircle(id, comment, parentUserId, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func deleteCommentForCircle(_ id: Int, _ commentId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.deleteCommentForCircle(id, commentId, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func likeCircle(_ id: Int, wasLiked: Bool, _ completion: CompletionClosure?) {
+        RequestManager.shared.likeCircle(id, operation: wasLiked ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)
         })
@@ -744,7 +804,7 @@ class DataManager {
     //////////////////////////////////////
     
     func analyticsAppBecomeActive() {
-        RequestManager.shared.sendAnalyticsData(NSNumber(value: 3), NSNumber(value: 6), "null", { responseObject in
+        RequestManager.shared.sendAnalyticsData(3, 6, "null", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)
@@ -752,7 +812,7 @@ class DataManager {
     }
     
     func analyticsViewNews(id: Int) {
-        RequestManager.shared.sendAnalyticsData(NSNumber(value: 1), NSNumber(value: 1), "{ \"type\": \"news\", \"id\": \(id)}", { responseObject in
+        RequestManager.shared.sendAnalyticsData(1, 1, "{ \"type\": \"news\", \"id\": \(id)}", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)
@@ -760,7 +820,7 @@ class DataManager {
     }
     
     func analyticsViewDiscount(id: Int) {
-        RequestManager.shared.sendAnalyticsData(NSNumber(value: 4), NSNumber(value: 1), "{ \"type\": \"discount\", \"id\": \(id)}", { responseObject in
+        RequestManager.shared.sendAnalyticsData(4, 1, "{ \"type\": \"discount\", \"id\": \(id)}", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)
@@ -768,7 +828,7 @@ class DataManager {
     }
     
     func analyticsViewProduct(sku: String) {
-        RequestManager.shared.sendAnalyticsData(NSNumber(value: 2), NSNumber(value: 1), "{ \"type\": \"product\", \"sku\": \"\(sku)\"}", { responseObject in
+        RequestManager.shared.sendAnalyticsData(2, 1, "{ \"type\": \"product\", \"sku\": \"\(sku)\"}", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)
@@ -776,7 +836,7 @@ class DataManager {
     }
     
     func analyticsShareNews(id: Int) {
-        RequestManager.shared.sendAnalyticsData(NSNumber(value: 1), NSNumber(value: 4), "{ \"type\": \"news\", \"id\": \(id)}", { responseObject in
+        RequestManager.shared.sendAnalyticsData(1, 4, "{ \"type\": \"news\", \"id\": \(id)}", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)
@@ -784,7 +844,7 @@ class DataManager {
     }
     
     func analyticsShareDiscount(id: Int) {
-        RequestManager.shared.sendAnalyticsData(NSNumber(value: 4), NSNumber(value: 4), "{ \"type\": \"discount\", \"id\": \(id)}", { responseObject in
+        RequestManager.shared.sendAnalyticsData(4, 4, "{ \"type\": \"discount\", \"id\": \(id)}", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)
@@ -792,7 +852,7 @@ class DataManager {
     }
     
     func analyticsShareProduct(sku: String) {
-        RequestManager.shared.sendAnalyticsData(NSNumber(value: 2), NSNumber(value: 4), "{ \"type\": \"product\", \"sku\": \"\(sku)\"}", { responseObject in
+        RequestManager.shared.sendAnalyticsData(2, 4, "{ \"type\": \"product\", \"sku\": \"\(sku)\"}", { responseObject in
             DLog(responseObject)
         }, { error in
             self.completeWithError(error, completion: nil)

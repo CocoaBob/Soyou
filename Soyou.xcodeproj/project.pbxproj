@@ -360,6 +360,13 @@
 			path = WeChat;
 			sourceTree = "<group>";
 		};
+		450D475C1FF9C6C600A2F3D1 /* Circles */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Circles;
+			sourceTree = "<group>";
+		};
 		4526D5981BFF5BEE00DBFA4B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				4568E2F41BF92171009A6164 /* Common */,
+				450D475C1FF9C6C600A2F3D1 /* Circles */,
 				45F5C2971D01DFA70024B5DF /* Info */,
 				45CFA5971C2B1585007D38F3 /* Products */,
 				455D06AD1C0394E200D81ABF /* User */,

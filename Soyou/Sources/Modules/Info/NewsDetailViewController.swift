@@ -35,12 +35,12 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         }
     }
     
-    override var infoID: NSNumber! {
+    override var infoID: Int! {
         get {
-            var returnValue = NSNumber(value: -1)
+            var returnValue = -1
             MagicalRecord.save(blockAndWait: { (localContext) in
                 let news = self.info as? News
-                returnValue = news?.mr_(in: localContext)?.id ?? -1
+                returnValue = news?.mr_(in: localContext)?.id as? Int ?? -1
             })
             return returnValue
         }
@@ -100,9 +100,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     override func like() {
         self.news?.toggleLike() { (likeNumber: Any?) -> () in
             // Update like number
-            if let likeNumber = likeNumber as? NSNumber {
-                self.likeBtnNumber = likeNumber.intValue
-            }
+            self.likeBtnNumber = likeNumber as? Int
             
             // Update like color
             MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
@@ -127,11 +125,11 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         let commentsViewController = CommentsViewController.instantiate()
         commentsViewController.infoID = self.infoID
         commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
-            DataManager.shared.requestCommentsForNews(self.infoID, Cons.Svr.commentRequestSize, relativeID as NSNumber?, { (data: Any?, error: NSError?) in
+            DataManager.shared.requestCommentsForNews(self.infoID, Cons.Svr.commentRequestSize, relativeID, { (data: Any?, error: NSError?) in
                 completion(data)
             })
         }
-        commentsViewController.commentCreator = { (id: NSNumber, commentId: NSNumber, comment: String, completion: @escaping CompletionClosure) -> () in
+        commentsViewController.commentCreator = { (id: Int, commentId: Int?, comment: String, completion: @escaping CompletionClosure) -> () in
             DataManager.shared.createCommentForNews(id, commentId, comment, completion)
         }
         commentsViewController.commentDeletor = { (commentID: Int, completion: @escaping CompletionClosure) -> () in

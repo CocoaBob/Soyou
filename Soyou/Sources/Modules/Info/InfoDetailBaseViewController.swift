@@ -16,7 +16,7 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
     // Info Data
     var info: AnyObject?
     var infoTitle: String!
-    var infoID: NSNumber!
+    var infoID: Int!
     
     // Properties
     var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered

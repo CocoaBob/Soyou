@@ -13,10 +13,10 @@ protocol CommentComposeViewControllerDelegate {
 
 class CommentComposeViewController: UIViewController {
     
-    var infoID: NSNumber!
+    var infoID: Int!
     var replyToComment: Comment?
     var delegate: CommentComposeViewControllerDelegate?
-    var commentCreator: ((_ id: NSNumber, _ commentId: NSNumber, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
+    var commentCreator: ((_ id: Int, _ commentId: Int?, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
     
     @IBOutlet var tvContent: UITextView!
     
@@ -88,7 +88,7 @@ extension CommentComposeViewController {
                 return
             }
             comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
-            self.commentCreator?(self.infoID, NSNumber(value: self.replyToComment?.id ?? 0), comment) { (responseObject, error) in
+            self.commentCreator?(self.infoID, self.replyToComment?.id, comment) { (responseObject, error) in
                 if error == nil {
                     self.navigationController?.popViewController(animated: true)
                     if let delegate = self.delegate {

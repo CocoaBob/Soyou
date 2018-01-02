@@ -42,8 +42,8 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
     var selectedIndexPath: IndexPath?
     
     var categoryName: String?
-    var categoryID: NSNumber?
-    var brandID: NSNumber?
+    var categoryID: Int?
+    var brandID: Int?
     
     // Class methods
     class func instantiate() -> ProductsViewController {
@@ -160,10 +160,10 @@ extension ProductsViewController {
         
         // Prepare predicates
         var predicates = [NSPredicate]()
-        if let brandId = self.brandID {
+        if let brandId = self.brandID as NSNumber? {
             predicates.append(FmtPredicate("brandId == %@", brandId))
         }
-        if let categoryID = self.categoryID {
+        if let categoryID = self.categoryID as NSNumber? {
             predicates.append(FmtPredicate("categories CONTAINS %@", FmtString("|%@|",categoryID)))
         }
         if let searchKeywords = self.searchKeywords {
