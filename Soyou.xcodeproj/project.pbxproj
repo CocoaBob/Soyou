@@ -24,6 +24,8 @@
 		45016E581C14EC25004034BC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E561C14EC25004034BC /* Product.swift */; };
 		45034D121C29954D00026027 /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D0D1C29954D00026027 /* SharingProvider.swift */; };
 		4506ED711C221797003B5018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4506ED701C221797003B5018 /* LoginViewController.swift */; };
+		450D475F1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */; };
+		450D47601FFC176700A2F3D1 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475E1FFC176700A2F3D1 /* Circle.swift */; };
 		45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45243C681C17A514005D476D /* UIViewController+Additions.swift */; };
 		4524C0AD1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524C0AB1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift */; };
 		4524C0AE1C67C5D00027046F /* FavoriteProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4524C0AC1C67C5D00027046F /* FavoriteProduct.swift */; };
@@ -175,6 +177,8 @@
 		45034D101C29954D00026027 /* WeChatMomentsActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatMomentsActivity.swift; sourceTree = "<group>"; };
 		45034D111C29954D00026027 /* WeChatSessionActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatSessionActivity.swift; sourceTree = "<group>"; };
 		4506ED701C221797003B5018 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Circle+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		450D475E1FFC176700A2F3D1 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		45243C681C17A514005D476D /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		4524C0AB1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteProduct+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4524C0AC1C67C5D00027046F /* FavoriteProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteProduct.swift; sourceTree = "<group>"; };
@@ -518,6 +522,8 @@
 				454499251C6601350075DE82 /* AppData.swift */,
 				45D418AA1C1B935200685DFC /* Brand+CoreDataProperties.swift */,
 				45D418AB1C1B935200685DFC /* Brand.swift */,
+				450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */,
+				450D475E1FFC176700A2F3D1 /* Circle.swift */,
 				0D05D65C1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift */,
 				0D05D65A1C4EE91400D8A7C2 /* CurrencyRate.swift */,
 				4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */,
@@ -1175,9 +1181,11 @@
 				457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */,
 				454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */,
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,
+				450D47601FFC176700A2F3D1 /* Circle.swift in Sources */,
 				4597B23B1D30FACE00287873 /* DDSocialShareHandler.m in Sources */,
 				4525C0F71C5B8B4200C26992 /* Store+CoreDataProperties.swift in Sources */,
 				45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */,
+				450D475F1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift in Sources */,
 				45034D121C29954D00026027 /* SharingProvider.swift in Sources */,
 				45AE9B491C47C4150081ECBA /* ProductPricesViewController.swift in Sources */,
 			);

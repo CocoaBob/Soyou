@@ -61,8 +61,8 @@ class Brand: NSManagedObject {
                 // Delete non existing items
                 Brand.mr_deleteAll(matching: FmtPredicate("NOT (id IN %@)", ids), in: localContext)
                 
-                }, completion: { (responseObject, error) -> Void in
-                    completion?(responseObject, error as NSError?)
+            }, completion: { (responseObject, error) -> Void in
+                completion?(responseObject, error as NSError?)
             })
         } else {
             completion?(nil, FmtError(0, nil))

@@ -328,11 +328,11 @@ class RequestManager {
     //////////////////////////////////////
     
     func requestPreviousCicles(_ timestamp: String, _ userID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/circle/\(userID ?? 0)/previous/\(timestamp)", "Circle", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(userID ?? 0)/previous/\(timestamp)", "Circle", onSuccess, onFailure)
     }
     
     func requestNextCicles(_ timestamp: String, _ userID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/circle/\(userID ?? 0)/next/\(timestamp)", "Circle", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(userID ?? 0)/next/\(timestamp)", "Circle", onSuccess, onFailure)
     }
     
     func createCicle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -347,23 +347,23 @@ class RequestManager {
         if let imgs = imgs {
             params["imgs"] = imgs
         }
-        postAsync("/api/\(Cons.Svr.apiVersion)/circle", "Circle", params, onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/circle", "Circle", params, onSuccess, onFailure)
     }
     
     func deleteCircle(_ id: Int,  _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        deleteAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)", "Circle", onSuccess, onFailure)
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)", "Circle", onSuccess, onFailure)
     }
     
     func createCommentForCircle(_ id: Int, _ comment: String, _ parentUserId: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)/comments/\(parentUserId ?? 0)", "Circle", ["comment": comment], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/comments/\(parentUserId ?? 0)", "Circle", ["comment": comment], onSuccess, onFailure)
     }
     
     func deleteCommentForCircle(_ id: Int, _ commentId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        deleteAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)/comments/\(commentId)", "Circle", onSuccess, onFailure)
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/comments/\(commentId)", "Circle", onSuccess, onFailure)
     }
     
     func likeCircle(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/circle/\(id)/like", "Circle", ["operation": operation], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/like", "Circle", ["operation": operation], onSuccess, onFailure)
     }
     
     //////////////////////////////////////

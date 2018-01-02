@@ -62,8 +62,8 @@ class Store: NSManagedObject {
                     Store.importData(data, localContext)
                 }
                 
-                }, completion: { (_, error) -> Void in
-                    completion?(nil, error as NSError?)
+            }, completion: { (_, error) -> Void in
+                completion?(nil, error as NSError?)
             })
         } else {
             completion?(nil, FmtError(0, nil))
