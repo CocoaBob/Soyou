@@ -2201,7 +2201,7 @@
   },
   {
     "type": "delete",
-    "url": "/circle/:circleId",
+    "url": "/secure/circle/:circleId",
     "title": "Remove a circle",
     "header": {
       "fields": {
@@ -2306,11 +2306,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/circle.js",
     "groupTitle": "Circle",
-    "name": "DeleteCircleCircleid"
+    "name": "DeleteSecureCircleCircleid"
   },
   {
     "type": "delete",
-    "url": "/circle/:id/comments/:commentId",
+    "url": "/secure/circle/:id/comments/:commentId",
     "title": "deletes a comment",
     "header": {
       "fields": {
@@ -2428,11 +2428,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/circle.js",
     "groupTitle": "Circle",
-    "name": "DeleteCircleIdCommentsCommentid"
+    "name": "DeleteSecureCircleIdCommentsCommentid"
   },
   {
     "type": "get",
-    "url": "/friends/:userId/circle/next/:timestamp",
+    "url": "/secure/friends/:userId/circle/next/:timestamp",
     "title": "Request 10 circle events newer than timestamp of the specified user",
     "header": {
       "fields": {
@@ -2538,11 +2538,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/circle.js",
     "groupTitle": "Circle",
-    "name": "GetFriendsUseridCircleNextTimestamp"
+    "name": "GetSecureFriendsUseridCircleNextTimestamp"
   },
   {
     "type": "get",
-    "url": "/friends/:userId/circle/previous/:timestamp",
+    "url": "/secure/friends/:userId/circle/previous/:timestamp",
     "title": "Request 10 circle events older than timestamp of the specified user",
     "header": {
       "fields": {
@@ -2648,11 +2648,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/circle.js",
     "groupTitle": "Circle",
-    "name": "GetFriendsUseridCirclePreviousTimestamp"
+    "name": "GetSecureFriendsUseridCirclePreviousTimestamp"
   },
   {
     "type": "post",
-    "url": "/circle/",
+    "url": "/secure/circle/",
     "title": "Create a circle event",
     "header": {
       "fields": {
@@ -2703,7 +2703,7 @@
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "Visibility",
+            "field": "visibility",
             "description": "<p>The visibility of the event: 1: OnlyMe, 2: OnlyFriends, 3: All.</p>"
           },
           {
@@ -2765,11 +2765,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/circle.js",
     "groupTitle": "Circle",
-    "name": "PostCircle"
+    "name": "PostSecureCircle"
   },
   {
     "type": "post",
-    "url": "/circle/:id/comments/:parentUserId",
+    "url": "/secure/circle/:id/comments/:parentUserId",
     "title": "Create a comment against a circle",
     "header": {
       "fields": {
@@ -2894,11 +2894,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/circle.js",
     "groupTitle": "Circle",
-    "name": "PostCircleIdCommentsParentuserid"
+    "name": "PostSecureCircleIdCommentsParentuserid"
   },
   {
     "type": "post",
-    "url": "/circle/:id/like",
+    "url": "/secure/circle/:id/like",
     "title": "Like a circle",
     "header": {
       "fields": {
@@ -3016,7 +3016,7 @@
     "version": "0.0.0",
     "filename": "routes/v1/circle.js",
     "groupTitle": "Circle",
-    "name": "PostCircleIdLike"
+    "name": "PostSecureCircleIdLike"
   },
   {
     "type": "get",
@@ -6820,7 +6820,7 @@
   },
   {
     "type": "delete",
-    "url": "/api/friends/:userId",
+    "url": "/secure/api/friends/:userId",
     "title": "Remove a user from friends",
     "header": {
       "fields": {
@@ -6925,11 +6925,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/friends.js",
     "groupTitle": "Friends",
-    "name": "DeleteApiFriendsUserid"
+    "name": "DeleteSecureApiFriendsUserid"
   },
   {
     "type": "get",
-    "url": "/api/friends",
+    "url": "/secure/api/friends",
     "title": "Get all friends",
     "header": {
       "fields": {
@@ -7021,11 +7021,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/friends.js",
     "groupTitle": "Friends",
-    "name": "GetApiFriends"
+    "name": "GetSecureApiFriends"
   },
   {
     "type": "get",
-    "url": "/api/friends/requests",
+    "url": "/secure/api/friends/requests",
     "title": "Get all friend requests",
     "header": {
       "fields": {
@@ -7117,11 +7117,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/friends.js",
     "groupTitle": "Friends",
-    "name": "GetApiFriendsRequests"
+    "name": "GetSecureApiFriendsRequests"
   },
   {
     "type": "post",
-    "url": "/api/friends/reply",
+    "url": "/secure/api/friends/reply",
     "title": "Reply to a friend request",
     "header": {
       "fields": {
@@ -7233,11 +7233,11 @@
     "version": "0.0.0",
     "filename": "routes/v1/friends.js",
     "groupTitle": "Friends",
-    "name": "PostApiFriendsReply"
+    "name": "PostSecureApiFriendsReply"
   },
   {
     "type": "post",
-    "url": "/api/friends/request/:userId",
+    "url": "/secure/api/friends/request/:userId",
     "title": "Ask for adding userId to friends",
     "header": {
       "fields": {
@@ -7342,7 +7342,7 @@
     "version": "0.0.0",
     "filename": "routes/v1/friends.js",
     "groupTitle": "Friends",
-    "name": "PostApiFriendsRequestUserid"
+    "name": "PostSecureApiFriendsRequestUserid"
   },
   {
     "type": "delete",
