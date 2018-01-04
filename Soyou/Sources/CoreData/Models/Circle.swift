@@ -29,15 +29,18 @@ class Circle: NSManagedObject {
         }
         
         if let circle = circle {
+            if let value = data["createdDate"] as? String {
+                circle.createdDate = Cons.utcDateFormatter.date(from: value)
+            }
             circle.id = data["id"] as? String
             circle.text = data["text"] as? String
-            circle.images = data["images"] as? NSObject
+            circle.images = data["images"] as? NSArray
             circle.userId = data["userId"] as? NSNumber
-            circle.createdDate = data["createdDate"] as? Date
+            circle.username = data["username"] as? String
             circle.visibility = data["visibility"] as? NSNumber
             circle.userProfileUrl = data["userProfileUrl"] as? String
-            circle.comments = data["comments"] as? NSObject
-            circle.likes = data["likes"] as? NSObject
+            circle.comments = data["comments"] as? NSArray
+            circle.likes = data["likes"] as? NSArray
         }
         
         return circle

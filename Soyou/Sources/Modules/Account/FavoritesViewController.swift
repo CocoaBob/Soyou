@@ -71,7 +71,7 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         self.tableView().backgroundColor = Cons.UI.colorBG
         
         // Setup refresh controls
-        setupRefreshControls()
+        self.setupRefreshControls()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,21 +108,15 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        var returnValue = 0
-        if let sections = self.fetchedResultsController?.sections {
-            returnValue = sections.count
-        }
-        self.isEmptyViewVisible = returnValue == 0
-        return returnValue
+        let count = self.fetchedResultsController?.sections?.count ?? 0
+        self.isEmptyViewVisible = count == 0
+        return count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var returnValue = 0
-        if let rows = self.fetchedResultsController?.sections?[section].numberOfObjects {
-            returnValue = rows
-        }
-        self.isEmptyViewVisible = returnValue == 0
-        return returnValue
+        let count = self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
+        self.isEmptyViewVisible = count == 0
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

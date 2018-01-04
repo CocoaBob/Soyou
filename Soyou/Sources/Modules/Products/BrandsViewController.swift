@@ -48,8 +48,8 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
         return Brand.mr_fetchAllGrouped(by: isListMode ? "brandIndex" : nil,
                                         with: isListMode ? nil : FmtPredicate("isHot == true"),
-                                          sortedBy: isListMode ? "brandIndex,order,id" : "order,id",
-                                          ascending: true)
+                                        sortedBy: isListMode ? "brandIndex,order,id" : "order,id",
+                                        ascending: true)
     }
     
     // Properties

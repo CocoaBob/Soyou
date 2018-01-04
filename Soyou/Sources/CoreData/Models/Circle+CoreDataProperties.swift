@@ -16,12 +16,13 @@ extension Circle {
 
     @NSManaged var id: String?
     @NSManaged var text: String?
-    @NSManaged var images: NSObject?
+    @NSManaged var images: NSArray?
     @NSManaged var userId: NSNumber?
+    @NSManaged var username: String?
+    @NSManaged var userProfileUrl: String?
     @NSManaged var createdDate: Date?
     @NSManaged var visibility: NSNumber?
-    @NSManaged var userProfileUrl: String?
-    @NSManaged var comments: NSObject?
-    @NSManaged var likes: NSObject?
+    @NSManaged var comments: NSArray?
+    @NSManaged var likes: NSArray?
 
 }

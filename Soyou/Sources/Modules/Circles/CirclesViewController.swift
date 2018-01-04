@@ -18,8 +18,8 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     }
     
     // Class methods
-    class func instantiate() -> FavoritesViewController {
-        return UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CirclesViewController") as! FavoritesViewController
+    class func instantiate() -> CirclesViewController {
+        return UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CirclesViewController") as! CirclesViewController
     }
     
     // Properties
@@ -62,10 +62,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         _emptyViewLabel.text = NSLocalizedString("circles_vc_empty_label")
         
         // Parallax Header
-        self.setupParallaxHeader()
-        
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView(), self.tableView().parallaxHeader.height, false, false, false, true)
+//        self.setupParallaxHeader()
         
         // Setup table
         self.tableView().rowHeight = UITableViewAutomaticDimension
@@ -77,7 +74,10 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.tableView().backgroundColor = Cons.UI.colorBG
         
         // Setup refresh controls
-        setupRefreshControls()
+        self.setupRefreshControls()
+        
+        // Load Data
+        self.loadData(nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,21 +137,15 @@ extension CirclesViewController {
 extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        var returnValue = 0
-        if let sections = self.fetchedResultsController?.sections {
-            returnValue = sections.count
-        }
-        self.isEmptyViewVisible = returnValue == 0
-        return returnValue
+        let count = self.fetchedResultsController?.sections?.count ?? 0
+        self.isEmptyViewVisible = count == 0
+        return count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var returnValue = 0
-        if let rows = self.fetchedResultsController?.sections?[section].numberOfObjects {
-            returnValue = rows
-        }
-        self.isEmptyViewVisible = returnValue == 0
-        return returnValue
+        let count = self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
+        self.isEmptyViewVisible = count == 0
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -160,16 +154,29 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         if let circle = self.fetchedResultsController?.object(at: indexPath) as? Circle {
-            cell.lblName.text = "\(circle.userId ?? -1)"
-            cell.lblContent.text = circle.text
-            cell.imgURLs = circle.images as? [String]
             if let urlStr = circle.userProfileUrl, let url = URL(string: urlStr) {
                 cell.imgUser.sd_setImage(with: url,
-                                          placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                          completed: nil)
+                                         placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                         options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                         completed: nil)
             } else {
                 cell.imgUser.image = nil
+            }
+            cell.lblName.text = circle.username ?? ""
+            cell.lblContent.text = circle.text
+            cell.lblContent.bottomInset = ((circle.images?.count ?? 0) > 0) ? 8 : 0
+            cell.imgURLs = circle.images as? [String]
+            if let date = circle.createdDate {
+                cell.lblDate.text = DateFormatter.localizedString(from: date,
+                                                                  dateStyle: DateFormatter.Style.short,
+                                                                  timeStyle: DateFormatter.Style.short)
+            } else {
+                cell.lblDate.text = nil
+            }
+            if let userID = circle.userId {
+                cell.btnDelete.isHidden = UserManager.shared.matricule != "\(userID)"
+            } else {
+                cell.btnDelete.isHidden = true
             }
         }
         
@@ -224,23 +231,25 @@ extension CirclesViewController {
     }
 }
 
-// MARK: Parallax Header
-extension CirclesViewController {
-    
-    fileprivate func setupParallaxHeader() {
-        // Parallax View
-        self.tableView().parallaxHeader.height = self.viewUserInfo.frame.height
-        self.tableView().parallaxHeader.view = self.viewUserInfo
-        self.tableView().parallaxHeader.mode = .fill
-    }
-}
+//// MARK: Parallax Header
+//extension CirclesViewController {
+//
+//    fileprivate func setupParallaxHeader() {
+//        // Parallax View
+//        self.tableView().parallaxHeader.height = self.viewUserInfo.frame.height
+//        self.tableView().parallaxHeader.view = self.viewUserInfo
+//        self.tableView().parallaxHeader.mode = .fill
+//    }
+//}
 
 // MARK: - Custom cells
 class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var imgUser: UIImageView!
-    @IBOutlet var lblName: UILabel!
-    @IBOutlet var lblContent: UILabel!
+    @IBOutlet var lblName: MarginLabel!
+    @IBOutlet var lblContent: MarginLabel!
     @IBOutlet var imgsCollectionView: UICollectionView!
+    @IBOutlet var lblDate: UILabel!
+    @IBOutlet var btnDelete: UIButton!
     
     var imgURLs: [String]?
     
@@ -255,6 +264,10 @@ class CirclesTableViewCell: UITableViewCell {
         lblContent.text = nil
         imgURLs = nil
         imgsCollectionView.reloadData()
+    }
+    
+    @IBAction func delete() {
+        
     }
 }
 
