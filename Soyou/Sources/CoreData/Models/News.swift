@@ -73,7 +73,7 @@ class News: NSManagedObject {
         return news
     }
     
-    class func importDatas(_ datas: [NSDictionary]?, _ isOverridden: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ deleteAll: Bool, _ isComplete: Bool, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
@@ -82,7 +82,7 @@ class News: NSManagedObject {
             }
             MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
                 // Delete old data
-                if isOverridden {
+                if deleteAll {
                     let request = News.mr_requestAll(with: FmtPredicate("1==1"), in: localContext)
                     request.includesSubentities = false
                     if let results = News.mr_executeFetchRequest(request, in: localContext) {

@@ -26,7 +26,13 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var _tableView: UITableView!
     @IBOutlet var _emptyView: UIView!
     @IBOutlet var _emptyViewLabel: UILabel!
-    @IBOutlet var viewUserInfo: UIView!
+    
+    @IBOutlet var imgViewAvatar: UIImageView!
+    @IBOutlet var parallaxHeaderView: UIView!
+    @IBOutlet var lblUsername: UILabel!
+    
+    fileprivate var KVOContextCirclesViewController = 0
+    
     var isEmptyViewVisible: Bool = true {
         didSet {
             self._emptyView.isHidden = !isEmptyViewVisible
@@ -46,8 +52,8 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("circles_vc_tab_title"),
-                                       image: UIImage(named: "img_tab_globe"),
-                                       selectedImage: UIImage(named: "img_tab_globe_selected"))
+                                       image: UIImage(named: "img_tab_images"),
+                                       selectedImage: UIImage(named: "img_tab_images_selected"))
         
         // Bars
         self.hidesBottomBarWhenPushed = false
@@ -56,32 +62,58 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self._emptyView.isHidden = true
-        
-        // Title
-        _emptyViewLabel.text = NSLocalizedString("circles_vc_empty_label")
-        
-        // Parallax Header
-//        self.setupParallaxHeader()
+        // Navigation Bar
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_camera_selected"),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(CirclesViewController.createCircle))
         
         // Setup table
         self.tableView().rowHeight = UITableViewAutomaticDimension
         self.tableView().estimatedRowHeight = UITableViewAutomaticDimension
         self.tableView().allowsSelection = false
         self.tableView().tableFooterView = UIView(frame: CGRect.zero)
+//        self.tableView().backgroundColor = Cons.UI.colorBG
         
-        // Background Color
-        self.tableView().backgroundColor = Cons.UI.colorBG
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.tableView(), 0, false, false, false, true)
+        
+        // Parallax Header
+        self.setupParallaxHeader()
+        
+        // Setup avatar action
+        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
+        
+        // Username shadow
+        self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+        self.lblUsername.layer.shadowOpacity = 1
+        self.lblUsername.layer.shadowRadius = 2
+        self.lblUsername.layer.shadowOffset = CGSize.zero
+        
+        // Hide empty view by default
+        self._emptyView.isHidden = true
+        
+        // Title
+        _emptyViewLabel.text = NSLocalizedString("circles_vc_empty_label")
         
         // Setup refresh controls
         self.setupRefreshControls()
         
         // Load Data
         self.loadData(nil)
+        
+        // Observe UserManager.shared.token
+        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextCirclesViewController)
+    }
+    
+    deinit {
+        UserManager.shared.removeObserver(self, forKeyPath: "token")
+        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
         
         self.hideToolbar(false)
@@ -90,6 +122,9 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.reloadData {
             self.tableView().reloadData()
         }
+        
+        // Update User Info
+        self.updateUserInfo(false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,7 +132,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Workaround to make sure navigation bar is visible even the slide-back gesture is cancelled.
         DispatchQueue.main.async {
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
     }
     
@@ -106,6 +141,19 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         // Make sure interactive gesture's delegate is nil before disappearing
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &KVOContextCirclesViewController {
+            // Update login status
+            self.updateUserInfo(true)
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
 }
 
 // MARK: - Load data
@@ -113,9 +161,10 @@ extension CirclesViewController {
     
     // MARK: Data
     func loadData(_ timestamp: String?) {
+        let deleteAll = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
         self.beginRefreshing()
-        DataManager.shared.requestPreviousCicles(timestamp, nil) { responseObject, error in
+        DataManager.shared.requestPreviousCicles(timestamp, deleteAll, nil) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                 let data = responseObject["data"] as? [NSDictionary] {
                 self.endRefreshing(data.count)
@@ -160,7 +209,7 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                          completed: nil)
             } else {
-                cell.imgUser.image = nil
+                cell.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
             }
             cell.lblName.text = circle.username ?? ""
             cell.lblContent.text = circle.text
@@ -194,7 +243,6 @@ extension CirclesViewController {
     func setupRefreshControls() {
         guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             self.loadData(nil)
-            self.beginRefreshing()
         }) else { return }
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
@@ -231,16 +279,60 @@ extension CirclesViewController {
     }
 }
 
-//// MARK: Parallax Header
-//extension CirclesViewController {
-//
-//    fileprivate func setupParallaxHeader() {
-//        // Parallax View
-//        self.tableView().parallaxHeader.height = self.viewUserInfo.frame.height
-//        self.tableView().parallaxHeader.view = self.viewUserInfo
-//        self.tableView().parallaxHeader.mode = .fill
-//    }
-//}
+// Actions
+extension CirclesViewController {
+    
+    @IBAction func createCircle() {
+        
+    }
+    
+    @objc func avatarAction() {
+        
+    }
+}
+
+// Avatar
+extension CirclesViewController {
+    
+    func addAvatarBorder() {
+        self.imgViewAvatar.layer.borderWidth = 1
+        self.imgViewAvatar.layer.borderColor = UIColor(white: 0.85, alpha: 1).cgColor
+    }
+    
+    func removeAvatarBorder() {
+        self.imgViewAvatar.layer.borderWidth = 0
+    }
+    
+    func updateUserInfo(_ reload: Bool) {
+        self.removeAvatarBorder()
+        if let url = URL(string: UserManager.shared.avatar ?? "") {
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+            if reload {
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+            }
+            self.imgViewAvatar.sd_setImage(with: url,
+                                           placeholderImage: UserManager.shared.defaultAvatarImage(),
+                                           options: options,
+                                           completed: { (image, error, type, url) in
+                                            if error == nil {
+                                                self.addAvatarBorder()
+                                            }
+            })
+            self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
+        }
+    }
+}
+
+// MARK: Parallax Header
+extension CirclesViewController {
+
+    fileprivate func setupParallaxHeader() {
+        // Parallax View
+        self.tableView().parallaxHeader.height = self.parallaxHeaderView.frame.height
+        self.tableView().parallaxHeader.view = self.parallaxHeaderView
+        self.tableView().parallaxHeader.mode = .fill
+    }
+}
 
 // MARK: - Custom cells
 class CirclesTableViewCell: UITableViewCell {

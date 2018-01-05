@@ -94,7 +94,7 @@
 /* Circles View Controller */
 "circles_vc_title"="Circles";
 "circles_vc_tab_title"="Circles";
-"circles_vc_empty_label"="Post your first diary";
+"circles_vc_empty_label"="Post your first photo";
 
 /* User View Controller */
 "user_vc_login"="Login to sync favorites";

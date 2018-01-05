@@ -9,7 +9,7 @@
 class UserViewController: SimpleTableViewController {
     
     @IBOutlet var imgViewAvatar: UIImageView!
-    @IBOutlet var viewUserInfo: UIView!
+    @IBOutlet var parallaxHeaderView: UIView!
     @IBOutlet var lblUsername: UILabel!
     @IBOutlet var lblMatricule: UILabel!
     
@@ -67,8 +67,8 @@ class UserViewController: SimpleTableViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        // Update login status
-        updateUserInfo(false)
+        // Update User Info
+        self.updateUserInfo(false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,7 +82,7 @@ class UserViewController: SimpleTableViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &KVOContextUserViewController {
             // Update login status
-            updateUserInfo(true)
+            self.updateUserInfo(true)
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -127,8 +127,8 @@ extension UserViewController {
     fileprivate func setupParallaxHeader() {
         // Parallax View
         if let scrollView = self.tableView {
-            scrollView.parallaxHeader.height = self.viewUserInfo.frame.height
-            scrollView.parallaxHeader.view = self.viewUserInfo
+            scrollView.parallaxHeader.height = self.parallaxHeaderView.frame.height
+            scrollView.parallaxHeader.view = self.parallaxHeaderView
             scrollView.parallaxHeader.mode = .fill
         }
     }
@@ -145,7 +145,6 @@ extension UserViewController {
         }
     }
 }
-
 
 // Routines
 extension UserViewController {

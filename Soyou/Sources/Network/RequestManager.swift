@@ -328,11 +328,11 @@ class RequestManager {
     //////////////////////////////////////
     
     func requestPreviousCicles(_ timestamp: String, _ userID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/\(userID ?? 0)/circle/previous/\(timestamp)", "Circle", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(userID ?? 0)/previous/\(timestamp)", "Circle", onSuccess, onFailure)
     }
     
     func requestNextCicles(_ timestamp: String, _ userID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/\(userID ?? 0)/circle/next/\(timestamp)", "Circle", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(userID ?? 0)/next/\(timestamp)", "Circle", onSuccess, onFailure)
     }
     
     func createCicle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {

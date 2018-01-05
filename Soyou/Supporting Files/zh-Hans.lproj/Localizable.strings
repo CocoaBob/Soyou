@@ -94,9 +94,9 @@
 "store_map_vc_go_to_settings"="去设置";
 
 /* Circles View Controller */
-"circles_vc_title"="奢友圈";
-"circles_vc_tab_title"="奢友圈";
-"circles_vc_empty_label"="快来发布您的第一条分享吧";
+"circles_vc_title"="照片墙";
+"circles_vc_tab_title"="照片墙";
+"circles_vc_empty_label"="快来发布您的第一张照片吧";
 
 /* User View Controller */
 "user_vc_login"="立即登录，同步您的收藏夹";

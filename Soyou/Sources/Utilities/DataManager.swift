@@ -657,10 +657,10 @@ class DataManager {
     // MARK: Circles
     //////////////////////////////////////
     
-    func requestPreviousCicles(_ timestamp: String, _ userID: Int?, _ completion: CompletionClosure?) {
+    func requestPreviousCicles(_ timestamp: String, _ deleteAll: Bool, _ userID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestPreviousCicles(timestamp, userID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                Circle.importDatas(data, true, { (_, _) -> () in
+                Circle.importDatas(data, deleteAll, { (_, _) -> () in
                     self.completeWithData(responseObject, completion: completion)
                 })
             } else {
@@ -674,7 +674,7 @@ class DataManager {
     func requestNextCicles(_ timestamp: String, _ userID: Int?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNextCicles(timestamp, userID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                Circle.importDatas(data, true, { (_, _) -> () in
+                Circle.importDatas(data, false, { (_, _) -> () in
                     self.completeWithData(responseObject, completion: completion)
                 })
             } else {

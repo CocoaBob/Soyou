@@ -322,7 +322,6 @@ extension CommentsViewController {
     func setupRefreshControls() {
         guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             self.loadNewData()
-            self.beginRefreshing()
         }) else { return }
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
