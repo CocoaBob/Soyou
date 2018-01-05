@@ -67,6 +67,11 @@ extension SyncedFetchedResultsViewController {
     @objc func collectionView() -> UICollectionView? {
         return nil
     }
+    
+    // Optional
+    @objc func tableViewRowIsAnimated() -> Bool {
+        return true
+    }
 }
 
 // MARK: NSFetchedResultsControllerDelegate
@@ -74,6 +79,7 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if let tableView = self.tableView() {
+            UIView.setAnimationsEnabled(self.tableViewRowIsAnimated());
             tableView.beginUpdates()
         } else if let _ = self.collectionView() {
             self.fetchedResultsChangesInsert = [IndexPath]()
@@ -143,6 +149,7 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if let tableView = self.tableView() {
             tableView.endUpdates()
+            UIView.setAnimationsEnabled(true);
         } else if let collectionView = self.collectionView() {
             UIView.setAnimationsEnabled(false)
             collectionView.performBatchUpdates({ () -> Void in

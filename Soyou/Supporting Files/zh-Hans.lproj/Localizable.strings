@@ -96,10 +96,9 @@
 /* Circles View Controller */
 "circles_vc_title"="照片墙";
 "circles_vc_tab_title"="照片墙";
-"circles_vc_empty_label"="快来发布您的第一张照片吧";
 
 /* User View Controller */
-"user_vc_login"="立即登录，同步您的收藏夹";
+"user_vc_login"="登录您的帐号";
 "user_vc_username_unknown"="用户名尚未设置";
 "user_vc_tab_title"="我";
 "user_vc_cell_favs"="收藏夹";

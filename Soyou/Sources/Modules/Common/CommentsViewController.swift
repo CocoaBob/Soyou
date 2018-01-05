@@ -330,14 +330,13 @@ extension CommentsViewController {
         header.lastUpdatedTimeLabel?.isHidden = true
         self.tableView.mj_header = header
         
-        guard let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+        guard let footer = MJRefreshAutoStateFooter(refreshingBlock: { () -> Void in
             self.loadNextData()
         }) else { return }
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), for: .pulling)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), for: .refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
-        footer.isAutomaticallyHidden = false
         self.tableView.mj_footer = footer
     }
     

@@ -168,14 +168,23 @@ extension UserManager {
         }
     }
     
-    var matricule: String? {
+    var userID: Int? {
+        set {
+            self["id"] = newValue
+        }
+        get {
+            return self["id"] as? Int
+        }
+    }
+    
+    var matricule: Int? {
         set {
             self["matricule"] = newValue
         }
         get {
             if self.isLoggedIn {
-                if let value = self["matricule"] as? NSNumber {
-                    return "\(value)"
+                if let value = self["matricule"] as? Int {
+                    return value
                 }
             }
             return nil

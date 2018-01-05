@@ -9,12 +9,16 @@
 class CirclesViewController: SyncedFetchedResultsViewController {
     
     // Override SyncedFetchedResultsViewController
+    override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
+        return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false)
+    }
+    
     override func tableView() -> UITableView {
         return _tableView
     }
     
-    override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
-        return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false)
+    override func tableViewRowIsAnimated() -> Bool {
+        return false
     }
     
     // Class methods
@@ -24,8 +28,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     
     // Properties
     @IBOutlet var _tableView: UITableView!
-    @IBOutlet var _emptyView: UIView!
-    @IBOutlet var _emptyViewLabel: UILabel!
     
     @IBOutlet var imgViewAvatar: UIImageView!
     @IBOutlet var parallaxHeaderView: UIView!
@@ -33,11 +35,9 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     
     fileprivate var KVOContextCirclesViewController = 0
     
-    var isEmptyViewVisible: Bool = true {
-        didSet {
-            self._emptyView.isHidden = !isEmptyViewVisible
-        }
-    }
+    var isLoadingData = false
+    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet var loadingIndicatorBottom: NSLayoutConstraint!
     
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
@@ -81,6 +81,12 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         // Parallax Header
         self.setupParallaxHeader()
         
+        // Setup refresh controls
+        self.setupRefreshControls()
+        
+        // Loading Indicator
+        self.hideRefreshIndicator()
+        
         // Setup avatar action
         self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
         
@@ -89,15 +95,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
         self.lblUsername.layer.shadowOffset = CGSize.zero
-        
-        // Hide empty view by default
-        self._emptyView.isHidden = true
-        
-        // Title
-        _emptyViewLabel.text = NSLocalizedString("circles_vc_empty_label")
-        
-        // Setup refresh controls
-        self.setupRefreshControls()
         
         // Load Data
         self.loadData(nil)
@@ -186,15 +183,11 @@ extension CirclesViewController {
 extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        let count = self.fetchedResultsController?.sections?.count ?? 0
-        self.isEmptyViewVisible = count == 0
-        return count
+        return self.fetchedResultsController?.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
-        self.isEmptyViewVisible = count == 0
-        return count
+        return self.fetchedResultsController?.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -222,11 +215,7 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.lblDate.text = nil
             }
-            if let userID = circle.userId {
-                cell.btnDelete.isHidden = UserManager.shared.matricule != "\(userID)"
-            } else {
-                cell.btnDelete.isHidden = true
-            }
+            cell.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
         }
         
         return cell
@@ -237,44 +226,70 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: Pull Down Refresh
+extension CirclesViewController {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        struct Constant {
+            static let headerHeight = CGFloat(240)
+            static let triggerY = CGFloat(-40)
+        }
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let offsetY = scrollView.contentOffset.y + statusBarHeight + Constant.headerHeight
+        self.showRefreshIndicator(offsetY)
+        
+        if !self.isLoadingData && !self.tableView().isDragging && offsetY <= Constant.triggerY {
+            self.loadData(nil)
+        }
+    }
+    
+    func showRefreshIndicator(_ offsetY: CGFloat) {
+        struct Constant {
+            static let triggerY = CGFloat(-40)
+        }
+        UIView.animate(withDuration: 0.3) {
+            if self.isLoadingData {
+                self.loadingIndicatorBottom.constant = Constant.triggerY
+            } else {
+                self.loadingIndicatorBottom.constant = max(offsetY, Constant.triggerY)
+            }
+        }
+    }
+    
+    func hideRefreshIndicator() {
+        UIView.animate(withDuration: 0.3) {
+            self.loadingIndicatorBottom.constant = UIApplication.shared.statusBarFrame.height
+        }
+    }
+}
+
 // MARK: - Refreshing
 extension CirclesViewController {
     
     func setupRefreshControls() {
-        guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            self.loadData(nil)
-        }) else { return }
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
-        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), for: .refreshing)
-        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
-        header.lastUpdatedTimeLabel?.isHidden = true
-        self.tableView().mj_header = header
-        
-        guard let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+        guard let footer = MJRefreshAutoStateFooter(refreshingBlock: { () -> Void in
             self.loadNextData()
         }) else { return }
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), for: .pulling)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), for: .refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
-        footer.isAutomaticallyHidden = false
         self.tableView().mj_footer = footer
     }
     
     func beginRefreshing() {
+        self.isLoadingData = true
+        self.loadingIndicator.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
     func endRefreshing(_ resultCount: Int) {
+        self.hideRefreshIndicator()
         DispatchQueue.main.async {
-            self.tableView().mj_header.endRefreshing()
-            if resultCount > 0 {
-                self.tableView().mj_footer.endRefreshing()
-            } else {
-                self.tableView().mj_footer.endRefreshingWithNoMoreData()
-            }
+            resultCount > 0 ? self.tableView().mj_footer.endRefreshing() : self.tableView().mj_footer.endRefreshingWithNoMoreData()
         }
+        self.isLoadingData = false
+        self.loadingIndicator.stopAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
@@ -296,7 +311,7 @@ extension CirclesViewController {
     
     func addAvatarBorder() {
         self.imgViewAvatar.layer.borderWidth = 1
-        self.imgViewAvatar.layer.borderColor = UIColor(white: 0.85, alpha: 1).cgColor
+        self.imgViewAvatar.layer.borderColor = UIColor.white.cgColor
     }
     
     func removeAvatarBorder() {
@@ -318,8 +333,10 @@ extension CirclesViewController {
                                                 self.addAvatarBorder()
                                             }
             })
-            self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
+        } else {
+            self.imgViewAvatar.image = UserManager.shared.defaultAvatarImage()
         }
+        self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
     }
 }
 

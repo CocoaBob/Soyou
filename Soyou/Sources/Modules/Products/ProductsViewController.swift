@@ -407,7 +407,7 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
 extension ProductsViewController {
     
     func setupLoadMoreControl() {        
-        guard let footer = MJRefreshBackNormalFooter(refreshingBlock: { () -> Void in
+        guard let footer = MJRefreshAutoStateFooter(refreshingBlock: { () -> Void in
             self.loadMore({ offset, resultCount in
                 self.endRefreshing(resultCount)
             })
@@ -417,7 +417,6 @@ extension ProductsViewController {
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), for: .pulling)
         footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), for: .refreshing)
         footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
-        footer.isAutomaticallyHidden = true
         self.collectionView().mj_footer = footer
     }
     

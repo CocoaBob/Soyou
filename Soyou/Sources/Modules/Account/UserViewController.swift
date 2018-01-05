@@ -151,7 +151,7 @@ extension UserViewController {
     
     func addAvatarBorder() {
         self.imgViewAvatar.layer.borderWidth = 1
-        self.imgViewAvatar.layer.borderColor = UIColor(white: 0.85, alpha: 1).cgColor
+        self.imgViewAvatar.layer.borderColor = UIColor.white.cgColor
     }
     
     func removeAvatarBorder() {
@@ -178,7 +178,7 @@ extension UserViewController {
         }
         self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
         if let matricule = UserManager.shared.matricule {
-            self.lblMatricule.text = matricule
+            self.lblMatricule.text = "\(matricule)"
         } else {
             self.lblMatricule.text = nil
         }

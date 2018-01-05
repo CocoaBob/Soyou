@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,22 +35,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kQI-fq-otp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post your first diary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="502-0H-h8P">
-                                        <rect key="frame" x="95.5" y="321.5" width="184" height="24"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.91488027569999997" green="0.89600789550000004" blue="0.87249493600000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="502-0H-h8P" firstAttribute="centerX" secondItem="kQI-fq-otp" secondAttribute="centerX" id="MCG-oR-Cdu"/>
-                                    <constraint firstItem="502-0H-h8P" firstAttribute="centerY" secondItem="kQI-fq-otp" secondAttribute="centerY" id="pLH-eQ-dWJ"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0WY-NY-YUX">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -168,6 +153,9 @@
                                     <outlet property="delegate" destination="AQv-Tr-KQN" id="T3N-FU-cUo"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="VRh-Vt-oG1">
+                                <rect key="frame" x="14" y="44" width="20" height="20"/>
+                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MU0-i6-2J8">
                                 <rect key="frame" x="319" y="64" width="56" height="56"/>
                                 <constraints>
@@ -183,25 +171,23 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="0WY-NY-YUX" firstAttribute="trailing" secondItem="RXe-Ca-Rs7" secondAttribute="trailing" id="0RB-rn-NUl"/>
-                            <constraint firstItem="kQI-fq-otp" firstAttribute="top" secondItem="nFt-EN-3DB" secondAttribute="top" id="69S-La-ser"/>
-                            <constraint firstItem="kQI-fq-otp" firstAttribute="trailing" secondItem="RXe-Ca-Rs7" secondAttribute="trailing" id="7Ih-vr-7Af"/>
-                            <constraint firstItem="kQI-fq-otp" firstAttribute="bottom" secondItem="RXe-Ca-Rs7" secondAttribute="bottom" id="LDa-Hc-TTb"/>
+                            <constraint firstItem="RXe-Ca-Rs7" firstAttribute="top" secondItem="VRh-Vt-oG1" secondAttribute="bottom" id="Dck-IZ-IZ3"/>
                             <constraint firstItem="0WY-NY-YUX" firstAttribute="bottom" secondItem="RXe-Ca-Rs7" secondAttribute="bottom" id="Uz6-8g-ZRl"/>
                             <constraint firstItem="MU0-i6-2J8" firstAttribute="top" secondItem="RXe-Ca-Rs7" secondAttribute="top" id="YeK-ok-Byd"/>
                             <constraint firstItem="0WY-NY-YUX" firstAttribute="leading" secondItem="RXe-Ca-Rs7" secondAttribute="leading" id="mJb-pQ-ygb"/>
                             <constraint firstItem="RXe-Ca-Rs7" firstAttribute="trailing" secondItem="MU0-i6-2J8" secondAttribute="trailing" id="mdh-NN-wZ1"/>
-                            <constraint firstItem="kQI-fq-otp" firstAttribute="leading" secondItem="RXe-Ca-Rs7" secondAttribute="leading" id="rZ9-4I-Y0j"/>
+                            <constraint firstItem="VRh-Vt-oG1" firstAttribute="centerX" secondItem="RXe-Ca-Rs7" secondAttribute="leading" constant="24" id="rwj-sH-4ZG"/>
                             <constraint firstItem="0WY-NY-YUX" firstAttribute="top" secondItem="nFt-EN-3DB" secondAttribute="top" id="u1Y-d2-aky"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RXe-Ca-Rs7"/>
                     </view>
                     <navigationItem key="navigationItem" id="u7e-y8-oZa"/>
                     <connections>
-                        <outlet property="_emptyView" destination="kQI-fq-otp" id="mXa-wq-tuy"/>
-                        <outlet property="_emptyViewLabel" destination="502-0H-h8P" id="ikh-Nq-V3z"/>
-                        <outlet property="_tableView" destination="0WY-NY-YUX" id="VsF-Hm-SDD"/>
+                        <outlet property="_tableView" destination="0WY-NY-YUX" id="JKa-C4-8q6"/>
                         <outlet property="imgViewAvatar" destination="9P3-pe-DFT" id="XKV-bK-W9K"/>
                         <outlet property="lblUsername" destination="Y9Z-lF-JXC" id="Djf-u5-pyg"/>
+                        <outlet property="loadingIndicator" destination="VRh-Vt-oG1" id="dZU-Sg-brU"/>
+                        <outlet property="loadingIndicatorBottom" destination="Dck-IZ-IZ3" id="amm-By-goK"/>
                         <outlet property="parallaxHeaderView" destination="jmI-uT-zgo" id="MLk-EM-3Cs"/>
                     </connections>
                 </viewController>

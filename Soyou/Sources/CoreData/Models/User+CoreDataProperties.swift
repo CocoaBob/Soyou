@@ -15,6 +15,7 @@ import CoreData
 extension User {
 
     @NSManaged var gender: String?
+    @NSManaged var id: NSNumber?
     @NSManaged var matricule: NSNumber?
     @NSManaged var region: String?
     @NSManaged var roleCode: String?
