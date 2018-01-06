@@ -616,7 +616,7 @@ extension ProductViewController {
             let commentsViewController = CommentsViewController.instantiate()
             commentsViewController.infoID = productID
             commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
-                DataManager.shared.requestCommentsForProduct(productID, Cons.Svr.commentRequestSize, relativeID, { (data: Any?, error: NSError?) in
+                DataManager.shared.requestCommentsForProduct(productID, Cons.Svr.commentRequestSize, relativeID, { (data: Any?, error: Error?) in
                     completion(data)
                 })
             }

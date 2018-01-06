@@ -99,7 +99,7 @@ class Discount: NSManagedObject {
                     Discount.importData(data, isComplete, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                completion?(responseObject, error as NSError?)
+                completion?(responseObject, error as Error?)
             })
         } else {
             completion?(nil, FmtError(0, nil))

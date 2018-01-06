@@ -63,7 +63,7 @@ class Store: NSManagedObject {
                 }
                 
             }, completion: { (_, error) -> Void in
-                completion?(nil, error as NSError?)
+                completion?(nil, error as Error?)
             })
         } else {
             completion?(nil, FmtError(0, nil))

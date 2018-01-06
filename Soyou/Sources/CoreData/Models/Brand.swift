@@ -62,7 +62,7 @@ class Brand: NSManagedObject {
                 Brand.mr_deleteAll(matching: FmtPredicate("NOT (id IN %@)", ids), in: localContext)
                 
             }, completion: { (responseObject, error) -> Void in
-                completion?(responseObject, error as NSError?)
+                completion?(responseObject, error as Error?)
             })
         } else {
             completion?(nil, FmtError(0, nil))

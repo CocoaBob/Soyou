@@ -7,10 +7,10 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
-func AFNetworkingGetResponseObjectFromError(_ error: NSError?) -> Any? {
+func AFNetworkingGetResponseObjectFromError(_ error: Error?) -> Any? {
     
     if let error = error,
-        let userInfo = error.userInfo as? Dictionary<String, Any>,
+        let userInfo = (error as NSError?)?.userInfo,
         let responseData = userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? Data {
         return GetObjectFromJSONData(responseData)
     } else {

@@ -64,7 +64,7 @@ class Circle: NSManagedObject {
                     Circle.importData(data, localContext)
                 }
             }, completion: { (responseObject, error) -> Void in
-                completion?(responseObject, error as NSError?)
+                completion?(responseObject, error as Error?)
             })
         } else {
             completion?(nil, FmtError(0, nil))

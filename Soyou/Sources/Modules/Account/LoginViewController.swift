@@ -241,7 +241,7 @@ extension LoginViewController {
         MBProgressHUD.show()
     }
     
-    func stopLoadingInfoFromThirdLogin(_ error: NSError?) {
+    func stopLoadingInfoFromThirdLogin(_ error: Error?) {
         MBProgressHUD.hide()
         if let error = error {
             DataManager.showRequestFailedAlert(error)
@@ -360,7 +360,7 @@ extension LoginViewController {
                     let username = session.userName
                     TWTRAPIClient.withCurrentUser().loadUser(withID: thirdId, completion: { (user: TWTRUser?, error) in
                         if error != nil {
-                            self.stopLoadingInfoFromThirdLogin(error as NSError?)
+                            self.stopLoadingInfoFromThirdLogin(error as Error?)
                         } else {
                             var avatar: String?
                             if let value = user?.profileImageLargeURL {

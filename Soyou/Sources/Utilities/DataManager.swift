@@ -20,7 +20,7 @@ class DataManager {
     // MARK: General
     //////////////////////////////////////
     
-    fileprivate func handleError(_ error: NSError?) {
+    fileprivate func handleError(_ error: Error?) {
         DLog(error)
         
         if let response = (error as NSError?)?.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? HTTPURLResponse {
@@ -35,7 +35,7 @@ class DataManager {
         completion?(data, nil)
     }
     
-    fileprivate func completeWithError(_ error: NSError?, completion: CompletionClosure?) {
+    fileprivate func completeWithError(_ error: Error?, completion: CompletionClosure?) {
         self.handleError(error)
         completion?(nil, error)
     }
@@ -45,8 +45,8 @@ class DataManager {
         return responseObject["data"]
     }
     
-    class func showRequestFailedAlert(_ error: NSError?) {
-        let responseObject = AFNetworkingGetResponseObjectFromError(error as NSError?)
+    class func showRequestFailedAlert(_ error: Error?) {
+        let responseObject = AFNetworkingGetResponseObjectFromError(error as Error?)
         DLog(responseObject)
         // Show error
         if let responseObject = responseObject as? Dictionary<String, Any>,
@@ -262,7 +262,7 @@ class DataManager {
                 self.completeWithError(FmtError(0, nil), completion: completion)
             }
         }
-        let errorHandlerClosure = { (error: NSError?) -> () in
+        let errorHandlerClosure = { (error: Error?) -> () in
             self.completeWithError(error, completion: completion)
         }
         
@@ -291,7 +291,7 @@ class DataManager {
                 self.completeWithError(FmtError(0, nil), completion: completion)
             }
         }
-        let errorHandlerClosure = { (error: NSError?) -> () in
+        let errorHandlerClosure = { (error: Error?) -> () in
             self.completeWithError(error, completion: completion)
         }
         
@@ -311,7 +311,7 @@ class DataManager {
                 FavoriteProduct.updateWithData(data, completion)
             }
         }
-        let errorHandlerClosure = { (error: NSError?) -> () in
+        let errorHandlerClosure = { (error: Error?) -> () in
             self.completeWithError(error, completion: completion)
         }
         

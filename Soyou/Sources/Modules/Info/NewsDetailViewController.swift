@@ -125,7 +125,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         let commentsViewController = CommentsViewController.instantiate()
         commentsViewController.infoID = self.infoID
         commentsViewController.dataProvider = { (relativeID: Int?, completion: @escaping ((_ data: Any?) -> ())) -> () in
-            DataManager.shared.requestCommentsForNews(self.infoID, Cons.Svr.commentRequestSize, relativeID, { (data: Any?, error: NSError?) in
+            DataManager.shared.requestCommentsForNews(self.infoID, Cons.Svr.commentRequestSize, relativeID, { (data: Any?, error: Error?) in
                 completion(data)
             })
         }

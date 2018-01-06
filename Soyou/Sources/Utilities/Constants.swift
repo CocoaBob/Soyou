@@ -95,9 +95,9 @@ public struct Cons {
 }
 
 typealias DataClosure = (Any?)->()
-typealias ErrorClosure = (NSError?)->()
+typealias ErrorClosure = (Error?)->()
 typealias VoidClosure = ()->()
-typealias CompletionClosure = (Any?, NSError?)->()
+typealias CompletionClosure = (Any?, Error?)->()
 
 func FmtPredicate(_ fmt: String, _ args: CVarArg...) -> NSPredicate {
     return NSPredicate(format: fmt, arguments: getVaList(args))
@@ -120,12 +120,14 @@ func CompoundOrPredicate(_ predicates: [NSPredicate]) -> NSCompoundPredicate {
 }
 
 
-var _emptyError = NSError(domain: "SoyouError", code: 0, userInfo: nil)
-func FmtError(_ code: Int, _ msg: String?, _ args: CVarArg...) -> NSError {
+var _emptyError = NSError(domain: "SoyouError", code: 0, userInfo: nil) as Error
+func FmtError(_ code: Int, _ msg: String?, _ args: CVarArg...) -> Error {
     if code == 0 && msg == nil {
         return _emptyError
     } else {
-        return NSError(domain: "SoyouError", code: code, userInfo: ((msg != nil) ? [NSLocalizedDescriptionKey:FmtString(msg!, args)] : nil))
+        return NSError(domain: "SoyouError",
+                       code: code,
+                       userInfo: ((msg != nil) ? [NSLocalizedDescriptionKey:FmtString(msg!, args)] : nil)) as Error
     }
 }
 

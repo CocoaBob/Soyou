@@ -64,7 +64,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             self.handleSuccessWithoutServerVersionCheck(operation, responseObject, path, onSuccess, onFailure)
         }
         
-        let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
+        let failure: (AFHTTPRequestOperation, Error) -> () = { (operation, error) -> () in
             modeUI ? MBProgressHUD.hide() : ()
             self.handleFailure(operation, error, onFailure)
         }
@@ -98,7 +98,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                 if operation.error == nil {
                     success(operation, operation.responseObject)
                 } else {
-                    failure(operation, operation.error! as NSError)
+                    failure(operation, operation.error! as Error)
                 }
             }
         } else {
@@ -135,7 +135,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
         }
         
-        let failure: (AFHTTPRequestOperation, NSError) -> () = { (operation, error) -> () in
+        let failure: (AFHTTPRequestOperation, Error) -> () = { (operation, error) -> () in
             modeUI ? MBProgressHUD.hide() : ()
             DLog("<-- [x]\n\(error)")
             self.handleFailure(operation, error, onFailure)
@@ -175,7 +175,9 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
         
         // Setup operation
-        let operation: AFHTTPRequestOperation = self.httpRequestOperation(with: request as URLRequest, success: nil, failure: nil)
+        let operation: AFHTTPRequestOperation = self.httpRequestOperation(with: request as URLRequest,
+                                                                          success: success,
+                                                                          failure: failure)
         if let userInfo = userInfo { operation.userInfo = userInfo }
         if isSynchronous {
             operation.start()
@@ -186,11 +188,11 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                 if operation.error == nil {
                     success(operation, operation.responseObject)
                 } else {
-                    failure(operation, operation.error! as NSError)
+                    failure(operation, operation.error! as Error)
                 }
             }
         } else {
-            operation.setCompletionBlockWithSuccess(success, failure: failure as? (AFHTTPRequestOperation, Error) -> Void)
+//            operation.setCompletionBlockWithSuccess(success, failure: failure)
             self.operationQueue.addOperation(operation)
         }
     }
@@ -234,7 +236,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         if let onSuccess = onSuccess { onSuccess(responseObject) }
     }
     
-    fileprivate func handleFailure(_ operation: AFHTTPRequestOperation, _ error: NSError?, _ onFailure: ErrorClosure?) {
+    fileprivate func handleFailure(_ operation: AFHTTPRequestOperation, _ error: Error?, _ onFailure: ErrorClosure?) {
         if let onFailure = onFailure { onFailure(error) }
     }
 }
