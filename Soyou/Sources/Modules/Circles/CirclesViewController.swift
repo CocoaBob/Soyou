@@ -415,7 +415,7 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
             let url = URL(string: imgURLStr) {
             cell.imageView.sd_setImage(with: url,
                                        placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                       options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
+                                       options: [.scaleDownLargeImages, .lowPriority, .allowInvalidSSLCertificates, .progressiveDownload],
                                        completed: { (image, error, type, url) in
             })
         }
@@ -458,7 +458,6 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
             columns = CGFloat(2.0)
         }
         let size = floor((collectionView.bounds.width - 1) / columns) - 1
-        print("\(collectionView.bounds.width) \(size)")
         return CGSize(width: size, height: size)
     }
 }
