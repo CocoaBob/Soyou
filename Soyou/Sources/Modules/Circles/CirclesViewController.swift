@@ -199,7 +199,7 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
             if let urlStr = circle.userProfileUrl, let url = URL(string: urlStr) {
                 cell.imgUser.sd_setImage(with: url,
                                          placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                         options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                         options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                          completed: nil)
             } else {
                 cell.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
@@ -321,9 +321,9 @@ extension CirclesViewController {
     func updateUserInfo(_ reload: Bool) {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
-            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+            var options: SDWebImageOptions = [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
             if reload {
-                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+                options = [.refreshCached, .scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
             }
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
@@ -351,28 +351,48 @@ extension CirclesViewController {
     }
 }
 
-// MARK: - Custom cells
+// MARK: - CirclesTableViewCell
 class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var lblName: MarginLabel!
     @IBOutlet var lblContent: MarginLabel!
-    @IBOutlet var imgsCollectionView: UICollectionView!
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnDelete: UIButton!
     
-    var imgURLs: [String]?
+    @IBOutlet var imagesCollectionView: UICollectionView!
+    @IBOutlet var imagesCollectionViewWidth1: NSLayoutConstraint!
+    @IBOutlet var imagesCollectionViewWidth2: NSLayoutConstraint!
+    @IBOutlet var imagesCollectionViewWidth3: NSLayoutConstraint!
+    
+    var imgURLs: [String]? {
+        didSet {
+            if let urls = imgURLs {
+                self.imagesCollectionViewWidth1.isActive = false
+                self.imagesCollectionViewWidth2.isActive = false
+                self.imagesCollectionViewWidth3.isActive = false
+                if urls.count == 1 {
+                    self.imagesCollectionViewWidth1.isActive = true
+                } else if urls.count == 4 {
+                    self.imagesCollectionViewWidth2.isActive = true
+                } else {
+                    self.imagesCollectionViewWidth3.isActive = true
+                }
+            }
+            self.imagesCollectionView.reloadData()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.setupCollectionView()
         self.prepareForReuse()
     }
     
     override func prepareForReuse() {
-        imgUser.image = nil
-        lblName.text = nil
-        lblContent.text = nil
-        imgURLs = nil
-        imgsCollectionView.reloadData()
+        self.imgUser.image = nil
+        self.lblName.text = nil
+        self.lblContent.text = nil
+        self.imgURLs = nil
     }
     
     @IBAction func delete() {
@@ -380,30 +400,92 @@ class CirclesTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - CollectionView Delegate & DataSource
 extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    @objc func cellForItem(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CircleImagesCollectionViewCell", for: indexPath)
-        return cell
-    }
-    
-    @objc func didSelectItemAtIndexPath(_ collectionView: UICollectionView, indexPath: IndexPath) {
-        
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imgURLs?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return self.cellForItem(collectionView: collectionView, indexPath: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CircleImageCollectionViewCell",
+                                                      for: indexPath)
+        if let cell = cell as? CircleImageCollectionViewCell,
+            let imgURLStr = self.imgURLs?[indexPath.row],
+            let url = URL(string: imgURLStr) {
+            cell.imageView.sd_setImage(with: url,
+                                       placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                       options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
+                                       completed: { (image, error, type, url) in
+            })
+        }
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.didSelectItemAtIndexPath(collectionView, indexPath: indexPath)
+        
+    }
+}
+
+// MARK: - CollectionView Waterfall Layout
+extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
+    
+    func setupCollectionView() {
+        // Create a flow layout
+        let layout = UICollectionViewFlowLayout()
+        
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
+        
+        // Add the waterfall layout to your collection view
+        self.imagesCollectionView.collectionViewLayout = layout
+        
+        // Load data
+        self.imagesCollectionView.reloadData()
+    }
+    
+    //** Size for the cells in the Waterfall Layout */
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var columns = CGFloat(3.0)
+        if self.imgURLs?.count == 1 {
+            columns = CGFloat(1.0)
+        } else if self.imgURLs?.count == 4 {
+            columns = CGFloat(2.0)
+        }
+        let size = floor((collectionView.bounds.width - 1) / columns) - 1
+        print("\(collectionView.bounds.width) \(size)")
+        return CGSize(width: size, height: size)
+    }
+}
+
+class CircleImagesCollectionView: UICollectionView {
+    
+    override var intrinsicContentSize: CGSize {
+        self.layoutIfNeeded()
+        return super.contentSize
+    }
+    
+    override func reloadData() {
+        super.reloadData()
+        self.layoutIfNeeded()
+        self.invalidateIntrinsicContentSize()
+    }
+}
+
+class CircleImageCollectionViewCell: UICollectionViewCell {
+    @IBOutlet var imageView: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.prepareForReuse()
+    }
+    
+    override func prepareForReuse() {
+        imageView.image = UIImage(named: "img_placeholder_1_1_s")
     }
 }

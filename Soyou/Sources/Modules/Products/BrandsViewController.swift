@@ -199,7 +199,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let imageURL = URL(string: imageURLString) {
             cell.fgImageView?.sd_setImage(with: imageURL,
                                           placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
-                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder])
+                                          options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder])
         }
 
         return cell
@@ -336,7 +336,7 @@ extension BrandsViewController: UICollectionViewDelegateFlowLayout {
     func setupCollectionView() {
         _collectionView.indicatorStyle = .white
 
-        // Create a waterfall layout
+        // Create a flow layout
         let layout = UICollectionViewFlowLayout()
         
         // Change individual layout attributes for the spacing between cells

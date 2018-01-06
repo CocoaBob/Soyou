@@ -134,7 +134,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     let imageURL = URL(string: imageURLString) {
                     _cell.imgView.sd_setImage(with: imageURL,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                               completed: nil)
                 }
             }
@@ -151,7 +151,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     let imageURL = URL(string: imageURLString) {
                     _cell.imgView.sd_setImage(with: imageURL,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                               completed: nil)
                 }
             }
@@ -177,7 +177,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                                 let imageURL = URL(string: imageURLString) {
                                 _cell.imgView?.sd_setImage(with: imageURL,
                                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                                           options: [.continueInBackground, .allowInvalidSSLCertificates],
+                                                           options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates],
                                                            completed: nil)
                             }
                         } else {
