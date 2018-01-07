@@ -82,7 +82,7 @@ extension NewsViewController {
                 let imageURL = URL(string: imageURLString) {
                 cell.bgImageView.sd_setImage(with: imageURL,
                                              placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                                             options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                             options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                              completed: { (image, error, type, url) -> Void in
                                                 if (image != nil &&
                                                     !self.collectionView().isDragging &&

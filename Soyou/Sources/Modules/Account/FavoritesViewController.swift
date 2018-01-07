@@ -134,7 +134,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     let imageURL = URL(string: imageURLString) {
                     _cell.imgView.sd_setImage(with: imageURL,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                               completed: nil)
                 }
             }
@@ -151,7 +151,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                     let imageURL = URL(string: imageURLString) {
                     _cell.imgView.sd_setImage(with: imageURL,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                               completed: nil)
                 }
             }
@@ -177,7 +177,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                                 let imageURL = URL(string: imageURLString) {
                                 _cell.imgView?.sd_setImage(with: imageURL,
                                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                                           options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates],
+                                                           options: [.continueInBackground, .allowInvalidSSLCertificates],
                                                            completed: nil)
                             }
                         } else {
@@ -421,6 +421,7 @@ class FavoriteInfosTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         imgView.image = nil
         lblTitle.text = nil
     }
@@ -438,6 +439,7 @@ class FavoriteProductsTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         lblBrand.text = nil
         lblTitle.text = nil
         lblPrice.text = nil

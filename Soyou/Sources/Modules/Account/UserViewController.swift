@@ -161,9 +161,9 @@ extension UserViewController {
     func updateUserInfo(_ reloadAvatar: Bool) {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
-            var options: SDWebImageOptions = [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates]
             if reloadAvatar {
-                options = [.refreshCached, .scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates]
             }
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),

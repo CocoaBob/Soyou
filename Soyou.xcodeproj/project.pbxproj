@@ -80,6 +80,7 @@
 		458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */; };
 		458B2E4A1FECA28700BD6843 /* PicturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 458B2E481FECA28600BD6843 /* PicturePickerCell.xib */; };
 		458B2E4B1FECA28700BD6843 /* PicturePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E491FECA28700BD6843 /* PicturePickerCell.swift */; };
+		458CEDB22001D06400B8A6BC /* SDWebImageManager+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */; };
 		4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */; };
 		4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C91C52A1AA00329ECA /* TableViewCells.swift */; };
 		4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */; };
@@ -241,6 +242,7 @@
 		458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturePickerViewController.swift; sourceTree = "<group>"; };
 		458B2E481FECA28600BD6843 /* PicturePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PicturePickerCell.xib; sourceTree = "<group>"; };
 		458B2E491FECA28700BD6843 /* PicturePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicturePickerCell.swift; sourceTree = "<group>"; };
+		458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDWebImageManager+Additions.swift"; sourceTree = "<group>"; };
 		4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
 		4590F8C91C52A1AA00329ECA /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
 		4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellSectionHeader.xib; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 				45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */,
 				4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */,
 				45243C681C17A514005D476D /* UIViewController+Additions.swift */,
+				458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1154,6 +1157,7 @@
 				4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */,
 				45F5C2A51D01DFA70024B5DF /* InfoViewController.swift in Sources */,
 				4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */,
+				458CEDB22001D06400B8A6BC /* SDWebImageManager+Additions.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */,
 				45F5C2A31D01DFA70024B5DF /* InfoListBaseViewController.swift in Sources */,

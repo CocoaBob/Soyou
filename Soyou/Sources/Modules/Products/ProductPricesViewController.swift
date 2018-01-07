@@ -185,6 +185,7 @@ class ProductPricesTableViewCellCountry: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         imgView.image = nil
         lblTitle.text = nil
     }
@@ -202,6 +203,7 @@ class ProductPricesTableViewCellCurrency: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         lblRetailCurrency.text = nil
         lblRetailPrice.text = nil
         lblEquivalentCurrency.text = nil

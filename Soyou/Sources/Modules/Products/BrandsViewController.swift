@@ -199,7 +199,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let imageURL = URL(string: imageURLString) {
             cell.fgImageView?.sd_setImage(with: imageURL,
                                           placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
-                                          options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder])
+                                          options: [.continueInBackground, .allowInvalidSSLCertificates])
         }
 
         return cell
@@ -569,6 +569,7 @@ class BrandsCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         fgImageView.image = UIImage(named: "img_placeholder_3_2_m")
         lblTitle.text = nil
     }
@@ -600,6 +601,7 @@ class BrandsTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         lblTitle.text = nil
     }
 }

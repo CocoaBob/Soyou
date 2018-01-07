@@ -255,6 +255,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         lblTitle.text = nil
         fgCover.isHidden = true
     }

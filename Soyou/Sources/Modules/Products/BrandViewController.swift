@@ -527,6 +527,7 @@ class BrandViewHierarchyListRootCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         lblTitle.text = nil
     }
 }
@@ -556,6 +557,7 @@ class BrandViewHierarchyListSubCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         lblTitle.text = nil
     }
     

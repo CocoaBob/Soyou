@@ -57,7 +57,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qxk-a3-8H1">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qxk-a3-8H1">
                                                     <rect key="frame" x="20" y="16" width="43" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="43" id="FnF-CK-eZP"/>
@@ -91,7 +91,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="CircleImageCollectionViewCell" translatesAutoresizingMaskIntoConstraints="NO" id="Yf4-Hb-FYM">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="CircleImageCollectionViewCell" translatesAutoresizingMaskIntoConstraints="NO" id="Yf4-Hb-FYM">
                                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                                     </imageView>
                                                                 </subviews>
@@ -225,7 +225,7 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_bg_user" translatesAutoresizingMaskIntoConstraints="NO" id="73j-oh-zvl" userLabel="bg">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                         </imageView>
-                        <imageView opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_avatar_neutral" translatesAutoresizingMaskIntoConstraints="NO" id="9P3-pe-DFT" userLabel="avatar">
+                        <imageView opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_avatar_neutral" translatesAutoresizingMaskIntoConstraints="NO" id="9P3-pe-DFT" userLabel="avatar">
                             <rect key="frame" x="258" y="78" width="84" height="84"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="84" id="LjW-Ox-hmk"/>

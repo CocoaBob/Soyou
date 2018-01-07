@@ -385,6 +385,7 @@ class CommentsTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         self.lblUsername.text = nil
         self.imgMore.isHidden = true
         self.lblComment.text = nil

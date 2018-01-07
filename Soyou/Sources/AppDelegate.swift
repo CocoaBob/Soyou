@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup SDWebImage cache
         SDWebImageDownloader.shared().shouldDecompressImages = false
+        SDWebImageManager.shared().delegate = SDWebImageManagerDelegateHandler.shared
         
         // Setup themes
         Themes.setupAppearances()

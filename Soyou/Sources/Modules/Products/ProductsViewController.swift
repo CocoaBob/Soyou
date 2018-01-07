@@ -219,7 +219,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 if let imageView = cell.fgImageView {
                     imageView.sd_setImage(with: imageURL,
                                           placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
-                                          options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates],
+                                          options: [.continueInBackground, .allowInvalidSSLCertificates],
                                           completed: { (image, error, type, url) -> Void in
                                             // Update image if it's still visible
                                             if (self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {

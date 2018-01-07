@@ -213,10 +213,10 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         if let circle = self.fetchedResultsController?.object(at: indexPath) as? Circle {
-            if let urlStr = circle.userProfileUrl, let url = URL(string: urlStr) {
+            if let str = circle.userProfileUrl, let url = URL(string: str) {
                 cell.imgUser.sd_setImage(with: url,
                                          placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                         options: [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                         options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                          completed: nil)
             } else {
                 cell.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
@@ -261,10 +261,8 @@ extension CirclesViewController {
     fileprivate func updateStatusBarCover(_ offsetY: CGFloat) {
         if !isStatusBarCoverVisible && offsetY >= 0 {
             self.addStatusBarCover()
-            print("\(offsetY) add")
         } else if isStatusBarCoverVisible && offsetY < 0 {
             self.removeStatusBarCover()
-            print("\(offsetY) remove")
         }
     }
     
@@ -383,9 +381,9 @@ extension CirclesViewController {
     func updateUserInfo(_ reload: Bool) {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
-            var options: SDWebImageOptions = [.scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             if reload {
-                options = [.refreshCached, .scaleDownLargeImages, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             }
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
@@ -451,6 +449,7 @@ class CirclesTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         self.imgUser.image = nil
         self.lblName.text = nil
         self.lblContent.text = nil
@@ -472,14 +471,16 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CircleImageCollectionViewCell",
                                                       for: indexPath)
-        if let cell = cell as? CircleImageCollectionViewCell,
-            let imgURLStr = self.imgURLs?[indexPath.row],
-            let url = URL(string: imgURLStr) {
-            cell.imageView.sd_setImage(with: url,
-                                       placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                       options: [.scaleDownLargeImages, .lowPriority, .allowInvalidSSLCertificates, .progressiveDownload],
-                                       completed: { (image, error, type, url) in
-            })
+        if let cell = cell as? CircleImageCollectionViewCell {
+            if let str = self.imgURLs?[indexPath.row], let url = URL(string: str) {
+                cell.imageView.sd_setImage(with: url,
+                                           placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                           options: [.highPriority, .allowInvalidSSLCertificates],
+                                           completed: { (image, error, type, url) in
+                })
+            } else {
+                cell.imageView.image = UIImage(named: "img_placeholder_1_1_s")
+            }
         }
         
         return cell
@@ -547,6 +548,7 @@ class CircleImageCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         imageView.image = UIImage(named: "img_placeholder_1_1_s")
     }
 }

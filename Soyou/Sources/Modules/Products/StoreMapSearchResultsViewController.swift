@@ -121,6 +121,7 @@ class StoreMapSearchResultsTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         lblTitle.text = nil
     }
 }
