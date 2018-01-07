@@ -130,12 +130,22 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 // Title
                 _cell.lblTitle.text = news.title
                 // Image
-                if let imageURLString = news.image,
-                    let imageURL = URL(string: imageURLString) {
-                    _cell.imgView.sd_setImage(with: imageURL,
+                if let str = news.image, let url = URL(string: str) {
+                    _cell.imgView.sd_setImage(with: url,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                               options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                              completed: nil)
+                                              completed: { (image, error, type, url) -> Void in
+                                                // Update the image with an animation
+                                                if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
+                                                    if let image = image {
+                                                        UIView.transition(with: _cell.imgView,
+                                                                          duration: 0.3,
+                                                                          options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                          animations: { _cell.imgView.image = image },
+                                                                          completion: nil)
+                                                    }
+                                                }
+                    })
                 }
             }
             
@@ -147,12 +157,22 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 // Title
                 _cell.lblTitle.text = discount.title
                 // Image
-                if let imageURLString = discount.coverImage,
-                    let imageURL = URL(string: imageURLString) {
-                    _cell.imgView.sd_setImage(with: imageURL,
+                if let str = discount.coverImage, let url = URL(string: str) {
+                    _cell.imgView.sd_setImage(with: url,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                               options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                              completed: nil)
+                                              completed: { (image, error, type, url) -> Void in
+                                                // Update the image with an animation
+                                                if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
+                                                    if let image = image {
+                                                        UIView.transition(with: _cell.imgView,
+                                                                          duration: 0.3,
+                                                                          options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                          animations: { _cell.imgView.image = image },
+                                                                          completion: nil)
+                                                    }
+                                                }
+                    })
                 }
             }
             
@@ -173,12 +193,23 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                             _cell.lblPrice?.text = CurrencyManager.shared.cheapestFormattedPriceInUserCurrency(product.prices)
                             // Image
                             if let images = product.images as? NSArray,
-                                let imageURLString = images.firstObject as? String,
-                                let imageURL = URL(string: imageURLString) {
-                                _cell.imgView?.sd_setImage(with: imageURL,
+                                let str = images.firstObject as? String,
+                                let url = URL(string: str) {
+                                _cell.imgView?.sd_setImage(with: url,
                                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                                           options: [.continueInBackground, .allowInvalidSSLCertificates],
-                                                           completed: nil)
+                                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                                           completed: { (image, error, type, url) -> Void in
+                                                            // Update the image with an animation
+                                                            if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
+                                                                if let image = image {
+                                                                    UIView.transition(with: _cell.imgView,
+                                                                                      duration: 0.3,
+                                                                                      options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                                      animations: { _cell.imgView.image = image },
+                                                                                      completion: nil)
+                                                                }
+                                                            }
+                                })
                             }
                         } else {
                             self.loadProduct(productID) { _ in

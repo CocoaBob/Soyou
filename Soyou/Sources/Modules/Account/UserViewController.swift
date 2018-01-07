@@ -168,9 +168,17 @@ extension UserViewController {
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
                                            options: options,
-                                           completed: { (image, error, type, url) in
+                                           completed: { (image, error, type, url) -> Void in
                                             if error == nil {
                                                 self.addAvatarBorder()
+                                            }
+                                            // Update the image with an animation
+                                            if let image = image {
+                                                UIView.transition(with: self.imgViewAvatar,
+                                                                  duration: 0.3,
+                                                                  options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                  animations: { self.imgViewAvatar.image = image },
+                                                                  completion: nil)
                                             }
             })
         } else {

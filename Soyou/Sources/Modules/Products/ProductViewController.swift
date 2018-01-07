@@ -238,7 +238,16 @@ extension ProductViewController {
                         imageView.sd_setImage(with: imageURL,
                                               placeholderImage: placeholder,
                                               options: [.continueInBackground, .allowInvalidSSLCertificates],
-                                              completed: { (image, error, cacheType, url) -> Void in
+                                              completed: { (image, error, type, url) -> Void in
+                                                // Update the image with an animation
+                                                if let image = image {
+                                                    UIView.transition(with: imageView,
+                                                                      duration: 0.3,
+                                                                      options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                      animations: { imageView.image = image },
+                                                                      completion: nil)
+                                                }
+                                                // Prepare IDMPhoto
                                                 if let photo = IDMPhoto(image: image ?? placeholder) {
                                                     self.photos[index] = photo
                                                 }

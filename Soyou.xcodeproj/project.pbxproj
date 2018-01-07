@@ -81,6 +81,7 @@
 		458B2E4A1FECA28700BD6843 /* PicturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 458B2E481FECA28600BD6843 /* PicturePickerCell.xib */; };
 		458B2E4B1FECA28700BD6843 /* PicturePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E491FECA28700BD6843 /* PicturePickerCell.swift */; };
 		458CEDB22001D06400B8A6BC /* SDWebImageManager+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */; };
+		458CEDB42001D62E00B8A6BC /* CircleComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458CEDB32001D62E00B8A6BC /* CircleComposeViewController.swift */; };
 		4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */; };
 		4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4590F8C91C52A1AA00329ECA /* TableViewCells.swift */; };
 		4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */; };
@@ -243,6 +244,7 @@
 		458B2E481FECA28600BD6843 /* PicturePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PicturePickerCell.xib; sourceTree = "<group>"; };
 		458B2E491FECA28700BD6843 /* PicturePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicturePickerCell.swift; sourceTree = "<group>"; };
 		458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDWebImageManager+Additions.swift"; sourceTree = "<group>"; };
+		458CEDB32001D62E00B8A6BC /* CircleComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleComposeViewController.swift; sourceTree = "<group>"; };
 		4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
 		4590F8C91C52A1AA00329ECA /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
 		4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellSectionHeader.xib; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 			children = (
 				450D47611FFC288300A2F3D1 /* CirclesViewController.storyboard */,
 				450D47631FFC288E00A2F3D1 /* CirclesViewController.swift */,
+				458CEDB32001D62E00B8A6BC /* CircleComposeViewController.swift */,
 			);
 			path = Circles;
 			sourceTree = "<group>";
@@ -1178,6 +1181,7 @@
 				45A41B4F1C9F372A00D48185 /* NSUserDefaults+Additions.swift in Sources */,
 				45EE80C91CF659A8004AE158 /* Discount+CoreDataProperties.swift in Sources */,
 				0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */,
+				458CEDB42001D62E00B8A6BC /* CircleComposeViewController.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
 				45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */,
 				455D06B41C03950300D81ABF /* UserViewController.swift in Sources */,

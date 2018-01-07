@@ -80,7 +80,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.tableView().estimatedRowHeight = UITableViewAutomaticDimension
         self.tableView().allowsSelection = false
         self.tableView().tableFooterView = UIView(frame: CGRect.zero)
-//        self.tableView().backgroundColor = Cons.UI.colorBG
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView(), 0, false, false, false, true)
@@ -106,11 +105,11 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.lblUsername.layer.shadowRadius = 2
         self.lblUsername.layer.shadowOffset = CGSize.zero
         
-        // Prepare FetchedResultsController
-        self.reloadDataWithoutCompletion()
-        
         // Load Data
         self.loadData(nil)
+        
+        // Prepare FetchedResultsController
+        self.reloadDataWithoutCompletion()
         
         // Observe UserManager.shared.token
         UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
@@ -217,7 +216,16 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.imgUser.sd_setImage(with: url,
                                          placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                         completed: nil)
+                                         completed: { (image, error, type, url) -> Void in
+                                            // Update the image with an animation
+                                            if let image = image {
+                                                UIView.transition(with: cell.imgUser,
+                                                                  duration: 0.3,
+                                                                  options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                  animations: { cell.imgUser.image = image },
+                                                                  completion: nil)
+                                            }
+                })
             } else {
                 cell.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
             }
@@ -388,9 +396,17 @@ extension CirclesViewController {
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
                                            options: options,
-                                           completed: { (image, error, type, url) in
+                                           completed: { (image, error, type, url) -> Void in
                                             if error == nil {
                                                 self.addAvatarBorder()
+                                            }
+                                            // Update the image with an animation
+                                            if let image = image {
+                                                UIView.transition(with: self.imgViewAvatar,
+                                                                  duration: 0.3,
+                                                                  options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                  animations: { self.imgViewAvatar.image = image },
+                                                                  completion: nil)
                                             }
             })
         } else {
@@ -413,6 +429,7 @@ extension CirclesViewController {
 
 // MARK: - CirclesTableViewCell
 class CirclesTableViewCell: UITableViewCell {
+    
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var lblName: MarginLabel!
     @IBOutlet var lblContent: MarginLabel!
@@ -426,18 +443,10 @@ class CirclesTableViewCell: UITableViewCell {
     
     var imgURLs: [String]? {
         didSet {
-            if let urls = imgURLs {
-                self.imagesCollectionViewWidth1.isActive = false
-                self.imagesCollectionViewWidth2.isActive = false
-                self.imagesCollectionViewWidth3.isActive = false
-                if urls.count == 1 {
-                    self.imagesCollectionViewWidth1.isActive = true
-                } else if urls.count == 4 {
-                    self.imagesCollectionViewWidth2.isActive = true
-                } else {
-                    self.imagesCollectionViewWidth3.isActive = true
-                }
-            }
+            let columns = (imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3))
+            self.imagesCollectionViewWidth1.isActive = columns == 1
+            self.imagesCollectionViewWidth2.isActive = columns == 2
+            self.imagesCollectionViewWidth3.isActive = columns == 3
             self.imagesCollectionView.reloadData()
         }
     }
@@ -475,8 +484,18 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
             if let str = self.imgURLs?[indexPath.row], let url = URL(string: str) {
                 cell.imageView.sd_setImage(with: url,
                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                           options: [.highPriority, .allowInvalidSSLCertificates],
-                                           completed: { (image, error, type, url) in
+                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                           completed: { (image, error, type, url) -> Void in
+                                            // Update the image with an animation
+                                            if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {
+                                                if let image = image {
+                                                    UIView.transition(with: cell.imageView,
+                                                                      duration: 0.3,
+                                                                      options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                      animations: { cell.imageView.image = image },
+                                                                      completion: nil)
+                                                }
+                                            }
                 })
             } else {
                 cell.imageView.image = UIImage(named: "img_placeholder_1_1_s")

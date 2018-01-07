@@ -84,11 +84,15 @@ extension NewsViewController {
                                              placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                              completed: { (image, error, type, url) -> Void in
-                                                if (image != nil &&
-                                                    !self.collectionView().isDragging &&
-                                                    !self.collectionView().isDecelerating &&
-                                                    self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
-                                                    self.collectionView().reloadItems(at: [indexPath])
+                                                // Update the image with an animation
+                                                if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {
+                                                    if let image = image {
+                                                        UIView.transition(with: cell.bgImageView,
+                                                                          duration: 0.3,
+                                                                          options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                                          animations: { cell.bgImageView.image = image },
+                                                                          completion: nil)
+                                                    }
                                                 }
                 })
             }
