@@ -9,10 +9,14 @@
 import Foundation
 import CoreData
 
+struct CircleVisibility {
+    static let owner    = 1
+    static let friends  = 2
+    static let everyone = 4
+}
 
 class Circle: NSManagedObject {
 
-    
     @discardableResult class func importData(_ data: NSDictionary?, _ context: NSManagedObjectContext) -> (Circle?) {
         guard let data = data else {
             return nil

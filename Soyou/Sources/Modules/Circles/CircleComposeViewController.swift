@@ -14,39 +14,36 @@ protocol CircleComposeViewControllerDelegate {
 class CircleComposeViewController: UIViewController {
     
     var infoID: Int!
-    var replyToComment: Comment?
     var delegate: CircleComposeViewControllerDelegate?
-    var commentCreator: ((_ id: Int, _ commentId: Int?, _ comment: String, _ completion: @escaping CompletionClosure) -> ())?
     
     @IBOutlet var tvContent: UITextView!
     
     // Class methods
     class func instantiate() -> CircleComposeViewController {
-        return UIStoryboard(name: "InfoViewController", bundle: nil).instantiateViewController(withIdentifier: "CircleComposeViewController") as! CircleComposeViewController
+        return UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CircleComposeViewController") as! CircleComposeViewController
     }
     
     // UIViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Hide tabs
+        self.hidesBottomBarWhenPushed = true
+        // Action button
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("new_comment_vc_title_post"),
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(CircleComposeViewController.post))
-        
+        // Text view
         self.tvContent.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         
         self.keyboardControlInstall()
         
-        if let replyToComment = self.replyToComment {
-            self.title = FmtString(NSLocalizedString("new_comment_vc_title_reply"), replyToComment.username)
-        } else {
-            self.title = NSLocalizedString(NSLocalizedString("new_comment_vc_title_new"))
-        }
+        self.title = NSLocalizedString(NSLocalizedString("new_comment_vc_title_new"))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,7 +85,7 @@ extension CircleComposeViewController {
                 return
             }
             comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
-            self.commentCreator?(self.infoID, self.replyToComment?.id, comment) { (responseObject, error) in
+            DataManager.shared.createCicle(comment, nil, CircleVisibility.everyone) { (responseObject, error) in
                 if error == nil {
                     self.navigationController?.popViewController(animated: true)
                     if let delegate = self.delegate {

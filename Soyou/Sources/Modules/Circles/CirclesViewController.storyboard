@@ -268,6 +268,42 @@
             </objects>
             <point key="canvasLocation" x="1420" y="-107.49625187406298"/>
         </scene>
+        <!--Circle Compose View Controller-->
+        <scene sceneID="NTA-Rn-IA2">
+            <objects>
+                <viewController storyboardIdentifier="CircleComposeViewController" id="gp4-PS-Fib" customClass="CircleComposeViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kDc-rb-xTy"/>
+                        <viewControllerLayoutGuide type="bottom" id="b3o-8A-VGB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fl7-NS-0uZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6I0-kl-U1t">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="b3o-8A-VGB" firstAttribute="top" secondItem="6I0-kl-U1t" secondAttribute="bottom" id="0q2-nG-x5m"/>
+                            <constraint firstItem="6I0-kl-U1t" firstAttribute="leading" secondItem="Fl7-NS-0uZ" secondAttribute="leading" id="4G4-Hh-2nW"/>
+                            <constraint firstAttribute="trailing" secondItem="6I0-kl-U1t" secondAttribute="trailing" id="D3C-ik-oaN"/>
+                            <constraint firstItem="6I0-kl-U1t" firstAttribute="top" secondItem="Fl7-NS-0uZ" secondAttribute="top" id="qhA-nf-x0Z"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="TVH-my-PBf"/>
+                    </view>
+                    <connections>
+                        <outlet property="tvContent" destination="6I0-kl-U1t" id="gwh-8G-bnW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rhg-iJ-Uo5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1420" y="609"/>
+        </scene>
     </scenes>
     <resources>
         <image name="img_avatar_neutral" width="84" height="84"/>

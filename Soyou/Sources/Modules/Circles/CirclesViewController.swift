@@ -362,12 +362,22 @@ extension CirclesViewController {
     }
 }
 
-// Actions
-extension CirclesViewController {
+// Create a circle
+extension CirclesViewController: CircleComposeViewControllerDelegate {
     
     @IBAction func createCircle() {
-        
+        let circleComposeViewController = CircleComposeViewController.instantiate()
+        circleComposeViewController.delegate = self
+        self.navigationController?.pushViewController(circleComposeViewController, animated: true)
     }
+    
+    func didPostNewCircle() {
+        self.loadData(nil)
+    }
+}
+
+// Actions
+extension CirclesViewController {
     
     @objc func avatarAction() {
         
