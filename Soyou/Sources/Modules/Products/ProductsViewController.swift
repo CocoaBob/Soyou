@@ -108,7 +108,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
                                                name: NSNotification.Name(rawValue: Cons.DB.productsUpdatingDidFinishNotification),
                                                object: nil)
         
-        // Load data
+        // Prepare FetchedResultsController
         if !self.isSearchResultsViewController {
             self.reloadData(nil)
         }

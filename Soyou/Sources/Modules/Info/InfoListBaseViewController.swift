@@ -36,9 +36,10 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         self.setupCollectionView()
         self.setupRefreshControls()
         
-        // Data
+        // Prepare FetchedResultsController
+        self.reloadDataWithoutCompletion()
+        // Load Data
         self.loadData(nil)
-        self.reloadData(nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

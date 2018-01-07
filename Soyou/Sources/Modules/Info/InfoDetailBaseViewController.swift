@@ -248,7 +248,7 @@ extension InfoDetailBaseViewController: UIScrollViewDelegate {
     }
     
     fileprivate func addStatusBarCover() {
-        isStatusBarCoverVisible = true
+        self.isStatusBarCoverVisible = true
         self.tabBarController?.view.addSubview(self.statusBarCover)
         UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
@@ -257,7 +257,7 @@ extension InfoDetailBaseViewController: UIScrollViewDelegate {
     }
     
     fileprivate func removeStatusBarCover() {
-        isStatusBarCoverVisible = false
+        self.isStatusBarCoverVisible = false
         UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.setNeedsStatusBarAppearanceUpdate()
             self.statusBarCover.alpha = 0

@@ -8,6 +8,31 @@
 
 class CirclesViewController: SyncedFetchedResultsViewController {
     
+    // Properties
+    @IBOutlet var _tableView: UITableView!
+    @IBOutlet var imgViewAvatar: UIImageView!
+    @IBOutlet var parallaxHeaderView: UIView!
+    @IBOutlet var lblUsername: UILabel!
+    
+    // Pull and reload
+    var isLoadingData = false
+    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet var loadingIndicatorBottom: NSLayoutConstraint!
+    
+    // Status Bar Cover
+    var isStatusBarCoverVisible = false
+    let statusBarCover = UIView(frame:
+        CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: Cons.UI.statusBarHeight)
+    )
+    
+    // Notification Context
+    fileprivate var KVOContextCirclesViewController = 0
+    
+    // Class methods
+    class func instantiate() -> CirclesViewController {
+        return UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CirclesViewController") as! CirclesViewController
+    }
+    
     // Override SyncedFetchedResultsViewController
     override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
         return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false)
@@ -20,24 +45,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func tableViewRowIsAnimated() -> Bool {
         return false
     }
-    
-    // Class methods
-    class func instantiate() -> CirclesViewController {
-        return UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CirclesViewController") as! CirclesViewController
-    }
-    
-    // Properties
-    @IBOutlet var _tableView: UITableView!
-    
-    @IBOutlet var imgViewAvatar: UIImageView!
-    @IBOutlet var parallaxHeaderView: UIView!
-    @IBOutlet var lblUsername: UILabel!
-    
-    fileprivate var KVOContextCirclesViewController = 0
-    
-    var isLoadingData = false
-    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet var loadingIndicatorBottom: NSLayoutConstraint!
     
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
@@ -78,6 +85,9 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView(), 0, false, false, false, true)
         
+        // Status Bar Cover
+        self.setupStatusBarCover()
+        
         // Parallax Header
         self.setupParallaxHeader()
         
@@ -95,6 +105,9 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
         self.lblUsername.layer.shadowOffset = CGSize.zero
+        
+        // Prepare FetchedResultsController
+        self.reloadDataWithoutCompletion()
         
         // Load Data
         self.loadData(nil)
@@ -115,11 +128,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         self.hideToolbar(false)
         
-        // Reload data
-        self.reloadData {
-            self.tableView().reloadData()
-        }
-        
         // Update User Info
         self.updateUserInfo(false)
     }
@@ -131,16 +139,25 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         DispatchQueue.main.async {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
+        
+        // Update Status Bar Cover
+        self.updateStatusBarCover(self._tableView.contentOffset.y)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        // Update Status Bar Cover
+        self.removeStatusBarCover()
         // Make sure interactive gesture's delegate is nil before disappearing
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle.lightContent
+        if UIDevice.isX() {
+            return UIStatusBarStyle.default
+        } else {
+            return isStatusBarCoverVisible ? UIStatusBarStyle.default : UIStatusBarStyle.lightContent
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -224,18 +241,63 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Update Status Bar Cover
+        self.updateStatusBarCover(scrollView.contentOffset.y)
+        // Update Pull Down Refresh Indicator
+        self.updateRefreshIndicator(scrollView.contentOffset.y)
+    }
+}
+
+// MARK: Status Bar Cover
+extension CirclesViewController {
+    
+    fileprivate func setupStatusBarCover() {
+        // Status Bar Cover
+        self.statusBarCover.backgroundColor = UIColor.white
+    }
+    
+    fileprivate func updateStatusBarCover(_ offsetY: CGFloat) {
+        if !isStatusBarCoverVisible && offsetY >= 0 {
+            self.addStatusBarCover()
+            print("\(offsetY) add")
+        } else if isStatusBarCoverVisible && offsetY < 0 {
+            self.removeStatusBarCover()
+            print("\(offsetY) remove")
+        }
+    }
+    
+    fileprivate func addStatusBarCover() {
+        self.isStatusBarCoverVisible = true
+        self.tabBarController?.view.addSubview(self.statusBarCover)
+        UIView.animate(withDuration: 0.25, animations: { () -> Void in
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.statusBarCover.alpha = 1
+        })
+    }
+    
+    fileprivate func removeStatusBarCover() {
+        self.isStatusBarCoverVisible = false
+        UIView.animate(withDuration: 0.25, animations: { () -> Void in
+            self.setNeedsStatusBarAppearanceUpdate()
+            self.statusBarCover.alpha = 0
+        }, completion: { (finished) -> Void in
+            self.statusBarCover.removeFromSuperview()
+        })
+    }
 }
 
 // MARK: Pull Down Refresh
 extension CirclesViewController {
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func updateRefreshIndicator(_ offsetY: CGFloat) {
         struct Constant {
             static let headerHeight = CGFloat(240)
             static let triggerY = CGFloat(-40)
         }
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        let offsetY = scrollView.contentOffset.y + statusBarHeight + Constant.headerHeight
+        let offsetY = offsetY + statusBarHeight + Constant.headerHeight
         self.showRefreshIndicator(offsetY)
         
         if !self.isLoadingData && !self.tableView().isDragging && offsetY <= Constant.triggerY {

@@ -82,7 +82,7 @@ class FavoritesViewController: SyncedFetchedResultsViewController {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.hideToolbar(false)
         
-        // Reload data
+        // Prepare FetchedResultsController
         self.reloadData {
             self.tableView().reloadData()
         }
