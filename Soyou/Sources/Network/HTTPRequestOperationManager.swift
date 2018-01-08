@@ -154,16 +154,25 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                                                         urlString: urlString,
                                                         parameters: nil,
                                                         constructingBodyWith: { (formData) in
-                                                            guard let dict = parameters as? Dictionary<String, Data> else {
+                                                            guard let dict = parameters as? Dictionary<String, Any> else {
                                                                 return
                                                             }
                                                             for (key, value) in dict {
-                                                                formData.appendPart(withFileData: value,
-                                                                                    name: key,
-                                                                                    fileName: "avatar.jpg",
-                                                                                    mimeType: "image/jpeg")
+                                                                if let value = value as? Data {
+                                                                    formData.appendPart(withFileData: value, name: key, fileName: "\(key)", mimeType: "image/jpeg")
+                                                                } else {
+                                                                    var string: String?
+                                                                    if let value = value as? String {
+                                                                        string = value
+                                                                    } else {
+                                                                        string = "\(value)"
+                                                                    }
+                                                                    if let data = string?.data(using: .utf8) {
+                                                                        formData.appendPart(withForm: data, name: key)
+                                                                    }
+                                                                }
                                                             }
-                                                        },
+            },
                                                         error: nil) :
             self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
         request.addValue(self.reqAPIKey, forHTTPHeaderField: "apiKey")

@@ -347,7 +347,16 @@ class RequestManager {
         if let imgs = imgs {
             params["imgs"] = imgs
         }
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/circle", "Circle", params, onSuccess, onFailure)
+        requestOperationManager.request("POST",
+                                        "/api/\(Cons.Svr.apiVersion)/secure/circle",
+            false,
+            false,
+            ["api": "Circle", "authorization": UserManager.shared.token ?? ""],
+            params as AnyObject,
+            true,
+            nil,
+            onSuccess,
+            onFailure)
     }
     
     func deleteCircle(_ id: Int,  _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
