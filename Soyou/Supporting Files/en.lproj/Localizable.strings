@@ -94,6 +94,7 @@
 /* Circles View Controller */
 "circles_vc_title"="Circles";
 "circles_vc_tab_title"="Circles";
+"circles_vc_delete"="Delete";
 
 /* User View Controller */
 "user_vc_login"="Login Accont";

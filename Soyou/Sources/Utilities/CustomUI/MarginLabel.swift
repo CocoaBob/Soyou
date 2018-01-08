@@ -16,23 +16,19 @@ public class MarginLabel: UILabel {
 	@IBInspectable var noInsetWhenEmpty: Bool = true
 	
     override public func drawText(in rect: CGRect) {
-		if let text = self.text {
-			if !text.isEmpty {
-				let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
-                super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
-				return
-			}
-		}
-        super.drawText(in: rect)
+		if let text = self.text, !text.isEmpty {
+            let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+            super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
+        } else {
+            super.drawText(in: rect)
+        }
 	}
 	
     override public var intrinsicContentSize: CGSize {
         var intrinsicSuperViewContentSize = super.intrinsicContentSize
-		if let text = self.text {
-			if !text.isEmpty || !self.noInsetWhenEmpty {
-				intrinsicSuperViewContentSize.height += topInset + bottomInset
-				intrinsicSuperViewContentSize.width += leftInset + rightInset
-			}
+		if let text = self.text, (!text.isEmpty || !self.noInsetWhenEmpty) {
+            intrinsicSuperViewContentSize.height += topInset + bottomInset
+            intrinsicSuperViewContentSize.width += leftInset + rightInset
 		}
 		return intrinsicSuperViewContentSize
 	}

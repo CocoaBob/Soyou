@@ -69,9 +69,6 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         // Bars
         self.hidesBottomBarWhenPushed = false
         
-        // UIViewController
-        self.title = NSLocalizedString("brands_vc_title")
-        
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("brands_vc_tab_title"),
                                        image: UIImage(named: "img_tab_tag"),
@@ -85,6 +82,9 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // UIViewController
+        self.title = NSLocalizedString("brands_vc_title")
         
         // To let ProductsViewController's viewWillAppear()/viewDidAppear() be called
         self.navigationController?.delegate = self

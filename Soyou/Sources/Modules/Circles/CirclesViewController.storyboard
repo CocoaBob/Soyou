@@ -47,7 +47,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="159.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Jf-ja-nqw" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qxk-a3-8H1">
+                                                    <rect key="frame" x="20" y="16" width="43" height="43"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="43" id="FnF-CK-eZP"/>
+                                                        <constraint firstAttribute="height" constant="43" id="sCR-0a-LVA"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Jf-ja-nqw" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
                                                     <rect key="frame" x="73" y="16" width="282" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
@@ -57,14 +64,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qxk-a3-8H1">
-                                                    <rect key="frame" x="20" y="16" width="43" height="43"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="43" id="FnF-CK-eZP"/>
-                                                        <constraint firstAttribute="height" constant="43" id="sCR-0a-LVA"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pv3-TR-fQJ" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pv3-TR-fQJ" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
                                                     <rect key="frame" x="73" y="34" width="282" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
@@ -74,8 +74,8 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="NtH-j9-3Bo" customClass="CircleImagesCollectionView" customModule="Soyou" customModuleProvider="target">
-                                                    <rect key="frame" x="73" y="52" width="282" height="67.5"/>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="NtH-j9-3Bo" customClass="CircleImagesCollectionView" customModule="Soyou" customModuleProvider="target">
+                                                    <rect key="frame" x="73" y="52" width="239.5" height="67.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RAv-wl-nZN">
                                                         <size key="itemSize" width="50" height="50"/>
@@ -139,34 +139,24 @@
                                                 <constraint firstAttribute="bottom" secondItem="nvv-1Y-Gn3" secondAttribute="bottom" constant="16" id="Hop-KV-tfB"/>
                                                 <constraint firstItem="nvv-1Y-Gn3" firstAttribute="leading" secondItem="3Jf-ja-nqw" secondAttribute="leading" id="JPl-d8-cP1"/>
                                                 <constraint firstItem="3Jf-ja-nqw" firstAttribute="trailing" secondItem="RsM-Sz-DFc" secondAttribute="trailing" constant="-20" id="Nr0-DW-8OU"/>
-                                                <constraint firstItem="NtH-j9-3Bo" firstAttribute="width" secondItem="3Jf-ja-nqw" secondAttribute="width" multiplier="0.5" id="ROF-wy-vhV"/>
                                                 <constraint firstItem="8R0-xI-v12" firstAttribute="leading" secondItem="nvv-1Y-Gn3" secondAttribute="trailing" constant="10" id="UGA-Zt-2PR"/>
                                                 <constraint firstItem="nvv-1Y-Gn3" firstAttribute="top" secondItem="NtH-j9-3Bo" secondAttribute="bottom" constant="7" id="VOL-Uo-l4b"/>
                                                 <constraint firstItem="Pv3-TR-fQJ" firstAttribute="leading" secondItem="3Jf-ja-nqw" secondAttribute="leading" id="X65-0S-uWW"/>
                                                 <constraint firstItem="Pv3-TR-fQJ" firstAttribute="top" secondItem="3Jf-ja-nqw" secondAttribute="bottom" id="Xjy-EE-89R"/>
-                                                <constraint firstItem="NtH-j9-3Bo" firstAttribute="width" secondItem="3Jf-ja-nqw" secondAttribute="width" id="c0d-1L-fft"/>
+                                                <constraint firstItem="NtH-j9-3Bo" firstAttribute="width" secondItem="3Jf-ja-nqw" secondAttribute="width" multiplier="0.85" id="c0d-1L-fft"/>
                                                 <constraint firstItem="Pv3-TR-fQJ" firstAttribute="trailing" secondItem="3Jf-ja-nqw" secondAttribute="trailing" id="gnF-Q3-YKE"/>
                                                 <constraint firstItem="qxk-a3-8H1" firstAttribute="top" secondItem="RsM-Sz-DFc" secondAttribute="top" constant="16" id="kcW-kw-3xP"/>
                                                 <constraint firstItem="NtH-j9-3Bo" firstAttribute="top" secondItem="Pv3-TR-fQJ" secondAttribute="bottom" id="mny-nA-yCJ"/>
-                                                <constraint firstItem="NtH-j9-3Bo" firstAttribute="width" secondItem="3Jf-ja-nqw" secondAttribute="width" multiplier="0.666667" id="oPg-81-QcQ"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="qxk-a3-8H1" secondAttribute="bottom" priority="750" constant="-16" id="uyW-Ke-MQX"/>
                                                 <constraint firstItem="qxk-a3-8H1" firstAttribute="leading" secondItem="RsM-Sz-DFc" secondAttribute="leading" constant="20" id="wC3-oN-aYI"/>
                                                 <constraint firstItem="8R0-xI-v12" firstAttribute="top" secondItem="nvv-1Y-Gn3" secondAttribute="top" id="yQa-TC-0uA"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="ROF-wy-vhV"/>
-                                                    <exclude reference="oPg-81-QcQ"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="btnDelete" destination="8R0-xI-v12" id="9zV-CO-YHQ"/>
                                             <outlet property="imagesCollectionView" destination="NtH-j9-3Bo" id="AoD-DH-bEC"/>
-                                            <outlet property="imagesCollectionViewWidth1" destination="ROF-wy-vhV" id="cXr-gI-tjA"/>
-                                            <outlet property="imagesCollectionViewWidth2" destination="oPg-81-QcQ" id="Q0u-aE-FeI"/>
-                                            <outlet property="imagesCollectionViewWidth3" destination="c0d-1L-fft" id="GQQ-w0-VYr"/>
+                                            <outlet property="imagesCollectionViewWidth" destination="c0d-1L-fft" id="gTA-xG-0Ig"/>
                                             <outlet property="imgUser" destination="qxk-a3-8H1" id="lj8-7L-clt"/>
                                             <outlet property="lblContent" destination="Pv3-TR-fQJ" id="SDo-jY-iul"/>
                                             <outlet property="lblDate" destination="nvv-1Y-Gn3" id="GdV-uI-324"/>

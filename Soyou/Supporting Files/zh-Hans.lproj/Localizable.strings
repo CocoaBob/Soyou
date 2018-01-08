@@ -96,6 +96,7 @@
 /* Circles View Controller */
 "circles_vc_title"="照片墙";
 "circles_vc_tab_title"="照片墙";
+"circles_vc_delete"="删除";
 
 /* User View Controller */
 "user_vc_login"="登录您的帐号";

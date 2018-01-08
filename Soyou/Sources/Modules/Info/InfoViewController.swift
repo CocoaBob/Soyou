@@ -31,9 +31,6 @@ class InfoViewController: UIViewController {
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
         
-        // UIViewController
-        self.title = NSLocalizedString("info_vc_title")
-        
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("info_vc_tab_title"),
                                        image: UIImage(named: "img_tab_news"),
@@ -45,6 +42,9 @@ class InfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // UIViewController
+        self.title = NSLocalizedString("info_vc_title")
         
         // SubViewControllers
         self.setupSubViewControllers()

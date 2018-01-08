@@ -50,13 +50,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.edgesForExtendedLayout = UIRectEdge.all
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = false
-        
-        // UIViewController
-        self.title = NSLocalizedString("circles_vc_title")
-        
         // UITabBarItem
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("circles_vc_tab_title"),
                                        image: UIImage(named: "img_tab_images"),
@@ -69,6 +62,13 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.edgesForExtendedLayout = UIRectEdge.all
+        self.extendedLayoutIncludesOpaqueBars = true
+        self.automaticallyAdjustsScrollViewInsets = false
+        
+        // UIViewController
+        self.title = NSLocalizedString("circles_vc_title")
+        
         // Navigation Bar
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_camera_selected"),
                                                                  style: .plain,
@@ -77,7 +77,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Setup table
         self.tableView().rowHeight = UITableViewAutomaticDimension
-        self.tableView().estimatedRowHeight = UITableViewAutomaticDimension
+        self.tableView().estimatedRowHeight = 75
         self.tableView().allowsSelection = false
         self.tableView().tableFooterView = UIView(frame: CGRect.zero)
         
@@ -232,7 +232,7 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
             cell.lblName.text = circle.username ?? ""
             cell.lblContent.text = circle.text
             cell.lblContent.bottomInset = ((circle.images?.count ?? 0) > 0) ? 8 : 0
-            cell.imgURLs = circle.images as? [String]
+            cell.imgURLs = circle.images as? [[String: String]]
             if let date = circle.createdDate {
                 cell.lblDate.text = DateFormatter.localizedString(from: date,
                                                                   dateStyle: DateFormatter.Style.short,
@@ -248,6 +248,10 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -447,24 +451,45 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var btnDelete: UIButton!
     
     @IBOutlet var imagesCollectionView: UICollectionView!
-    @IBOutlet var imagesCollectionViewWidth1: NSLayoutConstraint!
-    @IBOutlet var imagesCollectionViewWidth2: NSLayoutConstraint!
-    @IBOutlet var imagesCollectionViewWidth3: NSLayoutConstraint!
+    @IBOutlet var imagesCollectionViewWidth: NSLayoutConstraint?
     
-    var imgURLs: [String]? {
+    var imgURLs: [[String: String]]? {
         didSet {
-            let columns = (imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3))
-            self.imagesCollectionViewWidth1.isActive = columns == 1
-            self.imagesCollectionViewWidth2.isActive = columns == 2
-            self.imagesCollectionViewWidth3.isActive = columns == 3
+            if self.superview == nil {
+                return
+            }
+            if let constraint = self.imagesCollectionViewWidth {
+                self.contentView.removeConstraint(constraint)
+            }
+            var ratio = CGFloat(0.85)
+            if imgURLs?.count == 1 {
+                ratio *= 0.5
+            } else if imgURLs?.count == 4 {
+                ratio *= 2.0 / 3.0
+            }
+            let constraint = NSLayoutConstraint(item: self.imagesCollectionView,
+                                                attribute: .width,
+                                                relatedBy: .equal,
+                                                toItem: self.lblName,
+                                                attribute: .width,
+                                                multiplier: ratio,
+                                                constant: 0)
+            self.contentView.addConstraint(constraint)
+            self.imagesCollectionViewWidth = constraint
+            self.layoutIfNeeded()
             self.imagesCollectionView.reloadData()
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.setupViews()
         self.setupCollectionView()
         self.prepareForReuse()
+    }
+    
+    func setupViews() {
+        self.btnDelete.setTitle(NSLocalizedString("circles_vc_delete"), for: .normal)
     }
     
     override func prepareForReuse() {
@@ -491,8 +516,14 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CircleImageCollectionViewCell",
                                                       for: indexPath)
         if let cell = cell as? CircleImageCollectionViewCell {
-            if let str = self.imgURLs?[indexPath.row], let url = URL(string: str) {
-                cell.imageView.sd_setImage(with: url,
+            if let dict = self.imgURLs?[indexPath.row] {
+                var imageURL: URL?
+                if let thumbnailStr = dict["thumbnail"], let thumbnailURL = URL(string: thumbnailStr) {
+                    imageURL = thumbnailURL
+                } else if let originalStr = dict["original"], let originalURL = URL(string: originalStr) {
+                    imageURL = originalURL
+                }
+                cell.imageView.sd_setImage(with: imageURL,
                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                            options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                            completed: { (image, error, type, url) -> Void in
@@ -543,12 +574,7 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var columns = CGFloat(3.0)
-        if self.imgURLs?.count == 1 {
-            columns = CGFloat(1.0)
-        } else if self.imgURLs?.count == 4 {
-            columns = CGFloat(2.0)
-        }
+        let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
         let size = floor((collectionView.bounds.width - 1) / columns) - 1
         return CGSize(width: size, height: size)
     }
