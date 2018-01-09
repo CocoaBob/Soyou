@@ -80,12 +80,14 @@ extension CircleComposeViewController {
     
     @IBAction func post() {
         UserManager.shared.loginOrDo {
+            MBProgressHUD.show(self.view)
             var comment = self.tvContent.text ?? ""
             if comment.count == 0 {
                 return
             }
             comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
             DataManager.shared.createCicle(comment, nil, CircleVisibility.everyone) { (responseObject, error) in
+                MBProgressHUD.hide(self.view)
                 if error == nil {
                     self.navigationController?.popViewController(animated: true)
                     if let delegate = self.delegate {

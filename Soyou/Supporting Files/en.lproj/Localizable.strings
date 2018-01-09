@@ -94,7 +94,8 @@
 /* Circles View Controller */
 "circles_vc_title"="Circles";
 "circles_vc_tab_title"="Circles";
-"circles_vc_delete"="Delete";
+"circles_vc_delete_button"="Delete";
+"circles_vc_delete_alert"="Delete this post?";
 
 /* User View Controller */
 "user_vc_login"="Login Accont";
@@ -227,6 +228,7 @@
 "alert_button_ok"="OK";
 "alert_button_close"="Close";
 "alert_button_cancel"="Cancel";
+"alert_button_delete"="Delete";
 "currency_unknown"="Unknown Currency";
 
 /* Product descriptions */

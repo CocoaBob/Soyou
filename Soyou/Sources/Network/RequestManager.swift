@@ -359,7 +359,7 @@ class RequestManager {
             onFailure)
     }
     
-    func deleteCircle(_ id: Int,  _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func deleteCircle(_ id: String,  _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)", "Circle", onSuccess, onFailure)
     }
     

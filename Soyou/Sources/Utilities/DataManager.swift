@@ -693,7 +693,7 @@ class DataManager {
         })
     }
     
-    func deleteCircle(_ id: Int,  _ completion: CompletionClosure?) {
+    func deleteCircle(_ id: String,  _ completion: CompletionClosure?) {
         RequestManager.shared.deleteCircle(id, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in

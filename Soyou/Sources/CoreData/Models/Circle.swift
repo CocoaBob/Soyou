@@ -74,4 +74,15 @@ class Circle: NSManagedObject {
             completion?(nil, FmtError(0, nil))
         }
     }
+    
+    func delete(_ completion: (()->())?) {
+        guard let circleID = self.id else {
+            return
+        }
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            let localCircle = self.mr_(in: localContext)
+            localCircle?.mr_deleteEntity(in: localContext)
+            completion?()
+        })
+    }
 }

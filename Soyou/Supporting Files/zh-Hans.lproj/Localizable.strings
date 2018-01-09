@@ -96,7 +96,8 @@
 /* Circles View Controller */
 "circles_vc_title"="照片墙";
 "circles_vc_tab_title"="照片墙";
-"circles_vc_delete"="删除";
+"circles_vc_delete_button"="删除";
+"circles_vc_delete_alert"="确定删除吗？";
 
 /* User View Controller */
 "user_vc_login"="登录您的帐号";
@@ -228,6 +229,7 @@
 "alert_button_ok"="确认";
 "alert_button_close"="关闭";
 "alert_button_cancel"="取消";
+"alert_button_delete"="删除";
 "currency_unknown"="未知汇率";
 
 /* Product descriptions */

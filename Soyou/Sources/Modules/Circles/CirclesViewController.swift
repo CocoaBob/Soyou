@@ -207,42 +207,10 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CirclesTableViewCell", for: indexPath) as? CirclesTableViewCell else {
-            return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CirclesTableViewCell", for: indexPath)
+        if let cell = cell as? CirclesTableViewCell {
+            cell.circle = self.fetchedResultsController?.object(at: indexPath) as? Circle
         }
-        
-        if let circle = self.fetchedResultsController?.object(at: indexPath) as? Circle {
-            if let str = circle.userProfileUrl, let url = URL(string: str) {
-                cell.imgUser.sd_setImage(with: url,
-                                         placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                         options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                         completed: { (image, error, type, url) -> Void in
-                                            // Update the image with an animation
-                                            if let image = image {
-                                                UIView.transition(with: cell.imgUser,
-                                                                  duration: 0.3,
-                                                                  options: UIViewAnimationOptions.transitionCrossDissolve,
-                                                                  animations: { cell.imgUser.image = image },
-                                                                  completion: nil)
-                                            }
-                })
-            } else {
-                cell.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
-            }
-            cell.lblName.text = circle.username ?? ""
-            cell.lblContent.text = circle.text
-            cell.lblContent.bottomInset = ((circle.images?.count ?? 0) > 0) ? 8 : 0
-            cell.imgURLs = circle.images as? [[String: String]]
-            if let date = circle.createdDate {
-                cell.lblDate.text = DateFormatter.localizedString(from: date,
-                                                                  dateStyle: DateFormatter.Style.short,
-                                                                  timeStyle: DateFormatter.Style.short)
-            } else {
-                cell.lblDate.text = nil
-            }
-            cell.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
-        }
-        
         return cell
     }
     
@@ -444,6 +412,12 @@ extension CirclesViewController {
 // MARK: - CirclesTableViewCell
 class CirclesTableViewCell: UITableViewCell {
     
+    var circle: Circle? {
+        didSet {
+            self.configureCell()
+        }
+    }
+    
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var lblName: MarginLabel!
     @IBOutlet var lblContent: MarginLabel!
@@ -454,31 +428,7 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var imagesCollectionViewWidth: NSLayoutConstraint?
     
     var imgURLs: [[String: String]]? {
-        didSet {
-            if self.superview == nil {
-                return
-            }
-            if let constraint = self.imagesCollectionViewWidth {
-                self.contentView.removeConstraint(constraint)
-            }
-            var ratio = CGFloat(0.85)
-            if imgURLs?.count == 1 {
-                ratio *= 0.5
-            } else if imgURLs?.count == 4 {
-                ratio *= 2.0 / 3.0
-            }
-            let constraint = NSLayoutConstraint(item: self.imagesCollectionView,
-                                                attribute: .width,
-                                                relatedBy: .equal,
-                                                toItem: self.lblName,
-                                                attribute: .width,
-                                                multiplier: ratio,
-                                                constant: 0)
-            self.contentView.addConstraint(constraint)
-            self.imagesCollectionViewWidth = constraint
-            self.layoutIfNeeded()
-            self.imagesCollectionView.reloadData()
-        }
+        return self.circle?.images as? [[String: String]]
     }
     
     override func awakeFromNib() {
@@ -489,19 +439,120 @@ class CirclesTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
-        self.btnDelete.setTitle(NSLocalizedString("circles_vc_delete"), for: .normal)
+        self.btnDelete.setTitle(NSLocalizedString("circles_vc_delete_button"), for: .normal)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.imgUser.sd_cancelCurrentImageLoad()
         self.imgUser.image = nil
         self.lblName.text = nil
         self.lblContent.text = nil
-        self.imgURLs = nil
+        self.btnDelete.isHidden = true
     }
     
     @IBAction func delete() {
-        
+        guard let circle = self.circle, let circleID = circle.id else {
+            return
+        }
+        guard let vc = UIApplication.shared.keyWindow?.rootViewController else {
+            return
+        }
+        let alertController = UIAlertController(title: nil,
+                                                message: NSLocalizedString("circles_vc_delete_alert"),
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_delete"),
+                                                style: UIAlertActionStyle.destructive,
+                                                handler: { (action: UIAlertAction) -> Void in
+                                                    MBProgressHUD.show(vc.view)
+                                                    DataManager.shared.deleteCircle(circleID) { responseObject, error in
+                                                        circle.delete({
+                                                            MBProgressHUD.hide(vc.view)
+                                                        })
+                                                    }
+        }))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                style: UIAlertActionStyle.cancel,
+                                                handler: { (action: UIAlertAction) -> Void in
+        }))
+        vc.present(alertController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Configure Cell
+extension CirclesTableViewCell {
+    
+    func configureCell() {
+        self.prepareForReuse()
+        guard let circle = self.circle else {
+            return
+        }
+        self.configureProfileImage(circle)
+        self.configureLabels(circle)
+        self.configureImagesCollectionView(circle)
+        self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
+    }
+    
+    func configureProfileImage(_ circle: Circle) {
+        if let str = circle.userProfileUrl, let url = URL(string: str) {
+            self.imgUser.sd_setImage(with: url,
+                                     placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                     completed: { (image, error, type, url) -> Void in
+                                        // Update the image with an animation
+                                        if let image = image {
+                                            UIView.transition(with: self.imgUser,
+                                                              duration: 0.3,
+                                                              options: UIViewAnimationOptions.transitionCrossDissolve,
+                                                              animations: { self.imgUser.image = image },
+                                                              completion: nil)
+                                        }
+            })
+        } else {
+            self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
+        }
+    }
+    
+    func configureLabels(_ circle: Circle) {
+        self.lblName.text = circle.username ?? ""
+        self.lblContent.text = circle.text
+        self.lblContent.bottomInset = ((circle.images?.count ?? 0) > 0) ? 8 : 0
+        if let date = circle.createdDate {
+            self.lblDate.text = DateFormatter.localizedString(from: date,
+                                                              dateStyle: DateFormatter.Style.medium,
+                                                              timeStyle: DateFormatter.Style.short)
+        } else {
+            self.lblDate.text = nil
+        }
+    }
+    
+    func configureImagesCollectionView(_ circle: Circle) {
+        if self.superview == nil {
+            return
+        }
+        guard let imgURLs = self.imgURLs else {
+            return
+        }
+        if let constraint = self.imagesCollectionViewWidth {
+            self.contentView.removeConstraint(constraint)
+        }
+        var ratio = CGFloat(0.85)
+        if imgURLs.count == 1 {
+            ratio *= 0.5
+        } else if imgURLs.count == 4 {
+            ratio *= 2.0 / 3.0
+        }
+        let constraint = NSLayoutConstraint(item: self.imagesCollectionView,
+                                            attribute: .width,
+                                            relatedBy: .equal,
+                                            toItem: self.lblName,
+                                            attribute: .width,
+                                            multiplier: ratio,
+                                            constant: 0)
+        self.contentView.addConstraint(constraint)
+        self.imagesCollectionViewWidth = constraint
+        self.layoutIfNeeded()
+        self.imagesCollectionView.reloadData()
     }
 }
 
