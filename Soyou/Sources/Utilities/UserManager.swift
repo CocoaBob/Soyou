@@ -131,6 +131,7 @@ extension UserManager {
         FavoriteNews.deleteAll()
         FavoriteDiscount.deleteAll()
         FavoriteProduct.deleteAll()
+        Circle.deleteAll()
     }
     
     var isLoggedIn: Bool {

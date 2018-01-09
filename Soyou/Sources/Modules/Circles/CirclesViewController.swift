@@ -13,6 +13,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var imgViewAvatar: UIImageView!
     @IBOutlet var parallaxHeaderView: UIView!
     @IBOutlet var lblUsername: UILabel!
+    @IBOutlet var btnCompose: UIButton!
     
     // Pull and reload
     var isLoadingData = false
@@ -98,7 +99,8 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Setup avatar action
         self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
-        
+        self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
+
         // Username shadow
         self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
         self.lblUsername.layer.shadowOpacity = 1
@@ -352,7 +354,9 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
 extension CirclesViewController {
     
     @objc func avatarAction() {
-        
+        UserManager.shared.loginOrDo() { () -> () in
+            self.present(UINavigationController(rootViewController: ProfileViewController()), animated: true, completion: nil)
+        }
     }
 }
 
@@ -395,6 +399,10 @@ extension CirclesViewController {
             self.imgViewAvatar.image = UserManager.shared.defaultAvatarImage()
         }
         self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
+        
+        // Update controls
+        self.btnCompose.isEnabled = UserManager.shared.isLoggedIn
+        self._tableView.mj_footer.isHidden = !UserManager.shared.isLoggedIn
     }
 }
 

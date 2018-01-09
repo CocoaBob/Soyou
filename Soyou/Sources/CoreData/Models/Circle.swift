@@ -16,6 +16,12 @@ struct CircleVisibility {
 }
 
 class Circle: NSManagedObject {
+    
+    class func deleteAll() {
+        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            Circle.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
+        })
+    }
 
     @discardableResult class func importData(_ data: NSDictionary?, _ context: NSManagedObjectContext) -> (Circle?) {
         guard let data = data else {
