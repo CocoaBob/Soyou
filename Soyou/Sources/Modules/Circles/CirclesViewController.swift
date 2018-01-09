@@ -434,6 +434,7 @@ class CirclesTableViewCell: UITableViewCell {
     
     @IBOutlet var imagesCollectionView: UICollectionView!
     @IBOutlet var imagesCollectionViewWidth: NSLayoutConstraint?
+    @IBOutlet var imagesCollectionViewContainer: UIView!
     
     var imgURLs: [[String: String]]? {
         return self.circle?.images as? [[String: String]]
@@ -542,9 +543,9 @@ extension CirclesTableViewCell {
             return
         }
         if let constraint = self.imagesCollectionViewWidth {
-            self.contentView.removeConstraint(constraint)
+            self.imagesCollectionViewContainer.removeConstraint(constraint)
         }
-        var ratio = CGFloat(0.85)
+        var ratio = CGFloat(1)
         if imgURLs.count == 1 {
             ratio *= 0.5
         } else if imgURLs.count == 4 {
@@ -553,11 +554,11 @@ extension CirclesTableViewCell {
         let constraint = NSLayoutConstraint(item: self.imagesCollectionView,
                                             attribute: .width,
                                             relatedBy: .equal,
-                                            toItem: self.lblName,
+                                            toItem: self.imagesCollectionViewContainer,
                                             attribute: .width,
                                             multiplier: ratio,
                                             constant: 0)
-        self.contentView.addConstraint(constraint)
+        self.imagesCollectionViewContainer.addConstraint(constraint)
         self.imagesCollectionViewWidth = constraint
         self.layoutIfNeeded()
         self.imagesCollectionView.reloadData()
