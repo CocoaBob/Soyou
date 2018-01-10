@@ -160,6 +160,10 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                                                             for (key, value) in dict {
                                                                 if let value = value as? Data {
                                                                     formData.appendPart(withFileData: value, name: key, fileName: "\(key)", mimeType: "image/jpeg")
+                                                                } else if let value = value as? [Data] {
+                                                                    for (i, data) in value.enumerated() {
+                                                                        formData.appendPart(withFileData: data, name: key, fileName: "\(key)\(i)", mimeType: "image/jpeg")
+                                                                    }
                                                                 } else {
                                                                     var string: String?
                                                                     if let value = value as? String {

@@ -97,6 +97,17 @@
 "circles_vc_delete_button"="Delete";
 "circles_vc_delete_alert"="Delete this post?";
 
+/* Circle Compose View Controller */
+"circle_compose_text_placeholder"="Idea at this moment...";
+"circle_compose_share_to_wechat"="Share to WeChat";
+"circle_compose_visibility_title"="Who can see";
+"circle_compose_visibility_public"="Public";
+"circle_compose_visibility_everyon_desc"="Visible to all Soyou users";
+"circle_compose_visibility_friends"="Friends";
+"circle_compose_visibility_friends"="Visible to all my friends";
+"circle_compose_visibility_me"="Me";
+"circle_compose_visibility_me"="Only visible to myself";
+
 /* User View Controller */
 "user_vc_login"="Login Accont";
 "user_vc_username_unknown"="Username unknown";

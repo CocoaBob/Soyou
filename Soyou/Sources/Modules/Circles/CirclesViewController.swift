@@ -401,7 +401,7 @@ extension CirclesViewController {
         self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
         
         // Update controls
-        self.btnCompose.isEnabled = UserManager.shared.isLoggedIn
+//        self.btnCompose.isEnabled = UserManager.shared.isLoggedIn
         self._tableView.mj_footer.isHidden = !UserManager.shared.isLoggedIn
     }
 }
@@ -506,17 +506,7 @@ extension CirclesTableViewCell {
         if let str = circle.userProfileUrl, let url = URL(string: str) {
             self.imgUser.sd_setImage(with: url,
                                      placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                     completed: { (image, error, type, url) -> Void in
-                                        // Update the image with an animation
-                                        if let image = image {
-                                            UIView.transition(with: self.imgUser,
-                                                              duration: 0.3,
-                                                              options: UIViewAnimationOptions.transitionCrossDissolve,
-                                                              animations: { self.imgUser.image = image },
-                                                              completion: nil)
-                                        }
-            })
+                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
@@ -637,33 +627,5 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
         let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
         let size = floor((collectionView.bounds.width - 1) / columns) - 1
         return CGSize(width: size, height: size)
-    }
-}
-
-class CircleImagesCollectionView: UICollectionView {
-    
-    override var intrinsicContentSize: CGSize {
-        self.layoutIfNeeded()
-        return super.contentSize
-    }
-    
-    override func reloadData() {
-        super.reloadData()
-        self.layoutIfNeeded()
-        self.invalidateIntrinsicContentSize()
-    }
-}
-
-class CircleImageCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var imageView: UIImageView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.prepareForReuse()
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = UIImage(named: "img_placeholder_1_1_s")
     }
 }

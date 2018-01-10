@@ -99,6 +99,17 @@
 "circles_vc_delete_button"="删除";
 "circles_vc_delete_alert"="确定删除吗？";
 
+/* Circle Compose View Controller */
+"circle_compose_text_placeholder"="这一刻的想法…";
+"circle_compose_share_to_wechat"="分享到微信朋友圈";
+"circle_compose_visibility_title"="谁可以看见";
+"circle_compose_visibility_public"="公开";
+"circle_compose_visibility_everyon_desc"="所有奢有用户都可以看见";
+"circle_compose_visibility_friends"="朋友";
+"circle_compose_visibility_friends"="我的朋友都可以看见";
+"circle_compose_visibility_me"="自己";
+"circle_compose_visibility_me"="只有我自己可以看见";
+
 /* User View Controller */
 "user_vc_login"="登录您的帐号";
 "user_vc_username_unknown"="用户名尚未设置";

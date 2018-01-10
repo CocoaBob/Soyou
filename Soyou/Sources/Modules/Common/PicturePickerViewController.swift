@@ -61,5 +61,35 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         
         fromVC.present(vc, animated: true, completion: nil)
     }
+    
+    static func pickPhotos(from fromVC: UIViewController,
+                           selectedAssets: [TLPHAsset]?,
+                           maxSelection: Int,
+                           delegate: TLPhotosPickerViewControllerDelegate) {
+        var configure = TLPhotosPickerConfigure()
+        configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
+        configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
+        configure.cancelTitle = NSLocalizedString("photo_picker_cancel")
+        configure.doneTitle = NSLocalizedString("photo_picker_confirm")
+        configure.usedCameraButton = true
+        configure.usedPrefetch = false
+        configure.allowedLivePhotos = false
+        configure.allowedVideo = false
+        configure.allowedVideoRecording = false
+        configure.numberOfColumn = 3
+        configure.singleSelectedMode = maxSelection == 1
+        configure.maxSelectedAssets = maxSelection
+        configure.fetchOption = nil
+        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
+        
+        let vc = PicturePickerViewController()
+        vc.configure = configure
+        vc.delegate = delegate
+        if let selectedAssets = selectedAssets {
+            vc.selectedAssets.append(contentsOf: selectedAssets)
+        }
+        
+        fromVC.present(vc, animated: true, completion: nil)
+    }
 }
 

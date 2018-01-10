@@ -1,0 +1,43 @@
+//
+//  CircleImagesCollectionView.swift
+//  Soyou
+//
+//  Created by CocoaBob on 2018-01-09.
+//  Copyright © 2018 Soyou. All rights reserved.
+//
+
+class CircleImagesCollectionView: UICollectionView {
+    
+    override var intrinsicContentSize: CGSize {
+        self.layoutIfNeeded()
+        return super.contentSize
+    }
+    
+    override func reloadData() {
+        super.reloadData()
+        self.layoutIfNeeded()
+        self.invalidateIntrinsicContentSize()
+    }
+}
+
+class CircleImageCollectionViewCell: UICollectionViewCell {
+    
+    @IBOutlet var imageView: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.prepareForReuse()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imageView.image = nil
+        self.imageView.contentMode = .scaleAspectFill
+        self.imageView.layer.borderWidth = 0
+        self.contentView.layer.contents = nil
+        self.contentView.layer.borderWidth = 0
+        self.selectedBackgroundView?.layer.contents = nil
+        self.selectedBackgroundView?.layer.borderWidth = 0
+        self.selectedBackgroundView?.backgroundColor = UIColor.clear
+    }
+}
