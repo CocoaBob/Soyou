@@ -401,7 +401,7 @@ extension CirclesViewController {
         self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
         
         // Update controls
-//        self.btnCompose.isEnabled = UserManager.shared.isLoggedIn
+        self.btnCompose.isEnabled = UserManager.shared.isLoggedIn
         self._tableView.mj_footer.isHidden = !UserManager.shared.isLoggedIn
     }
 }

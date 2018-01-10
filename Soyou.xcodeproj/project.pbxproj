@@ -117,6 +117,8 @@
 		45B873F91D4AC046008256A6 /* CommentComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */; };
 		45BAAF4420052C8000CEE6A3 /* CircleImagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAAF4320052C8000CEE6A3 /* CircleImagesCollectionView.swift */; };
 		45BAAF462005CC9800CEE6A3 /* UICollectionViewLeftAlignedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAAF452005CC9800CEE6A3 /* UICollectionViewLeftAlignedLayout.swift */; };
+		45BAAF49200655C400CEE6A3 /* PicturePickerCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAAF47200655C300CEE6A3 /* PicturePickerCell2.swift */; };
+		45BAAF4A200655C400CEE6A3 /* PicturePickerCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45BAAF48200655C300CEE6A3 /* PicturePickerCell2.xib */; };
 		45BED0911C8A3DDF002E375B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BED0901C8A3DDF002E375B /* DataManager.swift */; };
 		45C3AA511C6C99AA00BA7CDE /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */; };
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
@@ -297,6 +299,8 @@
 		45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentComposeViewController.swift; sourceTree = "<group>"; };
 		45BAAF4320052C8000CEE6A3 /* CircleImagesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImagesCollectionView.swift; sourceTree = "<group>"; };
 		45BAAF452005CC9800CEE6A3 /* UICollectionViewLeftAlignedLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewLeftAlignedLayout.swift; sourceTree = "<group>"; };
+		45BAAF47200655C300CEE6A3 /* PicturePickerCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicturePickerCell2.swift; sourceTree = "<group>"; };
+		45BAAF48200655C300CEE6A3 /* PicturePickerCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PicturePickerCell2.xib; sourceTree = "<group>"; };
 		45BED0901C8A3DDF002E375B /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
@@ -516,14 +520,10 @@
 		4568E2F41BF92171009A6164 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				4568E2F51BF92182009A6164 /* AsyncedFetchedResultsViewController.swift */,
-				45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */,
-				456833B81D3009EA006A5B3F /* CommentsViewController.swift */,
-				458B2E491FECA28700BD6843 /* PicturePickerCell.swift */,
-				458B2E481FECA28600BD6843 /* PicturePickerCell.xib */,
-				458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */,
+				45BAAF4D2006569900CEE6A3 /* CommentsViewController */,
+				45BAAF4C2006568100CEE6A3 /* FetchResultsViewController */,
+				45BAAF4B200655CB00CEE6A3 /* PicturePickerViewController */,
 				4590F8C71C5280C800329ECA /* SimpleTableViewController.swift */,
-				45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -713,6 +713,36 @@
 				459E90D91D02E39900FEDC3A /* MappingModel_1.4_1.5.xcmappingmodel */,
 			);
 			name = Migration;
+			sourceTree = "<group>";
+		};
+		45BAAF4B200655CB00CEE6A3 /* PicturePickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				458B2E491FECA28700BD6843 /* PicturePickerCell.swift */,
+				458B2E481FECA28600BD6843 /* PicturePickerCell.xib */,
+				45BAAF47200655C300CEE6A3 /* PicturePickerCell2.swift */,
+				45BAAF48200655C300CEE6A3 /* PicturePickerCell2.xib */,
+				458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */,
+			);
+			path = PicturePickerViewController;
+			sourceTree = "<group>";
+		};
+		45BAAF4C2006568100CEE6A3 /* FetchResultsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4568E2F51BF92182009A6164 /* AsyncedFetchedResultsViewController.swift */,
+				45F3302B1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift */,
+			);
+			path = FetchResultsViewController;
+			sourceTree = "<group>";
+		};
+		45BAAF4D2006569900CEE6A3 /* CommentsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				45B873F81D4AC046008256A6 /* CommentComposeViewController.swift */,
+				456833B81D3009EA006A5B3F /* CommentsViewController.swift */,
+			);
+			path = CommentsViewController;
 			sourceTree = "<group>";
 		};
 		45CFA5971C2B1585007D38F3 /* Products */ = {
@@ -919,6 +949,7 @@
 				0D05D6571C485A1900D8A7C2 /* productDescription.css in Resources */,
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
 				450D47621FFC288300A2F3D1 /* CirclesViewController.storyboard in Resources */,
+				45BAAF4A200655C400CEE6A3 /* PicturePickerCell2.xib in Resources */,
 				4597B2411D30FACE00287873 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */,
@@ -1142,6 +1173,7 @@
 				4597B2381D30FACE00287873 /* DDFacebookHandler.m in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */,
+				45BAAF49200655C400CEE6A3 /* PicturePickerCell2.swift in Sources */,
 				0D28BD721C51749E008CCF80 /* CurrencyManager.swift in Sources */,
 				456833B91D3009EA006A5B3F /* CommentsViewController.swift in Sources */,
 				45D418AC1C1B935200685DFC /* Brand+CoreDataProperties.swift in Sources */,

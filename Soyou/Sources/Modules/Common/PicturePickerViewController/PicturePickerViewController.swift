@@ -54,6 +54,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.maxSelectedAssets = 1
         configure.fetchOption = nil
         configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
+        configure.nibSet = (nibName: "PicturePickerCell2", bundle: Bundle.main)
         
         let vc = PicturePickerViewController()
         vc.configure = configure
@@ -81,6 +82,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.maxSelectedAssets = maxSelection
         configure.fetchOption = nil
         configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
+        configure.nibSet = (nibName: "PicturePickerCell", bundle: Bundle.main)
         
         let vc = PicturePickerViewController()
         vc.configure = configure
