@@ -283,12 +283,10 @@ extension StoreMapViewController {
         if let selectedAnnotations = (sender as? StoreMapAnnotationCalloutButton)?.annotation as? CCHMapClusterAnnotation,
             let store = self.storeOfSelectedAnnotation(selectedAnnotations) {
             let address = FmtString("%@\n%@\n%@\n%@\n%@",store.title ?? "", store.address ?? "", store.zipcode ?? "", store.city ?? "", store.country ?? "")
-            let pasteboard = UIPasteboard.general
-            pasteboard.string = address
-            
+            UIPasteboard.general.string = address
             
             let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-            hud.mode = MBProgressHUDMode.text
+            hud.mode = .text
             hud.label.text = NSLocalizedString("store_map_vc_address_copied")
             hud.hide(animated: true, afterDelay: 1)
         }

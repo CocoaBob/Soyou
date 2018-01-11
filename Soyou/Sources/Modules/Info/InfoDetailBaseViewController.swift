@@ -182,7 +182,7 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
                 assets.append(TLPHAsset(image: image))
             }
         }
-        PicturePickerViewController.sharePhotos(from: self, assets: assets, delegate: self)
+        PicturePickerViewController.share9Photos(from: self, assets: assets, delegate: self)
         MBProgressHUD.hide(self.view)
     }
     

@@ -298,6 +298,9 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="WRS-KV-wiN" id="tWw-P4-yG2"/>
+                                                    </connections>
                                                 </textView>
                                             </subviews>
                                             <constraints>
@@ -307,6 +310,7 @@
                                                 <constraint firstItem="6I0-kl-U1t" firstAttribute="top" secondItem="vll-1V-Sry" secondAttribute="top" id="HSf-6b-Ra7"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="110" id="sVn-V8-RKX">
                                         <rect key="frame" x="0.0" y="119" width="375" height="110"/>
@@ -316,11 +320,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MDt-ff-5er" customClass="CircleImagesCollectionView" customModule="Soyou" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="11" width="244" height="88"/>
+                                                    <rect key="frame" x="16" y="11" width="343" height="88"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="244" id="8mm-ue-7Mc"/>
-                                                    </constraints>
                                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="INx-mv-ybC">
                                                         <size key="itemSize" width="80" height="80"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -358,6 +359,7 @@
                                                 </collectionView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="MDt-ff-5er" firstAttribute="trailing" secondItem="IWh-8X-Jdc" secondAttribute="trailingMargin" id="Omy-E5-Hyo"/>
                                                 <constraint firstItem="MDt-ff-5er" firstAttribute="top" secondItem="IWh-8X-Jdc" secondAttribute="topMargin" id="gHs-O8-j9T"/>
                                                 <constraint firstItem="MDt-ff-5er" firstAttribute="leading" secondItem="IWh-8X-Jdc" secondAttribute="leadingMargin" id="hg1-Tc-uRM"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="MDt-ff-5er" secondAttribute="bottom" id="w8e-9k-194"/>
@@ -371,18 +373,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IlH-r2-jE0">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="IlH-r2-jE0">
                                                     <rect key="frame" x="310" y="6" width="51" height="31"/>
                                                 </switch>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_moments" translatesAutoresizingMaskIntoConstraints="NO" id="4WT-cc-wpr">
-                                                    <rect key="frame" x="16" y="6" width="32" height="32"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4WT-cc-wpr">
+                                                    <rect key="frame" x="16" y="13" width="18" height="18"/>
+                                                    <color key="tintColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="32" id="AiV-BO-WGe"/>
-                                                        <constraint firstAttribute="height" constant="32" id="dr2-la-grN"/>
+                                                        <constraint firstAttribute="width" constant="18" id="AiV-BO-WGe"/>
+                                                        <constraint firstAttribute="height" constant="18" id="dr2-la-grN"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share to WeChat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vob-M0-7qd">
-                                                    <rect key="frame" x="56" y="12" width="246" height="21"/>
+                                                    <rect key="frame" x="42" y="12" width="260" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -462,13 +465,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7Q-i4-iNo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1420" y="577"/>
+            <point key="canvasLocation" x="1420" y="576.1619190404798"/>
         </scene>
     </scenes>
     <resources>
         <image name="img_avatar_neutral" width="84" height="84"/>
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_camera_shadow" width="36" height="29"/>
-        <image name="img_moments" width="22" height="22"/>
     </resources>
 </document>

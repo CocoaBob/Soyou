@@ -9,6 +9,7 @@
 protocol CircleComposeViewControllerDelegate {
     
     func didPostNewCircle()
+    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool)
 }
 
 class CircleComposeViewController: UITableViewController {
@@ -38,10 +39,15 @@ class CircleComposeViewController: UITableViewController {
         // Hide tabs
         self.hidesBottomBarWhenPushed = true
         // Action button
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("new_comment_vc_title_post"),
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("alert_button_cancel"),
+                                                                style: .plain,
+                                                                target: self,
+                                                                action: #selector(CircleComposeViewController.quitEditing))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("circle_compose_post"),
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(CircleComposeViewController.post))
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
         // Setup Views
         self.setupViews()
         // TableView
@@ -53,8 +59,6 @@ class CircleComposeViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
-        
-        self.title = NSLocalizedString(NSLocalizedString("new_comment_vc_title_new"))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,12 +70,17 @@ class CircleComposeViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
+
 }
 
 extension CircleComposeViewController {
     
     func setupViews() {
+        self.tvContent.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
+        self.tvContent.textContainer.lineFragmentPadding = 0
         self.lblShareToWeChat.text = NSLocalizedString("circle_compose_share_to_wechat")
+        self.imgShareToWeChat.image = UIImage(named: "img_moments")?.withRenderingMode(.alwaysTemplate)
+        self.imgShareToWeChat.tintColor = UIColor.gray
     }
 }
 
@@ -88,11 +97,11 @@ extension CircleComposeViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                return 84
+                return 104
             } else if indexPath.row == 1 {
                 self.imagesCollectionView.setNeedsLayout()
                 self.imagesCollectionView.layoutIfNeeded()
-                return self.imagesCollectionView.contentSize.height + 16 // Cell margins
+                return self.imagesCollectionView.contentSize.height + 17 // Cell margins
             } else if indexPath.row == 2 {
                 return 44
             }
@@ -112,6 +121,13 @@ extension CircleComposeViewController {
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // Hide the separator for the 1st cell
+        if indexPath.section == 0 && indexPath.row == 0 {
+            cell.separatorInset = UIEdgeInsetsMake(0, self.tableView.bounds.width, 0, 0)
+        }
     }
 }
 
@@ -159,9 +175,9 @@ extension CircleComposeViewController: UICollectionViewDelegateFlowLayout {
         let layout = UICollectionViewLeftAlignedLayout()
         
         // Change individual layout attributes for the spacing between cells
-        layout.minimumLineSpacing = 1
-        layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
+        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 4
+        layout.sectionInset = UIEdgeInsets.zero
         layout.itemSize = CGSize(width: 80, height: 80)
         
         // Add the waterfall layout to your collection view
@@ -179,27 +195,57 @@ extension CircleComposeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: Update Edited status and POST button
+extension CircleComposeViewController: UITextViewDelegate {
+    
+    func isEdited() -> Bool {
+        return (self.selectedAssets?.count ?? 0 > 0) || (self.tvContent.text.count > 0)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        self.updatePostButton()
+    }
+    
+    func updatePostButton() {
+        self.navigationItem.rightBarButtonItem?.isEnabled = self.isEdited()
+    }
+}
+
 // MARK: Actions
 extension CircleComposeViewController {
+    
+    @IBAction func quitEditing() {
+        if !self.isEdited() {
+            self.dismissSelf()
+            return
+        }
+        let alertController = UIAlertController(title: nil,
+                                                message: NSLocalizedString("circle_compose_quit_editing_title"),
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("circle_compose_quit_editing_quit"),
+                                                style: UIAlertActionStyle.default,
+                                                handler: { (action: UIAlertAction) -> Void in
+                                                    self.dismissSelf()
+        }))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                style: UIAlertActionStyle.cancel,
+                                                handler: { (action: UIAlertAction) -> Void in
+        }))
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     @IBAction func post() {
         UserManager.shared.loginOrDo {
             MBProgressHUD.show(self.view)
-            var comment = self.tvContent.text ?? ""
-            if comment.count == 0 {
-                return
-            }
-            comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
-            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1024x1024") }
+            let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
+            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "854x854") }
             let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.7) }
-            DataManager.shared.createCicle(comment, imageDatas, CircleVisibility.everyone) { (responseObject, error) in
+            DataManager.shared.createCicle(encodedText, imageDatas, CircleVisibility.everyone) { (responseObject, error) in
                 MBProgressHUD.hide(self.view)
-                if error == nil {
-                    self.navigationController?.popViewController(animated: true)
-                    if let delegate = self.delegate {
-                        delegate.didPostNewCircle()
-                    }
-                }
+                self.delegate?.didPostNewCircle()
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+                })
             }
         }
     }
@@ -208,10 +254,10 @@ extension CircleComposeViewController {
 extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
     
     func addPicture() {
-        PicturePickerViewController.pickPhotos(from: self,
-                                               selectedAssets: self.selectedAssets,
-                                               maxSelection: 9,
-                                               delegate: self)
+        PicturePickerViewController.pick9Photos(from: self,
+                                                selectedAssets: self.selectedAssets,
+                                                maxSelection: 9,
+                                                delegate: self)
     }
     
     func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
@@ -220,5 +266,6 @@ extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
         self.imagesCollectionView.reloadData()
         self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
         UIView.setAnimationsEnabled(true)
+        self.updatePostButton()
     }
 }

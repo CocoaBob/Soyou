@@ -85,7 +85,7 @@
 "product_descriptions_vc_empty"="No descriptions";
 
 /* Store Map View Controller */
-"store_map_vc_address_copied"="Address copied to pasteboard";
+"store_map_vc_address_copied"="Address copied in pasteboard";
 "store_map_vc_search_bar_placeholder"="Countries, cities...";
 "store_map_vc_location_service_unavailable_title"="Unable to locate";
 "store_map_vc_location_service_unavailable_content"="Location service isn't allowed, please modify the settings.";
@@ -98,8 +98,12 @@
 "circles_vc_delete_alert"="Delete this post?";
 
 /* Circle Compose View Controller */
+"circle_compose_post"="Post";
+"circle_compose_quit_editing_title"="Quit editing?";
+"circle_compose_quit_editing_quit"="Quit";
 "circle_compose_text_placeholder"="Idea at this moment...";
 "circle_compose_share_to_wechat"="Share to WeChat";
+"circle_compose_share_to_wechat_copied"="Text copied in pasteboard";
 "circle_compose_visibility_title"="Who can see";
 "circle_compose_visibility_public"="Public";
 "circle_compose_visibility_everyon_desc"="Visible to all Soyou users";

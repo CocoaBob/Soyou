@@ -8,7 +8,7 @@
 
 class PicturePickerViewController: TLPhotosPickerViewController {
     
-    static func sharePhotos(from fromVC: UIViewController,
+    static func share9Photos(from fromVC: UIViewController,
                             assets: [TLPHAsset],
                             delegate: TLPhotosPickerViewControllerDelegate) {
         var configure = TLPhotosPickerConfigure()
@@ -63,7 +63,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         fromVC.present(vc, animated: true, completion: nil)
     }
     
-    static func pickPhotos(from fromVC: UIViewController,
+    static func pick9Photos(from fromVC: UIViewController,
                            selectedAssets: [TLPHAsset]?,
                            maxSelection: Int,
                            delegate: TLPhotosPickerViewControllerDelegate) {

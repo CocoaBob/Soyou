@@ -165,6 +165,9 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         if context == &KVOContextCirclesViewController {
             // Update login status
             self.updateUserInfo(true)
+            if keyPath == "token" {
+                self.loadData(nil)
+            }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -340,13 +343,48 @@ extension CirclesViewController {
 extension CirclesViewController: CircleComposeViewControllerDelegate {
     
     @IBAction func createCircle() {
-        let circleComposeViewController = CircleComposeViewController.instantiate()
-        circleComposeViewController.delegate = self
-        self.navigationController?.pushViewController(circleComposeViewController, animated: true)
+        let vc = CircleComposeViewController.instantiate()
+        vc.delegate = self
+        let navController = UINavigationController(rootViewController: vc)
+        self.present(navController, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {
         self.loadData(nil)
+    }
+    
+    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
+        if needsToShare {
+            self.shareTextAndImages(text: text, images: images)
+        }
+    }
+}
+
+// MARK: Share to WeChat
+extension CirclesViewController {
+    
+    func shareTextAndImages(text: String?, images: [UIImage]?) {
+        if text?.count ?? 0 > 0 || images?.count ?? 0 > 0 {
+            if let images = images {
+                MBProgressHUD.show(self.view)
+                Utils.shareItems(from: self, items: images, completion: { () -> Void in
+                    MBProgressHUD.hide(self.view)
+                    if let text = text, text.count > 0,
+                        let window = UIApplication.shared.keyWindow {
+                        UIPasteboard.general.string = text
+                        let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                        hud.mode = .text
+                        hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
+                        hud.hide(animated: true, afterDelay: 1)
+                    }
+                })
+            } else if let text = text {
+                MBProgressHUD.show(self.view)
+                Utils.shareItems(from: self, items: [text], completion: { () -> Void in
+                    MBProgressHUD.hide(self.view)
+                })
+            }
+        }
     }
 }
 
@@ -471,7 +509,7 @@ class CirclesTableViewCell: UITableViewCell {
                                                 message: NSLocalizedString("circles_vc_delete_alert"),
                                                 preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_delete"),
-                                                style: UIAlertActionStyle.destructive,
+                                                style: UIAlertActionStyle.default,
                                                 handler: { (action: UIAlertAction) -> Void in
                                                     MBProgressHUD.show(vc.view)
                                                     DataManager.shared.deleteCircle(circleID) { responseObject, error in
@@ -481,7 +519,7 @@ class CirclesTableViewCell: UITableViewCell {
                                                     }
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
-                                                style: UIAlertActionStyle.cancel,
+                                                style: UIAlertActionStyle.default,
                                                 handler: { (action: UIAlertAction) -> Void in
         }))
         vc.present(alertController, animated: true, completion: nil)
