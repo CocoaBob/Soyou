@@ -48,7 +48,6 @@
 		454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */; };
 		454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */; };
 		454ECE9C1C567AE5003A0E94 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE9A1C567AE5003A0E94 /* User.swift */; };
-		4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4555BBAB1BFFEEB500A01B41 /* server.cer */; };
 		4556F9231FC763CE0077D436 /* SearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */; };
 		455D06A61C0388C700D81ABF /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06A51C0388C700D81ABF /* Themes.swift */; };
 		455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455D06AB1C0391A600D81ABF /* InfoPlist.strings */; };
@@ -211,7 +210,6 @@
 		454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MBProgressHUD+Additions.swift"; sourceTree = "<group>"; };
 		454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454ECE9A1C567AE5003A0E94 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		4555BBAB1BFFEEB500A01B41 /* server.cer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.cer; sourceTree = "<group>"; };
 		4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarContainerView.swift; sourceTree = "<group>"; };
 		455D06A51C0388C700D81ABF /* Themes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		455D06AA1C0391A600D81ABF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -434,7 +432,6 @@
 				456478F71C6E095C00798EB2 /* 1Password.xcassets */,
 				4568E28F1BF90797009A6164 /* Assets.xcassets */,
 				45DAF6741BFA4DC1007355C8 /* LaunchScreen.storyboard */,
-				4555BBAB1BFFEEB500A01B41 /* server.cer */,
 				45A4D8301C08CD200000309C /* news.css */,
 				45A4D8311C08CD200000309C /* news.html */,
 				0D05D6541C484B7D00D8A7C2 /* productDescription.html */,
@@ -951,7 +948,6 @@
 				450D47621FFC288300A2F3D1 /* CirclesViewController.storyboard in Resources */,
 				45BAAF4A200655C400CEE6A3 /* PicturePickerCell2.xib in Resources */,
 				4597B2411D30FACE00287873 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				4555BBAC1BFFEEB500A01B41 /* server.cer in Resources */,
 				45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,
 				4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */,

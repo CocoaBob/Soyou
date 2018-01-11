@@ -17,22 +17,11 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
         self.reqAPIKey = isSTGMode ? Cons.Svr.reqAPIKeySTG : Cons.Svr.reqAPIKeyPROD
         
-        requestSerializer = AFJSONRequestSerializer()
-        responseSerializer = AFJSONResponseSerializer()
-        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
-        self.securityPolicy.validatesDomainName = false
-        self.securityPolicy.allowInvalidCertificates = true
-        
-        // Use self-signed certificates in X.509 DER format, now we have 1 certificate
-        var data: [NSData] = [NSData]()
-        for name: String in ["server"] {
-            let path: String? = Bundle.main.path(forResource: name, ofType: "cer")
-            if let path = path {
-                let keyData: NSData = NSData(contentsOfFile: path)!
-                data.append(keyData)
-            }
-        }
-        self.securityPolicy.pinnedCertificates = data
+        self.requestSerializer = AFJSONRequestSerializer()
+        self.responseSerializer = AFJSONResponseSerializer()
+//        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
+//        self.securityPolicy.validatesDomainName = false
+//        self.securityPolicy.allowInvalidCertificates = true
     }
 
     required init?(coder aDecoder: NSCoder) {
