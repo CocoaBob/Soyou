@@ -12,10 +12,10 @@ public struct Cons {
         static let apiVersion                               = "v1"
         
         static let hostnameSTG                              = "test-api.soyou.io"
-        static let shareBaseURLSTG                          = "http://test-api.soyou.io/#"
+        static let shareBaseURLSTG                          = "http://test-www.soyou.io/share/#"
         static let reqAPIKeySTG                             = "17843599-f079-4c57-bb39-d9ca8344abd"
         static let hostnamePROD                             = "api.soyou.io"
-        static let shareBaseURLPROD                         = "http://share.soyou.io/#"
+        static let shareBaseURLPROD                         = "http://www.soyou.io/share/#"
         static let reqAPIKeyPROD                            = "48548598-f079-4c57-bb39-d9ca8344abd7"
         
         // Number of News/Discounts for each request
