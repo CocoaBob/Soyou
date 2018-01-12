@@ -103,7 +103,7 @@
 "circle_compose_quit_editing_quit"="Quit";
 "circle_compose_text_placeholder"="Idea at this moment...";
 "circle_compose_share_to_wechat"="Share to WeChat";
-"circle_compose_share_to_wechat_copied"="Text copied in pasteboard";
+"circle_compose_share_to_wechat_copied"="Text is copied";
 "circle_compose_visibility_title"="Who can see";
 "circle_compose_visibility_public"="Public";
 "circle_compose_visibility_everyon_desc"="Visible to all Soyou users";

@@ -374,13 +374,14 @@ extension CirclesViewController {
                 MBProgressHUD.show(self.view)
                 Utils.shareItems(from: self, items: images, completion: { () -> Void in
                     MBProgressHUD.hide(self.view)
-                    if let text = text, text.count > 0,
-                        let window = UIApplication.shared.keyWindow {
+                    if let text = text, text.count > 0 {
                         UIPasteboard.general.string = text
-                        let hud = MBProgressHUD.showAdded(to: window, animated: true)
-                        hud.mode = .text
-                        hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
-                        hud.hide(animated: true, afterDelay: 1)
+                        if let window = UIApplication.shared.keyWindow  {
+                            let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                            hud.mode = .text
+                            hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
+                            hud.hide(animated: true, afterDelay: 2)
+                        }
                     }
                 })
             } else if let text = text {
