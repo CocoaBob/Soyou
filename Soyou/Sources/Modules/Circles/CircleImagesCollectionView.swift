@@ -31,7 +31,7 @@ class CircleImageCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.imageView.image = nil
+        self.imageView.image = UIImage(named: "img_placeholder_1_1_s")
         self.imageView.contentMode = .scaleAspectFill
         self.imageView.layer.borderWidth = 0
         self.contentView.layer.contents = nil

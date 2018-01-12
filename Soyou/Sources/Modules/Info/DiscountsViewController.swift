@@ -73,11 +73,9 @@ class DiscountsViewController: InfoListBaseViewController {
     override func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {
         if let discount = self.fetchedResultsController?.object(at: indexPath) as? Discount,
             let imageURLString = discount.coverImage,
-            let imageURL = URL(string: imageURLString) {
-            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
-            if let image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey) {
-                return CGSize(width: image.size.width, height: image.size.height)
-            }
+            let imageURL = URL(string: imageURLString),
+            let image = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: imageURL)) {
+            return CGSize(width: image.size.width, height: image.size.height)
         }
         return nil
     }
@@ -91,21 +89,17 @@ extension DiscountsViewController {
         
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "InfoCollectionViewCell", for: indexPath) as? InfoCollectionViewCell)!
         cell.lblTitle.text = discount.title
-        if let imageURLString = discount.coverImage,
-            let imageURL = URL(string: imageURLString) {
+        if let imageURLString = discount.coverImage, let imageURL = URL(string: imageURLString) {
             cell.bgImageView.sd_setImage(with: imageURL,
                                          placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                                         options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                         options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
                                          completed: { (image, error, type, url) -> Void in
-                                            // Update the image with an animation
-                                            if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {
-                                                if let image = image {
-                                                    UIView.transition(with: cell.bgImageView,
-                                                                      duration: 0.3,
-                                                                      options: UIViewAnimationOptions.transitionCrossDissolve,
-                                                                      animations: { cell.bgImageView.image = image },
-                                                                      completion: nil)
-                                                }
+                                            // Update cell height based on the image width/height ratio
+                                            if (image != nil &&
+                                                !self.collectionView().isDragging &&
+                                                !self.collectionView().isDecelerating &&
+                                                self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
+                                                self.collectionView().reloadItems(at: [indexPath])
                                             }
             })
         }
@@ -126,7 +120,7 @@ extension DiscountsViewController {
             if let imageURLString = localDiscount.coverImage,
                 let imageURL = URL(string: imageURLString) {
                 let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
-                image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
+                image = SDImageCache.shared().imageFromCache(forKey: cacheKey)
             }
             
             if image == nil {

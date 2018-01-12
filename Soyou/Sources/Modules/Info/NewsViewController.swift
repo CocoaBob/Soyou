@@ -57,12 +57,9 @@ class NewsViewController: InfoListBaseViewController {
     override func sizeForItemAtIndexPath(_ indexPath: IndexPath) -> CGSize? {
         if let news = self.fetchedResultsController?.object(at: indexPath) as? News,
             let imageURLString = news.image,
-            let imageURL = URL(string: imageURLString) {
-            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
-            let _image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
-            if let image = _image {
-                return CGSize(width: image.size.width, height: image.size.height)
-            }
+            let imageURL = URL(string: imageURLString),
+            let image = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: imageURL)) {
+            return CGSize(width: image.size.width, height: image.size.height)
         }
         return nil
     }
@@ -82,17 +79,14 @@ extension NewsViewController {
                 let imageURL = URL(string: imageURLString) {
                 cell.bgImageView.sd_setImage(with: imageURL,
                                              placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                                             options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                             options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
                                              completed: { (image, error, type, url) -> Void in
-                                                // Update the image with an animation
-                                                if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {
-                                                    if let image = image {
-                                                        UIView.transition(with: cell.bgImageView,
-                                                                          duration: 0.3,
-                                                                          options: UIViewAnimationOptions.transitionCrossDissolve,
-                                                                          animations: { cell.bgImageView.image = image },
-                                                                          completion: nil)
-                                                    }
+                                                // Update cell height based on the image width/height ratio
+                                                if (image != nil &&
+                                                    !self.collectionView().isDragging &&
+                                                    !self.collectionView().isDecelerating &&
+                                                    self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
+                                                    self.collectionView().reloadItems(at: [indexPath])
                                                 }
                 })
             }
@@ -121,7 +115,7 @@ extension NewsViewController {
             if let imageURLString = localNews.image,
                 let imageURL = URL(string: imageURLString) {
                 let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
-                image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
+                image = SDImageCache.shared().imageFromCache(forKey: cacheKey)
             }
             
             if image == nil {

@@ -161,9 +161,9 @@ extension UserViewController {
     func updateUserInfo(_ reloadAvatar: Bool) {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
-            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates]
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
             if reloadAvatar {
-                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates]
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder]
             }
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
@@ -171,14 +171,6 @@ extension UserViewController {
                                            completed: { (image, error, type, url) -> Void in
                                             if error == nil {
                                                 self.addAvatarBorder()
-                                            }
-                                            // Update the image with an animation
-                                            if let image = image {
-                                                UIView.transition(with: self.imgViewAvatar,
-                                                                  duration: 0.3,
-                                                                  options: UIViewAnimationOptions.transitionCrossDissolve,
-                                                                  animations: { self.imgViewAvatar.image = image },
-                                                                  completion: nil)
                                             }
             })
         } else {

@@ -133,7 +133,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 if let str = news.image, let url = URL(string: str) {
                     _cell.imgView.sd_setImage(with: url,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
                                               completed: { (image, error, type, url) -> Void in
                                                 // Update the image with an animation
                                                 if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
@@ -160,7 +160,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 if let str = discount.coverImage, let url = URL(string: str) {
                     _cell.imgView.sd_setImage(with: url,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
                                               completed: { (image, error, type, url) -> Void in
                                                 // Update the image with an animation
                                                 if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
@@ -197,7 +197,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                                 let url = URL(string: str) {
                                 _cell.imgView?.sd_setImage(with: url,
                                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
                                                            completed: { (image, error, type, url) -> Void in
                                                             // Update the image with an animation
                                                             if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
@@ -242,8 +242,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 var image: UIImage?
                 if let imageURLString = news.image,
                     let imageURL = URL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
-                    image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
+                    image = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: imageURL))
                 }
                 
                 // Prepare view controller
@@ -259,8 +258,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 var image: UIImage?
                 if let imageURLString = discount.coverImage,
                     let imageURL = URL(string: imageURLString) {
-                    let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
-                    image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
+                    image = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: imageURL))
                 }
                 
                 // Prepare view controller

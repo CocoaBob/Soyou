@@ -256,6 +256,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        bgImageView.image = UIImage(named: "img_placeholder_3_2_l")
         lblTitle.text = nil
         fgCover.isHidden = true
     }

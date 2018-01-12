@@ -418,9 +418,9 @@ extension CirclesViewController {
     func updateUserInfo(_ reload: Bool) {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
-            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority]
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder]
             if reload {
-                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority]
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder]
             }
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
@@ -428,14 +428,6 @@ extension CirclesViewController {
                                            completed: { (image, error, type, url) -> Void in
                                             if error == nil {
                                                 self.addAvatarBorder()
-                                            }
-                                            // Update the image with an animation
-                                            if let image = image {
-                                                UIView.transition(with: self.imgViewAvatar,
-                                                                  duration: 0.3,
-                                                                  options: UIViewAnimationOptions.transitionCrossDissolve,
-                                                                  animations: { self.imgViewAvatar.image = image },
-                                                                  completion: nil)
                                             }
             })
         } else {
@@ -524,7 +516,7 @@ extension CirclesTableViewCell {
         if let str = circle.userProfileUrl, let url = URL(string: str) {
             self.imgUser.sd_setImage(with: url,
                                      placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
+                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder])
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
@@ -591,7 +583,7 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
                 }
                 cell.imageView.sd_setImage(with: imageURL,
                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
                                            completed: { (image, error, type, url) -> Void in
                                             // Update the image with an animation
                                             if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {

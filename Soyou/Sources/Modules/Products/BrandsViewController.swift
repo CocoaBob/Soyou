@@ -199,7 +199,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let imageURL = URL(string: imageURLString) {
             cell.fgImageView?.sd_setImage(with: imageURL,
                                           placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
-                                          options: [.continueInBackground, .allowInvalidSSLCertificates],
+                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
                                           completed: { (image, error, type, url) -> Void in
                                             // Update the image with an animation
                                             if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {
@@ -232,7 +232,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         var imageURLString: String? = nil
         MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
             guard let localBrand = brand.mr_(in: localContext) else { return }
-            brandViewController.brandID = localBrand.id as! Int
+            brandViewController.brandID = localBrand.id as? Int
             brandViewController.brandName = localBrand.label
             brandViewController.brandCategories = localBrand.categories as? [NSDictionary]
             imageURLString = localBrand.imageUrl
@@ -243,9 +243,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if let imageURLString = imageURLString,
             let imageURL = URL(string: imageURLString) {
             brandViewController.brandImageURL = imageURL
-            
-            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL as URL!)
-            image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
+            image = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: imageURL))
         }
         if image == nil {
             if let cell = collectionView.dataSource?.collectionView(collectionView, cellForItemAt: indexPath as IndexPath) as? BrandsCollectionViewCell {
@@ -301,9 +299,7 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         if let imageURLString = imageURLString,
             let imageURL = URL(string: imageURLString) {
             brandViewController.brandImageURL = imageURL
-            
-            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL as URL!)
-            image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey)
+            image = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: imageURL))
         }
         brandViewController.brandImage = image
         

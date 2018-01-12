@@ -169,7 +169,7 @@ extension DiscountDetailViewController {
                 let cacheKey = imageManager.cacheKey(for: imageURL)
                 var cachedImage: UIImage? = imageManager.imageCache?.imageFromMemoryCache(forKey: cacheKey)
                 if cachedImage == nil {
-                    cachedImage = imageManager.imageCache?.imageFromDiskCache(forKey: cacheKey)
+                    cachedImage = imageManager.imageCache?.imageFromCache(forKey: cacheKey)
                 }
                 if let cachedImage = cachedImage {
                     DispatchQueue.main.async {

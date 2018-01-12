@@ -219,7 +219,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                 if let imageView = cell.fgImageView {
                     imageView.sd_setImage(with: imageURL,
                                           placeholderImage: UIImage(named: "img_placeholder_1_1_m"),
-                                          options: [.continueInBackground, .allowInvalidSSLCertificates],
+                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
                                           completed: { (image, error, type, url) -> Void in
                                             // Update image if it's still visible
                                             if (self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
@@ -391,13 +391,11 @@ extension ProductsViewController: CHTCollectionViewDelegateWaterfallLayout {
         if let product = self.fetchedResults?[indexPath.row] as? Product,
             let images = product.images as? NSArray,
             let imageURLString = images.firstObject as? String,
-            let imageURL = URL(string: imageURLString) {
-            let cacheKey = SDWebImageManager.shared().cacheKey(for: imageURL)
-            if let image = SDImageCache.shared().imageFromDiskCache(forKey: cacheKey) {
-                let cellHeight = self.cellWidth * image.size.height / image.size.width + bottomMargin
-                size = CGSize(width: self.cellWidth, height: cellHeight)
-                self.lastCellSize = size
-            }
+            let imageURL = URL(string: imageURLString),
+            let image = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: imageURL)) {
+            let cellHeight = self.cellWidth * image.size.height / image.size.width + bottomMargin
+            size = CGSize(width: self.cellWidth, height: cellHeight)
+            self.lastCellSize = size
         }
         return size
     }
