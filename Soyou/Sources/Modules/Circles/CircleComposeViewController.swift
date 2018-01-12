@@ -165,6 +165,39 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
             self.addPicture()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == self.selectedAssets?.count ?? 0 {
+            return false
+        }
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard var selectedAssets = self.selectedAssets, destinationIndexPath.row < selectedAssets.count else {
+            return
+        }
+        let asset = selectedAssets[sourceIndexPath.row]
+        selectedAssets.remove(at: sourceIndexPath.row)
+        selectedAssets.insert(asset, at: destinationIndexPath.row)
+        
+        for (index, asset) in selectedAssets.enumerated() {
+            asset.selectedOrder = index + 1
+        }
+        
+        self.selectedAssets = selectedAssets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
+        guard let count = self.selectedAssets?.count else {
+            return IndexPath(row:0, section:0)
+        }
+        if proposedIndexPath.row == count {
+            return IndexPath(row: max(0, count - 1), section:0)
+        } else {
+            return proposedIndexPath
+        }
+    }
 }
 
 // MARK: - CollectionView Waterfall Layout
@@ -185,6 +218,11 @@ extension CircleComposeViewController: UICollectionViewDelegateFlowLayout {
         
         // Load data
         self.imagesCollectionView.reloadData()
+        
+        // Add Drag&Drop gesture
+        let longPressGesture = UILongPressGestureRecognizer(target: self,
+                                                            action: #selector(CircleComposeViewController.handleLongGesture(gesture:)))
+        self.imagesCollectionView.addGestureRecognizer(longPressGesture)
     }
     
     //** Size for the cells in the Waterfall Layout */
@@ -213,6 +251,22 @@ extension CircleComposeViewController: UITextViewDelegate {
 
 // MARK: Actions
 extension CircleComposeViewController {
+    
+    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+        case .began:
+            guard let selectedIndexPath = self.imagesCollectionView.indexPathForItem(at: gesture.location(in: self.imagesCollectionView)) else {
+                break
+            }
+            self.imagesCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            self.imagesCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case .ended:
+            self.imagesCollectionView.endInteractiveMovement()
+        default:
+            self.imagesCollectionView.cancelInteractiveMovement()
+        }
+    }
     
     @IBAction func quitEditing() {
         if !self.isEdited() {
