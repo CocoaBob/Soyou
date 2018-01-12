@@ -156,6 +156,7 @@ extension AppDelegate {
     }
     
     func setupOverlayWindow() {
+        self.overlayWindow.isUserInteractionEnabled = false
         self.overlayWindow.frame = CGRect(x: 0, y: 0,
                                           width: UIScreen.main.bounds.width,
                                           height: Cons.UI.statusBarHeight)
