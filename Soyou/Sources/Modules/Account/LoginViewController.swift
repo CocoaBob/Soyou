@@ -598,6 +598,9 @@ extension LoginViewController {
             self.tfEmail?.text = loginDictionary?[AppExtensionUsernameKey] as? String
             self.tfPassword?.text = loginDictionary?[AppExtensionPasswordKey] as? String
             self.validateActionButton()
+            if self.btnAction?.isEnabled ?? false {
+                self.login(self.btnAction)
+            }
         }
     }
     
