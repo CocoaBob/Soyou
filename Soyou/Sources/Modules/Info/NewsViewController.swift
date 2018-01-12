@@ -79,7 +79,7 @@ extension NewsViewController {
                 let imageURL = URL(string: imageURLString) {
                 cell.bgImageView.sd_setImage(with: imageURL,
                                              placeholderImage: UIImage(named: "img_placeholder_3_2_l"),
-                                             options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
+                                             options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                              completed: { (image, error, type, url) -> Void in
                                                 // Update cell height based on the image width/height ratio
                                                 if (image != nil &&

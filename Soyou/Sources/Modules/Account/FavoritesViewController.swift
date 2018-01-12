@@ -133,7 +133,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 if let str = news.image, let url = URL(string: str) {
                     _cell.imgView.sd_setImage(with: url,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                               completed: { (image, error, type, url) -> Void in
                                                 // Update the image with an animation
                                                 if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
@@ -160,7 +160,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                 if let str = discount.coverImage, let url = URL(string: str) {
                     _cell.imgView.sd_setImage(with: url,
                                               placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                               completed: { (image, error, type, url) -> Void in
                                                 // Update the image with an animation
                                                 if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {
@@ -197,7 +197,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
                                 let url = URL(string: str) {
                                 _cell.imgView?.sd_setImage(with: url,
                                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
+                                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                                            completed: { (image, error, type, url) -> Void in
                                                             // Update the image with an animation
                                                             if (tableView.indexPathsForVisibleRows?.contains(indexPath) ?? false) {

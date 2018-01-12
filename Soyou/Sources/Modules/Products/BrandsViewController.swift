@@ -199,7 +199,7 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let imageURL = URL(string: imageURLString) {
             cell.fgImageView?.sd_setImage(with: imageURL,
                                           placeholderImage: UIImage(named: "img_placeholder_3_2_m"),
-                                          options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
+                                          options: [.continueInBackground, .allowInvalidSSLCertificates],
                                           completed: { (image, error, type, url) -> Void in
                                             // Update the image with an animation
                                             if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {

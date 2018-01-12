@@ -237,7 +237,7 @@ extension ProductViewController {
                         imageView.contentMode = .scaleAspectFit
                         imageView.sd_setImage(with: imageURL,
                                               placeholderImage: placeholder,
-                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .delayPlaceholder],
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates],
                                               completed: { (image, error, type, url) -> Void in
                                                 // Update the image with an animation
                                                 if let image = image {

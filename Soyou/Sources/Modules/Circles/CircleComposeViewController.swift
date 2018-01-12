@@ -101,7 +101,7 @@ extension CircleComposeViewController {
             } else if indexPath.row == 1 {
                 self.imagesCollectionView.setNeedsLayout()
                 self.imagesCollectionView.layoutIfNeeded()
-                return self.imagesCollectionView.contentSize.height + 17 // Cell margins
+                return self.imagesCollectionView.contentSize.height + 22 // CollectionView Top/Bottom margins
             } else if indexPath.row == 2 {
                 return 44
             }

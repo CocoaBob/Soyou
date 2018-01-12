@@ -419,9 +419,9 @@ extension CirclesViewController {
     func updateUserInfo(_ reload: Bool) {
         self.removeAvatarBorder()
         if let url = URL(string: UserManager.shared.avatar ?? "") {
-            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder]
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             if reload {
-                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder]
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             }
             self.imgViewAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
@@ -458,9 +458,12 @@ class CirclesTableViewCell: UITableViewCell {
     
     var circle: Circle? {
         didSet {
+            self.imgURLs = circle?.images as? [[String:String]]
             self.configureCell()
         }
     }
+    var imgURLs: [[String: String]]?
+    weak var viewController: UIViewController?
     
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var lblName: MarginLabel!
@@ -468,15 +471,9 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnDelete: UIButton!
     
-    @IBOutlet var imagesCollectionView: UICollectionView!
+    @IBOutlet var imagesCollectionView: CircleImagesCollectionView!
     @IBOutlet var imagesCollectionViewWidth: NSLayoutConstraint?
     @IBOutlet var imagesCollectionViewContainer: UIView!
-    
-    weak var viewController: UIViewController?
-    
-    var imgURLs: [[String: String]]? {
-        return self.circle?.images as? [[String: String]]
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -491,11 +488,13 @@ class CirclesTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.imgURLs = nil
         self.imgUser.sd_cancelCurrentImageLoad()
         self.imgUser.image = nil
         self.lblName.text = nil
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
+        self.imagesCollectionView.reloadData()
     }
 }
 
@@ -503,7 +502,6 @@ class CirclesTableViewCell: UITableViewCell {
 extension CirclesTableViewCell {
     
     func configureCell() {
-        self.prepareForReuse()
         guard let circle = self.circle else {
             return
         }
@@ -517,7 +515,7 @@ extension CirclesTableViewCell {
         if let str = circle.userProfileUrl, let url = URL(string: str) {
             self.imgUser.sd_setImage(with: url,
                                      placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder])
+                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
@@ -537,9 +535,6 @@ extension CirclesTableViewCell {
     }
     
     func configureImagesCollectionView(_ circle: Circle) {
-        if self.superview == nil {
-            return
-        }
         guard let imgURLs = self.imgURLs else {
             return
         }
@@ -562,7 +557,7 @@ extension CirclesTableViewCell {
         self.imagesCollectionViewContainer.addConstraint(constraint)
         self.imagesCollectionViewWidth = constraint
         self.layoutIfNeeded()
-        self.imagesCollectionView.reloadData()
+        self.imagesCollectionView.reloadData() // Must be called after layout is ready
     }
 }
 
@@ -584,7 +579,7 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
                 }
                 cell.imageView.sd_setImage(with: imageURL,
                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority, .delayPlaceholder],
+                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                            completed: { (image, error, type, url) -> Void in
                                             // Update the image with an animation
                                             if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {

@@ -312,15 +312,15 @@
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="110" id="sVn-V8-RKX">
-                                        <rect key="frame" x="0.0" y="119" width="375" height="110"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="101" id="sVn-V8-RKX">
+                                        <rect key="frame" x="0.0" y="119" width="375" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sVn-V8-RKX" id="IWh-8X-Jdc">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="109.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="100.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MDt-ff-5er" customClass="CircleImagesCollectionView" customModule="Soyou" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="11" width="343" height="88"/>
+                                                    <rect key="frame" x="16" y="10" width="343" height="80.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="INx-mv-ybC">
                                                         <size key="itemSize" width="80" height="80"/>
@@ -360,14 +360,14 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="MDt-ff-5er" firstAttribute="trailing" secondItem="IWh-8X-Jdc" secondAttribute="trailingMargin" id="Omy-E5-Hyo"/>
-                                                <constraint firstItem="MDt-ff-5er" firstAttribute="top" secondItem="IWh-8X-Jdc" secondAttribute="topMargin" id="gHs-O8-j9T"/>
+                                                <constraint firstItem="MDt-ff-5er" firstAttribute="top" secondItem="IWh-8X-Jdc" secondAttribute="top" constant="10" id="gHs-O8-j9T"/>
                                                 <constraint firstItem="MDt-ff-5er" firstAttribute="leading" secondItem="IWh-8X-Jdc" secondAttribute="leadingMargin" id="hg1-Tc-uRM"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="MDt-ff-5er" secondAttribute="bottom" id="w8e-9k-194"/>
+                                                <constraint firstAttribute="bottom" secondItem="MDt-ff-5er" secondAttribute="bottom" constant="10" id="w8e-9k-194"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="mvn-ti-co2">
-                                        <rect key="frame" x="0.0" y="229" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="220" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mvn-ti-co2" id="LC5-Hd-mzo">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -407,7 +407,7 @@
                             <tableViewSection id="fwE-47-P57">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="6W7-s2-W0I">
-                                        <rect key="frame" x="0.0" y="309" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="300" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6W7-s2-W0I" id="2jb-iu-zbK">
                                             <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>

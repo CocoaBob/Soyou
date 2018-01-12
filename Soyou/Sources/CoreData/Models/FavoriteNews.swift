@@ -79,9 +79,8 @@ class FavoriteNews: News {
                 for data in datas {
                     FavoriteNews.importData(data, isComplete, localContext)
                 }
-                
-                }, completion: { (responseObject, error) -> Void in
-                    completion?(responseObject, error as Error?)
+            }, completion: { (responseObject, error) -> Void in
+                completion?(responseObject, error as Error?)
             })
         } else {
             completion?(nil, FmtError(0, nil))
