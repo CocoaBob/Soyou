@@ -165,7 +165,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         if context == &KVOContextCirclesViewController {
             // Update login status
             self.updateUserInfo(true)
-            if keyPath == "token" {
+            if keyPath == "token" && UserManager.shared.isLoggedIn {
                 self.loadData(nil)
             }
         } else {
@@ -215,6 +215,7 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CirclesTableViewCell", for: indexPath)
         if let cell = cell as? CirclesTableViewCell {
             cell.circle = self.fetchedResultsController?.object(at: indexPath) as? Circle
+            cell.viewController = self
         }
         return cell
     }
@@ -225,6 +226,10 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
+    }
+    
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -474,6 +479,8 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var imagesCollectionViewWidth: NSLayoutConstraint?
     @IBOutlet var imagesCollectionViewContainer: UIView!
     
+    weak var viewController: UIViewController?
+    
     var imgURLs: [[String: String]]? {
         return self.circle?.images as? [[String: String]]
     }
@@ -496,33 +503,6 @@ class CirclesTableViewCell: UITableViewCell {
         self.lblName.text = nil
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
-    }
-    
-    @IBAction func delete() {
-        guard let circle = self.circle, let circleID = circle.id else {
-            return
-        }
-        guard let vc = UIApplication.shared.keyWindow?.rootViewController else {
-            return
-        }
-        let alertController = UIAlertController(title: nil,
-                                                message: NSLocalizedString("circles_vc_delete_alert"),
-                                                preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_delete"),
-                                                style: UIAlertActionStyle.default,
-                                                handler: { (action: UIAlertAction) -> Void in
-                                                    MBProgressHUD.show(vc.view)
-                                                    DataManager.shared.deleteCircle(circleID) { responseObject, error in
-                                                        circle.delete({
-                                                            MBProgressHUD.hide(vc.view)
-                                                        })
-                                                    }
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
-                                                style: UIAlertActionStyle.default,
-                                                handler: { (action: UIAlertAction) -> Void in
-        }))
-        vc.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -608,8 +588,6 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
                 var imageURL: URL?
                 if let thumbnailStr = dict["thumbnail"], let thumbnailURL = URL(string: thumbnailStr) {
                     imageURL = thumbnailURL
-                } else if let originalStr = dict["original"], let originalURL = URL(string: originalStr) {
-                    imageURL = originalURL
                 }
                 cell.imageView.sd_setImage(with: imageURL,
                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
@@ -635,7 +613,7 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        self.browseImages(UInt(indexPath.row))
     }
 }
 
@@ -644,12 +622,12 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
     
     func setupCollectionView() {
         // Create a flow layout
-        let layout = UICollectionViewFlowLayout()
+        let layout = UICollectionViewLeftAlignedLayout()
         
         // Change individual layout attributes for the spacing between cells
-        layout.minimumLineSpacing = 1
-        layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
+        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 4
+        layout.sectionInset = UIEdgeInsets.zero
         
         // Add the waterfall layout to your collection view
         self.imagesCollectionView.collectionViewLayout = layout
@@ -663,7 +641,51 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
-        let size = floor((collectionView.bounds.width - 1) / columns) - 1
+        let size = floor((collectionView.bounds.width - 4 * (columns - 1)) / columns)
         return CGSize(width: size, height: size)
+    }
+}
+
+// MARK: CirclesTableViewCell Actions
+extension CirclesTableViewCell {
+    
+    @IBAction func delete() {
+        guard let circle = self.circle, let circleID = circle.id else {
+            return
+        }
+        guard let vc = self.viewController else {
+            return
+        }
+        let alertController = UIAlertController(title: nil,
+                                                message: NSLocalizedString("circles_vc_delete_alert"),
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_delete"),
+                                                style: UIAlertActionStyle.default,
+                                                handler: { (action: UIAlertAction) -> Void in
+                                                    MBProgressHUD.show(vc.view)
+                                                    DataManager.shared.deleteCircle(circleID) { responseObject, error in
+                                                        circle.delete({
+                                                            MBProgressHUD.hide(vc.view)
+                                                        })
+                                                    }
+        }))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                style: UIAlertActionStyle.default,
+                                                handler: { (action: UIAlertAction) -> Void in
+        }))
+        vc.present(alertController, animated: true, completion: nil)
+    }
+    
+    func browseImages(_ index: UInt) {
+        guard let imgURLs = self.imgURLs else {
+            return
+        }
+        var photos = [IDMPhoto]()
+        for dict in imgURLs {
+            if let originalStr = dict["original"], let originalURL = URL(string: originalStr) {
+                photos.append(IDMPhoto(url: originalURL))
+            }
+        }
+        IDMPhotoBrowser.present(photos, index: index, view: nil, scaleImage: nil, viewVC: self.viewController)
     }
 }

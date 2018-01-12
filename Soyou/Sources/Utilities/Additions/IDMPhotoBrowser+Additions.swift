@@ -18,11 +18,13 @@ extension IDMPhotoBrowser {
         photoBrowser.displayActionButton = true
         photoBrowser.displayArrowButton = true
         photoBrowser.displayCounterLabel = true
-        photoBrowser.displayDoneButton = true
+        photoBrowser.displayDoneButton = false
         photoBrowser.usePopAnimation = false
         photoBrowser.useWhiteBackgroundColor = false
         photoBrowser.disableVerticalSwipe = false
-        photoBrowser.forceHideStatusBar = false
+        photoBrowser.forceHideStatusBar = true
+        photoBrowser.dismissOnTouch = true
+        photoBrowser.autoHideInterface = false
         
         photoBrowser.setInitialPageIndex(index)
         
