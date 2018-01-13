@@ -194,7 +194,7 @@ extension AppDelegate {
     }
     
     func setupSocialServices() {
-        DDSocialShareHandler.sharedInstance().register(.weChat, appKey: "wxe3346afe30577009", appSecret: "", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
+        DDSocialShareHandler.sharedInstance().register(.weChat, appKey: "wxe3346afe30577009", appSecret: "485df03e708c879eea75686ce3432ab0", redirectURL: "", appDescription: "奢有为您搜罗全球顶级时尚奢侈品单价，分享各国折扣信息，提供品牌专卖店导航以及最新时尚资讯。")
         DDSocialShareHandler.sharedInstance().register(.sina, appKey: "2873812073", redirectURL: "https://api.weibo.com/oauth2/default.html")
         DDSocialShareHandler.sharedInstance().register(.QQ, appKey: "1105338972")
         DDSocialShareHandler.sharedInstance().register(.facebook)

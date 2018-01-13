@@ -20,6 +20,7 @@ class RequestManager {
         let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
         let hostname = isSTGMode ? Cons.Svr.hostnameSTG : Cons.Svr.hostnamePROD
         requestOperationManager = HTTPRequestOperationManager(baseURL:URL(string: "https://" + hostname))
+        requestOperationManager.responseSerializer.acceptableContentTypes = ["application/json", "text/plain", "text/html","text/json", "text/javascript"]
     }
     
     //////////////////////////////////////

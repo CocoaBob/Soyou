@@ -458,22 +458,30 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EWA-i5-MF0" userLabel="Third Party Logins ">
-                                        <rect key="frame" x="37.5" y="449" width="300" height="90"/>
+                                        <rect key="frame" x="19" y="449" width="337.5" height="90"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCk-5L-s4J" userLabel="Weibo">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCk-5L-s4J" userLabel="WeChat">
                                                 <rect key="frame" x="0.0" y="42" width="48" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="48" id="7he-Qg-ECL"/>
                                                     <constraint firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="height" multiplier="1:1" id="ZND-oR-ReY"/>
                                                 </constraints>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="img_logo_wechat"/>
+                                                <connections>
+                                                    <action selector="loginWechat:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="WmV-kB-PWh"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92t-yb-GSj" userLabel="Weibo">
+                                                <rect key="frame" x="57" y="42" width="48" height="48"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" image="img_logo_weibo"/>
                                                 <connections>
-                                                    <action selector="loginSinaWeibo:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="d2c-Eq-caF"/>
+                                                    <action selector="loginSinaWeibo:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="diM-sv-oDt"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4K-MJ-Ker" userLabel="QQ">
-                                                <rect key="frame" x="63" y="42" width="48" height="48"/>
+                                                <rect key="frame" x="115" y="42" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" image="img_logo_qq"/>
                                                 <connections>
@@ -481,31 +489,31 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WFb-jK-DU4" userLabel="Facebook">
-                                                <rect key="frame" x="126" y="42" width="48" height="48"/>
+                                                <rect key="frame" x="173.5" y="42" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" image="img_logo_facebook"/>
                                                 <connections>
                                                     <action selector="loginFacebook:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="oaY-xG-Pwc"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="thE-38-SRd" userLabel="Instagram">
-                                                <rect key="frame" x="252" y="42" width="48" height="48"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="img_logo_google"/>
-                                                <connections>
-                                                    <action selector="loginGoogle:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="fwa-7p-haL"/>
-                                                </connections>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59U-Ph-JjD" userLabel="Twitter">
-                                                <rect key="frame" x="189" y="42" width="48" height="48"/>
+                                                <rect key="frame" x="231" y="42" width="48" height="48"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" image="img_logo_twitter"/>
                                                 <connections>
                                                     <action selector="loginTwitter:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="meA-qL-9aN"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="thE-38-SRd" userLabel="Instagram">
+                                                <rect key="frame" x="289.5" y="42" width="48" height="48"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="img_logo_google"/>
+                                                <connections>
+                                                    <action selector="loginGoogle:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="fwa-7p-haL"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or sign in with" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZJf-BS-dA3">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="337.5" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -514,26 +522,29 @@
                                         <constraints>
                                             <constraint firstItem="59U-Ph-JjD" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="1vJ-JH-LAr"/>
                                             <constraint firstItem="thE-38-SRd" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="5yv-SB-o3c"/>
+                                            <constraint firstItem="92t-yb-GSj" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="ASg-VA-foJ"/>
                                             <constraint firstItem="r4K-MJ-Ker" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="Cn1-J9-mpP"/>
                                             <constraint firstItem="thE-38-SRd" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" constant="-48" id="Gdy-o4-47Q"/>
                                             <constraint firstItem="WFb-jK-DU4" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="HqT-Yh-yJZ"/>
-                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.25" constant="-12" id="Sfp-6c-8EC"/>
-                                            <constraint firstAttribute="width" constant="300" id="TZj-VC-98K"/>
+                                            <constraint firstItem="92t-yb-GSj" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.2" constant="-10" id="Oo1-n7-ymb"/>
+                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.4" constant="-20" id="Sfp-6c-8EC"/>
                                             <constraint firstItem="r4K-MJ-Ker" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="Ttj-ea-6cq"/>
                                             <constraint firstItem="59U-Ph-JjD" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="UoW-nF-EAS"/>
                                             <constraint firstAttribute="bottom" secondItem="tCk-5L-s4J" secondAttribute="bottom" id="ZgT-6Y-IxH"/>
                                             <constraint firstItem="ZJf-BS-dA3" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="leading" id="aVL-l1-32s"/>
                                             <constraint firstItem="ZJf-BS-dA3" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="bjJ-Sf-DCa"/>
+                                            <constraint firstItem="92t-yb-GSj" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="ckx-WR-Sc4"/>
                                             <constraint firstItem="thE-38-SRd" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="duH-uh-8yK"/>
                                             <constraint firstItem="WFb-jK-DU4" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="eG9-S5-8h4"/>
-                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.75" constant="-36" id="erz-7J-BLS"/>
+                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.8" constant="-39" id="erz-7J-BLS"/>
                                             <constraint firstAttribute="height" constant="90" id="gQL-iq-LAS"/>
+                                            <constraint firstItem="92t-yb-GSj" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="ilB-v6-NCW"/>
                                             <constraint firstAttribute="trailing" secondItem="ZJf-BS-dA3" secondAttribute="trailing" id="k0r-b7-mAk"/>
                                             <constraint firstItem="r4K-MJ-Ker" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="kSq-yK-aNp"/>
                                             <constraint firstItem="WFb-jK-DU4" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="mSx-Xx-Lfp"/>
                                             <constraint firstItem="tCk-5L-s4J" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.0001" id="nac-RR-3bC"/>
                                             <constraint firstItem="thE-38-SRd" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="tvi-sO-zdc"/>
-                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.5" constant="-24" id="ueM-AM-7gH"/>
+                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.6" constant="-29" id="ueM-AM-7gH"/>
                                             <constraint firstItem="59U-Ph-JjD" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="xB2-y9-y6h"/>
                                         </constraints>
                                     </view>
@@ -573,6 +584,7 @@
                                     <constraint firstItem="Ouv-dU-DOb" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" constant="20" id="t26-OB-UnJ"/>
                                     <constraint firstItem="EWA-i5-MF0" firstAttribute="centerX" secondItem="Ab4-DJ-dbQ" secondAttribute="centerX" id="tbJ-Pr-pFO"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="trailing" secondItem="Ouv-dU-DOb" secondAttribute="trailing" id="vgJ-eX-KHG"/>
+                                    <constraint firstItem="EWA-i5-MF0" firstAttribute="width" secondItem="Ab4-DJ-dbQ" secondAttribute="width" multiplier="0.9" id="vnu-NO-pNP"/>
                                     <constraint firstAttribute="bottom" secondItem="EWA-i5-MF0" secondAttribute="bottom" constant="64" id="wT7-sr-fs7"/>
                                     <constraint firstItem="Awe-Wi-Btf" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" id="yVa-SL-ZMu"/>
                                     <constraint firstItem="Awe-Wi-Btf" firstAttribute="leading" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" id="yxT-rD-CRT"/>
@@ -1008,6 +1020,7 @@
         <image name="img_logo_google" width="48" height="48"/>
         <image name="img_logo_qq" width="48" height="48"/>
         <image name="img_logo_twitter" width="48" height="48"/>
+        <image name="img_logo_wechat" width="48" height="48"/>
         <image name="img_logo_weibo" width="48" height="48"/>
     </resources>
 </document>

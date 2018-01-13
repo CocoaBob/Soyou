@@ -295,7 +295,46 @@ extension LoginViewController {
     
     @IBAction func loginWechat(_ sender: UIButton?) {
         DDSocialAuthHandler.sharedInstance().auth(with: .weChat, controller: self) { (platform, state, result, error) in
-            
+            if state == .success {
+                self.startLoadingInfoFromThirdLogin()
+                let code = result?.thirdToken ?? ""
+                let tokenURL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxe3346afe30577009&secret=485df03e708c879eea75686ce3432ab0&code=\(code)&grant_type=authorization_code"
+                RequestManager.shared.getAsyncExternal(tokenURL, { (responseObject) in
+                    guard let responseDict = responseObject as? [String: AnyObject] else {
+                        self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
+                        return
+                    }
+                    
+//                    let refresh_token = (responseDict["refresh_token"] as? String) ?? ""
+                    let unionId = (responseDict["unionid"] as? String) ?? ""
+                    let access_token = (responseDict["access_token"] as? String) ?? ""
+                    let openId = (responseDict["openid"] as? String) ?? ""
+                    
+                    let userinfoURL = "https://api.weixin.qq.com/sns/userinfo?access_token=\(access_token)&openid=\(openId)"
+                    RequestManager.shared.getAsyncExternal(userinfoURL, { (responseObject) in
+                        guard let responseDict = responseObject as? [String: AnyObject] else {
+                            self.stopLoadingInfoFromThirdLogin(FmtError(1, NSLocalizedString("login_vc_login_failed")))
+                            return
+                        }
+                        
+                        let username = (responseDict["nickname"] as? String) ?? ""
+                        let sex = (responseDict["sex"] as? Int) ?? 0
+                        let gender = "\((sex == 1) ? Cons.Usr.genderMale : ((sex == 2) ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
+                        let avatar = (responseDict["headimgurl"] as? String) ?? ""
+                        let thirdId = "\(openId)|\(unionId)"
+                        DataManager.shared.loginThird("wx", access_token, thirdId, username, gender, { (responseObject, error) in
+                            if error == nil {
+                                UserManager.shared.avatar = avatar
+                            }
+                            self.stopLoadingInfoFromThirdLogin(error)
+                        })
+                    }, { (error) in
+                        self.stopLoadingInfoFromThirdLogin(error)
+                    })
+                }, { (error) in
+                    self.stopLoadingInfoFromThirdLogin(error)
+                })
+            }
         }
     }
     
