@@ -57,6 +57,7 @@
 		455F89371FFEAC27009DC915 /* MarginLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455F89361FFEAC27009DC915 /* MarginLabel.swift */; };
 		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
 		456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456478F71C6E095C00798EB2 /* 1Password.xcassets */; };
+		4564A931200960D800EE4F3D /* ObjCRuntime+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */; };
 		456833B91D3009EA006A5B3F /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456833B81D3009EA006A5B3F /* CommentsViewController.swift */; };
 		4568E2A21BF90797009A6164 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4568E28F1BF90797009A6164 /* Assets.xcassets */; };
 		4568E2A31BF90797009A6164 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4568E2911BF90797009A6164 /* AppDelegate.swift */; };
@@ -220,6 +221,7 @@
 		455F89361FFEAC27009DC915 /* MarginLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarginLabel.swift; sourceTree = "<group>"; };
 		45640AF31C51A934009984EC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		456478F71C6E095C00798EB2 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = 1Password.xcassets; path = Pods/1PasswordExtension/1Password.xcassets; sourceTree = SOURCE_ROOT; };
+		4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjCRuntime+Additions.swift"; sourceTree = "<group>"; };
 		456833B81D3009EA006A5B3F /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		4568E28F1BF90797009A6164 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4568E2911BF90797009A6164 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */,
 				45243C681C17A514005D476D /* UIViewController+Additions.swift */,
 				458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */,
+				4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1183,6 +1186,7 @@
 				4524C0AE1C67C5D00027046F /* FavoriteProduct.swift in Sources */,
 				458B2E4B1FECA28700BD6843 /* PicturePickerCell.swift in Sources */,
 				45F5C2A61D01DFA70024B5DF /* NewsDetailViewController.swift in Sources */,
+				4564A931200960D800EE4F3D /* ObjCRuntime+Additions.swift in Sources */,
 				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,

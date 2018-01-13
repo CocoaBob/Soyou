@@ -220,9 +220,7 @@ extension CircleComposeViewController: UICollectionViewDelegateFlowLayout {
         self.imagesCollectionView.reloadData()
         
         // Add Drag&Drop gesture
-        let longPressGesture = UILongPressGestureRecognizer(target: self,
-                                                            action: #selector(CircleComposeViewController.handleLongGesture(gesture:)))
-        self.imagesCollectionView.addGestureRecognizer(longPressGesture)
+        self.setupDraggingGesture()
     }
     
     //** Size for the cells in the Waterfall Layout */
@@ -251,22 +249,6 @@ extension CircleComposeViewController: UITextViewDelegate {
 
 // MARK: Actions
 extension CircleComposeViewController {
-    
-    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
-        switch(gesture.state) {
-        case .began:
-            guard let selectedIndexPath = self.imagesCollectionView.indexPathForItem(at: gesture.location(in: self.imagesCollectionView)) else {
-                break
-            }
-            self.imagesCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case .changed:
-            self.imagesCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-        case .ended:
-            self.imagesCollectionView.endInteractiveMovement()
-        default:
-            self.imagesCollectionView.cancelInteractiveMovement()
-        }
-    }
     
     @IBAction func quitEditing() {
         if !self.isEdited() {
@@ -301,6 +283,101 @@ extension CircleComposeViewController {
                     self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
                 })
             }
+        }
+    }
+}
+
+// MARK: Reordering
+private var oldIndexPathKey: UInt8 = 0
+private var snapshotViewKey: UInt8 = 0
+extension CircleComposeViewController {
+    
+    var oldIndexPath: NSIndexPath {
+        get {
+            return associatedObject(base: self, key: &oldIndexPathKey) {
+                return NSIndexPath() // Set the initial value of the var
+            }
+        }
+        set {
+            associateObject(base: self, key: &oldIndexPathKey, value: newValue)
+        }
+    }
+    
+    var snapshotView: UIView {
+        get {
+            return associatedObject(base: self, key: &snapshotViewKey) {
+                return UIView() // Set the initial value of the var
+            }
+        }
+        set {
+            associateObject(base: self, key: &snapshotViewKey, value: newValue)
+        }
+    }
+    
+    func setupDraggingGesture() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self,
+                                                            action: #selector(CircleComposeViewController.handleLongGesture(gesture:)))
+        self.imagesCollectionView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+        case .began:
+            guard let indexPath = self.imagesCollectionView.indexPathForItem(at: gesture.location(in: self.imagesCollectionView)),
+                let cell = self.imagesCollectionView.cellForItem(at: indexPath) else {
+                break
+            }
+            if !self.collectionView(self.imagesCollectionView, canMoveItemAt: indexPath) {
+                gesture.isEnabled = false
+                gesture.isEnabled = true
+                break
+            }
+            self.oldIndexPath = indexPath as NSIndexPath
+            if let snapshotView = cell.snapshotView(afterScreenUpdates: false) {
+                self.view.addSubview(snapshotView)
+                self.snapshotView = snapshotView
+                self.snapshotView.frame = cell.convert(cell.bounds, to: self.view)
+                cell.isHidden = true
+            }
+            UIView.animate(withDuration: 0.3, animations: {
+                self.snapshotView.transform = cell.transform.scaledBy(x: 1.2, y: 1.2)
+                self.snapshotView.center = gesture.location(in: self.view)
+            })
+        case .changed:
+            self.snapshotView.center = gesture.location(in: self.view)
+            for cell in self.imagesCollectionView.visibleCells {
+                let oldIndexPath = self.oldIndexPath as IndexPath
+                guard var cellIndexPath = self.imagesCollectionView.indexPath(for: cell) else {
+                    break
+                }
+                cellIndexPath = self.collectionView(self.imagesCollectionView, targetIndexPathForMoveFromItemAt: oldIndexPath, toProposedIndexPath: cellIndexPath)
+                if cellIndexPath == oldIndexPath {
+                    continue
+                }
+                let snapshotViewCenter = self.imagesCollectionView.convert(self.snapshotView.center, from: self.view)
+                let distance = sqrtf(pow(Float(snapshotViewCenter.x - cell.center.x), 2) + powf(Float(snapshotViewCenter.y - cell.center.y), 2))
+                if distance <= Float(self.snapshotView.bounds.size.width / 2.0) {
+                    let moveIndexPath = cellIndexPath
+                    self.imagesCollectionView.moveItem(at: oldIndexPath, to: moveIndexPath)
+                    self.collectionView(self.imagesCollectionView, moveItemAt: oldIndexPath, to: moveIndexPath)
+                    self.oldIndexPath = moveIndexPath as NSIndexPath
+                    break
+                }
+            }
+        default:
+            guard let cell = self.imagesCollectionView.cellForItem(at: self.oldIndexPath as IndexPath) else {
+                break
+            }
+            self.imagesCollectionView.isUserInteractionEnabled = false
+            UIView.animate(withDuration: 0.3,
+                           animations: {
+                            self.snapshotView.center = self.imagesCollectionView.convert(cell.center, to: self.view)
+                            self.snapshotView.transform = CGAffineTransform.identity
+            }, completion: { (finished) in
+                self.snapshotView.removeFromSuperview()
+                cell.isHidden = false
+                self.imagesCollectionView.isUserInteractionEnabled = true
+            })
         }
     }
 }
