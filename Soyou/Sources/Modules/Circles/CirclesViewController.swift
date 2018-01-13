@@ -379,6 +379,7 @@ extension CirclesViewController {
                             UIPasteboard.general.string = text
                             if let window = UIApplication.shared.keyWindow  {
                                 let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                                hud.isUserInteractionEnabled = false
                                 hud.mode = .text
                                 hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
                                 hud.hide(animated: true, afterDelay: 3)
