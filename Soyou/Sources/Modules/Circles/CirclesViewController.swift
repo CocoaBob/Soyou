@@ -489,6 +489,11 @@ class CirclesTableViewCell: UITableViewCell {
     func setupViews() {
         self.btnDelete.setTitle(NSLocalizedString("circles_vc_delete_button"), for: .normal)
         self.btnForward.setTitle(NSLocalizedString("circles_vc_forward_button"), for: .normal)
+        let wechatColor = UIColor(hex8: 0x00bb0cFF)
+        self.btnForward.setTitleColor(wechatColor, for: .normal)
+        self.btnForward.layer.borderWidth = 1
+        self.btnForward.layer.borderColor = wechatColor.cgColor
+        self.btnForward.layer.cornerRadius = 4
     }
     
     override func prepareForReuse() {
