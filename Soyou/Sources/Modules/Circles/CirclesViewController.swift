@@ -214,8 +214,8 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CirclesTableViewCell", for: indexPath)
         if let cell = cell as? CirclesTableViewCell {
-            cell.circle = self.fetchedResultsController?.object(at: indexPath) as? Circle
             cell.viewController = self
+            cell.circle = self.fetchedResultsController?.object(at: indexPath) as? Circle
         }
         return cell
     }
@@ -633,8 +633,12 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let vc = self.viewController, let constraint = self.imagesCollectionViewWidth else {
+            return CGSize.zero
+        }
         let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
-        let size = floor((collectionView.bounds.width - 4 * (columns - 1)) / columns)
+        let collectionViewWidth = (vc.view.bounds.width - 73 * 2) * constraint.multiplier
+        let size = floor((floor(collectionViewWidth) - (4 * (columns - 1))) / columns)
         return CGSize(width: size, height: size)
     }
 }
