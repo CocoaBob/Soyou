@@ -372,21 +372,23 @@ extension CirclesViewController {
         if text?.count ?? 0 > 0 || images?.count ?? 0 > 0 {
             if let images = images {
                 MBProgressHUD.show(self.view)
-                Utils.shareItems(from: self, items: images, completion: { () -> Void in
+                Utils.shareToWeChat(from: self, items: images, completion: { (succeed) -> Void in
                     MBProgressHUD.hide(self.view)
-                    if let text = text, text.count > 0 {
-                        UIPasteboard.general.string = text
-                        if let window = UIApplication.shared.keyWindow  {
-                            let hud = MBProgressHUD.showAdded(to: window, animated: true)
-                            hud.mode = .text
-                            hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
-                            hud.hide(animated: true, afterDelay: 3)
+                    if succeed {
+                        if let text = text, text.count > 0 {
+                            UIPasteboard.general.string = text
+                            if let window = UIApplication.shared.keyWindow  {
+                                let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                                hud.mode = .text
+                                hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
+                                hud.hide(animated: true, afterDelay: 3)
+                            }
                         }
                     }
                 })
             } else if let text = text {
                 MBProgressHUD.show(self.view)
-                Utils.shareItems(from: self, items: [text], completion: { () -> Void in
+                Utils.shareToWeChat(from: self, items: [text], completion: { (succeed) -> Void in
                     MBProgressHUD.hide(self.view)
                 })
             }
@@ -463,13 +465,14 @@ class CirclesTableViewCell: UITableViewCell {
         }
     }
     var imgURLs: [[String: String]]?
-    weak var viewController: UIViewController?
+    weak var viewController: CirclesViewController?
     
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var lblName: MarginLabel!
     @IBOutlet var lblContent: MarginLabel!
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnDelete: UIButton!
+    @IBOutlet var btnForward: UIButton!
     
     @IBOutlet var imagesCollectionView: CircleImagesCollectionView!
     @IBOutlet var imagesCollectionViewWidth: NSLayoutConstraint?
@@ -484,6 +487,7 @@ class CirclesTableViewCell: UITableViewCell {
     
     func setupViews() {
         self.btnDelete.setTitle(NSLocalizedString("circles_vc_delete_button"), for: .normal)
+        self.btnForward.setTitle(NSLocalizedString("circles_vc_forward_button"), for: .normal)
     }
     
     override func prepareForReuse() {
@@ -662,6 +666,34 @@ extension CirclesTableViewCell {
                                                 handler: { (action: UIAlertAction) -> Void in
         }))
         vc.present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func forward() {
+        guard let circle = self.circle else {
+            return
+        }
+        let text = circle.text
+        var images: [UIImage]?
+        if let imgURLs = self.imgURLs {
+            if imgURLs.count > 0 {
+                images = [UIImage]()
+            }
+            for dict in imgURLs {
+                var thumbnailURL: URL?
+                if let str = dict["thumbnail"], let url = URL(string: str) {
+                    thumbnailURL = url
+                }
+                var originalURL: URL?
+                if let str = dict["original"], let url = URL(string: str) {
+                    originalURL = url
+                }
+                let cacheKey = SDWebImageManager.shared().cacheKey(for: thumbnailURL)
+                if let image = SDImageCache.shared().imageFromCache(forKey: cacheKey) {
+                    images?.append(image)
+                }
+            }
+        }
+        self.viewController?.shareTextAndImages(text: text, images: images)
     }
     
     func browseImages(_ index: UInt) {

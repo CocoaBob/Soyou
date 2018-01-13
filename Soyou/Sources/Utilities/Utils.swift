@@ -50,9 +50,34 @@ extension Utils {
         }
     }
     
-    class func shareItems(from viewController: UIViewController, items: [Any], completion: (() -> Void)?) {
+    class func shareItems(from vc: UIViewController, items: [Any], completion: (() -> Void)?) {
         let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        viewController.present(activityView, animated: true, completion: completion)
+        vc.present(activityView, animated: true, completion: completion)
+    }
+    
+    class func shareToWeChat(from vc: UIViewController, items: [Any], completion: ((Bool) -> Void)?) {
+        if UserManager.shared.isWeChatUser {
+            self.shareItems(from: vc, items: items) {
+                completion?(true)
+            }
+        } else {
+            let alertController = UIAlertController(title: nil,
+                                                    message: NSLocalizedString("needs_wechat_account"),
+                                                    preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("needs_wechat_account_action"),
+                                                    style: UIAlertActionStyle.default,
+                                                    handler: { (action: UIAlertAction) -> Void in
+                                                        // Show the User tab
+                                                        if let tabC = vc.tabBarController {
+                                                            tabC.selectedViewController = tabC.viewControllers?.last
+                                                        }
+            }))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                    style: UIAlertActionStyle.cancel,
+                                                    handler: nil))
+            vc.present(alertController, animated: true, completion: nil)
+            completion?(false)
+        }
     }
     
     class func shareApp() {

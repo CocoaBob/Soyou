@@ -142,10 +142,12 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         guard tlphAssets.count > 0 else { return }
         MBProgressHUD.show(self.view)
         let images = tlphAssets.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "854x854") }
-        Utils.shareItems(from: self, items: images, completion: { () -> Void in
+        Utils.shareToWeChat(from: self, items: images, completion: { (succeed) -> Void in
             MBProgressHUD.hide(self.view)
+            if succeed {
+                DataManager.shared.analyticsShareNews(id: self.news?.id?.intValue ?? -1)
+            }
         })
-        DataManager.shared.analyticsShareNews(id: self.news?.id?.intValue ?? -1)
     }
 }
 

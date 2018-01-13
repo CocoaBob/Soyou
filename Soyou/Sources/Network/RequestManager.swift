@@ -67,10 +67,16 @@ class RequestManager {
         postAsync("/api/\(Cons.Svr.apiVersion)/auth/register", "Auth", ["email": email, "password": password, "gender": gender], onSuccess, onFailure)
     }
     
-    func loginThird(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String, _ gender: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func loginThird(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String, _ profileUrl: String, _ gender: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/auth/third",
                   "Auth",
-                  ["type": type, "accessToken": accessToken, "thirdId": thirdId, "username": username, "gender": gender, "uuid": UserManager.shared.uuid],
+                  ["type": type,
+                   "accessToken": accessToken,
+                   "thirdId": thirdId,
+                   "username": username,
+                   "profileUrl": profileUrl,
+                   "gender": gender,
+                   "uuid": UserManager.shared.uuid],
                   onSuccess,
                   onFailure)
     }

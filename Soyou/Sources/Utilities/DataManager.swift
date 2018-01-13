@@ -122,8 +122,8 @@ class DataManager {
         })
     }
     
-    func loginThird(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String?, _ gender: String?, _ completion: CompletionClosure?) {
-        RequestManager.shared.loginThird(type, accessToken, thirdId, username ?? "", gender ?? "", { responseObject in
+    func loginThird(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String?, _ profileUrl: String?, _ gender: String?, _ completion: CompletionClosure?) {
+        RequestManager.shared.loginThird(type, accessToken, thirdId, username ?? "", profileUrl ?? "", gender ?? "", { responseObject in
             DLog(responseObject)
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                 for (key, value) in data {

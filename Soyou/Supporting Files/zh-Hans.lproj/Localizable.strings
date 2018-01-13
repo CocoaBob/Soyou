@@ -97,6 +97,7 @@
 "circles_vc_title"="照片墙";
 "circles_vc_tab_title"="照片墙";
 "circles_vc_delete_button"="删除";
+"circles_vc_forward_button"="转发";
 "circles_vc_delete_alert"="确定删除吗？";
 
 /* Circle Compose View Controller */
@@ -245,7 +246,11 @@
 "alert_button_close"="关闭";
 "alert_button_cancel"="取消";
 "alert_button_delete"="删除";
+
+/* MISC */
 "currency_unknown"="未知汇率";
+"needs_wechat_account"="转发微信朋友圈功能\n需要登录微信帐户";
+"needs_wechat_account_action"="登录";
 
 /* Product descriptions */
 "product_surname"="别名";

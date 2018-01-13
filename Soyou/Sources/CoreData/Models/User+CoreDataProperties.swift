@@ -21,5 +21,5 @@ extension User {
     @NSManaged var roleCode: String?
     @NSManaged var username: String?
     @NSManaged var avatar: String?
-
+    @NSManaged var thirds: NSArray?
 }

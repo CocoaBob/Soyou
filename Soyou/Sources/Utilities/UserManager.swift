@@ -246,6 +246,20 @@ extension UserManager {
         }
     }
     
+    var isWeChatUser: Bool {
+        get {
+            guard let thirds = self["thirds"] as? [[String: Any]] else {
+                return false
+            }
+            for dict in thirds {
+                if dict["type"] as? String ?? "" == "wx" {
+                    return true
+                }
+            }
+            return false
+        }
+    }
+    
     func loginOrDo(_ completion: VoidClosure?) {
         if self.isLoggedIn {
             completion?()

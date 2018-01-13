@@ -95,6 +95,7 @@
 "circles_vc_title"="Circles";
 "circles_vc_tab_title"="Circles";
 "circles_vc_delete_button"="Delete";
+"circles_vc_forward_button"="Share";
 "circles_vc_delete_alert"="Delete this post?";
 
 /* Circle Compose View Controller */
@@ -244,7 +245,11 @@
 "alert_button_close"="Close";
 "alert_button_cancel"="Cancel";
 "alert_button_delete"="Delete";
+
+/* MISC */
 "currency_unknown"="Unknown Currency";
+"needs_wechat_account"="Need to login with WeChat";
+"needs_wechat_account_action"="Login";
 
 /* Product descriptions */
 "product_surname"="Surname";
