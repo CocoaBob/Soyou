@@ -116,7 +116,7 @@
 "circle_compose_drop_to_delete"="Drop here to delete";
 
 /* User View Controller */
-"user_vc_login"="Login Accont";
+"user_vc_login"="Tap to sign in";
 "user_vc_username_unknown"="Username unknown";
 "user_vc_tab_title"="Me";
 "user_vc_cell_favs"="Favorites";

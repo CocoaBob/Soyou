@@ -291,6 +291,21 @@ extension CircleComposeViewController {
         }
     }
     
+    @IBAction func toggleShareToWeChat(sender: UISwitch) {
+        if sender.isOn && !UserManager.shared.isWeChatUser {
+            sender.setOn(false, animated: true)
+            Utils.showWeChatSignInWarning(from: self) {
+                if let tabC = self.presentingViewController as? UITabBarController {
+                    // Dismiss self
+                    self.dismiss(animated: true, completion: {
+                        // Show the User tab
+                        tabC.selectedViewController = tabC.viewControllers?.last
+                    })
+                }
+            }
+        }
+    }
+    
     func browseImages(_ view: UIView, _ image: UIImage?, _ index: UInt) {
         let photos = self.selectedAssets?.flatMap() { IDMPhoto(image: $0.fullResolutionImage) }
         IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self)

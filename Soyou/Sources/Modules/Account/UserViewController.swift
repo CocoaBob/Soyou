@@ -69,6 +69,12 @@ class UserViewController: SimpleTableViewController {
         
         // Update User Info
         self.updateUserInfo(false)
+        
+        // Don't show again after dismissing login view
+        if self.presentedViewController == nil {
+            // If not logged in, show login view
+            UserManager.shared.loginOrDo(nil)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

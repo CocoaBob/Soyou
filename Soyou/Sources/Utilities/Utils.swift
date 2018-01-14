@@ -61,23 +61,29 @@ extension Utils {
                 completion?(true)
             }
         } else {
-            let alertController = UIAlertController(title: nil,
-                                                    message: NSLocalizedString("needs_wechat_account"),
-                                                    preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("needs_wechat_account_action"),
-                                                    style: UIAlertActionStyle.default,
-                                                    handler: { (action: UIAlertAction) -> Void in
-                                                        // Show the User tab
-                                                        if let tabC = vc.tabBarController {
-                                                            tabC.selectedViewController = tabC.viewControllers?.last
-                                                        }
-            }))
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
-                                                    style: UIAlertActionStyle.cancel,
-                                                    handler: nil))
-            vc.present(alertController, animated: true, completion: nil)
+            self.showWeChatSignInWarning(from: vc) {
+                // Show the User tab
+                if let tabC = vc.tabBarController {
+                    tabC.selectedViewController = tabC.viewControllers?.last
+                }
+            }
             completion?(false)
         }
+    }
+    
+    class func showWeChatSignInWarning(from vc: UIViewController, completion: @escaping ()->()) {
+        let alertController = UIAlertController(title: nil,
+                                                message: NSLocalizedString("needs_wechat_account"),
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("needs_wechat_account_action"),
+                                                style: UIAlertActionStyle.default,
+                                                handler: { (action: UIAlertAction) -> Void in
+                                                    completion()
+        }))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                style: UIAlertActionStyle.cancel,
+                                                handler: nil))
+        vc.present(alertController, animated: true, completion: nil)
     }
     
     class func shareApp() {

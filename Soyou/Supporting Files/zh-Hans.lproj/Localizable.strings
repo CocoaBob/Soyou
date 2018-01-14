@@ -118,7 +118,7 @@
 "circle_compose_drop_to_delete"="松手确认删除";
 
 /* User View Controller */
-"user_vc_login"="登录您的帐号";
+"user_vc_login"="点击登录您的帐号";
 "user_vc_username_unknown"="用户名尚未设置";
 "user_vc_tab_title"="我";
 "user_vc_cell_favs"="收藏夹";
