@@ -439,6 +439,9 @@ extension CircleComposeViewController {
                     self.selectedAssets?.remove(at: self.oldIndexPath.row)
                     cell.isHidden = false
                     self.imagesCollectionView.reloadData()
+                    // Update cell height
+                    self.tableView.beginUpdates()
+                    self.tableView.endUpdates()
                 })
             } else {
                 self.imagesCollectionView.isUserInteractionEnabled = false
