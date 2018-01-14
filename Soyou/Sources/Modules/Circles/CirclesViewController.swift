@@ -370,29 +370,22 @@ extension CirclesViewController {
     
     func shareTextAndImages(text: String?, images: [UIImage]?) {
         if text?.count ?? 0 > 0 || images?.count ?? 0 > 0 {
-            if let images = images {
-                MBProgressHUD.show(self.view)
-                Utils.shareToWeChat(from: self, items: images, completion: { (succeed) -> Void in
-                    MBProgressHUD.hide(self.view)
-                    if succeed {
-                        if let text = text, text.count > 0 {
-                            UIPasteboard.general.string = text
-                            if let window = UIApplication.shared.keyWindow  {
-                                let hud = MBProgressHUD.showAdded(to: window, animated: true)
-                                hud.isUserInteractionEnabled = false
-                                hud.mode = .text
-                                hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
-                                hud.hide(animated: true, afterDelay: 3)
-                            }
+            MBProgressHUD.show(self.view)
+            Utils.shareToWeChat(from: self, items: images, completion: { (succeed) -> Void in
+                MBProgressHUD.hide(self.view)
+                if succeed {
+                    if let text = text, text.count > 0 {
+                        UIPasteboard.general.string = text
+                        if let window = UIApplication.shared.keyWindow  {
+                            let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                            hud.isUserInteractionEnabled = false
+                            hud.mode = .text
+                            hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
+                            hud.hide(animated: true, afterDelay: 3)
                         }
                     }
-                })
-            } else if let text = text {
-                MBProgressHUD.show(self.view)
-                Utils.shareToWeChat(from: self, items: [text], completion: { (succeed) -> Void in
-                    MBProgressHUD.hide(self.view)
-                })
-            }
+                }
+            })
         }
     }
 }

@@ -55,9 +55,9 @@ extension Utils {
         vc.present(activityView, animated: true, completion: completion)
     }
     
-    class func shareToWeChat(from vc: UIViewController, items: [Any], completion: ((Bool) -> Void)?) {
+    class func shareToWeChat(from vc: UIViewController, items: [UIImage]?, completion: ((Bool) -> Void)?) {
         if UserManager.shared.isWeChatUser {
-            self.shareItems(from: vc, items: items) {
+            self.shareItems(from: vc, items: items ?? [UIImage(named: "img_qr")!]) {
                 completion?(true)
             }
         } else {
