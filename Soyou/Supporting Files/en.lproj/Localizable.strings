@@ -109,9 +109,11 @@
 "circle_compose_visibility_public"="Public";
 "circle_compose_visibility_everyon_desc"="Visible to all Soyou users";
 "circle_compose_visibility_friends"="Friends";
-"circle_compose_visibility_friends"="Visible to all my friends";
+"circle_compose_visibility_friends_desc"="Visible to all my friends";
 "circle_compose_visibility_me"="Me";
-"circle_compose_visibility_me"="Only visible to myself";
+"circle_compose_visibility_me_desc"="Only visible to myself";
+"circle_compose_drag_to_delete"="Drag here to delete";
+"circle_compose_drop_to_delete"="Drop here to delete";
 
 /* User View Controller */
 "user_vc_login"="Login Accont";

@@ -290,13 +290,12 @@ extension CircleComposeViewController {
 // MARK: Reordering
 private var oldIndexPathKey: UInt8 = 0
 private var snapshotViewKey: UInt8 = 0
+private var deleteViewKey: UInt8 = 0
 extension CircleComposeViewController {
     
     var oldIndexPath: NSIndexPath {
         get {
-            return associatedObject(base: self, key: &oldIndexPathKey) {
-                return NSIndexPath() // Set the initial value of the var
-            }
+            return associatedObject(base: self, key: &oldIndexPathKey) ?? NSIndexPath()
         }
         set {
             associateObject(base: self, key: &oldIndexPathKey, value: newValue)
@@ -305,12 +304,30 @@ extension CircleComposeViewController {
     
     var snapshotView: UIView {
         get {
-            return associatedObject(base: self, key: &snapshotViewKey) {
-                return UIView() // Set the initial value of the var
-            }
+            return associatedObject(base: self, key: &snapshotViewKey) ?? UIView()
         }
         set {
             associateObject(base: self, key: &snapshotViewKey, value: newValue)
+        }
+    }
+    
+    var deleteView: UILabel {
+        get {
+            return associatedObject(base: self, key: &deleteViewKey) ?? UILabel()
+        }
+        set {
+            associateObject(base: self, key: &deleteViewKey, value: newValue)
+        }
+    }
+    
+    func updateDeleteView(gesture: UIGestureRecognizer) {
+        let location = gesture.location(in: self.currentWindow())
+        if self.deleteView.frame.contains(location) {
+            self.deleteView.backgroundColor = UIColor(hex8: 0xd67b76FF)
+            self.deleteView.text = NSLocalizedString("circle_compose_drop_to_delete")
+        } else {
+            self.deleteView.backgroundColor = UIColor(hex8: 0xd65e57FF)
+            self.deleteView.text = NSLocalizedString("circle_compose_drag_to_delete")
         }
     }
     
@@ -320,31 +337,61 @@ extension CircleComposeViewController {
         self.imagesCollectionView.addGestureRecognizer(longPressGesture)
     }
     
+    func currentWindow() -> UIView {
+        if let window = self.view.window {
+            return window
+        } else {
+            return self.view
+        }
+    }
+    
     @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        let currentWindow = self.currentWindow()
+        let currentLocation = gesture.location(in: currentWindow)
         switch(gesture.state) {
         case .began:
+            // Get current index and cell
             guard let indexPath = self.imagesCollectionView.indexPathForItem(at: gesture.location(in: self.imagesCollectionView)),
                 let cell = self.imagesCollectionView.cellForItem(at: indexPath) else {
                 break
             }
+            // Cannot drag the + button
             if !self.collectionView(self.imagesCollectionView, canMoveItemAt: indexPath) {
                 gesture.isEnabled = false
                 gesture.isEnabled = true
                 break
             }
+            // Dismiss keyboard
+            self.dismissKeyboard()
+            // Create snapshot view
             self.oldIndexPath = indexPath as NSIndexPath
             if let snapshotView = cell.snapshotView(afterScreenUpdates: false) {
-                self.view.addSubview(snapshotView)
+                currentWindow.addSubview(snapshotView)
                 self.snapshotView = snapshotView
-                self.snapshotView.frame = cell.convert(cell.bounds, to: self.view)
+                self.snapshotView.frame = cell.convert(cell.bounds, to: currentWindow)
                 cell.isHidden = true
             }
+            // Create delete view
+            let _deleteView = UILabel()
+            _deleteView.textColor = .white
+            _deleteView.textAlignment = NSTextAlignment.center
+            currentWindow.insertSubview(_deleteView, belowSubview: self.snapshotView)
+            // Prepare delete view initial position
+            _deleteView.snp.makeConstraints({ (make) in
+                make.height.equalTo(44)
+                make.left.right.equalToSuperview()
+                make.top.equalTo(currentWindow.snp.bottom).offset(-44)
+            })
+            self.deleteView = _deleteView
+            self.updateDeleteView(gesture: gesture)
             UIView.animate(withDuration: 0.3, animations: {
+                // Show snapshot view
+                self.snapshotView.center = currentLocation
                 self.snapshotView.transform = cell.transform.scaledBy(x: 1.2, y: 1.2)
-                self.snapshotView.center = gesture.location(in: self.view)
+                self.snapshotView.alpha = 0.5
             })
         case .changed:
-            self.snapshotView.center = gesture.location(in: self.view)
+            self.snapshotView.center = currentLocation
             for cell in self.imagesCollectionView.visibleCells {
                 let oldIndexPath = self.oldIndexPath as IndexPath
                 guard var cellIndexPath = self.imagesCollectionView.indexPath(for: cell) else {
@@ -354,7 +401,7 @@ extension CircleComposeViewController {
                 if cellIndexPath == oldIndexPath {
                     continue
                 }
-                let snapshotViewCenter = self.imagesCollectionView.convert(self.snapshotView.center, from: self.view)
+                let snapshotViewCenter = self.imagesCollectionView.convert(self.snapshotView.center, from: currentWindow)
                 let distance = sqrtf(pow(Float(snapshotViewCenter.x - cell.center.x), 2) + powf(Float(snapshotViewCenter.y - cell.center.y), 2))
                 if distance <= Float(self.snapshotView.bounds.size.width / 2.0) {
                     let moveIndexPath = cellIndexPath
@@ -364,20 +411,39 @@ extension CircleComposeViewController {
                     break
                 }
             }
+            self.updateDeleteView(gesture: gesture)
         default:
             guard let cell = self.imagesCollectionView.cellForItem(at: self.oldIndexPath as IndexPath) else {
-                break
+                return
             }
-            self.imagesCollectionView.isUserInteractionEnabled = false
-            UIView.animate(withDuration: 0.3,
-                           animations: {
-                            self.snapshotView.center = self.imagesCollectionView.convert(cell.center, to: self.view)
-                            self.snapshotView.transform = CGAffineTransform.identity
-            }, completion: { (finished) in
-                self.snapshotView.removeFromSuperview()
-                cell.isHidden = false
-                self.imagesCollectionView.isUserInteractionEnabled = true
-            })
+            // Delete the asset if it's in the delete view
+            if self.deleteView.frame.contains(currentLocation) {
+                self.imagesCollectionView.isUserInteractionEnabled = false
+                UIView.animate(withDuration: 0.15, animations: {
+                    self.snapshotView.transform = self.snapshotView.transform.scaledBy(x: 2, y: 2)
+                    self.snapshotView.alpha = 0.0
+                }, completion: { (finished) in
+                    self.imagesCollectionView.isUserInteractionEnabled = true
+                    self.snapshotView.removeFromSuperview()
+                    // Reload table view
+                    self.selectedAssets?.remove(at: self.oldIndexPath.row)
+                    cell.isHidden = false
+                    self.imagesCollectionView.reloadData()
+                })
+            } else {
+                self.imagesCollectionView.isUserInteractionEnabled = false
+                UIView.animate(withDuration: 0.3, animations: {
+                    // Hide snapshot view
+                    self.snapshotView.center = self.imagesCollectionView.convert(cell.center, to: currentWindow)
+                    self.snapshotView.transform = CGAffineTransform.identity
+                    self.snapshotView.alpha = 1.0
+                }, completion: { (finished) in
+                    self.imagesCollectionView.isUserInteractionEnabled = true
+                    self.snapshotView.removeFromSuperview()
+                    cell.isHidden = false
+                })
+            }
+            self.deleteView.removeFromSuperview()
         }
     }
 }

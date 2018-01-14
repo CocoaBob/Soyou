@@ -32,6 +32,7 @@
 @import PFCarouselView;
 @import SCLAlertView;
 @import SMCalloutView;
+@import SnapKit;
 @import SSZipArchive;
 @import SwiftyJSON;
 @import TLPhotoPicker;

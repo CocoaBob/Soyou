@@ -111,9 +111,11 @@
 "circle_compose_visibility_public"="公开";
 "circle_compose_visibility_everyon_desc"="所有奢有用户都可以看见";
 "circle_compose_visibility_friends"="朋友";
-"circle_compose_visibility_friends"="我的朋友都可以看见";
+"circle_compose_visibility_friends_desc"="我的朋友都可以看见";
 "circle_compose_visibility_me"="自己";
-"circle_compose_visibility_me"="只有我自己可以看见";
+"circle_compose_visibility_me_desc"="只有我自己可以看见";
+"circle_compose_drag_to_delete"="拖到此处删除";
+"circle_compose_drop_to_delete"="松手确认删除";
 
 /* User View Controller */
 "user_vc_login"="登录您的帐号";
