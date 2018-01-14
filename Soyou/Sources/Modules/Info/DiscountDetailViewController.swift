@@ -179,11 +179,11 @@ extension DiscountDetailViewController {
                         self.setupParallaxHeader()
                     }
                 } else {
-                    SDWebImageManager.shared().imageDownloader?.downloadImage(
+                    SDWebImageManager.shared().loadImage(
                         with: imageURL,
                         options: [.continueInBackground, .allowInvalidSSLCertificates],
                         progress: nil,
-                        completed: { (image, data, error, finished) -> Void in
+                        completed: { (image, data, error, type, finished, url) -> Void in
                             DispatchQueue.main.async {
                                 self.headerImage = image
                                 self.setupParallaxHeader()

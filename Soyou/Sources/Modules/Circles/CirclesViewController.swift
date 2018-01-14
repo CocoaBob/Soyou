@@ -459,6 +459,8 @@ class CirclesTableViewCell: UITableViewCell {
         }
     }
     var imgURLs: [[String: String]]?
+    var textToShare: String?
+    var imagesToShare: [UIImage]?
     weak var viewController: CirclesViewController?
     
     @IBOutlet var imgUser: UIImageView!
@@ -690,28 +692,18 @@ extension CirclesTableViewCell {
         guard let circle = self.circle else {
             return
         }
-        let text = circle.text
-        var images: [UIImage]?
         if let imgURLs = self.imgURLs {
-            if imgURLs.count > 0 {
-                images = [UIImage]()
-            }
+            var images = [UIImage]()
+            var urls = [URL]()
             for dict in imgURLs {
-                var thumbnailURL: URL?
-                if let str = dict["thumbnail"], let url = URL(string: str) {
-                    thumbnailURL = url
-                }
-                var originalURL: URL?
                 if let str = dict["original"], let url = URL(string: str) {
-                    originalURL = url
-                }
-                let cacheKey = SDWebImageManager.shared().cacheKey(for: thumbnailURL)
-                if let image = SDImageCache.shared().imageFromCache(forKey: cacheKey) {
-                    images?.append(image)
+                    urls.append(url)
                 }
             }
+            self.shareToWeChat(text: circle.text, urls: urls)
+        } else {
+            self.shareToWeChat(text: circle.text, urls: nil)
         }
-        self.viewController?.shareTextAndImages(text: text, images: images)
     }
     
     func browseImages(_ view: UIView, _ image: UIImage?, _ index: UInt) {
@@ -725,5 +717,44 @@ extension CirclesTableViewCell {
             }
         }
         IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self.viewController)
+    }
+}
+
+// MARK: Share original images
+extension CirclesTableViewCell {
+    
+    func shareToWeChat(text: String?, urls: [URL]?) {
+        self.textToShare = text
+        self.imagesToShare = ((urls?.count ?? 0) > 0) ? [UIImage]() : nil
+        
+        if let urls = urls {
+            let dispatchGroup = DispatchGroup()
+            for url in urls {
+                let cacheKey = SDWebImageManager.shared().cacheKey(for: url)
+                if let image = SDImageCache.shared().imageFromCache(forKey: cacheKey) {
+                    self.imagesToShare?.append(image)
+                } else {
+                    MBProgressHUD.show(self.viewController?.view)
+                    dispatchGroup.enter()
+                    SDWebImageManager.shared().loadImage(
+                        with: url,
+                        options: [.continueInBackground, .allowInvalidSSLCertificates],
+                        progress: nil,
+                        completed: { (image, data, error, type, finished, url) -> Void in
+                            MBProgressHUD.hide(self.viewController?.view)
+                            if let image = image {
+                                self.imagesToShare?.append(image)
+                            }
+                            dispatchGroup.leave()
+                    })
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                self.viewController?.shareTextAndImages(text: self.textToShare, images: self.imagesToShare)
+            }
+        } else {
+            self.viewController?.shareTextAndImages(text: self.textToShare, images: nil)
+        }
     }
 }

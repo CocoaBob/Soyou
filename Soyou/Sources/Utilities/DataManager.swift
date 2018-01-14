@@ -212,11 +212,7 @@ class DataManager {
                             if let brands = Brand.mr_findAll(in: localContext) as? [Brand] {
                                 for brand in brands {
                                     if let imageURL = brand.imageUrl, let url = URL(string: imageURL) {
-                                        SDWebImageManager.shared().imageDownloader?.downloadImage(
-                                            with: url,
-                                            options: .lowPriority,
-                                            progress: nil,
-                                            completed: nil)
+                                        SDWebImagePrefetcher.shared().prefetchURLs([url])
                                     }
                                 }
                             }
@@ -347,11 +343,7 @@ class DataManager {
                         if let allNews = News.mr_findAll(in: localContext) as? [News] {
                             for news in allNews {
                                 if let imageURL = news.image, let url = URL(string: imageURL) {
-                                    SDWebImageManager.shared().imageDownloader?.downloadImage(
-                                        with: url,
-                                        options: .lowPriority,
-                                        progress: nil,
-                                        completed: nil)
+                                    SDWebImagePrefetcher.shared().prefetchURLs([url])
                                 }
                             }
                         }
@@ -438,11 +430,7 @@ class DataManager {
                         if let allDiscounts = Discount.mr_findAll(in: localContext) as? [Discount] {
                             for discount in allDiscounts {
                                 if let imageURL = discount.coverImage, let url = URL(string: imageURL) {
-                                    SDWebImageManager.shared().imageDownloader?.downloadImage(
-                                        with: url,
-                                        options: .lowPriority,
-                                        progress: nil,
-                                        completed: nil)
+                                    SDWebImagePrefetcher.shared().prefetchURLs([url])
                                 }
                             }
                         }
