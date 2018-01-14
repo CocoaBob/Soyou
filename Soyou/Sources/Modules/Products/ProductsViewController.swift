@@ -235,7 +235,7 @@ extension ProductsViewController: UICollectionViewDelegate, UICollectionViewData
                                                     let imageViewRatio = imageView.frame.height / imageView.frame.width
                                                     let imageRatio = image.size.height / image.size.width
                                                     if (abs(imageViewRatio - imageRatio) > 0.01 && self.fetchedResults?.count == countBeforeUpdating) {
-                                                        self.collectionView().reloadItems(at: [indexPath])
+                                                        self.collectionView().collectionViewLayout.invalidateLayout()
                                                     }
                                                 }
                                             }

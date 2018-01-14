@@ -99,7 +99,7 @@ extension DiscountsViewController {
                                                 !self.collectionView().isDragging &&
                                                 !self.collectionView().isDecelerating &&
                                                 self.collectionView().indexPathsForVisibleItems.contains(indexPath)) {
-                                                self.collectionView().reloadItems(at: [indexPath])
+                                                self.collectionView().collectionViewLayout.invalidateLayout()
                                             }
             })
         }
