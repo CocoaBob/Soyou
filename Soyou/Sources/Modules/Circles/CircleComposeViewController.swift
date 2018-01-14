@@ -160,9 +160,14 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        guard let imageView = (collectionView.cellForItem(at: indexPath) as? CircleImageCollectionViewCell)?.imageView else {
+            return
+        }
         // Add button
         if indexPath.row == self.selectedAssets?.count ?? 0 {
             self.addPicture()
+        } else {
+            self.browseImages(imageView, self.selectedAssets?[indexPath.row].fullResolutionImage, UInt(indexPath.row))
         }
     }
     
@@ -284,6 +289,11 @@ extension CircleComposeViewController {
                 })
             }
         }
+    }
+    
+    func browseImages(_ view: UIView, _ image: UIImage?, _ index: UInt) {
+        let photos = self.selectedAssets?.flatMap() { IDMPhoto(image: $0.fullResolutionImage) }
+        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self)
     }
 }
 

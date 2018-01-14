@@ -611,7 +611,22 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.browseImages(UInt(indexPath.row))
+        guard let imageView = (collectionView.cellForItem(at: indexPath) as? CircleImageCollectionViewCell)?.imageView else {
+            return
+        }
+        var image: UIImage?
+        if let dict = self.imgURLs?[indexPath.row],
+            let str = dict["original"],
+            let url = URL(string: str),
+            let cachedImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: url)) {
+            image = cachedImage
+        } else if let dict = self.imgURLs?[indexPath.row],
+            let str = dict["thumbnail"],
+            let url = URL(string: str),
+            let cachedImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: url)) {
+            image = cachedImage
+        }
+        self.browseImages(imageView, image, UInt(indexPath.row))
     }
 }
 
@@ -706,7 +721,7 @@ extension CirclesTableViewCell {
         self.viewController?.shareTextAndImages(text: text, images: images)
     }
     
-    func browseImages(_ index: UInt) {
+    func browseImages(_ view: UIView, _ image: UIImage?, _ index: UInt) {
         guard let imgURLs = self.imgURLs else {
             return
         }
@@ -716,6 +731,6 @@ extension CirclesTableViewCell {
                 photos.append(IDMPhoto(url: originalURL))
             }
         }
-        IDMPhotoBrowser.present(photos, index: index, view: nil, scaleImage: nil, viewVC: self.viewController)
+        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self.viewController)
     }
 }

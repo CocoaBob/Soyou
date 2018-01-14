@@ -15,8 +15,8 @@ extension IDMPhotoBrowser {
             photoBrowser.scaleImage = scaleImage
         }
         photoBrowser.displayToolbar = true
-        photoBrowser.displayActionButton = true
-        photoBrowser.displayArrowButton = true
+        photoBrowser.displayActionButton = false
+        photoBrowser.displayArrowButton = false
         photoBrowser.displayCounterLabel = true
         photoBrowser.displayDoneButton = false
         photoBrowser.usePopAnimation = false
@@ -24,7 +24,7 @@ extension IDMPhotoBrowser {
         photoBrowser.disableVerticalSwipe = false
         photoBrowser.forceHideStatusBar = true
         photoBrowser.dismissOnTouch = true
-        photoBrowser.autoHideInterface = false
+        photoBrowser.autoHideInterface = true
         
         photoBrowser.setInitialPageIndex(index)
         
