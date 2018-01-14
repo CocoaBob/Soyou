@@ -97,6 +97,8 @@
 "circles_vc_delete_button"="Delete";
 "circles_vc_forward_button"="Share";
 "circles_vc_delete_alert"="Delete this post?";
+"circles_vc_button_more"="More";
+"circles_vc_button_less"="Less";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="Post";

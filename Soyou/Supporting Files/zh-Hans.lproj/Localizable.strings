@@ -99,6 +99,8 @@
 "circles_vc_delete_button"="删除";
 "circles_vc_forward_button"="一键转发";
 "circles_vc_delete_alert"="确定删除吗？";
+"circles_vc_button_more"="全文";
+"circles_vc_button_less"="收起";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="发布";

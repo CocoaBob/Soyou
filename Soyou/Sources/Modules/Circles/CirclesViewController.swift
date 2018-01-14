@@ -476,6 +476,10 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var btnDelete: UIButton!
     @IBOutlet var btnForward: UIButton!
     
+    @IBOutlet var btnMoreLess: UIButton!
+    @IBOutlet var btnMoreLessHeight: NSLayoutConstraint!
+    @IBOutlet var lblContentHeight: NSLayoutConstraint!
+    
     @IBOutlet var imagesCollectionView: CircleImagesCollectionView!
     @IBOutlet var imagesCollectionViewWidth: NSLayoutConstraint?
     @IBOutlet var imagesCollectionViewContainer: UIView!
@@ -506,6 +510,8 @@ class CirclesTableViewCell: UITableViewCell {
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
         self.imagesCollectionView.reloadData()
+        self.resetMoreLessControl()
+        self.updateMoreLessControl()
     }
 }
 
@@ -535,7 +541,7 @@ extension CirclesTableViewCell {
     func configureLabels(_ circle: Circle) {
         self.lblName.text = circle.username ?? ""
         self.lblContent.text = circle.text
-        self.lblContent.bottomInset = ((circle.images?.count ?? 0) > 0) ? 8 : 0
+        self.updateMoreLessControl()
         if let date = circle.createdDate {
             self.lblDate.text = DateFormatter.localizedString(from: date,
                                                               dateStyle: DateFormatter.Style.medium,
@@ -664,6 +670,47 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: More/Less control
+extension CirclesTableViewCell {
+    
+    func resetMoreLessControl() {
+        self.lblContentHeight.isActive = true
+    }
+    
+    func contentIsMoreThanSixLines() -> Bool {
+        let maxHeight = self.lblContent.sizeThatFits(CGSize(width: self.lblContent.bounds.width,
+                                                            height: CGFloat.greatestFiniteMagnitude)).height
+        return maxHeight > 108 // height for 6 lines
+    }
+    
+    func updateMoreLessControl() {
+        if self.contentIsMoreThanSixLines() {
+            self.btnMoreLessHeight.constant = 26 // Button height
+            self.btnMoreLess.isHidden = false
+            let title = self.lblContentHeight.isActive ? "circles_vc_button_more" : "circles_vc_button_less"
+            self.btnMoreLess.setTitle(NSLocalizedString(title), for: .normal)
+            self.lblContent.bottomInset = 0 // Bottom margin
+            self.lblContentHeight.constant = 108 // Height of 6 lines
+        } else {
+            self.btnMoreLessHeight.constant = 0
+            self.btnMoreLess.isHidden = true
+            self.lblContent.bottomInset = ((self.circle?.images?.count ?? 0) > 0) ? 8 : 0 // Bottom margin
+            self.lblContentHeight.constant = 116 // 108 + 8 bottom margin
+        }
+    }
+    
+    @IBAction func toggleMoreLessControl() {
+        self.lblContentHeight.isActive = !self.lblContentHeight.isActive
+        self.updateMoreLessControl()
+        if let tableView = self.viewController?.tableView() {
+            UIView.setAnimationsEnabled(false)
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+}
+
 // MARK: CirclesTableViewCell Actions
 extension CirclesTableViewCell {
     
@@ -699,7 +746,6 @@ extension CirclesTableViewCell {
             return
         }
         if let imgURLs = self.imgURLs {
-            var images = [UIImage]()
             var urls = [URL]()
             for dict in imgURLs {
                 if let str = dict["original"], let url = URL(string: str) {
