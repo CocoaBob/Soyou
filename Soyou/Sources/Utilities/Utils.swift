@@ -57,7 +57,7 @@ extension Utils {
     
     class func shareToWeChat(from vc: UIViewController, items: [UIImage]?, completion: ((Bool) -> Void)?) {
         if UserManager.shared.isWeChatUser {
-            self.shareItems(from: vc, items: items ?? [UIImage(named: "img_qr")!]) {
+            self.shareItems(from: vc, items: items ?? [URL(string: "https://itunes.apple.com/ca/app/id1028389463?mt=8")!]) {
                 completion?(true)
             }
         } else {
