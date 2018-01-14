@@ -131,6 +131,12 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Update User Info
         self.updateUserInfo(false)
+        
+        // Avoid show again after dismissing login view
+        if self.presentedViewController == nil {
+            // If not logged in, show login view
+            UserManager.shared.loginOrDo(nil)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

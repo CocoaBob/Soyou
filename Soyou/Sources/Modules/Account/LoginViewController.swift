@@ -53,6 +53,8 @@ class LoginViewController: UIViewController {
     var lastLoginThirdId: String?
     var lastLoginThirdToken: String?
     
+    // Notification Context
+    fileprivate var KVOContextLoginViewController = 0
     
     // Class methods
     class func instantiate(_ type: LoginType) -> LoginViewController {
@@ -124,6 +126,13 @@ class LoginViewController: UIViewController {
             segmentedControl.segmentIndicatorBorderWidth = 0
             segmentedControl.usesSpringAnimations = true
         }
+        
+        // Automatic dismiss
+        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextLoginViewController)
+    }
+    
+    deinit {
+        UserManager.shared.removeObserver(self, forKeyPath: "token")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,6 +158,14 @@ class LoginViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.keyboardControlRotateWithTransitionCoordinator(coordinator)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &KVOContextLoginViewController {
+            if UserManager.shared.isLoggedIn {
+                self.dismissSelf()
+            }
+        }
     }
 }
 
