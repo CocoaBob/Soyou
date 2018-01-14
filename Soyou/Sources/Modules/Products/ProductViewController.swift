@@ -33,7 +33,7 @@ class ProductViewController: UIViewController {
     var pageMenu: CAPSPageMenu?
     
     // Toolbar
-    var btnLike: UIButton?
+//    var btnLike: UIButton?
     var btnFav: UIButton?
     var btnComment: UIButton = UIButton(type: .system)
     
@@ -63,16 +63,16 @@ class ProductViewController: UIViewController {
         self.statusBarCover.backgroundColor = UIColor.white
         
         // Toolbar
-        self.btnLike = UIButton(type: .system)
+//        self.btnLike = UIButton(type: .system)
         self.btnFav = UIButton(type: .system)
         
-        self.btnLike?.titleLabel?.font = UIFont.systemFont(ofSize: 10)
-        self.btnLike?.titleEdgeInsets = UIEdgeInsets(top: -20, left: -0, bottom: 1, right: 0)
-        self.btnLike?.backgroundColor = UIColor.clear
-        self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
-        self.btnLike?.setImage(UIImage(named: "img_thumb"), for: .normal)
-        self.btnLike?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
-        self.btnLike?.addTarget(self, action: #selector(ProductViewController.like(_:)), for: .touchUpInside)
+//        self.btnLike?.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+//        self.btnLike?.titleEdgeInsets = UIEdgeInsets(top: -20, left: -0, bottom: 1, right: 0)
+//        self.btnLike?.backgroundColor = UIColor.clear
+//        self.btnLike?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
+//        self.btnLike?.setImage(UIImage(named: "img_thumb"), for: .normal)
+//        self.btnLike?.imageEdgeInsets = UIEdgeInsets(top: -1, left: -0, bottom: 1, right: 0) // Adjust image position
+//        self.btnLike?.addTarget(self, action: #selector(ProductViewController.like(_:)), for: .touchUpInside)
         
         self.btnFav?.backgroundColor = UIColor.clear
         self.btnFav?.frame = CGRect(x: 0, y: 0, width: 64, height: 32)
@@ -94,10 +94,10 @@ class ProductViewController: UIViewController {
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let back = UIBarButtonItem(image: UIImage(named:"img_arrow_left"), style: .plain, target: self, action: #selector(ProductViewController.back(_:)))
         let fav = UIBarButtonItem(customView: self.btnFav!)
-        let like = UIBarButtonItem(customView: self.btnLike!)
+//        let like = UIBarButtonItem(customView: self.btnLike!)
         let comment = UIBarButtonItem(customView: self.btnComment)
         let share = UIBarButtonItem(image: UIImage(named:"img_share"), style: .plain, target: self, action: #selector(ProductViewController.shareURL(_:)))
-        self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space, share, space]
+        self.toolbarItems = [ space, back, space, fav, /*space, like,*/ space, comment, space, share, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
         // Fix scroll view insets
@@ -441,10 +441,10 @@ extension ProductViewController {
                     if let responseObject = responseObject as? [String:AnyObject],
                         let data = responseObject["data"] as? [String:AnyObject] {
                         let json = JSON(data)
-                        self.likeBtnNumber = json["likeNumber"].int
+//                        self.likeBtnNumber = json["likeNumber"].int
 //                        let isFavorite = json["isFavorite"].boolValue
                         self.commentBtnNumber = json["commentNumber"].int
-                        self.updateLikeBtnColor(json["isLiked"].boolValue)
+//                        self.updateLikeBtnColor(json["isLiked"].boolValue)
                     }
                 }
                 
@@ -452,12 +452,12 @@ extension ProductViewController {
                 let diskContext = NSManagedObjectContext.mr_default()
                 diskContext.performAndWait({
                     guard let diskProduct = Product.mr_findFirst(byAttribute: "id", withValue: productID, in: diskContext) else { return }
-                    self.updateLikeBtnColor(diskProduct.appIsLiked?.boolValue)
+//                    self.updateLikeBtnColor(diskProduct.appIsLiked?.boolValue)
                 })
             }
         })
     }
-    
+    /*
     fileprivate func updateLikeBtnColor(_ isLiked: Bool?) {
         DispatchQueue.main.async {
             self.btnLike?.tintColor = (isLiked ?? false) ? Cons.UI.colorLike : UIToolbar.appearance().tintColor
@@ -480,6 +480,7 @@ extension ProductViewController {
             }
         }
     }
+     */
 }
 
 // MARK: Fav button
@@ -599,7 +600,7 @@ extension ProductViewController {
         })
         DataManager.shared.analyticsShareNews(id: self.product?.id?.intValue ?? -1)
     }
-    
+    /*
     @objc func like(_ sender: AnyObject) {
         self.product?.doLike({ (likeNumber: NSNumber, isLiked: NSNumber) -> () in
             // Update like color
@@ -608,6 +609,7 @@ extension ProductViewController {
             self.likeBtnNumber = likeNumber.intValue
         })
     }
+    */
     
     @objc func star(_ sender: AnyObject) {
         UserManager.shared.loginOrDo() { () -> () in

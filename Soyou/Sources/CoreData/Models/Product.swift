@@ -130,21 +130,13 @@ class Product: NSManagedObject {
         self.managedObjectContext?.runBlockAndWait({ (memoryContext: NSManagedObjectContext!) -> Void in
             if let memoryProduct = self.mr_(in: memoryContext) {
                 MagicalRecord.save(blockAndWait: { (diskContext: NSManagedObjectContext!) -> Void in
-                    guard let productID = memoryProduct.id else { return }
-                    guard let diskProduct = Product.mr_findFirst(byAttribute: "id", withValue: productID, in: diskContext) else { return }
-                    let appWasLiked = diskProduct.appIsLiked != nil && diskProduct.appIsLiked!.boolValue
+                    guard let productID = memoryProduct.id as? Int else { return }
+                    let appWasLiked = memoryProduct.appIsLiked != nil && memoryProduct.appIsLiked!.boolValue
                     // Update only when response is received
-                    guard let diskProductID = diskProduct.id as? Int else { return }
-                    DataManager.shared.likeProduct(diskProductID, wasLiked: appWasLiked) { responseObject, error in
+                    DataManager.shared.likeProduct(productID, wasLiked: appWasLiked) { responseObject, error in
                         guard let responseObject = responseObject as? [String: AnyObject] else { return }
                         guard let likeNumber = responseObject["data"] as? NSNumber else { return }
                         let isLiked = NSNumber(value: !appWasLiked)
-                        // Remember if it's liked or not
-                        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
-                            if let diskProduct = diskProduct.mr_(in: localContext) {
-                                diskProduct.appIsLiked = isLiked
-                            }
-                        })
                         // Completion
                         completion?(likeNumber, isLiked)
                     }
