@@ -573,8 +573,14 @@ extension CirclesTableViewCell {
                                             constant: 0)
         self.imagesCollectionViewContainer.addConstraint(constraint)
         self.imagesCollectionViewWidth = constraint
-        self.layoutIfNeeded()
-        self.imagesCollectionView.reloadData() // Must be called after layout is ready
+        self.imagesCollectionView.reloadData()
+        self.imagesCollectionView.collectionViewLayout.invalidateLayout() // Update layout
+//        if let tableView = self.viewController?.tableView() {
+//            UIView.setAnimationsEnabled(false)
+//            tableView.beginUpdates()
+//            tableView.endUpdates()
+//            UIView.setAnimationsEnabled(true)
+//        }
     }
 }
 
@@ -663,10 +669,15 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
         guard let vc = self.viewController, let constraint = self.imagesCollectionViewWidth else {
             return CGSize.zero
         }
+        
         let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
         let collectionViewWidth = (vc.view.bounds.width - 73 * 2) * constraint.multiplier
         let size = floor((floor(collectionViewWidth) - (4 * (columns - 1))) / columns)
         return CGSize(width: size, height: size)
+        
+//        let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
+//        let size = floor((collectionView.bounds.width - 4 * (columns - 1)) / columns)
+//        return CGSize(width: size, height: size)
     }
 }
 
