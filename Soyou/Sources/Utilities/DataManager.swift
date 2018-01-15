@@ -198,7 +198,7 @@ class DataManager {
     }
     
     func modifyProfileImage(_ image:UIImage, _ completion: CompletionClosure?) {
-        guard let imageData = UIImageJPEGRepresentation(image, 0.75) else {
+        guard let imageData = UIImageJPEGRepresentation(image, 0.7) else {
             return
         }
         RequestManager.shared.modifyProfileImage(imageData, { responseObject in
