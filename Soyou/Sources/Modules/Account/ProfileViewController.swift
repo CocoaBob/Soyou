@@ -31,13 +31,6 @@ class ProfileViewController: SimpleTableViewController {
         
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(UIViewController.dismissSelf))
-        
-        // Setup STG mode toggling gesture
-        let doubleDoubleGesture = UITapGestureRecognizer(target: self,
-                                                         action: #selector(ProfileViewController.toggleSTGMode))
-        doubleDoubleGesture.numberOfTapsRequired = 10
-        doubleDoubleGesture.numberOfTouchesRequired = 2
-        self.tableView.addGestureRecognizer(doubleDoubleGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -388,22 +381,5 @@ extension ProfileViewController {
         }
         // Push
         self.navigationController?.pushViewController(simpleViewController, animated: true)
-    }
-}
-
-// MARK: Routines
-extension ProfileViewController {
-    
-    @objc func toggleSTGMode() {
-        // Update setting
-        UserDefaults.setBool(!UserDefaults.boolForKey(Cons.App.isSTGMode), forKey: Cons.App.isSTGMode)
-        // Clear network cache
-        URLCache.shared.removeAllCachedResponses()
-        // Reinitialize url
-        RequestManager.shared.initRequestOperationManager()
-        // Logout the current user
-        UserManager.shared.logOut()
-        // Update status bar color
-        (UIApplication.shared.delegate as? AppDelegate)?.setupOverlayWindow()
     }
 }

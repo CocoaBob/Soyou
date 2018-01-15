@@ -37,6 +37,13 @@ class SettingsViewController: SimpleTableViewController {
         
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(UIViewController.dismissSelf))
+        
+        // Setup STG mode toggling gesture
+        let doubleDoubleGesture = UITapGestureRecognizer(target: self,
+                                                         action: #selector(SettingsViewController.toggleSTGMode))
+        doubleDoubleGesture.numberOfTapsRequired = 10
+        doubleDoubleGesture.numberOfTouchesRequired = 2
+        self.tableView.addGestureRecognizer(doubleDoubleGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -522,5 +529,22 @@ extension SettingsViewController: CLLocationManagerDelegate {
             self.rebuildTable()
             self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
         }
+    }
+}
+
+// MARK: STG Mode
+extension SettingsViewController {
+    
+    @objc func toggleSTGMode() {
+        // Update setting
+        UserDefaults.setBool(!UserDefaults.boolForKey(Cons.App.isSTGMode), forKey: Cons.App.isSTGMode)
+        // Clear network cache
+        URLCache.shared.removeAllCachedResponses()
+        // Reinitialize url
+        RequestManager.shared.initRequestOperationManager()
+        // Logout the current user
+        UserManager.shared.logOut()
+        // Update status bar color
+        (UIApplication.shared.delegate as? AppDelegate)?.setupOverlayWindow()
     }
 }
