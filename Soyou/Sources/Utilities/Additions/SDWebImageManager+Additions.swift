@@ -12,7 +12,7 @@ class SDWebImageManagerDelegateHandler: NSObject, SDWebImageManagerDelegate {
     
     func imageManager(_ imageManager: SDWebImageManager, transformDownloadedImage image: UIImage?, with imageURL: URL?) -> UIImage? {
         if let image = image {
-            if image.size.width > 1080 && image.size.height > 1080 {
+            if image.size.width > 1080 || image.size.height > 1080 {
                 return image.resizedImage(byMagick: "1080x1080")
             }
         }
