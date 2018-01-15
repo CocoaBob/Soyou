@@ -403,9 +403,9 @@ extension CircleComposeViewController {
             currentWindow.insertSubview(_deleteView, belowSubview: self.snapshotView)
             // Prepare delete view initial position
             _deleteView.snp.makeConstraints({ (make) in
-                make.height.equalTo(44)
+                make.height.equalTo(44 + Cons.UI.screenBottomMargin)
                 make.left.right.equalToSuperview()
-                make.top.equalTo(currentWindow.snp.bottom).offset(-44)
+                make.top.equalTo(currentWindow.snp.bottom).offset(-(44 + Cons.UI.screenBottomMargin))
             })
             self.deleteView = _deleteView
             self.updateDeleteView(gesture: gesture)

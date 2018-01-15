@@ -82,6 +82,7 @@ public struct Cons {
         static let heightPageMenuInfo                       = CGFloat(44.0)
         static let statusBarHeight                          = CGFloat(UIDevice.isX() ? 44.0 : 20.0)
 //        static let statusBarHeight                          = CGFloat(UIApplication.shared.isStatusBarHidden ? 0 : UIApplication.shared.statusBarFrame.height)
+        static let screenBottomMargin                       = CGFloat(UIDevice.isX() ? 24.0 : 0.0)
     }
     
     static var utcDateFormatter: DateFormatter {
