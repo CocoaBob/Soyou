@@ -141,7 +141,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
     override func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
         guard tlphAssets.count > 0 else { return }
         MBProgressHUD.show(self.view)
-        let images = tlphAssets.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "854x854") }
+        let images = tlphAssets.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
         Utils.shareToWeChat(from: self, items: images, completion: { (succeed) -> Void in
             MBProgressHUD.hide(self.view)
             if succeed {

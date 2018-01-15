@@ -279,7 +279,7 @@ extension CircleComposeViewController {
         UserManager.shared.loginOrDo {
             MBProgressHUD.show(self.view)
             let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
-            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "854x854") }
+            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
             let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.7) }
             DataManager.shared.createCicle(encodedText, imageDatas, CircleVisibility.everyone) { (responseObject, error) in
                 MBProgressHUD.hide(self.view)
