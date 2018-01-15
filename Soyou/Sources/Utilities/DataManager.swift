@@ -99,6 +99,9 @@ class DataManager {
                 if let profileUrl = data["profileUrl"] as? String {
                     UserManager.shared.avatar = profileUrl
                 }
+                if let username = data["username"] as? String {
+                    UserManager.shared.username = username.removingPercentEncoding ?? username
+                }
             }
             self.completeWithData(responseObject, completion: completion)
         }, { error in
@@ -122,9 +125,10 @@ class DataManager {
         })
     }
     
-    func loginThird(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String?, _ profileUrl: String?, _ gender: String?, _ completion: CompletionClosure?) {
-        RequestManager.shared.loginThird(type, accessToken, thirdId, username ?? "", profileUrl ?? "", gender ?? "", { responseObject in
-            DLog(responseObject)
+    func loginThird(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String?, _ profileUrl: String?, _ gender: String?, _ completion: ((Any?, Error?, String?)->())?) {
+        let encodedUsername = username?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? username
+        RequestManager.shared.loginThird(type, accessToken, thirdId, encodedUsername ?? "", profileUrl ?? "", gender ?? "", { responseObject in
+            var profileURL: String?
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
                 for (key, value) in data {
                     if let key = key as? String {
@@ -134,10 +138,15 @@ class DataManager {
                 if let token = data["token"]! as? String {
                     UserManager.shared.logIn(token)
                 }
+                if let username = data["username"] as? String {
+                    UserManager.shared.username = username.removingPercentEncoding ?? username
+                }
+                profileURL = data["profileUrl"] as? String
             }
-            self.completeWithData(responseObject, completion: completion)
+            completion?(responseObject, nil, profileURL)
         }, { error in
-            self.completeWithError(error, completion: completion)
+            self.handleError(error)
+            completion?(nil, error, nil)
         })
     }
     

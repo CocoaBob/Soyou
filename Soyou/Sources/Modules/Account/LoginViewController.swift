@@ -297,9 +297,9 @@ extension LoginViewController {
                         avatar = value
                     }
                     
-                    DataManager.shared.loginThird("sinaweibo", accessToken, thirdId, username, avatar, gender, { (responseObject, error) in
+                    DataManager.shared.loginThird("sinaweibo", accessToken, thirdId, username, avatar, gender, { (responseObject, error, profileURL) in
                         if error == nil {
-                            UserManager.shared.avatar = avatar
+                            UserManager.shared.avatar = profileURL ?? avatar
                         }
                         self.stopLoadingInfoFromThirdLogin(error)
                     })
@@ -339,9 +339,9 @@ extension LoginViewController {
                         let gender = "\((sex == 1) ? Cons.Usr.genderMale : ((sex == 2) ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                         let avatar = (responseDict["headimgurl"] as? String) ?? ""
                         let thirdId = "\(openId)|\(unionId)"
-                        DataManager.shared.loginThird("wx", access_token, thirdId, username, avatar, gender, { (responseObject, error) in
+                        DataManager.shared.loginThird("wx", access_token, thirdId, username, avatar, gender, { (responseObject, error, profileURL) in
                             if error == nil {
-                                UserManager.shared.avatar = avatar
+                                UserManager.shared.avatar = profileURL ?? avatar
                             }
                             self.stopLoadingInfoFromThirdLogin(error)
                         })
@@ -394,9 +394,9 @@ extension LoginViewController {
                         avatar = value
                     }
                     
-                    DataManager.shared.loginThird("facebook", accessToken, thirdId, username, avatar, gender, { (responseObject, error) in
+                    DataManager.shared.loginThird("facebook", accessToken, thirdId, username, avatar, gender, { (responseObject, error, profileURL) in
                         if error == nil {
-                            UserManager.shared.avatar = avatar
+                            UserManager.shared.avatar = profileURL ?? avatar
                         }
                         self.stopLoadingInfoFromThirdLogin(error)
                     })
@@ -423,9 +423,9 @@ extension LoginViewController {
                                 avatar = value
                             }
                             
-                            DataManager.shared.loginThird("twitter", accessToken+"|"+authTokenSecret, thirdId, username, avatar, nil, { (responseObject, error) in
+                            DataManager.shared.loginThird("twitter", accessToken+"|"+authTokenSecret, thirdId, username, avatar, nil, { (responseObject, error, profileURL) in
                                 if error == nil {
-                                    UserManager.shared.avatar = avatar
+                                    UserManager.shared.avatar = profileURL ?? avatar
                                 }
                                 self.stopLoadingInfoFromThirdLogin(error)
                             })
@@ -457,9 +457,9 @@ extension LoginViewController {
                         if let genderString = responseObject["gender"] as? String {
                             gender = "\((genderString == "male") ? Cons.Usr.genderMale : ((genderString == "female") ? Cons.Usr.genderFemale : Cons.Usr.genderSecret))"
                         }
-                        DataManager.shared.loginThird("google", accessToken, thirdId, username, avatar, gender, { (responseObject, error) in
+                        DataManager.shared.loginThird("google", accessToken, thirdId, username, avatar, gender, { (responseObject, error, profileURL) in
                             if error == nil {
-                                UserManager.shared.avatar = avatar
+                                UserManager.shared.avatar = profileURL ?? avatar
                             }
                             self.stopLoadingInfoFromThirdLogin(error)
                         })
@@ -507,9 +507,9 @@ extension LoginViewController: TencentSessionDelegate {
             avatar = value
         }
         
-        DataManager.shared.loginThird("qq", accessToken, thirdId, username, avatar, gender, { (responseObject, error) in
+        DataManager.shared.loginThird("qq", accessToken, thirdId, username, avatar, gender, { (responseObject, error, profileURL) in
             if error == nil {
-                UserManager.shared.avatar = avatar
+                UserManager.shared.avatar = profileURL ?? avatar
             }
             self.stopLoadingInfoFromThirdLogin(error)
         })
