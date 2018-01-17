@@ -276,13 +276,15 @@ extension CircleComposeViewController {
     }
     
     @IBAction func post() {
+        MBProgressHUD.show(self.view)
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
         UserManager.shared.loginOrDo {
-            MBProgressHUD.show(self.view)
             let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
             let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
             let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
             DataManager.shared.createCicle(encodedText, imageDatas, CircleVisibility.everyone) { (responseObject, error) in
                 MBProgressHUD.hide(self.view)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
                 self.delegate?.didPostNewCircle()
                 self.dismiss(animated: true, completion: {
                     self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
