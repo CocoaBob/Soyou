@@ -377,7 +377,7 @@ extension CirclesViewController {
     func shareTextAndImages(text: String?, images: [UIImage]?) {
         if text?.count ?? 0 > 0 || images?.count ?? 0 > 0 {
             MBProgressHUD.show(self.view)
-            Utils.shareToWeChat(from: self, items: images, completion: { (succeed) -> Void in
+            Utils.shareToWeChat(from: self, images: images, completion: { (succeed) -> Void in
                 MBProgressHUD.hide(self.view)
                 if succeed {
                     if let text = text, text.count > 0 {

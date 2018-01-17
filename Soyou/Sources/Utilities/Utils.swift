@@ -55,9 +55,18 @@ extension Utils {
         vc.present(activityView, animated: true, completion: completion)
     }
     
-    class func shareToWeChat(from vc: UIViewController, items: [UIImage]?, completion: ((Bool) -> Void)?) {
+    class func shareToWeChat(from vc: UIViewController, images: [UIImage]?, completion: ((Bool) -> Void)?) {
         if UserManager.shared.isWeChatUser {
-            self.shareItems(from: vc, items: items ?? [URL(string: "https://itunes.apple.com/ca/app/id1028389463?mt=8")!]) {
+            let resolution = CGFloat((images?.count ?? 0) > 6 ? 720 : 1080)
+            let scaleString = "\(resolution)x\(resolution)^"
+            let imageDatas = images?.flatMap() { (image) -> Data? in
+                if min(image.size.width, image.size.height) > resolution {
+                    return UIImageJPEGRepresentation(image.resizedImage(byMagick: scaleString), 0.6)
+                } else {
+                    return UIImageJPEGRepresentation(image, 0.6)
+                }
+            }
+            self.shareItems(from: vc, items: imageDatas ?? [URL(string: "https://itunes.apple.com/ca/app/id1028389463?mt=8")!]) {
                 completion?(true)
             }
         } else {
