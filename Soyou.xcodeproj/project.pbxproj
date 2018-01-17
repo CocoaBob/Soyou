@@ -97,7 +97,6 @@
 		4597B23E1D30FACE00287873 /* DDSinaHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2071D30FACD00287873 /* DDSinaHandler.m */; };
 		4597B23F1D30FACE00287873 /* DDTencentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B20B1D30FACD00287873 /* DDTencentHandler.m */; };
 		4597B2401D30FACE00287873 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */; };
-		4597B2411D30FACE00287873 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4597B20E1D30FACD00287873 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2111D30FACD00287873 /* DDTwitterHandler.m */; };
 		4597B2431D30FACE00287873 /* DDWeChatHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2141D30FACD00287873 /* DDWeChatHandler.m */; };
 		459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */; };
@@ -277,7 +276,6 @@
 		4597B20A1D30FACD00287873 /* DDTencentHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTencentHandler.h; sourceTree = "<group>"; };
 		4597B20B1D30FACD00287873 /* DDTencentHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTencentHandler.m; sourceTree = "<group>"; };
 		4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
-		4597B20E1D30FACD00287873 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		4597B2101D30FACD00287873 /* DDTwitterHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTwitterHandler.h; sourceTree = "<group>"; };
 		4597B2111D30FACD00287873 /* DDTwitterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTwitterHandler.m; sourceTree = "<group>"; };
 		4597B2131D30FACD00287873 /* DDWeChatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDWeChatHandler.h; sourceTree = "<group>"; };
@@ -684,7 +682,6 @@
 			isa = PBXGroup;
 			children = (
 				4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */,
-				4597B20E1D30FACD00287873 /* TencentOpenApi_IOS_Bundle.bundle */,
 			);
 			path = TencentSDK;
 			sourceTree = "<group>";
@@ -950,7 +947,6 @@
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
 				450D47621FFC288300A2F3D1 /* CirclesViewController.storyboard in Resources */,
 				45BAAF4A200655C400CEE6A3 /* PicturePickerCell2.xib in Resources */,
-				4597B2411D30FACE00287873 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,
 				4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */,
@@ -1013,7 +1009,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Soyou/Pods-Soyou-resources.sh",
-				"${PODS_ROOT}/DDThirdShareLibrary/Librarys/TencentSDK/TencentOpenApi_IOS_Bundle.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle",
 				"${PODS_ROOT}/WeiboSDK/libWeiboSDK/WeiboSDK.bundle",

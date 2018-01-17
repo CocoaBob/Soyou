@@ -42,7 +42,7 @@ target :'Soyou' do
 	pod "Crashlytics"
 
     #SNS SDKs
-    pod "DDThirdShareLibrary/TencentSDK"
+#    pod "DDThirdShareLibrary/TencentSDK" // Added manually
     pod "WechatOpenSDK"
     pod "WeiboSDK", '~> 3.1.3'
     pod "FBSDKLoginKit"
