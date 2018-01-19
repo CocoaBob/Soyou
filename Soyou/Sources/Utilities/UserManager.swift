@@ -264,8 +264,15 @@ extension UserManager {
         if self.isLoggedIn {
             completion?()
         } else {
-            let viewController = LoginViewController.instantiate(.login)
-            UIApplication.shared.keyWindow?.rootViewController?.present(UINavigationController(rootViewController: viewController), animated: true, completion: nil)
+            let vc = LoginViewController.instantiate(.login)
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .custom
+            // Setup Transition Animator
+            vc.loadViewIfNeeded()
+            vc.setupTransitionAnimator(modalVC: nav)
+            nav.transitioningDelegate = vc.transitionAnimator
+            // Present
+            UIApplication.shared.keyWindow?.rootViewController?.present(nav, animated: true, completion: nil)
         }
     }
 }

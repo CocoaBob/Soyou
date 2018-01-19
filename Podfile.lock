@@ -117,6 +117,7 @@ PODS:
   - UIView+Shake (1.4.0)
   - WechatOpenSDK (1.8.1)
   - WeiboSDK (3.1.3)
+  - ZFDragableModalTransition (0.6)
   - ZoomInteractiveTransition (0.4.0)
 
 DEPENDENCIES:
@@ -157,6 +158,7 @@ DEPENDENCIES:
   - UIView+Shake
   - WechatOpenSDK
   - WeiboSDK (~> 3.1.3)
+  - ZFDragableModalTransition (from `git://github.com/CocoaBob/ZFDragableModalTransition`, branch `master`)
   - ZoomInteractiveTransition
 
 EXTERNAL SOURCES:
@@ -178,6 +180,9 @@ EXTERNAL SOURCES:
   TLPhotoPicker:
     :branch: master
     :git: git://github.com/CocoaBob/TLPhotoPicker
+  ZFDragableModalTransition:
+    :branch: master
+    :git: git://github.com/CocoaBob/ZFDragableModalTransition
 
 CHECKOUT OPTIONS:
   FlagKit:
@@ -198,6 +203,9 @@ CHECKOUT OPTIONS:
   TLPhotoPicker:
     :commit: 6a6b98f4f58b1fca056a981bd9eaec9741a5be1a
     :git: git://github.com/CocoaBob/TLPhotoPicker
+  ZFDragableModalTransition:
+    :commit: 15204e5baae0a1e43db3997465a272be09930de6
+    :git: git://github.com/CocoaBob/ZFDragableModalTransition
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
@@ -249,8 +257,9 @@ SPEC CHECKSUMS:
   UIView+Shake: 055ad67721de1f74d29c0a1d464697e505dfc62f
   WechatOpenSDK: 491d965d79335070328571d3e79f714549e79a5e
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
+  ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: 190c04661c21d5a7d7b29df076c833d9d84a6a5e
+PODFILE CHECKSUM: b93b8f330c7ff15d0461d795ef92b628667db06a
 
 COCOAPODS: 1.3.1

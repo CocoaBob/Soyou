@@ -28,6 +28,9 @@ class CircleComposeViewController: UITableViewController {
     @IBOutlet var lblVisibilityTitle: UILabel!
     @IBOutlet var lblVisibilityValue: UILabel!
     
+    // ZFModalTransitionAnimator
+    var transitionAnimator: ZFModalTransitionAnimator?
+    
     // Class methods
     class func instantiate() -> CircleComposeViewController {
         return UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CircleComposeViewController") as! CircleComposeViewController
@@ -494,5 +497,20 @@ extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
         self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
         UIView.setAnimationsEnabled(true)
         self.updatePostButton()
+    }
+}
+
+// MARK: ZFModalTransitionAnimator
+extension CircleComposeViewController {
+    
+    func setupTransitionAnimator(modalVC: UIViewController) {
+        // Setup ZFModalTransitionAnimator
+        self.transitionAnimator = ZFModalTransitionAnimator(modalViewController: modalVC)
+        self.transitionAnimator?.direction = ZFModalTransitonDirection.bottom
+        self.transitionAnimator?.setContentScrollView(self.tableView)
+        self.transitionAnimator?.bounces = false
+        self.transitionAnimator?.transitionDuration = 0.3
+        self.transitionAnimator?.dismissVelocity = 1000
+        self.transitionAnimator?.dismissDistance = modalVC.view.frame.height / 3.0
     }
 }

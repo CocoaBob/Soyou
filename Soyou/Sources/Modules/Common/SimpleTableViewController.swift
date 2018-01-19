@@ -117,6 +117,9 @@ class SimpleTableViewController: UIViewController {
     var selectedIndexPath: IndexPath?
     var completion: (() -> ())?
     
+    // ZFModalTransitionAnimator
+    var transitionAnimator: ZFModalTransitionAnimator?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -362,7 +365,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
 // MARK: UITextFieldDelegate
 extension SimpleTableViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    @objc func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let position = textField.convert(CGPoint.zero, to: self.tableView)
         guard let indexPath = self.tableView.indexPathForRow(at: position) else { return true }
         
@@ -438,5 +441,20 @@ extension SimpleTableViewController {
         }
         self.sections = newSections
         return isChanged
+    }
+}
+
+// MARK: ZFModalTransitionAnimator
+extension SimpleTableViewController {
+    
+    func setupTransitionAnimator(modalVC: UIViewController) {
+        // Setup ZFModalTransitionAnimator
+        self.transitionAnimator = ZFModalTransitionAnimator(modalViewController: modalVC)
+        self.transitionAnimator?.direction = ZFModalTransitonDirection.bottom
+        self.transitionAnimator?.setContentScrollView(self.tableView)
+        self.transitionAnimator?.bounces = false
+        self.transitionAnimator?.transitionDuration = 0.3
+        self.transitionAnimator?.dismissVelocity = 1000
+        self.transitionAnimator?.dismissDistance = modalVC.view.frame.height / 3.0
     }
 }

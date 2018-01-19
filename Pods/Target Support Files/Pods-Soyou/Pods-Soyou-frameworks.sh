@@ -139,6 +139,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/UIColor_Hex_Swift/UIColor_Hex_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIImage-ResizeMagick/UIImage_ResizeMagick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIView+Shake/UIView_Shake.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ZFDragableModalTransition/ZFDragableModalTransition.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZoomInteractiveTransition/ZoomInteractiveTransition.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/pop/pop.framework"
 fi
@@ -180,6 +181,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/UIColor_Hex_Swift/UIColor_Hex_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIImage-ResizeMagick/UIImage_ResizeMagick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIView+Shake/UIView_Shake.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ZFDragableModalTransition/ZFDragableModalTransition.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ZoomInteractiveTransition/ZoomInteractiveTransition.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/pop/pop.framework"
 fi

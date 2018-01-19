@@ -40,6 +40,7 @@
 @import UIColor_Hex_Swift;
 @import UIImage_ResizeMagick;
 @import UIView_Shake;
+@import ZFDragableModalTransition;
 @import ZoomInteractiveTransition;
 
 @import FBSDKLoginKit;

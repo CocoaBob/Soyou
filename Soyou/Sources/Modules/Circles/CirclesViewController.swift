@@ -401,7 +401,15 @@ extension CirclesViewController {
     
     @objc func avatarAction() {
         UserManager.shared.loginOrDo() { () -> () in
-            self.present(UINavigationController(rootViewController: ProfileViewController()), animated: true, completion: nil)
+            let vc = ProfileViewController()
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .custom
+            // Setup Transition Animator
+            vc.loadViewIfNeeded()
+            vc.setupTransitionAnimator(modalVC: nav)
+            nav.transitioningDelegate = vc.transitionAnimator
+            // Present
+            self.present(nav, animated: true, completion: nil)
         }
     }
 }

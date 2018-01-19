@@ -56,6 +56,9 @@ class LoginViewController: UIViewController {
     // Notification Context
     fileprivate var KVOContextLoginViewController = 0
     
+    // ZFModalTransitionAnimator
+    var transitionAnimator: ZFModalTransitionAnimator?
+    
     // Class methods
     class func instantiate(_ type: LoginType) -> LoginViewController {
         switch type {
@@ -140,6 +143,12 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.keyboardControlInstall()
+        
+        if #available(iOS 11.0, *) {
+            self.scrollView?.setContentOffset(CGPoint(x: 0, y: -(self.scrollView?.adjustedContentInset.top ?? 0)), animated: true)
+        } else {
+            self.scrollView?.setContentOffset(CGPoint(x: 0, y: -(self.scrollView?.contentInset.top ?? 0)), animated: true)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -676,5 +685,20 @@ extension LoginViewController {
             self.tfPasswordConfirm?.text = loginDictionary?[AppExtensionPasswordKey] as? String
             self.validateActionButton()
         }
+    }
+}
+
+// MARK: ZFModalTransitionAnimator
+extension LoginViewController {
+    
+    func setupTransitionAnimator(modalVC: UIViewController) {
+        // Setup ZFModalTransitionAnimator
+        self.transitionAnimator = ZFModalTransitionAnimator(modalViewController: modalVC)
+        self.transitionAnimator?.direction = ZFModalTransitonDirection.bottom
+        self.transitionAnimator?.setContentScrollView(self.scrollView)
+        self.transitionAnimator?.bounces = false
+        self.transitionAnimator?.transitionDuration = 0.3
+        self.transitionAnimator?.dismissVelocity = 1000
+        self.transitionAnimator?.dismissDistance = modalVC.view.frame.height / 3.0
     }
 }

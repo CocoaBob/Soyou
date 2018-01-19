@@ -35,8 +35,9 @@ target :'Soyou' do
 	pod "UIColor_Hex_Swift"
 	pod "UIImage-ResizeMagick"
 	pod "UIView+Shake"
+    pod "ZFDragableModalTransition", :git => 'git://github.com/CocoaBob/ZFDragableModalTransition', :branch => 'master'
 	pod "ZoomInteractiveTransition"
-
+    
 	#Continuous Integration
 	pod "Fabric"
 	pod "Crashlytics"

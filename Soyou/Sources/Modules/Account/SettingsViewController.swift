@@ -510,7 +510,9 @@ extension SettingsViewController {
     func refreshUI() {
         // Reload table in case UserInfo is updated
         rebuildTable()
-        self.tableView.reloadData()
+        if let indexPaths = self.tableView.indexPathsForVisibleRows {
+            self.tableView.reloadRows(at: indexPaths, with: .fade)
+        }
         
         // Update cache size
         self.calculateCacheSize()
