@@ -747,7 +747,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"id\": user.userId,\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"profileUrl\": \"url\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"membershipExpireDate\": user.membershipExpireDate,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\",\n             \"totalImgCount\": user.totalImgCount,\n             \"totalArticleCount\": user.totalArticleCount,\n             \"totalInvitationCount\": user.totalInvitationCount,\n             \"points\": user.points\n          }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"id\": user.userId,\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"profileUrl\": \"url\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"membershipExpireDate\": user.membershipExpireDate,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\",\n             \"badges\": [{\n                 \"id\": 1,\n                 \"label\": \"Sales\"\n             }],\n             \"totalImgCount\": user.totalImgCount,\n             \"totalArticleCount\": user.totalArticleCount,\n             \"totalInvitationCount\": user.totalInvitationCount,\n             \"points\": 0,\n             \"thirds\": [\n                 {\n                     \"type\": \"google\",\n                     \"username\": \"Jiyun YANG\",\n                     \"profileUrl\": \"profileUrl\"\n                 },\n                 {\n                     \"type\": \"qq\",\n                     \"username\": \"Jiyun\",\n                     \"profileUrl\": \"profileUrl\"\n                 }\n             ]\n          }\n}",
           "type": "json"
         }
       ]
@@ -1634,6 +1634,13 @@
             "optional": false,
             "field": "gender",
             "description": "<p>, possible values &quot;1&quot;: neutral, &quot;2&quot;: male, &quot;3&quot;: female</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "profileUrl",
+            "description": "<p>the profileUrl</p>"
           }
         ]
       }
@@ -1660,7 +1667,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n          \"id\": user.userId,\n          \"token\": \"162f97cd1a0176eade5f54aa\",\n          \"username\": \"hh\",\n          \"profileUrl\": \"url\",\n          \"gender\": \"0\",\n          \"matricule\": 100074,\n          \"membershipExpireDate\": user.membershipExpireDate,\n          \"roleCode\": \"Basic\",\n          \"region\": null,\n          \"totalImgCount\": user.totalImgCount,\n          \"totalArticleCount\": user.totalArticleCount,\n          \"totalInvitationCount\": user.totalInvitationCount,\n          \"points\": user.points\n   }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n          \"id\": user.userId,\n          \"token\": \"162f97cd1a0176eade5f54aa\",\n          \"username\": \"hh\",\n          \"profileUrl\": \"url\",\n          \"gender\": \"0\",\n          \"matricule\": 100074,\n          \"membershipExpireDate\": user.membershipExpireDate,\n          \"roleCode\": \"Basic\",\n          \"region\": null,\n          \"badges\": [{\n              \"id\": 1,\n              \"label\": \"Sales\"\n           }],\n          \"totalImgCount\": user.totalImgCount,\n          \"totalArticleCount\": user.totalArticleCount,\n          \"totalInvitationCount\": user.totalInvitationCount,\n          \"points\": 0,\n          \"thirds\": [\n              {\n                  \"type\": \"google\",\n                  \"username\": \"Jiyun YANG\",\n                  \"profileUrl\": \"profileUrl\"\n              },\n              {\n                     \"type\": \"qq\",\n                     \"username\": \"Jiyun\",\n                     \"profileUrl\": \"profileUrl\"\n              }\n          ]\n   }\n}",
           "type": "json"
         }
       ]
@@ -2511,7 +2518,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"comments\": [\n                  {\n                      \"id\": \"5a4ac4e463417f46940378c6\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\",\n                      \"parentUsername\": null\n                  },\n                  {\n                      \"id\": \"5a4ac4f963417f46940378c7\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ],\n             \"likes\": [\n                  {\n                      \"userId\": 1,\n                      \"username\": \"jiyuny\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\"\n                  },\n                  {\n                      \"userId\": 2,\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ]\n         }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"userBadges\": [{\n                 \"id\": 1,\n                 \"label\": \"Buyer\"\n             }],\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"comments\": [\n                  {\n                      \"id\": \"5a4ac4e463417f46940378c6\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\",\n                      \"parentUsername\": null\n                  },\n                  {\n                      \"id\": \"5a4ac4f963417f46940378c7\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ],\n             \"likes\": [\n                  {\n                      \"userId\": 1,\n                      \"username\": \"jiyuny\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\"\n                  },\n                  {\n                      \"userId\": 2,\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ]\n         }\n    ]\n}",
           "type": "json"
         }
       ]
@@ -2621,7 +2628,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"comments\": [\n                  {\n                      \"id\": \"5a4ac4e463417f46940378c6\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\",\n                      \"parentUsername\": null\n                  },\n                  {\n                      \"id\": \"5a4ac4f963417f46940378c7\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ],\n             \"likes\": [\n                  {\n                      \"userId\": 1,\n                      \"username\": \"jiyuny\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\"\n                  },\n                  {\n                      \"userId\": 2,\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ]\n         }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"userBadges\": [{\n                 \"id\": 1,\n                 \"label\": \"Buyer\"\n             }],\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"comments\": [\n                  {\n                      \"id\": \"5a4ac4e463417f46940378c6\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\",\n                      \"parentUsername\": null\n                  },\n                  {\n                      \"id\": \"5a4ac4f963417f46940378c7\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ],\n             \"likes\": [\n                  {\n                      \"userId\": 1,\n                      \"username\": \"jiyuny\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\"\n                  },\n                  {\n                      \"userId\": 2,\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ]\n         }\n    ]\n}",
           "type": "json"
         }
       ]
@@ -14613,7 +14620,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\"\n        }\n     ]\n     }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"badges\": [{\n          \"id\": 1,\n          \"label\": \"Sales\"\n      }],\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\",\n             \"profileUrl\": \"profileUrl\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\",\n             \"profileUrl\": \"profileUrl\"\n        }\n     ]\n     }\n}",
           "type": "json"
         }
       ]
@@ -14721,8 +14728,8 @@
       },
       "examples": [
         {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{}\n}",
+          "title": "Success-Response: Invitor user info",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"username\": \"username\",\n     \"profileUrl\": \"profileUrl\"\n   }\n}",
           "type": "json"
         }
       ]
@@ -15276,6 +15283,13 @@
             "optional": false,
             "field": "username",
             "description": "<p>the username</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "profileUrl",
+            "description": "<p>the profileUrl</p>"
           }
         ]
       }
