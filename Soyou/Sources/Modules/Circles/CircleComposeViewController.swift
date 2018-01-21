@@ -6,6 +6,8 @@
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
+import UIKit.UIGestureRecognizerSubclass
+
 protocol CircleComposeViewControllerDelegate {
     
     func didPostNewCircle()
@@ -387,8 +389,7 @@ extension CircleComposeViewController {
             }
             // Cannot drag the + button
             if !self.collectionView(self.imagesCollectionView, canMoveItemAt: indexPath) {
-                gesture.isEnabled = false
-                gesture.isEnabled = true
+                gesture.state = .cancelled
                 break
             }
             // Dismiss keyboard
