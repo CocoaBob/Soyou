@@ -519,10 +519,6 @@ extension CircleComposeViewController: ZFModalTransitionAnimatorDelegate {
     }
     
     func modalTransitionAnimatorShouldBegin(_ animator: ZFModalTransitionAnimator!) -> Bool {
-        let location = animator.gesture.location(in: self.tableView)
-        if let _ = self.tableView.indexPathForRow(at: location) {
-            return false
-        }
-        return true
+        return false
     }
 }
