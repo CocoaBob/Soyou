@@ -14,6 +14,17 @@ protocol CircleComposeViewControllerDelegate {
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool)
 }
 
+extension CircleComposeViewControllerDelegate {
+    
+    func didPostNewCircle() {
+        
+    }
+    
+    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
+        
+    }
+}
+
 class CircleComposeViewController: UITableViewController {
     
     var delegate: CircleComposeViewControllerDelegate?

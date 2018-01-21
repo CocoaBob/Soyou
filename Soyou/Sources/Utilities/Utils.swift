@@ -50,12 +50,12 @@ extension Utils {
         }
     }
     
-    class func shareItems(from vc: UIViewController, items: [Any], completion: (() -> Void)?) {
+    class func shareItems(from vc: UIViewController?, items: [Any], completion: (() -> Void)?) {
         let activityView = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        vc.present(activityView, animated: true, completion: completion)
+        (vc ?? UIApplication.shared.keyWindow?.rootViewController)?.present(activityView, animated: true, completion: completion)
     }
     
-    class func shareToWeChat(from vc: UIViewController, images: [UIImage]?, completion: ((Bool) -> Void)?) {
+    class func shareToWeChat(from vc: UIViewController?, images: [UIImage]?, completion: ((Bool) -> Void)?) {
         if UserManager.shared.isWeChatUser {
             let resolution = CGFloat((images?.count ?? 0) > 6 ? 720 : 1080)
             let scaleString = "\(resolution)x\(resolution)^"
@@ -72,7 +72,7 @@ extension Utils {
         } else {
             self.showWeChatSignInWarning(from: vc) {
                 // Show the User tab
-                if let tabC = vc.tabBarController {
+                if let tabC = vc?.tabBarController {
                     tabC.selectedViewController = tabC.viewControllers?.last
                 }
             }
@@ -80,7 +80,28 @@ extension Utils {
         }
     }
     
-    class func showWeChatSignInWarning(from vc: UIViewController, completion: @escaping ()->()) {
+    class func shareTextAndImagesToWeChat(from vc: UIViewController?, text: String?, images: [UIImage]?) {
+        if text?.count ?? 0 > 0 || images?.count ?? 0 > 0 {
+            MBProgressHUD.show(vc?.view)
+            Utils.shareToWeChat(from: vc, images: images, completion: { (succeed) -> Void in
+                MBProgressHUD.hide(vc?.view)
+                if succeed {
+                    if let text = text, text.count > 0 {
+                        UIPasteboard.general.string = text
+                        if let window = UIApplication.shared.keyWindow  {
+                            let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                            hud.isUserInteractionEnabled = false
+                            hud.mode = .text
+                            hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
+                            hud.hide(animated: true, afterDelay: 3)
+                        }
+                    }
+                }
+            })
+        }
+    }
+    
+    class func showWeChatSignInWarning(from vc: UIViewController?, completion: @escaping ()->()) {
         let alertController = UIAlertController(title: nil,
                                                 message: NSLocalizedString("needs_wechat_account"),
                                                 preferredStyle: .alert)
@@ -92,7 +113,7 @@ extension Utils {
         alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
                                                 style: UIAlertActionStyle.cancel,
                                                 handler: nil))
-        vc.present(alertController, animated: true, completion: nil)
+        (vc ?? UIApplication.shared.keyWindow?.rootViewController)?.present(alertController, animated: true, completion: nil)
     }
     
     class func shareApp() {

@@ -355,6 +355,7 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     
     @IBAction func createCircle() {
         let vc = CircleComposeViewController.instantiate()
+        vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .custom
         // Setup Transition Animator
@@ -371,32 +372,7 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
         if needsToShare {
-            self.shareTextAndImages(text: text, images: images)
-        }
-    }
-}
-
-// MARK: Share to WeChat
-extension CirclesViewController {
-    
-    func shareTextAndImages(text: String?, images: [UIImage]?) {
-        if text?.count ?? 0 > 0 || images?.count ?? 0 > 0 {
-            MBProgressHUD.show(self.view)
-            Utils.shareToWeChat(from: self, images: images, completion: { (succeed) -> Void in
-                MBProgressHUD.hide(self.view)
-                if succeed {
-                    if let text = text, text.count > 0 {
-                        UIPasteboard.general.string = text
-                        if let window = UIApplication.shared.keyWindow  {
-                            let hud = MBProgressHUD.showAdded(to: window, animated: true)
-                            hud.isUserInteractionEnabled = false
-                            hud.mode = .text
-                            hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
-                            hud.hide(animated: true, afterDelay: 3)
-                        }
-                    }
-                }
-            })
+            Utils.shareTextAndImagesToWeChat(from: self, text: text, images: images)
         }
     }
 }
@@ -827,10 +803,10 @@ extension CirclesTableViewCell {
             }
             
             dispatchGroup.notify(queue: .main) {
-                self.viewController?.shareTextAndImages(text: self.textToShare, images: self.imagesToShare)
+                Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: self.imagesToShare)
             }
         } else {
-            self.viewController?.shareTextAndImages(text: self.textToShare, images: nil)
+            Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: nil)
         }
     }
 }

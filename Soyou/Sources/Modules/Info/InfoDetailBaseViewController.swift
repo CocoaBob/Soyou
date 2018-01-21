@@ -168,6 +168,10 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
     func star() {}
     func comment() {}
     func shareURL() {}
+}
+
+// Share or Create a circle
+extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
     
     func sharePictures() {
         MBProgressHUD.show(self.view)
@@ -190,6 +194,7 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
     
     func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
         let vc = CircleComposeViewController.instantiate()
+        vc.delegate = self
         vc.customAssets = self.webViewAssets
         vc.selectedAssets = tlphAssets
         let nav = UINavigationController(rootViewController: vc)
@@ -200,6 +205,18 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
         nav.transitioningDelegate = vc.transitionAnimator
         // Present
         self.tabBarController?.present(nav, animated: true, completion: nil)
+    }
+    
+    func didPostNewCircle() {
+        if let circlesVC = self.tabBarController?.viewControllers?[2] as? CirclesViewController {
+            circlesVC.loadData(nil)
+        }
+    }
+    
+    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
+        if needsToShare {
+            Utils.shareTextAndImagesToWeChat(from: self, text: text, images: images)
+        }
     }
 }
 
