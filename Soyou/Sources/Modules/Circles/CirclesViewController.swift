@@ -355,9 +355,14 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     
     @IBAction func createCircle() {
         let vc = CircleComposeViewController.instantiate()
-        vc.delegate = self
-        let navController = UINavigationController(rootViewController: vc)
-        self.tabBarController?.present(navController, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .custom
+        // Setup Transition Animator
+        vc.loadViewIfNeeded()
+        vc.setupTransitionAnimator(modalVC: nav)
+        nav.transitioningDelegate = vc.transitionAnimator
+        // Present
+        self.tabBarController?.present(nav, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {

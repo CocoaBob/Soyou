@@ -502,7 +502,7 @@ extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
 }
 
 // MARK: ZFModalTransitionAnimator
-extension CircleComposeViewController {
+extension CircleComposeViewController: ZFModalTransitionAnimatorDelegate {
     
     func setupTransitionAnimator(modalVC: UIViewController) {
         // Setup ZFModalTransitionAnimator
@@ -513,5 +513,14 @@ extension CircleComposeViewController {
         self.transitionAnimator?.transitionDuration = 0.3
         self.transitionAnimator?.dismissVelocity = 1000
         self.transitionAnimator?.dismissDistance = modalVC.view.frame.height / 3.0
+        self.transitionAnimator?.delegate = self
+    }
+    
+    func modalTransitionAnimatorShouldBegin(_ animator: ZFModalTransitionAnimator!) -> Bool {
+        let location = animator.gesture.location(in: self.tableView)
+        if let _ = self.tableView.indexPathForRow(at: location) {
+            return false
+        }
+        return true
     }
 }

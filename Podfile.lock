@@ -204,7 +204,7 @@ CHECKOUT OPTIONS:
     :commit: 3c6a5179ab96e1b68ffa0a882cc2b102b658cb55
     :git: git://github.com/CocoaBob/TLPhotoPicker
   ZFDragableModalTransition:
-    :commit: 110b1714409144abde7c752cb6a7c47f19beea83
+    :commit: f51dde80fa2b7c79358c5186c7a3b998a8be9b51
     :git: git://github.com/CocoaBob/ZFDragableModalTransition
 
 SPEC CHECKSUMS:
