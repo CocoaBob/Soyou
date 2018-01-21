@@ -106,7 +106,7 @@ PODS:
   - SnapKit (4.0.0)
   - SSZipArchive (2.1.1)
   - SwiftyJSON (4.0.0)
-  - TLPhotoPicker (1.4.1)
+  - TLPhotoPicker (1.4.7)
   - TwitterCore (2.8.0):
     - Fabric
   - TwitterKit (2.8.1):
@@ -201,10 +201,10 @@ CHECKOUT OPTIONS:
     :commit: bad0864b06019d764519dab9a53409de889c87fc
     :git: git://github.com/CocoaBob/calloutview
   TLPhotoPicker:
-    :commit: 6a6b98f4f58b1fca056a981bd9eaec9741a5be1a
+    :commit: 3c6a5179ab96e1b68ffa0a882cc2b102b658cb55
     :git: git://github.com/CocoaBob/TLPhotoPicker
   ZFDragableModalTransition:
-    :commit: 15204e5baae0a1e43db3997465a272be09930de6
+    :commit: 110b1714409144abde7c752cb6a7c47f19beea83
     :git: git://github.com/CocoaBob/ZFDragableModalTransition
 
 SPEC CHECKSUMS:
@@ -248,7 +248,7 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
-  TLPhotoPicker: 0ae8f7551ce71461cb8537f20460e71235054745
+  TLPhotoPicker: 2efb3ed870c407527a609cff7ea3c89e2a1b6257
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
   UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
@@ -262,4 +262,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b93b8f330c7ff15d0461d795ef92b628667db06a
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0
