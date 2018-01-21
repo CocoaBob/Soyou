@@ -17,6 +17,7 @@ protocol CircleComposeViewControllerDelegate {
 class CircleComposeViewController: UITableViewController {
     
     var delegate: CircleComposeViewControllerDelegate?
+    var customAssets: [TLPHAsset]?
     var selectedAssets: [TLPHAsset]?
     
     @IBOutlet var tvContent: UITextView!
@@ -486,6 +487,7 @@ extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
     
     func addPicture() {
         PicturePickerViewController.pick9Photos(from: self,
+                                                customAssets: self.customAssets,
                                                 selectedAssets: self.selectedAssets,
                                                 maxSelection: 9,
                                                 delegate: self)

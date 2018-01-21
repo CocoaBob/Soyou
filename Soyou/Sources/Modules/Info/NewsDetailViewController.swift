@@ -137,18 +137,6 @@ class NewsDetailViewController: InfoDetailBaseViewController {
         }
         self.navigationController?.pushViewController(commentsViewController, animated: true)
     }
-    
-    override func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
-        guard tlphAssets.count > 0 else { return }
-        MBProgressHUD.show(self.view)
-        let images = tlphAssets.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
-        Utils.shareToWeChat(from: self, images: images, completion: { (succeed) -> Void in
-            MBProgressHUD.hide(self.view)
-            if succeed {
-                DataManager.shared.analyticsShareNews(id: self.news?.id?.intValue ?? -1)
-            }
-        })
-    }
 }
 
 // MARK: Data

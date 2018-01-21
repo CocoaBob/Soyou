@@ -12,6 +12,7 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
     var headerImage: UIImage?
     var webViewImageURLs: [String] = [String]()
     var webViewPhotos: [IDMPhoto] = [IDMPhoto]()
+    var webViewAssets: [TLPHAsset]?
     
     // Info Data
     var info: AnyObject?
@@ -182,12 +183,23 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
                 assets.append(TLPHAsset(image: image))
             }
         }
-        PicturePickerViewController.share9Photos(from: self, assets: assets, delegate: self)
+        self.webViewAssets = assets
+        PicturePickerViewController.share9Photos(from: self, customAssets: assets, delegate: self)
         MBProgressHUD.hide(self.view)
     }
     
     func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
-        
+        let vc = CircleComposeViewController.instantiate()
+        vc.customAssets = self.webViewAssets
+        vc.selectedAssets = tlphAssets
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .custom
+        // Setup Transition Animator
+        vc.loadViewIfNeeded()
+        vc.setupTransitionAnimator(modalVC: nav)
+        nav.transitioningDelegate = vc.transitionAnimator
+        // Present
+        self.tabBarController?.present(nav, animated: true, completion: nil)
     }
 }
 

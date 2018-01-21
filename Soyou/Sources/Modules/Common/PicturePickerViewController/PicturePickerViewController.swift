@@ -9,8 +9,8 @@
 class PicturePickerViewController: TLPhotosPickerViewController {
     
     static func share9Photos(from fromVC: UIViewController,
-                            assets: [TLPHAsset],
-                            delegate: TLPhotosPickerViewControllerDelegate) {
+                             customAssets: [TLPHAsset],
+                             delegate: TLPhotosPickerViewControllerDelegate) {
         var configure = TLPhotosPickerConfigure()
         configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
         configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
@@ -28,7 +28,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
         configure.nibSet = (nibName: "PicturePickerCell", bundle: Bundle.main)
         
-        let collection = TLAssetsCollection(assets: assets, title: NSLocalizedString("photo_picker_default_title"))
+        let collection = TLAssetsCollection(assets: customAssets, title: NSLocalizedString("photo_picker_default_title"))
         
         let vc = PicturePickerViewController(with: collection)
         vc.configure = configure
@@ -64,9 +64,10 @@ class PicturePickerViewController: TLPhotosPickerViewController {
     }
     
     static func pick9Photos(from fromVC: UIViewController,
-                           selectedAssets: [TLPHAsset]?,
-                           maxSelection: Int,
-                           delegate: TLPhotosPickerViewControllerDelegate) {
+                            customAssets: [TLPHAsset]?,
+                            selectedAssets: [TLPHAsset]?,
+                            maxSelection: Int,
+                            delegate: TLPhotosPickerViewControllerDelegate) {
         var configure = TLPhotosPickerConfigure()
         configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
         configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
@@ -84,7 +85,12 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
         configure.nibSet = (nibName: "PicturePickerCell", bundle: Bundle.main)
         
-        let vc = PicturePickerViewController()
+        var collection: TLAssetsCollection?
+        if let customAssets = customAssets {
+            collection = TLAssetsCollection(assets: customAssets, title: NSLocalizedString("photo_picker_default_title"))
+        }
+        
+        let vc = PicturePickerViewController(with: collection)
         vc.configure = configure
         vc.delegate = delegate
         if let selectedAssets = selectedAssets {
