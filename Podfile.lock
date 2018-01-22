@@ -201,7 +201,7 @@ CHECKOUT OPTIONS:
     :commit: bad0864b06019d764519dab9a53409de889c87fc
     :git: git://github.com/CocoaBob/calloutview
   TLPhotoPicker:
-    :commit: 3c6a5179ab96e1b68ffa0a882cc2b102b658cb55
+    :commit: de814ef64c97eb3bbb6ddc298283d040dca24cde
     :git: git://github.com/CocoaBob/TLPhotoPicker
   ZFDragableModalTransition:
     :commit: f51dde80fa2b7c79358c5186c7a3b998a8be9b51
