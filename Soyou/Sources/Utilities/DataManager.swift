@@ -867,4 +867,12 @@ class DataManager {
             self.completeWithError(error, completion: nil)
         })
     }
+    
+    func analyticsShareCircle(id: String) {
+        RequestManager.shared.sendAnalyticsData(5, 4, "{ \"type\": \"circle\", \"id\": \"\(id)\"}", { responseObject in
+            DLog(responseObject)
+        }, { error in
+            self.completeWithError(error, completion: nil)
+        })
+    }
 }

@@ -804,11 +804,9 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
             
             dispatchGroup.notify(queue: .main) {
                 self.composeTextAndImages(text: self.textToShare, images: self.imagesToShare)
-//                Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: self.imagesToShare)
             }
         } else {
             self.composeTextAndImages(text: self.textToShare, images: nil)
-//            Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: nil)
         }
     }
     
@@ -840,6 +838,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
         if needsToShare {
+            DataManager.shared.analyticsShareCircle(id: self.circle?.id ?? "")
             Utils.shareTextAndImagesToWeChat(from: self.viewController, text: text, images: images)
         }
     }
