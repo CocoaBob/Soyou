@@ -30,6 +30,13 @@ class CircleComposeViewController: UITableViewController {
     var delegate: CircleComposeViewControllerDelegate?
     var customAssets: [TLPHAsset]?
     var selectedAssets: [TLPHAsset]?
+    var isOnlySharing = false {// If true, we will submit images and text to circles
+        didSet {
+            self.shareToWeChat.isEnabled = false
+            self.shareToWeChat.isOn = true
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+    }
     
     @IBOutlet var tvContent: UITextView!
     @IBOutlet var imagesCollectionView: UICollectionView!
@@ -87,7 +94,10 @@ class CircleComposeViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
-
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.default
+    }
 }
 
 extension CircleComposeViewController {
@@ -293,19 +303,26 @@ extension CircleComposeViewController {
     }
     
     @IBAction func post() {
-        MBProgressHUD.show(self.view)
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
-        UserManager.shared.loginOrDo {
-            let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
-            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
-            let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
-            DataManager.shared.createCicle(encodedText, imageDatas, CircleVisibility.everyone) { (responseObject, error) in
-                MBProgressHUD.hide(self.view)
-                self.navigationItem.rightBarButtonItem?.isEnabled = true
-                self.delegate?.didPostNewCircle()
-                self.dismiss(animated: true, completion: {
-                    self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
-                })
+        if self.isOnlySharing {
+            self.dismiss(animated: true, completion: {
+                let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
+                self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+            })
+        } else {
+            MBProgressHUD.show(self.view)
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            UserManager.shared.loginOrDo {
+                let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
+                let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
+                let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
+                DataManager.shared.createCicle(encodedText, imageDatas, CircleVisibility.everyone) { (responseObject, error) in
+                    MBProgressHUD.hide(self.view)
+                    self.navigationItem.rightBarButtonItem?.isEnabled = true
+                    self.delegate?.didPostNewCircle()
+                    self.dismiss(animated: true, completion: {
+                        self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+                    })
+                }
             }
         }
     }

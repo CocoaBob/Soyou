@@ -752,9 +752,9 @@ extension CirclesTableViewCell {
                     urls.append(url)
                 }
             }
-            self.shareToWeChat(text: circle.text, urls: urls)
+            self.forwardTextAndImages(text: circle.text, urls: urls)
         } else {
-            self.shareToWeChat(text: circle.text, urls: nil)
+            self.forwardTextAndImages(text: circle.text, urls: nil)
         }
     }
     
@@ -773,9 +773,9 @@ extension CirclesTableViewCell {
 }
 
 // MARK: Share original images
-extension CirclesTableViewCell {
+extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
     
-    func shareToWeChat(text: String?, urls: [URL]?) {
+    func forwardTextAndImages(text: String?, urls: [URL]?) {
         self.textToShare = text
         self.imagesToShare = ((urls?.count ?? 0) > 0) ? [UIImage]() : nil
         
@@ -803,10 +803,44 @@ extension CirclesTableViewCell {
             }
             
             dispatchGroup.notify(queue: .main) {
-                Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: self.imagesToShare)
+                self.composeTextAndImages(text: self.textToShare, images: self.imagesToShare)
+//                Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: self.imagesToShare)
             }
         } else {
-            Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: nil)
+            self.composeTextAndImages(text: self.textToShare, images: nil)
+//            Utils.shareTextAndImagesToWeChat(from: self.viewController, text: self.textToShare, images: nil)
+        }
+    }
+    
+    func composeTextAndImages(text: String?, images: [UIImage]?) {
+        // Prepare TLPHAsset
+        var assets: [TLPHAsset]?
+        if let images = images {
+            assets = [TLPHAsset]()
+            for image in images {
+                assets?.append(TLPHAsset(image: image))
+            }
+        }
+        // Create CircleComposeViewController
+        let vc = CircleComposeViewController.instantiate()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .custom
+        // Setup
+        vc.delegate = self
+        vc.customAssets = assets
+        vc.selectedAssets = assets
+        vc.loadViewIfNeeded()
+        vc.tvContent.text = text
+        vc.isOnlySharing = true
+        vc.setupTransitionAnimator(modalVC: nav)
+        nav.transitioningDelegate = vc.transitionAnimator
+        // Present
+        self.viewController?.tabBarController?.present(nav, animated: true, completion: nil)
+    }
+    
+    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
+        if needsToShare {
+            Utils.shareTextAndImagesToWeChat(from: self.viewController, text: text, images: images)
         }
     }
 }
