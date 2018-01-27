@@ -32,9 +32,7 @@ class CircleComposeViewController: UITableViewController {
     var selectedAssets: [TLPHAsset]?
     var isOnlySharing = false {// If true, we will submit images and text to circles
         didSet {
-            self.shareToWeChat.isEnabled = false
-            self.shareToWeChat.isOn = true
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            self.setupViews()
         }
     }
     
@@ -62,16 +60,6 @@ class CircleComposeViewController: UITableViewController {
         super.viewDidLoad()
         // Hide tabs
         self.hidesBottomBarWhenPushed = true
-        // Action button
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("alert_button_cancel"),
-                                                                style: .plain,
-                                                                target: self,
-                                                                action: #selector(CircleComposeViewController.quitEditing))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("circle_compose_post"),
-                                                                 style: .plain,
-                                                                 target: self,
-                                                                 action: #selector(CircleComposeViewController.post))
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
         // Setup Views
         self.setupViews()
         // TableView
@@ -103,11 +91,22 @@ class CircleComposeViewController: UITableViewController {
 extension CircleComposeViewController {
     
     func setupViews() {
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("alert_button_cancel"),
+                                                                style: .plain,
+                                                                target: self,
+                                                                action: #selector(CircleComposeViewController.quitEditing))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString(self.isOnlySharing ? "circle_compose_share" : "circle_compose_post"),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(CircleComposeViewController.post))
+        self.navigationItem.rightBarButtonItem?.isEnabled = self.isOnlySharing
         self.tvContent.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
         self.tvContent.textContainer.lineFragmentPadding = 0
         self.lblShareToWeChat.text = NSLocalizedString("circle_compose_share_to_wechat")
         self.imgShareToWeChat.image = UIImage(named: "img_moments")?.withRenderingMode(.alwaysTemplate)
         self.imgShareToWeChat.tintColor = UIColor.gray
+        self.shareToWeChat.isEnabled = !self.isOnlySharing
+        self.shareToWeChat.isOn = self.isOnlySharing
     }
 }
 

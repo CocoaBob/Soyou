@@ -104,6 +104,7 @@
 
 /* Circle Compose View Controller */
 "circle_compose_post"="发布";
+"circle_compose_share"="分享";
 "circle_compose_quit_editing_title"="退出编辑？";
 "circle_compose_quit_editing_quit"="退出";
 "circle_compose_text_placeholder"="这一刻的想法…";

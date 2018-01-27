@@ -102,6 +102,7 @@
 
 /* Circle Compose View Controller */
 "circle_compose_post"="Post";
+"circle_compose_share"="Share";
 "circle_compose_quit_editing_title"="Quit editing?";
 "circle_compose_quit_editing_quit"="Quit";
 "circle_compose_text_placeholder"="Idea at this moment...";
