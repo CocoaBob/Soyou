@@ -1,5 +1,5 @@
 //
-//  WeChatSessionActivity.swift
+//  WeChatActivityMoments.swift
 //  Soyou
 //
 //  Created by chenglian on 15/12/13.
@@ -8,23 +8,22 @@
 
 import UIKit
 
-class WeChatSessionActivity: WeChatActivityGeneral {
+class WeChatActivityMoments: WeChatActivityGeneral {
     
     override class var activityCategory : UIActivityCategory {
         return UIActivityCategory.share
     }
     
     override var activityType : UIActivityType? {
-        return UIActivityType(rawValue: Bundle.main.bundleIdentifier! + ".WeChatSessionActivity")
+        return UIActivityType(rawValue: Bundle.main.bundleIdentifier! + ".WeChatActivityMoments")
     }
     
     override var activityTitle : String? {
-        isSessionScene = true
-        return NSLocalizedString("wechat_session", comment: "")
+        isSessionScene = false
+        return NSLocalizedString("wechat_moments", comment: "")
     }
     
     override var activityImage : UIImage? {
-        return UIImage(named: "wechat")
+        return UIImage(named: "wechat_moments")
     }
-    
 }

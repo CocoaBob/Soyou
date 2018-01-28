@@ -22,7 +22,6 @@
 		0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */; };
 		0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C7B1C3B2098001CC36D /* Utils.swift */; };
 		45016E581C14EC25004034BC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E561C14EC25004034BC /* Product.swift */; };
-		45034D121C29954D00026027 /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D0D1C29954D00026027 /* SharingProvider.swift */; };
 		4506ED711C221797003B5018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4506ED701C221797003B5018 /* LoginViewController.swift */; };
 		450D475F1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */; };
 		450D47601FFC176700A2F3D1 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475E1FFC176700A2F3D1 /* Circle.swift */; };
@@ -107,6 +106,8 @@
 		45ADAB471C6517120040E570 /* TableViewCellIconTitleContent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45ADAB461C6517120040E570 /* TableViewCellIconTitleContent.xib */; };
 		45AE9B491C47C4150081ECBA /* ProductPricesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE9B481C47C4150081ECBA /* ProductPricesViewController.swift */; };
 		45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE9B4A1C47C4310081ECBA /* ProductDescriptionsViewController.swift */; };
+		45B66C77201D620E00D5E958 /* WeChatActivityGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D0F1C29954D00026027 /* WeChatActivityGeneral.swift */; };
+		45B66C78201D621000D5E958 /* WeChatActivityMoments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D101C29954D00026027 /* WeChatActivityMoments.swift */; };
 		45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77BE51C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift */; };
 		45B77BE81C792B54002FBAFE /* MKPlacemark+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77BE71C792B54002FBAFE /* MKPlacemark+Additions.swift */; };
 		45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77F091C05A77B002E3385 /* UserManager.swift */; };
@@ -180,10 +181,9 @@
 		0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Analytic+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0D783C7B1C3B2098001CC36D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		45016E561C14EC25004034BC /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		45034D0D1C29954D00026027 /* SharingProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingProvider.swift; sourceTree = "<group>"; };
 		45034D0F1C29954D00026027 /* WeChatActivityGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatActivityGeneral.swift; sourceTree = "<group>"; };
-		45034D101C29954D00026027 /* WeChatMomentsActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatMomentsActivity.swift; sourceTree = "<group>"; };
-		45034D111C29954D00026027 /* WeChatSessionActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatSessionActivity.swift; sourceTree = "<group>"; };
+		45034D101C29954D00026027 /* WeChatActivityMoments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatActivityMoments.swift; sourceTree = "<group>"; };
+		45034D111C29954D00026027 /* WeChatActivitySession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatActivitySession.swift; sourceTree = "<group>"; };
 		4506ED701C221797003B5018 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Circle+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		450D475E1FFC176700A2F3D1 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
@@ -364,20 +364,11 @@
 		45034D0C1C29954D00026027 /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
-				45034D0D1C29954D00026027 /* SharingProvider.swift */,
-				45034D0E1C29954D00026027 /* WeChat */,
+				45034D0F1C29954D00026027 /* WeChatActivityGeneral.swift */,
+				45034D101C29954D00026027 /* WeChatActivityMoments.swift */,
+				45034D111C29954D00026027 /* WeChatActivitySession.swift */,
 			);
 			path = Sharing;
-			sourceTree = "<group>";
-		};
-		45034D0E1C29954D00026027 /* WeChat */ = {
-			isa = PBXGroup;
-			children = (
-				45034D0F1C29954D00026027 /* WeChatActivityGeneral.swift */,
-				45034D101C29954D00026027 /* WeChatMomentsActivity.swift */,
-				45034D111C29954D00026027 /* WeChatSessionActivity.swift */,
-			);
-			path = WeChat;
 			sourceTree = "<group>";
 		};
 		450D475C1FF9C6C600A2F3D1 /* Circles */ = {
@@ -1198,6 +1189,7 @@
 				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
 				4597B23F1D30FACE00287873 /* DDTencentHandler.m in Sources */,
 				4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */,
+				45B66C77201D620E00D5E958 /* WeChatActivityGeneral.swift in Sources */,
 				45F5C2A51D01DFA70024B5DF /* InfoViewController.swift in Sources */,
 				4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */,
 				458CEDB22001D06400B8A6BC /* SDWebImageManager+Additions.swift in Sources */,
@@ -1217,6 +1209,7 @@
 				45D9B36D1C39B3F600D7E899 /* ProductViewController.swift in Sources */,
 				455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */,
 				45CFA59B1C2B1585007D38F3 /* BrandsViewController.swift in Sources */,
+				45B66C78201D621000D5E958 /* WeChatActivityMoments.swift in Sources */,
 				4524C0AD1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift in Sources */,
 				4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */,
 				45A41B4F1C9F372A00D48185 /* NSUserDefaults+Additions.swift in Sources */,
@@ -1247,7 +1240,6 @@
 				4525C0F71C5B8B4200C26992 /* Store+CoreDataProperties.swift in Sources */,
 				45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */,
 				450D475F1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift in Sources */,
-				45034D121C29954D00026027 /* SharingProvider.swift in Sources */,
 				45AE9B491C47C4150081ECBA /* ProductPricesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
