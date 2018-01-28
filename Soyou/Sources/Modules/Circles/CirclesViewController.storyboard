@@ -359,7 +359,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="100.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MDt-ff-5er" customClass="CircleImagesCollectionView" customModule="Soyou" customModuleProvider="target">
+                                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MDt-ff-5er" customClass="CircleImagesCollectionView" customModule="Soyou" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="10" width="343" height="80.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="INx-mv-ybC">
@@ -369,7 +369,7 @@
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CircleImageCollectionViewCell" id="RcQ-PG-XmR" customClass="CircleImageCollectionViewCell" customModule="Soyou" customModuleProvider="target">
+                                                        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CircleImageCollectionViewCell" id="RcQ-PG-XmR" customClass="CircleImageCollectionViewCell" customModule="Soyou" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -379,6 +379,17 @@
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="P89-ks-2nn">
                                                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                                                     </imageView>
+                                                                    <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FNv-Vp-BSK">
+                                                                        <rect key="frame" x="56" y="0.0" width="24" height="24"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="24" id="O0b-R9-xiw"/>
+                                                                            <constraint firstAttribute="width" constant="24" id="YrZ-I6-PL0"/>
+                                                                        </constraints>
+                                                                        <state key="normal" image="img_delete"/>
+                                                                        <connections>
+                                                                            <action selector="delete" destination="RcQ-PG-XmR" eventType="touchUpInside" id="4Yi-Ma-5ym"/>
+                                                                        </connections>
+                                                                    </button>
                                                                 </subviews>
                                                             </view>
                                                             <constraints>
@@ -386,8 +397,11 @@
                                                                 <constraint firstAttribute="bottom" secondItem="P89-ks-2nn" secondAttribute="bottom" id="1sA-7O-4x7"/>
                                                                 <constraint firstItem="P89-ks-2nn" firstAttribute="leading" secondItem="RcQ-PG-XmR" secondAttribute="leading" id="PIN-hG-bsG"/>
                                                                 <constraint firstItem="P89-ks-2nn" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="Qgz-7i-6N7"/>
+                                                                <constraint firstItem="FNv-Vp-BSK" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="ReH-Pn-7yk"/>
+                                                                <constraint firstAttribute="trailing" secondItem="FNv-Vp-BSK" secondAttribute="trailing" id="UYE-nb-XuE"/>
                                                             </constraints>
                                                             <connections>
+                                                                <outlet property="btnDelete" destination="FNv-Vp-BSK" id="ZC4-MH-gV4"/>
                                                                 <outlet property="imageView" destination="P89-ks-2nn" id="t4E-ar-XOT"/>
                                                             </connections>
                                                         </collectionViewCell>
@@ -515,5 +529,6 @@
         <image name="img_avatar_neutral" width="84" height="84"/>
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_camera_shadow" width="36" height="29"/>
+        <image name="img_delete" width="20" height="20"/>
     </resources>
 </document>

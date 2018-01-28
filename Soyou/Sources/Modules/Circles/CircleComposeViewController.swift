@@ -168,6 +168,16 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
         if let cell = cell as? CircleImageCollectionViewCell {
             if indexPath.row < self.selectedAssets?.count ?? 0 {
                 cell.imageView.image = self.selectedAssets?[indexPath.row].fullResolutionImage
+                cell.deleteAction = { cell in
+                    if let indexPath = collectionView.indexPath(for: cell) {
+                        // Reload table view
+                        self.selectedAssets?.remove(at: indexPath.row)
+                        self.imagesCollectionView.reloadData()
+                        // Update cell height
+                        self.tableView.beginUpdates()
+                        self.tableView.endUpdates()
+                    }
+                }
             } else {
                 cell.imageView.contentMode = .center
                 cell.imageView.image = UIImage(named: "img_plus_40")
@@ -175,6 +185,7 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                 cell.imageView.layer.borderColor = UIColor.lightGray.cgColor
                 cell.selectedBackgroundView = UIView()
                 cell.selectedBackgroundView?.backgroundColor = UIColor(white: 0, alpha: 0.1)
+                cell.deleteAction = nil
             }
         }
         

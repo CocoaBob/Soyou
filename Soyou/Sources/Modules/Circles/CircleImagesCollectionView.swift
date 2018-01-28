@@ -23,6 +23,12 @@ class CircleImagesCollectionView: UICollectionView {
 class CircleImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet var btnDelete: UIButton!
+    var deleteAction: ((UICollectionViewCell)->Void)? {
+        didSet {
+            btnDelete.isHidden = deleteAction == nil
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,5 +45,9 @@ class CircleImageCollectionViewCell: UICollectionViewCell {
         self.selectedBackgroundView?.layer.contents = nil
         self.selectedBackgroundView?.layer.borderWidth = 0
         self.selectedBackgroundView?.backgroundColor = UIColor.clear
+    }
+    
+    @IBAction func delete() {
+        self.deleteAction?(self)
     }
 }
