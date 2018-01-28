@@ -16,7 +16,7 @@ public struct Cons {
         static let reqAPIKeySTG                             = "17843599-f079-4c57-bb39-d9ca8344abd"
         static let hostnamePROD                             = "api.soyou.io"
         static let shareBaseURLPROD                         = "http://www.soyou.io/share/#"
-        static let reqAPIKeyPROD                            = "48548598-f079-4c57-bb39-d9ca8344abd7"
+        static let reqAPIKeyPROD                            = "ca2784f1-f079-4c57-qq39-d9caou24abd7"
         
         // Number of News/Discounts for each request
         static let infoRequestSize                          = 10
