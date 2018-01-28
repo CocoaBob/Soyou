@@ -79,6 +79,7 @@ extension UserManager {
         }
         set {
             UICKeyChainStore.setString(newValue, forKey: Cons.Usr.uuid)
+            RequestManager.shared.requestOperationManager.uuid = newValue
         }
     }
     

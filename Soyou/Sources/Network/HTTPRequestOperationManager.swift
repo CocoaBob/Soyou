@@ -10,6 +10,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     var newVersionAlert: SCLAlertView?
     var reqAPIKey: String = Cons.Svr.reqAPIKeyPROD
+    var uuid: String = UserManager.shared.uuid
     
     override init(baseURL url: URL?) {
         super.init(baseURL: url)
@@ -67,8 +68,10 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         
         // Setup request
         let request: NSMutableURLRequest = self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
-        request.addValue(self.reqAPIKey, forHTTPHeaderField: "apiKey")
-        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate), forHTTPHeaderField: "request-time")
+        let timestamp = self.timestamp()
+        request.addValue(self.apiKey(timestamp), forHTTPHeaderField: "apiKey")
+        request.addValue(timestamp, forHTTPHeaderField: "request-time")
+        request.addValue(self.uuid, forHTTPHeaderField: "uuid")
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -168,8 +171,10 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             },
                                                         error: nil) :
             self.requestSerializer.request(withMethod: method, urlString: urlString, parameters: parameters, error: nil)
-        request.addValue(self.reqAPIKey, forHTTPHeaderField: "apiKey")
-        request.addValue(FmtString("%.0f", NSDate.timeIntervalSinceReferenceDate), forHTTPHeaderField: "request-time")
+        let timestamp = self.timestamp()
+        request.addValue(self.apiKey(timestamp), forHTTPHeaderField: "apiKey")
+        request.addValue(timestamp, forHTTPHeaderField: "request-time")
+        request.addValue(self.uuid, forHTTPHeaderField: "uuid")
         if let headers = headers {
             for (key, value) in headers {
                 request.addValue(value, forHTTPHeaderField: key)
@@ -240,5 +245,16 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
     fileprivate func handleFailure(_ operation: AFHTTPRequestOperation, _ error: Error?, _ onFailure: ErrorClosure?) {
         if let onFailure = onFailure { onFailure(error) }
+    }
+}
+
+extension HTTPRequestOperationManager {
+    
+    fileprivate func timestamp() -> String {
+        return Cons.utcDateFormatter.string(from: Date())
+    }
+    
+    fileprivate func apiKey(_ timestamp: String) -> String {
+        return [self.reqAPIKey, timestamp, self.uuid].sorted().joined().sha1()
     }
 }

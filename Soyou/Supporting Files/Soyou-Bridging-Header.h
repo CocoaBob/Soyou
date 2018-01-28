@@ -4,6 +4,7 @@
 
 // To get device info
 #include <sys/utsname.h>
+#import <CommonCrypto/CommonHMAC.h>
 
 // System Frameworks
 @import AddressBook;
