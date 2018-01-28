@@ -358,10 +358,6 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
         vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .custom
-        // Setup Transition Animator
-        vc.loadViewIfNeeded()
-        vc.setupTransitionAnimator(modalVC: nav)
-        nav.transitioningDelegate = vc.transitionAnimator
         // Present
         self.tabBarController?.present(nav, animated: true, completion: nil)
     }
@@ -830,8 +826,6 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.loadViewIfNeeded()
         vc.tvContent.text = text
         vc.isOnlySharing = true
-        vc.setupTransitionAnimator(modalVC: nav)
-        nav.transitioningDelegate = vc.transitionAnimator
         // Present
         self.viewController?.tabBarController?.present(nav, animated: true, completion: nil)
     }
