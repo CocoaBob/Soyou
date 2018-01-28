@@ -198,7 +198,6 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
         vc.customAssets = self.webViewAssets
         vc.selectedAssets = tlphAssets
         let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .custom
         // Present
         self.tabBarController?.present(nav, animated: true, completion: nil)
     }

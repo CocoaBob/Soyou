@@ -195,6 +195,7 @@ extension UserViewController {
             let vc = ProfileViewController()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .custom
+            nav.modalPresentationCapturesStatusBarAppearance = true
             // Setup Transition Animator
             vc.loadViewIfNeeded()
             vc.setupTransitionAnimator(modalVC: nav)
@@ -208,6 +209,7 @@ extension UserViewController {
         let vc = SettingsViewController()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .custom
+        nav.modalPresentationCapturesStatusBarAppearance = true
         // Setup Transition Animator
         vc.loadViewIfNeeded()
         vc.setupTransitionAnimator(modalVC: nav)

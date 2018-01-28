@@ -28,7 +28,6 @@ class ProfileViewController: SimpleTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Navigation Bar Items
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(UIViewController.dismissSelf))
     }

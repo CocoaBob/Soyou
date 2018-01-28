@@ -357,7 +357,6 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
         let vc = CircleComposeViewController.instantiate()
         vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .custom
         // Present
         self.tabBarController?.present(nav, animated: true, completion: nil)
     }
@@ -381,6 +380,7 @@ extension CirclesViewController {
             let vc = ProfileViewController()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .custom
+            nav.modalPresentationCapturesStatusBarAppearance = true
             // Setup Transition Animator
             vc.loadViewIfNeeded()
             vc.setupTransitionAnimator(modalVC: nav)
@@ -818,7 +818,6 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         // Create CircleComposeViewController
         let vc = CircleComposeViewController.instantiate()
         let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .custom
         // Setup
         vc.delegate = self
         vc.customAssets = assets

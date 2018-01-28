@@ -268,6 +268,7 @@ extension UserManager {
             let vc = LoginViewController.instantiate(.login)
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .custom
+            nav.modalPresentationCapturesStatusBarAppearance = true
             // Setup Transition Animator
             vc.loadViewIfNeeded()
             vc.setupTransitionAnimator(modalVC: nav)
