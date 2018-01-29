@@ -8,7 +8,9 @@
 
 "CFBundleDisplayName"="奢有";
 "CFBundleName"="奢有";
+"shortcut_news"="折扣 & 资讯";
 "shortcut_search"="搜索";
+"shortcut_circles"="照片墙";
 "shortcut_favorites"="收藏夹";
 "NSLocationWhenInUseUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
 "NSPhotoLibraryUsageDescription"="您将可以分享照片。";

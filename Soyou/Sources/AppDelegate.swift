@@ -204,8 +204,12 @@ extension AppDelegate {
     }
     
     func showShortcutView() {
-        if self.shortcutItemType == "shortcut.search" {
+        if self.shortcutItemType == "shortcut.news" {
+            self.showNewsView()
+        } else if self.shortcutItemType == "shortcut.search" {
             self.showSearchView()
+        } else if self.shortcutItemType == "shortcut.circles" {
+            self.showCirclesView()
         } else if self.shortcutItemType == "shortcut.favorites" {
             self.showFavoritesView()
         }
@@ -298,6 +302,14 @@ extension AppDelegate {
         }
     }
     
+    func showNewsView() {
+        if let tabBarController = self.window?.rootViewController as? UITabBarController,
+            let navController = tabBarController.viewControllers?[0] as? UINavigationController {
+            tabBarController.selectedIndex = 0
+            navController.popToRootViewController(animated: false)
+        }
+    }
+    
     func showSearchView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
             let navController = tabBarController.viewControllers?[1] as? UINavigationController,
@@ -311,10 +323,18 @@ extension AppDelegate {
         }
     }
     
-    func showFavoritesView() {
+    func showCirclesView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
             let navController = tabBarController.viewControllers?[2] as? UINavigationController {
             tabBarController.selectedIndex = 2
+            navController.popToRootViewController(animated: false)
+        }
+    }
+    
+    func showFavoritesView() {
+        if let tabBarController = self.window?.rootViewController as? UITabBarController,
+            let navController = tabBarController.viewControllers?[3] as? UINavigationController {
+            tabBarController.selectedIndex = 3
             navController.popToRootViewController(animated: false)
         }
     }
