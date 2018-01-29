@@ -889,7 +889,7 @@
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 2H429X3TEM;
 						LastSwiftMigration = 0910;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1367,7 +1367,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Soyou/Supporting Files/Soyou.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiyun Yang (6ADWQCF5H3)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 2H429X3TEM;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1381,7 +1382,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "a133a225-2eef-4bc8-85ea-560a08a715db";
+				PROVISIONING_PROFILE_SPECIFIER = "Soyou Developement";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1395,7 +1397,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Soyou/Supporting Files/Soyou.entitlements";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jiyun Yang (2H429X3TEM)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 2H429X3TEM;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1409,7 +1412,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "acf031ed-9a34-4779-bc87-a1198c9e27cb";
+				PROVISIONING_PROFILE_SPECIFIER = "Soyou App Store Distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				TARGETED_DEVICE_FAMILY = 1;
