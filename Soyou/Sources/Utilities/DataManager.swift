@@ -181,6 +181,23 @@ class DataManager {
     // MARK: User
     //////////////////////////////////////
     
+    func getUserInfo(_ userId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.getUserInfo(userId, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    // type: sinaweibo, qq, wx, google, facebook, twitter
+    func linkThirdAccount(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String, _ profileUrl: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.linkThirdAccount(type, accessToken, thirdId, username, profileUrl, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     func modifyEmail(_ email: String, _ completion: CompletionClosure?) {
         RequestManager.shared.modifyEmail(email, { responseObject in
             self.completeWithData(responseObject, completion: completion)
@@ -716,6 +733,50 @@ class DataManager {
     
     func likeCircle(_ id: Int, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeCircle(id, operation: wasLiked ? "-" : "+", { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    //////////////////////////////////////
+    // MARK: Friends
+    //////////////////////////////////////
+    
+    func requestFriend(_ userId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestFriend(userId, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func allFriendRequests(_ completion: CompletionClosure?) {
+        RequestManager.shared.allFriendRequests({ responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func replyFriendRequest(_ userId: Int, _ action: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.replyFriendRequest(userId, action, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func allFriends(_ completion: CompletionClosure?) {
+        RequestManager.shared.allFriends({ responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func deleteFriend(_ userId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.deleteFriend(userId, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)

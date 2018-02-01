@@ -102,7 +102,7 @@ class RequestManager {
     //////////////////////////////////////
     
     // Add (remove) news to (from) favorite
-    func favoriteNews(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func favoriteNews(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/news/\(id)", "FavoriteNews", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -115,7 +115,7 @@ class RequestManager {
     //////////////////////////////////////
     
     // Add (remove) discount to (from) favorite
-    func favoriteDiscount(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func favoriteDiscount(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/discounts/\(id)", "FavoriteDiscounts", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -127,7 +127,7 @@ class RequestManager {
     // MARK: Favorites Products
     //////////////////////////////////////
     
-    func favoriteProduct(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func favoriteProduct(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/favorite/products/\(id)", "FavoriteProducts", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -143,7 +143,7 @@ class RequestManager {
     // MARK: News
     //////////////////////////////////////
     
-    func likeNews(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeNews(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/like", "News", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -181,7 +181,7 @@ class RequestManager {
     // MARK: Discounts
     //////////////////////////////////////
     
-    func likeDiscount(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeDiscount(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/discounts/\(id)/like", "Discounts", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -235,7 +235,7 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/translation", "Products", onSuccess, onFailure)
     }
     
-    func likeProduct(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeProduct(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)/like", "Products", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -366,7 +366,7 @@ class RequestManager {
             onFailure)
     }
     
-    func deleteCircle(_ id: String,  _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func deleteCircle(_ id: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)", "Circle", onSuccess, onFailure)
     }
     
@@ -378,19 +378,58 @@ class RequestManager {
         deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/comments/\(commentId)", "Circle", onSuccess, onFailure)
     }
     
-    func likeCircle(_ id: Int, operation:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeCircle(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/like", "Circle", ["operation": operation], onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
+    // MARK: Friends
+    //////////////////////////////////////
+    
+    func requestFriend(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/request/\(userId)", "Friends", nil, onSuccess, onFailure)
+    }
+    
+    func allFriendRequests(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/requests", "Friends", onSuccess, onFailure)
+    }
+    
+    func replyFriendRequest(_ userId: Int, _ action: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/reply", "Friends", ["userId": userId, "action": action], onSuccess, onFailure)
+    }
+    
+    func allFriends(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends", "Friends", onSuccess, onFailure)
+    }
+    
+    func deleteFriend(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/\(userId)", "Friends", onSuccess, onFailure)
     }
     
     //////////////////////////////////////
     // MARK: User Info
     //////////////////////////////////////
     
-    func modifyEmail(_ email:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func getUserInfo(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/user/\(userId)", "User", onSuccess, onFailure)
+    }
+    
+    // type: sinaweibo, qq, wx, google, facebook, twitter
+    func linkThirdAccount(_ type: String, _ accessToken: String, _ thirdId: String, _ username: String, _ profileUrl: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/link-user", "User",
+                  ["type": type,
+                   "accessToken": accessToken,
+                   "thirdId": thirdId,
+                   "username": username,
+                   "profileUrl": profileUrl],
+                  onSuccess, onFailure)
+    }
+    
+    func modifyEmail(_ email: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/email", "UserEmail", ["email": email], onSuccess, onFailure)
     }
     
-    func modifyUserInfo(_ field:String, _ value:String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func modifyUserInfo(_ field: String, _ value: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/info", "UserInfo", ["field": field, "value": value], onSuccess, onFailure)
     }
     
