@@ -28,6 +28,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     // and the loaded circles are stored in the memory context
     var isSingleUserMode: Bool = false {
         didSet {
+            self.hidesBottomBarWhenPushed = self.isSingleUserMode
             self.setupViews()
         }
     }
@@ -69,9 +70,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("circles_vc_tab_title"),
                                        image: UIImage(named: "img_tab_images"),
                                        selectedImage: UIImage(named: "img_tab_images_selected"))
-        
-        // Bars
-        self.hidesBottomBarWhenPushed = true
     }
     
     override func viewDidLoad() {
