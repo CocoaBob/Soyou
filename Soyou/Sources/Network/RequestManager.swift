@@ -386,24 +386,20 @@ class RequestManager {
     // MARK: Friends
     //////////////////////////////////////
     
-    func requestFriend(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/request/\(userId)", "Friends", nil, onSuccess, onFailure)
+    func followFriend(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/follow/\(userId)", "Friends", ["userId": userId], onSuccess, onFailure)
     }
     
-    func allFriendRequests(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/requests", "Friends", onSuccess, onFailure)
+    func unfollowFriend(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/unfollow/\(userId)", "Friends", ["userId": userId], onSuccess, onFailure)
     }
     
-    func replyFriendRequest(_ userId: Int, _ action: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/reply", "Friends", ["userId": userId, "action": action], onSuccess, onFailure)
+    func allFollowers(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/followers", "Friends", onSuccess, onFailure)
     }
     
-    func allFriends(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends", "Friends", onSuccess, onFailure)
-    }
-    
-    func deleteFriend(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/\(userId)", "Friends", onSuccess, onFailure)
+    func allFollowings(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/friends/following", "Friends", onSuccess, onFailure)
     }
     
     //////////////////////////////////////

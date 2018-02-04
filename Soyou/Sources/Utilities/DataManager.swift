@@ -745,40 +745,32 @@ class DataManager {
     // MARK: Friends
     //////////////////////////////////////
     
-    func requestFriend(_ userId: Int, _ completion: CompletionClosure?) {
-        RequestManager.shared.requestFriend(userId, { responseObject in
+    func followFriend(_ userId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.followFriend(userId, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
-    func allFriendRequests(_ completion: CompletionClosure?) {
-        RequestManager.shared.allFriendRequests({ responseObject in
+    func unfollowFriend(_ userId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.unfollowFriend(userId, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
-    func replyFriendRequest(_ userId: Int, _ action: Int, _ completion: CompletionClosure?) {
-        RequestManager.shared.replyFriendRequest(userId, action, { responseObject in
+    func allFollowers(_ completion: CompletionClosure?) {
+        RequestManager.shared.allFollowers({ responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)
         })
     }
     
-    func allFriends(_ completion: CompletionClosure?) {
-        RequestManager.shared.allFriends({ responseObject in
-            self.completeWithData(responseObject, completion: completion)
-        }, { error in
-            self.completeWithError(error, completion: completion)
-        })
-    }
-    
-    func deleteFriend(_ userId: Int, _ completion: CompletionClosure?) {
-        RequestManager.shared.deleteFriend(userId, { responseObject in
+    func allFollowings(_ completion: CompletionClosure?) {
+        RequestManager.shared.allFollowings({ responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)

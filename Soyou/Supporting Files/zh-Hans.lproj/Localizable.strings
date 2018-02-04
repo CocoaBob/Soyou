@@ -101,6 +101,10 @@
 "circles_vc_delete_alert"="确定删除吗？";
 "circles_vc_button_more"="全文";
 "circles_vc_button_less"="收起";
+"circles_vc_user_follow"="关注";
+"circles_vc_user_unfollow"="取消关注";
+"circles_vc_user_follows_you"="TA是您的粉丝";
+"circles_vc_user_not_follow_you"="TA没有关注您";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="发布";

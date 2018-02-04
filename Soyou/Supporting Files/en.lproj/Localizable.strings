@@ -99,6 +99,10 @@
 "circles_vc_delete_alert"="Delete this post?";
 "circles_vc_button_more"="More";
 "circles_vc_button_less"="Less";
+"circles_vc_user_follow"="Follow";
+"circles_vc_user_unfollow"="Unfollow";
+"circles_vc_user_follows_you"="FOLLOWS YOU";
+"circles_vc_user_not_follow_you"="DOES NOT FOLLOW YOU";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="Post";
