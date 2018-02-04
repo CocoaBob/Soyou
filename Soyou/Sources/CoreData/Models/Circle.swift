@@ -56,14 +56,14 @@ class Circle: NSManagedObject {
         return circle
     }
     
-    class func importDatas(_ datas: [NSDictionary]?, _ deleteAll: Bool, _ completion: CompletionClosure?) {
+    class func importDatas(_ datas: [NSDictionary]?, _ deleteAll: Bool, _ context: NSManagedObjectContext, _ completion: CompletionClosure?) {
         if let datas = datas {
             // In case response is incorrect, we can't delete all exsiting data
             if datas.isEmpty {
                 completion?(nil, FmtError(0, nil))
                 return
             }
-            MagicalRecord.save({ (localContext: NSManagedObjectContext!) in
+            context.mr_save({ (localContext) in
                 // Delete old data
                 if deleteAll {
                     // Delete non existing items
@@ -73,7 +73,7 @@ class Circle: NSManagedObject {
                 for data in datas {
                     Circle.importData(data, localContext)
                 }
-            }, completion: { (responseObject, error) -> Void in
+            }, completion: { (responseObject, error) in
                 completion?(responseObject, error as Error?)
             })
         } else {

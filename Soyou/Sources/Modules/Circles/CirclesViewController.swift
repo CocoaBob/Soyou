@@ -14,11 +14,33 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var parallaxHeaderView: UIView!
     @IBOutlet var lblUsername: UILabel!
     @IBOutlet var btnCompose: UIButton!
+    @IBOutlet var btnBack: UIButton!
+    
+    var userID: Int? {
+        didSet {
+            self.observeUserManager() // Start/Stop observing the app user's info
+            self.isSingleUserMode = userID != nil // Update UI
+        }
+    }
+    var avatar: String? // If it's isSingleUserMode
+    var username: String? // If it's isSingleUserMode
+    // If isSingleUserMode is true, it shows circles of a particular user,
+    // and the loaded circles are stored in the memory context
+    var isSingleUserMode: Bool = false {
+        didSet {
+            self.setupViews()
+        }
+    }
+    
+    // KVO
+    fileprivate var KVOContextCirclesViewController = 0
+    fileprivate var needsToRemoveObserver = false
     
     // Pull and reload
     var isLoadingData = false
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet var loadingIndicatorBottom: NSLayoutConstraint!
+    @IBOutlet var loadingIndicatorLeading: NSLayoutConstraint!
     
     // Status Bar Cover
     var isStatusBarCoverVisible = false
@@ -26,25 +48,17 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: Cons.UI.statusBarHeight)
     )
     
-    // Notification Context
-    fileprivate var KVOContextCirclesViewController = 0
-    
     // Class methods
-    class func instantiate() -> CirclesViewController {
-        return UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CirclesViewController") as! CirclesViewController
+    class func instantiate(_ userID: Int?, _ avatar: String?, _ username: String?) -> CirclesViewController {
+        let vc = UIStoryboard(name: "CirclesViewController", bundle: nil).instantiateViewController(withIdentifier: "CirclesViewController") as! CirclesViewController
+        vc.userID = userID
+        vc.avatar = avatar
+        vc.username = username
+        return vc
     }
     
-    // Override SyncedFetchedResultsViewController
-    override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
-        return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false)
-    }
-    
-    override func tableView() -> UITableView {
-        return _tableView
-    }
-    
-    override func tableViewRowIsAnimated() -> Bool {
-        return false
+    class func pushNewInstance(_ userID: Int?, _ avatar: String?, _ username: String?, from navC: UINavigationController?) {
+        navC?.pushViewController(CirclesViewController.instantiate(userID, avatar, username), animated: true)
     }
     
     // Life cycle
@@ -57,7 +71,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
                                        selectedImage: UIImage(named: "img_tab_images_selected"))
         
         // Bars
-        self.hidesBottomBarWhenPushed = false
+        self.hidesBottomBarWhenPushed = true
     }
     
     override func viewDidLoad() {
@@ -67,45 +81,15 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.extendedLayoutIncludesOpaqueBars = true
         self.automaticallyAdjustsScrollViewInsets = false
         
-        // UIViewController
-        self.title = NSLocalizedString("circles_vc_title")
+        // Clear old data
+        if self.isSingleUserMode {
+            DataManager.shared.memoryContext().save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+                Circle.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
+            })
+        }
         
-        // Navigation Bar
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_camera_selected"),
-                                                                 style: .plain,
-                                                                 target: self,
-                                                                 action: #selector(CirclesViewController.createCircle))
-        
-        // Setup table
-        self.tableView().rowHeight = UITableViewAutomaticDimension
-        self.tableView().estimatedRowHeight = 75
-        self.tableView().allowsSelection = false
-        self.tableView().tableFooterView = UIView(frame: CGRect.zero)
-        
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView(), 0, false, false, false, true)
-        
-        // Status Bar Cover
-        self.setupStatusBarCover()
-        
-        // Parallax Header
-        self.setupParallaxHeader()
-        
-        // Setup refresh controls
-        self.setupRefreshControls()
-        
-        // Loading Indicator
-        self.hideRefreshIndicator()
-        
-        // Setup avatar action
-        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
-        self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
-
-        // Username shadow
-        self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
-        self.lblUsername.layer.shadowOpacity = 1
-        self.lblUsername.layer.shadowRadius = 2
-        self.lblUsername.layer.shadowOffset = CGSize.zero
+        // Setup views
+        self.setupViews()
         
         // Load Data
         self.loadData(nil)
@@ -113,20 +97,21 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         // Prepare FetchedResultsController
         self.reloadDataWithoutCompletion()
         
-        // Observe UserManager.shared.token
-        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
-        UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextCirclesViewController)
+        // Observe UserManager.shared.token & avatar
+        self.observeUserManager()
     }
     
     deinit {
-        UserManager.shared.removeObserver(self, forKeyPath: "token")
-        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
+        self.stopObservingUserManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Nav bar
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
         super.viewWillAppear(animated)
         
+        // Hide tool bar
         self.hideToolbar(false)
         
         // Update User Info
@@ -142,13 +127,13 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Workaround to make sure navigation bar is visible even the slide-back gesture is cancelled.
+        // Workaround to make sure navigation bar is updated even the slide-back gesture is cancelled.
         DispatchQueue.main.async {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
         
         // Update Status Bar Cover
-        self.updateStatusBarCover(self._tableView.contentOffset.y)
+        self.updateStatusBarCover(self.tableView().contentOffset.y)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -164,6 +149,54 @@ class CirclesViewController: SyncedFetchedResultsViewController {
             return UIStatusBarStyle.default
         } else {
             return isStatusBarCoverVisible ? UIStatusBarStyle.default : UIStatusBarStyle.lightContent
+        }
+    }
+}
+
+// Override SyncedFetchedResultsViewController
+extension CirclesViewController {
+    
+    override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
+        if self.isSingleUserMode {
+            return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false, in: DataManager.shared.memoryContext())
+        } else {
+            return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false)
+        }
+    }
+    
+    override func tableView() -> UITableView {
+        return _tableView
+    }
+    
+    override func tableViewRowIsAnimated() -> Bool {
+        return false
+    }
+    
+    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        super.controllerDidChangeContent(controller)
+        self.updateTableViewFooter()
+    }
+}
+
+// MARK: - User Info Update
+extension CirclesViewController {
+    
+    // Observe UserManager.shared.token & avatar
+    fileprivate func observeUserManager() {
+        if self.userID == nil {
+            UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
+            UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextCirclesViewController)
+            self.needsToRemoveObserver = true
+        } else {
+            self.stopObservingUserManager()
+        }
+    }
+    
+    fileprivate func stopObservingUserManager() {
+        if self.needsToRemoveObserver {
+            self.needsToRemoveObserver = false
+            UserManager.shared.removeObserver(self, forKeyPath: "token")
+            UserManager.shared.removeObserver(self, forKeyPath: "avatar")
         }
     }
     
@@ -188,7 +221,7 @@ extension CirclesViewController {
         let deleteAll = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
         self.beginRefreshing()
-        DataManager.shared.requestPreviousCicles(timestamp, deleteAll, nil) { responseObject, error in
+        DataManager.shared.requestPreviousCicles(timestamp, deleteAll, self.userID, self.isSingleUserMode) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                 let data = responseObject["data"] as? [NSDictionary] {
                 self.endRefreshing(data.count)
@@ -206,7 +239,61 @@ extension CirclesViewController {
     }
 }
 
-// MARK: Table View
+// MARK: - Views
+extension CirclesViewController {
+    
+    fileprivate func setupViews() {
+        // Make sure all IBOutlets aren't nil
+        guard self.isViewLoaded else {
+            return
+        }
+        
+        // UIViewController
+        self.title = NSLocalizedString("circles_vc_title")
+        
+        // Nav buttons
+        self.btnBack.isHidden = !self.isSingleUserMode
+//        self.btnCompose.isHidden = self.isSingleUserMode
+        self.loadingIndicatorLeading.constant = self.isSingleUserMode ? 64 : 24
+        
+        // Setup table
+        self.tableView().rowHeight = UITableViewAutomaticDimension
+        self.tableView().estimatedRowHeight = 75
+        self.tableView().allowsSelection = false
+        self.tableView().tableFooterView = UIView(frame: CGRect.zero)
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.tableView(), 0, false, false, false, true)
+        
+        // Status Bar Cover
+        self.setupStatusBarCover()
+        
+        // Parallax Header
+        self.setupParallaxHeader()
+        
+        // Setup refresh controls
+        self.setupRefreshControls()
+        
+        // Loading Indicator
+        self.hideRefreshIndicator()
+        
+        // Setup avatar action
+        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
+        self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
+        
+        // Username shadow
+        self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+        self.lblUsername.layer.shadowOpacity = 1
+        self.lblUsername.layer.shadowRadius = 2
+        self.lblUsername.layer.shadowOffset = CGSize.zero
+    }
+    
+    func updateTableViewFooter() {
+        self.tableView().mj_footer.isHidden = (self.fetchedResultsController?.fetchedObjects?.count ?? 0) == 0 || !UserManager.shared.isLoggedIn
+    }
+}
+
+// MARK: - Table View
 extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -255,10 +342,10 @@ extension CirclesViewController {
     }
     
     fileprivate func updateStatusBarCover(_ offsetY: CGFloat) {
-        if !isStatusBarCoverVisible && offsetY >= 0 {
-            self.addStatusBarCover()
-        } else if isStatusBarCoverVisible && offsetY < 0 {
+        if isStatusBarCoverVisible && offsetY < 0 {
             self.removeStatusBarCover()
+        } else if !isStatusBarCoverVisible && offsetY >= 0 {
+            self.addStatusBarCover()
         }
     }
     
@@ -285,7 +372,7 @@ extension CirclesViewController {
 // MARK: Pull Down Refresh
 extension CirclesViewController {
     
-    func updateRefreshIndicator(_ offsetY: CGFloat) {
+    fileprivate func updateRefreshIndicator(_ offsetY: CGFloat) {
         struct Constant {
             static let headerHeight = CGFloat(240)
             static let triggerY = CGFloat(-40)
@@ -299,9 +386,9 @@ extension CirclesViewController {
         }
     }
     
-    func showRefreshIndicator(_ offsetY: CGFloat) {
+    fileprivate func showRefreshIndicator(_ offsetY: CGFloat) {
         struct Constant {
-            static let triggerY = CGFloat(-40)
+            static let triggerY = CGFloat(-38)
         }
         UIView.animate(withDuration: 0.3) {
             if self.isLoadingData {
@@ -312,7 +399,7 @@ extension CirclesViewController {
         }
     }
     
-    func hideRefreshIndicator() {
+    fileprivate func hideRefreshIndicator() {
         UIView.animate(withDuration: 0.3) {
             self.loadingIndicatorBottom.constant = UIApplication.shared.statusBarFrame.height
         }
@@ -322,7 +409,7 @@ extension CirclesViewController {
 // MARK: - Refreshing
 extension CirclesViewController {
     
-    func setupRefreshControls() {
+    fileprivate func setupRefreshControls() {
         guard let footer = MJRefreshAutoStateFooter(refreshingBlock: { () -> Void in
             self.loadNextData()
         }) else { return }
@@ -333,13 +420,13 @@ extension CirclesViewController {
         self.tableView().mj_footer = footer
     }
     
-    func beginRefreshing() {
+    fileprivate func beginRefreshing() {
         self.isLoadingData = true
         self.loadingIndicator.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func endRefreshing(_ resultCount: Int) {
+    fileprivate func endRefreshing(_ resultCount: Int) {
         self.hideRefreshIndicator()
         DispatchQueue.main.async {
             resultCount > 0 ? self.tableView().mj_footer.endRefreshing() : self.tableView().mj_footer.endRefreshingWithNoMoreData()
@@ -353,7 +440,7 @@ extension CirclesViewController {
 // Create a circle
 extension CirclesViewController: CircleComposeViewControllerDelegate {
     
-    @IBAction func createCircle() {
+    @IBAction fileprivate func createCircle() {
         let vc = CircleComposeViewController.instantiate()
         vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
@@ -375,18 +462,9 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
 // Actions
 extension CirclesViewController {
     
-    @objc func avatarAction() {
-        UserManager.shared.loginOrDo() { () -> () in
-            let vc = ProfileViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .custom
-            nav.modalPresentationCapturesStatusBarAppearance = true
-            // Setup Transition Animator
-            vc.loadViewIfNeeded()
-            vc.setupTransitionAnimator(modalVC: nav)
-            nav.transitioningDelegate = vc.transitionAnimator
-            // Present
-            self.present(nav, animated: true, completion: nil)
+    @objc fileprivate func avatarAction() {
+        if self.userID == nil {
+            CirclesViewController.pushNewInstance(UserManager.shared.userID, UserManager.shared.avatar, UserManager.shared.username, from: self.navigationController)
         }
     }
 }
@@ -394,18 +472,20 @@ extension CirclesViewController {
 // Avatar
 extension CirclesViewController {
     
-    func addAvatarBorder() {
+    fileprivate func addAvatarBorder() {
         self.imgViewAvatar.layer.borderWidth = 1
         self.imgViewAvatar.layer.borderColor = UIColor.white.cgColor
     }
     
-    func removeAvatarBorder() {
+    fileprivate func removeAvatarBorder() {
         self.imgViewAvatar.layer.borderWidth = 0
     }
     
-    func updateUserInfo(_ reload: Bool) {
+    fileprivate func updateUserInfo(_ reload: Bool) {
         self.removeAvatarBorder()
-        if let url = URL(string: UserManager.shared.avatar ?? "") {
+        let currUserAvatar = (self.isSingleUserMode ? self.avatar : UserManager.shared.avatar) ?? ""
+        let currUsername = self.isSingleUserMode ? self.username : (UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown"))
+        if let url = URL(string: currUserAvatar) {
             var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             if reload {
                 options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority]
@@ -421,11 +501,11 @@ extension CirclesViewController {
         } else {
             self.imgViewAvatar.image = UserManager.shared.defaultAvatarImage()
         }
-        self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
+        self.lblUsername.text = currUsername
         
         // Update controls
         self.btnCompose.isEnabled = UserManager.shared.isLoggedIn
-        self._tableView.mj_footer.isHidden = !UserManager.shared.isLoggedIn
+        self.updateTableViewFooter()
     }
 }
 
@@ -455,7 +535,7 @@ class CirclesTableViewCell: UITableViewCell {
     weak var viewController: CirclesViewController?
     
     @IBOutlet var imgUser: UIImageView!
-    @IBOutlet var lblName: MarginLabel!
+    @IBOutlet var btnName: UIButton!
     @IBOutlet var lblContent: MarginLabel!
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnDelete: UIButton!
@@ -491,7 +571,7 @@ class CirclesTableViewCell: UITableViewCell {
         self.imgURLs = nil
         self.imgUser.sd_cancelCurrentImageLoad()
         self.imgUser.image = nil
-        self.lblName.text = nil
+        self.btnName.setTitle(nil, for: .normal)
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
         self.imagesCollectionView.reloadData()
@@ -524,7 +604,7 @@ extension CirclesTableViewCell {
     }
     
     func configureLabels(_ circle: Circle) {
-        self.lblName.text = circle.username ?? ""
+        self.btnName.setTitle(circle.username ?? "", for: .normal)
         self.lblContent.text = circle.text
         self.updateMoreLessControl()
         if let date = circle.createdDate {
@@ -765,6 +845,17 @@ extension CirclesTableViewCell {
             }
         }
         IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self.viewController)
+    }
+    
+    @IBAction func viewUserCircles() {
+        guard let circle = self.circle, let vc = self.viewController else { return }
+        var needsToPush = true
+        if let nextID = circle.userId as? Int, let currID = vc.userID, currID == nextID {
+            needsToPush = false
+        }
+        if needsToPush {
+            CirclesViewController.pushNewInstance(circle.userId as? Int, circle.userProfileUrl, circle.username, from: vc.navigationController)
+        }
     }
 }
 

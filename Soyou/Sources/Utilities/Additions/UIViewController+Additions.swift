@@ -338,7 +338,11 @@ extension UIViewController {
 extension UIViewController {
 
     @IBAction func dismissSelf() {
-        self.dismiss(animated: true, completion: nil)
+        if let navC = self.navigationController, navC.viewControllers.count > 1, navC.viewControllers.last == self {
+            navC.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
