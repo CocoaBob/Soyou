@@ -1951,7 +1951,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthVerifyCode"
   },
@@ -2060,7 +2060,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthVerifyCode"
   },
@@ -3130,7 +3130,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/currencies.js",
+    "filename": "routes/v2/currencies.js",
     "groupTitle": "Currency",
     "name": "GetApiCurrencyratesQuery"
   },
@@ -3239,7 +3239,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/currencies.js",
+    "filename": "routes/v1/currencies.js",
     "groupTitle": "Currency",
     "name": "GetApiCurrencyratesQuery"
   },
@@ -3810,7 +3810,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdCommentsNumberCommentid"
   },
@@ -3933,7 +3933,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdCommentsNumberCommentid"
   },
@@ -4042,7 +4042,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdExtra"
   },
@@ -4151,7 +4151,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdExtra"
   },
@@ -4254,7 +4254,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsLatestNumber"
   },
@@ -4357,7 +4357,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsLatestNumber"
   },
@@ -4924,7 +4924,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiDiscounts"
   },
@@ -5027,7 +5027,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiDiscounts"
   },
@@ -6143,7 +6143,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/favorites.js",
+    "filename": "routes/v1/favorites.js",
     "groupTitle": "Favorite_News",
     "name": "PostApiSecureFavoriteNewsId"
   },
@@ -6253,7 +6253,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/favorites.js",
+    "filename": "routes/v2/favorites.js",
     "groupTitle": "Favorite_News",
     "name": "PostApiSecureFavoriteNewsId"
   },
@@ -6886,7 +6886,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl\n   }]",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl,\n         blockStatus: \"possible values are: 1: current connect user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \"\n   }]",
           "type": "json"
         }
       ]
@@ -6982,7 +6982,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl\n   }]",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl,\n         blockStatus: \"possible values are: 1: current connect user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \"\n   }]",
           "type": "json"
         }
       ]
@@ -7234,6 +7234,122 @@ define({ "api": [
     "filename": "routes/v1/friends.js",
     "groupTitle": "Friends",
     "name": "PostSecureApiFriendsUnfollowUserid"
+  },
+  {
+    "type": "post",
+    "url": "/secure/friends/block/:userId/:blockStatus",
+    "title": "Block a user for circle",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Friends\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Friends",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The user to follow.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "blockStatus",
+            "description": "<p>Possible values: 1: current user do not wanna see userId's circle; 2: current user do not want userId to see current user's circle</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}\n\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"bad_request\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/friends.js",
+    "groupTitle": "Friends",
+    "name": "PostSecureFriendsBlockUseridBlockstatus"
   },
   {
     "type": "delete",
@@ -14504,7 +14620,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"badges\": [{\n          \"id\": 1,\n          \"type\": \"Sales\",\n          \"content\": \"老佛爷1楼\"\n      }],\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\",\n             \"profileUrl\": \"profileUrl\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\",\n             \"profileUrl\": \"profileUrl\"\n        }\n     ]\n     }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"badges\": [{\n          \"id\": 1,\n          \"type\": \"Sales\",\n          \"content\": \"老佛爷1楼\"\n      }],\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\",\n             \"profileUrl\": \"profileUrl\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\",\n             \"profileUrl\": \"profileUrl\"\n        }\n     ]\n     },\n    \"blockStatus\": \"possible values are: 1: current connect user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \"\n}",
           "type": "json"
         }
       ]
