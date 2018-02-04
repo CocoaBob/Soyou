@@ -79,8 +79,10 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if let tableView = self.tableView() {
-            UIView.setAnimationsEnabled(self.tableViewRowIsAnimated());
-            tableView.beginUpdates()
+            DispatchQueue.main.async {
+                UIView.setAnimationsEnabled(self.tableViewRowIsAnimated());
+                tableView.beginUpdates()
+            }
         } else if let _ = self.collectionView() {
             self.fetchedResultsChangesInsert = [IndexPath]()
             self.fetchedResultsChangesDelete = [IndexPath]()
@@ -91,24 +93,26 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
     
     @objc func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         if let tableView = self.tableView() {
-            switch(type) {
-            case .insert:
-                if let newIndexPath = newIndexPath {
-                    tableView.insertRows(at: [newIndexPath], with:.fade)
-                }
-            case .delete:
-                if let indexPath = indexPath {
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                }
-            case .move:
-                if let indexPath = indexPath,
-                    let newIndexPath = newIndexPath {
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    tableView.insertRows(at: [newIndexPath], with: .fade)
-                }
-            case .update:
-                if let indexPath = indexPath {
-                    tableView.reloadRows(at: [indexPath], with: .fade)
+            DispatchQueue.main.async {
+                switch(type) {
+                case .insert:
+                    if let newIndexPath = newIndexPath {
+                        tableView.insertRows(at: [newIndexPath], with:.fade)
+                    }
+                case .delete:
+                    if let indexPath = indexPath {
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                case .move:
+                    if let indexPath = indexPath,
+                        let newIndexPath = newIndexPath {
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        tableView.insertRows(at: [newIndexPath], with: .fade)
+                    }
+                case .update:
+                    if let indexPath = indexPath {
+                        tableView.reloadRows(at: [indexPath], with: .fade)
+                    }
                 }
             }
         } else if let _ = self.collectionView() {
@@ -135,21 +139,25 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         if let tableView = self.tableView() {
-            switch(type) {
-            case .insert:
-                tableView.insertRows(at: [IndexPath(index: sectionIndex)], with: .fade)
-            case .delete:
-                tableView.deleteRows(at: [IndexPath(index: sectionIndex)], with: .fade)
-            default:
-                break
+            DispatchQueue.main.async {
+                switch(type) {
+                case .insert:
+                    tableView.insertRows(at: [IndexPath(index: sectionIndex)], with: .fade)
+                case .delete:
+                    tableView.deleteRows(at: [IndexPath(index: sectionIndex)], with: .fade)
+                default:
+                    break
+                }
             }
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if let tableView = self.tableView() {
-            tableView.endUpdates()
-            UIView.setAnimationsEnabled(true);
+            DispatchQueue.main.async {
+                tableView.endUpdates()
+                UIView.setAnimationsEnabled(true);
+            }
         } else if let collectionView = self.collectionView() {
             UIView.setAnimationsEnabled(false)
             collectionView.performBatchUpdates({ () -> Void in

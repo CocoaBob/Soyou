@@ -671,12 +671,13 @@ class DataManager {
     // MARK: Circles
     //////////////////////////////////////
     
-    func requestPreviousCicles(_ timestamp: String, _ deleteAll: Bool, _ userID: Int?, _ completion: CompletionClosure?) {
+    func requestPreviousCicles(_ timestamp: String, _ deleteAll: Bool, _ userID: Int?, _ isInMemory: Bool = false, _ completion: CompletionClosure?) {
         RequestManager.shared.requestPreviousCicles(timestamp, userID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                Circle.importDatas(data, deleteAll, { (_, _) -> () in
+                let context = isInMemory ? self.memoryContext() : NSManagedObjectContext.mr_rootSaving()
+                Circle.importDatas(data, deleteAll, context) { (_, _) -> () in
                     self.completeWithData(responseObject, completion: completion)
-                })
+                }
             } else {
                 self.completeWithData(responseObject, completion: completion)
             }
@@ -685,12 +686,13 @@ class DataManager {
         })
     }
     
-    func requestNextCicles(_ timestamp: String, _ userID: Int?, _ completion: CompletionClosure?) {
+    func requestNextCicles(_ timestamp: String, _ userID: Int?, _ isInMemory: Bool = false, _ completion: CompletionClosure?) {
         RequestManager.shared.requestNextCicles(timestamp, userID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                Circle.importDatas(data, false, { (_, _) -> () in
+                let context = isInMemory ? self.memoryContext() : NSManagedObjectContext.mr_rootSaving()
+                Circle.importDatas(data, false, context) { (_, _) -> () in
                     self.completeWithData(responseObject, completion: completion)
-                })
+                }
             } else {
                 self.completeWithData(responseObject, completion: completion)
             }
