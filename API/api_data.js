@@ -6886,7 +6886,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl,\n         blockStatus: \"possible values are: 1: current connect user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \"\n   }]",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl\n   }]",
           "type": "json"
         }
       ]
@@ -6982,7 +6982,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl,\n         blockStatus: \"possible values are: 1: current connect user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \"\n   }]",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl\n   }]",
           "type": "json"
         }
       ]
