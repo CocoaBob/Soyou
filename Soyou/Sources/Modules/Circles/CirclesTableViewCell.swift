@@ -17,7 +17,7 @@ class CirclesTableViewCell: UITableViewCell {
     var imgURLs: [[String: String]]?
     var textToShare: String?
     var imagesToShare: [UIImage]?
-    weak var viewController: CirclesViewController?
+    weak var parentViewController: CirclesViewController?
     
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var btnName: UIButton!
@@ -216,7 +216,7 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let vc = self.viewController, let constraint = self.imagesCollectionViewWidth else {
+        guard let vc = self.parentViewController, let constraint = self.imagesCollectionViewWidth else {
             return CGSize.zero
         }
         
@@ -263,7 +263,7 @@ extension CirclesTableViewCell {
     @IBAction func toggleMoreLessControl() {
         self.lblContentHeight.isActive = !self.lblContentHeight.isActive
         self.updateMoreLessControl()
-        if let tableView = self.viewController?.tableView() {
+        if let tableView = self.parentViewController?.tableView() {
             UIView.setAnimationsEnabled(false)
             tableView.beginUpdates()
             tableView.endUpdates()
@@ -279,7 +279,7 @@ extension CirclesTableViewCell {
         guard let circle = self.circle, let circleID = circle.id else {
             return
         }
-        guard let vc = self.viewController else {
+        guard let vc = self.parentViewController else {
             return
         }
         let alertController = UIAlertController(title: nil,
@@ -329,11 +329,11 @@ extension CirclesTableViewCell {
                 photos.append(IDMPhoto(url: originalURL))
             }
         }
-        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self.viewController)
+        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self.parentViewController)
     }
     
     @IBAction func viewUserCircles() {
-        guard let circle = self.circle, let vc = self.viewController else { return }
+        guard let circle = self.circle, let vc = self.parentViewController else { return }
         var needsToPush = true
         if let nextID = circle.userId as? Int, let currID = vc.userID, currID == nextID {
             needsToPush = false
@@ -358,14 +358,14 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
                 if let image = SDImageCache.shared().imageFromCache(forKey: cacheKey) {
                     self.imagesToShare?.append(image)
                 } else {
-                    MBProgressHUD.show(self.viewController?.view)
+                    MBProgressHUD.show(self.parentViewController?.view)
                     dispatchGroup.enter()
                     SDWebImageManager.shared().loadImage(
                         with: url,
                         options: [.continueInBackground, .allowInvalidSSLCertificates],
                         progress: nil,
                         completed: { (image, data, error, type, finished, url) -> Void in
-                            MBProgressHUD.hide(self.viewController?.view)
+                            MBProgressHUD.hide(self.parentViewController?.view)
                             if let image = image {
                                 self.imagesToShare?.append(image)
                             }
@@ -402,13 +402,13 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.tvContent.text = text
         vc.isOnlySharing = true
         // Present
-        self.viewController?.tabBarController?.present(nav, animated: true, completion: nil)
+        self.parentViewController?.tabBarController?.present(nav, animated: true, completion: nil)
     }
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
         if needsToShare {
             DataManager.shared.analyticsShareCircle(id: self.circle?.id ?? "")
-            Utils.shareTextAndImagesToWeChat(from: self.viewController, text: text, images: images)
+            Utils.shareTextAndImagesToWeChat(from: self.parentViewController, text: text, images: images)
         }
     }
 }

@@ -125,9 +125,13 @@ extension UserManager {
         self.matricule = nil
         self.region = nil
         self.gender = nil
-        self.avatar = nil
-        self.token = nil
         self.currentUser = nil
+        if self.avatar != nil {
+            self.avatar = nil
+        }
+        if self.token != nil {
+            self.token = nil
+        }
         // Delete Favorites
         FavoriteNews.deleteAll()
         FavoriteDiscount.deleteAll()

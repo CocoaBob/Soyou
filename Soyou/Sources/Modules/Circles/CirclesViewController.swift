@@ -17,8 +17,15 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     // User Info
     @IBOutlet var parallaxHeaderView: UIView!
     @IBOutlet var imgViewAvatar: UIImageView!
-    @IBOutlet var lblUsername: UILabel!
     @IBOutlet var btnFollow: UIButton!
+    @IBOutlet var lblFollowStatus: UILabel!
+    @IBOutlet var lblUsername: UILabel!
+    @IBOutlet var lblBadges: UILabel!
+    @IBOutlet var followingFollowerContainer: UIView!
+    @IBOutlet var btnFollowing: UIButton!
+    @IBOutlet var btnFollower: UIButton!
+    var allFollowings = [Follower]()
+    var allFollowers = [Follower]()
     
     var userID: Int? {
         didSet {
@@ -215,6 +222,9 @@ extension CirclesViewController {
     
     // MARK: Data
     func loadData(_ timestamp: String?) {
+        guard UserManager.shared.isLoggedIn else {
+            return
+        }
         let deleteAll = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
         self.beginRefreshing()
@@ -280,12 +290,24 @@ extension CirclesViewController {
         self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
         
         // User Info related
+        self.btnFollow.isHidden = true
+        self.btnFollow.layer.cornerRadius = 4
+        self.btnFollow.clipsToBounds = true
         self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
         self.lblUsername.layer.shadowOffset = CGSize.zero
-        self.btnFollow.isHidden = true
-        self.btnFollow.cornerRadius = 4
+        self.lblBadges.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+        self.lblBadges.layer.shadowOpacity = 1
+        self.lblBadges.layer.shadowRadius = 2
+        self.lblBadges.layer.shadowOffset = CGSize.zero
+        self.lblFollowStatus.layer.cornerRadius = 4
+        self.lblFollowStatus.clipsToBounds = true
+        self.followingFollowerContainer.isHidden = true
+        self.followingFollowerContainer.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+        self.followingFollowerContainer.layer.shadowOpacity = 1
+        self.followingFollowerContainer.layer.shadowRadius = 2
+        self.followingFollowerContainer.layer.shadowOffset = CGSize.zero
     }
 }
 
@@ -303,7 +325,7 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CirclesTableViewCell", for: indexPath)
         if let cell = cell as? CirclesTableViewCell {
-            cell.viewController = self
+            cell.parentViewController = self
             cell.circle = self.fetchedResultsController?.object(at: indexPath) as? Circle
         }
         return cell
@@ -460,8 +482,10 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
 extension CirclesViewController {
     
     @objc fileprivate func avatarAction() {
-        if self.userID == nil {
-            CirclesViewController.pushNewInstance(UserManager.shared.userID, UserManager.shared.avatar, UserManager.shared.username, from: self.navigationController)
+        UserManager.shared.loginOrDo() { () -> () in
+            if self.userID == nil {
+                CirclesViewController.pushNewInstance(UserManager.shared.userID, UserManager.shared.avatar, UserManager.shared.username, from: self.navigationController)
+            }
         }
     }
     
@@ -487,6 +511,14 @@ extension CirclesViewController {
     @IBAction func moreAction() {
         
     }
+    
+    @IBAction func followingAction() {
+        
+    }
+    
+    @IBAction func followerAction() {
+        
+    }
 }
 
 // MARK: - User Info
@@ -502,6 +534,8 @@ extension CirclesViewController {
     }
     
     fileprivate func updateUserInfo(_ reloadAvatar: Bool) {
+        let isLoggedIn = UserManager.shared.isLoggedIn
+        
         // Avatar
         self.removeAvatarBorder()
         let avatarURLString = (self.isSingleUserMode ? self.avatar : UserManager.shared.avatar) ?? ""
@@ -527,22 +561,31 @@ extension CirclesViewController {
         self.lblUsername.text = currUsername
         
         // Buttons
-        self.btnCompose.isEnabled = UserManager.shared.isLoggedIn
+        self.btnCompose.isEnabled = isLoggedIn
         
-        // Load User Info
-        if let userID = self.isSingleUserMode ? self.userID : UserManager.shared.userID {
+        // If it's Circles Home Page
+        if !self.isSingleUserMode {
+            self.btnFollow.isHidden = true
+            self.followingFollowerContainer.isHidden = true
+            return
+        }
+        
+        // If it's in Single User Mode
+        if isLoggedIn, let userID = self.userID {
+            // Check if it's the user self
+            let isMyself = userID == UserManager.shared.userID ?? 0
+            // Load User Info
             DataManager.shared.getUserInfo(userID) { responseObject, error in
                 if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                let data = responseObject["data"] as? [String: AnyObject] {
-                    if userID != UserManager.shared.userID ?? 0, let friendStatus = data["friendStatus"] as? Int {
+                    let data = responseObject["data"] as? [String: AnyObject] {
+                    // Update Follow/Unfollow button
+                    if !isMyself, let friendStatus = data["friendStatus"] as? Int {
                         self.btnFollow.isHidden = false
-                        self.btnFollow.layer.cornerRadius = 3
-                        self.btnFollow.clipsToBounds = true
                         // 1: current user is following userId
                         // 2: userId is following current user
                         // 3: both are following each other
-                        let ifFollowing = friendStatus & 1 == 1
-                        if ifFollowing {
+                        let isFollowing = friendStatus & 1 == 1
+                        if isFollowing {
                             self.btnFollow.backgroundColor = UIColor(hex8: 0xD4514CFF)
                             self.btnFollow.layer.borderColor = UIColor.clear.cgColor
                             self.btnFollow.layer.borderWidth = 0
@@ -557,10 +600,56 @@ extension CirclesViewController {
                             self.btnFollow.setTitle(NSLocalizedString("circles_vc_user_follow"), for: .normal)
                             self.btnFollow.tag = 0
                         }
+                        let isFollower = friendStatus & 2 == 2
+                        if isFollower {
+                            self.lblFollowStatus.text = NSLocalizedString("circles_vc_user_follows_you")
+                            self.lblFollowStatus.backgroundColor = UIColor(hex8: 0x829FC8FF)
+                        } else {
+                            self.lblFollowStatus.text = NSLocalizedString("circles_vc_user_not_follow_you")
+                            self.lblFollowStatus.backgroundColor = UIColor(white: 0, alpha: 0.1)
+                        }
                     } else {
                         self.btnFollow.isHidden = true
                     }
+                    
+                    // Update certifications
+                    if let badges = data["badges"] as? [NSDictionary] {
+                        let names = badges.flatMap { $0["content"] as? String }
+                        if names.count > 0 {
+                            self.lblBadges.text = names.joined(separator: " ")
+                        } else {
+                            self.lblBadges.text = nil
+                        }
+                    }
                 }
+            }
+            
+            // Update Following/Follower numbers
+            if isMyself {
+                let dispatchGroup = DispatchGroup()
+                dispatchGroup.enter()
+                DataManager.shared.allFollowers()  { responseObject, error in
+                    if let responseObject = responseObject as? Dictionary<String, AnyObject>,
+                        let data = responseObject["data"] as? [NSDictionary] {
+                        self.allFollowers = Follower.newList(dicts: data)
+                    }
+                    dispatchGroup.leave()
+                }
+                dispatchGroup.enter()
+                DataManager.shared.allFollowings()  { responseObject, error in
+                    if let responseObject = responseObject as? Dictionary<String, AnyObject>,
+                        let data = responseObject["data"] as? [NSDictionary] {
+                        self.allFollowings = Follower.newList(dicts: data)
+                    }
+                    dispatchGroup.leave()
+                }
+                dispatchGroup.notify(queue: .main) {
+                    self.btnFollowing.setTitle(FmtString(NSLocalizedString("circles_vc_user_following"), self.allFollowings.count), for: .normal)
+                    self.btnFollower.setTitle(FmtString(NSLocalizedString("circles_vc_user_follower"), self.allFollowers.count), for: .normal)
+                    self.followingFollowerContainer.isHidden = false
+                }
+            } else {
+                self.followingFollowerContainer.isHidden = true
             }
         }
     }
