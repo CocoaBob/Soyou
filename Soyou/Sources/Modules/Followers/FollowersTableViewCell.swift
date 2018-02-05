@@ -1,0 +1,51 @@
+//
+//  FollowersTableViewCell.swift
+//  Soyou
+//
+//  Created by CocoaBob on 2018-02-04.
+//  Copyright © 2018 Soyou. All rights reserved.
+//
+
+
+
+class FollowersTableViewCell: UITableViewCell {
+    
+    var follower: Follower? {
+        didSet {
+            self.configureCell()
+        }
+    }
+    
+    @IBOutlet var imgUser: UIImageView!
+    @IBOutlet var lblName: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.prepareForReuse()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imgUser.sd_cancelCurrentImageLoad()
+        self.imgUser.image = nil
+        self.lblName.text = nil
+    }
+}
+
+// MARK: - Configure Cell
+extension FollowersTableViewCell {
+    
+    func configureCell() {
+        guard let follower = self.follower else {
+            return
+        }
+        if let url = URL(string: follower.profileUrl) {
+            self.imgUser.sd_setImage(with: url,
+                                     placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
+        } else {
+            self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
+        }
+        self.lblName.text = follower.username
+    }
+}

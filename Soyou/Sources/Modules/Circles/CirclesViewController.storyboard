@@ -48,20 +48,31 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qxk-a3-8H1">
-                                                    <rect key="frame" x="20" y="16" width="43" height="43"/>
+                                                    <rect key="frame" x="16" y="16" width="48" height="48"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="43" id="FnF-CK-eZP"/>
-                                                        <constraint firstAttribute="height" constant="43" id="sCR-0a-LVA"/>
+                                                        <constraint firstAttribute="width" constant="48" id="FnF-CK-eZP"/>
+                                                        <constraint firstAttribute="height" constant="48" id="sCR-0a-LVA"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="24"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eIz-v2-3zl">
-                                                    <rect key="frame" x="20" y="16" width="43" height="43"/>
+                                                    <rect key="frame" x="16" y="16" width="48" height="48"/>
                                                     <connections>
                                                         <action selector="viewUserCircles" destination="7Rp-5M-mvX" eventType="touchUpInside" id="R5l-c1-K2F"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSs-Ar-EMy" customClass="NoPaddingButton" customModule="Soyou" customModuleProvider="target">
-                                                    <rect key="frame" x="73" y="16" width="282" height="30"/>
+                                                    <rect key="frame" x="74" y="16" width="281" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <state key="normal" title="Use Name">
                                                         <color key="titleColor" red="0.36054337024688721" green="0.41252952814102173" blue="0.58103728294372559" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -71,7 +82,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content With Multiple Lines Max 6 Lines No More" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pv3-TR-fQJ" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
-                                                    <rect key="frame" x="73" y="50" width="282" height="118"/>
+                                                    <rect key="frame" x="74" y="50" width="281" height="118"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="118" id="nGo-i9-1dS"/>
                                                     </constraints>
@@ -84,7 +95,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Xn-1I-bbL">
-                                                    <rect key="frame" x="73" y="168" width="34" height="26"/>
+                                                    <rect key="frame" x="74" y="168" width="34" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="26" id="Gn1-Sa-4G7"/>
                                                     </constraints>
@@ -148,13 +159,13 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15 mins ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nvv-1Y-Gn3">
-                                                    <rect key="frame" x="73" y="274.5" width="77.5" height="17"/>
+                                                    <rect key="frame" x="74" y="274.5" width="77.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8R0-xI-v12">
-                                                    <rect key="frame" x="160.5" y="274.5" width="42" height="17"/>
+                                                    <rect key="frame" x="161.5" y="274.5" width="42" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="5Ad-Wu-GMK"/>
                                                     </constraints>
@@ -206,7 +217,7 @@
                                                 <constraint firstItem="7Rf-yb-3hR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8R0-xI-v12" secondAttribute="trailing" constant="8" id="ogm-lx-U9k"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="qxk-a3-8H1" secondAttribute="bottom" priority="750" constant="-16" id="uyW-Ke-MQX"/>
                                                 <constraint firstItem="Pv3-TR-fQJ" firstAttribute="leading" secondItem="xSs-Ar-EMy" secondAttribute="leading" id="vhD-t3-cx4"/>
-                                                <constraint firstItem="qxk-a3-8H1" firstAttribute="leading" secondItem="RsM-Sz-DFc" secondAttribute="leading" constant="20" id="wC3-oN-aYI"/>
+                                                <constraint firstItem="qxk-a3-8H1" firstAttribute="leading" secondItem="RsM-Sz-DFc" secondAttribute="leading" constant="16" id="wC3-oN-aYI"/>
                                                 <constraint firstItem="8R0-xI-v12" firstAttribute="top" secondItem="nvv-1Y-Gn3" secondAttribute="top" id="yQa-TC-0uA"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -387,12 +398,15 @@
                             <rect key="frame" x="16" y="192" width="568" height="24"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9y-2A-X5h">
-                                    <rect key="frame" x="198.5" y="4" width="85" height="16"/>
+                                    <rect key="frame" x="231.5" y="4" width="52" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                    <state key="normal" title="Following 0">
+                                    <inset key="contentEdgeInsets" minX="44" minY="0.0" maxX="8" maxY="0.0"/>
+                                    <state key="normal">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="followingAction" destination="AQv-Tr-KQN" eventType="touchUpInside" id="6Ip-Tu-2oF"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XC3-AJ-Q3e">
                                     <rect key="frame" x="283.5" y="4" width="1" height="16"/>
@@ -402,12 +416,15 @@
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ds0-Ei-UfC">
-                                    <rect key="frame" x="284.5" y="3.5" width="79" height="16"/>
+                                    <rect key="frame" x="284.5" y="3.5" width="52" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
-                                    <state key="normal" title="Follower 0">
+                                    <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="44" maxY="0.0"/>
+                                    <state key="normal">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="followerAction" destination="AQv-Tr-KQN" eventType="touchUpInside" id="YGY-IT-cp0"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

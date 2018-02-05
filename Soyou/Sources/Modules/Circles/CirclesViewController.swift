@@ -117,6 +117,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func viewWillAppear(_ animated: Bool) {
         // Nav bar
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
         super.viewWillAppear(animated)
         
@@ -149,8 +150,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         super.viewWillDisappear(animated)
         // Update Status Bar Cover
         self.removeStatusBarCover()
-        // Make sure interactive gesture's delegate is nil before disappearing
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -271,7 +270,7 @@ extension CirclesViewController {
         self.tableView().tableFooterView = UIView(frame: CGRect.zero)
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView(), 0, false, false, false, true)
+        self.updateScrollViewInset(self.tableView(), 0, false, false, false, !self.isSingleUserMode)
         
         // Status Bar Cover
         self.setupStatusBarCover()
@@ -517,11 +516,21 @@ extension CirclesViewController {
     }
     
     @IBAction func followingAction() {
-        
+        if self.allFollowings.count > 0 {
+            let followersVC = FollowersViewController.instantiate()
+            followersVC.followers = self.allFollowings
+            followersVC.isFollowers = false
+            self.navigationController?.pushViewController(followersVC, animated: true)
+        }
     }
     
     @IBAction func followerAction() {
-        
+        if self.allFollowers.count > 0 {
+            let followersVC = FollowersViewController.instantiate()
+            followersVC.followers = self.allFollowers
+            followersVC.isFollowers = true
+            self.navigationController?.pushViewController(followersVC, animated: true)
+        }
     }
 }
 
@@ -567,15 +576,7 @@ extension CirclesViewController {
         // Buttons
         self.btnCompose.isEnabled = isLoggedIn
         
-        // If it's Circles Home Page
-        if !self.isSingleUserMode {
-            self.btnFollow.isHidden = true
-            self.followingFollowerContainer.isHidden = true
-            return
-        }
-        
-        // If it's in Single User Mode
-        if isLoggedIn, let userID = self.userID {
+        if isLoggedIn, let userID = self.userID ?? UserManager.shared.userID {
             // Check if it's the user self
             let isMyself = userID == UserManager.shared.userID ?? 0
             // Load User Info
@@ -629,7 +630,7 @@ extension CirclesViewController {
             }
             
             // Update Following/Follower numbers
-            if isMyself {
+            if isMyself || !self.isSingleUserMode {
                 let dispatchGroup = DispatchGroup()
                 dispatchGroup.enter()
                 DataManager.shared.allFollowers()  { responseObject, error in

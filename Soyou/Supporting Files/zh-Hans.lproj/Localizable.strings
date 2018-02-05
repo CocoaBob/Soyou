@@ -126,6 +126,10 @@
 "circle_compose_drag_to_delete"="拖到此处删除";
 "circle_compose_drop_to_delete"="松手确认删除";
 
+/* Followers View Controller */
+"followers_vc_title_followers"="粉丝";
+"followers_vc_title_followings"="关注";
+
 /* User View Controller */
 "user_vc_login"="点击登录您的帐号";
 "user_vc_username_unknown"="用户名尚未设置";

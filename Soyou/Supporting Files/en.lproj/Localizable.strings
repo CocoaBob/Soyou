@@ -101,8 +101,8 @@
 "circles_vc_button_less"="Less";
 "circles_vc_user_follow"="Follow";
 "circles_vc_user_unfollow"="Unfollow";
-"circles_vc_user_following"="Following %d";
-"circles_vc_user_follower"="Follower %d";
+"circles_vc_user_following"="%d FOLLOWING";
+"circles_vc_user_follower"="%d FOLLOWERS";
 "circles_vc_user_follows_you"="FOLLOWS YOU";
 "circles_vc_user_not_follow_you"="DOES NOT FOLLOW YOU";
 
@@ -123,6 +123,10 @@
 "circle_compose_visibility_me_desc"="Only visible to myself";
 "circle_compose_drag_to_delete"="Drag here to delete";
 "circle_compose_drop_to_delete"="Drop here to delete";
+
+/* Followers View Controller */
+"followers_vc_title_followers"="Followers";
+"followers_vc_title_followings"="Followings";
 
 /* User View Controller */
 "user_vc_login"="Tap to sign in";
