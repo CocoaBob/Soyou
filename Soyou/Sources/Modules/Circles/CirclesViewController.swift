@@ -261,7 +261,7 @@ extension CirclesViewController {
         // Nav buttons
         self.btnBack.isHidden = !self.isSingleUserMode
         self.btnCompose.isHidden = self.isSingleUserMode
-        self.btnMore.isHidden = !self.isSingleUserMode
+        self.btnMore.isHidden = true//!self.isSingleUserMode
         self.loadingIndicatorLeading.constant = self.isSingleUserMode ? 64 : 24
         
         // Setup table
@@ -485,6 +485,10 @@ extension CirclesViewController {
         UserManager.shared.loginOrDo() { () -> () in
             if self.userID == nil {
                 CirclesViewController.pushNewInstance(UserManager.shared.userID, UserManager.shared.avatar, UserManager.shared.username, from: self.navigationController)
+            } else {
+                if self.avatar != nil, let image = self.imgViewAvatar.image {
+                    IDMPhotoBrowser.present([IDMPhoto(image: image)], index: 0, view: self.imgViewAvatar, scaleImage: image, viewVC: self)
+                }
             }
         }
     }
