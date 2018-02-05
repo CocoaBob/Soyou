@@ -379,7 +379,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "GetApiAuthActivateAccountActivationcode"
   },
@@ -475,7 +475,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "GetApiAuthActivateAccountActivationcode"
   },
@@ -658,129 +658,6 @@
     "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "GetApiSecureAuthCheck"
-  },
-  {
-    "type": "post",
-    "url": "/api/auth/login",
-    "title": "Login",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Auth\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Authentication",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "email",
-            "description": "<p>The login.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "password",
-            "description": "<p>The password.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "uuid",
-            "description": "<p>The uuid.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The granted user info.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\"\n          }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}\n\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"email_password_cannot_be_empty\"\n   ]\n}\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"email_not_exist\"\n   ]\n}\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"incorrect_password\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
-    "groupTitle": "Authentication",
-    "name": "PostApiAuthLogin"
   },
   {
     "type": "post",
@@ -907,6 +784,129 @@
   },
   {
     "type": "post",
+    "url": "/api/auth/login",
+    "title": "Login",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Auth\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Authentication",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>The login.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>The password.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "uuid",
+            "description": "<p>The uuid.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The granted user info.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\"\n          }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}\n\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"email_password_cannot_be_empty\"\n   ]\n}\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"email_not_exist\"\n   ]\n}\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"incorrect_password\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/authentication.js",
+    "groupTitle": "Authentication",
+    "name": "PostApiAuthLogin"
+  },
+  {
+    "type": "post",
     "url": "/api/auth/logout",
     "title": "Logout",
     "header": {
@@ -991,7 +991,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthLogout"
   },
@@ -1081,7 +1081,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthLogout"
   },
@@ -1191,7 +1191,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthPassword"
   },
@@ -1301,7 +1301,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthPassword"
   },
@@ -2518,7 +2518,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"userBadges\": [{\n                 \"id\": 1,\n                 \"type\": \"Buyer\"\n             }],\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"comments\": [\n                  {\n                      \"id\": \"5a4ac4e463417f46940378c6\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\",\n                      \"parentUsername\": null\n                  },\n                  {\n                      \"id\": \"5a4ac4f963417f46940378c7\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ],\n             \"likes\": [\n                  {\n                      \"userId\": 1,\n                      \"username\": \"jiyuny\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\"\n                  },\n                  {\n                      \"userId\": 2,\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ]\n         }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"userBadges\": [{\n                 \"id\": 1,\n                 \"type\": \"Buyer\"\n             }],\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"commentCount\": 0,\n             \"likeCount\": 0,\n             \"isFollowedByCurrentUser\": true\n         }\n    ]\n}",
           "type": "json"
         }
       ]
@@ -2628,7 +2628,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"userBadges\": [{\n                 \"id\": 1,\n                 \"type\": \"Buyer\"\n             }],\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"comments\": [\n                  {\n                      \"id\": \"5a4ac4e463417f46940378c6\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\",\n                      \"parentUsername\": null\n                  },\n                  {\n                      \"id\": \"5a4ac4f963417f46940378c7\",\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ],\n             \"likes\": [\n                  {\n                      \"userId\": 1,\n                      \"username\": \"jiyuny\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:31:48.934Z\"\n                  },\n                  {\n                      \"userId\": 2,\n                      \"username\": \"CocoaBob\",\n                      \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100002/profile.jpg\",\n                      \"createdDate\": \"2018-01-01T23:32:09.983Z\",\n                      \"parentUsername\": null\n                  }\n              ]\n         }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\": \"5a440e50919a55000ddbe485\",\n             \"text\": \"为什么我光发网图 不发实物图？现在店里人山人海 我怎么拍啊 拍了不好看啊只要你下单，打钱 我去买，结账图绝对私信给你！\",\n             \"images\": [\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-1.jpg\",\n                 \"https://s3-eu-west-1.amazonaws.com/soyou/news/1-2.jpg\"\n             ],\n             \"userId\": 1,\n             \"username\": \"CocoaBob\",\n             \"userBadges\": [{\n                 \"id\": 1,\n                 \"type\": \"Buyer\"\n             }],\n             \"createdDate\": \"2017-10-22T21:25:23.000Z\",\n             \"visibility\": 4,\n             \"userProfileUrl\": \"https://soyou.s3.eu-west-1.amazonaws.com/users/test/100001/profile.png\",\n             \"commentCount\": 0,\n             \"likeCount\": 0,\n             \"isFollowedByCurrentUser\": true\n         }\n    ]\n}",
           "type": "json"
         }
       ]
@@ -3130,7 +3130,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/currencies.js",
+    "filename": "routes/v1/currencies.js",
     "groupTitle": "Currency",
     "name": "GetApiCurrencyratesQuery"
   },
@@ -3239,7 +3239,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/currencies.js",
+    "filename": "routes/v2/currencies.js",
     "groupTitle": "Currency",
     "name": "GetApiCurrencyratesQuery"
   },
@@ -3354,7 +3354,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "DeleteApiDiscountsCommentsCommentids"
   },
@@ -3469,7 +3469,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "DeleteApiDiscountsCommentsCommentids"
   },
@@ -3578,7 +3578,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsId"
   },
@@ -3687,7 +3687,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsId"
   },
@@ -4042,7 +4042,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdExtra"
   },
@@ -4151,7 +4151,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdExtra"
   },
@@ -4254,7 +4254,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsLatestNumber"
   },
@@ -4357,7 +4357,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsLatestNumber"
   },
@@ -4473,7 +4473,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsNextNumberId"
   },
@@ -4589,7 +4589,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsNextNumberId"
   },
@@ -4924,7 +4924,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiDiscounts"
   },
@@ -5027,7 +5027,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiDiscounts"
   },
@@ -5407,7 +5407,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiSecureDiscountsIdLike"
   },
@@ -5529,7 +5529,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiSecureDiscountsIdLike"
   },
@@ -5962,7 +5962,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/favorites.js",
+    "filename": "routes/v2/favorites.js",
     "groupTitle": "Favorite_News",
     "name": "GetApiSecureFavoriteNews"
   },
@@ -6033,7 +6033,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/favorites.js",
+    "filename": "routes/v1/favorites.js",
     "groupTitle": "Favorite_News",
     "name": "GetApiSecureFavoriteNews"
   },
@@ -6711,7 +6711,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/favorites.js",
+    "filename": "routes/v1/favorites.js",
     "groupTitle": "Favorite_Products",
     "name": "PostApiSecureFavoriteProductsId"
   },
@@ -6821,7 +6821,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/favorites.js",
+    "filename": "routes/v2/favorites.js",
     "groupTitle": "Favorite_Products",
     "name": "PostApiSecureFavoriteProductsId"
   },
@@ -7236,122 +7236,6 @@
     "name": "PostSecureApiFriendsUnfollowUserid"
   },
   {
-    "type": "post",
-    "url": "/secure/friends/block/:userId/:blockStatus",
-    "title": "Block a user for circle",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Friends\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Friends",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "userId",
-            "description": "<p>The user to follow.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "blockStatus",
-            "description": "<p>Possible values: 1: current user do not wanna see userId's circle; 2: current user do not want userId to see current user's circle</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>result.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}\n\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"bad_request\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/friends.js",
-    "groupTitle": "Friends",
-    "name": "PostSecureFriendsBlockUseridBlockstatus"
-  },
-  {
     "type": "delete",
     "url": "/api/news/comments/:commentIds",
     "title": "deletes comments",
@@ -7686,7 +7570,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsId"
   },
@@ -7795,7 +7679,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsId"
   },
@@ -8150,7 +8034,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsIdExtra"
   },
@@ -8259,7 +8143,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsIdExtra"
   },
@@ -8362,7 +8246,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsLatestNumber"
   },
@@ -8465,7 +8349,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsLatestNumber"
   },
@@ -8581,7 +8465,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsNextNumberId"
   },
@@ -8697,7 +8581,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsNextNumberId"
   },
@@ -8813,7 +8697,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsPreviousNumberId"
   },
@@ -8929,7 +8813,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsPreviousNumberId"
   },
@@ -9257,7 +9141,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "PostApiNewsIdLike"
   },
@@ -9379,7 +9263,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "PostApiNewsIdLike"
   },
@@ -9508,7 +9392,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "PostApiSecureNewsIdCommentsCommentid"
   },
@@ -9637,131 +9521,9 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "PostApiSecureNewsIdCommentsCommentid"
-  },
-  {
-    "type": "post",
-    "url": "/api/secure/news/:id/like",
-    "title": "Like a news",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"News\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "News",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>The news id.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "operation",
-            "description": "<p>Possible values: +, -.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The product.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": 10\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "404",
-            "description": "<p>The resource does not exist.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad Request.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[]\n}\n\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/news.js",
-    "groupTitle": "News",
-    "name": "PostApiSecureNewsIdLike"
   },
   {
     "type": "post",
@@ -9887,6 +9649,128 @@
   },
   {
     "type": "post",
+    "url": "/api/secure/news/:id/like",
+    "title": "Like a news",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"News\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "News",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The news id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "operation",
+            "description": "<p>Possible values: +, -.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The product.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": 10\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404",
+            "description": "<p>The resource does not exist.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad Request.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[]\n}\n\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/news.js",
+    "groupTitle": "News",
+    "name": "PostApiSecureNewsIdLike"
+  },
+  {
+    "type": "post",
     "url": "/api/notifications/register",
     "title": "Register a device for push notification",
     "header": {
@@ -10216,7 +10100,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/notification.js",
+    "filename": "routes/v1/notification.js",
     "groupTitle": "Notifications",
     "name": "PostApiNotificationsRegisterMonitor"
   },
@@ -10319,7 +10203,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/notification.js",
+    "filename": "routes/v2/notification.js",
     "groupTitle": "Notifications",
     "name": "PostApiNotificationsRegisterMonitor"
   },
@@ -10434,7 +10318,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "DeleteApiProductsCommentsCommentids"
   },
@@ -10549,7 +10433,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "DeleteApiProductsCommentsCommentids"
   },
@@ -10770,6 +10654,77 @@
     "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductId"
+  },
+  {
+    "type": "get",
+    "url": "/api/products",
+    "title": "Request all product ids, only active products of active brands will be returned",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The product list, ordered.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     1,\n     2\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/products.js",
+    "groupTitle": "Products",
+    "name": "GetApiProducts"
   },
   {
     "type": "get",
@@ -10915,77 +10870,6 @@
   },
   {
     "type": "get",
-    "url": "/api/products",
-    "title": "Request all product ids, only active products of active brands will be returned",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The product list, ordered.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     1,\n     2\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v2/products.js",
-    "groupTitle": "Products",
-    "name": "GetApiProducts"
-  },
-  {
-    "type": "get",
     "url": "/api/products/deleted",
     "title": "Request all inactive product ids",
     "header": {
@@ -11070,7 +10954,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsDeleted"
   },
@@ -11160,7 +11044,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsDeleted"
   },
@@ -11263,7 +11147,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsDeletedTimestamp"
   },
@@ -11366,7 +11250,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsDeletedTimestamp"
   },
@@ -11799,6 +11683,115 @@
       "examples": [
         {
           "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"likeNumber\": 10,\n     \"isFavorite\": 1,\n     \"isLiked\": 1,\n     \"commentNumber\": 5\n   }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404",
+            "description": "<p>The resource does not exist.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/products.js",
+    "groupTitle": "Products",
+    "name": "GetApiProductsIdExtra"
+  },
+  {
+    "type": "get",
+    "url": "/api/products/:id/extra",
+    "title": "Request extra information of a specified product",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The product id.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The extra object.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
           "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"likeNumber\": 10,\n     \"isFavorite\": true\n   }\n}",
           "type": "json"
         }
@@ -11945,115 +11938,6 @@
   },
   {
     "type": "get",
-    "url": "/api/products/:id/extra",
-    "title": "Request extra information of a specified product",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>The product id.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The extra object.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"likeNumber\": 10,\n     \"isFavorite\": 1,\n     \"isLiked\": 1,\n     \"commentNumber\": 5\n   }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "404",
-            "description": "<p>The resource does not exist.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v2/products.js",
-    "groupTitle": "Products",
-    "name": "GetApiProductsIdExtra"
-  },
-  {
-    "type": "get",
     "url": "/api/products/:id/translation",
     "title": "Fetch the translation of a specified product",
     "header": {
@@ -12157,7 +12041,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsIdTranslation"
   },
@@ -12266,7 +12150,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsIdTranslation"
   },
@@ -12485,109 +12369,6 @@
   {
     "type": "get",
     "url": "/api/products/:timestamp",
-    "title": "Request all active prodocuts which have been modified after the timestamp",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "timestamp",
-            "description": "<p>The last timestamp.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The results.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{[\n     timestamp: 12434234234\n     \"products\": {\n         \"id\": 870,\n         \"title\": \"SAC À BANDOULIÈRE LILY TWIST EN VISON ET AYERS \",\n         \"brandId\": 5,\n         \"surname\": null,\n         \"keywords\": null,\n         \"brandLabel\": \"DOLCE & GABBANA\",\n         \"isTranslated\":true,\n         \"reference\": \"BB5948A8710\",\n         \"descriptions\":\"<ul><li>Sac avec bandoulière réglable et amovible</li></ul>\",\n         \"likeNumber\": 0,\n         \"order\": 0,\n         \"prices\": [\n             {\n                 \"country\": \"法国\",\n                 \"officialUrl\": \"http://afiwef\",\n                 \"price\": 1450\n             }\n         ],\n         \"images\": [\n                 \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n         ]\n     }\n   ]}\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/products-standby.js",
-    "groupTitle": "Products",
-    "name": "GetApiProductsTimestamp"
-  },
-  {
-    "type": "get",
-    "url": "/api/products/:timestamp",
     "title": "Request all active product ids which have been modified or created after the timestamp",
     "header": {
       "fields": {
@@ -12685,6 +12466,109 @@
     },
     "version": "0.0.0",
     "filename": "routes/v2/products.js",
+    "groupTitle": "Products",
+    "name": "GetApiProductsTimestamp"
+  },
+  {
+    "type": "get",
+    "url": "/api/products/:timestamp",
+    "title": "Request all active prodocuts which have been modified after the timestamp",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "timestamp",
+            "description": "<p>The last timestamp.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The results.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{[\n     timestamp: 12434234234\n     \"products\": {\n         \"id\": 870,\n         \"title\": \"SAC À BANDOULIÈRE LILY TWIST EN VISON ET AYERS \",\n         \"brandId\": 5,\n         \"surname\": null,\n         \"keywords\": null,\n         \"brandLabel\": \"DOLCE & GABBANA\",\n         \"isTranslated\":true,\n         \"reference\": \"BB5948A8710\",\n         \"descriptions\":\"<ul><li>Sac avec bandoulière réglable et amovible</li></ul>\",\n         \"likeNumber\": 0,\n         \"order\": 0,\n         \"prices\": [\n             {\n                 \"country\": \"法国\",\n                 \"officialUrl\": \"http://afiwef\",\n                 \"price\": 1450\n             }\n         ],\n         \"images\": [\n                 \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n         ]\n     }\n   ]}\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/products-standby.js",
     "groupTitle": "Products",
     "name": "GetApiProductsTimestamp"
   },
@@ -12787,7 +12671,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "PostApiProducts"
   },
@@ -12890,7 +12774,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "PostApiProducts"
   },
@@ -13006,7 +12890,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "PostApiProductsIdLike"
   },
@@ -13122,7 +13006,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "PostApiProductsIdLike"
   },
@@ -13367,7 +13251,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "PostApiSecureProductsIdCommentsCommentid"
   },
@@ -13496,7 +13380,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "PostApiSecureProductsIdCommentsCommentid"
   },
@@ -14039,7 +13923,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/search.js",
+    "filename": "routes/v2/search.js",
     "groupTitle": "Search",
     "name": "PostApiSearch"
   },
@@ -14170,7 +14054,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/search.js",
+    "filename": "routes/v1/search.js",
     "groupTitle": "Search",
     "name": "PostApiSearch"
   },
@@ -14260,7 +14144,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/stores.js",
+    "filename": "routes/v2/stores.js",
     "groupTitle": "Stores",
     "name": "GetApiStores"
   },
@@ -14350,7 +14234,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/stores.js",
+    "filename": "routes/v1/stores.js",
     "groupTitle": "Stores",
     "name": "GetApiStores"
   },
@@ -14620,7 +14504,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"badges\": [{\n          \"id\": 1,\n          \"type\": \"Sales\",\n          \"content\": \"老佛爷1楼\"\n      }],\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\",\n             \"profileUrl\": \"profileUrl\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\",\n             \"profileUrl\": \"profileUrl\"\n        }\n     ]\n     },\n    \"blockStatus\": \"possible values are: 1: current connect user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"badges\": [{\n          \"id\": 1,\n          \"type\": \"Sales\",\n          \"content\": \"老佛爷1楼\"\n      }],\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\",\n             \"profileUrl\": \"profileUrl\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\",\n             \"profileUrl\": \"profileUrl\"\n        }\n     ]\n     },\n    \"blockStatus\": \"possible values are: 1: current user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \",\n    \"friendStatus\": \"possible values are: 1: current user is following target user, 2: target user is following current user, 3: both 1 and 2, 0: no friendship is specified \",\n    \"followingCount\": 1,\n    \"followerCount\": 2\n}",
           "type": "json"
         }
       ]
@@ -15541,7 +15425,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n     \"id\": 1,\n     \"matricule\": 100001,\n     \"username\": \"username\",\n     \"profileUrl\": \"profileUrl\"\n   }]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n     \"id\": 1,\n     \"gender\": 1,\n     \"matricule\": 100001,\n     \"username\": \"username\",\n     \"profileUrl\": \"profileUrl\"\n   }]\n}",
           "type": "json"
         }
       ]
@@ -15698,5 +15582,121 @@
     "filename": "routes/v1/users.js",
     "groupTitle": "User",
     "name": "PostApiUserMembershipNumberofmonth"
+  },
+  {
+    "type": "post",
+    "url": "/secure/user/block/:userId/:blockStatus",
+    "title": "Block or unblock a user for circle",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"User\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>The user to follow.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "blockStatus",
+            "description": "<p>Possible values: 0: unblock; 1: current user do not wanna see userId's circle; 2: current user do not want userId to see current user's circle; 3: both 1 and 2</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}\n\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"bad_request\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/users.js",
+    "groupTitle": "User",
+    "name": "PostSecureUserBlockUseridBlockstatus"
   }
 ]
