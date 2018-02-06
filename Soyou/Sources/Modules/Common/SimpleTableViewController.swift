@@ -12,6 +12,7 @@ enum CellType: String {
     case IconTitleContent
     case LeftTitle
     case LeftTitleRightDetail
+    case TopTitleBottomDetail
     case TextField
 }
 
@@ -168,6 +169,7 @@ class SimpleTableViewController: UIViewController {
         self.tableView.register(UINib(nibName: "TableViewCellIconTitleContent",      bundle: Bundle.main), forCellReuseIdentifier: "IconTitleContent")
         self.tableView.register(UINib(nibName: "TableViewCellLeftTitle",             bundle: Bundle.main), forCellReuseIdentifier: "LeftTitle")
         self.tableView.register(UINib(nibName: "TableViewCellLeftTitleRightDetail",  bundle: Bundle.main), forCellReuseIdentifier: "LeftTitleRightDetail")
+        self.tableView.register(UINib(nibName: "TableViewCellTopTitleBottomDetail",  bundle: Bundle.main), forCellReuseIdentifier: "TopTitleBottomDetail")
         self.tableView.register(UINib(nibName: "TableViewCellTextField",             bundle: Bundle.main), forCellReuseIdentifier: "TextField")
         
         // Setup table data
@@ -271,6 +273,22 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             }
         case .LeftTitleRightDetail:
             guard let rowCell = cell as? TableViewCellLeftTitleRightDetail else { break }
+            rowCell.lblTitle.text = row.title?.text
+            if let color = row.title?.color {
+                rowCell.lblTitle.textColor = color
+            }
+            if let font = row.title?.font {
+                rowCell.lblTitle.font = font
+            }
+            rowCell.lblSubTitle.text = row.subTitle?.text
+            if let color = row.subTitle?.color {
+                rowCell.lblSubTitle.textColor = color
+            }
+            if let font = row.subTitle?.font {
+                rowCell.lblSubTitle.font = font
+            }
+        case .TopTitleBottomDetail:
+            guard let rowCell = cell as? TableViewCellTopTitleBottomDetail else { break }
             rowCell.lblTitle.text = row.title?.text
             if let color = row.title?.color {
                 rowCell.lblTitle.textColor = color

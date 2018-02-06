@@ -35,6 +35,18 @@ class CircleComposeViewController: UITableViewController {
             self.setupViews()
         }
     }
+    var visibility: Int = CircleVisibility.everyone {
+        didSet {
+            if self.isViewLoaded {
+                if visibility == CircleVisibility.everyone {
+                    self.imgVisibility.tintColor = UIColor.gray
+                } else {
+                    self.imgVisibility.tintColor = Cons.UI.colorLike
+                }
+                self.updateVisibilityValue()
+            }
+        }
+    }
     
     @IBOutlet var tvContent: UITextView!
     @IBOutlet var imagesCollectionView: UICollectionView!
@@ -85,6 +97,7 @@ class CircleComposeViewController: UITableViewController {
     }
 }
 
+// MARK: - Setup Views
 extension CircleComposeViewController {
     
     func setupViews() {
@@ -104,6 +117,11 @@ extension CircleComposeViewController {
         self.imgShareToWeChat.tintColor = UIColor.gray
         self.shareToWeChat.isEnabled = !self.isOnlySharing
         self.shareToWeChat.isOn = self.isOnlySharing
+        self.imgVisibility.image = UIImage(named: "img_globe")?.withRenderingMode(.alwaysTemplate)
+        let currVisibility = self.visibility
+        self.visibility = currVisibility
+        self.lblVisibilityTitle.text = NSLocalizedString("circle_compose_visibility_title")
+        self.updateVisibilityValue()
     }
 }
 
@@ -113,7 +131,6 @@ extension CircleComposeViewController {
     func setupTableView() {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
-        self.tableView.allowsSelection = false
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
@@ -129,7 +146,7 @@ extension CircleComposeViewController {
                 return 44
             }
         } else if indexPath.section == 1 {
-            return 0
+            return 44
         }
         return UITableViewAutomaticDimension
     }
@@ -139,7 +156,11 @@ extension CircleComposeViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
+        if section == 0 {
+            return CGFloat.leastNormalMagnitude
+        } else {
+            return 20
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -150,6 +171,13 @@ extension CircleComposeViewController {
         // Hide the separator for the 1st cell
         if indexPath.section == 0 && indexPath.row == 0 {
             cell.separatorInset = UIEdgeInsetsMake(0, self.tableView.bounds.width, 0, 0)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 1 && indexPath.row == 0 {
+            self.changeVisibility()
         }
     }
 }
@@ -270,7 +298,7 @@ extension CircleComposeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: Update Edited status and POST button
+// MARK: - Update Edited status and POST button
 extension CircleComposeViewController: UITextViewDelegate {
     
     func isEdited() -> Bool {
@@ -286,7 +314,7 @@ extension CircleComposeViewController: UITextViewDelegate {
     }
 }
 
-// MARK: Actions
+// MARK: - Actions
 extension CircleComposeViewController {
     
     @IBAction func quitEditing() {
@@ -322,7 +350,7 @@ extension CircleComposeViewController {
                 let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
                 let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
                 let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
-                DataManager.shared.createCicle(encodedText, imageDatas, CircleVisibility.everyone) { (responseObject, error) in
+                DataManager.shared.createCicle(encodedText, imageDatas, self.visibility) { (responseObject, error) in
                     MBProgressHUD.hide(self.view)
                     self.navigationItem.rightBarButtonItem?.isEnabled = true
                     self.delegate?.didPostNewCircle()
@@ -355,7 +383,7 @@ extension CircleComposeViewController {
     }
 }
 
-// MARK: Reordering
+// MARK: - Reordering
 private var oldIndexPathKey: UInt8 = 0
 private var snapshotViewKey: UInt8 = 0
 private var deleteViewKey: UInt8 = 0
@@ -445,7 +473,7 @@ extension CircleComposeViewController {
             currentWindow.insertSubview(_deleteView, belowSubview: self.snapshotView)
             // Prepare delete view initial position
             _deleteView.snp.makeConstraints({ (make) in
-                make.height.equalTo(44 + Cons.UI.screenBottomMargin)
+                make.height.equalTo(64 + Cons.UI.screenBottomMargin)
                 make.left.right.equalToSuperview()
                 make.top.equalTo(currentWindow.snp.bottom).offset(-(44 + Cons.UI.screenBottomMargin))
             })
@@ -518,6 +546,7 @@ extension CircleComposeViewController {
     }
 }
 
+// MARK: - TLPhotosPickerViewControllerDelegate
 extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
     
     func addPicture() {
@@ -535,5 +564,74 @@ extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
         self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
         UIView.setAnimationsEnabled(true)
         self.updatePostButton()
+    }
+}
+
+// MARK: - Change Visibility
+extension CircleComposeViewController {
+    
+    func changeVisibility() {
+        let simpleViewController = SimpleTableViewController(tableStyle: .grouped)
+        // UI
+        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
+        simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = false
+        // Data
+        let visibilities = [(CircleVisibility.everyone, NSLocalizedString("circle_compose_visibility_everyone"), NSLocalizedString("circle_compose_visibility_everyone_desc")),
+                            (CircleVisibility.friends, NSLocalizedString("circle_compose_visibility_friends"), NSLocalizedString("circle_compose_visibility_friends_desc")),
+                            (CircleVisibility.author, NSLocalizedString("circle_compose_visibility_author"), NSLocalizedString("circle_compose_visibility_author_desc"))]
+        // Prepare rows
+        var rows = [Row]()
+        for (visibility, title, desc) in visibilities {
+            let row = Row(type: .TopTitleBottomDetail,
+                          cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
+                          title: Text(text: title),
+                          subTitle: Text(text: desc),
+                          userInfo: ["visibility": visibility],
+                          didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                            let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
+                            guard let visibility = row.userInfo?["visibility"] as? Int else {
+                                return
+                            }
+                            simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = (visibility != self.visibility)
+                            simpleViewController.updateSelectionCheckmark(indexPath)
+                            simpleViewController.tableView.reloadData()
+            })
+            rows.append(row)
+        }
+        simpleViewController.sections = [
+            Section(
+                rows: rows
+            )
+        ]
+        // Pre-select the current selection
+        let row = self.visibility == CircleVisibility.everyone ? 0 : (self.visibility == CircleVisibility.friends ? 1 : 2)
+        simpleViewController.updateSelectionCheckmark(IndexPath(row: row, section: 0))
+        
+        // Handler
+        simpleViewController.completion = { () -> () in
+            if let selectedIndexPath = simpleViewController.selectedIndexPath {
+                if selectedIndexPath.row == 0 {
+                    self.visibility = CircleVisibility.everyone
+                } else if selectedIndexPath.row == 1 {
+                    self.visibility = CircleVisibility.friends
+                } else if selectedIndexPath.row == 2 {
+                    self.visibility = CircleVisibility.author
+                }
+            }
+            self.updateVisibilityValue()
+            simpleViewController.navigationController?.popViewController(animated: true)
+        }
+        // Push
+        self.navigationController?.pushViewController(simpleViewController, animated: true)
+    }
+    
+    func updateVisibilityValue() {
+        if self.visibility == CircleVisibility.everyone {
+            self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_everyone")
+        } else if self.visibility == CircleVisibility.friends {
+                self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_friends")
+        } else if self.visibility == CircleVisibility.author {
+            self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_author")
+        }
     }
 }

@@ -401,6 +401,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.loadViewIfNeeded()
         vc.tvContent.text = text
         vc.isOnlySharing = true
+        vc.visibility = CircleVisibility.friends
         // Present
         self.parentViewController?.tabBarController?.present(nav, animated: true, completion: nil)
     }

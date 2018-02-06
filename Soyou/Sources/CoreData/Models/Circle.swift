@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 struct CircleVisibility {
-    static let owner    = 1
+    static let author    = 1
     static let friends  = 2
     static let everyone = 4
 }

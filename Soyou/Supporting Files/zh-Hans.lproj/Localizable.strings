@@ -121,12 +121,12 @@
 "circle_compose_share_to_wechat"="分享到微信朋友圈";
 "circle_compose_share_to_wechat_copied"="文字已复制到剪贴板\n分享到微信时请粘贴";
 "circle_compose_visibility_title"="谁可以看见";
-"circle_compose_visibility_public"="公开";
-"circle_compose_visibility_everyon_desc"="所有奢有用户都可以看见";
+"circle_compose_visibility_everyone"="公开";
+"circle_compose_visibility_everyone_desc"="所有奢有用户都可以看见";
 "circle_compose_visibility_friends"="朋友";
 "circle_compose_visibility_friends_desc"="我的朋友都可以看见";
-"circle_compose_visibility_me"="自己";
-"circle_compose_visibility_me_desc"="只有我自己可以看见";
+"circle_compose_visibility_author"="自己";
+"circle_compose_visibility_author_desc"="只有我自己可以看见";
 "circle_compose_drag_to_delete"="拖到此处删除";
 "circle_compose_drop_to_delete"="松手确认删除";
 

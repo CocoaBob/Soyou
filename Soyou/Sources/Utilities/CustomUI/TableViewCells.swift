@@ -36,6 +36,12 @@ class TableViewCellLeftTitleRightDetail: UITableViewCell {
     @IBOutlet var lblSubTitle: UILabel!
 }
 
+class TableViewCellTopTitleBottomDetail: UITableViewCell {
+    
+    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var lblSubTitle: UILabel!
+}
+
 class TableViewCellSectionHeader: UITableViewCell {
     
     @IBOutlet var lblTitle: UILabel!

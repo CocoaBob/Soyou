@@ -197,6 +197,7 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
         vc.delegate = self
         vc.customAssets = self.webViewAssets
         vc.selectedAssets = tlphAssets
+        vc.visibility = CircleVisibility.friends
         let nav = UINavigationController(rootViewController: vc)
         // Present
         self.tabBarController?.present(nav, animated: true, completion: nil)
