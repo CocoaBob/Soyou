@@ -21,8 +21,10 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var btnFollow: UIButton!
     @IBOutlet var lblFollowStatus: UILabel!
     @IBOutlet var lblUsername: UILabel!
-    @IBOutlet var imgBadges: UIImageView!
-    @IBOutlet var lblBadges: UILabel!
+    @IBOutlet var imgBadge1: UIImageView!
+    @IBOutlet var lblBadge1: UILabel!
+    @IBOutlet var imgBadge2: UIImageView!
+    @IBOutlet var lblBadge2: UILabel!
     @IBOutlet var followingFollowerContainer: UIView!
     @IBOutlet var btnFollowing: UIButton!
     @IBOutlet var btnFollower: UIButton!
@@ -303,10 +305,14 @@ extension CirclesViewController {
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
         self.lblUsername.layer.shadowOffset = CGSize.zero
-        self.lblBadges.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
-        self.lblBadges.layer.shadowOpacity = 1
-        self.lblBadges.layer.shadowRadius = 2
-        self.lblBadges.layer.shadowOffset = CGSize.zero
+        self.lblBadge1.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+        self.lblBadge1.layer.shadowOpacity = 1
+        self.lblBadge1.layer.shadowRadius = 2
+        self.lblBadge1.layer.shadowOffset = CGSize.zero
+        self.lblBadge2.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+        self.lblBadge2.layer.shadowOpacity = 1
+        self.lblBadge2.layer.shadowRadius = 2
+        self.lblBadge2.layer.shadowOffset = CGSize.zero
         self.lblFollowStatus.layer.cornerRadius = 4
         self.lblFollowStatus.clipsToBounds = true
         self.followingFollowerContainer.isHidden = true
@@ -314,6 +320,12 @@ extension CirclesViewController {
         self.followingFollowerContainer.layer.shadowOpacity = 1
         self.followingFollowerContainer.layer.shadowRadius = 2
         self.followingFollowerContainer.layer.shadowOffset = CGSize.zero
+        self.btnFollowing.backgroundColor = UIColor(white: 0, alpha: 0.1)
+        self.btnFollowing.clipsToBounds = true
+        self.btnFollowing.layer.cornerRadius = 4
+        self.btnFollower.backgroundColor = UIColor(white: 0, alpha: 0.1)
+        self.btnFollower.clipsToBounds = true
+        self.btnFollower.layer.cornerRadius = 4
     }
 }
 
@@ -629,22 +641,25 @@ extension CirclesViewController {
                     
                     // Update certifications
                     if let badges = data["badges"] as? [NSDictionary] {
-                        var badgeString = ""
-                        for badge in badges {
+                        for (i, badge) in badges.enumerated() {
+                            let lblBadge = i == 0 ? self.lblBadge1 : self.lblBadge2
+                            let imgBadge = i == 0 ? self.imgBadge1 : self.imgBadge2
                             guard let content = badge["content"] as? String, let type = badge["type"] as? String else {
                                 continue
                             }
                             let stringFormat = type == "Sales" ? "circles_vc_user_certified_sales" : type == "Buyer" ? "circles_vc_user_certified_buyer" : ""
-                            if badgeString.count > 0 {
-                                badgeString.append(" ")
+                            let badgeContent = FmtString(NSLocalizedString(stringFormat), content)
+                            if badgeContent.isEmpty {
+                                imgBadge?.isHidden = true
+                                lblBadge?.isHidden = true
+                            } else {
+                                imgBadge?.isHidden = false
+                                lblBadge?.isHidden = false
+                                lblBadge?.text = badgeContent
                             }
-                            badgeString.append(FmtString(NSLocalizedString(stringFormat), content))
                         }
-                        self.lblBadges.text = badgeString
-                        self.imgBadges.isHidden = badgeString.count == 0
                         self.imgUserBadge.isHidden = badges.count == 0
                     } else {
-                        self.imgBadges.isHidden = true
                         self.imgUserBadge.isHidden = true
                     }
                     
