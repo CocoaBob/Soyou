@@ -270,6 +270,7 @@ extension UserManager {
             completion?()
         } else {
             let vc = LoginViewController.instantiate(.login)
+            // Setup Navigation Controller
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .custom
             nav.modalPresentationCapturesStatusBarAppearance = true

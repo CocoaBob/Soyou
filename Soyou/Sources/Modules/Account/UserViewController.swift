@@ -193,6 +193,7 @@ extension UserViewController {
     @objc func avatarAction() {
         UserManager.shared.loginOrDo() { () -> () in
             let vc = ProfileViewController()
+            // Setup Navigation Controller
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .custom
             nav.modalPresentationCapturesStatusBarAppearance = true
@@ -207,6 +208,7 @@ extension UserViewController {
     
     @IBAction func showSettingsViewController(_ sender: UIBarButtonItem?) {
         let vc = SettingsViewController()
+        // Setup Navigation Controller
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .custom
         nav.modalPresentationCapturesStatusBarAppearance = true

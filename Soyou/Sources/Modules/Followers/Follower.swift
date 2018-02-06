@@ -9,7 +9,7 @@
 struct Follower {
     
     var id: Int = 0
-    var gender: Int = 0
+    var gender: String = ""
     var username: String = ""
     var profileUrl: String = ""
     var matricule: Int = 0
@@ -32,7 +32,7 @@ struct Follower {
     
     mutating func importDataFromJSON(_ json: JSON) {
         self.id = json["id"].intValue
-        self.gender = json["gender"].intValue
+        self.gender = json["gender"].stringValue
         self.username = json["username"].stringValue.removingPercentEncoding ?? ""
         self.matricule = json["matricule"].intValue
         self.profileUrl = json["profileUrl"].stringValue

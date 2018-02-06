@@ -24,8 +24,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var followingFollowerContainer: UIView!
     @IBOutlet var btnFollowing: UIButton!
     @IBOutlet var btnFollower: UIButton!
-    var allFollowings = [Follower]()
-    var allFollowers = [Follower]()
     
     var userID: Int? {
         didSet {
@@ -515,22 +513,11 @@ extension CirclesViewController {
         
     }
     
-    @IBAction func followingAction() {
-        if self.allFollowings.count > 0 {
-            let followersVC = FollowersViewController.instantiate()
-            followersVC.followers = self.allFollowings
-            followersVC.isFollowers = false
-            self.navigationController?.pushViewController(followersVC, animated: true)
-        }
-    }
-    
-    @IBAction func followerAction() {
-        if self.allFollowers.count > 0 {
-            let followersVC = FollowersViewController.instantiate()
-            followersVC.followers = self.allFollowers
-            followersVC.isFollowers = true
-            self.navigationController?.pushViewController(followersVC, animated: true)
-        }
+    @IBAction func followingFollowerAction(_ sender: UIButton) {
+        let vc = FollowersViewController.instantiate()
+        vc.userID = self.isSingleUserMode ? self.userID : UserManager.shared.userID
+        vc.isShowingFollowers = sender.tag == 1
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -580,9 +567,8 @@ extension CirclesViewController {
             // Check if it's the user self
             let isMyself = userID == UserManager.shared.userID ?? 0
             // Load User Info
-            DataManager.shared.getUserInfo(userID) { responseObject, error in
-                if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                    let data = responseObject["data"] as? [String: AnyObject] {
+            DataManager.shared.getUserInfo(userID) { response, error in
+                if let response = response as? Dictionary<String, AnyObject>, let data = response["data"] as? [String: AnyObject] {
                     // Update Follow/Unfollow button
                     if !isMyself, let friendStatus = data["friendStatus"] as? Int {
                         self.btnFollow.isHidden = false
@@ -626,35 +612,18 @@ extension CirclesViewController {
                             self.lblBadges.text = nil
                         }
                     }
-                }
-            }
-            
-            // Update Following/Follower numbers
-            if isMyself || !self.isSingleUserMode {
-                let dispatchGroup = DispatchGroup()
-                dispatchGroup.enter()
-                DataManager.shared.allFollowers()  { responseObject, error in
-                    if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                        let data = responseObject["data"] as? [NSDictionary] {
-                        self.allFollowers = Follower.newList(dicts: data)
+                    
+                    // Update Following/Follower numbers
+                    if (isMyself || !self.isSingleUserMode),
+                        let followingCount = data["followingCount"] as? Int,
+                        let followerCount = data["followerCount"] as? Int {
+                        self.btnFollowing.setTitle(FmtString(NSLocalizedString("circles_vc_user_following"), followingCount), for: .normal)
+                        self.btnFollower.setTitle(FmtString(NSLocalizedString("circles_vc_user_follower"), followerCount), for: .normal)
+                        self.followingFollowerContainer.isHidden = false
+                    } else {
+                        self.followingFollowerContainer.isHidden = true
                     }
-                    dispatchGroup.leave()
                 }
-                dispatchGroup.enter()
-                DataManager.shared.allFollowings()  { responseObject, error in
-                    if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                        let data = responseObject["data"] as? [NSDictionary] {
-                        self.allFollowings = Follower.newList(dicts: data)
-                    }
-                    dispatchGroup.leave()
-                }
-                dispatchGroup.notify(queue: .main) {
-                    self.btnFollowing.setTitle(FmtString(NSLocalizedString("circles_vc_user_following"), self.allFollowings.count), for: .normal)
-                    self.btnFollower.setTitle(FmtString(NSLocalizedString("circles_vc_user_follower"), self.allFollowers.count), for: .normal)
-                    self.followingFollowerContainer.isHidden = false
-                }
-            } else {
-                self.followingFollowerContainer.isHidden = true
             }
         }
     }

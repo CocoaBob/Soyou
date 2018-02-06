@@ -405,17 +405,18 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="followingAction" destination="AQv-Tr-KQN" eventType="touchUpInside" id="6Ip-Tu-2oF"/>
+                                        <action selector="followingFollowerAction:" destination="AQv-Tr-KQN" eventType="touchUpInside" id="NIu-dJ-lfL"/>
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XC3-AJ-Q3e">
-                                    <rect key="frame" x="283.5" y="4" width="1" height="16"/>
+                                    <rect key="frame" x="283.5" y="6" width="1" height="12"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="1" id="ZYA-zH-eWF"/>
+                                        <constraint firstAttribute="height" constant="12" id="su9-3a-r7L"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ds0-Ei-UfC">
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ds0-Ei-UfC">
                                     <rect key="frame" x="284.5" y="3.5" width="52" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="44" maxY="0.0"/>
@@ -423,15 +424,14 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="followerAction" destination="AQv-Tr-KQN" eventType="touchUpInside" id="YGY-IT-cp0"/>
+                                        <action selector="followingFollowerAction:" destination="AQv-Tr-KQN" eventType="touchUpInside" id="ah9-ad-set"/>
                                     </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="XC3-AJ-Q3e" firstAttribute="centerY" secondItem="2kQ-iq-0me" secondAttribute="centerY" id="2jx-ja-M0X"/>
                                 <constraint firstItem="XC3-AJ-Q3e" firstAttribute="centerX" secondItem="2kQ-iq-0me" secondAttribute="centerX" id="Cdj-xg-V0z"/>
-                                <constraint firstAttribute="bottom" secondItem="XC3-AJ-Q3e" secondAttribute="bottom" constant="4" id="IZ2-MJ-DW9"/>
-                                <constraint firstItem="XC3-AJ-Q3e" firstAttribute="top" secondItem="2kQ-iq-0me" secondAttribute="top" constant="4" id="R0i-SO-Sbw"/>
                                 <constraint firstItem="ds0-Ei-UfC" firstAttribute="leading" secondItem="XC3-AJ-Q3e" secondAttribute="trailing" id="bQI-u1-5G5"/>
                                 <constraint firstItem="ds0-Ei-UfC" firstAttribute="centerY" secondItem="2kQ-iq-0me" secondAttribute="centerY" id="ldi-n3-qBg"/>
                                 <constraint firstAttribute="height" constant="24" id="soV-ir-oKt"/>
