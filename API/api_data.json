@@ -6886,7 +6886,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl\n   }]",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl,\n         badges: [{\n             id: 1,\n             type: 'Sales'\n         }]\n   }]",
           "type": "json"
         }
       ]
@@ -6982,7 +6982,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl\n   }]",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n         userId: user.id,\n         gender: user.gender,\n         matricule:user.matricule,\n         username: user.username,\n         profileUrl: user.profileUrl,\n         badges: [{\n             id: 1,\n             type: 'Sales'\n         }]\n   }]",
           "type": "json"
         }
       ]
@@ -15425,7 +15425,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n     \"id\": 1,\n     \"gender\": 1,\n     \"matricule\": 100001,\n     \"username\": \"username\",\n     \"profileUrl\": \"profileUrl\"\n   }]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[{\n     \"id\": 1,\n     \"gender\": 1,\n     \"matricule\": 100001,\n     \"username\": \"username\",\n     \"profileUrl\": \"profileUrl\",\n      badges: [{\n          id: 1,\n          type: 'Sales'\n      }]\n   }]\n}",
           "type": "json"
         }
       ]
