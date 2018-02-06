@@ -21,10 +21,8 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var btnFollow: UIButton!
     @IBOutlet var lblFollowStatus: UILabel!
     @IBOutlet var lblUsername: UILabel!
-    @IBOutlet var imgBadge1: UIImageView!
-    @IBOutlet var lblBadge1: UILabel!
-    @IBOutlet var imgBadge2: UIImageView!
-    @IBOutlet var lblBadge2: UILabel!
+    @IBOutlet var imgBadge: UIImageView!
+    @IBOutlet var lblBadge: UILabel!
     @IBOutlet var followingFollowerContainer: UIView!
     @IBOutlet var btnFollowing: UIButton!
     @IBOutlet var btnFollower: UIButton!
@@ -305,14 +303,10 @@ extension CirclesViewController {
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
         self.lblUsername.layer.shadowOffset = CGSize.zero
-        self.lblBadge1.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
-        self.lblBadge1.layer.shadowOpacity = 1
-        self.lblBadge1.layer.shadowRadius = 2
-        self.lblBadge1.layer.shadowOffset = CGSize.zero
-        self.lblBadge2.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
-        self.lblBadge2.layer.shadowOpacity = 1
-        self.lblBadge2.layer.shadowRadius = 2
-        self.lblBadge2.layer.shadowOffset = CGSize.zero
+        self.lblBadge.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+        self.lblBadge.layer.shadowOpacity = 1
+        self.lblBadge.layer.shadowRadius = 2
+        self.lblBadge.layer.shadowOffset = CGSize.zero
         self.lblFollowStatus.layer.cornerRadius = 4
         self.lblFollowStatus.clipsToBounds = true
         self.followingFollowerContainer.isHidden = true
@@ -641,22 +635,23 @@ extension CirclesViewController {
                     
                     // Update certifications
                     if let badges = data["badges"] as? [NSDictionary] {
-                        for (i, badge) in badges.enumerated() {
-                            let lblBadge = i == 0 ? self.lblBadge1 : self.lblBadge2
-                            let imgBadge = i == 0 ? self.imgBadge1 : self.imgBadge2
-                            guard let content = badge["content"] as? String, let type = badge["type"] as? String else {
-                                continue
+                        var badgeString = ""
+                        for badge in badges {
+                            if let content = badge["content"] as? String {
+                                if badgeString.count > 0 {
+                                    badgeString.append(NSLocalizedString("circles_vc_user_badge_separator"))
+                                }
+                                badgeString.append(content)
                             }
-                            let stringFormat = type == "Sales" ? "circles_vc_user_certified_sales" : type == "Buyer" ? "circles_vc_user_certified_buyer" : ""
-                            let badgeContent = FmtString(NSLocalizedString(stringFormat), content)
-                            if badgeContent.isEmpty {
-                                imgBadge?.isHidden = true
-                                lblBadge?.isHidden = true
-                            } else {
-                                imgBadge?.isHidden = false
-                                lblBadge?.isHidden = false
-                                lblBadge?.text = badgeContent
-                            }
+                        }
+                        let badgeContent = FmtString(NSLocalizedString("circles_vc_user_certified"), badgeString)
+                        if badgeString.isEmpty {
+                            self.imgBadge?.isHidden = true
+                            self.lblBadge?.isHidden = true
+                        } else {
+                            self.imgBadge?.isHidden = false
+                            self.lblBadge?.isHidden = false
+                            self.lblBadge?.text = badgeContent
                         }
                         self.imgUserBadge.isHidden = badges.count == 0
                     } else {

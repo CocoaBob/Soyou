@@ -105,8 +105,8 @@
 "circles_vc_user_follower"="%d FOLLOWERS";
 "circles_vc_user_follows_you"="FOLLOWS YOU";
 "circles_vc_user_not_follow_you"="DOES NOT FOLLOW YOU";
-"circles_vc_user_certified_sales"="Certified Sales: %@";
-"circles_vc_user_certified_buyer"="Certified Buyer: %@";
+"circles_vc_user_badge_separator"=", ";
+"circles_vc_user_certified"="Soyou Certified: %@";
 "circles_vc_loading"="Loading...";
 "circles_vc_no_data"="No data";
 
@@ -131,7 +131,7 @@
 /* Followers View Controller */
 "followers_vc_title_followers"="Followers";
 "followers_vc_title_followings"="Followings";
-"followers_vc_search_bar_placeholder"="User Name, User ID...";
+"followers_vc_search_bar_placeholder"="User Name, Soyou ID...";
 "followers_vc_tap_search"="Tap \"Search\" to continue...";
 "followers_vc_loading"="Loading...";
 "followers_vc_no_data"="No data";
