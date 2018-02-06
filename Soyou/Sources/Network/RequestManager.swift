@@ -403,7 +403,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: User Info
+    // MARK: User
     //////////////////////////////////////
     
     func getUserInfo(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -418,6 +418,12 @@ class RequestManager {
                    "thirdId": thirdId,
                    "username": username,
                    "profileUrl": profileUrl],
+                  onSuccess, onFailure)
+    }
+    
+    func searchUsers(_ keyword: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/search", "User",
+                  ["query": keyword, "codedQuery": keyword.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? keyword],
                   onSuccess, onFailure)
     }
     

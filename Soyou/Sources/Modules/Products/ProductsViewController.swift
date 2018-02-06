@@ -28,7 +28,6 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
     var lastFinishedSearchOffset: Int?
     
     var searchController: UISearchController?
-    
     var isSearchResultsViewController: Bool = false
     var searchKeywords: [String]?
     weak var searchFromViewController: UIViewController?
@@ -80,7 +79,7 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
             // Setup Search Controller
             self.setupSearchController()
         } else {
-            self.showTapSearch()
+            self.showTapToSearchMessage()
         }
         
         // Pre-calculate cell width
@@ -479,7 +478,7 @@ extension ProductsViewController {
                 self.lastFinishedSearchOffset = nil
                 // If it's not searching but there's no data, it means data isn't ready
                 if !self.searchKeywordsIsEmpty() {
-                    self.showNoDataIndicator()
+                    self.showNoDataMessage()
                 }
             }
         }
@@ -525,9 +524,9 @@ extension ProductsViewController {
         }
         // Show indicator
         if self.isSearchResultsViewController && self.searchKeywordsIsEmpty() {
-            self.showTapSearch()
+            self.showTapToSearchMessage()
         } else {
-            self.showLoadingIndicator()
+            self.showLoadingMessage()
         }
         
         // Search Products locally
@@ -558,17 +557,17 @@ extension ProductsViewController: UISearchResultsUpdating {
             (self.searchKeywords!.count == 1 && self.searchKeywords!.first == ""))
     }
     
-    func showTapSearch() {
+    func showTapToSearchMessage() {
         _loadingViewLabel.text = NSLocalizedString("products_vc_tap_search")
         self.isLoadingViewVisible = true
     }
     
-    func showNoDataIndicator() {
+    func showNoDataMessage() {
         _loadingViewLabel.text = NSLocalizedString("products_vc_no_data")
         self.isLoadingViewVisible = true
     }
     
-    func showLoadingIndicator() {
+    func showLoadingMessage() {
         _loadingViewLabel.text = NSLocalizedString("products_vc_loading")
         self.isLoadingViewVisible = true
     }

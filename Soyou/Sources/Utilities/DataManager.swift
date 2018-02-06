@@ -198,6 +198,14 @@ class DataManager {
         })
     }
     
+    func searchUsers(_ keyword: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.searchUsers(keyword, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     func modifyEmail(_ email: String, _ completion: CompletionClosure?) {
         RequestManager.shared.modifyEmail(email, { responseObject in
             self.completeWithData(responseObject, completion: completion)

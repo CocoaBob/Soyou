@@ -222,6 +222,7 @@ extension CirclesViewController {
         guard UserManager.shared.isLoggedIn else {
             return
         }
+        self.showLoadingMessage()
         let deleteAll = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
         self.beginRefreshing()
@@ -229,8 +230,14 @@ extension CirclesViewController {
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                 let data = responseObject["data"] as? [NSDictionary] {
                 self.endRefreshing(data.count)
+                if data.count == 0 {
+                    self.showNoDataMessage()
+                } else {
+                    self.resetFooterMessage()
+                }
             } else {
                 self.endRefreshing(0)
+                self.showNoDataMessage()
             }
         }
     }
@@ -450,6 +457,20 @@ extension CirclesViewController {
         self.isLoadingData = false
         self.loadingIndicator.stopAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
+    func showNoDataMessage() {
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("followers_vc_no_data"), for: .noMoreData)
+    }
+    
+    func showLoadingMessage() {
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("followers_vc_loading"), for: .idle)
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("followers_vc_loading"), for: .noMoreData)
+    }
+    
+    func resetFooterMessage() {
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
     }
 }
 

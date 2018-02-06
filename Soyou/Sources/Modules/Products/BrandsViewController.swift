@@ -126,7 +126,7 @@ class BrandsViewController: SyncedFetchedResultsViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(BrandsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.brandsUpdatingDidFinishNotification), object: nil)
         
         // Load data
-        self.showLoadingIndicator()
+        self.showLoadingMessage()
         self.reloadData(nil)
         
         // Transitions
@@ -512,14 +512,14 @@ extension BrandsViewController {
     
     @objc func checkIsLoading() {
         if DataManager.shared.isUpdatingData {
-            self.showLoadingIndicator()
+            self.showLoadingMessage()
         } else {
             self.endCheckIsLoadingTimer()
             self.showReloadButton()
         }
     }
     
-    fileprivate func showLoadingIndicator() {
+    fileprivate func showLoadingMessage() {
         self._reloadButton.isHidden = true
         self._loadingIndicator.isHidden = false
         self._loadingIndicator.startAnimating()
