@@ -462,12 +462,12 @@ extension CirclesViewController {
     }
     
     func showNoDataMessage() {
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("followers_vc_empty"), for: .noMoreData)
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_empty"), for: .noMoreData)
     }
     
     func showLoadingMessage() {
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("followers_vc_loading"), for: .idle)
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("followers_vc_loading"), for: .noMoreData)
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_loading"), for: .idle)
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_loading"), for: .noMoreData)
     }
     
     func resetFooterMessage() {

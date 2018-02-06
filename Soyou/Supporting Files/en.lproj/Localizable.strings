@@ -107,6 +107,8 @@
 "circles_vc_user_not_follow_you"="DOES NOT FOLLOW YOU";
 "circles_vc_user_certified_sales"="Certified Sales: %@";
 "circles_vc_user_certified_buyer"="Certified Buyer: %@";
+"circles_vc_loading"="Loading...";
+"circles_vc_empty"="Empty";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="Post";
