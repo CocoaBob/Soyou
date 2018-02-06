@@ -335,7 +335,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_avatar_neutral" translatesAutoresizingMaskIntoConstraints="NO" id="9P3-pe-DFT" userLabel="avatar">
-                            <rect key="frame" x="258" y="62" width="84" height="84"/>
+                            <rect key="frame" x="258" y="78" width="84" height="84"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="84" id="LjW-Ox-hmk"/>
                                 <constraint firstAttribute="width" constant="84" id="lbA-T1-EUQ"/>
@@ -347,10 +347,10 @@
                             </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_l" translatesAutoresizingMaskIntoConstraints="NO" id="cVg-LU-lZ3">
-                            <rect key="frame" x="258" y="62" width="84" height="84"/>
+                            <rect key="frame" x="258" y="78" width="84" height="84"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qa0-y2-tbq" userLabel="Follow Button Container">
-                            <rect key="frame" x="350" y="90" width="242" height="27"/>
+                            <rect key="frame" x="350" y="106" width="242" height="27"/>
                             <subviews>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Yy-lG-gEq">
                                     <rect key="frame" x="91.5" y="0.0" width="58" height="27"/>
@@ -372,50 +372,8 @@
                                 <constraint firstItem="9Yy-lG-gEq" firstAttribute="centerX" secondItem="qa0-y2-tbq" secondAttribute="centerX" id="lf0-ok-dPp"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Z-lF-JXC">
-                            <rect key="frame" x="259" y="154" width="83" height="18"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_s" translatesAutoresizingMaskIntoConstraints="NO" id="iOn-9U-fkp">
-                            <rect key="frame" x="284" y="168" width="12" height="12"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="12" id="56Q-VJ-AWM"/>
-                                <constraint firstAttribute="height" constant="12" id="RgC-Bl-NUr"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebh-SV-vTf" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
-                            <rect key="frame" x="300" y="176" width="0.0" height="0.0"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
-                                    <real key="value" value="4"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </label>
-                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_s" translatesAutoresizingMaskIntoConstraints="NO" id="XQI-oA-NYD">
-                            <rect key="frame" x="284" y="168.5" width="12" height="12"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="12" id="0wd-Vl-Qg3"/>
-                                <constraint firstAttribute="height" constant="12" id="NRU-cD-5sw"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xXF-Ux-N93" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
-                            <rect key="frame" x="300" y="176" width="0.0" height="0.0"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
-                                    <real key="value" value="4"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8o8-lF-6g2" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
-                            <rect key="frame" x="300" y="176" width="0.0" height="0.0"/>
+                            <rect key="frame" x="471" y="137" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -434,8 +392,50 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </label>
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Z-lF-JXC">
+                            <rect key="frame" x="259" y="170" width="83" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_s" translatesAutoresizingMaskIntoConstraints="NO" id="iOn-9U-fkp">
+                            <rect key="frame" x="284" y="184" width="12" height="12"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="12" id="56Q-VJ-AWM"/>
+                                <constraint firstAttribute="height" constant="12" id="RgC-Bl-NUr"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebh-SV-vTf" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
+                            <rect key="frame" x="300" y="192" width="0.0" height="0.0"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_s" translatesAutoresizingMaskIntoConstraints="NO" id="XQI-oA-NYD">
+                            <rect key="frame" x="284" y="184.5" width="12" height="12"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="12" id="0wd-Vl-Qg3"/>
+                                <constraint firstAttribute="height" constant="12" id="NRU-cD-5sw"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xXF-Ux-N93" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
+                            <rect key="frame" x="300" y="192" width="0.0" height="0.0"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </label>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2kQ-iq-0me" userLabel="Followers/Followings">
-                            <rect key="frame" x="16" y="176" width="568" height="24"/>
+                            <rect key="frame" x="16" y="192" width="568" height="24"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9y-2A-X5h">
                                     <rect key="frame" x="268" y="2" width="12" height="20"/>
@@ -488,26 +488,26 @@
                         <constraint firstAttribute="trailing" secondItem="73j-oh-zvl" secondAttribute="trailing" id="51z-iF-hrQ"/>
                         <constraint firstItem="Y9Z-lF-JXC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zVn-ST-85r" secondAttribute="leading" constant="16" id="7hN-J4-dJm"/>
                         <constraint firstItem="xXF-Ux-N93" firstAttribute="top" secondItem="ebh-SV-vTf" secondAttribute="bottom" id="8y0-qg-jrx"/>
-                        <constraint firstItem="9P3-pe-DFT" firstAttribute="centerY" secondItem="jmI-uT-zgo" secondAttribute="centerY" constant="-16" id="Ehj-4d-V0H"/>
+                        <constraint firstItem="9P3-pe-DFT" firstAttribute="centerY" secondItem="jmI-uT-zgo" secondAttribute="centerY" id="Ehj-4d-V0H"/>
                         <constraint firstItem="ebh-SV-vTf" firstAttribute="centerX" secondItem="zVn-ST-85r" secondAttribute="centerX" id="FXD-DH-e1F"/>
                         <constraint firstItem="2kQ-iq-0me" firstAttribute="leading" secondItem="zVn-ST-85r" secondAttribute="leading" constant="16" id="G74-go-Sey"/>
                         <constraint firstItem="cVg-LU-lZ3" firstAttribute="height" secondItem="9P3-pe-DFT" secondAttribute="height" id="Iai-qv-1nC"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" secondItem="2kQ-iq-0me" secondAttribute="trailing" constant="16" id="KWv-wa-nPQ"/>
                         <constraint firstItem="xXF-Ux-N93" firstAttribute="leading" secondItem="XQI-oA-NYD" secondAttribute="trailing" constant="4" id="KoR-vq-TXK"/>
+                        <constraint firstItem="8o8-lF-6g2" firstAttribute="centerX" secondItem="qa0-y2-tbq" secondAttribute="centerX" id="NDP-Ln-fO1"/>
                         <constraint firstItem="cVg-LU-lZ3" firstAttribute="centerY" secondItem="9P3-pe-DFT" secondAttribute="centerY" id="O5A-ic-9tL"/>
                         <constraint firstItem="xXF-Ux-N93" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zVn-ST-85r" secondAttribute="leading" constant="16" id="QdP-3x-5zF"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ebh-SV-vTf" secondAttribute="trailing" constant="16" id="Sxs-dR-wOr"/>
                         <constraint firstAttribute="bottom" secondItem="73j-oh-zvl" secondAttribute="bottom" id="XMr-xY-kjq"/>
-                        <constraint firstItem="2kQ-iq-0me" firstAttribute="top" secondItem="8o8-lF-6g2" secondAttribute="bottom" id="Xbt-8P-hYS"/>
                         <constraint firstItem="73j-oh-zvl" firstAttribute="top" secondItem="jmI-uT-zgo" secondAttribute="top" id="a5n-O5-3Qv"/>
                         <constraint firstItem="ebh-SV-vTf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zVn-ST-85r" secondAttribute="leading" constant="16" id="avn-WW-QsP"/>
                         <constraint firstItem="ebh-SV-vTf" firstAttribute="top" secondItem="Y9Z-lF-JXC" secondAttribute="bottom" constant="4" id="bPR-8S-rrs"/>
                         <constraint firstItem="qa0-y2-tbq" firstAttribute="leading" secondItem="9P3-pe-DFT" secondAttribute="trailing" constant="8" id="c17-Oq-S2X"/>
+                        <constraint firstItem="8o8-lF-6g2" firstAttribute="top" secondItem="qa0-y2-tbq" secondAttribute="bottom" constant="4" id="ekw-wQ-NU5"/>
                         <constraint firstItem="XQI-oA-NYD" firstAttribute="centerY" secondItem="xXF-Ux-N93" secondAttribute="centerY" constant="-2" id="evO-qh-4lH"/>
-                        <constraint firstItem="8o8-lF-6g2" firstAttribute="centerX" secondItem="zVn-ST-85r" secondAttribute="centerX" id="hgF-Gt-MEL"/>
-                        <constraint firstItem="xXF-Ux-N93" firstAttribute="bottom" secondItem="8o8-lF-6g2" secondAttribute="top" id="i8B-bo-xdl"/>
                         <constraint firstItem="cVg-LU-lZ3" firstAttribute="width" secondItem="9P3-pe-DFT" secondAttribute="width" id="j2h-hZ-LR4"/>
                         <constraint firstItem="xXF-Ux-N93" firstAttribute="centerX" secondItem="zVn-ST-85r" secondAttribute="centerX" id="lar-rr-jn0"/>
+                        <constraint firstItem="2kQ-iq-0me" firstAttribute="top" secondItem="xXF-Ux-N93" secondAttribute="bottom" id="mOM-aC-Qff"/>
                         <constraint firstItem="cVg-LU-lZ3" firstAttribute="centerX" secondItem="9P3-pe-DFT" secondAttribute="centerX" id="rCm-D4-te6"/>
                         <constraint firstItem="ebh-SV-vTf" firstAttribute="leading" secondItem="iOn-9U-fkp" secondAttribute="trailing" constant="4" id="sAi-Gh-Y3V"/>
                         <constraint firstItem="Y9Z-lF-JXC" firstAttribute="top" secondItem="9P3-pe-DFT" secondAttribute="bottom" constant="8" id="uNH-qt-0JF"/>

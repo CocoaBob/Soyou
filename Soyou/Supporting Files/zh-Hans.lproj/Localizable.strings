@@ -110,7 +110,7 @@
 "circles_vc_user_certified_sales"="认证店员: %@";
 "circles_vc_user_certified_buyer"="认证买手: %@";
 "circles_vc_loading"="努力加载中...";
-"circles_vc_empty"="空白";
+"circles_vc_no_data"="没有数据";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="发布";
@@ -136,7 +136,7 @@
 "followers_vc_search_bar_placeholder"="用户名、用户编号...";
 "followers_vc_tap_search"="点击『搜索』开始查找...";
 "followers_vc_loading"="努力加载中...";
-"followers_vc_empty"="空白";
+"followers_vc_no_data"="没有数据";
 "followers_vc_no_result"="没有结果";
 
 /* User View Controller */

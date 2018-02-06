@@ -108,7 +108,7 @@
 "circles_vc_user_certified_sales"="Certified Sales: %@";
 "circles_vc_user_certified_buyer"="Certified Buyer: %@";
 "circles_vc_loading"="Loading...";
-"circles_vc_empty"="Empty";
+"circles_vc_no_data"="No data";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="Post";
@@ -134,7 +134,7 @@
 "followers_vc_search_bar_placeholder"="User Name, User ID...";
 "followers_vc_tap_search"="Tap \"Search\" to continue...";
 "followers_vc_loading"="Loading...";
-"followers_vc_empty"="Empty";
+"followers_vc_no_data"="No data";
 "followers_vc_no_result"="No result";
 
 /* User View Controller */

@@ -124,7 +124,7 @@ extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.lblTitle.text = NSLocalizedString(
                         self.isLoadingData ?
                             ((self.tableView.mj_header != nil && self.tableView.mj_header.isRefreshing) ? "" : "followers_vc_loading") :
-                            (self.isSearchResultsViewController ? "followers_vc_no_result" : "followers_vc_empty"))
+                            (self.isSearchResultsViewController ? "followers_vc_no_result" : "followers_vc_no_data"))
                 }
             }
             return cell

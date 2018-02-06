@@ -474,7 +474,7 @@ extension CirclesViewController {
     }
     
     func showNoDataMessage() {
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_empty"), for: .noMoreData)
+        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_no_data"), for: .noMoreData)
     }
     
     func showLoadingMessage() {
