@@ -17,6 +17,7 @@ class FollowersTableViewCell: UITableViewCell {
     }
     
     @IBOutlet var imgUser: UIImageView!
+    @IBOutlet var imgUserBadge: UIImageView!
     @IBOutlet var lblName: UILabel!
     
     override func awakeFromNib() {
@@ -28,6 +29,7 @@ class FollowersTableViewCell: UITableViewCell {
         super.prepareForReuse()
         self.imgUser.sd_cancelCurrentImageLoad()
         self.imgUser.image = nil
+        self.imgUserBadge.isHidden = true
         self.lblName.text = nil
     }
 }
@@ -46,6 +48,7 @@ extension FollowersTableViewCell {
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
+        self.imgUserBadge.isHidden = follower.badges?.count ?? 0 == 0
         self.lblName.text = follower.username
     }
 }

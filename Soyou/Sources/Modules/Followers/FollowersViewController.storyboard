@@ -47,6 +47,9 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_m" translatesAutoresizingMaskIntoConstraints="NO" id="2Nu-wx-LBd">
+                                                    <rect key="frame" x="16" y="16" width="48" height="48"/>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emx-gs-g4Q">
                                                     <rect key="frame" x="74" y="40" width="253" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -55,15 +58,20 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="2Nu-wx-LBd" firstAttribute="centerY" secondItem="VXq-pk-99m" secondAttribute="centerY" id="1GG-x9-FGz"/>
+                                                <constraint firstItem="2Nu-wx-LBd" firstAttribute="centerX" secondItem="VXq-pk-99m" secondAttribute="centerX" id="AdL-dt-S5G"/>
                                                 <constraint firstItem="VXq-pk-99m" firstAttribute="leading" secondItem="cHH-8O-a0C" secondAttribute="leading" constant="16" id="BWm-G1-xlD"/>
                                                 <constraint firstAttribute="trailing" secondItem="emx-gs-g4Q" secondAttribute="trailing" constant="15" id="Lcn-a6-sJ2"/>
                                                 <constraint firstItem="VXq-pk-99m" firstAttribute="centerY" secondItem="cHH-8O-a0C" secondAttribute="centerY" id="Rw6-eA-ZLu"/>
                                                 <constraint firstItem="emx-gs-g4Q" firstAttribute="leading" secondItem="VXq-pk-99m" secondAttribute="trailing" constant="10" id="byn-Iw-lUy"/>
+                                                <constraint firstItem="2Nu-wx-LBd" firstAttribute="width" secondItem="VXq-pk-99m" secondAttribute="width" id="m4D-os-deV"/>
                                                 <constraint firstItem="emx-gs-g4Q" firstAttribute="centerY" secondItem="cHH-8O-a0C" secondAttribute="centerY" id="y1k-aT-erW"/>
+                                                <constraint firstItem="2Nu-wx-LBd" firstAttribute="height" secondItem="VXq-pk-99m" secondAttribute="height" id="zQK-xv-xoR"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="imgUser" destination="VXq-pk-99m" id="w9o-sL-8Ke"/>
+                                            <outlet property="imgUserBadge" destination="2Nu-wx-LBd" id="yiR-tJ-cuS"/>
                                             <outlet property="lblName" destination="emx-gs-g4Q" id="O2I-tc-0eJ"/>
                                         </connections>
                                     </tableViewCell>
@@ -73,7 +81,7 @@
                                     <outlet property="delegate" destination="MUr-UF-K8g" id="0Fe-xI-gpB"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riI-WR-ID5">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riI-WR-ID5">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eRB-HP-TrG">
@@ -132,4 +140,7 @@
             <point key="canvasLocation" x="429.60000000000002" y="-173.16341829085459"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="img_badge_m" width="48" height="48"/>
+    </resources>
 </document>

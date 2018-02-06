@@ -13,6 +13,7 @@ struct Follower {
     var username: String = ""
     var profileUrl: String = ""
     var matricule: Int = 0
+    var badges: [Any]?
     
     static func newList(dicts: [NSDictionary]) -> [Follower] {
         var followers = [Follower]()
@@ -36,5 +37,6 @@ struct Follower {
         self.username = json["username"].stringValue.removingPercentEncoding ?? ""
         self.matricule = json["matricule"].intValue
         self.profileUrl = json["profileUrl"].stringValue
+        self.badges = json["badges"].arrayObject
     }
 }

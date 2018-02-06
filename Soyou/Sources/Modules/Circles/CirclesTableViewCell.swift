@@ -20,6 +20,7 @@ class CirclesTableViewCell: UITableViewCell {
     weak var parentViewController: CirclesViewController?
     
     @IBOutlet var imgUser: UIImageView!
+    @IBOutlet var imgUserBadge: UIImageView!
     @IBOutlet var btnName: UIButton!
     @IBOutlet var lblContent: MarginLabel!
     @IBOutlet var lblDate: UILabel!
@@ -46,9 +47,6 @@ class CirclesTableViewCell: UITableViewCell {
         self.btnForward.setTitle(NSLocalizedString("circles_vc_forward_button"), for: .normal)
         let wechatColor = UIColor(hex8: 0x00bb0cFF)
         self.btnForward.setTitleColor(wechatColor, for: .normal)
-        //        self.btnForward.layer.borderWidth = 1
-        //        self.btnForward.layer.borderColor = wechatColor.cgColor
-        //        self.btnForward.layer.cornerRadius = 4
     }
     
     override func prepareForReuse() {
@@ -56,6 +54,7 @@ class CirclesTableViewCell: UITableViewCell {
         self.imgURLs = nil
         self.imgUser.sd_cancelCurrentImageLoad()
         self.imgUser.image = nil
+        self.imgUserBadge.isHidden = true
         self.btnName.setTitle(nil, for: .normal)
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
@@ -86,6 +85,7 @@ extension CirclesTableViewCell {
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
+        self.imgUserBadge.isHidden = circle.userBadges?.count ?? 0 == 0
     }
     
     func configureLabels(_ circle: Circle) {

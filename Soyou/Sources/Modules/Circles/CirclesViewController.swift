@@ -16,10 +16,12 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var btnMore: UIButton!
     // User Info
     @IBOutlet var parallaxHeaderView: UIView!
-    @IBOutlet var imgViewAvatar: UIImageView!
+    @IBOutlet var imgUserAvatar: UIImageView!
+    @IBOutlet var imgUserBadge: UIImageView!
     @IBOutlet var btnFollow: UIButton!
     @IBOutlet var lblFollowStatus: UILabel!
     @IBOutlet var lblUsername: UILabel!
+    @IBOutlet var imgBadges: UIImageView!
     @IBOutlet var lblBadges: UILabel!
     @IBOutlet var followingFollowerContainer: UIView!
     @IBOutlet var btnFollowing: UIButton!
@@ -290,7 +292,7 @@ extension CirclesViewController {
         self.hideRefreshIndicator()
         
         // Setup avatar action
-        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
+        self.imgUserAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
         self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
         
         // User Info related
@@ -504,8 +506,8 @@ extension CirclesViewController {
             if self.userID == nil {
                 CirclesViewController.pushNewInstance(UserManager.shared.userID, UserManager.shared.avatar, UserManager.shared.username, from: self.navigationController)
             } else {
-                if self.avatar != nil, let image = self.imgViewAvatar.image {
-                    IDMPhotoBrowser.present([IDMPhoto(image: image)], index: 0, view: self.imgViewAvatar, scaleImage: image, viewVC: self)
+                if self.avatar != nil, let image = self.imgUserAvatar.image {
+                    IDMPhotoBrowser.present([IDMPhoto(image: image)], index: 0, view: self.imgUserAvatar, scaleImage: image, viewVC: self)
                 }
             }
         }
@@ -546,12 +548,12 @@ extension CirclesViewController {
 extension CirclesViewController {
     
     fileprivate func addAvatarBorder() {
-        self.imgViewAvatar.layer.borderWidth = 1
-        self.imgViewAvatar.layer.borderColor = UIColor.white.cgColor
+        self.imgUserAvatar.layer.borderWidth = 1
+        self.imgUserAvatar.layer.borderColor = UIColor.white.cgColor
     }
     
     fileprivate func removeAvatarBorder() {
-        self.imgViewAvatar.layer.borderWidth = 0
+        self.imgUserAvatar.layer.borderWidth = 0
     }
     
     fileprivate func updateUserInfo(_ reloadAvatar: Bool) {
@@ -565,7 +567,7 @@ extension CirclesViewController {
             if reloadAvatar {
                 options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             }
-            self.imgViewAvatar.sd_setImage(with: url,
+            self.imgUserAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
                                            options: options,
                                            completed: { (image, error, type, url) -> Void in
@@ -574,8 +576,9 @@ extension CirclesViewController {
                                             }
             })
         } else {
-            self.imgViewAvatar.image = UserManager.shared.defaultAvatarImage()
+            self.imgUserAvatar.image = UserManager.shared.defaultAvatarImage()
         }
+        self.imgUserBadge.isHidden = true
         
         // User name
         let currUsername = self.isSingleUserMode ? self.username : (UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown"))
@@ -626,12 +629,23 @@ extension CirclesViewController {
                     
                     // Update certifications
                     if let badges = data["badges"] as? [NSDictionary] {
-                        let names = badges.flatMap { $0["content"] as? String }
-                        if names.count > 0 {
-                            self.lblBadges.text = names.joined(separator: " ")
-                        } else {
-                            self.lblBadges.text = nil
+                        var badgeString = ""
+                        for badge in badges {
+                            guard let content = badge["content"] as? String, let type = badge["type"] as? String else {
+                                continue
+                            }
+                            let stringFormat = type == "Sales" ? "circles_vc_user_certified_sales" : type == "Buyer" ? "circles_vc_user_certified_buyer" : ""
+                            if badgeString.count > 0 {
+                                badgeString.append(" ")
+                            }
+                            badgeString.append(FmtString(NSLocalizedString(stringFormat), content))
                         }
+                        self.lblBadges.text = badgeString
+                        self.imgBadges.isHidden = badgeString.count == 0
+                        self.imgUserBadge.isHidden = badges.count == 0
+                    } else {
+                        self.imgBadges.isHidden = true
+                        self.imgUserBadge.isHidden = true
                     }
                     
                     // Update Following/Follower numbers

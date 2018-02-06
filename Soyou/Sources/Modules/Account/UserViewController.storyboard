@@ -93,7 +93,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="cz8-KI-8J2"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="imgViewAvatar" destination="CyA-3f-zIP" id="Opu-fn-1af"/>
+                        <outlet property="imgUserAvatar" destination="CyA-3f-zIP" id="Opu-fn-1af"/>
                         <outlet property="lblMatricule" destination="MEc-tw-ibp" id="TEh-x0-YhD"/>
                         <outlet property="lblUsername" destination="CaK-Gp-xgc" id="Hmv-av-Oo2"/>
                         <outlet property="parallaxHeaderView" destination="yFb-LZ-316" id="jUe-X3-g8t"/>

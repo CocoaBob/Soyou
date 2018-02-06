@@ -105,6 +105,8 @@
 "circles_vc_user_follower"="%d FOLLOWERS";
 "circles_vc_user_follows_you"="FOLLOWS YOU";
 "circles_vc_user_not_follow_you"="DOES NOT FOLLOW YOU";
+"circles_vc_user_certified_sales"="Certified Sales: %@";
+"circles_vc_user_certified_buyer"="Certified Buyer: %@";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="Post";

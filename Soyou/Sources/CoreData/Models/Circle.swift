@@ -49,8 +49,9 @@ class Circle: NSManagedObject {
             circle.username = (data["username"] as? String)?.removingPercentEncoding
             circle.visibility = data["visibility"] as? NSNumber
             circle.userProfileUrl = data["userProfileUrl"] as? String
-            circle.comments = data["comments"] as? NSArray
-            circle.likes = data["likes"] as? NSArray
+            circle.commentCount = data["commentCount"] as? NSNumber
+            circle.likeCount = data["likeCount"] as? NSNumber
+            circle.userBadges = data["userBadges"] as? NSArray
         }
         
         return circle

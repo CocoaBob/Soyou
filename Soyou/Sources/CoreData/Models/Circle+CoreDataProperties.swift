@@ -22,7 +22,8 @@ extension Circle {
     @NSManaged var userProfileUrl: String?
     @NSManaged var createdDate: Date?
     @NSManaged var visibility: NSNumber?
-    @NSManaged var comments: NSArray?
-    @NSManaged var likes: NSArray?
+    @NSManaged var userBadges: NSArray?
+    @NSManaged var commentCount: NSNumber?
+    @NSManaged var likeCount: NSNumber?
 
 }

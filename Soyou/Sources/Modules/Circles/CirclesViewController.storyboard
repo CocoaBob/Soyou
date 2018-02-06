@@ -65,6 +65,9 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_m" translatesAutoresizingMaskIntoConstraints="NO" id="gRn-UA-gh5">
+                                                    <rect key="frame" x="16" y="16" width="48" height="48"/>
+                                                </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eIz-v2-3zl">
                                                     <rect key="frame" x="16" y="16" width="48" height="48"/>
                                                     <connections>
@@ -197,7 +200,9 @@
                                                 <constraint firstItem="2Xn-1I-bbL" firstAttribute="bottom" secondItem="wUB-Yb-mr1" secondAttribute="top" id="5Zl-Qn-4td"/>
                                                 <constraint firstItem="2Xn-1I-bbL" firstAttribute="leading" secondItem="xSs-Ar-EMy" secondAttribute="leading" id="6wz-lO-0ra"/>
                                                 <constraint firstItem="7Rf-yb-3hR" firstAttribute="trailing" secondItem="xSs-Ar-EMy" secondAttribute="trailing" id="9d4-cp-tzI"/>
+                                                <constraint firstItem="gRn-UA-gh5" firstAttribute="width" secondItem="qxk-a3-8H1" secondAttribute="width" id="KBT-09-aOi"/>
                                                 <constraint firstAttribute="bottom" secondItem="7Rf-yb-3hR" secondAttribute="bottom" constant="8" id="KHK-wf-5Vt"/>
+                                                <constraint firstItem="gRn-UA-gh5" firstAttribute="height" secondItem="qxk-a3-8H1" secondAttribute="height" id="R71-w1-Pf8"/>
                                                 <constraint firstItem="eIz-v2-3zl" firstAttribute="trailing" secondItem="qxk-a3-8H1" secondAttribute="trailing" id="RLa-fC-Cmr"/>
                                                 <constraint firstAttribute="bottom" secondItem="nvv-1Y-Gn3" secondAttribute="bottom" constant="8" id="RUM-0c-PDa"/>
                                                 <constraint firstItem="8R0-xI-v12" firstAttribute="leading" secondItem="nvv-1Y-Gn3" secondAttribute="trailing" constant="10" id="UGA-Zt-2PR"/>
@@ -206,6 +211,7 @@
                                                 <constraint firstItem="Pv3-TR-fQJ" firstAttribute="trailing" secondItem="xSs-Ar-EMy" secondAttribute="trailing" id="aql-9d-Ndu"/>
                                                 <constraint firstItem="eIz-v2-3zl" firstAttribute="bottom" secondItem="qxk-a3-8H1" secondAttribute="bottom" id="atz-nt-jJs"/>
                                                 <constraint firstItem="2Xn-1I-bbL" firstAttribute="top" secondItem="Pv3-TR-fQJ" secondAttribute="bottom" id="boJ-3s-ZBP"/>
+                                                <constraint firstItem="gRn-UA-gh5" firstAttribute="centerX" secondItem="qxk-a3-8H1" secondAttribute="centerX" id="evd-wq-4BG"/>
                                                 <constraint firstItem="xSs-Ar-EMy" firstAttribute="top" secondItem="qxk-a3-8H1" secondAttribute="top" id="hTp-yW-ZNi"/>
                                                 <constraint firstAttribute="trailing" secondItem="xSs-Ar-EMy" secondAttribute="trailing" constant="20" id="inA-e6-chl"/>
                                                 <constraint firstItem="nvv-1Y-Gn3" firstAttribute="leading" secondItem="xSs-Ar-EMy" secondAttribute="leading" id="k80-tJ-hdS"/>
@@ -219,6 +225,7 @@
                                                 <constraint firstItem="Pv3-TR-fQJ" firstAttribute="leading" secondItem="xSs-Ar-EMy" secondAttribute="leading" id="vhD-t3-cx4"/>
                                                 <constraint firstItem="qxk-a3-8H1" firstAttribute="leading" secondItem="RsM-Sz-DFc" secondAttribute="leading" constant="16" id="wC3-oN-aYI"/>
                                                 <constraint firstItem="8R0-xI-v12" firstAttribute="top" secondItem="nvv-1Y-Gn3" secondAttribute="top" id="yQa-TC-0uA"/>
+                                                <constraint firstItem="gRn-UA-gh5" firstAttribute="centerY" secondItem="qxk-a3-8H1" secondAttribute="centerY" id="z0a-YR-uey"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -232,6 +239,7 @@
                                             <outlet property="imagesCollectionViewContainer" destination="wUB-Yb-mr1" id="jBT-QO-XCv"/>
                                             <outlet property="imagesCollectionViewWidth" destination="xXn-7O-6GW" id="TiB-e7-meh"/>
                                             <outlet property="imgUser" destination="qxk-a3-8H1" id="lj8-7L-clt"/>
+                                            <outlet property="imgUserBadge" destination="gRn-UA-gh5" id="wva-mq-82r"/>
                                             <outlet property="lblContent" destination="Pv3-TR-fQJ" id="SDo-jY-iul"/>
                                             <outlet property="lblContentHeight" destination="nGo-i9-1dS" id="Zd9-pv-wON"/>
                                             <outlet property="lblDate" destination="nvv-1Y-Gn3" id="GdV-uI-324"/>
@@ -304,7 +312,9 @@
                         <outlet property="btnFollowing" destination="d9y-2A-X5h" id="c8t-A3-x5L"/>
                         <outlet property="btnMore" destination="26O-LO-NiM" id="FWC-CP-QsB"/>
                         <outlet property="followingFollowerContainer" destination="2kQ-iq-0me" id="icb-nT-U0N"/>
-                        <outlet property="imgViewAvatar" destination="9P3-pe-DFT" id="XKV-bK-W9K"/>
+                        <outlet property="imgBadges" destination="iOn-9U-fkp" id="al5-OW-MM9"/>
+                        <outlet property="imgUserAvatar" destination="9P3-pe-DFT" id="XKV-bK-W9K"/>
+                        <outlet property="imgUserBadge" destination="cVg-LU-lZ3" id="etf-R1-XFh"/>
                         <outlet property="lblBadges" destination="ebh-SV-vTf" id="GgH-9V-HVm"/>
                         <outlet property="lblFollowStatus" destination="8o8-lF-6g2" id="bKm-bo-Eg4"/>
                         <outlet property="lblUsername" destination="Y9Z-lF-JXC" id="Djf-u5-pyg"/>
@@ -333,6 +343,9 @@
                                     <real key="value" value="42"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_l" translatesAutoresizingMaskIntoConstraints="NO" id="cVg-LU-lZ3">
+                            <rect key="frame" x="258" y="78" width="84" height="84"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qa0-y2-tbq" userLabel="Follow Button Container">
                             <rect key="frame" x="350" y="106" width="242" height="27"/>
@@ -363,6 +376,13 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_s" translatesAutoresizingMaskIntoConstraints="NO" id="iOn-9U-fkp">
+                            <rect key="frame" x="284" y="184" width="12" height="12"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="12" id="56Q-VJ-AWM"/>
+                                <constraint firstAttribute="height" constant="12" id="RgC-Bl-NUr"/>
+                            </constraints>
+                        </imageView>
                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebh-SV-vTf" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
                             <rect key="frame" x="300" y="192" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -451,7 +471,9 @@
                         <constraint firstItem="9P3-pe-DFT" firstAttribute="centerY" secondItem="jmI-uT-zgo" secondAttribute="centerY" id="Ehj-4d-V0H"/>
                         <constraint firstItem="ebh-SV-vTf" firstAttribute="centerX" secondItem="zVn-ST-85r" secondAttribute="centerX" id="FXD-DH-e1F"/>
                         <constraint firstItem="2kQ-iq-0me" firstAttribute="leading" secondItem="zVn-ST-85r" secondAttribute="leading" constant="16" id="G74-go-Sey"/>
+                        <constraint firstItem="cVg-LU-lZ3" firstAttribute="height" secondItem="9P3-pe-DFT" secondAttribute="height" id="Iai-qv-1nC"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" secondItem="2kQ-iq-0me" secondAttribute="trailing" constant="16" id="KWv-wa-nPQ"/>
+                        <constraint firstItem="cVg-LU-lZ3" firstAttribute="centerY" secondItem="9P3-pe-DFT" secondAttribute="centerY" id="O5A-ic-9tL"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ebh-SV-vTf" secondAttribute="trailing" constant="16" id="Sxs-dR-wOr"/>
                         <constraint firstAttribute="bottom" secondItem="73j-oh-zvl" secondAttribute="bottom" id="XMr-xY-kjq"/>
                         <constraint firstItem="2kQ-iq-0me" firstAttribute="top" secondItem="8o8-lF-6g2" secondAttribute="bottom" id="Xbt-8P-hYS"/>
@@ -461,7 +483,11 @@
                         <constraint firstItem="qa0-y2-tbq" firstAttribute="leading" secondItem="9P3-pe-DFT" secondAttribute="trailing" constant="8" id="c17-Oq-S2X"/>
                         <constraint firstItem="8o8-lF-6g2" firstAttribute="top" secondItem="ebh-SV-vTf" secondAttribute="bottom" id="gc0-ic-4pB"/>
                         <constraint firstItem="8o8-lF-6g2" firstAttribute="centerX" secondItem="zVn-ST-85r" secondAttribute="centerX" id="hgF-Gt-MEL"/>
+                        <constraint firstItem="cVg-LU-lZ3" firstAttribute="width" secondItem="9P3-pe-DFT" secondAttribute="width" id="j2h-hZ-LR4"/>
+                        <constraint firstItem="cVg-LU-lZ3" firstAttribute="centerX" secondItem="9P3-pe-DFT" secondAttribute="centerX" id="rCm-D4-te6"/>
+                        <constraint firstItem="ebh-SV-vTf" firstAttribute="leading" secondItem="iOn-9U-fkp" secondAttribute="trailing" constant="4" id="sAi-Gh-Y3V"/>
                         <constraint firstItem="Y9Z-lF-JXC" firstAttribute="top" secondItem="9P3-pe-DFT" secondAttribute="bottom" constant="8" id="uNH-qt-0JF"/>
+                        <constraint firstItem="iOn-9U-fkp" firstAttribute="centerY" secondItem="ebh-SV-vTf" secondAttribute="centerY" constant="-2" id="uvR-bi-Wet"/>
                         <constraint firstItem="9P3-pe-DFT" firstAttribute="centerX" secondItem="jmI-uT-zgo" secondAttribute="centerX" id="vfv-JB-Y8t"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Y9Z-lF-JXC" secondAttribute="trailing" constant="16" id="yb1-Hr-mMx"/>
                     </constraints>
@@ -686,6 +712,9 @@
     <resources>
         <image name="img_avatar_neutral" width="84" height="84"/>
         <image name="img_back" width="16" height="28"/>
+        <image name="img_badge_l" width="80" height="80"/>
+        <image name="img_badge_m" width="48" height="48"/>
+        <image name="img_badge_s" width="12" height="12"/>
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_camera_shadow" width="36" height="29"/>
         <image name="img_delete" width="20" height="20"/>

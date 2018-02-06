@@ -8,7 +8,7 @@
 
 class ProfileViewController: SimpleTableViewController {
     
-    @IBOutlet var imgViewAvatar: UIImageView!
+    @IBOutlet var imgUserAvatar: UIImageView!
     
     // Life cycle
     required init?(coder aDecoder: NSCoder) {

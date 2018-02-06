@@ -8,7 +8,7 @@
 
 class UserViewController: SimpleTableViewController {
     
-    @IBOutlet var imgViewAvatar: UIImageView!
+    @IBOutlet var imgUserAvatar: UIImageView!
     @IBOutlet var parallaxHeaderView: UIView!
     @IBOutlet var lblUsername: UILabel!
     @IBOutlet var lblMatricule: UILabel!
@@ -44,7 +44,7 @@ class UserViewController: SimpleTableViewController {
         self.tableView.backgroundColor = Cons.UI.colorBG
         
         // Setup avatar action
-        self.imgViewAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
+        self.imgUserAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
         self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
         
         // Username shadow
@@ -156,12 +156,12 @@ extension UserViewController {
 extension UserViewController {
     
     func addAvatarBorder() {
-        self.imgViewAvatar.layer.borderWidth = 1
-        self.imgViewAvatar.layer.borderColor = UIColor.white.cgColor
+        self.imgUserAvatar.layer.borderWidth = 1
+        self.imgUserAvatar.layer.borderColor = UIColor.white.cgColor
     }
     
     func removeAvatarBorder() {
-        self.imgViewAvatar.layer.borderWidth = 0
+        self.imgUserAvatar.layer.borderWidth = 0
     }
     
     func updateUserInfo(_ reloadAvatar: Bool) {
@@ -171,7 +171,7 @@ extension UserViewController {
             if reloadAvatar {
                 options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates]
             }
-            self.imgViewAvatar.sd_setImage(with: url,
+            self.imgUserAvatar.sd_setImage(with: url,
                                            placeholderImage: UserManager.shared.defaultAvatarImage(),
                                            options: options,
                                            completed: { (image, error, type, url) -> Void in
@@ -180,7 +180,7 @@ extension UserViewController {
                                             }
             })
         } else {
-            self.imgViewAvatar.image = UserManager.shared.defaultAvatarImage()
+            self.imgUserAvatar.image = UserManager.shared.defaultAvatarImage()
         }
         self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
         if let matricule = UserManager.shared.matricule {

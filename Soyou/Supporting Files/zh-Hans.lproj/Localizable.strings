@@ -107,6 +107,8 @@
 "circles_vc_user_follower"="粉丝 %d";
 "circles_vc_user_follows_you"="TA是您的粉丝";
 "circles_vc_user_not_follow_you"="TA没有关注您";
+"circles_vc_user_certified_sales"="认证店员: %@";
+"circles_vc_user_certified_buyer"="认证买手: %@";
 
 /* Circle Compose View Controller */
 "circle_compose_post"="发布";

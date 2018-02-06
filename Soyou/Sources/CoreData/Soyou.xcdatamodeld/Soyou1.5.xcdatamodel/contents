@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C205" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1212" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="AppData" representedClassName=".AppData" syncable="YES">
         <attribute name="key" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
@@ -15,12 +15,13 @@
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <entity name="Circle" representedClassName=".Circle" syncable="YES">
-        <attribute name="comments" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="commentCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="createdDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="images" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="likes" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="likeCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userBadges" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userProfileUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -122,7 +123,7 @@
     <elements>
         <element name="AppData" positionX="-54" positionY="135" width="128" height="75"/>
         <element name="Brand" positionX="-63" positionY="135" width="128" height="165"/>
-        <element name="Circle" positionX="-45" positionY="135" width="128" height="195"/>
+        <element name="Circle" positionX="-45" positionY="135" width="128" height="210"/>
         <element name="CurrencyRate" positionX="-63" positionY="135" width="128" height="105"/>
         <element name="Discount" positionX="-36" positionY="144" width="128" height="225"/>
         <element name="FavoriteDiscount" positionX="-36" positionY="153" width="128" height="60"/>
