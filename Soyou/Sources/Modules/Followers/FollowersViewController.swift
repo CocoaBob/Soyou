@@ -26,13 +26,9 @@ class FollowersViewController: UIViewController {
     var followers: [Follower]?
     var followings: [Follower]?
     var searchedUsers: [Follower]?
-    
-    // Loading Indicator
-    @IBOutlet fileprivate var _loadingView: UIView!
-    @IBOutlet fileprivate var _loadingViewLabel: UILabel!
-    var isLoadingViewVisible: Bool = true {
+    var isLoadingData = false {
         didSet {
-            self._loadingView.isHidden = !isLoadingViewVisible
+            self.tableView.reloadData()
         }
     }
     
@@ -59,13 +55,12 @@ class FollowersViewController: UIViewController {
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
         
-        // Setup Table
-        self.tableView.rowHeight = 80
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.tableView.separatorColor = UIColor.clear
-        
         // Setup refresh controls
         self.setupRefreshControls()
+        
+        // Setup Table
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.separatorColor = UIColor.clear
         
         // Load data
         self.loadData()
@@ -105,33 +100,53 @@ class FollowersViewController: UIViewController {
 // MARK: - Table View DataSource & Delegate
 extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var returnValue = 0
+    fileprivate func numberOfRows() -> Int {
         if self.isSearchResultsViewController {
-            returnValue = self.searchedUsers?.count ?? 0
+            return self.searchedUsers?.count ?? 0
         } else {
-            returnValue = self.isShowingFollowers ? (self.followers?.count ?? 0) : (self.followings?.count ?? 0)
+            return self.isShowingFollowers ? (self.followers?.count ?? 0) : (self.followings?.count ?? 0)
         }
-        if returnValue == 0 {
-            if self.isSearchResultsViewController && self.searchKeywordIsEmpty() {
-                self.showTapToSearchMessage()
-            } else {
-                self.showNoDataMessage()
-            }
-        }
-        return returnValue
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let returnValue = numberOfRows()
+        return returnValue == 0 ? 1 : returnValue
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersTableViewCell", for: indexPath)
-        if let cell = cell as? FollowersTableViewCell {
-            if self.isSearchResultsViewController {
-                cell.follower = self.searchedUsers?[indexPath.row]
-            } else {
-                cell.follower = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
+        let count = self.numberOfRows()
+        if count == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StatusMessageTableViewCell", for: indexPath)
+            if let cell = cell as? StatusMessageTableViewCell {
+                if self.isSearchResultsViewController && self.searchKeywordIsEmpty() {
+                    cell.lblTitle.text = NSLocalizedString(self.isLoadingData ? "followers_vc_loading" : "followers_vc_tap_search")
+                } else {
+                    cell.lblTitle.text = NSLocalizedString(
+                        self.isLoadingData ?
+                            ((self.tableView.mj_header != nil && self.tableView.mj_header.isRefreshing) ? "" : "followers_vc_loading") :
+                            (self.isSearchResultsViewController ? "followers_vc_no_result" : "followers_vc_empty"))
+                }
             }
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersTableViewCell", for: indexPath)
+            if let cell = cell as? FollowersTableViewCell {
+                if self.isSearchResultsViewController {
+                    cell.follower = self.searchedUsers?[indexPath.row]
+                } else {
+                    cell.follower = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
+                }
+            }
+            return cell
         }
-        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if self.numberOfRows() == 0 {
+            return 64
+        } else {
+            return 80
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -161,13 +176,10 @@ extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
 extension FollowersViewController {
     
     func loadData() {
-        // Show indicator
-        if self.isSearchResultsViewController && self.searchKeywordIsEmpty() {
-            self.showTapToSearchMessage()
-        } else {
-            self.showLoadingMessage()
+        if self.isLoadingData {
+            return
         }
-        
+        self.isLoadingData = true
         // Load data
         if self.isSearchResultsViewController {
             if let keyword = self.searchKeyword {
@@ -177,9 +189,10 @@ extension FollowersViewController {
                         self.searchedUsers = Follower.newList(dicts: data)
                     }
                     self.endRefreshing()
-                    self.tableView.reloadData()
-                    self.isLoadingViewVisible = false
+                    self.isLoadingData = false // Will refresh the table
                 }
+            } else {
+                self.isLoadingData = false
             }
         } else {
             let dispatchGroup = DispatchGroup()
@@ -201,8 +214,7 @@ extension FollowersViewController {
             }
             dispatchGroup.notify(queue: .main) {
                 self.endRefreshing()
-                self.tableView.reloadData()
-                self.isLoadingViewVisible = false
+                self.isLoadingData = false // Will refresh the table
             }
         }
     }
@@ -212,9 +224,11 @@ extension FollowersViewController {
 extension FollowersViewController {
     
     func setupRefreshControls() {
+        if self.isSearchResultsViewController {
+            return
+        }
         guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
             self.loadData()
-            self.beginRefreshing()
         }) else { return }
         header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
         header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
@@ -226,13 +240,20 @@ extension FollowersViewController {
     
     func beginRefreshing() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DispatchQueue.main.async {
+            if !self.isSearchResultsViewController {
+                self.tableView.mj_header.beginRefreshing()
+            }
+        }
     }
     
     func endRefreshing() {
-        DispatchQueue.main.async {
-            self.tableView.mj_header.endRefreshing()
-        }
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        DispatchQueue.main.async {
+            if !self.isSearchResultsViewController {
+                self.tableView.mj_header.endRefreshing()
+            }
+        }
     }
 }
 
@@ -299,24 +320,11 @@ extension FollowersViewController: UISearchResultsUpdating {
         return self.searchKeyword?.count ?? 0 == 0
     }
     
-    func showTapToSearchMessage() {
-        _loadingViewLabel.text = NSLocalizedString("followers_vc_tap_search")
-        self.isLoadingViewVisible = true
-    }
-    
-    func showNoDataMessage() {
-        _loadingViewLabel.text = NSLocalizedString("followers_vc_no_data")
-        self.isLoadingViewVisible = true
-    }
-    
-    func showLoadingMessage() {
-        _loadingViewLabel.text = NSLocalizedString("followers_vc_loading")
-        self.isLoadingViewVisible = true
-    }
-    
     func updateSearchResults(for searchController: UISearchController) {
         // Avoid hiding the searchResultsController if search text field is empty
         if searchKeywordIsEmpty() {
+            self.searchedUsers?.removeAll()
+            self.tableView.reloadData()
             searchController.searchResultsController?.view.isHidden = false
         }
         
