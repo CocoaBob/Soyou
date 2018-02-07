@@ -48,6 +48,7 @@ PODS:
     - FBSDKCoreKit
   - FCUUID (1.3.1):
     - UICKeyChainStore (~> 2.1.0)
+  - Fingertips (0.5.0)
   - FirebaseAnalytics (3.9.0):
     - FirebaseCore (~> 3.6)
     - FirebaseInstanceID (~> 1.0)
@@ -133,6 +134,7 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - FBSDKShareKit
   - FCUUID
+  - Fingertips
   - FlagKit (from `git://github.com/choco/FlagKit`, branch `master`)
   - Google/SignIn
   - MagicalRecord (~> 2.3)
@@ -224,6 +226,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
   FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
   FCUUID: bb054fc90cd7cd99320f9f6ff8e130fe607fba05
+  Fingertips: 8e557eed25253fcb4bfa25ac4418f8e8add1ad9a
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
   FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
@@ -260,6 +263,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: b93b8f330c7ff15d0461d795ef92b628667db06a
+PODFILE CHECKSUM: b67b7ba3d854c89f4b01ed66ce9a771201d97272
 
 COCOAPODS: 1.4.0

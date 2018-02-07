@@ -15,6 +15,7 @@ target :'Soyou' do
 	pod "CHTCollectionViewWaterfallLayout"
 	pod "EAIntroView"
 	pod "FCUUID"
+    pod "Fingertips"
 	pod "FlagKit", :git => 'git://github.com/choco/FlagKit', :branch => 'master'
 	pod "OOPhotoBrowser"
 	pod "MagicalRecord", '~> 2.3'

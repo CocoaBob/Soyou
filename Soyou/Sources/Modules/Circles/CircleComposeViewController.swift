@@ -475,7 +475,7 @@ extension CircleComposeViewController {
             _deleteView.snp.makeConstraints({ (make) in
                 make.height.equalTo(64 + Cons.UI.screenBottomMargin)
                 make.left.right.equalToSuperview()
-                make.top.equalTo(currentWindow.snp.bottom).offset(-(44 + Cons.UI.screenBottomMargin))
+                make.top.equalTo(currentWindow.snp.bottom).offset(-(64 + Cons.UI.screenBottomMargin))
             })
             self.deleteView = _deleteView
             self.updateDeleteView(gesture: gesture)

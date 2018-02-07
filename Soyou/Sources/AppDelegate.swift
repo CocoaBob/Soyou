@@ -12,12 +12,16 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+    var window: MBFingerTipWindow?
     var overlayWindow = UIWindow()
     
     var dbIsInitialized = false
     var shortcutItemType = ""
     var uiIsInitialized = false
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Crashlytics
@@ -152,8 +156,10 @@ extension AppDelegate {
 extension AppDelegate {
     
     func setupWindow() {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window = MBFingerTipWindow(frame: UIScreen.main.bounds)
+        self.window?.alwaysShowTouches = self.isMirroring()
         self.window?.makeKeyAndVisible()
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.updateFingerTouchEffect), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
     }
     
     func setupOverlayWindow() {
@@ -346,5 +352,23 @@ extension AppDelegate: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         let toppestViewController = viewController.toppestViewController()
         toppestViewController?.viewDidAppear(false)
+    }
+}
+
+// MARK: Show FingerTips
+extension AppDelegate {
+    
+    func isMirroring() -> Bool {
+        var returnValue = false
+        for output in AVAudioSession.sharedInstance().currentRoute.outputs {
+            if (output.portType == AVAudioSessionPortHDMI) {
+                returnValue = true
+            }
+        }
+        return returnValue;
+    }
+    
+    func updateFingerTouchEffect() {
+        self.window?.alwaysShowTouches = self.isMirroring()
     }
 }

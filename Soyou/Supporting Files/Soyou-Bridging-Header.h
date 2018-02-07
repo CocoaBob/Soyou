@@ -8,6 +8,7 @@
 
 // System Frameworks
 @import AddressBook;
+@import AVFoundation;
 @import Contacts;
 @import CoreLocation;
 @import Foundation;
@@ -24,6 +25,7 @@
 @import CHTCollectionViewWaterfallLayout;
 @import EAIntroView;
 @import FCUUID;
+@import Fingertips;
 @import OOPhotoBrowser;
 @import MagicalRecord;
 @import MBProgressHUD;
