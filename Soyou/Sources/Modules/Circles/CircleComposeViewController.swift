@@ -29,8 +29,12 @@ class CircleComposeViewController: UITableViewController {
     
     var delegate: CircleComposeViewControllerDelegate?
     var customAssets: [TLPHAsset]?
-    var selectedAssets: [TLPHAsset]?
-    var isOnlySharing = false {// If true, we will submit images and text to circles
+    var selectedAssets: [TLPHAsset]? {
+        didSet {
+            self.updatePostButton()
+        }
+    }
+    var isOneClickSharing = false {// If true, we will submit images and text to circles
         didSet {
             self.setupViews()
         }
@@ -47,6 +51,7 @@ class CircleComposeViewController: UITableViewController {
             }
         }
     }
+    var originalId: String? // If it's forwarding another circle, this is the other one's ID
     
     @IBOutlet var tvContent: UITextView!
     @IBOutlet var imagesCollectionView: UICollectionView!
@@ -105,18 +110,18 @@ extension CircleComposeViewController {
                                                                 style: .plain,
                                                                 target: self,
                                                                 action: #selector(CircleComposeViewController.quitEditing))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString(self.isOnlySharing ? "circle_compose_share" : "circle_compose_post"),
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString(self.isOneClickSharing ? "circle_compose_share" : "circle_compose_post"),
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(CircleComposeViewController.post))
-        self.navigationItem.rightBarButtonItem?.isEnabled = self.isOnlySharing
+        self.updatePostButton()
         self.tvContent.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
         self.tvContent.textContainer.lineFragmentPadding = 0
         self.lblShareToWeChat.text = NSLocalizedString("circle_compose_share_to_wechat")
         self.imgShareToWeChat.image = UIImage(named: "img_moments")?.withRenderingMode(.alwaysTemplate)
         self.imgShareToWeChat.tintColor = UIColor.gray
-        self.shareToWeChat.isEnabled = !self.isOnlySharing
-        self.shareToWeChat.isOn = self.isOnlySharing
+        self.shareToWeChat.isEnabled = !self.isOneClickSharing
+        self.shareToWeChat.isOn = self.isOneClickSharing
         self.imgVisibility.image = UIImage(named: "img_globe")?.withRenderingMode(.alwaysTemplate)
         let currVisibility = self.visibility
         self.visibility = currVisibility
@@ -338,26 +343,19 @@ extension CircleComposeViewController {
     }
     
     @IBAction func post() {
-        if self.isOnlySharing {
-            self.dismiss(animated: true, completion: {
-                let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
-                self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
-            })
-        } else {
-            MBProgressHUD.show(self.view)
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-            UserManager.shared.loginOrDo {
-                let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
-                let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
-                let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
-                DataManager.shared.createCicle(encodedText, imageDatas, self.visibility) { (responseObject, error) in
-                    MBProgressHUD.hide(self.view)
-                    self.navigationItem.rightBarButtonItem?.isEnabled = true
-                    self.delegate?.didPostNewCircle()
-                    self.dismiss(animated: true, completion: {
-                        self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
-                    })
-                }
+        MBProgressHUD.show(self.view)
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        UserManager.shared.loginOrDo {
+            let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
+            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
+            let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
+            DataManager.shared.createCircle(encodedText, imageDatas, self.visibility, self.originalId) { (responseObject, error) in
+                MBProgressHUD.hide(self.view)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.delegate?.didPostNewCircle()
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+                })
             }
         }
     }

@@ -709,8 +709,8 @@ class DataManager {
         })
     }
     
-    func createCicle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ completion: CompletionClosure?) {
-        RequestManager.shared.createCicle(text, imgs, visibility, { responseObject in
+    func createCircle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ originalId: String?, _ completion: CompletionClosure?) {
+        RequestManager.shared.createCircle(text, imgs, visibility, originalId, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)

@@ -400,8 +400,9 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.selectedAssets = assets
         vc.loadViewIfNeeded()
         vc.tvContent.text = text
-        vc.isOnlySharing = true
+        vc.isOneClickSharing = true
         vc.visibility = CircleVisibility.friends
+        vc.originalId = self.circle?.id
         // Present
         self.parentViewController?.tabBarController?.present(nav, animated: true, completion: nil)
     }
