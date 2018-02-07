@@ -30,13 +30,9 @@ class Utils: NSObject {
 extension Utils {
     
     class func openAppStorePage() {
-        guard let url = URL(string: "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8") else {
-            return
-        }
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [UIApplicationOpenURLOptionUniversalLinksOnly : NSNumber(value: true)], completionHandler: nil)
-        } else {
-            UIApplication.shared.openURL(url)
+        let urlStr = "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8"
+        if let url = URL(string: urlStr), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 }
