@@ -199,7 +199,7 @@ extension UserViewController {
             nav.modalPresentationCapturesStatusBarAppearance = true
             // Setup Transition Animator
             vc.loadViewIfNeeded()
-            vc.setupTransitionAnimator(modalVC: nav)
+            vc.setupTransitionAnimator(modalVC: vc)
             nav.transitioningDelegate = vc.transitionAnimator
             // Present
             self.present(nav, animated: true, completion: nil)
@@ -214,7 +214,7 @@ extension UserViewController {
         nav.modalPresentationCapturesStatusBarAppearance = true
         // Setup Transition Animator
         vc.loadViewIfNeeded()
-        vc.setupTransitionAnimator(modalVC: nav)
+        vc.setupTransitionAnimator(modalVC: vc)
         nav.transitioningDelegate = vc.transitionAnimator
         // Present
         self.present(nav, animated: true, completion: nil)

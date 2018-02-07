@@ -276,7 +276,7 @@ extension UserManager {
             nav.modalPresentationCapturesStatusBarAppearance = true
             // Setup Transition Animator
             vc.loadViewIfNeeded()
-            vc.setupTransitionAnimator(modalVC: nav)
+            vc.setupTransitionAnimator(modalVC: vc)
             nav.transitioningDelegate = vc.transitionAnimator
             // Present
             UIApplication.shared.keyWindow?.rootViewController?.present(nav, animated: true, completion: nil)
