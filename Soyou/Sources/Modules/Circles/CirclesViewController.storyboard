@@ -563,10 +563,10 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                                                     </imageView>
                                                                     <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FNv-Vp-BSK">
-                                                                        <rect key="frame" x="56" y="0.0" width="24" height="24"/>
+                                                                        <rect key="frame" x="62" y="0.0" width="18" height="18"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="height" constant="24" id="O0b-R9-xiw"/>
-                                                                            <constraint firstAttribute="width" constant="24" id="YrZ-I6-PL0"/>
+                                                                            <constraint firstAttribute="height" constant="18" id="O0b-R9-xiw"/>
+                                                                            <constraint firstAttribute="width" constant="18" id="YrZ-I6-PL0"/>
                                                                         </constraints>
                                                                         <state key="normal" image="img_delete"/>
                                                                         <connections>
@@ -716,7 +716,7 @@
         <image name="img_badge_s" width="12" height="12"/>
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_camera_shadow" width="36" height="29"/>
-        <image name="img_delete" width="20" height="20"/>
+        <image name="img_delete" width="18" height="18"/>
         <image name="img_more" width="32" height="10"/>
     </resources>
 </document>
