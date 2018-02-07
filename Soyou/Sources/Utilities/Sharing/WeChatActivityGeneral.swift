@@ -44,7 +44,7 @@ class WeChatActivityGeneral: UIActivity {
     
     override func perform() {
         // Switch to another app to hide the name
-        DDSocialShareHandler.sharedInstance().register(.weChat, appKey: "wx0cb0066522588a9c", appSecret: "139362fbfbd0d23011626cd4d4c44782", redirectURL: "", appDescription: "")
+//        DDSocialShareHandler.sharedInstance().register(.weChat, appKey: "wx0cb0066522588a9c", appSecret: "139362fbfbd0d23011626cd4d4c44782", redirectURL: "", appDescription: "")
         
         let message = WXMediaMessage()
         
@@ -83,7 +83,7 @@ class WeChatActivityGeneral: UIActivity {
         WXApi.send(req)
         
         // Switch back to Soyou
-        DDSocialShareHandler.sharedInstance().register(.weChat, appKey: "wxe3346afe30577009", appSecret: "485df03e708c879eea75686ce3432ab0", redirectURL: "", appDescription: "")
+//        DDSocialShareHandler.sharedInstance().register(.weChat, appKey: "wxe3346afe30577009", appSecret: "485df03e708c879eea75686ce3432ab0", redirectURL: "", appDescription: "")
         
         self.activityDidFinish(true)
     }
