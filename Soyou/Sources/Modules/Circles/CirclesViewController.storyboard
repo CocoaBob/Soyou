@@ -313,6 +313,7 @@
                         <outlet property="btnMore" destination="26O-LO-NiM" id="FWC-CP-QsB"/>
                         <outlet property="followingFollowerContainer" destination="2kQ-iq-0me" id="icb-nT-U0N"/>
                         <outlet property="imgBadge" destination="iOn-9U-fkp" id="G77-B4-o9y"/>
+                        <outlet property="imgGender" destination="h7V-1n-UC8" id="oCL-33-lCR"/>
                         <outlet property="imgUserAvatar" destination="9P3-pe-DFT" id="XKV-bK-W9K"/>
                         <outlet property="imgUserBadge" destination="cVg-LU-lZ3" id="etf-R1-XFh"/>
                         <outlet property="lblBadge" destination="ebh-SV-vTf" id="ZXC-zN-zW6"/>
@@ -396,6 +397,13 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h7V-1n-UC8">
+                            <rect key="frame" x="346" y="172" width="14" height="14"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="14" id="578-8K-2Uq"/>
+                                <constraint firstAttribute="height" constant="14" id="z5X-7b-Cce"/>
+                            </constraints>
+                        </imageView>
                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_s" translatesAutoresizingMaskIntoConstraints="NO" id="iOn-9U-fkp">
                             <rect key="frame" x="284" y="184" width="12" height="12"/>
                             <constraints>
@@ -471,9 +479,11 @@
                         <constraint firstItem="ebh-SV-vTf" firstAttribute="centerX" secondItem="zVn-ST-85r" secondAttribute="centerX" id="FXD-DH-e1F"/>
                         <constraint firstItem="2kQ-iq-0me" firstAttribute="leading" secondItem="zVn-ST-85r" secondAttribute="leading" constant="16" id="G74-go-Sey"/>
                         <constraint firstItem="cVg-LU-lZ3" firstAttribute="height" secondItem="9P3-pe-DFT" secondAttribute="height" id="Iai-qv-1nC"/>
+                        <constraint firstItem="h7V-1n-UC8" firstAttribute="leading" secondItem="Y9Z-lF-JXC" secondAttribute="trailing" constant="4" id="KWW-96-0Bj"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" secondItem="2kQ-iq-0me" secondAttribute="trailing" constant="16" id="KWv-wa-nPQ"/>
                         <constraint firstItem="8o8-lF-6g2" firstAttribute="centerX" secondItem="qa0-y2-tbq" secondAttribute="centerX" id="NDP-Ln-fO1"/>
                         <constraint firstItem="cVg-LU-lZ3" firstAttribute="centerY" secondItem="9P3-pe-DFT" secondAttribute="centerY" id="O5A-ic-9tL"/>
+                        <constraint firstItem="h7V-1n-UC8" firstAttribute="centerY" secondItem="Y9Z-lF-JXC" secondAttribute="centerY" id="PHw-cD-kVJ"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ebh-SV-vTf" secondAttribute="trailing" constant="16" id="Sxs-dR-wOr"/>
                         <constraint firstAttribute="bottom" secondItem="73j-oh-zvl" secondAttribute="bottom" id="XMr-xY-kjq"/>
                         <constraint firstItem="73j-oh-zvl" firstAttribute="top" secondItem="jmI-uT-zgo" secondAttribute="top" id="a5n-O5-3Qv"/>

@@ -21,6 +21,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var btnFollow: UIButton!
     @IBOutlet var lblFollowStatus: UILabel!
     @IBOutlet var lblUsername: UILabel!
+    @IBOutlet var imgGender: UIImageView!
     @IBOutlet var imgBadge: UIImageView!
     @IBOutlet var lblBadge: UILabel!
     @IBOutlet var followingFollowerContainer: UIView!
@@ -667,6 +668,21 @@ extension CirclesViewController {
                         self.followingFollowerContainer.isHidden = false
                     } else {
                         self.followingFollowerContainer.isHidden = true
+                    }
+                    
+                    // Update Gender
+                    if let gender = data["gender"] as? String {
+                        if gender == "\(Cons.Usr.genderMale)" {
+                            self.imgGender.isHidden = false
+                            self.imgGender.image = UIImage(named: "img_gender_male")
+                        } else if gender == "\(Cons.Usr.genderFemale)" {
+                            self.imgGender.isHidden = false
+                            self.imgGender.image = UIImage(named: "img_gender_female")
+                        } else {
+                            self.imgGender.isHidden = true
+                        }
+                    } else {
+                        self.imgGender.isHidden = true
                     }
                 }
             }
