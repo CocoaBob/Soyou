@@ -12,10 +12,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Interactive Pop Navigation Controller-->
         <scene sceneID="Oz2-xS-AXZ">
             <objects>
-                <navigationController id="l74-fr-qiO" sceneMemberID="viewController">
+                <navigationController id="l74-fr-qiO" customClass="InteractivePopNavigationController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5Gx-ET-4vz">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
