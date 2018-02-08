@@ -424,6 +424,12 @@ class RequestManager {
                   onSuccess, onFailure)
     }
     
+    func acceptInvitation(_ invitationCode: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/accept-invitation", "User",
+                  ["invitationCode": invitationCode],
+                  onSuccess, onFailure)
+    }
+    
     func searchUsers(_ keyword: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/search", "User",
                   ["query": keyword, "codedQuery": keyword.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? keyword],

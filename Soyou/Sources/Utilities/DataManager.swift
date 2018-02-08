@@ -198,6 +198,14 @@ class DataManager {
         })
     }
     
+    func acceptInvitation(_ invitationCode: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.acceptInvitation(invitationCode, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     func searchUsers(_ keyword: String, _ completion: CompletionClosure?) {
         RequestManager.shared.searchUsers(keyword, { responseObject in
             self.completeWithData(responseObject, completion: completion)
