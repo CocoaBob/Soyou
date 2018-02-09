@@ -407,6 +407,10 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         self.parentViewController?.tabBarController?.present(nav, animated: true, completion: nil)
     }
     
+    func didPostNewCircle() {
+        self.parentViewController?.didPostNewCircle()
+    }
+    
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
         if needsToShare {
             DataManager.shared.analyticsShareCircle(id: self.circle?.id ?? "")

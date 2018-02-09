@@ -166,7 +166,7 @@ extension UserViewController {
     
     func updateUserInfo(_ reloadAvatar: Bool) {
         self.removeAvatarBorder()
-        if let url = URL(string: UserManager.shared.avatar ?? "") {
+        if UserManager.shared.isLoggedIn, let url = URL(string: UserManager.shared.avatar ?? "") {
             var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates]
             if reloadAvatar {
                 options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates]

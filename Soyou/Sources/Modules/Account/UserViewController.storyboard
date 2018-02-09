@@ -119,13 +119,13 @@
                             </userDefinedRuntimeAttributes>
                         </imageView>
                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaK-Gp-xgc">
-                            <rect key="frame" x="259" y="178" width="83" height="18"/>
+                            <rect key="frame" x="259" y="170" width="83" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MEc-tw-ibp">
-                            <rect key="frame" x="300" y="200" width="0.0" height="0.0"/>
+                            <rect key="frame" x="300" y="192" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -140,7 +140,7 @@
                         <constraint firstItem="CyA-3f-zIP" firstAttribute="centerX" secondItem="yFb-LZ-316" secondAttribute="centerX" id="SZ6-Ka-LQl"/>
                         <constraint firstItem="CaK-Gp-xgc" firstAttribute="centerX" secondItem="yFb-LZ-316" secondAttribute="centerX" id="Xjd-nv-LgL"/>
                         <constraint firstItem="CyA-3f-zIP" firstAttribute="centerY" secondItem="yFb-LZ-316" secondAttribute="centerY" id="ZDp-sM-AaV"/>
-                        <constraint firstItem="CaK-Gp-xgc" firstAttribute="top" secondItem="CyA-3f-zIP" secondAttribute="bottom" constant="16" id="meK-AT-ink"/>
+                        <constraint firstItem="CaK-Gp-xgc" firstAttribute="top" secondItem="CyA-3f-zIP" secondAttribute="bottom" constant="8" id="meK-AT-ink"/>
                         <constraint firstItem="MEc-tw-ibp" firstAttribute="top" secondItem="CaK-Gp-xgc" secondAttribute="bottom" constant="4" id="mik-xN-asY"/>
                         <constraint firstItem="Lap-td-XWB" firstAttribute="leading" secondItem="yFb-LZ-316" secondAttribute="leading" id="vRh-da-sXm"/>
                     </constraints>

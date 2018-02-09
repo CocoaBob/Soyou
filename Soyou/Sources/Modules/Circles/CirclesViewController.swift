@@ -206,10 +206,12 @@ extension CirclesViewController {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &KVOContextCirclesViewController {
-            // Update login status
+            // Update user info
             self.updateUserInfo(true)
             if keyPath == "token" && UserManager.shared.isLoggedIn {
                 self.loadData(nil)
+            } else {
+                self.hideUserInfoRelatedControls()
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -297,9 +299,10 @@ extension CirclesViewController {
         self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
         
         // User Info related
-        self.btnFollow.isHidden = true
         self.btnFollow.layer.cornerRadius = 4
         self.btnFollow.clipsToBounds = true
+        self.lblFollowStatus.layer.cornerRadius = 4
+        self.lblFollowStatus.clipsToBounds = true
         self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
         self.lblUsername.layer.shadowOpacity = 1
         self.lblUsername.layer.shadowRadius = 2
@@ -308,9 +311,6 @@ extension CirclesViewController {
         self.lblBadge.layer.shadowOpacity = 1
         self.lblBadge.layer.shadowRadius = 2
         self.lblBadge.layer.shadowOffset = CGSize.zero
-        self.lblFollowStatus.layer.cornerRadius = 4
-        self.lblFollowStatus.clipsToBounds = true
-        self.followingFollowerContainer.isHidden = true
         self.followingFollowerContainer.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
         self.followingFollowerContainer.layer.shadowOpacity = 1
         self.followingFollowerContainer.layer.shadowRadius = 2
@@ -321,6 +321,18 @@ extension CirclesViewController {
         self.btnFollower.backgroundColor = UIColor(white: 0, alpha: 0.1)
         self.btnFollower.clipsToBounds = true
         self.btnFollower.layer.cornerRadius = 4
+        self.hideUserInfoRelatedControls()
+    }
+    
+    func hideUserInfoRelatedControls() {
+        self.imgUserBadge.isHidden = true
+        self.btnFollow.isHidden = true
+        self.lblFollowStatus.isHidden = true
+        self.imgGender.isHidden = true
+        self.imgBadge.isHidden = true
+        self.lblBadge.isHidden = true
+        self.followingFollowerContainer.isHidden = true
+        self.tableView().mj_footer.isHidden = true
     }
 }
 
@@ -566,10 +578,13 @@ extension CirclesViewController {
     fileprivate func updateUserInfo(_ reloadAvatar: Bool) {
         let isLoggedIn = UserManager.shared.isLoggedIn
         
+        // Tableview's footer
+        self.tableView().mj_footer.isHidden = !isLoggedIn
+        
         // Avatar
         self.removeAvatarBorder()
         let avatarURLString = (self.isSingleUserMode ? self.avatar : UserManager.shared.avatar) ?? ""
-        if let url = URL(string: avatarURLString) {
+        if isLoggedIn, let url = URL(string: avatarURLString) {
             var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             if reloadAvatar {
                 options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority]
@@ -585,7 +600,6 @@ extension CirclesViewController {
         } else {
             self.imgUserAvatar.image = UserManager.shared.defaultAvatarImage()
         }
-        self.imgUserBadge.isHidden = true
         
         // User name
         let currUsername = self.isSingleUserMode ? self.username : (UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown"))
