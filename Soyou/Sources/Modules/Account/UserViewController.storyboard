@@ -6,9 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -457,97 +455,6 @@
                                             <segue destination="TuX-cp-8md" kind="show" id="81F-A4-O2s"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EWA-i5-MF0" userLabel="Third Party Logins ">
-                                        <rect key="frame" x="10" y="449" width="356" height="90"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCk-5L-s4J" userLabel="WeChat">
-                                                <rect key="frame" x="0.0" y="42" width="48" height="48"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="48" id="7he-Qg-ECL"/>
-                                                    <constraint firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="height" multiplier="1:1" id="ZND-oR-ReY"/>
-                                                </constraints>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="img_logo_wechat"/>
-                                                <connections>
-                                                    <action selector="loginWechat:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="WmV-kB-PWh"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="92t-yb-GSj" userLabel="Weibo">
-                                                <rect key="frame" x="60.5" y="42" width="48" height="48"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="img_logo_weibo"/>
-                                                <connections>
-                                                    <action selector="loginSinaWeibo:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="diM-sv-oDt"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4K-MJ-Ker" userLabel="QQ">
-                                                <rect key="frame" x="122.5" y="42" width="48" height="48"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="img_logo_qq"/>
-                                                <connections>
-                                                    <action selector="loginQQ:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="J8b-5X-7dR"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WFb-jK-DU4" userLabel="Facebook">
-                                                <rect key="frame" x="184.5" y="42" width="48" height="48"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="img_logo_facebook"/>
-                                                <connections>
-                                                    <action selector="loginFacebook:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="oaY-xG-Pwc"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59U-Ph-JjD" userLabel="Twitter">
-                                                <rect key="frame" x="246" y="42" width="48" height="48"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="img_logo_twitter"/>
-                                                <connections>
-                                                    <action selector="loginTwitter:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="meA-qL-9aN"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="thE-38-SRd" userLabel="Instagram">
-                                                <rect key="frame" x="308" y="42" width="48" height="48"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="img_logo_google"/>
-                                                <connections>
-                                                    <action selector="loginGoogle:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="fwa-7p-haL"/>
-                                                </connections>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or sign in with" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZJf-BS-dA3">
-                                                <rect key="frame" x="0.0" y="0.0" width="356" height="20"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="1vJ-JH-LAr"/>
-                                            <constraint firstItem="thE-38-SRd" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="5yv-SB-o3c"/>
-                                            <constraint firstItem="92t-yb-GSj" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="ASg-VA-foJ"/>
-                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="Cn1-J9-mpP"/>
-                                            <constraint firstItem="thE-38-SRd" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" constant="-48" id="Gdy-o4-47Q"/>
-                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="HqT-Yh-yJZ"/>
-                                            <constraint firstItem="92t-yb-GSj" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.2" constant="-10" id="Oo1-n7-ymb"/>
-                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.4" constant="-20" id="Sfp-6c-8EC"/>
-                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="Ttj-ea-6cq"/>
-                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="UoW-nF-EAS"/>
-                                            <constraint firstAttribute="bottom" secondItem="tCk-5L-s4J" secondAttribute="bottom" id="ZgT-6Y-IxH"/>
-                                            <constraint firstItem="ZJf-BS-dA3" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="leading" id="aVL-l1-32s"/>
-                                            <constraint firstItem="ZJf-BS-dA3" firstAttribute="top" secondItem="EWA-i5-MF0" secondAttribute="top" id="bjJ-Sf-DCa"/>
-                                            <constraint firstItem="92t-yb-GSj" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="ckx-WR-Sc4"/>
-                                            <constraint firstItem="thE-38-SRd" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="duH-uh-8yK"/>
-                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="eG9-S5-8h4"/>
-                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.8" constant="-39" id="erz-7J-BLS"/>
-                                            <constraint firstAttribute="height" constant="90" id="gQL-iq-LAS"/>
-                                            <constraint firstItem="92t-yb-GSj" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="ilB-v6-NCW"/>
-                                            <constraint firstAttribute="trailing" secondItem="ZJf-BS-dA3" secondAttribute="trailing" id="k0r-b7-mAk"/>
-                                            <constraint firstItem="r4K-MJ-Ker" firstAttribute="width" secondItem="tCk-5L-s4J" secondAttribute="width" id="kSq-yK-aNp"/>
-                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="height" secondItem="tCk-5L-s4J" secondAttribute="height" id="mSx-Xx-Lfp"/>
-                                            <constraint firstItem="tCk-5L-s4J" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.0001" id="nac-RR-3bC"/>
-                                            <constraint firstItem="thE-38-SRd" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="tvi-sO-zdc"/>
-                                            <constraint firstItem="WFb-jK-DU4" firstAttribute="leading" secondItem="EWA-i5-MF0" secondAttribute="trailing" multiplier="0.6" constant="-29" id="ueM-AM-7gH"/>
-                                            <constraint firstItem="59U-Ph-JjD" firstAttribute="top" secondItem="tCk-5L-s4J" secondAttribute="top" id="xB2-y9-y6h"/>
-                                        </constraints>
-                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CGm-w2-31d">
                                         <rect key="frame" x="208" y="170" width="147" height="32"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -565,6 +472,18 @@
                                             <segue destination="4CS-cP-Jra" kind="show" id="1oE-BT-Vjc"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or sign in with" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZJf-BS-dA3">
+                                        <rect key="frame" x="19.5" y="455.5" width="335" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eI4-6W-PkE">
+                                        <rect key="frame" x="0.0" y="491" width="375" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="xib-CI-4q5"/>
+                                        </constraints>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="top" secondItem="Ouv-dU-DOb" secondAttribute="bottom" constant="10" id="2KA-GJ-icd"/>
@@ -572,20 +491,23 @@
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ouv-dU-DOb" secondAttribute="trailing" constant="20" id="9Rm-O2-0W3"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1gn-mN-NQT" secondAttribute="trailing" constant="10" id="Ezz-EO-5Yz"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="height" secondItem="1gn-mN-NQT" secondAttribute="height" id="HHd-Lv-TPr"/>
+                                    <constraint firstItem="ZJf-BS-dA3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CGm-w2-31d" secondAttribute="bottom" constant="50" id="KhI-pr-ulA"/>
                                     <constraint firstItem="Ouv-dU-DOb" firstAttribute="centerX" secondItem="Ab4-DJ-dbQ" secondAttribute="centerX" id="L1C-Qo-ZX0"/>
                                     <constraint firstAttribute="trailing" secondItem="cqg-tF-re7" secondAttribute="trailing" id="Lr3-CV-52X"/>
+                                    <constraint firstItem="ZJf-BS-dA3" firstAttribute="bottom" secondItem="eI4-6W-PkE" secondAttribute="top" constant="-16" id="Mja-sf-uXz"/>
                                     <constraint firstItem="1gn-mN-NQT" firstAttribute="leading" secondItem="Ouv-dU-DOb" secondAttribute="leading" id="NtD-LG-fTz"/>
                                     <constraint firstItem="Ouv-dU-DOb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" constant="20" id="QDP-ve-T2z"/>
                                     <constraint firstItem="cqg-tF-re7" firstAttribute="leading" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" id="RHn-md-ImN"/>
+                                    <constraint firstAttribute="bottom" secondItem="eI4-6W-PkE" secondAttribute="bottom" constant="64" id="VTV-9B-UaQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="eI4-6W-PkE" secondAttribute="trailing" id="a5D-he-naZ"/>
+                                    <constraint firstItem="ZJf-BS-dA3" firstAttribute="centerX" secondItem="Ab4-DJ-dbQ" secondAttribute="centerX" id="bFt-un-WEe"/>
                                     <constraint firstItem="Awe-Wi-Btf" firstAttribute="height" secondItem="Ab4-DJ-dbQ" secondAttribute="height" priority="750" constant="-64" id="c6L-7o-DmV"/>
-                                    <constraint firstItem="EWA-i5-MF0" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CGm-w2-31d" secondAttribute="bottom" constant="50" id="f1Y-dr-8cW"/>
                                     <constraint firstAttribute="bottom" secondItem="Awe-Wi-Btf" secondAttribute="bottom" id="fJW-3g-AxO"/>
+                                    <constraint firstItem="eI4-6W-PkE" firstAttribute="leading" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" id="iXX-7w-KBg"/>
                                     <constraint firstItem="1gn-mN-NQT" firstAttribute="top" secondItem="Ouv-dU-DOb" secondAttribute="bottom" constant="10" id="mZJ-dt-FQR"/>
                                     <constraint firstItem="Ouv-dU-DOb" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" constant="20" id="t26-OB-UnJ"/>
-                                    <constraint firstItem="EWA-i5-MF0" firstAttribute="centerX" secondItem="Ab4-DJ-dbQ" secondAttribute="centerX" id="tbJ-Pr-pFO"/>
                                     <constraint firstItem="CGm-w2-31d" firstAttribute="trailing" secondItem="Ouv-dU-DOb" secondAttribute="trailing" id="vgJ-eX-KHG"/>
-                                    <constraint firstItem="EWA-i5-MF0" firstAttribute="width" secondItem="Ab4-DJ-dbQ" secondAttribute="width" multiplier="0.95" id="vnu-NO-pNP"/>
-                                    <constraint firstAttribute="bottom" secondItem="EWA-i5-MF0" secondAttribute="bottom" constant="64" id="wT7-sr-fs7"/>
+                                    <constraint firstItem="ZJf-BS-dA3" firstAttribute="width" secondItem="Ouv-dU-DOb" secondAttribute="width" id="xgX-qk-TXv"/>
                                     <constraint firstItem="Awe-Wi-Btf" firstAttribute="top" secondItem="Ab4-DJ-dbQ" secondAttribute="top" id="yVa-SL-ZMu"/>
                                     <constraint firstItem="Awe-Wi-Btf" firstAttribute="leading" secondItem="Ab4-DJ-dbQ" secondAttribute="leading" id="yxT-rD-CRT"/>
                                 </constraints>
@@ -613,15 +535,76 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnAction" destination="h5t-jV-w5t" id="Zx6-eW-2SG"/>
+                        <outlet property="btnFacebook" destination="WFb-jK-DU4" id="L9S-kB-9lp"/>
                         <outlet property="btnForgetPassword" destination="CGm-w2-31d" id="4K8-SN-Ri2"/>
+                        <outlet property="btnGoogle" destination="thE-38-SRd" id="emX-Ps-VKe"/>
+                        <outlet property="btnQQ" destination="r4K-MJ-Ker" id="kQh-uz-dwP"/>
                         <outlet property="btnSignUp" destination="1gn-mN-NQT" id="vbX-fl-EwN"/>
+                        <outlet property="btnTwitter" destination="59U-Ph-JjD" id="efM-Du-jVN"/>
+                        <outlet property="btnWeChat" destination="tCk-5L-s4J" id="IX6-uo-Tp6"/>
+                        <outlet property="btnWeibo" destination="92t-yb-GSj" id="OD0-Pu-bBl"/>
                         <outlet property="lbl3rdPartyLogins" destination="ZJf-BS-dA3" id="b4d-5V-0Bb"/>
                         <outlet property="scrollView" destination="Ab4-DJ-dbQ" id="fbe-Ox-TBC"/>
+                        <outlet property="stack3rdPartyLogins" destination="eI4-6W-PkE" id="J1A-fk-X82"/>
                         <outlet property="tfEmail" destination="gVH-ka-vgE" id="Vvp-LT-F7y"/>
                         <outlet property="tfPassword" destination="fDF-4h-Sum" id="XRA-9g-ZuA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wk4-4g-cM8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tCk-5L-s4J" userLabel="WeChat">
+                    <rect key="frame" x="0.0" y="0.0" width="62.5" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="img_logo_wechat"/>
+                    <connections>
+                        <action selector="loginWechat:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="WmV-kB-PWh"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="92t-yb-GSj" userLabel="Weibo">
+                    <rect key="frame" x="0.0" y="0.0" width="62.5" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="img_logo_weibo"/>
+                    <connections>
+                        <action selector="loginSinaWeibo:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="diM-sv-oDt"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="r4K-MJ-Ker" userLabel="QQ">
+                    <rect key="frame" x="0.0" y="0.0" width="62.5" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="img_logo_qq"/>
+                    <connections>
+                        <action selector="loginQQ:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="J8b-5X-7dR"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WFb-jK-DU4" userLabel="Facebook">
+                    <rect key="frame" x="0.0" y="0.0" width="62.5" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="img_logo_facebook"/>
+                    <connections>
+                        <action selector="loginFacebook:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="oaY-xG-Pwc"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="59U-Ph-JjD" userLabel="Twitter">
+                    <rect key="frame" x="0.0" y="0.0" width="62.5" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="img_logo_twitter"/>
+                    <connections>
+                        <action selector="loginTwitter:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="meA-qL-9aN"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="thE-38-SRd" userLabel="Instagram">
+                    <rect key="frame" x="0.0" y="0.0" width="62.5" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="img_logo_google"/>
+                    <connections>
+                        <action selector="loginGoogle:" destination="Mvh-Ey-2u4" eventType="touchUpInside" id="fwa-7p-haL"/>
+                    </connections>
+                </button>
             </objects>
             <point key="canvasLocation" x="-682" y="1042"/>
         </scene>

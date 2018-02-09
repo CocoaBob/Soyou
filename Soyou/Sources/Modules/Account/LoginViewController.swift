@@ -44,6 +44,13 @@ class LoginViewController: UIViewController {
     @IBOutlet var btnForgetPassword: UIButton?
     @IBOutlet var btnGetCode: UIButton?
     @IBOutlet var lbl3rdPartyLogins: UILabel?
+    @IBOutlet var stack3rdPartyLogins: UIStackView?
+    @IBOutlet var btnWeChat: UIButton!
+    @IBOutlet var btnWeibo: UIButton!
+    @IBOutlet var btnQQ: UIButton!
+    @IBOutlet var btnFacebook: UIButton!
+    @IBOutlet var btnTwitter: UIButton!
+    @IBOutlet var btnGoogle: UIButton!
     
     @IBOutlet var ctlGender: NYSegmentedControl?
     var selectedGender = "\(Cons.Usr.genderSecret)"
@@ -81,6 +88,18 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Setup 3rd party login buttons
+        self.stack3rdPartyLogins?.addArrangedSubview(self.btnWeChat)
+        self.stack3rdPartyLogins?.addArrangedSubview(self.btnWeibo)
+        if DDTencentHandler.isInstalled() {
+            self.stack3rdPartyLogins?.addArrangedSubview(self.btnQQ)
+        }
+        self.stack3rdPartyLogins?.addArrangedSubview(self.btnFacebook)
+        self.stack3rdPartyLogins?.addArrangedSubview(self.btnTwitter)
+        self.stack3rdPartyLogins?.addArrangedSubview(self.btnGoogle)
+        self.stack3rdPartyLogins?.setNeedsLayout()
+        self.stack3rdPartyLogins?.layoutIfNeeded()
         
         // Translate UI
         self.tfEmail?.placeholder = NSLocalizedString("login_vc_textfield_placeholder_email")

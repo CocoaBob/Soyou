@@ -66,6 +66,7 @@
 #import "DDSocialHandlerProtocol.h"
 #import "DDSocialAuthHandler.h"
 #import "DDSocialShareHandler.h"
+#import "DDTencentHandler.h"
 @import FBSDKCoreKit;
 #import <WechatOpenSDK/WXApiObject.h>
 #import <WechatOpenSDK/WXApi.h>
