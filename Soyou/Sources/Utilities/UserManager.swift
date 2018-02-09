@@ -279,6 +279,9 @@ extension UserManager {
             vc.setupTransitionAnimator(modalVC: vc)
             nav.transitioningDelegate = vc.transitionAnimator
             // Present
+            if !UIView.areAnimationsEnabled {
+                UIView.setAnimationsEnabled(true)
+            }
             UIApplication.shared.keyWindow?.rootViewController?.present(nav, animated: true, completion: nil)
         }
     }
