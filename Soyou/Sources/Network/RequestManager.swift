@@ -144,7 +144,7 @@ class RequestManager {
     //////////////////////////////////////
     
     func likeNews(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        postAsync("/api/\(Cons.Svr.apiVersion)/news/\(id)/like", "News", ["operation": operation], onSuccess, onFailure)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/news/\(id)/like", "News", ["operation": operation], onSuccess, onFailure)
     }
     
     func requestNewsList(_ count: Int, _ relativeNewsID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
