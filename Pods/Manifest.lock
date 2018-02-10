@@ -99,6 +99,7 @@ PODS:
   - PageMenu (2.0.0)
   - PFCarouselView (0.7.0)
   - pop (1.0.10)
+  - QRCode (2.0)
   - SCLAlertView (0.7.0)
   - SDWebImage (4.2.3):
     - SDWebImage/Core (= 4.2.3)
@@ -145,6 +146,7 @@ DEPENDENCIES:
   - OOPhotoBrowser
   - PageMenu (from `git://github.com/JoeFerrucci/PageMenu`, branch `master`)
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, branch `master`)
+  - QRCode
   - SCLAlertView
   - SDWebImage
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, branch `master`)
@@ -245,6 +247,7 @@ SPEC CHECKSUMS:
   PageMenu: 50134deb498b120cfcd086fee1bce35a4b2f9c81
   PFCarouselView: 02a625cf8815ea5cbd539ffd0b503f362de72ddc
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  QRCode: f98a1886c8f37523704a7512a4c0cd45b34c18a4
   SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
   SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
@@ -263,6 +266,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: b67b7ba3d854c89f4b01ed66ce9a771201d97272
+PODFILE CHECKSUM: dd03a4708269339d19ba0c890c6361fdf8058843
 
 COCOAPODS: 1.4.0

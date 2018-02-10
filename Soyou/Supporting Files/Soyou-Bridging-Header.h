@@ -33,6 +33,7 @@
 @import NYSegmentedControl;
 @import PageMenu;
 @import PFCarouselView;
+@import QRCode;
 @import SCLAlertView;
 @import SMCalloutView;
 @import SnapKit;

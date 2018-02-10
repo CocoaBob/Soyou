@@ -25,6 +25,7 @@ target :'Soyou' do
 	pod "NYSegmentedControl"
 	pod "PageMenu", :git => 'git://github.com/JoeFerrucci/PageMenu', :branch => 'master'
 	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :branch => 'master'
+    pod "QRCode"
 	pod "SCLAlertView"
 	pod "SDWebImage"
 	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :branch => 'master'
