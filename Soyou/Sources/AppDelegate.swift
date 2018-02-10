@@ -127,30 +127,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // Universal Links
-//    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-//        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-//            guard let url = userActivity.webpageURL else { return false }
-//            
-//            let alertController = UIAlertController(title: nil,
-//                                                    message: FmtString("URL = %@", url.absoluteString),
-//                                                    preferredStyle: .alert)
-//            alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_ok"),
-//                                                    style: UIAlertActionStyle.default,
-//                                                    handler: nil))
-//            self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-//            return true
-//            if url.path.hasPrefix("/invitation") {
-//                //
-//                return true
-//            } else if url.path.hasPrefix("/share") {
-//                //
-//                return true
-//            } else {
-//                UIApplication.shared.canOpenURL(url)
-//            }
-//        }
-//        return false
-//    }
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            guard let url = userActivity.webpageURL else { return false }
+            
+            let alertController = UIAlertController(title: nil, message: url.absoluteString, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                                    style: UIAlertActionStyle.default,
+                                                    handler: nil))
+            self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+            return true
+            if url.path.hasPrefix("/invitation") {
+                //
+                return true
+            } else if url.path.hasPrefix("/share") {
+                //
+                return true
+            } else {
+                UIApplication.shared.canOpenURL(url)
+            }
+        }
+        return false
+    }
 }
 
 // MARK: - Notifications
