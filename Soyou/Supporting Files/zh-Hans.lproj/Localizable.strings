@@ -224,7 +224,7 @@
 "settings_vc_cell_review"="给个好评";
 "settings_vc_cell_analyze_network"="诊断网络";
 "settings_vc_cell_share"="分享给朋友";
-"settings_vc_cell_language"="语言";
+"settings_vc_cell_language"="语言 | Language";
 "settings_vc_cell_language_set_title"="Set successfully";
 "settings_vc_cell_language_set_subtitle"="Please relaunch Soyou to activate the new language.";
 "settings_vc_cell_language_set_done"="Done";

@@ -223,7 +223,7 @@
 "settings_vc_cell_review"="Write reviews";
 "settings_vc_cell_analyze_network"="Analyze network";
 "settings_vc_cell_share"="Share with friends";
-"settings_vc_cell_language"="Language";
+"settings_vc_cell_language"="Language | 语言";
 "settings_vc_cell_language_set_title"="设置成功";
 "settings_vc_cell_language_set_subtitle"="新语言将在应用重启后生效。\n重启方法：双击主键打开多任务界面，上滑 Soyou 退出应用，然后再在桌面点击『奢有』。";
 "settings_vc_cell_language_set_done"="完成";

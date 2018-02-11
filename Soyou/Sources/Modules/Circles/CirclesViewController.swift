@@ -118,7 +118,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func viewWillAppear(_ animated: Bool) {
         // Nav bar
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
         super.viewWillAppear(animated)
         
