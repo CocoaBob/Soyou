@@ -52,6 +52,13 @@ extension ProfileViewController {
                 rows: [
                     Row(type: .LeftTitleRightDetail,
                         cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                        title: Text(text: NSLocalizedString("profile_vc_cell_profile_image")),
+                        subTitle: Text(text: NSLocalizedString("profile_vc_cell_profile_image_change")),
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                            self.changeProfileImage()
+                    }),
+                    Row(type: .LeftTitleRightDetail,
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                         title: Text(text: NSLocalizedString("profile_vc_cell_account_username")),
                         subTitle: Text(text: UserManager.shared.username ?? NSLocalizedString("user_info_username_unknown")),
                         didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
@@ -63,13 +70,6 @@ extension ProfileViewController {
                         subTitle: Text(text: NSLocalizedString("profile_vc_cell_account_email_change")),
                         didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             self.changeEmail()
-                        }),
-                    Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("profile_vc_cell_profile_image")),
-                        subTitle: Text(text: NSLocalizedString("profile_vc_cell_profile_image_change")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.changeProfileImage()
                         })
                 ]
             ),

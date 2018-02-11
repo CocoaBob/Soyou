@@ -140,9 +140,14 @@
 "followers_vc_no_result"="没有结果";
 
 /* User View Controller */
+"user_vc_title"="我";
 "user_vc_login"="点击登录您的帐号";
 "user_vc_username_unknown"="用户名尚未设置";
+"user_vc_soyou_id"="奢有号：%@";
 "user_vc_tab_title"="我";
+"user_vc_cell_my_qr_code"="我的二维码";
+"user_vc_cell_my_followings"="关注列表";
+"user_vc_cell_my_followers"="粉丝列表";
 "user_vc_cell_favs"="收藏夹";
 "user_vc_cell_favs_news"="资讯";
 "user_vc_cell_favs_discounts"="折扣";
@@ -165,7 +170,7 @@
 
 /* Profile View Controller */
 "profile_vc_title"="个人信息";
-"profile_vc_cell_account_username"="用户名";
+"profile_vc_cell_account_username"="名字";
 "profile_vc_cell_account_email"="邮箱地址";
 "profile_vc_cell_account_email_change"="修改";
 "profile_vc_cell_profile_image"="头像";

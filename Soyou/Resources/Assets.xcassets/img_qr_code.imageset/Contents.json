@@ -2,14 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "img_tab_price_tag.pdf"
+      "filename" : "img_qr_code.pdf"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
-  },
-  "properties" : {
-    "template-rendering-intent" : "template"
   }
 }

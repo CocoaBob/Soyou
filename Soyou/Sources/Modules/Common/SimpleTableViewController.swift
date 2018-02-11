@@ -7,6 +7,7 @@
 //
 
 enum CellType: String {
+    case Custom
     case CenterTitle
     case IconTitle
     case IconTitleContent
@@ -321,6 +322,8 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
                 rowCell.tfTitle.font = font
             }
             rowCell.tfTitle.addTarget(self, action: #selector(SimpleTableViewController.textFieldDidEdit(_:)), for: UIControlEvents.editingChanged)
+        case .Custom:
+            break
         }
         
         cell.accessoryType = row.cell.accessoryType
@@ -332,9 +335,7 @@ extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate 
             cell.tintColor = tintColor
         }
         
-        if let setupCell = row.setupCell {
-            setupCell(tableView, cell, indexPath)
-        }
+        row.setupCell?(tableView, cell, indexPath)
         
         return cell
     }

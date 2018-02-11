@@ -138,9 +138,14 @@
 "followers_vc_no_result"="No result";
 
 /* User View Controller */
+"user_vc_title"="Me";
 "user_vc_login"="Tap to sign in";
 "user_vc_username_unknown"="Username unknown";
+"user_vc_soyou_id"="Soyou ID: %@";
 "user_vc_tab_title"="Me";
+"user_vc_cell_my_qr_code"="My QR code";
+"user_vc_cell_my_followings"="My followings";
+"user_vc_cell_my_followers"="My followers";
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
 "user_vc_cell_favs_discounts"="Discounts";
@@ -163,7 +168,7 @@
 
 /* Profile View Controller */
 "profile_vc_title"="Profile";
-"profile_vc_cell_account_username"="Username";
+"profile_vc_cell_account_username"="Name";
 "profile_vc_cell_account_email"="Email";
 "profile_vc_cell_account_email_change"="Change Email";
 "profile_vc_cell_profile_image"="Avatar";

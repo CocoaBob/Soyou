@@ -8,11 +8,8 @@
 
 class UserViewController: SimpleTableViewController {
     
-    @IBOutlet var imgUserAvatar: UIImageView!
-    @IBOutlet var parallaxHeaderView: UIView!
-    @IBOutlet var lblUsername: UILabel!
-    @IBOutlet var lblMatricule: UILabel!
-    
+    fileprivate let indexPathUserProfile = IndexPath(row: 0, section: 0)
+    fileprivate var userProfileTableViewCell: UserProfileTableViewCell?
     fileprivate var KVOContextUserViewController = 0
     
     // Life cycle
@@ -30,28 +27,19 @@ class UserViewController: SimpleTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        // Hide navigation bar before calculating inset
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+
+        // Title
+        self.title = NSLocalizedString("user_vc_title")
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, 0, false, false, false, true)
-        
-        // Parallax Header
-        self.setupParallaxHeader()
+        self.updateScrollViewInset(self.tableView, 0, true, true, false, true)
         
         // Background Color
         self.tableView.backgroundColor = Cons.UI.colorBG
         
-        // Setup avatar action
-        self.imgUserAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
-        self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserViewController.avatarAction)))
-        
-        // Username shadow
-        self.lblUsername.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
-        self.lblUsername.layer.shadowOpacity = 1
-        self.lblUsername.layer.shadowRadius = 2
-        self.lblUsername.layer.shadowOffset = CGSize.zero
+        // Navigation Items
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "img_heart"), style: .plain, target: self, action: #selector(UserViewController.likeApp(_:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "img_gear"), style: .plain, target: self, action: #selector(UserViewController.showSettingsViewController(_:)))
         
         // Observe UserManager.shared.token
         UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextUserViewController)
@@ -65,10 +53,6 @@ class UserViewController: SimpleTableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        
-        // Update User Info
-        self.updateUserInfo(false)
         
         // Don't show again after dismissing login view
         if self.presentedViewController == nil {
@@ -87,55 +71,103 @@ class UserViewController: SimpleTableViewController {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &KVOContextUserViewController {
-            // Update login status
-            self.updateUserInfo(true)
+            if keyPath == "token" {
+                self.rebuildTable()
+                self.tableView.reloadData()
+            } else if keyPath == "avatar" {
+                self.userProfileTableViewCell?.updateUserInfo(true)
+            }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-}
-
-// MARK: Build hierarchy
-extension UserViewController {
     
-    override func rebuildTable() {
-        self.sections = [
-            Section(
-                headerTitle: NSLocalizedString("user_vc_cell_favs"),
-                rows: [
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("user_vc_cell_favs_news")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.showFavoritesViewController(.news)
-                    }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("user_vc_cell_favs_discounts")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.showFavoritesViewController(.discounts)
-                    }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("user_vc_cell_favs_products")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.showFavoritesViewController(.products)
-                    })
-                ]
-            )
-        ]
+    // MARK: UITableViewDataSource, UITableViewDelegate
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let row = sections[indexPath.section].rows[indexPath.row]
+        if row.type == .Custom {
+            if indexPath == self.indexPathUserProfile {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "UserProfileTableViewCell", for: indexPath)
+                if let rowCell = cell as? UserProfileTableViewCell {
+                    rowCell.updateUserInfo(false)
+                    self.userProfileTableViewCell = rowCell
+                }
+                return cell
+            } else {
+                return UITableViewCell()
+            }
+        } else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
     }
 }
 
-// MARK: Parallax Header
+// MARK: - Build hierarchy
 extension UserViewController {
     
-    fileprivate func setupParallaxHeader() {
-        // Parallax View
-        if let scrollView = self.tableView {
-            scrollView.parallaxHeader.height = self.parallaxHeaderView.frame.height
-            scrollView.parallaxHeader.view = self.parallaxHeaderView
-            scrollView.parallaxHeader.mode = .fill
+    override func rebuildTable() {
+        self.sections.removeAll()
+        self.sections.append(Section(
+            headerTitle: nil,
+            rows: [
+                Row(type: .Custom,
+                    cell: Cell(height: 100, accessoryType: .disclosureIndicator),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.showUserProfile()
+                })
+            ]
+        ))
+        if UserManager.shared.isLoggedIn {
+            self.sections.append(contentsOf: [
+                Section(headerTitle: nil,
+                        rows: [
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_qr_code"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_my_qr_code")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showQRCode()
+                            }),
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_followings"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_my_followings")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showFollowings()
+                            }),
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_followers"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_my_followers")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showFollowers()
+                            })
+                    ]),
+                Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
+                        rows: [
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_news"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_favs_news")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showFavoritesViewController(.news)
+                            }),
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_price_tag"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_favs_discounts")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showFavoritesViewController(.discounts)
+                            }),
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_product"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_favs_products")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showFavoritesViewController(.products)
+                            })
+                    ])
+                ])
         }
     }
 }
@@ -155,55 +187,28 @@ extension UserViewController {
 // Routines
 extension UserViewController {
     
-    func addAvatarBorder() {
-        self.imgUserAvatar.layer.borderWidth = 1
-        self.imgUserAvatar.layer.borderColor = UIColor.white.cgColor
-    }
-    
-    func removeAvatarBorder() {
-        self.imgUserAvatar.layer.borderWidth = 0
-    }
-    
-    func updateUserInfo(_ reloadAvatar: Bool) {
-        self.removeAvatarBorder()
-        if UserManager.shared.isLoggedIn, let url = URL(string: UserManager.shared.avatar ?? "") {
-            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates]
-            if reloadAvatar {
-                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates]
-            }
-            self.imgUserAvatar.sd_setImage(with: url,
-                                           placeholderImage: UserManager.shared.defaultAvatarImage(),
-                                           options: options,
-                                           completed: { (image, error, type, url) -> Void in
-                                            if error == nil {
-                                                self.addAvatarBorder()
-                                            }
-            })
-        } else {
-            self.imgUserAvatar.image = UserManager.shared.defaultAvatarImage()
-        }
-        self.lblUsername.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
-        if let matricule = UserManager.shared.matricule {
-            self.lblMatricule.text = "\(matricule)"
-        } else {
-            self.lblMatricule.text = nil
-        }
-    }
-    
-    @objc func avatarAction() {
+    @IBAction func showUserProfile() {
         UserManager.shared.loginOrDo() { () -> () in
-            let vc = ProfileViewController()
-            // Setup Navigation Controller
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .custom
-            nav.modalPresentationCapturesStatusBarAppearance = true
-            // Setup Transition Animator
-            vc.loadViewIfNeeded()
-            vc.setupTransitionAnimator(modalVC: vc)
-            nav.transitioningDelegate = vc.transitionAnimator
-            // Present
-            self.present(nav, animated: true, completion: nil)
+            self.navigationController?.pushViewController(ProfileViewController(), animated: true)
         }
+    }
+    
+    @IBAction func showQRCode() {
+        
+    }
+    
+    @IBAction func showFollowings() {
+        let vc = FollowersViewController.instantiate()
+        vc.userID = UserManager.shared.userID
+        vc.isShowingFollowers = false
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func showFollowers() {
+        let vc = FollowersViewController.instantiate()
+        vc.userID = UserManager.shared.userID
+        vc.isShowingFollowers = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func showSettingsViewController(_ sender: UIBarButtonItem?) {
@@ -235,5 +240,45 @@ extension UserViewController {
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_close"), style: UIAlertActionStyle.cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
+    }
+}
+
+class UserProfileTableViewCell: UITableViewCell {
+    
+    @IBOutlet var imgAvatar: UIImageView!
+    @IBOutlet var lblName: UILabel!
+    @IBOutlet var lblSoyouID: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.prepareForReuse()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imgAvatar.image = UIImage(named: "img_placeholder_1_1_s")
+        self.lblName.text = nil
+        self.lblSoyouID.text = nil
+    }
+    
+    func updateUserInfo(_ reloadAvatar: Bool) {
+        if UserManager.shared.isLoggedIn, let url = URL(string: UserManager.shared.avatar ?? "") {
+            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates]
+            if reloadAvatar {
+                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates]
+            }
+            self.imgAvatar.sd_setImage(with: url,
+                                       placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                       options: options,
+                                       completed: nil)
+        } else {
+            self.imgAvatar.image = UIImage(named: "img_placeholder_1_1_s")
+        }
+        self.lblName.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
+        if let matricule = UserManager.shared.matricule {
+            self.lblSoyouID.text = FmtString(NSLocalizedString("user_vc_soyou_id"), "\(matricule)")
+        } else {
+            self.lblSoyouID.text = nil
+        }
     }
 }
