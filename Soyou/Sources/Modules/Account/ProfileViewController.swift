@@ -156,7 +156,7 @@ extension ProfileViewController {
                         if let error = error {
                             DataManager.showRequestFailedAlert(error)
                         } else {
-                            UserManager.shared.username = username
+                            UserManager.shared.username = username.removingPercentEncoding ?? username
                             simpleViewController.navigationController?.popViewController(animated: true)
                         }
                     }
