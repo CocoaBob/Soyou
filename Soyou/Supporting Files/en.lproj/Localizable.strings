@@ -170,11 +170,10 @@
 "qr_code_vc_save_image_fail"="Failed to save!\n%@";
 
 /* Invitation Success View Controller */
-"invitation_success_vc_title"="Follow";
+"invitation_success_vc_title"="Followed Successfully";
 "invitation_success_vc_message"="Followed Successfully";
-"invitation_success_vc_footer"="Visit my home page to forward my circles~";
+"invitation_success_vc_footer"="Visit home page to check my circles~";
 "invitation_success_vc_btn_circles"="Visit Home Page";
-"invitation_success_vc_btn_close"="Close";
 
 /* Favorites View Controller */
 "fav_vc_title_news"="Favorite News";

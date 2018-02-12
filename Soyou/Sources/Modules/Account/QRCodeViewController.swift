@@ -55,9 +55,9 @@ extension QRCodeViewController {
     
     fileprivate func setupViews() {
         // Container View
-        self.containerView.layer.borderWidth = 1
-        self.containerView.layer.borderColor = UIColor.lightGray.cgColor
-        self.containerView.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
+//        self.containerView.layer.borderWidth = 1
+//        self.containerView.layer.borderColor = UIColor.lightGray.cgColor
+        self.containerView.layer.shadowColor = UIColor(white: 0, alpha: 0.25).cgColor
         self.containerView.layer.shadowOpacity = 1
         self.containerView.layer.shadowRadius = 2
         self.containerView.layer.shadowOffset = CGSize.zero

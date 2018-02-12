@@ -403,15 +403,29 @@ extension AppDelegate {
     func handleInvitation(matricule: String) {
         guard let rootVC = self.window?.rootViewController else { return }
         if UserManager.shared.isLoggedIn {
+            MBProgressHUD.show(rootVC.view)
             DataManager.shared.acceptInvitation(matricule, { (responseObject, error) in
+                MBProgressHUD.hide(rootVC.view)
                 if let responseObject = responseObject,
                     let data = DataManager.getResponseData(responseObject) as? NSDictionary,
                     let username = data["username"] as? String,
                     let profileStr = data["profileUrl"] as? String,
                     let profileUrl = URL(string: profileStr),
-                    let matriculeInt = Int(matricule) {
-                    let vc = InvitationSuccessViewController.instantiate(matricule: matriculeInt, profileUrl: profileUrl, name: username)
+                    let matriculeInt = Int(matricule),
+                    let gender = data["gender"] as? String {
+                    var countryName: String?
+                    if let countryCode = data["region"] as? String {
+                        countryName = CurrencyManager.shared.countryName(countryCode)
+                    }
+                    let vc = InvitationSuccessViewController.instantiate(matricule: matriculeInt,
+                                                                         profileUrl: profileUrl,
+                                                                         name: username,
+                                                                         gender: gender,
+                                                                         region: countryName)
                     let nav = UINavigationController(rootViewController: vc)
+                    if let presentedVC = rootVC.presentedViewController {
+                        presentedVC.dismiss(animated: false, completion: nil)
+                    }
                     rootVC.present(nav, animated: true, completion: nil)
                 }
             })
