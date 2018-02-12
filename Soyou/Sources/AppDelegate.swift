@@ -407,12 +407,12 @@ extension AppDelegate {
                 if let responseObject = responseObject,
                     let data = DataManager.getResponseData(responseObject) as? NSDictionary,
                     let username = data["username"] as? String,
-                    let profileUrl = data["profileUrl"] as? String {
-                    let alertController = UIAlertController(title: "Succeeded!", message: "\(username)\n\(profileUrl)", preferredStyle: .alert)
-                    alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_ok"),
-                                                            style: UIAlertActionStyle.default,
-                                                            handler: nil))
-                    self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+                    let profileStr = data["profileUrl"] as? String,
+                    let profileUrl = URL(string: profileStr),
+                    let matriculeInt = Int(matricule) {
+                    let vc = InvitationSuccessViewController.instantiate(matricule: matriculeInt, profileUrl: profileUrl, name: username)
+                    let nav = UINavigationController(rootViewController: vc)
+                    rootVC.present(nav, animated: true, completion: nil)
                 }
             })
         } else {

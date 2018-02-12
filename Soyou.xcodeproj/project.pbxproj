@@ -88,6 +88,7 @@
 		4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */; };
 		4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */; };
 		4595FDAF2030AF7D002692AC /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */; };
+		45973CFB2031E868003205A9 /* InvitationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45973CFA2031E868003205A9 /* InvitationSuccessViewController.swift */; };
 		4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1EB1D30FACD00287873 /* DDAuthItem.m */; };
 		4597B2361D30FACE00287873 /* DDLinkupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1ED1D30FACD00287873 /* DDLinkupItem.m */; };
 		4597B2371D30FACE00287873 /* UIImage+Zoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1F31D30FACD00287873 /* UIImage+Zoom.m */; };
@@ -266,6 +267,7 @@
 		4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellCenterTitle.xib; sourceTree = "<group>"; };
 		4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellIconTitle.xib; sourceTree = "<group>"; };
 		4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
+		45973CFA2031E868003205A9 /* InvitationSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationSuccessViewController.swift; sourceTree = "<group>"; };
 		4597B1EA1D30FACD00287873 /* DDAuthItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAuthItem.h; sourceTree = "<group>"; };
 		4597B1EB1D30FACD00287873 /* DDAuthItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAuthItem.m; sourceTree = "<group>"; };
 		4597B1EC1D30FACD00287873 /* DDLinkupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLinkupItem.h; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				455D06B31C03950300D81ABF /* UserViewController.swift */,
 				4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */,
 				45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */,
+				45973CFA2031E868003205A9 /* InvitationSuccessViewController.swift */,
 				4506ED701C221797003B5018 /* LoginViewController.swift */,
 				45640AF31C51A934009984EC /* ProfileViewController.swift */,
 				4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */,
@@ -1236,6 +1239,7 @@
 				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
+				45973CFB2031E868003205A9 /* InvitationSuccessViewController.swift in Sources */,
 				45F5C2A21D01DFA70024B5DF /* InfoDetailBaseViewController.swift in Sources */,
 				453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */,
 				45EE80CA1CF659A8004AE158 /* Discount.swift in Sources */,
