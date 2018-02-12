@@ -15,3 +15,4 @@
 "NSLocationWhenInUseUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
 "NSPhotoLibraryUsageDescription"="您将可以分享照片。";
 "NSCameraUsageDescription"="您将可以拍摄照片。";
+"NSPhotoLibraryAddUsageDescription"="您将可以保存图片。";

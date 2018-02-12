@@ -392,7 +392,7 @@ extension AppDelegate {
         return returnValue;
     }
     
-    func updateFingerTouchEffect() {
+    @objc func updateFingerTouchEffect() {
         self.window?.alwaysShowTouches = self.isMirroring()
     }
 }

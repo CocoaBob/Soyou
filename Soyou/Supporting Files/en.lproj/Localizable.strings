@@ -160,6 +160,15 @@
 "user_vc_feedback_mail_title"="Feedbacks of Soyou";
 "user_vc_feedback_mail_message_body"="";
 
+/* QR Code View Controller */
+"qr_code_vc_title"="My QR Code";
+"qr_code_vc_soyou_id"="Soyou ID: %@";
+"qr_code_vc_region"="Region: %@";
+"qr_code_vc_footer"="Scan the code to follow me on Soyou";
+"qr_code_vc_save_image"="Save image";
+"qr_code_vc_save_image_succeed"="Image saved!";
+"qr_code_vc_save_image_fail"="Failed to save!\n%@";
+
 /* Favorites View Controller */
 "fav_vc_title_news"="Favorite News";
 "fav_vc_title_discounts"="Favorite Discounts";
