@@ -526,7 +526,7 @@ extension InfoDetailBaseViewController: ZoomTransitionProtocol {
 extension InfoDetailBaseViewController {
     
     @IBAction func back(_ sender: AnyObject) {
-        self.navigationController?.popViewController(animated: true)
+        self.dismissSelf()
     }
     
     @IBAction func shareURL(_ sender: AnyObject) {

@@ -125,30 +125,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         options.forEach { newOptions[$0.rawValue] = $1 }
         return DDSocialShareHandler.sharedInstance().application(app, open: url, options: newOptions )
     }
-    
-    // Universal Links
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            guard let url = userActivity.webpageURL else { return false }
-            
-            let alertController = UIAlertController(title: nil, message: url.absoluteString, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_ok"),
-                                                    style: UIAlertActionStyle.default,
-                                                    handler: nil))
-            self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-            return true
-            if url.path.hasPrefix("/invitation") {
-                //
-                return true
-            } else if url.path.hasPrefix("/share") {
-                //
-                return true
-            } else {
-                UIApplication.shared.canOpenURL(url)
-            }
-        }
-        return false
-    }
 }
 
 // MARK: - Notifications
@@ -394,5 +370,128 @@ extension AppDelegate {
     
     @objc func updateFingerTouchEffect() {
         self.window?.alwaysShowTouches = self.isMirroring()
+    }
+}
+
+// MARK: - Handle Universsal Links
+extension AppDelegate {
+    
+    // Universal Links
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            guard let url = userActivity.webpageURL else { return false }
+            if url.path.hasPrefix("/invitation") {
+                self.handleInvitation(url)
+                return true
+            } else if url.path.hasPrefix("/share") {
+                self.handleShare(url)
+                return true
+            }
+        }
+        return false
+    }
+    
+    func handleInvitation(_ url: URL) {
+        guard let rootVC = self.window?.rootViewController,
+            let query = url.query,
+            let matriculeStr = query.components(separatedBy: "=").last,
+            let matricule = Int(matriculeStr) else {
+                return
+        }
+        let circlesVC = CirclesViewController.instantiate(matricule, nil, nil)
+        let navC = UINavigationController(rootViewController: circlesVC)
+        rootVC.present(navC, animated: true, completion: nil)
+    }
+    
+    func handleShare(_ url: URL) {
+        let fullPath = url.absoluteString
+        guard let components = fullPath.components(separatedBy: "/share/#/").last?.components(separatedBy: "?"),
+            let path = components.first,
+            let query = components.last,
+            let firstParam = query.components(separatedBy: "&").first,
+            let id = firstParam.components(separatedBy: "=").last else {
+                return
+        }
+        if path == "news" {
+            self.handleNews(id)
+        } else if path == "discounts" {
+            self.handleDiscount(id)
+        } else if path == "product" {
+            self.handleProduct(id)
+        }
+    }
+    
+    func handleNews(_ id: String) {
+        guard let rootVC = self.window?.rootViewController,
+            let newsID = Int(id) else { return }
+        MBProgressHUD.show(rootVC.view)
+        // Load Data
+        DataManager.shared.requestNewsByID(newsID) { responseObject, error in
+            MBProgressHUD.hide(rootVC.view)
+            if let responseObject = responseObject,
+                let data = DataManager.getResponseData(responseObject) as? NSDictionary,
+                let news = News.importData(data, true, nil),
+                let imageURL = URL(string: news.image ?? "") {
+                // Download image
+                MBProgressHUD.show(rootVC.view)
+                SDWebImageManager.shared().loadImage(
+                    with: imageURL,
+                    options: [.continueInBackground, .allowInvalidSSLCertificates],
+                    progress: nil,
+                    completed: { (image, data, error, type, finished, url) -> Void in
+                        MBProgressHUD.hide(rootVC.view)
+                        let vc = NewsDetailViewController.instantiate()
+                        vc.info = news
+                        vc.headerImage = image
+                        let navC = UINavigationController(rootViewController: vc)
+                        rootVC.present(navC, animated: true, completion: nil)
+                })
+            }
+        }
+    }
+    
+    func handleDiscount(_ id: String) {
+        guard let rootVC = self.window?.rootViewController,
+            let discountID = Int(id) else { return }
+        MBProgressHUD.show(rootVC.view)
+        // Load Data
+        DataManager.shared.requestDiscountByID(discountID) { responseObject, error in
+            MBProgressHUD.hide(rootVC.view)
+            if let responseObject = responseObject,
+                let data = DataManager.getResponseData(responseObject) as? NSDictionary,
+                let discount = Discount.importData(data, true, nil),
+                let imageURL = URL(string: discount.coverImage ?? "") {
+                // Download image
+                MBProgressHUD.show(rootVC.view)
+                SDWebImageManager.shared().loadImage(
+                    with: imageURL,
+                    options: [.continueInBackground, .allowInvalidSSLCertificates],
+                    progress: nil,
+                    completed: { (image, data, error, type, finished, url) -> Void in
+                        MBProgressHUD.hide(rootVC.view)
+                        let vc = DiscountDetailViewController.instantiate()
+                        vc.info = discount
+                        vc.headerImage = image
+                        let navC = UINavigationController(rootViewController: vc)
+                        rootVC.present(navC, animated: true, completion: nil)
+                })
+            }
+        }
+    }
+    
+    func handleProduct(_ id: String) {
+        guard let rootVC = self.window?.rootViewController,
+            let productID = Int(id) else { return }
+        MBProgressHUD.show(rootVC.view)
+        DataManager.shared.loadProducts([productID], { (responseObject, error) in
+            MBProgressHUD.hide(rootVC.view)
+            if let products = responseObject as? [Product],
+                let product = products.first {
+                let vc = ProductViewController.instantiate()
+                vc.product = product
+                let navC = UINavigationController(rootViewController: vc)
+                rootVC.present(navC, animated: true, completion: nil)
+            }
+        })
     }
 }
