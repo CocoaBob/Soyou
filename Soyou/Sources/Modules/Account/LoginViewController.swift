@@ -148,13 +148,6 @@ class LoginViewController: UIViewController {
             segmentedControl.segmentIndicatorBorderWidth = 0
             segmentedControl.usesSpringAnimations = true
         }
-        
-        // Automatic dismiss
-        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextLoginViewController)
-    }
-    
-    deinit {
-        UserManager.shared.removeObserver(self, forKeyPath: "token")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -170,10 +163,22 @@ class LoginViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Observing token to aotumatically dismiss
+        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextLoginViewController)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.keyboardControlUninstall()
         MBProgressHUD.hide(self.view)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Stop observing
+        UserManager.shared.removeObserver(self, forKeyPath: "token")
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {

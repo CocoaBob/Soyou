@@ -593,6 +593,21 @@ class DataManager {
         })
     }
     
+    func loadProduct(_ sku: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.requestProduct(sku, { responseObject in
+            if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
+                let newData = NSMutableDictionary(dictionary: data)
+                newData["id"] = NSNumber(value: 0) // Add a fake id
+                let product = Product.importData(newData, nil)
+                self.completeWithData(product, completion: completion)
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     func createCommentForProduct(_ id: Int, _ commentId: Int?, _ comment: String, _ completion: CompletionClosure?) {
         RequestManager.shared.createCommentForProduct(id, commentId, comment, { responseObject in
             self.completeWithData(responseObject, completion: completion)

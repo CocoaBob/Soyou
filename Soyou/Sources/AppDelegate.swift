@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var shortcutItemType = ""
     var uiIsInitialized = false
     
+    var needsToAcceptInvitationMatricule: String?
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -384,41 +386,66 @@ extension AppDelegate {
                 self.handleInvitation(url)
                 return true
             } else if url.path.hasPrefix("/share") {
-                self.handleShare(url)
-                return true
+                return self.handleShare(url)
             }
         }
         return false
     }
     
     func handleInvitation(_ url: URL) {
-        guard let rootVC = self.window?.rootViewController,
-            let query = url.query,
-            let matriculeStr = query.components(separatedBy: "=").last,
-            let matricule = Int(matriculeStr) else {
+        guard let query = url.query,
+            let matriculeStr = query.components(separatedBy: "=").last else {
                 return
         }
-        let circlesVC = CirclesViewController.instantiate(matricule, nil, nil)
-        let navC = UINavigationController(rootViewController: circlesVC)
-        rootVC.present(navC, animated: true, completion: nil)
+        self.handleInvitation(matricule: matriculeStr)
     }
     
-    func handleShare(_ url: URL) {
+    func handleInvitation(matricule: String) {
+        guard let rootVC = self.window?.rootViewController else { return }
+        if UserManager.shared.isLoggedIn {
+            DataManager.shared.acceptInvitation(matricule, { (responseObject, error) in
+                if let responseObject = responseObject,
+                    let data = DataManager.getResponseData(responseObject) as? NSDictionary,
+                    let username = data["username"] as? String,
+                    let profileUrl = data["profileUrl"] as? String {
+                    let alertController = UIAlertController(title: "Succeeded!", message: "\(username)\n\(profileUrl)", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                                            style: UIAlertActionStyle.default,
+                                                            handler: nil))
+                    self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+                }
+            })
+        } else {
+            self.needsToAcceptInvitationMatricule = matricule
+            UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: nil)
+            let vc = LoginViewController.instantiate(.login)
+            let nav = UINavigationController(rootViewController: vc)
+            rootVC.present(nav, animated: true) {
+                vc.loginWechat(nil)
+            }
+        }
+    }
+    
+    func handleShare(_ url: URL) -> Bool {
         let fullPath = url.absoluteString
         guard let components = fullPath.components(separatedBy: "/share/#/").last?.components(separatedBy: "?"),
             let path = components.first,
             let query = components.last,
             let firstParam = query.components(separatedBy: "&").first,
             let id = firstParam.components(separatedBy: "=").last else {
-                return
+                return false
         }
         if path == "news" {
             self.handleNews(id)
+            return true
         } else if path == "discounts" {
             self.handleDiscount(id)
+            return true
         } else if path == "product" {
             self.handleProduct(id)
+            return true
         }
+        return false
     }
     
     func handleNews(_ id: String) {
@@ -479,19 +506,25 @@ extension AppDelegate {
         }
     }
     
-    func handleProduct(_ id: String) {
-        guard let rootVC = self.window?.rootViewController,
-            let productID = Int(id) else { return }
+    func handleProduct(_ sku: String) {
+        guard let rootVC = self.window?.rootViewController else { return }
         MBProgressHUD.show(rootVC.view)
-        DataManager.shared.loadProducts([productID], { (responseObject, error) in
+        DataManager.shared.loadProduct(sku, { (responseObject, error) in
             MBProgressHUD.hide(rootVC.view)
-            if let products = responseObject as? [Product],
-                let product = products.first {
+            if let product = responseObject as? Product {
                 let vc = ProductViewController.instantiate()
                 vc.product = product
                 let navC = UINavigationController(rootViewController: vc)
                 rootVC.present(navC, animated: true, completion: nil)
             }
         })
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if let matricule = self.needsToAcceptInvitationMatricule, UserManager.shared.isLoggedIn {
+            self.needsToAcceptInvitationMatricule = nil
+            UserManager.shared.removeObserver(self, forKeyPath: "token")
+            self.handleInvitation(matricule: matricule)
+        }
     }
 }

@@ -14,14 +14,23 @@ class ProductPricesViewController: UIViewController {
     
     var product: Product? {
         didSet {
-            self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                guard let localProduct = self.product?.mr_(in: localContext) else { return }
+            let closure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
+                guard let localProduct = self.product?.mr_(in: context) else { return }
                 if let objectData = localProduct.prices, let object = Utils.decrypt(objectData) as? [[String: AnyObject]] {
                     self.prices = object
                 } else {
                     self.prices = nil
                 }
-            })
+            }
+            if let context = self.product?.managedObjectContext {
+                context.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                    closure(localContext)
+                })
+            } else {
+                MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+                    closure(localContext)
+                })
+            }
             self.tableView.reloadData()
         }
     }

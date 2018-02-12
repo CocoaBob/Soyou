@@ -19,15 +19,24 @@ class ProductDescriptionsViewController: UIViewController {
     
     var product: Product? {
         didSet {
-            self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-                guard let localProduct = self.product?.mr_(in: localContext) else { return }
+            let closure: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
+                guard let localProduct = self.product?.mr_(in: context) else { return }
                 self.descriptions = localProduct.descriptions
                 self.surname = localProduct.surname
                 self.brand = localProduct.brandLabel
                 self.reference = localProduct.reference
                 self.dimension = localProduct.dimension
                 self.id = localProduct.id as? Int
-            })
+            }
+            if let context = self.product?.managedObjectContext {
+                context.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                    closure(localContext)
+                })
+            } else {
+                MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+                    closure(localContext)
+                })
+            }
             
             // Load Content
             loadContent()

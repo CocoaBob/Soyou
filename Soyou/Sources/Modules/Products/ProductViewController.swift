@@ -203,11 +203,20 @@ extension ProductViewController {
         self.imageViews.removeAll()
         var images: [String]?
         var title: String?
-        self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            guard let localProduct = self.product?.mr_(in: localContext) else { return }
+        let getImagesAndTitle: (NSManagedObjectContext) -> () = { (context: NSManagedObjectContext) -> () in
+            guard let localProduct = self.product?.mr_(in: context) else { return }
             images = localProduct.images as? [String]
             title = localProduct.title
-        })
+        }
+        if let context = self.product?.managedObjectContext {
+            context.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
+                getImagesAndTitle(localContext)
+            })
+        } else {
+            MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+                getImagesAndTitle(localContext)
+            })
+        }
         let imageViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: carouselViewHeight)
         if let images = images {
             // Reset self.photos
@@ -434,27 +443,26 @@ extension ProductViewController {
     
     fileprivate func updateExtraInfo() {
         self.product?.managedObjectContext?.runBlockAndWait({ (localContext: NSManagedObjectContext!) -> Void in
-            if let localProduct = self.product?.mr_(in: localContext) {
-                // Update like number
-                guard let productID = localProduct.id else { return }
-                DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
-                    if let responseObject = responseObject as? [String:AnyObject],
-                        let data = responseObject["data"] as? [String:AnyObject] {
-                        let json = JSON(data)
+            guard let localProduct = self.product?.mr_(in: localContext) else { return }
+            // Update like number
+            guard let productID = localProduct.id else { return }
+            DataManager.shared.requestProductInfo("\(productID)") { responseObject, error in
+                if let responseObject = responseObject as? [String:AnyObject],
+                    let data = responseObject["data"] as? [String:AnyObject] {
+                    let json = JSON(data)
 //                        self.likeBtnNumber = json["likeNumber"].int
 //                        let isFavorite = json["isFavorite"].boolValue
-                        self.commentBtnNumber = json["commentNumber"].int
+                    self.commentBtnNumber = json["commentNumber"].int
 //                        self.updateLikeBtnColor(json["isLiked"].boolValue)
-                    }
                 }
-                
-                // Update like button color
-                let diskContext = NSManagedObjectContext.mr_default()
-                diskContext.performAndWait({
-                    guard let diskProduct = Product.mr_findFirst(byAttribute: "id", withValue: productID, in: diskContext) else { return }
-//                    self.updateLikeBtnColor(diskProduct.appIsLiked?.boolValue)
-                })
             }
+            
+            // Update like button color
+//            let diskContext = NSManagedObjectContext.mr_default()
+//            diskContext.performAndWait({
+//                guard let diskProduct = Product.mr_findFirst(byAttribute: "id", withValue: productID, in: diskContext) else { return }
+//                    self.updateLikeBtnColor(diskProduct.appIsLiked?.boolValue)
+//            })
         })
     }
     /*
@@ -524,7 +532,7 @@ extension ProductViewController {
 extension ProductViewController {
     
     @IBAction func back(_ sender: AnyObject) {
-        self.navigationController?.popViewController(animated: true)
+        self.dismissSelf()
     }
     
     @IBAction func shareURL(_ sender: AnyObject) {

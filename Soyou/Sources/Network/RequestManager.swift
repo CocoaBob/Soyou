@@ -243,8 +243,8 @@ class RequestManager {
         postAsync("/api/\(Cons.Svr.apiVersion)/products", "Products", ["ids": ids], onSuccess, onFailure)
     }
     
-    func requestProduct(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/products/\(id)", "Products", onSuccess, onFailure)
+    func requestProduct(_ sku: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/public/products/\(sku)", "Products", onSuccess, onFailure)
     }
     
     func requestModifiedProductIDs(_ timestamp: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
