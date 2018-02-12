@@ -14,6 +14,7 @@ class QRCodeViewController: UIViewController {
     fileprivate var gender: String?
     fileprivate var region: String?
     
+    @IBOutlet var lblMessage: UILabel!
     @IBOutlet var containerView: UIView!
     @IBOutlet var imgAvatar: UIImageView!
     @IBOutlet var lblName: UILabel!
@@ -23,6 +24,7 @@ class QRCodeViewController: UIViewController {
     @IBOutlet var imgQRCode: UIImageView!
     @IBOutlet var imgSoyouLogo: UIImageView!
     @IBOutlet var lblFooter: UILabel!
+    @IBOutlet var btnShare: UIButton!
     
     // Class methods
     class func instantiate(matricule: Int, avatar: UIImage?, name: String?, gender: String?, region: String?) -> QRCodeViewController {
@@ -54,6 +56,8 @@ class QRCodeViewController: UIViewController {
 extension QRCodeViewController {
     
     fileprivate func setupViews() {
+        // Message
+        self.lblMessage.text = NSLocalizedString("qr_code_vc_share_message")
         // Container View
 //        self.containerView.layer.borderWidth = 1
 //        self.containerView.layer.borderColor = UIColor.lightGray.cgColor
@@ -112,6 +116,9 @@ extension QRCodeViewController {
         
         // Footer
         self.lblFooter.text = NSLocalizedString("qr_code_vc_footer")
+        
+        // Share button
+        self.btnShare.setTitle(NSLocalizedString("qr_code_vc_share"), for: .normal)
     }
 }
 
@@ -132,14 +139,22 @@ extension QRCodeViewController {
 // MARK: - Save QR Code image
 extension QRCodeViewController {
     
+    @IBAction func shareQRCodeImage() {
+        Utils.shareTextAndImagesToWeChat(from: self, text: NSLocalizedString("qr_code_vc_share_message"), images: [getQRCodeImage()])
+    }
+    
     @IBAction func saveQRCodeImage() {
+        UIImageWriteToSavedPhotosAlbum(getQRCodeImage(), self, #selector(QRCodeViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+    
+    func getQRCodeImage() -> UIImage {
         var bounds = self.containerView.bounds
         bounds = bounds.insetBy(dx: -4, dy: -4)
         let renderer = UIGraphicsImageRenderer(bounds: bounds)
         let image = renderer.image { rendererContext in
             self.containerView.layer.render(in: rendererContext.cgContext)
         }
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(QRCodeViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+        return image
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
