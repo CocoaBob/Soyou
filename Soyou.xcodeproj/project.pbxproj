@@ -54,7 +54,7 @@
 		455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06AE1C0394E200D81ABF /* SettingsViewController.swift */; };
 		455D06B41C03950300D81ABF /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455D06B31C03950300D81ABF /* UserViewController.swift */; };
 		455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */; };
-		455F89371FFEAC27009DC915 /* MarginLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455F89361FFEAC27009DC915 /* MarginLabel.swift */; };
+		455F89371FFEAC27009DC915 /* CustomLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455F89361FFEAC27009DC915 /* CustomLabels.swift */; };
 		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
 		456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456478F71C6E095C00798EB2 /* 1Password.xcassets */; };
 		4564A931200960D800EE4F3D /* ObjCRuntime+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */; };
@@ -230,7 +230,7 @@
 		455D06AE1C0394E200D81ABF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		455D06B31C03950300D81ABF /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Additions.swift"; sourceTree = "<group>"; };
-		455F89361FFEAC27009DC915 /* MarginLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarginLabel.swift; sourceTree = "<group>"; };
+		455F89361FFEAC27009DC915 /* CustomLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLabels.swift; sourceTree = "<group>"; };
 		45640AF31C51A934009984EC /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		456478F71C6E095C00798EB2 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = 1Password.xcassets; path = Pods/1PasswordExtension/1Password.xcassets; sourceTree = SOURCE_ROOT; };
 		4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjCRuntime+Additions.swift"; sourceTree = "<group>"; };
@@ -576,7 +576,7 @@
 			isa = PBXGroup;
 			children = (
 				456BCABD1C5D1AD200590295 /* ClusterAnnotationView.swift */,
-				455F89361FFEAC27009DC915 /* MarginLabel.swift */,
+				455F89361FFEAC27009DC915 /* CustomLabels.swift */,
 				45ACF8B320258414000D7BE4 /* NoPaddingButton.swift */,
 				4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */,
 				459E16F8202A129200E8206D /* StatusMessageTableViewCell.swift */,
@@ -1263,7 +1263,7 @@
 				455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */,
 				45A904CE2027F67700E6EC73 /* Comment.swift in Sources */,
 				4506ED711C221797003B5018 /* LoginViewController.swift in Sources */,
-				455F89371FFEAC27009DC915 /* MarginLabel.swift in Sources */,
+				455F89371FFEAC27009DC915 /* CustomLabels.swift in Sources */,
 				454ECE9C1C567AE5003A0E94 /* User.swift in Sources */,
 				459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */,
 				45A904D0202810E400E6EC73 /* FollowersViewController.swift in Sources */,
