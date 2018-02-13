@@ -422,7 +422,7 @@ extension AppDelegate {
                     }
                     let vc = InvitationSuccessViewController.instantiate(matricule: matriculeInt,
                                                                          profileUrl: profileUrl,
-                                                                         name: username,
+                                                                         name: username.removingPercentEncoding ?? username,
                                                                          gender: gender,
                                                                          region: countryName)
                     let nav = UINavigationController(rootViewController: vc)

@@ -34,7 +34,8 @@ struct Follower {
     mutating func importDataFromJSON(_ json: JSON) {
         self.id = json["id"].intValue
         self.gender = json["gender"].stringValue
-        self.username = json["username"].stringValue.removingPercentEncoding ?? ""
+        let username = json["username"].stringValue
+        self.username = username.removingPercentEncoding ?? username
         self.matricule = json["matricule"].intValue
         self.profileUrl = json["profileUrl"].stringValue
         self.badges = json["badges"].arrayObject

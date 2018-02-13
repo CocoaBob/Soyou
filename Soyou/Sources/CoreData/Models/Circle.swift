@@ -43,10 +43,12 @@ class Circle: NSManagedObject {
                 circle.createdDate = Cons.utcDateFormatter.date(from: value)
             }
             circle.id = data["id"] as? String
-            circle.text = (data["text"] as? String)?.removingPercentEncoding
+            let text = data["text"] as? String
+            circle.text = text?.removingPercentEncoding ?? text
             circle.images = data["images"] as? NSArray
             circle.userId = data["userId"] as? NSNumber
-            circle.username = (data["username"] as? String)?.removingPercentEncoding
+            let username = data["username"] as? String
+            circle.username = username?.removingPercentEncoding ?? username
             circle.visibility = data["visibility"] as? NSNumber
             circle.userProfileUrl = data["userProfileUrl"] as? String
             circle.commentCount = data["commentCount"] as? NSNumber
