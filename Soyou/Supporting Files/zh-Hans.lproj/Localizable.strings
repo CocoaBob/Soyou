@@ -123,8 +123,8 @@
 "circle_compose_visibility_title"="谁可以看见";
 "circle_compose_visibility_everyone"="公开";
 "circle_compose_visibility_everyone_desc"="所有奢有用户都可以看见";
-"circle_compose_visibility_friends"="好友";
-"circle_compose_visibility_friends_desc"="我的好友都可以看见";
+"circle_compose_visibility_followers"="粉丝";
+"circle_compose_visibility_followers_desc"="我的粉丝都可以看见";
 "circle_compose_visibility_author"="自己";
 "circle_compose_visibility_author_desc"="只有我自己可以看见";
 "circle_compose_drag_to_delete"="拖到此处删除";

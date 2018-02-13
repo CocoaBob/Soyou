@@ -121,8 +121,8 @@
 "circle_compose_visibility_title"="Who can see";
 "circle_compose_visibility_everyone"="Public";
 "circle_compose_visibility_everyone_desc"="Visible to all Soyou users";
-"circle_compose_visibility_friends"="Friends";
-"circle_compose_visibility_friends_desc"="Visible to all my friends";
+"circle_compose_visibility_followers"="Followers";
+"circle_compose_visibility_followers_desc"="Visible to all my followers";
 "circle_compose_visibility_author"="Me";
 "circle_compose_visibility_author_desc"="Only visible to myself";
 "circle_compose_drag_to_delete"="Drag here to delete";

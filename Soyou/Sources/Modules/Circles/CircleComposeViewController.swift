@@ -575,7 +575,7 @@ extension CircleComposeViewController {
         simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = false
         // Data
         let visibilities = [(CircleVisibility.everyone, NSLocalizedString("circle_compose_visibility_everyone"), NSLocalizedString("circle_compose_visibility_everyone_desc")),
-                            (CircleVisibility.friends, NSLocalizedString("circle_compose_visibility_friends"), NSLocalizedString("circle_compose_visibility_friends_desc")),
+                            (CircleVisibility.friends, NSLocalizedString("circle_compose_visibility_followers"), NSLocalizedString("circle_compose_visibility_followers_desc")),
                             (CircleVisibility.author, NSLocalizedString("circle_compose_visibility_author"), NSLocalizedString("circle_compose_visibility_author_desc"))]
         // Prepare rows
         var rows = [Row]()
@@ -627,7 +627,7 @@ extension CircleComposeViewController {
         if self.visibility == CircleVisibility.everyone {
             self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_everyone")
         } else if self.visibility == CircleVisibility.friends {
-                self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_friends")
+                self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_followers")
         } else if self.visibility == CircleVisibility.author {
             self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_author")
         }
