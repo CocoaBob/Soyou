@@ -581,7 +581,7 @@ extension CircleComposeViewController {
         var rows = [Row]()
         for (visibility, title, desc) in visibilities {
             let row = Row(type: .TopTitleBottomDetail,
-                          cell: Cell(height: 44, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
+                          cell: Cell(height: 52, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
                           title: Text(text: title),
                           subTitle: Text(text: desc),
                           userInfo: ["visibility": visibility],

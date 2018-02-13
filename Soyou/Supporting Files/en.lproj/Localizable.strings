@@ -166,7 +166,7 @@
 "qr_code_vc_region"="Region: %@";
 "qr_code_vc_footer"="Scan the code to follow me on Soyou";
 "qr_code_vc_share"="Share";
-"qr_code_vc_share_message"="Come to follow me on Soyou, track the latest products and sync with WeChat!";
+"qr_code_vc_share_message"="Come to follow me on Soyou!\nTrack the latest products and sync photos with WeChat!";
 "qr_code_vc_save_image"="Save image";
 "qr_code_vc_save_image_succeed"="Image saved!";
 "qr_code_vc_save_image_fail"="Failed to save!\n%@";

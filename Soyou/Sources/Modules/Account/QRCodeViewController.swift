@@ -59,14 +59,13 @@ extension QRCodeViewController {
         // Message
         self.lblMessage.text = NSLocalizedString("qr_code_vc_share_message")
         // Container View
-//        self.containerView.layer.borderWidth = 1
-//        self.containerView.layer.borderColor = UIColor.lightGray.cgColor
         self.containerView.layer.shadowColor = UIColor(white: 0, alpha: 0.25).cgColor
         self.containerView.layer.shadowOpacity = 1
         self.containerView.layer.shadowRadius = 2
         self.containerView.layer.shadowOffset = CGSize.zero
         self.containerView.clipsToBounds = false
         // Avatar
+        self.imgAvatar.layer.cornerRadius = self.imgAvatar.frame.width / 2.0
         self.imgAvatar.image = self.avatar ?? UIImage(named: "img_placeholder_1_1_s")
         
         // Name
@@ -102,15 +101,16 @@ extension QRCodeViewController {
         }
         
         // QR Code
-        self.imgQRCode.image = self.generateQRCode()
+        let qrCode = self.generateQRCode()
+        self.imgQRCode.image = qrCode
         
         // Soyou logo
         self.imgSoyouLogo.layer.cornerRadius = 8
         self.imgSoyouLogo.layer.borderColor = UIColor.white.cgColor
-        self.imgSoyouLogo.layer.borderWidth = 4
+        self.imgSoyouLogo.layer.borderWidth = 3
         self.imgSoyouLogo.layer.shadowColor = UIColor(white: 0, alpha: 0.5).cgColor
         self.imgSoyouLogo.layer.shadowOpacity = 1
-        self.imgSoyouLogo.layer.shadowRadius = 2
+        self.imgSoyouLogo.layer.shadowRadius = 1
         self.imgSoyouLogo.layer.shadowOffset = CGSize.zero
         self.imgSoyouLogo.clipsToBounds = false
         
@@ -132,7 +132,9 @@ extension QRCodeViewController {
     
     fileprivate func generateQRCode() -> UIImage? {
         guard let url = invitationURL() else { return nil }
-        return QRCode(url)?.image
+        var qrCode = QRCode(url)
+        qrCode?.errorCorrection = .Medium
+        return qrCode?.image
     }
 }
 

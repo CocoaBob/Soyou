@@ -14,7 +14,6 @@ class InvitationSuccessViewController: UIViewController {
     fileprivate var gender: String?
     fileprivate var region: String?
     
-    @IBOutlet var containerView: UIView!
     @IBOutlet var imgAvatar: UIImageView!
     @IBOutlet var lblName: UILabel!
     @IBOutlet var imgGender: UIImageView!
@@ -44,21 +43,28 @@ class InvitationSuccessViewController: UIViewController {
         // Setup views
         self.setupViews()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Nav bar
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Workaround to make sure navigation bar is updated even the slide-back gesture is cancelled.
+        DispatchQueue.main.async {
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+        }
+    }
 }
 
 // MARK: - Views
 extension InvitationSuccessViewController {
     
     fileprivate func setupViews() {
-        // Container View
-//        self.containerView.layer.borderWidth = 1
-//        self.containerView.layer.borderColor = UIColor.lightGray.cgColor
-//        self.containerView.layer.shadowColor = UIColor(white: 0, alpha: 0.25).cgColor
-//        self.containerView.layer.shadowOpacity = 1
-//        self.containerView.layer.shadowRadius = 2
-//        self.containerView.layer.shadowOffset = CGSize.zero
-//        self.containerView.clipsToBounds = false
-        
         // Avatar
         self.imgAvatar.sd_setImage(with: self.profileUrl,
                                    placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
@@ -109,6 +115,16 @@ extension InvitationSuccessViewController {
 extension InvitationSuccessViewController {
     
     @IBAction func visitAction() {
-        
+        guard let matricule = self.matricule,
+            let profileUrl = self.profileUrl,
+            let username = self.name else {
+                return
+        }
+        let userID = matricule - 100000
+        let vc = CirclesViewController.instantiate(userID, profileUrl.absoluteString, username)
+        self.navigationController?.pushViewController(vc, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+            self.navigationController?.setViewControllers([vc], animated: false)
+        }
     }
 }
