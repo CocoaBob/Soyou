@@ -402,6 +402,9 @@ extension AppDelegate {
     
     func handleInvitation(matricule: String) {
         guard let rootVC = self.window?.rootViewController else { return }
+        if let presentedVC = rootVC.presentedViewController {
+            presentedVC.dismiss(animated: false, completion: nil)
+        }
         if UserManager.shared.isLoggedIn {
             MBProgressHUD.show(rootVC.view)
             DataManager.shared.acceptInvitation(matricule, { (responseObject, error) in
@@ -485,6 +488,9 @@ extension AppDelegate {
                         vc.info = news
                         vc.headerImage = image
                         let navC = UINavigationController(rootViewController: vc)
+                        if let presentedVC = rootVC.presentedViewController {
+                            presentedVC.dismiss(animated: false, completion: nil)
+                        }
                         rootVC.present(navC, animated: true, completion: nil)
                 })
             }
@@ -514,6 +520,9 @@ extension AppDelegate {
                         vc.info = discount
                         vc.headerImage = image
                         let navC = UINavigationController(rootViewController: vc)
+                        if let presentedVC = rootVC.presentedViewController {
+                            presentedVC.dismiss(animated: false, completion: nil)
+                        }
                         rootVC.present(navC, animated: true, completion: nil)
                 })
             }
@@ -529,6 +538,9 @@ extension AppDelegate {
                 let vc = ProductViewController.instantiate()
                 vc.product = product
                 let navC = UINavigationController(rootViewController: vc)
+                if let presentedVC = rootVC.presentedViewController {
+                    presentedVC.dismiss(animated: false, completion: nil)
+                }
                 rootVC.present(navC, animated: true, completion: nil)
             }
         })
