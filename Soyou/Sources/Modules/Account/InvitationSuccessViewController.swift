@@ -9,6 +9,7 @@
 class InvitationSuccessViewController: UIViewController {
     
     fileprivate var matricule: Int?
+    fileprivate var userID: Int?
     fileprivate var profileUrl: URL?
     fileprivate var name: String?
     fileprivate var gender: String?
@@ -23,9 +24,10 @@ class InvitationSuccessViewController: UIViewController {
     @IBOutlet var btnVisit: UIButton!
     
     // Class methods
-    class func instantiate(matricule: Int, profileUrl: URL?, name: String?, gender: String?, region: String?) -> InvitationSuccessViewController {
+    class func instantiate(matricule: Int, userID: Int, profileUrl: URL?, name: String?, gender: String?, region: String?) -> InvitationSuccessViewController {
         let vc = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "InvitationSuccessViewController") as! InvitationSuccessViewController
         vc.matricule = matricule
+        vc.userID = userID
         vc.profileUrl = profileUrl
         vc.name = name
         vc.gender = gender
@@ -120,8 +122,7 @@ extension InvitationSuccessViewController {
             let username = self.name else {
                 return
         }
-        let userID = matricule - 100000
-        let vc = CirclesViewController.instantiate(userID, profileUrl.absoluteString, username)
+        let vc = CirclesViewController.instantiate(self.userID, profileUrl.absoluteString, username)
         self.navigationController?.pushViewController(vc, animated: true)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
             self.navigationController?.setViewControllers([vc], animated: false)

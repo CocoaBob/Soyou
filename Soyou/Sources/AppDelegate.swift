@@ -411,6 +411,7 @@ extension AppDelegate {
                 MBProgressHUD.hide(rootVC.view)
                 if let responseObject = responseObject,
                     let data = DataManager.getResponseData(responseObject) as? NSDictionary,
+                    let userID = data["id"] as? Int,
                     let username = data["username"] as? String,
                     let profileStr = data["profileUrl"] as? String,
                     let profileUrl = URL(string: profileStr),
@@ -421,6 +422,7 @@ extension AppDelegate {
                         countryName = CurrencyManager.shared.countryName(countryCode)
                     }
                     let vc = InvitationSuccessViewController.instantiate(matricule: matriculeInt,
+                                                                         userID: userID,
                                                                          profileUrl: profileUrl,
                                                                          name: username.removingPercentEncoding ?? username,
                                                                          gender: gender,
