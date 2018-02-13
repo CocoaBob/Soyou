@@ -154,9 +154,12 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                            options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                            completed: { (image, error, type, url) -> Void in
-                                            // Update the image with an animation
-                                            if (collectionView.indexPathsForVisibleItems.contains(indexPath)) {
-                                                if let image = image {
+                                            if let error = error {
+                                                DLog(error.localizedDescription)
+                                                DLog(url)
+                                            } else {
+                                                // Update the image with an animation
+                                                if (collectionView.indexPathsForVisibleItems.contains(indexPath)), let image = image {
                                                     UIView.transition(with: cell.imageView,
                                                                       duration: 0.3,
                                                                       options: UIViewAnimationOptions.transitionCrossDissolve,
