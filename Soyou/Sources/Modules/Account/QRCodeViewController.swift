@@ -45,7 +45,7 @@ class QRCodeViewController: UIViewController {
         self.title = NSLocalizedString("qr_code_vc_title")
         
         // Navigation Items
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "img_more"), style: .plain, target: self, action: #selector(QRCodeViewController.moreAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(QRCodeViewController.shareQRCodeImage))
         
         // Setup views
         self.setupViews()
@@ -142,11 +142,7 @@ extension QRCodeViewController {
 extension QRCodeViewController {
     
     @IBAction func shareQRCodeImage() {
-        Utils.shareTextAndImagesToWeChat(from: self, text: NSLocalizedString("qr_code_vc_share_message"), images: [getQRCodeImage()])
-    }
-    
-    @IBAction func saveQRCodeImage() {
-        UIImageWriteToSavedPhotosAlbum(getQRCodeImage(), self, #selector(QRCodeViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+        Utils.shareItems(items: [NSLocalizedString("qr_code_vc_share_message"), getQRCodeImage()], completion: nil)
     }
     
     func getQRCodeImage() -> UIImage {
@@ -157,31 +153,5 @@ extension QRCodeViewController {
             self.containerView.layer.render(in: rendererContext.cgContext)
         }
         return image
-    }
-    
-    @objc func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
-        guard let window = self.view.window else { return }
-        let hud = MBProgressHUD.showAdded(to: window, animated: true)
-        hud.isUserInteractionEnabled = false
-        hud.mode = .text
-        if let error = error {
-            hud.label.text = FmtString(NSLocalizedString("qr_code_vc_save_image_fail"), error.localizedDescription)
-        } else {
-            hud.label.text = NSLocalizedString("qr_code_vc_save_image_succeed")
-        }
-        hud.hide(animated: true, afterDelay: 3)
-    }
-}
-
-// MARK: - Actions
-extension QRCodeViewController {
-    
-    @IBAction func moreAction() {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("qr_code_vc_save_image"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
-            self.saveQRCodeImage()
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"), style: UIAlertActionStyle.cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }
 }
