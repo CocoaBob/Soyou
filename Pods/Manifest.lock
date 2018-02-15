@@ -130,6 +130,7 @@ DEPENDENCIES:
   - CCHMapClusterController
   - CHTCollectionViewWaterfallLayout
   - Crashlytics
+  - DACircularProgress
   - EAIntroView
   - Fabric
   - FBSDKLoginKit
@@ -266,6 +267,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: dd03a4708269339d19ba0c890c6361fdf8058843
+PODFILE CHECKSUM: 4dee968655ee12926bb626850532de17c254d536
 
 COCOAPODS: 1.4.0

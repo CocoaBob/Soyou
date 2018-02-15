@@ -13,6 +13,7 @@ target :'Soyou' do
 	pod "Base64nl"
 	pod "CCHMapClusterController"
 	pod "CHTCollectionViewWaterfallLayout"
+    pod "DACircularProgress"
 	pod "EAIntroView"
 	pod "FCUUID"
     pod "Fingertips"
