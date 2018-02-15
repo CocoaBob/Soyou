@@ -24,6 +24,8 @@ class CircleImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var btnDelete: UIButton!
+    @IBOutlet var indicator: UIActivityIndicatorView?
+    
     var deleteAction: ((UICollectionViewCell)->Void)? {
         didSet {
             btnDelete.isHidden = deleteAction == nil
@@ -40,6 +42,7 @@ class CircleImageCollectionViewCell: UICollectionViewCell {
         self.imageView.image = UIImage(named: "img_placeholder_1_1_s")
         self.imageView.contentMode = .scaleAspectFill
         self.imageView.layer.borderWidth = 0
+        self.indicator?.isHidden = true
         self.contentView.layer.contents = nil
         self.contentView.layer.borderWidth = 0
         self.selectedBackgroundView?.layer.contents = nil

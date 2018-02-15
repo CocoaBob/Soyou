@@ -40,7 +40,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CirclesTableViewCell" rowHeight="300" id="7Rp-5M-mvX" customClass="CirclesTableViewCell" customModule="Soyou" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CirclesTableViewCell" rowHeight="300" id="7Rp-5M-mvX" customClass="CirclesTableViewCell" customModule="Soyou" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Rp-5M-mvX" id="RsM-Sz-DFc">
@@ -583,19 +583,25 @@
                                                                             <action selector="delete" destination="RcQ-PG-XmR" eventType="touchUpInside" id="4Yi-Ma-5ym"/>
                                                                         </connections>
                                                                     </button>
+                                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="LAR-lf-ClU">
+                                                                        <rect key="frame" x="30" y="30" width="20" height="20"/>
+                                                                    </activityIndicatorView>
                                                                 </subviews>
                                                             </view>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="P89-ks-2nn" secondAttribute="trailing" id="1QC-hc-i4w"/>
                                                                 <constraint firstAttribute="bottom" secondItem="P89-ks-2nn" secondAttribute="bottom" id="1sA-7O-4x7"/>
+                                                                <constraint firstItem="LAR-lf-ClU" firstAttribute="centerX" secondItem="RcQ-PG-XmR" secondAttribute="centerX" id="54L-MU-UiH"/>
                                                                 <constraint firstItem="P89-ks-2nn" firstAttribute="leading" secondItem="RcQ-PG-XmR" secondAttribute="leading" id="PIN-hG-bsG"/>
                                                                 <constraint firstItem="P89-ks-2nn" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="Qgz-7i-6N7"/>
                                                                 <constraint firstItem="FNv-Vp-BSK" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="ReH-Pn-7yk"/>
                                                                 <constraint firstAttribute="trailing" secondItem="FNv-Vp-BSK" secondAttribute="trailing" id="UYE-nb-XuE"/>
+                                                                <constraint firstItem="LAR-lf-ClU" firstAttribute="centerY" secondItem="RcQ-PG-XmR" secondAttribute="centerY" id="gmT-5K-WbT"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="btnDelete" destination="FNv-Vp-BSK" id="ZC4-MH-gV4"/>
                                                                 <outlet property="imageView" destination="P89-ks-2nn" id="t4E-ar-XOT"/>
+                                                                <outlet property="indicator" destination="LAR-lf-ClU" id="7VI-VL-6y7"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>

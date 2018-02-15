@@ -200,7 +200,26 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
         
         if let cell = cell as? CircleImageCollectionViewCell {
             if indexPath.row < self.selectedAssets?.count ?? 0 {
-                cell.imageView.image = self.selectedAssets?[indexPath.row].fullResolutionImage
+                guard let tlphAsset = self.selectedAssets?[indexPath.row] else {
+                    return cell
+                }
+                if let image = tlphAsset.fullResolutionImage {
+                    cell.imageView.image = image
+                } else {
+                    cell.imageView.image = UIImage(named: "img_placeholder_1_1_s")
+                    tlphAsset.cloudImageDownload(progressBlock: { (progress) in
+                        if progress != 1, cell.indicator?.isAnimating ?? false == false {
+                            cell.indicator?.startAnimating()
+                            cell.indicator?.isHidden = false
+                        } else  if progress == 1 {
+                            cell.indicator?.stopAnimating()
+                            cell.indicator?.isHidden = true
+                        }
+                    }, completionBlock: { (image) in
+                        tlphAsset.fullResolutionImage = image
+                        cell.imageView.image = image
+                    })
+                }
                 cell.deleteAction = { cell in
                     if let indexPath = collectionView.indexPath(for: cell) {
                         // Reload table view
