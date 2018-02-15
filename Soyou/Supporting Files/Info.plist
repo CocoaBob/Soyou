@@ -94,7 +94,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>897</string>
+	<string>900</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -226,6 +226,10 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
+	<string>Translated in InfoPlist.strings</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Translated in InfoPlist.strings</string>
+	<key>NSLocationUsageDescription</key>
 	<string>Translated in InfoPlist.strings</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Translated in InfoPlist.strings</string>

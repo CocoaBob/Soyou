@@ -13,6 +13,8 @@
 "shortcut_circles"="Circles";
 "shortcut_favorites"="Favorites";
 "NSLocationWhenInUseUsageDescription"="We will use your location to help you locate brand stores.";
+"NSLocationAlwaysUsageDescription"="We will use your location to help you locate brand stores.";
+"NSLocationUsageDescription"="We will use your location to help you locate brand stores.";
 "NSPhotoLibraryUsageDescription"="You will be able to share photos.";
 "NSCameraUsageDescription"="You will be able to take a photo.";
 "NSPhotoLibraryAddUsageDescription"="You will be able to save an image.";

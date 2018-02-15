@@ -136,7 +136,7 @@
                                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                                             </imageView>
                                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b25-Li-ORb" customClass="DACircularProgressView">
-                                                                                <rect key="frame" x="2" y="2" width="14" height="14"/>
+                                                                                <rect key="frame" x="2" y="34" width="14" height="14"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="14" id="azE-0S-UMl"/>
@@ -148,7 +148,7 @@
                                                                     <constraints>
                                                                         <constraint firstItem="Yf4-Hb-FYM" firstAttribute="top" secondItem="U1a-lx-c2B" secondAttribute="top" id="5SF-hJ-MSn"/>
                                                                         <constraint firstItem="b25-Li-ORb" firstAttribute="width" secondItem="b25-Li-ORb" secondAttribute="height" multiplier="1:1" id="SP3-sO-geP"/>
-                                                                        <constraint firstItem="b25-Li-ORb" firstAttribute="top" secondItem="U1a-lx-c2B" secondAttribute="top" constant="2" id="StI-ep-NcU"/>
+                                                                        <constraint firstItem="b25-Li-ORb" firstAttribute="bottom" secondItem="U1a-lx-c2B" secondAttribute="bottom" constant="-2" id="StI-ep-NcU"/>
                                                                         <constraint firstAttribute="bottom" secondItem="Yf4-Hb-FYM" secondAttribute="bottom" id="UBk-8P-1WL"/>
                                                                         <constraint firstItem="b25-Li-ORb" firstAttribute="leading" secondItem="U1a-lx-c2B" secondAttribute="leading" constant="2" id="frG-jm-jvx"/>
                                                                         <constraint firstItem="Yf4-Hb-FYM" firstAttribute="leading" secondItem="U1a-lx-c2B" secondAttribute="leading" id="gOb-S4-Fqr"/>
@@ -597,7 +597,7 @@
                                                                         </connections>
                                                                     </button>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="njW-Ny-zNT" customClass="DACircularProgressView">
-                                                                        <rect key="frame" x="2" y="2" width="14" height="14"/>
+                                                                        <rect key="frame" x="2" y="64" width="14" height="14"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="14" id="le1-WG-z5F"/>
@@ -614,7 +614,7 @@
                                                                 <constraint firstItem="P89-ks-2nn" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="Qgz-7i-6N7"/>
                                                                 <constraint firstItem="FNv-Vp-BSK" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="ReH-Pn-7yk"/>
                                                                 <constraint firstAttribute="trailing" secondItem="FNv-Vp-BSK" secondAttribute="trailing" id="UYE-nb-XuE"/>
-                                                                <constraint firstItem="njW-Ny-zNT" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" constant="2" id="xJ6-oD-e59"/>
+                                                                <constraint firstItem="njW-Ny-zNT" firstAttribute="bottom" secondItem="RcQ-PG-XmR" secondAttribute="bottom" constant="-2" id="xJ6-oD-e59"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="btnDelete" destination="FNv-Vp-BSK" id="ZC4-MH-gV4"/>
