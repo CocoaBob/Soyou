@@ -23,6 +23,7 @@
 @import AFNetworking;
 @import CCHMapClusterController;
 @import CHTCollectionViewWaterfallLayout;
+@import DACircularProgress;
 @import EAIntroView;
 @import FCUUID;
 @import Fingertips;

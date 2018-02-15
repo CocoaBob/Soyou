@@ -24,7 +24,7 @@ class CircleImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var btnDelete: UIButton!
-    @IBOutlet var indicator: UIActivityIndicatorView?
+    @IBOutlet var progressView: DACircularProgressView?
     
     var deleteAction: ((UICollectionViewCell)->Void)? {
         didSet {
@@ -39,10 +39,15 @@ class CircleImageCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.imageView.sd_cancelCurrentImageLoad()
         self.imageView.image = UIImage(named: "img_placeholder_1_1_s")
         self.imageView.contentMode = .scaleAspectFill
         self.imageView.layer.borderWidth = 0
-        self.indicator?.isHidden = true
+        self.progressView?.isHidden = true
+        self.progressView?.thicknessRatio = 0.1
+        self.progressView?.roundedCorners = 1
+        self.progressView?.trackTintColor = UIColor(white:0, alpha: 0.2)
+        self.progressView?.progressTintColor = UIColor(white:1, alpha: 1)
         self.contentView.layer.contents = nil
         self.contentView.layer.borderWidth = 0
         self.selectedBackgroundView?.layer.contents = nil

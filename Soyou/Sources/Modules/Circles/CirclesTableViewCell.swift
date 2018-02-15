@@ -153,6 +153,21 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
                 cell.imageView.sd_setImage(with: imageURL,
                                            placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                            options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                           progress: { (receivedSize, expectedSize, targetURL) in
+                                            DispatchQueue.main.async {
+                                                if expectedSize > 0 {
+                                                    var progress = CGFloat(receivedSize) / CGFloat(expectedSize)
+                                                    progress = max(0, min(1, progress))
+                                                    if progress != 1 {
+                                                        cell.progressView?.setProgress(progress, animated: true)
+                                                        cell.progressView?.isHidden = false
+                                                    } else  if progress == 1 {
+                                                        cell.progressView?.setProgress(progress, animated: false)
+                                                        cell.progressView?.isHidden = true
+                                                    }
+                                                }
+                                            }
+                },
                                            completed: { (image, error, type, url) -> Void in
                                             if let error = error {
                                                 DLog(error.localizedDescription)

@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -131,19 +132,31 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <subviews>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="CircleImageCollectionViewCell" translatesAutoresizingMaskIntoConstraints="NO" id="Yf4-Hb-FYM">
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="CircleImageCollectionViewCell" image="img_placeholder_1_1_s" translatesAutoresizingMaskIntoConstraints="NO" id="Yf4-Hb-FYM">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                                             </imageView>
+                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b25-Li-ORb" customClass="DACircularProgressView">
+                                                                                <rect key="frame" x="2" y="2" width="14" height="14"/>
+                                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="14" id="azE-0S-UMl"/>
+                                                                                    <constraint firstAttribute="width" secondItem="b25-Li-ORb" secondAttribute="height" multiplier="1:1" id="bAi-Wj-khd"/>
+                                                                                </constraints>
+                                                                            </view>
                                                                         </subviews>
                                                                     </view>
                                                                     <constraints>
                                                                         <constraint firstItem="Yf4-Hb-FYM" firstAttribute="top" secondItem="U1a-lx-c2B" secondAttribute="top" id="5SF-hJ-MSn"/>
+                                                                        <constraint firstItem="b25-Li-ORb" firstAttribute="width" secondItem="b25-Li-ORb" secondAttribute="height" multiplier="1:1" id="SP3-sO-geP"/>
+                                                                        <constraint firstItem="b25-Li-ORb" firstAttribute="top" secondItem="U1a-lx-c2B" secondAttribute="top" constant="2" id="StI-ep-NcU"/>
                                                                         <constraint firstAttribute="bottom" secondItem="Yf4-Hb-FYM" secondAttribute="bottom" id="UBk-8P-1WL"/>
+                                                                        <constraint firstItem="b25-Li-ORb" firstAttribute="leading" secondItem="U1a-lx-c2B" secondAttribute="leading" constant="2" id="frG-jm-jvx"/>
                                                                         <constraint firstItem="Yf4-Hb-FYM" firstAttribute="leading" secondItem="U1a-lx-c2B" secondAttribute="leading" id="gOb-S4-Fqr"/>
                                                                         <constraint firstAttribute="trailing" secondItem="Yf4-Hb-FYM" secondAttribute="trailing" id="iNG-aV-jin"/>
                                                                     </constraints>
                                                                     <connections>
                                                                         <outlet property="imageView" destination="Yf4-Hb-FYM" id="mIy-k9-mfl"/>
+                                                                        <outlet property="progressView" destination="b25-Li-ORb" id="HVV-Hr-bDb"/>
                                                                     </connections>
                                                                 </collectionViewCell>
                                                             </cells>
@@ -569,7 +582,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="P89-ks-2nn">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_placeholder_1_1_s" translatesAutoresizingMaskIntoConstraints="NO" id="P89-ks-2nn">
                                                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                                                     </imageView>
                                                                     <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FNv-Vp-BSK">
@@ -583,25 +596,30 @@
                                                                             <action selector="delete" destination="RcQ-PG-XmR" eventType="touchUpInside" id="4Yi-Ma-5ym"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="LAR-lf-ClU">
-                                                                        <rect key="frame" x="30" y="30" width="20" height="20"/>
-                                                                    </activityIndicatorView>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="njW-Ny-zNT" customClass="DACircularProgressView">
+                                                                        <rect key="frame" x="2" y="2" width="14" height="14"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="14" id="le1-WG-z5F"/>
+                                                                            <constraint firstAttribute="width" secondItem="njW-Ny-zNT" secondAttribute="height" multiplier="1:1" id="skr-UK-OGe"/>
+                                                                        </constraints>
+                                                                    </view>
                                                                 </subviews>
                                                             </view>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="P89-ks-2nn" secondAttribute="trailing" id="1QC-hc-i4w"/>
                                                                 <constraint firstAttribute="bottom" secondItem="P89-ks-2nn" secondAttribute="bottom" id="1sA-7O-4x7"/>
-                                                                <constraint firstItem="LAR-lf-ClU" firstAttribute="centerX" secondItem="RcQ-PG-XmR" secondAttribute="centerX" id="54L-MU-UiH"/>
+                                                                <constraint firstItem="njW-Ny-zNT" firstAttribute="leading" secondItem="RcQ-PG-XmR" secondAttribute="leading" constant="2" id="Ge9-WQ-AWL"/>
                                                                 <constraint firstItem="P89-ks-2nn" firstAttribute="leading" secondItem="RcQ-PG-XmR" secondAttribute="leading" id="PIN-hG-bsG"/>
                                                                 <constraint firstItem="P89-ks-2nn" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="Qgz-7i-6N7"/>
                                                                 <constraint firstItem="FNv-Vp-BSK" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" id="ReH-Pn-7yk"/>
                                                                 <constraint firstAttribute="trailing" secondItem="FNv-Vp-BSK" secondAttribute="trailing" id="UYE-nb-XuE"/>
-                                                                <constraint firstItem="LAR-lf-ClU" firstAttribute="centerY" secondItem="RcQ-PG-XmR" secondAttribute="centerY" id="gmT-5K-WbT"/>
+                                                                <constraint firstItem="njW-Ny-zNT" firstAttribute="top" secondItem="RcQ-PG-XmR" secondAttribute="top" constant="2" id="xJ6-oD-e59"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="btnDelete" destination="FNv-Vp-BSK" id="ZC4-MH-gV4"/>
                                                                 <outlet property="imageView" destination="P89-ks-2nn" id="t4E-ar-XOT"/>
-                                                                <outlet property="indicator" destination="LAR-lf-ClU" id="7VI-VL-6y7"/>
+                                                                <outlet property="progressView" destination="njW-Ny-zNT" id="6Nl-ng-OrR"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
@@ -734,5 +752,6 @@
         <image name="img_camera_shadow" width="36" height="29"/>
         <image name="img_delete" width="18" height="18"/>
         <image name="img_more_shadow" width="32" height="10"/>
+        <image name="img_placeholder_1_1_s" width="80" height="80"/>
     </resources>
 </document>

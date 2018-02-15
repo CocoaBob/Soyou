@@ -208,16 +208,20 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                 } else {
                     cell.imageView.image = UIImage(named: "img_placeholder_1_1_s")
                     tlphAsset.cloudImageDownload(progressBlock: { (progress) in
-                        if progress != 1, cell.indicator?.isAnimating ?? false == false {
-                            cell.indicator?.startAnimating()
-                            cell.indicator?.isHidden = false
-                        } else  if progress == 1 {
-                            cell.indicator?.stopAnimating()
-                            cell.indicator?.isHidden = true
+                        DispatchQueue.main.async {
+                            if progress != 1 {
+                                cell.progressView?.isHidden = false
+                                cell.progressView?.setProgress(CGFloat(progress), animated: true)
+                            } else  if progress == 1 {
+                                cell.progressView?.setProgress(CGFloat(progress), animated: false)
+                                cell.progressView?.isHidden = true
+                            }
                         }
                     }, completionBlock: { (image) in
-                        tlphAsset.fullResolutionImage = image
-                        cell.imageView.image = image
+                        if let image = image {
+                            tlphAsset.fullResolutionImage = image
+                            cell.imageView.image = image
+                        }
                     })
                 }
                 cell.deleteAction = { cell in
@@ -246,14 +250,13 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        guard let imageView = (collectionView.cellForItem(at: indexPath) as? CircleImageCollectionViewCell)?.imageView else {
-            return
-        }
         // Add button
         if indexPath.row == self.selectedAssets?.count ?? 0 {
             self.addPicture()
         } else {
-            self.browseImages(imageView, self.selectedAssets?[indexPath.row].fullResolutionImage, UInt(indexPath.row))
+            if let imageView = (collectionView.cellForItem(at: indexPath) as? CircleImageCollectionViewCell)?.imageView {
+                self.browseImages(imageView, self.selectedAssets?[indexPath.row].fullResolutionImage, UInt(indexPath.row))
+            }
         }
     }
     
