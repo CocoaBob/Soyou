@@ -120,6 +120,12 @@ extension QRCodeViewController {
         // Share button
         self.btnShare.setTitle(NSLocalizedString("qr_code_vc_share"), for: .normal)
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Update corner radius
+        self.imgAvatar.layer.cornerRadius = self.imgAvatar.frame.width / 2.0
+    }
 }
 
 // MARK: - QRCode
