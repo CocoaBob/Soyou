@@ -91,7 +91,7 @@
 "store_map_vc_search_bar_placeholder"="国家、城市…";
 "store_map_vc_location_service_unavailable_title"="无法定位";
 "store_map_vc_location_service_unavailable_content"="定位服务被禁用，请修改设置。";
-"store_map_vc_go_to_settings"="去设置";
+"store_map_vc_settings"="设置";
 
 /* Circles View Controller */
 "circles_vc_title"="照片墙";
@@ -195,9 +195,8 @@
 "profile_vc_cell_basics_gender"="性别";
 "profile_vc_cell_basics_region"="地区";
 "profile_vc_cell_logout"="退出登录";
-"profile_vc_cell_logout_warning_title"="退出账户";
-"profile_vc_cell_logout_warning"="您确定要退出吗？";
-"profile_vc_cell_logout_warning_sure"="确定";
+"profile_vc_cell_logout_alert_message"="您确定要退出吗？";
+"profile_vc_cell_logout_alert_confirm"="退出";
 "profile_vc_change_title_prefix"="修改";
 "profile_vc_cell_new_email_placeholder"="您的邮箱地址";
 "profile_vc_cell_confirm_new_email_placeholder"="请再次输入您的邮箱地址";
@@ -221,7 +220,7 @@
 "login_vc_forget_password_action_button"="发送验证码";
 "login_vc_reset_password_action_button"="重置密码";
 
-"login_vc_register_alert_button"="我已激活";
+"login_vc_register_alert_button"="已激活";
 "login_vc_register_alert_message"="注册成功！稍等之后您将会收到验证邮件以激活账户。";
 
 "login_vc_reset_password_get_code"="获得验证码";
@@ -287,7 +286,7 @@
 "alert_title_error"="错误";
 "alert_title_info"="信息";
 "alert_title_success"="成功";
-"alert_title_warning"="警告";
+"alert_title_alert"="警告";
 "alert_button_ok"="确认";
 "alert_button_close"="关闭";
 "alert_button_cancel"="取消";

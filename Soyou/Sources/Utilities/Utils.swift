@@ -11,6 +11,8 @@ import Foundation
 class Utils: NSObject {
     
     static let shared = Utils()
+    
+    var isShowingNewVersionAlert = false
 }
 
 // MARK: Open AppStore page
@@ -23,6 +25,23 @@ extension Utils {
 
 // MARK: Open AppStore page
 extension Utils {
+    
+    func showNewVersionAvailable() {
+        if !self.isShowingNewVersionAlert {
+            self.isShowingNewVersionAlert = true
+            DispatchQueue.main.async {
+                UIAlertController.presentAlert(from: nil,
+                                               title: NSLocalizedString("alert_title_info"),
+                                               message: NSLocalizedString("app_new_version_available"),
+                                               UIAlertAction(title: NSLocalizedString("app_new_version_app_store"),
+                                                             style: UIAlertActionStyle.default,
+                                                             handler: { (action: UIAlertAction) -> Void in
+                                                                Utils.openAppStorePage()
+                                                                self.isShowingNewVersionAlert = false
+                                               }))
+            }
+        }
+    }
     
     class func openAppStorePage() {
         let urlStr = "https://itunes.apple.com/us/app/apple-store/id1028389463?mt=8"
@@ -99,18 +118,16 @@ extension Utils {
     }
     
     class func showWeChatSignInWarning(from vc: UIViewController?, completion: @escaping ()->()) {
-        let alertController = UIAlertController(title: nil,
-                                                message: NSLocalizedString("needs_wechat_account"),
-                                                preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("needs_wechat_account_action"),
-                                                style: UIAlertActionStyle.default,
-                                                handler: { (action: UIAlertAction) -> Void in
-                                                    completion()
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
-                                                style: UIAlertActionStyle.cancel,
-                                                handler: nil))
-        (vc ?? UIApplication.shared.keyWindow?.rootViewController)?.present(alertController, animated: true, completion: nil)
+        UIAlertController.presentAlert(from: vc,
+                                       message: NSLocalizedString("needs_wechat_account"),
+                                       UIAlertAction(title: NSLocalizedString("needs_wechat_account_action"),
+                                                     style: UIAlertActionStyle.default,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        completion()
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                     style: UIAlertActionStyle.cancel,
+                                                     handler: nil))
     }
     
     class func shareApp() {

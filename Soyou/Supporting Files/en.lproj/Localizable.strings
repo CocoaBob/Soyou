@@ -89,7 +89,7 @@
 "store_map_vc_search_bar_placeholder"="Countries, cities...";
 "store_map_vc_location_service_unavailable_title"="Unable to locate";
 "store_map_vc_location_service_unavailable_content"="Location service isn't allowed, please modify the settings.";
-"store_map_vc_go_to_settings"="Go to Settings";
+"store_map_vc_settings"="Settings";
 
 /* Circles View Controller */
 "circles_vc_title"="Circles";
@@ -193,9 +193,8 @@
 "profile_vc_cell_basics_gender"="Gender";
 "profile_vc_cell_basics_region"="Region";
 "profile_vc_cell_logout"="Logout";
-"profile_vc_cell_logout_warning_title"="Logout";
-"profile_vc_cell_logout_warning"="Are you sure you want to logout your account?";
-"profile_vc_cell_logout_warning_sure"="Sure";
+"profile_vc_cell_logout_alert_message"="Are you sure you want to logout your account?";
+"profile_vc_cell_logout_alert_confirm"="Logout";
 "profile_vc_change_title_prefix"="Change ";
 "profile_vc_cell_new_email_placeholder"="Your Email address";
 "profile_vc_cell_confirm_new_email_placeholder"="Confirm";
@@ -219,7 +218,7 @@
 "login_vc_forget_password_action_button"="Send Verification Code";
 "login_vc_reset_password_action_button"="Reset Password";
 
-"login_vc_register_alert_button"="I've activated";
+"login_vc_register_alert_button"="Activated";
 "login_vc_register_alert_message"="Register successfully! Please check your Email to activate your account.";
 
 "login_vc_reset_password_get_code"="Get Code";
@@ -286,7 +285,7 @@
 "alert_title_error"="Error";
 "alert_title_info"="Info";
 "alert_title_success"="Success";
-"alert_title_warning"="Warning";
+"alert_title_alert"="Warning";
 "alert_button_ok"="OK";
 "alert_button_close"="Close";
 "alert_button_cancel"="Cancel";

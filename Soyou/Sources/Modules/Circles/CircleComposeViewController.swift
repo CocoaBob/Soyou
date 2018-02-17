@@ -349,19 +349,16 @@ extension CircleComposeViewController {
             self.dismissSelf()
             return
         }
-        let alertController = UIAlertController(title: nil,
-                                                message: NSLocalizedString("circle_compose_quit_editing_title"),
-                                                preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("circle_compose_quit_editing_quit"),
-                                                style: UIAlertActionStyle.default,
-                                                handler: { (action: UIAlertAction) -> Void in
-                                                    self.dismissSelf()
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
-                                                style: UIAlertActionStyle.cancel,
-                                                handler: { (action: UIAlertAction) -> Void in
-        }))
-        self.present(alertController, animated: true, completion: nil)
+        UIAlertController.presentAlert(from: self,
+                                       message: NSLocalizedString("circle_compose_quit_editing_title"),
+                                       UIAlertAction(title: NSLocalizedString("circle_compose_quit_editing_quit"),
+                                                     style: UIAlertActionStyle.default,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        self.dismissSelf()
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                     style: UIAlertActionStyle.cancel,
+                                                     handler: nil))
     }
     
     @IBAction func post() {

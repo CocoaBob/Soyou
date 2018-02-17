@@ -109,19 +109,23 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     func logout() {
-        let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
-        alertView.addButton(NSLocalizedString("alert_button_cancel")) {}
-        alertView.addButton(NSLocalizedString("profile_vc_cell_logout_warning_sure")) { () -> Void in
-            MBProgressHUD.show()
-            DataManager.shared.logout({ (responseObject, error) in
-                MBProgressHUD.hide()
-                if error == nil {
-                    UserManager.shared.logOut()
-                    self.dismissSelf()
-                }
-            })
-        }
-        alertView.showWarning(NSLocalizedString("profile_vc_cell_logout_warning_title"), subTitle: NSLocalizedString("profile_vc_cell_logout_warning"))
+        UIAlertController.presentAlert(from: self,
+                                       message: NSLocalizedString("profile_vc_cell_logout_alert_message"),
+                                       UIAlertAction(title: NSLocalizedString("profile_vc_cell_logout_alert_confirm"),
+                                                     style: UIAlertActionStyle.destructive,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        MBProgressHUD.show()
+                                                        DataManager.shared.logout({ (responseObject, error) in
+                                                            MBProgressHUD.hide()
+                                                            if error == nil {
+                                                                UserManager.shared.logOut()
+                                                                self.dismissSelf()
+                                                            }
+                                                        })
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                     style: UIAlertActionStyle.cancel,
+                                                     handler: nil))
     }
 
 }
@@ -221,11 +225,14 @@ extension ProfileViewController {
                             tfConfirmNewEmail.isEnabled = true
                             DataManager.showRequestFailedAlert(error)
                         } else {
-                            let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
-                            alertView.addButton(NSLocalizedString("alert_button_ok")) { () -> Void in
-                                simpleViewController.navigationController?.popViewController(animated: true)
-                            }
-                            alertView.showSuccess(NSLocalizedString("alert_title_success"), subTitle: NSLocalizedString("profile_vc_change_email_alert_message"))
+                            UIAlertController.presentAlert(from: self,
+                                                           title: NSLocalizedString("alert_title_success"),
+                                                           message: NSLocalizedString("profile_vc_change_email_alert_message"),
+                                                           UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                                                         style: UIAlertActionStyle.default,
+                                                                         handler: { (action: UIAlertAction) -> Void in
+                                                                            simpleViewController.navigationController?.popViewController(animated: true)
+                                                           }))
                         }
                     }
                 }

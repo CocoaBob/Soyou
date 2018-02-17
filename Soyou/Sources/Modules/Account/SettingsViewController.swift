@@ -333,14 +333,16 @@ extension SettingsViewController {
                     let row = rows[selectedIndexPath.row]
                     if let userInfo = row.userInfo,
                         let regionCode = userInfo["language"] as? String {
-                            // Set language
-                            UserDefaults.setObject([regionCode], forKey: "AppleLanguages")
-                            
-                        let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
-                        alertView.addButton(NSLocalizedString("settings_vc_cell_language_set_done")) { () -> Void in
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                        alertView.showSuccess(NSLocalizedString("settings_vc_cell_language_set_title"), subTitle: NSLocalizedString("settings_vc_cell_language_set_subtitle"))
+                        // Set language
+                        UserDefaults.setObject([regionCode], forKey: "AppleLanguages")
+                        UIAlertController.presentAlert(from: self,
+                                                       title: NSLocalizedString("settings_vc_cell_language_set_title"),
+                                                       message: NSLocalizedString("settings_vc_cell_language_set_subtitle"),
+                                                       UIAlertAction(title: NSLocalizedString("settings_vc_cell_language_set_done"),
+                                                                     style: UIAlertActionStyle.default,
+                                                                     handler: { (action: UIAlertAction) -> Void in
+                                                                        self.navigationController?.popViewController(animated: true)
+                                                       }))
                     }
             }
         }
@@ -434,8 +436,8 @@ extension SettingsViewController {
     }
     
     func openSettings() {
-        if let url = URL(string: UIApplicationOpenSettingsURLString) {
-            UIApplication.shared.openURL(url)
+        if let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     

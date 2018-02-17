@@ -8,7 +8,6 @@
 
 class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     
-    var newVersionAlert: SCLAlertView?
     var reqAPIKey: String = Cons.Svr.reqAPIKeyPROD
     var uuid: String = UserManager.shared.uuid
     
@@ -225,16 +224,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
             let error = FmtError(0, "Local version: %@ Server supported version: %@", verLocalMin, verServer ?? "")
             
             // Show alert to open App Store
-            if self.newVersionAlert == nil {
-                self.newVersionAlert = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
-                self.newVersionAlert!.addButton(NSLocalizedString("app_new_version_app_store")) { () -> Void in
-                    self.newVersionAlert = nil
-                    Utils.openAppStorePage()
-                }
-                DispatchQueue.main.async {
-                    self.newVersionAlert!.showNotice(NSLocalizedString("alert_title_info"), subTitle: NSLocalizedString("app_new_version_available"))
-                }
-            }
+            Utils.shared.showNewVersionAvailable()
             
             if let onFailure = onFailure { onFailure(error) }
             return

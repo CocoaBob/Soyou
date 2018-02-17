@@ -35,7 +35,6 @@
 @import PageMenu;
 @import PFCarouselView;
 @import QRCode;
-@import SCLAlertView;
 @import SMCalloutView;
 @import SnapKit;
 @import SSZipArchive;

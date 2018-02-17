@@ -236,20 +236,21 @@ extension UserViewController {
     }
     
     @IBAction func likeApp(_ sender: UIBarButtonItem?) {
-        let alertController = UIAlertController(title: NSLocalizedString("user_vc_feedback_alert_title"), message: NSLocalizedString("user_vc_feedback_alert_message"), preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_like"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
-            Utils.openAppStorePage()
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_feedback"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
-            MBProgressHUD.show(self.view)
-            Utils.shared.sendFeedbackEmail(self, attachments: ["SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData())])
-            MBProgressHUD.hide(self.view)
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_share"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
-            Utils.shareApp()
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_close"), style: UIAlertActionStyle.cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+        UIAlertController.presentAlert(from: self,
+                                       title: NSLocalizedString("user_vc_feedback_alert_title"),
+                                       message: NSLocalizedString("user_vc_feedback_alert_message"),
+                                       UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_like"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
+                                        Utils.openAppStorePage()
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_feedback"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
+                                        MBProgressHUD.show(self.view)
+                                        Utils.shared.sendFeedbackEmail(self, attachments: ["SystemDiagnostic.zip": Utils.compressData("SystemDiagnostic.txt", Utils.systemDiagnosticData())])
+                                        MBProgressHUD.hide(self.view)
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("user_vc_feedback_alert_share"), style: UIAlertActionStyle.default, handler: { (action: UIAlertAction) -> Void in
+                                        Utils.shareApp()
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_close"), style: UIAlertActionStyle.cancel, handler: nil))
     }
 }
 

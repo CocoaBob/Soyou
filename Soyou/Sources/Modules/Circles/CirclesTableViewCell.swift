@@ -300,24 +300,21 @@ extension CirclesTableViewCell {
         guard let vc = self.parentViewController else {
             return
         }
-        let alertController = UIAlertController(title: nil,
-                                                message: NSLocalizedString("circles_vc_delete_alert"),
-                                                preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_delete"),
-                                                style: UIAlertActionStyle.default,
-                                                handler: { (action: UIAlertAction) -> Void in
-                                                    MBProgressHUD.show(vc.view)
-                                                    DataManager.shared.deleteCircle(circleID) { responseObject, error in
-                                                        circle.delete({
-                                                            MBProgressHUD.hide(vc.view)
-                                                        })
-                                                    }
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
-                                                style: UIAlertActionStyle.default,
-                                                handler: { (action: UIAlertAction) -> Void in
-        }))
-        vc.present(alertController, animated: true, completion: nil)
+        UIAlertController.presentAlert(from: vc,
+                                       message: NSLocalizedString("circles_vc_delete_alert"),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_delete"),
+                                                     style: UIAlertActionStyle.default,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        MBProgressHUD.show(vc.view)
+                                                        DataManager.shared.deleteCircle(circleID) { responseObject, error in
+                                                            circle.delete({
+                                                                MBProgressHUD.hide(vc.view)
+                                                            })
+                                                        }
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                     style: UIAlertActionStyle.default,
+                                                     handler: nil))
     }
     
     @IBAction func forward() {

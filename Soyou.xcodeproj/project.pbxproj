@@ -35,6 +35,7 @@
 		4525C0F91C5B8B4200C26992 /* Region+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */; };
 		4525C0FA1C5B8B4200C26992 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4525C0F61C5B8B4200C26992 /* Region.swift */; };
 		452799AB1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */; };
+		4528DF6A2038C823001084FF /* AlertController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4528DF692038C823001084FF /* AlertController+Additions.swift */; };
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
@@ -209,6 +210,7 @@
 		4525C0F51C5B8B4200C26992 /* Region+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Region+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4525C0F61C5B8B4200C26992 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IDMPhotoBrowser+Additions.swift"; sourceTree = "<group>"; };
+		4528DF692038C823001084FF /* AlertController+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlertController+Additions.swift"; sourceTree = "<group>"; };
 		4530CFD41FC7732C005EEB52 /* Soyou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Soyou.entitlements; sourceTree = "<group>"; };
 		4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		4534D54A1C230A8E00F4DDA5 /* TextFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				45243C681C17A514005D476D /* UIViewController+Additions.swift */,
 				458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */,
 				4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */,
+				4528DF692038C823001084FF /* AlertController+Additions.swift */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1117,7 +1120,6 @@
 				"${BUILT_PRODUCTS_DIR}/PFCarouselView/PFCarouselView.framework",
 				"${BUILT_PRODUCTS_DIR}/PageMenu/PageMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/QRCode/QRCode.framework",
-				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SMCalloutView/SMCalloutView.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
@@ -1162,7 +1164,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PFCarouselView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QRCode.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SMCalloutView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -1285,6 +1286,7 @@
 				45D418AD1C1B935200685DFC /* Brand.swift in Sources */,
 				4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */,
 				457777831BFCB60100805D79 /* News.swift in Sources */,
+				4528DF6A2038C823001084FF /* AlertController+Additions.swift in Sources */,
 				45B77F0A1C05A77B002E3385 /* UserManager.swift in Sources */,
 				45F3302C1CD9589D0011E917 /* SyncedFetchedResultsViewController.swift in Sources */,
 				45A904CC2027E7F400E6EC73 /* Follower.swift in Sources */,

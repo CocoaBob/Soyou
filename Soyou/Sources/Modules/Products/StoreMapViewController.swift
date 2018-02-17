@@ -254,15 +254,19 @@ extension StoreMapViewController: CLLocationManagerDelegate {
             if authorizationStatus == .notDetermined {
                 _locationManager.requestWhenInUseAuthorization()
             } else {
-                let alertView = SCLAlertView(appearance: SCLAlertView.SCLAppearance(showCloseButton: false))
-                alertView.addButton(NSLocalizedString("store_map_vc_go_to_settings")) { () -> Void in
-                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.shared.openURL(url)
-                    }
-                }
-                alertView.showWarning(NSLocalizedString("store_map_vc_location_service_unavailable_title"),
-                                      subTitle: NSLocalizedString("store_map_vc_location_service_unavailable_content"),
-                                      closeButtonTitle: NSLocalizedString("alert_button_close"))
+                UIAlertController.presentAlert(from: self,
+                                               title: NSLocalizedString("store_map_vc_location_service_unavailable_title"),
+                                               message: NSLocalizedString("store_map_vc_location_service_unavailable_content"),
+                                               UIAlertAction(title: NSLocalizedString("store_map_vc_settings"),
+                                                             style: UIAlertActionStyle.default,
+                                                             handler: { (action: UIAlertAction) -> Void in
+                                                                if let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                                                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                                }
+                                               }),
+                                               UIAlertAction(title: NSLocalizedString("alert_button_close"),
+                                                             style: UIAlertActionStyle.cancel,
+                                                             handler: nil))
             }
         }
     }

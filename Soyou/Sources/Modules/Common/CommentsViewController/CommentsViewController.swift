@@ -198,30 +198,28 @@ extension CommentsViewController {
             return
         }
         
-        let alertController = UIAlertController(title: nil,
-                                                message: NSLocalizedString("comments_vc_delete_comment_alert"),
-                                                preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("comments_vc_delete_comment_alert_action"),
-                                                style: UIAlertActionStyle.destructive,
-                                                handler: { (action: UIAlertAction) -> Void in
-                                                    if let commentDeletor = self.commentDeletor {
-                                                        MBProgressHUD.show(self.view)
-                                                        commentDeletor(commentID) { (responseObject, error) -> () in
-                                                            if error == nil {
-                                                                self.commentsByID.removeValue(forKey: commentID)
-                                                                if let index = self.commentIDs.index(of: commentID) {
-                                                                    self.commentIDs.remove(at: index)
+        UIAlertController.presentAlert(from: self,
+                                       message: NSLocalizedString("comments_vc_delete_comment_alert"),
+                                       UIAlertAction(title: NSLocalizedString("comments_vc_delete_comment_alert_action"),
+                                                     style: UIAlertActionStyle.destructive,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        if let commentDeletor = self.commentDeletor {
+                                                            MBProgressHUD.show(self.view)
+                                                            commentDeletor(commentID) { (responseObject, error) -> () in
+                                                                if error == nil {
+                                                                    self.commentsByID.removeValue(forKey: commentID)
+                                                                    if let index = self.commentIDs.index(of: commentID) {
+                                                                        self.commentIDs.remove(at: index)
+                                                                    }
+                                                                    self.tableView.reloadData()
                                                                 }
-                                                                self.tableView.reloadData()
+                                                                MBProgressHUD.hide(self.view)
                                                             }
-                                                            MBProgressHUD.hide(self.view)
                                                         }
-                                                    }
-        }))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
-                                                style: UIAlertActionStyle.cancel,
-                                                handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                     style: UIAlertActionStyle.cancel,
+                                                     handler: nil))
     }
 }
 

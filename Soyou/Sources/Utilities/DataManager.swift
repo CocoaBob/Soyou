@@ -49,13 +49,18 @@ class DataManager {
         let responseObject = AFNetworkingGetResponseObjectFromError(error as Error?)
         DLog(responseObject)
         // Show error
+        var errorMessage = error?.localizedDescription ?? ""
         if let responseObject = responseObject as? Dictionary<String, Any>,
             let data = responseObject["data"] as? [String],
             let message = data.first {
-            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: NSLocalizedString(message), closeButtonTitle: NSLocalizedString("alert_button_ok"))
-        } else {
-            SCLAlertView().showError(NSLocalizedString("alert_title_failed"), subTitle: error?.localizedDescription ?? "", closeButtonTitle: NSLocalizedString("alert_button_ok"))
+            errorMessage = NSLocalizedString(message)
         }
+        UIAlertController.presentAlert(from: nil,
+                                       title: NSLocalizedString("alert_title_failed"),
+                                       message: errorMessage,
+                                       UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                                     style: UIAlertActionStyle.cancel,
+                                                     handler: nil))
     }
     
     //////////////////////////////////////

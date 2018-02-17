@@ -27,7 +27,6 @@ target :'Soyou' do
 	pod "PageMenu", :git => 'git://github.com/JoeFerrucci/PageMenu', :branch => 'master'
 	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :branch => 'master'
     pod "QRCode"
-	pod "SCLAlertView"
 	pod "SDWebImage"
 	pod "SMCalloutView", :git => 'git://github.com/CocoaBob/calloutview', :branch => 'master'
     pod "SnapKit", '~> 4.0.0'
