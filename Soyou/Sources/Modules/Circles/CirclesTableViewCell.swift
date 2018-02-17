@@ -432,7 +432,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
         if needsToShare {
             DataManager.shared.analyticsShareCircle(id: self.circle?.id ?? "")
-            Utils.shareTextAndImagesToWeChat(from: self.parentViewController, text: text, images: images)
+            Utils.copyTextAndShareImages(from: self.parentViewController, text: text, images: images)
         }
     }
 }

@@ -211,7 +211,7 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
         if needsToShare {
-            Utils.shareTextAndImagesToWeChat(from: self, text: text, images: images)
+            Utils.copyTextAndShareImages(from: self, text: text, images: images)
         }
     }
 }

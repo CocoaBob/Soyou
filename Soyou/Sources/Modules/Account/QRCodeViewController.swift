@@ -148,7 +148,9 @@ extension QRCodeViewController {
 extension QRCodeViewController {
     
     @IBAction func shareQRCodeImage() {
-        Utils.shareItems(items: [NSLocalizedString("qr_code_vc_share_message"), getQRCodeImage()], completion: nil)
+        Utils.shareItems(items: [NSLocalizedString("qr_code_vc_share_message"), getQRCodeImage()]) {
+            Utils.copyText(text: self.lblMessage.text)
+        }
     }
     
     func getQRCodeImage() -> UIImage {

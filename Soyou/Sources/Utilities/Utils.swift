@@ -51,7 +51,8 @@ extension Utils {
         (vc ?? UIApplication.shared.keyWindow?.rootViewController)?.present(activityView, animated: true, completion: completion)
     }
     
-    class func shareToWeChat(from vc: UIViewController?, images: [UIImage]?, completion: ((Bool) -> Void)?) {
+    // Combines all images into one image
+    class func combineAndShareImages(from vc: UIViewController?, images: [UIImage]?, completion: ((Bool) -> Void)?) {
         if UserManager.shared.isWeChatUser {
             let resolution = CGFloat((images?.count ?? 0) > 6 ? 720 : 1080)
             let scaleString = "\(resolution)x\(resolution)^"
@@ -76,24 +77,29 @@ extension Utils {
         }
     }
     
-    class func shareTextAndImagesToWeChat(from vc: UIViewController?, text: String?, images: [UIImage]?) {
+    // Share image and copy text into pasteboard
+    class func copyTextAndShareImages(from vc: UIViewController?, text: String?, images: [UIImage]?) {
         if text?.count ?? 0 > 0 || images?.count ?? 0 > 0 {
             MBProgressHUD.show(vc?.view)
-            Utils.shareToWeChat(from: vc, images: images, completion: { (succeed) -> Void in
+            Utils.combineAndShareImages(from: vc, images: images, completion: { (succeed) -> Void in
                 MBProgressHUD.hide(vc?.view)
                 if succeed {
-                    if let text = text, text.count > 0 {
-                        UIPasteboard.general.string = text
-                        if let window = UIApplication.shared.keyWindow  {
-                            let hud = MBProgressHUD.showAdded(to: window, animated: true)
-                            hud.isUserInteractionEnabled = false
-                            hud.mode = .text
-                            hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
-                            hud.hide(animated: true, afterDelay: 3)
-                        }
-                    }
+                    Utils.copyText(text: text)
                 }
             })
+        }
+    }
+    
+    class func copyText(text: String?) {
+        if let text = text, text.count > 0 {
+            UIPasteboard.general.string = text
+            if let window = UIApplication.shared.keyWindow  {
+                let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                hud.isUserInteractionEnabled = false
+                hud.mode = .text
+                hud.label.text = NSLocalizedString("circle_compose_share_to_wechat_copied")
+                hud.hide(animated: true, afterDelay: 3)
+            }
         }
     }
     
