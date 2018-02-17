@@ -15,8 +15,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
     override init(baseURL url: URL?) {
         super.init(baseURL: url)
         
-        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
-        self.reqAPIKey = isSTGMode ? Cons.Svr.reqAPIKeySTG : Cons.Svr.reqAPIKeyPROD
+        self.reqAPIKey = Utils.isSTGMode() ? Cons.Svr.reqAPIKeySTG : Cons.Svr.reqAPIKeyPROD
         
         self.requestSerializer = AFJSONRequestSerializer()
         self.responseSerializer = AFJSONResponseSerializer()

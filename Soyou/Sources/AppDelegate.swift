@@ -170,8 +170,7 @@ extension AppDelegate {
                                           width: UIScreen.main.bounds.width,
                                           height: Cons.UI.statusBarHeight)
         self.overlayWindow.windowLevel = UIWindowLevelStatusBar
-        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
-        self.overlayWindow.backgroundColor = isSTGMode ? UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.1) : UIColor.clear
+        self.overlayWindow.backgroundColor = Utils.isSTGMode() ? UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.1) : UIColor.clear
         self.overlayWindow.rootViewController = UIViewController()
         self.overlayWindow.isHidden = false
     }

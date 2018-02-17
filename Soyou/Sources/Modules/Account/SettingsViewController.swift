@@ -90,101 +90,106 @@ extension SettingsViewController {
         if isRegisteredForNotifications && notificationTypes.count != 3 {
             notificationSubTitle = notificationTypesString
         }
-        // Create datasource
-        self.sections = [
-            Section(
-                rows: [
-                    Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_currency")),
-                        subTitle: Text(text: CurrencyManager.shared.userCurrencyName),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.changeMyCurrency()
-                    }),
-                    Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_language")),
-                        subTitle: Text(text: CurrencyManager.shared.languageName(Locale.preferredLanguages.first ?? "")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.changeLanguage()
-                    })
+        // Create DataSource
+        var sections = [Section]()
+        // Regions
+        sections.append(Section(
+            rows: [
+                Row(type: .LeftTitleRightDetail,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_currency")),
+                    subTitle: Text(text: CurrencyManager.shared.userCurrencyName),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.changeMyCurrency()
+                }),
+                Row(type: .LeftTitleRightDetail,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_language")),
+                    subTitle: Text(text: CurrencyManager.shared.languageName(Locale.preferredLanguages.first ?? "")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.changeLanguage()
+                })
+            ]
+        ))
+        // System Settings
+        sections.append(Section(
+            rows: [
+                Row(type: .LeftTitleRightDetail,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator, selectionStyle: .default),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_notification")),
+                    subTitle: Text(text: notificationSubTitle),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.registerPushNotification()
+                }),
+                Row(type: .LeftTitleRightDetail,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator, selectionStyle: .default),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_localization")),
+                    subTitle: Text(text: self.locationServiceStatus()),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.requestLocationServicePermission()
+                })
+            ]
+        ))
+        // MISC
+        sections.append(Section(
+            rows: [
+                Row(type: .LeftTitle,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_intro")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        IntroViewController.shared.showIntroView()
+                }),
+                Row(type: .LeftTitle,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_about")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.showAbout()
+                }),
+                Row(type: .LeftTitle,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_credits")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.showCredits()
+                }),
+                Row(type: .LeftTitle,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_feedback")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.sendFeedback()
+                }),
+//                Row(type: .LeftTitle,
+//                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+//                    title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
+//                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+//                        self.analyzeNetwork()
+//                }),
+                Row(type: .LeftTitle,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_review")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.review()
+                }),
+                Row(type: .LeftTitle,
+                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_share")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.shareURL()
+                }),
                 ]
-            ),
-            Section(
-                rows: [
-                    Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator, selectionStyle: .default),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_notification")),
-                        subTitle: Text(text: notificationSubTitle),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.registerPushNotification()
-                    }),
-                    Row(type: .LeftTitleRightDetail,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator, selectionStyle: .default),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_localization")),
-                        subTitle: Text(text: self.locationServiceStatus()),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.requestLocationServicePermission()
-                    })
-                ]
-            ),
-            Section(
-                rows: [
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_intro")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            IntroViewController.shared.showIntroView()
-                    }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_about")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.showAbout()
-                    }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_credits")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.showCredits()
-                    }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_feedback")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.sendFeedback()
-                    }),
-//                    Row(type: .LeftTitle,
-//                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-//                        title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
-//                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-//                            self.analyzeNetwork()
-//                    }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_review")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.review()
-                    }),
-                    Row(type: .LeftTitle,
-                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_share")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.shareURL()
-                    }),
-                ]
-            ),
-            Section(
-                rows: [
-                    Row(type: .CenterTitle,
-                        cell: Cell(height: 44, accessoryType: .none),
-                        title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache")),
-                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            self.clearCache()
-                    })
-                ]
-            )
-        ]
+        ))
+        // Clear Cache
+        sections.append(Section(
+            rows: [
+                Row(type: .CenterTitle,
+                    cell: Cell(height: 44, accessoryType: .none),
+                    title: Text(text: NSLocalizedString("settings_vc_cell_clear_cache")),
+                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                        self.clearCache()
+                })
+            ]
+        ))
+        // Apply DataSource
+        self.sections = sections
     }
 }
 
@@ -539,7 +544,7 @@ extension SettingsViewController {
     
     @objc func toggleSTGMode() {
         // Update setting
-        UserDefaults.setBool(!UserDefaults.boolForKey(Cons.App.isSTGMode), forKey: Cons.App.isSTGMode)
+        UserDefaults.setBool(!Utils.isSTGMode(), forKey: Cons.App.isSTGMode)
         // Clear network cache
         URLCache.shared.removeAllCachedResponses()
         // Reinitialize url

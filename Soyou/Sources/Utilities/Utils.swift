@@ -11,18 +11,13 @@ import Foundation
 class Utils: NSObject {
     
     static let shared = Utils()
-        
-    func logAnalytic(_ target: Int, action: Int, data: String) {
-        let analytic: NSDictionary = [
-            "target": NSNumber(value: target as Int),
-            "action": NSNumber(value: action as Int),
-            "data": data,
-            "operatedAt": Cons.utcDateFormatter.string(from: Date())
-        ]
-        
-        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
-            Analytic.importData(analytic, localContext)
-        })
+}
+
+// MARK: Open AppStore page
+extension Utils {
+    
+    class func isSTGMode() -> Bool {
+        return UserDefaults.boolForKey(Cons.App.isSTGMode)
     }
 }
 

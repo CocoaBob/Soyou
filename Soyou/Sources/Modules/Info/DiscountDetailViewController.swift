@@ -84,8 +84,7 @@ class DiscountDetailViewController: InfoDetailBaseViewController {
         if let item = self.infoID {
             items.append(item)
         }
-        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
-        let shareBaseURL = isSTGMode ? Cons.Svr.shareBaseURLSTG : Cons.Svr.shareBaseURLPROD
+        let shareBaseURL = Utils.isSTGMode() ? Cons.Svr.shareBaseURLSTG : Cons.Svr.shareBaseURLPROD
         if let infoID = self.infoID, let item = URL(string: "\(shareBaseURL)/discounts?id=\(infoID)") {
             items.append(item)
         }

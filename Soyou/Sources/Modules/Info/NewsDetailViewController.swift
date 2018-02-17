@@ -86,8 +86,7 @@ class NewsDetailViewController: InfoDetailBaseViewController {
             items.append(item)
         }
 
-        let isSTGMode = UserDefaults.boolForKey(Cons.App.isSTGMode)
-        let shareBaseURL = isSTGMode ? Cons.Svr.shareBaseURLSTG : Cons.Svr.shareBaseURLPROD
+        let shareBaseURL = Utils.isSTGMode() ? Cons.Svr.shareBaseURLSTG : Cons.Svr.shareBaseURLPROD
         if let infoID = self.infoID, let item = URL(string: "\(shareBaseURL)/news?id=\(infoID)") {
             items.append(item)
         }
