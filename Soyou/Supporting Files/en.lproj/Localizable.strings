@@ -25,6 +25,9 @@
 "photo_picker_cancel"="Cancel";
 "photo_picker_share"="Share";
 "photo_picker_confirm"="Confirm";
+"photo_picker_photo_library_unavailable_title"="Access restricted";
+"photo_picker_photo_library_unavailable_content"="No access to photo library, please change the settings.";
+"photo_picker_settings"="Settings";
 
 /* Info View Controller */
 "info_vc_title"="Info";
@@ -88,7 +91,7 @@
 "store_map_vc_address_copied"="Address copied in pasteboard";
 "store_map_vc_search_bar_placeholder"="Countries, cities...";
 "store_map_vc_location_service_unavailable_title"="Unable to locate";
-"store_map_vc_location_service_unavailable_content"="Location service isn't allowed, please modify the settings.";
+"store_map_vc_location_service_unavailable_content"="Location service isn't allowed, please change the settings.";
 "store_map_vc_settings"="Settings";
 
 /* Circles View Controller */

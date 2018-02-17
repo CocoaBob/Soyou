@@ -11,6 +11,9 @@ class PicturePickerViewController: TLPhotosPickerViewController {
     static func share9Photos(from fromVC: UIViewController,
                              customAssets: [TLPHAsset],
                              delegate: TLPhotosPickerViewControllerDelegate) {
+        if self.isNeedsToShowAuthorizationAlert() {
+            return
+        }
         var configure = TLPhotosPickerConfigure()
         configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
         configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
@@ -39,6 +42,9 @@ class PicturePickerViewController: TLPhotosPickerViewController {
     
     static func pickOnePhoto(from fromVC: UIViewController,
                              delegate: TLPhotosPickerViewControllerDelegate) {
+        if self.isNeedsToShowAuthorizationAlert() {
+            return
+        }
         var configure = TLPhotosPickerConfigure()
         configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
         configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
@@ -68,6 +74,9 @@ class PicturePickerViewController: TLPhotosPickerViewController {
                             selectedAssets: [TLPHAsset]?,
                             maxSelection: Int,
                             delegate: TLPhotosPickerViewControllerDelegate) {
+        if self.isNeedsToShowAuthorizationAlert() {
+            return
+        }
         var configure = TLPhotosPickerConfigure()
         configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
         configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
@@ -98,6 +107,26 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         }
         
         fromVC.present(vc, animated: true, completion: nil)
+    }
+    
+    static func isNeedsToShowAuthorizationAlert() -> Bool {
+        if PHPhotoLibrary.authorizationStatus() == .restricted || PHPhotoLibrary.authorizationStatus() == .denied {
+            UIAlertController.presentAlert(from: nil,
+                                           title: NSLocalizedString("photo_picker_photo_library_unavailable_title"),
+                                           message: NSLocalizedString("photo_picker_photo_library_unavailable_content"),
+                                           UIAlertAction(title: NSLocalizedString("photo_picker_settings"),
+                                                         style: UIAlertActionStyle.default,
+                                                         handler: { (action: UIAlertAction) -> Void in
+                                                            if let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                                                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                            }
+                                           }),
+                                           UIAlertAction(title: NSLocalizedString("alert_button_close"),
+                                                         style: UIAlertActionStyle.cancel,
+                                                         handler: nil))
+            return true
+        }
+        return false
     }
 }
 

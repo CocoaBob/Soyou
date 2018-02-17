@@ -14,6 +14,7 @@
 @import Foundation;
 @import MapKit;
 @import MessageUI;
+@import Photos;
 @import StoreKit;
 @import UIKit;
 
