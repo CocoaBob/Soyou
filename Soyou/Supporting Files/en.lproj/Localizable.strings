@@ -319,8 +319,8 @@
 /* App */
 "app_about_title"="Soyou";
 "app_about_content"="Soyou is your luxury shopping assistant, gathering official prices of world's top fashion brands, sharing global discount and fashion information, providing shopping guides, helping you easily catch the trends of global luxury goods.";
-"app_new_version_available"="New version available, please upgrade.";
-"app_new_version_app_store"="Open App Store.";
+"app_new_version_available"="New version is available, please download the update.";
+"app_new_version_app_store"="Download";
 
 /* Intro View */
 "intro_vc_skip_button"="Skip";

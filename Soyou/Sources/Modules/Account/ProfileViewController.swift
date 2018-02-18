@@ -127,7 +127,6 @@ extension ProfileViewController {
                                                      style: UIAlertActionStyle.cancel,
                                                      handler: nil))
     }
-
 }
 
 // MARK: Change Username / Email

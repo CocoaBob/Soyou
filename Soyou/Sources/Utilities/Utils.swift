@@ -31,14 +31,16 @@ extension Utils {
             self.isShowingNewVersionAlert = true
             DispatchQueue.main.async {
                 UIAlertController.presentAlert(from: nil,
-                                               title: NSLocalizedString("alert_title_info"),
                                                message: NSLocalizedString("app_new_version_available"),
                                                UIAlertAction(title: NSLocalizedString("app_new_version_app_store"),
                                                              style: UIAlertActionStyle.default,
                                                              handler: { (action: UIAlertAction) -> Void in
                                                                 Utils.openAppStorePage()
                                                                 self.isShowingNewVersionAlert = false
-                                               }))
+                                               }),
+                                               UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                             style: UIAlertActionStyle.cancel,
+                                                             handler: nil))
             }
         }
     }

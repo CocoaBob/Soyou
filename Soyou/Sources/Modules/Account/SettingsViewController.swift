@@ -188,6 +188,19 @@ extension SettingsViewController {
                 })
             ]
         ))
+        // Testing
+        if Utils.isSTGMode() {
+            sections.append(Section(
+                rows: [
+                    Row(type: .CenterTitle,
+                        cell: Cell(height: 44, accessoryType: .none),
+                        title: Text(text: "Test new version"),
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                            Utils.shared.showNewVersionAvailable()
+                    })
+                ]
+            ))
+        }
         // Apply DataSource
         self.sections = sections
     }
@@ -555,5 +568,8 @@ extension SettingsViewController {
         UserManager.shared.logOut()
         // Update status bar color
         (UIApplication.shared.delegate as? AppDelegate)?.setupOverlayWindow()
+        // Update table
+        self.rebuildTable()
+        self.tableView.reloadData()
     }
 }
