@@ -38,6 +38,7 @@ target :'Soyou' do
 	pod "UIImage-ResizeMagick"
 	pod "UIView+Shake"
     pod "ZFDragableModalTransition", :git => 'git://github.com/CocoaBob/ZFDragableModalTransition', :branch => 'master'
+#    pod "PullToDismiss"
 	pod "ZoomInteractiveTransition"
     
 	#Continuous Integration

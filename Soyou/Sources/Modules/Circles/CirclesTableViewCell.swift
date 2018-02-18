@@ -16,7 +16,6 @@ class CirclesTableViewCell: UITableViewCell {
     }
     var imgURLs: [[String: String]]?
     var textToShare: String?
-    var imagesToShare: [UIImage]?
     weak var parentViewController: CirclesViewController?
     
     @IBOutlet var imgUser: UIImageView!
@@ -364,25 +363,25 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
     
     func forwardTextAndImages(text: String?, urls: [URL]?) {
         self.textToShare = text
-        self.imagesToShare = ((urls?.count ?? 0) > 0) ? [UIImage]() : nil
         
         if let urls = urls {
+            var imagesToShare = [URL: UIImage]()
             let dispatchGroup = DispatchGroup()
-            for url in urls {
-                let cacheKey = SDWebImageManager.shared().cacheKey(for: url)
+            for imageUrl in urls {
+                let cacheKey = SDWebImageManager.shared().cacheKey(for: imageUrl)
                 if let image = SDImageCache.shared().imageFromCache(forKey: cacheKey) {
-                    self.imagesToShare?.append(image)
+                    imagesToShare[imageUrl] = image
                 } else {
                     MBProgressHUD.show(self.parentViewController?.view)
                     dispatchGroup.enter()
                     SDWebImageManager.shared().loadImage(
-                        with: url,
+                        with: imageUrl,
                         options: [.continueInBackground, .allowInvalidSSLCertificates],
                         progress: nil,
                         completed: { (image, data, error, type, finished, url) -> Void in
                             MBProgressHUD.hide(self.parentViewController?.view)
                             if let image = image {
-                                self.imagesToShare?.append(image)
+                                imagesToShare[imageUrl] = image
                             }
                             dispatchGroup.leave()
                     })
@@ -390,7 +389,13 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
             }
             
             dispatchGroup.notify(queue: .main) {
-                self.composeTextAndImages(text: self.textToShare, images: self.imagesToShare)
+                var images = [UIImage]()
+                for url in urls {
+                    if let image = imagesToShare[url] {
+                        images.append(image)
+                    }
+                }
+                self.composeTextAndImages(text: self.textToShare, images: images)
             }
         } else {
             self.composeTextAndImages(text: self.textToShare, images: nil)
