@@ -380,7 +380,7 @@ class RequestManager {
         deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/comments/\(commentId)", "Circle", onSuccess, onFailure)
     }
     
-    func likeCircle(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func likeCircle(_ id: String, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/like", "Circle", ["operation": operation], onSuccess, onFailure)
     }
     
@@ -454,6 +454,10 @@ class RequestManager {
                                         nil,
                                         onSuccess,
                                         onFailure)
+    }
+    
+    func getRecommendation(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/user/recommendation", "User", onSuccess, onFailure)
     }
     
     //////////////////////////////////////

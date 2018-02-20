@@ -78,6 +78,7 @@
 		457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* RequestManager.swift */; };
 		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
+		458AA5EF203B36C100D3BA93 /* UITextView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458AA5EE203B36C100D3BA93 /* UITextView+Additions.swift */; };
 		458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */; };
 		458B2E4A1FECA28700BD6843 /* PicturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 458B2E481FECA28600BD6843 /* PicturePickerCell.xib */; };
 		458B2E4B1FECA28700BD6843 /* PicturePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E491FECA28700BD6843 /* PicturePickerCell.swift */; };
@@ -258,6 +259,7 @@
 		457D1EB71BFBDE9700D451D0 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		458AA5EE203B36C100D3BA93 /* UITextView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Additions.swift"; sourceTree = "<group>"; };
 		458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturePickerViewController.swift; sourceTree = "<group>"; };
 		458B2E481FECA28600BD6843 /* PicturePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PicturePickerCell.xib; sourceTree = "<group>"; };
 		458B2E491FECA28700BD6843 /* PicturePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicturePickerCell.swift; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 				4534D54C1C230EC600F4DDA5 /* String+Additions.swift */,
 				455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */,
 				45CD72CA1C189894004583FC /* UITabBar+Additions.swift */,
+				458AA5EE203B36C100D3BA93 /* UITextView+Additions.swift */,
 				45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */,
 				4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */,
 				45243C681C17A514005D476D /* UIViewController+Additions.swift */,
@@ -1253,6 +1256,7 @@
 				45F5C2A51D01DFA70024B5DF /* InfoViewController.swift in Sources */,
 				4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */,
 				458CEDB22001D06400B8A6BC /* SDWebImageManager+Additions.swift in Sources */,
+				458AA5EF203B36C100D3BA93 /* UITextView+Additions.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */,
 				45BAAF462005CC9800CEE6A3 /* UICollectionViewLeftAlignedLayout.swift in Sources */,

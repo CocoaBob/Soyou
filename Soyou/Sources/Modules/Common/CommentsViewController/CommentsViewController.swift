@@ -340,7 +340,7 @@ class CommentsTableViewCell: UITableViewCell {
         // More
         self.imgMore.isHidden = self.comment.canDelete == 0
         // Comment
-        let attr1 = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0),
+        let attr1 = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15.0),
                      NSAttributedStringKey.foregroundColor: UIColor.darkGray]
         let attrStr1 = NSAttributedString(string: comment.comment, attributes: attr1)
         self.lblComment.attributedText = attrStr1
@@ -348,16 +348,16 @@ class CommentsTableViewCell: UITableViewCell {
         let attrStr2 = NSMutableAttributedString()
         if let parentUsername = self.comment.parentUsername, let parentComment = self.comment.parentComment {
             attrStr2.append(NSAttributedString(string: "\(parentUsername): ",
-                attributes: [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 15.0),
+                attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15.0),
                              NSAttributedStringKey.foregroundColor: UIColor.gray]))
             attrStr2.append(NSAttributedString(string: "\(parentComment)",
-                attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0),
+                attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15.0),
                              NSAttributedStringKey.foregroundColor: UIColor.gray]))
         }
         // If there's parentMatricule, but no parentUsername and parentComment, it means the parent comment has been deleted
         else if let _ = self.comment.parentMatricule {
             attrStr2.append(NSAttributedString(string: NSLocalizedString("comments_vc_deleted_parent"),
-                                               attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0),
+                                               attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15.0),
                                                             NSAttributedStringKey.foregroundColor: UIColor.gray]))
         }
         if attrStr2.length > 0 {

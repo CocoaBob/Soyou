@@ -17,6 +17,11 @@ class CirclesTableViewCell: UITableViewCell {
     var imgURLs: [[String: String]]?
     var textToShare: String?
     weak var parentViewController: CirclesViewController?
+    var isLiked = false {
+        didSet {
+            self.btnLike.setTitle(NSLocalizedString(isLiked ? "circles_vc_like_button_cancel" : "circles_vc_like_button"), for: .normal)
+        }
+    }
     
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var imgUserBadge: UIImageView!
@@ -24,7 +29,11 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var lblContent: MarginLabel!
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnDelete: UIButton!
-    @IBOutlet var btnForward: UIButton!
+    @IBOutlet var btnLike: UIButton!
+    @IBOutlet var btnShare: UIButton!
+    @IBOutlet var likesContainer: UIView!
+    @IBOutlet var likesContainerHeight: NSLayoutConstraint!
+    @IBOutlet var likesTextView: UITextView!
     
     @IBOutlet var btnMoreLess: UIButton!
     @IBOutlet var btnMoreLessHeight: NSLayoutConstraint!
@@ -42,10 +51,9 @@ class CirclesTableViewCell: UITableViewCell {
     }
     
     func setupViews() {
-        self.btnDelete.setTitle(NSLocalizedString("circles_vc_delete_button"), for: .normal)
-        self.btnForward.setTitle(NSLocalizedString("circles_vc_forward_button"), for: .normal)
-        let wechatColor = UIColor(hex8: 0x00bb0cFF)
-        self.btnForward.setTitleColor(wechatColor, for: .normal)
+        self.btnShare.setTitle(NSLocalizedString("circles_vc_share_button"), for: .normal)
+        self.likesTextView.linkTextAttributes = [NSAttributedStringKey.font.rawValue: UIFont.boldSystemFont(ofSize: 13.0),
+                                                 NSAttributedStringKey.foregroundColor.rawValue: UIColor(hex8: 0x5C6994FF)]
     }
     
     override func prepareForReuse() {
@@ -57,9 +65,13 @@ class CirclesTableViewCell: UITableViewCell {
         self.btnName.setTitle(nil, for: .normal)
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
+        self.btnDelete.setTitle("", for: .normal)
         self.imagesCollectionView.reloadData()
         self.resetMoreLessControl()
         self.updateMoreLessControl()
+        self.likesContainerHeight.constant = 0
+        self.likesContainer.isHidden = true
+        self.likesTextView.text = nil
     }
 }
 
@@ -73,7 +85,7 @@ extension CirclesTableViewCell {
         self.configureProfileImage(circle)
         self.configureLabels(circle)
         self.configureImagesCollectionView(circle)
-        self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
+        self.configureLikes(circle.likes)
     }
     
     func configureProfileImage(_ circle: Circle) {
@@ -85,6 +97,8 @@ extension CirclesTableViewCell {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
         self.imgUserBadge.isHidden = circle.userBadges?.count ?? 0 == 0
+        self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
+        self.btnDelete.setTitle(self.btnDelete.isHidden ? "" : NSLocalizedString("circles_vc_delete_button"), for: .normal)
     }
     
     func configureLabels(_ circle: Circle) {
@@ -92,9 +106,7 @@ extension CirclesTableViewCell {
         self.lblContent.text = circle.text
         self.updateMoreLessControl()
         if let date = circle.createdDate {
-            self.lblDate.text = DateFormatter.localizedString(from: date,
-                                                              dateStyle: DateFormatter.Style.medium,
-                                                              timeStyle: DateFormatter.Style.short)
+            self.lblDate.text = DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .short)
         } else {
             self.lblDate.text = nil
         }
@@ -124,12 +136,66 @@ extension CirclesTableViewCell {
         self.imagesCollectionViewWidth = constraint
         self.imagesCollectionView.reloadData()
         self.imagesCollectionView.collectionViewLayout.invalidateLayout() // Update layout
-        //        if let tableView = self.viewController?.tableView() {
-        //            UIView.setAnimationsEnabled(false)
-        //            tableView.beginUpdates()
-        //            tableView.endUpdates()
-        //            UIView.setAnimationsEnabled(true)
-        //        }
+//        if let tableView = self.viewController?.tableView() {
+//            UIView.setAnimationsEnabled(false)
+//            tableView.beginUpdates()
+//            tableView.endUpdates()
+//            UIView.setAnimationsEnabled(true)
+//        }
+    }
+    
+    func configureLikes(_ likes: NSArray?) {
+        var _isLikedByCurrentUser = false
+        if let likes = likes, likes.count > 0 {
+            self.likesContainerHeight.constant = 9999
+            self.likesContainer.isHidden = false
+            let attrString = NSMutableAttributedString()
+            for like in likes {
+                guard
+                    let like = like as? NSDictionary,
+                    let userId = like["userId"] as? Int,
+                    var username = like["username"] as? String,
+                    let based64EncodedName = username.base64Encoded() else {
+                        continue
+                }
+                username = username.removingPercentEncoding ?? username
+                if userId == UserManager.shared.userID ?? -1 {
+                    _isLikedByCurrentUser = true
+                }
+                let userProfileUrl = like["userProfileUrl"] as? String
+                let based64EncodedProfileUrl = userProfileUrl?.base64Encoded() ?? ""
+                guard let userURL = URL(string: "https://soyou.io/\(userId)/\(based64EncodedName)/\(based64EncodedProfileUrl)") else {
+                    continue
+                }
+                if attrString.length > 0 {
+                    attrString.append(NSAttributedString(string: ", ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13.0)]))
+                }
+                attrString.append(NSAttributedString(string: username, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 13.0),
+                                                                                    NSAttributedStringKey.link: userURL]))
+            }
+            self.likesTextView.attributedText = attrString
+        } else {
+            self.likesContainerHeight.constant = 0
+            self.likesContainer.isHidden = true
+        }
+        self.isLiked = _isLikedByCurrentUser
+    }
+}
+
+// MARK: - UITextViewDelegate
+extension CirclesTableViewCell: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        guard let params = URL.absoluteString.components(separatedBy: "soyou.io/").last?.components(separatedBy: "/"), params.count == 3 else {
+            return false
+        }
+        let userId = Int(params[0])
+        guard let username = params[1].base64Decoded(),
+            let userProfileUrl = params[2].base64Decoded() else {
+                return false
+        }
+        self.viewUserProfile(with: userId, username: username, profileUrl: userProfileUrl)
+        return false
     }
 }
 
@@ -238,13 +304,13 @@ extension CirclesTableViewCell: UICollectionViewDelegateFlowLayout {
         }
         
         let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
-        let collectionViewWidth = (vc.view.bounds.width - 73 * 2) * constraint.multiplier
+        let collectionViewWidth = (vc.view.bounds.width - 74 * 2) * constraint.multiplier
         let size = floor((floor(collectionViewWidth) - (4 * (columns - 1))) / columns)
         return CGSize(width: size, height: size)
         
-        //        let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
-        //        let size = floor((collectionView.bounds.width - 4 * (columns - 1)) / columns)
-        //        return CGSize(width: size, height: size)
+//        let columns = CGFloat((imgURLs?.count == 1 ? 1 : (imgURLs?.count == 4 ? 2 : 3)))
+//        let size = floor((collectionView.bounds.width - 4 * (columns - 1)) / columns)
+//        return CGSize(width: size, height: size)
     }
 }
 
@@ -316,7 +382,23 @@ extension CirclesTableViewCell {
                                                      handler: nil))
     }
     
-    @IBAction func forward() {
+    @IBAction func like() {
+        guard let circleId = self.circle?.id else {
+            return
+        }
+        DataManager.shared.likeCircle(circleId, wasLiked: self.isLiked) { (response, error) in
+            if let response = response,
+                let data = DataManager.getResponseData(response) as? NSArray {
+                self.configureLikes(data)
+                UIView.setAnimationsEnabled(false)
+                self.parentViewController?.tableView().beginUpdates()
+                self.parentViewController?.tableView().endUpdates()
+                UIView.setAnimationsEnabled(true)
+            }
+        }
+    }
+    
+    @IBAction func share() {
         guard let circle = self.circle else {
             return
         }
@@ -346,14 +428,18 @@ extension CirclesTableViewCell {
         IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self.parentViewController)
     }
     
-    @IBAction func viewUserCircles() {
-        guard let circle = self.circle, let vc = self.parentViewController else { return }
-        var needsToPush = true
-        if let nextID = circle.userId as? Int, let currID = vc.userID, currID == nextID {
-            needsToPush = false
+    @IBAction func viewUserProfile() {
+        self.viewUserProfile(with: self.circle?.userId as? Int, username: self.circle?.username, profileUrl: self.circle?.userProfileUrl)
+    }
+    
+    func viewUserProfile(with userId: Int?, username: String?, profileUrl: String?) {
+        guard let vc = self.parentViewController else { return }
+        var isDifferentUser = true
+        if let nextID = userId, let currID = vc.userID, currID == nextID {
+            isDifferentUser = false
         }
-        if needsToPush {
-            CirclesViewController.pushNewInstance(circle.userId as? Int, circle.userProfileUrl, circle.username, from: vc.navigationController)
+        if isDifferentUser {
+            CirclesViewController.pushNewInstance(userId, profileUrl, username, from: vc.navigationController)
         }
     }
 }

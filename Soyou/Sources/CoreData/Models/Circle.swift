@@ -53,6 +53,8 @@ class Circle: NSManagedObject {
             circle.userProfileUrl = data["userProfileUrl"] as? String
             circle.commentCount = data["commentCount"] as? NSNumber
             circle.likeCount = data["likeCount"] as? NSNumber
+            circle.likes = data["likes"] as? NSArray
+            circle.shareCount = data["shareCount"] as? NSNumber
             circle.userBadges = data["userBadges"] as? NSArray
         }
         

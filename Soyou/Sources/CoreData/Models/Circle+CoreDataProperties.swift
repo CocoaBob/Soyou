@@ -25,5 +25,7 @@ extension Circle {
     @NSManaged var userBadges: NSArray?
     @NSManaged var commentCount: NSNumber?
     @NSManaged var likeCount: NSNumber?
+    @NSManaged var likes: NSArray?
+    @NSManaged var shareCount: NSNumber?
 
 }

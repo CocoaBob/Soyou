@@ -246,6 +246,14 @@ class DataManager {
         })
     }
     
+    func getRecommendation(_ completion: CompletionClosure?) {
+        RequestManager.shared.getRecommendation({ responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Products
     //////////////////////////////////////
@@ -769,7 +777,7 @@ class DataManager {
         })
     }
     
-    func likeCircle(_ id: Int, wasLiked: Bool, _ completion: CompletionClosure?) {
+    func likeCircle(_ id: String, wasLiked: Bool, _ completion: CompletionClosure?) {
         RequestManager.shared.likeCircle(id, operation: wasLiked ? "-" : "+", { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
