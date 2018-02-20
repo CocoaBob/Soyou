@@ -154,22 +154,29 @@ extension CirclesTableViewCell {
                 guard
                     let like = like as? NSDictionary,
                     let userId = like["userId"] as? Int,
-                    var username = like["username"] as? String,
-                    let based64EncodedName = username.base64Encoded() else {
+                    var username = like["username"] as? String else {
                         continue
                 }
-                username = username.removingPercentEncoding ?? username
+                // Check if it's the current user
                 if userId == UserManager.shared.userID ?? -1 {
                     _isLikedByCurrentUser = true
                 }
-                let userProfileUrl = like["userProfileUrl"] as? String
-                let based64EncodedProfileUrl = userProfileUrl?.base64Encoded() ?? ""
-                guard let userURL = URL(string: "https://soyou.io/\(userId)/\(based64EncodedName)/\(based64EncodedProfileUrl)") else {
+                // Prepare username
+                username = username.removingPercentEncoding ?? username
+                guard let based64EncodedName = username.base64Encoded() else {
                     continue
                 }
+                // Prepare userProfileUrl
+                let userProfileUrl = like["userProfileUrl"] as? String
+                let based64EncodedProfileUrl = userProfileUrl?.base64Encoded() ?? ""
+                guard let userURL = URL(string: "https://soyou.io/\(userId)-\(based64EncodedName)-\(based64EncodedProfileUrl)") else {
+                    continue
+                }
+                // Add comma
                 if attrString.length > 0 {
                     attrString.append(NSAttributedString(string: ", ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13.0)]))
                 }
+                // Add name
                 attrString.append(NSAttributedString(string: username, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 13.0),
                                                                                     NSAttributedStringKey.link: userURL]))
             }
@@ -186,7 +193,7 @@ extension CirclesTableViewCell {
 extension CirclesTableViewCell: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        guard let params = URL.absoluteString.components(separatedBy: "soyou.io/").last?.components(separatedBy: "/"), params.count == 3 else {
+        guard let params = URL.absoluteString.components(separatedBy: "soyou.io/").last?.components(separatedBy: "-"), params.count == 3 else {
             return false
         }
         let userId = Int(params[0])
