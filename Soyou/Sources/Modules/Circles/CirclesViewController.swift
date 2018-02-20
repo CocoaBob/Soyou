@@ -189,6 +189,7 @@ extension CirclesViewController {
         if self.userID == nil {
             UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
             UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextCirclesViewController)
+            UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextCirclesViewController)
             self.needsToRemoveObserver = true
         } else {
             self.stopObservingUserManager()
@@ -200,6 +201,7 @@ extension CirclesViewController {
             self.needsToRemoveObserver = false
             UserManager.shared.removeObserver(self, forKeyPath: "token")
             UserManager.shared.removeObserver(self, forKeyPath: "avatar")
+            UserManager.shared.removeObserver(self, forKeyPath: "username")
         }
     }
     
@@ -207,10 +209,13 @@ extension CirclesViewController {
         if context == &KVOContextCirclesViewController {
             // Update user info
             self.updateUserInfo(true)
-            if keyPath == "token" && UserManager.shared.isLoggedIn {
-                self.loadData(nil)
-            } else {
-                self.hideUserInfoRelatedControls()
+            // Show/Hide all user related controls
+            if keyPath == "token" {
+                if UserManager.shared.isLoggedIn {
+                    self.loadData(nil)
+                } else {
+                    self.hideUserInfoRelatedControls()
+                }
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)

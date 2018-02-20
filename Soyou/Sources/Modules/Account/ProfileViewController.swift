@@ -161,9 +161,6 @@ extension ProfileViewController {
                         } else {
                             UserManager.shared.username = username.removingPercentEncoding ?? username
                             simpleViewController.navigationController?.popViewController(animated: true)
-                            self.tableView.beginUpdates()
-                            self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
-                            self.tableView.endUpdates()
                         }
                     }
                 }

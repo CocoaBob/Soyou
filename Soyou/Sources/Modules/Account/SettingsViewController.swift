@@ -8,6 +8,8 @@
 
 class SettingsViewController: SimpleTableViewController {
     
+    fileprivate var KVOContextSettingsViewController = 0
+    
     var cacheSize: Double = 0
     
     fileprivate var locationManager: CLLocationManager?
@@ -32,6 +34,11 @@ class SettingsViewController: SimpleTableViewController {
         self.init(nibName:nil, bundle:nil)
     }
     
+    deinit {
+        
+        UserManager.shared.removeObserver(self, forKeyPath: "username")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,6 +51,9 @@ class SettingsViewController: SimpleTableViewController {
         doubleDoubleGesture.numberOfTapsRequired = 10
         doubleDoubleGesture.numberOfTouchesRequired = 2
         self.tableView.addGestureRecognizer(doubleDoubleGesture)
+        
+        // Observe UserManager.shared.username
+        UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextSettingsViewController)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +74,18 @@ class SettingsViewController: SimpleTableViewController {
         // Unregister notification
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &KVOContextSettingsViewController {
+            if keyPath == "username" {
+                self.tableView.beginUpdates()
+                self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
+                self.tableView.endUpdates()
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
 }
 

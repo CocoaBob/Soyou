@@ -41,14 +41,16 @@ class UserViewController: SimpleTableViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "img_heart"), style: .plain, target: self, action: #selector(UserViewController.likeApp(_:)))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "img_gear"), style: .plain, target: self, action: #selector(UserViewController.showSettingsViewController(_:)))
         
-        // Observe UserManager.shared.token
+        // Observe UserManager.shared.token/avatar/username
         UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextUserViewController)
         UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextUserViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextUserViewController)
     }
     
     deinit {
         UserManager.shared.removeObserver(self, forKeyPath: "token")
         UserManager.shared.removeObserver(self, forKeyPath: "avatar")
+        UserManager.shared.removeObserver(self, forKeyPath: "username")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,6 +78,8 @@ class UserViewController: SimpleTableViewController {
                 self.tableView.reloadData()
             } else if keyPath == "avatar" {
                 self.userProfileTableViewCell?.updateUserInfo(true)
+            } else if keyPath == "username" {
+                self.userProfileTableViewCell?.updateUserInfo(false)
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
