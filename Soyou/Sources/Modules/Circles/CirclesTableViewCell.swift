@@ -29,6 +29,7 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var lblContent: MarginLabel!
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnDelete: UIButton!
+    @IBOutlet var btnDeleteWidth: NSLayoutConstraint!
     @IBOutlet var btnLike: UIButton!
     @IBOutlet var btnShare: UIButton!
     @IBOutlet var likesContainer: UIView!
@@ -65,6 +66,7 @@ class CirclesTableViewCell: UITableViewCell {
         self.btnName.setTitle(nil, for: .normal)
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
+        self.btnDeleteWidth.constant = 0
         self.btnDelete.setTitle("", for: .normal)
         self.imagesCollectionView.reloadData()
         self.resetMoreLessControl()
@@ -98,6 +100,7 @@ extension CirclesTableViewCell {
         }
         self.imgUserBadge.isHidden = circle.userBadges?.count ?? 0 == 0
         self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
+        self.btnDeleteWidth.constant = self.btnDelete.isHidden ? 0 : 999
         self.btnDelete.setTitle(self.btnDelete.isHidden ? "" : NSLocalizedString("circles_vc_delete_button"), for: .normal)
     }
     

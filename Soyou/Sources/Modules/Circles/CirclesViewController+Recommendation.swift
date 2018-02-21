@@ -15,7 +15,7 @@ extension CirclesViewController {
         }
         let needsToShow = !isSingleUserMode && self.recommendations?.count ?? 0 > 0
         var frame = tableHeaderView.frame
-        frame.size.height = needsToShow ? 64 : 0
+        frame.size.height = needsToShow ? 80 : 0
         tableHeaderView.frame = frame
         self.tableView().tableHeaderView = tableHeaderView
         self.recommendationsCollectionView.reloadData()
@@ -65,6 +65,7 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var imgUserBadge: UIImageView!
+    @IBOutlet var lblUsername: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -76,6 +77,7 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
         self.imgUser.sd_cancelCurrentImageLoad()
         self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         self.imgUserBadge.isHidden = true
+        self.lblUsername.text = nil
     }
     
     func configureCell(_ user: Follower) {
@@ -87,5 +89,6 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
         self.imgUserBadge.isHidden = user.badges?.count ?? 0 == 0
+        self.lblUsername.text = user.username
     }
 }
