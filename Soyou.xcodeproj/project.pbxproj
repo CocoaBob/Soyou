@@ -134,6 +134,8 @@
 		45BAAF49200655C400CEE6A3 /* PicturePickerCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAAF47200655C300CEE6A3 /* PicturePickerCell2.swift */; };
 		45BAAF4A200655C400CEE6A3 /* PicturePickerCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45BAAF48200655C300CEE6A3 /* PicturePickerCell2.xib */; };
 		45BED0911C8A3DDF002E375B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BED0901C8A3DDF002E375B /* DataManager.swift */; };
+		45C1D3F6203D115400580A31 /* CirclesViewController+Recommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C1D3F5203D115400580A31 /* CirclesViewController+Recommendation.swift */; };
+		45C1D3FA203D1D3B00580A31 /* CirclesViewController+MISC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C1D3F9203D1D3B00580A31 /* CirclesViewController+MISC.swift */; };
 		45C3AA511C6C99AA00BA7CDE /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */; };
 		45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CA1C189894004583FC /* UITabBar+Additions.swift */; };
 		45CD72CD1C189AC6004583FC /* UIToolbar+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */; };
@@ -328,6 +330,8 @@
 		45BAAF47200655C300CEE6A3 /* PicturePickerCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicturePickerCell2.swift; sourceTree = "<group>"; };
 		45BAAF48200655C300CEE6A3 /* PicturePickerCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PicturePickerCell2.xib; sourceTree = "<group>"; };
 		45BED0901C8A3DDF002E375B /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		45C1D3F5203D115400580A31 /* CirclesViewController+Recommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CirclesViewController+Recommendation.swift"; sourceTree = "<group>"; };
+		45C1D3F9203D1D3B00580A31 /* CirclesViewController+MISC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CirclesViewController+MISC.swift"; sourceTree = "<group>"; };
 		45C3AA501C6C99AA00BA7CDE /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		45CD72CA1C189894004583FC /* UITabBar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+Additions.swift"; sourceTree = "<group>"; };
 		45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIToolbar+Additions.swift"; sourceTree = "<group>"; };
@@ -404,6 +408,8 @@
 			children = (
 				450D47611FFC288300A2F3D1 /* CirclesViewController.storyboard */,
 				450D47631FFC288E00A2F3D1 /* CirclesViewController.swift */,
+				45C1D3F9203D1D3B00580A31 /* CirclesViewController+MISC.swift */,
+				45C1D3F5203D115400580A31 /* CirclesViewController+Recommendation.swift */,
 				45A904C62027972300E6EC73 /* CirclesTableViewCell.swift */,
 				45BAAF4320052C8000CEE6A3 /* CircleImagesCollectionView.swift */,
 				458CEDB32001D62E00B8A6BC /* CircleComposeViewController.swift */,
@@ -1240,6 +1246,7 @@
 				45F5C2A61D01DFA70024B5DF /* NewsDetailViewController.swift in Sources */,
 				4564A931200960D800EE4F3D /* ObjCRuntime+Additions.swift in Sources */,
 				459E16F9202A129200E8206D /* StatusMessageTableViewCell.swift in Sources */,
+				45C1D3F6203D115400580A31 /* CirclesViewController+Recommendation.swift in Sources */,
 				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
@@ -1308,6 +1315,7 @@
 				4597B23B1D30FACE00287873 /* DDSocialShareHandler.m in Sources */,
 				4525C0F71C5B8B4200C26992 /* Store+CoreDataProperties.swift in Sources */,
 				45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */,
+				45C1D3FA203D1D3B00580A31 /* CirclesViewController+MISC.swift in Sources */,
 				450D475F1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift in Sources */,
 				45AE9B491C47C4150081ECBA /* ProductPricesViewController.swift in Sources */,
 			);

@@ -45,6 +45,13 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         }
     }
     
+    @IBOutlet var recommendationsCollectionView: UICollectionView!
+    var recommendations: [Follower]? {
+        didSet {
+            self.updateRecommendations()
+        }
+    }
+    
     // KVO
     fileprivate var KVOContextCirclesViewController = 0
     fileprivate var needsToRemoveObserver = false
@@ -249,6 +256,16 @@ extension CirclesViewController {
                 self.showNoDataMessage()
             }
         }
+        if isSingleUserMode {
+            self.recommendations = nil
+        } else {
+            DataManager.shared.getRecommendation { (response, error) in
+                if let response = response,
+                    let data = DataManager.getResponseData(response) as? [NSDictionary] {
+                    self.recommendations = Follower.newList(dicts: data)
+                }
+            }
+        }
     }
     
     func loadNextData() {
@@ -285,6 +302,11 @@ extension CirclesViewController {
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView(), 0, false, false, false, !self.isSingleUserMode)
+        
+        // Avoid adjustedContentInset
+        if #available(iOS 11.0, *) {
+            self.recommendationsCollectionView.contentInsetAdjustmentBehavior = .never
+        }
         
         // Status Bar Cover
         self.setupStatusBarCover()
@@ -373,129 +395,13 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView != self.tableView() {
+            return
+        }
         // Update Status Bar Cover
         self.updateStatusBarCover(scrollView.contentOffset.y)
         // Update Pull Down Refresh Indicator
         self.updateRefreshIndicator(scrollView.contentOffset.y)
-    }
-}
-
-// MARK: - Status Bar Cover
-extension CirclesViewController {
-    
-    fileprivate func setupStatusBarCover() {
-        // Status Bar Cover
-        self.statusBarCover.backgroundColor = UIColor.white
-    }
-    
-    fileprivate func updateStatusBarCover(_ offsetY: CGFloat) {
-        if isStatusBarCoverVisible && offsetY < 0 {
-            self.removeStatusBarCover()
-        } else if !isStatusBarCoverVisible && offsetY >= 0 {
-            self.addStatusBarCover()
-        }
-    }
-    
-    fileprivate func addStatusBarCover() {
-        self.isStatusBarCoverVisible = true
-        self.tabBarController?.view.addSubview(self.statusBarCover)
-        UIView.animate(withDuration: 0.25, animations: { () -> Void in
-            self.setNeedsStatusBarAppearanceUpdate()
-            self.statusBarCover.alpha = 1
-        })
-    }
-    
-    fileprivate func removeStatusBarCover() {
-        self.isStatusBarCoverVisible = false
-        UIView.animate(withDuration: 0.25, animations: { () -> Void in
-            self.setNeedsStatusBarAppearanceUpdate()
-            self.statusBarCover.alpha = 0
-        }, completion: { (finished) -> Void in
-            self.statusBarCover.removeFromSuperview()
-        })
-    }
-}
-
-// MARK: - Pull Down Refresh
-extension CirclesViewController {
-    
-    fileprivate func updateRefreshIndicator(_ offsetY: CGFloat) {
-        struct Constant {
-            static let headerHeight = CGFloat(240)
-            static let triggerY = CGFloat(-40)
-        }
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        let offsetY = offsetY + statusBarHeight + Constant.headerHeight
-        self.showRefreshIndicator(offsetY)
-        
-        if !self.isLoadingData && !self.tableView().isDragging && offsetY <= Constant.triggerY {
-            self.loadData(nil)
-        }
-    }
-    
-    fileprivate func showRefreshIndicator(_ offsetY: CGFloat) {
-        struct Constant {
-            static let triggerY = CGFloat(-38)
-        }
-        UIView.animate(withDuration: 0.3) {
-            if self.isLoadingData {
-                self.loadingIndicatorBottom.constant = Constant.triggerY
-            } else {
-                self.loadingIndicatorBottom.constant = max(offsetY, Constant.triggerY)
-                self.loadingIndicator.transform = CGAffineTransform(rotationAngle: offsetY / 20.0)
-            }
-        }
-    }
-    
-    fileprivate func hideRefreshIndicator() {
-        UIView.animate(withDuration: 0.3) {
-            self.loadingIndicatorBottom.constant = UIApplication.shared.statusBarFrame.height
-        }
-    }
-}
-
-// MARK: - Refreshing
-extension CirclesViewController {
-    
-    fileprivate func setupRefreshControls() {
-        guard let footer = MJRefreshAutoStateFooter(refreshingBlock: { () -> Void in
-            self.loadNextData()
-        }) else { return }
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_pulling"), for: .pulling)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_footer_refreshing"), for: .refreshing)
-        footer.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
-        self.tableView().mj_footer = footer
-    }
-    
-    fileprivate func beginRefreshing() {
-        self.isLoadingData = true
-        self.loadingIndicator.startAnimating()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-    }
-    
-    fileprivate func endRefreshing(_ resultCount: Int) {
-        self.hideRefreshIndicator()
-        DispatchQueue.main.async {
-            resultCount > 0 ? self.tableView().mj_footer.endRefreshing() : self.tableView().mj_footer.endRefreshingWithNoMoreData()
-        }
-        self.isLoadingData = false
-        self.loadingIndicator.stopAnimating()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-    
-    func showNoDataMessage() {
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_no_data"), for: .noMoreData)
-    }
-    
-    func showLoadingMessage() {
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_loading"), for: .idle)
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("circles_vc_loading"), for: .noMoreData)
-    }
-    
-    func resetFooterMessage() {
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("pull_to_refresh_footer_idle"), for: .idle)
-        (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
     }
 }
 
@@ -705,16 +611,5 @@ extension CirclesViewController {
                 }
             }
         }
-    }
-}
-
-// MARK: - Parallax Header
-extension CirclesViewController {
-
-    fileprivate func setupParallaxHeader() {
-        // Parallax View
-        self.tableView().parallaxHeader.height = self.parallaxHeaderView.frame.height
-        self.tableView().parallaxHeader.view = self.parallaxHeaderView
-        self.tableView().parallaxHeader.mode = .fill
     }
 }

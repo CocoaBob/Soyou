@@ -40,9 +40,82 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0WY-NY-YUX">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="1z1-u8-cpm" userLabel="Recommendations">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Alu-gL-rVK">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                            <color key="backgroundColor" white="0.95321584302325579" alpha="1" colorSpace="calibratedWhite"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="w4n-Bg-NAn">
+                                                <size key="itemSize" width="48" height="48"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="8" minY="8" maxX="8" maxY="8"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="RecommendationsCollectionViewCell" id="seR-D9-orG" customClass="RecommendationsCollectionViewCell" customModule="Soyou" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="8" width="48" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                        <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="poV-7W-11M">
+                                                                <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="48" id="mhc-Jz-NdR"/>
+                                                                    <constraint firstAttribute="width" secondItem="poV-7W-11M" secondAttribute="height" multiplier="1:1" id="t0j-L3-7qX"/>
+                                                                </constraints>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="24"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                        <real key="value" value="0.5"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                        <color key="value" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </imageView>
+                                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_m" translatesAutoresizingMaskIntoConstraints="NO" id="yjf-yt-KUQ">
+                                                                <rect key="frame" x="0.0" y="0.5" width="48" height="47.5"/>
+                                                            </imageView>
+                                                        </subviews>
+                                                    </view>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="poV-7W-11M" secondAttribute="trailing" id="Co0-7v-bqb"/>
+                                                        <constraint firstItem="yjf-yt-KUQ" firstAttribute="trailing" secondItem="poV-7W-11M" secondAttribute="trailing" id="D9H-eb-Ozu"/>
+                                                        <constraint firstItem="yjf-yt-KUQ" firstAttribute="leading" secondItem="poV-7W-11M" secondAttribute="leading" id="EIi-OU-95e"/>
+                                                        <constraint firstItem="poV-7W-11M" firstAttribute="leading" secondItem="seR-D9-orG" secondAttribute="leading" id="InW-eH-X7P"/>
+                                                        <constraint firstItem="yjf-yt-KUQ" firstAttribute="top" secondItem="poV-7W-11M" secondAttribute="top" id="Xdm-QX-YKk"/>
+                                                        <constraint firstItem="yjf-yt-KUQ" firstAttribute="bottom" secondItem="poV-7W-11M" secondAttribute="bottom" id="kHr-tV-VG6"/>
+                                                        <constraint firstItem="poV-7W-11M" firstAttribute="top" secondItem="seR-D9-orG" secondAttribute="top" id="pOm-U6-RkH"/>
+                                                        <constraint firstAttribute="bottom" secondItem="poV-7W-11M" secondAttribute="bottom" id="xoe-LX-PA7"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="imgUser" destination="poV-7W-11M" id="cyO-Zc-8mS"/>
+                                                        <outlet property="imgUserBadge" destination="yjf-yt-KUQ" id="YvD-Ut-eyi"/>
+                                                    </connections>
+                                                </collectionViewCell>
+                                            </cells>
+                                            <connections>
+                                                <outlet property="dataSource" destination="AQv-Tr-KQN" id="IAE-LI-7S6"/>
+                                                <outlet property="delegate" destination="AQv-Tr-KQN" id="opI-BW-Ifr"/>
+                                            </connections>
+                                        </collectionView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Alu-gL-rVK" firstAttribute="top" secondItem="1z1-u8-cpm" secondAttribute="top" id="AZu-sW-7Rb"/>
+                                        <constraint firstAttribute="trailing" secondItem="Alu-gL-rVK" secondAttribute="trailing" id="P42-RR-OsI"/>
+                                        <constraint firstItem="Alu-gL-rVK" firstAttribute="leading" secondItem="1z1-u8-cpm" secondAttribute="leading" id="gOU-ip-DB6"/>
+                                        <constraint firstAttribute="bottom" secondItem="Alu-gL-rVK" secondAttribute="bottom" id="z1x-AC-e6B"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CirclesTableViewCell" rowHeight="324" id="7Rp-5M-mvX" customClass="CirclesTableViewCell" customModule="Soyou" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="324"/>
+                                        <rect key="frame" x="0.0" y="92" width="320" height="324"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Rp-5M-mvX" id="RsM-Sz-DFc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="323.5"/>
@@ -462,6 +535,7 @@
                         <outlet property="loadingIndicatorBottom" destination="Dck-IZ-IZ3" id="amm-By-goK"/>
                         <outlet property="loadingIndicatorLeading" destination="rwj-sH-4ZG" id="ikZ-Y7-ntT"/>
                         <outlet property="parallaxHeaderView" destination="jmI-uT-zgo" id="MLk-EM-3Cs"/>
+                        <outlet property="recommendationsCollectionView" destination="Alu-gL-rVK" id="jev-hl-X8j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2hc-y7-VEX" userLabel="First Responder" sceneMemberID="firstResponder"/>
