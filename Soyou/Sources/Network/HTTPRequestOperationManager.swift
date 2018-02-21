@@ -21,6 +21,8 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
 //        self.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
 //        self.securityPolicy.validatesDomainName = false
 //        self.securityPolicy.allowInvalidCertificates = true
+        
+        self.updateUserAgent()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -245,5 +247,24 @@ extension HTTPRequestOperationManager {
     
     fileprivate func apiKey(_ timestamp: String) -> String {
         return [self.reqAPIKey, timestamp, self.uuid].sorted().joined().sha1()
+    }
+    
+    fileprivate func updateUserAgent() {
+        var userAgent = "Soyou "
+        // App Version
+        if let shortVersionString = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString" as String) as? String {
+            userAgent  += shortVersionString
+        }
+        // Model
+        // Get device machine name http://stackoverflow.com/questions/26028918
+        var sysinfo = utsname()
+        uname(&sysinfo) // ignore return value
+        let machine = String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+        userAgent  += ";\(machine)"
+        // System Version
+        userAgent  += ";\(UIDevice.current.systemVersion)"
+        // Device UUID
+        userAgent  += ";\(UIDevice.current.identifierForVendor?.uuidString ?? "")"
+        self.requestSerializer.setValue(userAgent, forHTTPHeaderField: "User-Agent")
     }
 }
