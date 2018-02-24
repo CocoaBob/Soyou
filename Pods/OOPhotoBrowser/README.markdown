@@ -1,5 +1,7 @@
 # OOPhotoBrowser ![](http://cocoapod-badges.herokuapp.com/v/OOPhotoBrowser/badge.png) ![](http://cocoapod-badges.herokuapp.com/p/OOPhotoBrowser/badge.png)
 
+**NOTE**: I've been meaning to rename this project since two letter prefixes are reserved for Apple classes. This will break everyone's Podfile, apologies for this inconvenience. I'll hopefully make this change soon, however I was considering reviewing whether to move to a different photo browser anyway.
+
 This is a fork on [IDMPhotoBrowser](https://github.com/ideaismobile/IDMPhotoBrowser) that allows integration with [ImageFeedCollectionViewController](https://github.com/oliveroneill/FeedCollectionViewController), or a custom implementation of a data source as opposed to a fixed array.
 IDMPhotoBrowser is a new implementation based on [MWPhotoBrowser](https://github.com/mwaterfall/MWPhotoBrowser).
 

@@ -442,7 +442,7 @@ extension CirclesTableViewCell {
                 }
             }
         }
-        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: scaleImage, viewVC: self.parentViewController)
+        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: scaleImage, viewVC: UIApplication.shared.keyWindow?.rootViewController)
     }
     
     @IBAction func viewUserProfile() {

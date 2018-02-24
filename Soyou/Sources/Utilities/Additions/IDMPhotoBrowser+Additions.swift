@@ -22,9 +22,9 @@ extension IDMPhotoBrowser {
         photoBrowser.usePopAnimation = false
         photoBrowser.useWhiteBackgroundColor = false
         photoBrowser.disableVerticalSwipe = false
-        photoBrowser.forceHideStatusBar = true
+        photoBrowser.forceHideStatusBar = false
         photoBrowser.dismissOnTouch = true
-        photoBrowser.autoHideInterface = true
+        photoBrowser.autoHideInterface = false
         
         photoBrowser.setInitialPageIndex(index)
         
