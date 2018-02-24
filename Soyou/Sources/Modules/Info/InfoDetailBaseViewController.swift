@@ -180,7 +180,7 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
             assets.append(TLPHAsset(image: image))
         }
         if let webView = self.webView {
-            self.loadAllImagesFromWebView(webView)
+            self.collectAllImageURLsFromWebView(webView)
         }
         for photo in self.webViewPhotos {
             if let image = photo.underlyingImage() {
@@ -223,6 +223,8 @@ extension InfoDetailBaseViewController {
         guard let webView = self.webView else {
             return
         }
+        
+        self.collectAllImageURLsFromWebView(webView)
         
         var touchPoint = tapGR.location(in: self.webView)
         var offset = CGPoint.zero
@@ -391,7 +393,7 @@ extension InfoDetailBaseViewController {
 // MARK: Images
 extension InfoDetailBaseViewController {
     
-    func loadAllImagesFromWebView(_ webView: UIWebView) {
+    func collectAllImageURLsFromWebView(_ webView: UIWebView) {
         if let imageURLs = webView.stringByEvaluatingJavaScript(from: "var imgs = []; for (var i = 0; i < document.images.length; i++) { imgs.push(document.images[i].src) }; imgs.toString();")?.components(separatedBy: ",") {
             // All URLs
             self.webViewImageURLs = imageURLs
@@ -417,10 +419,6 @@ extension InfoDetailBaseViewController {
 
 // MARK: UIWebViewDelegate
 extension InfoDetailBaseViewController: UIWebViewDelegate {
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        self.loadAllImagesFromWebView(webView)
-    }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         DLog(request)
