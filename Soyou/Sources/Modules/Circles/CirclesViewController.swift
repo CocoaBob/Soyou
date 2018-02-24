@@ -45,6 +45,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         }
     }
     
+    // Recommendations
     @IBOutlet var recommendationsCollectionView: UICollectionView!
     var recommendations: [Follower]? {
         didSet {
@@ -307,6 +308,9 @@ extension CirclesViewController {
         if #available(iOS 11.0, *) {
             self.recommendationsCollectionView.contentInsetAdjustmentBehavior = .never
         }
+        
+        // Hide recommendations when there's no data at beginning
+        self.updateRecommendations()
         
         // Status Bar Cover
         self.setupStatusBarCover()
