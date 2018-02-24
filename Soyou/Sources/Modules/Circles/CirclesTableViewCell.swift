@@ -270,19 +270,7 @@ extension CirclesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
         guard let imageView = (collectionView.cellForItem(at: indexPath) as? CircleImageCollectionViewCell)?.imageView else {
             return
         }
-        var image: UIImage?
-        if let dict = self.imgURLs?[indexPath.row],
-            let str = dict["original"],
-            let url = URL(string: str),
-            let cachedImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: url)) {
-            image = cachedImage
-        } else if let dict = self.imgURLs?[indexPath.row],
-            let str = dict["thumbnail"],
-            let url = URL(string: str),
-            let cachedImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: url)) {
-            image = cachedImage
-        }
-        self.browseImages(imageView, image, UInt(indexPath.row))
+        self.browseImages(imageView, UInt(indexPath.row))
     }
 }
 
@@ -425,17 +413,36 @@ extension CirclesTableViewCell {
         }
     }
     
-    func browseImages(_ view: UIView, _ image: UIImage?, _ index: UInt) {
+    func browseImages(_ view: UIView, _ index: UInt) {
         guard let imgURLs = self.imgURLs else {
             return
         }
+        var scaleImage: UIImage?
         var photos = [IDMPhoto]()
-        for dict in imgURLs {
-            if let originalStr = dict["original"], let originalURL = URL(string: originalStr) {
-                photos.append(IDMPhoto(url: originalURL))
+        for (i, dict) in imgURLs.enumerated() {
+            if let originalStr = dict["original"], let originalURL = URL(string: originalStr),
+                let thumbnailStr = dict["thumbnail"], let thumbnailURL = URL(string: thumbnailStr) {
+                var photo: IDMPhoto?
+                if let cachedOriginalImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: originalURL)) {
+                    photo = IDMPhoto(image: cachedOriginalImage)
+                    if i == index {
+                        scaleImage = cachedOriginalImage
+                    }
+                } else {
+                    photo = IDMPhoto(url: originalURL)
+                }
+                if let cachedThumbnailImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: thumbnailURL)) {
+                    photo?.placeholderImage = cachedThumbnailImage
+                    if i == index, scaleImage == nil {
+                        scaleImage = cachedThumbnailImage
+                    }
+                }
+                if let photo = photo {
+                    photos.append(photo)
+                }
             }
         }
-        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: image, viewVC: self.parentViewController)
+        IDMPhotoBrowser.present(photos, index: index, view: view, scaleImage: scaleImage, viewVC: self.parentViewController)
     }
     
     @IBAction func viewUserProfile() {
