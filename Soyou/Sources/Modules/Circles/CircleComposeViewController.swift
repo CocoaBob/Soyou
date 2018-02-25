@@ -34,9 +34,11 @@ class CircleComposeViewController: UITableViewController {
             self.updatePostButton()
         }
     }
-    var isOneClickSharing = false {// If true, we will submit images and text to circles
+    var isSharing = false {// If true, we will submit images and text to circles
         didSet {
-            self.setupViews()
+            if self.isViewLoaded {
+                self.setupViews()
+            }
         }
     }
     var visibility: Int = CircleVisibility.everyone {
@@ -52,6 +54,16 @@ class CircleComposeViewController: UITableViewController {
         }
     }
     var originalId: String? // If it's forwarding another circle, this is the other one's ID
+    var content: String? {
+        set {
+            if self.isViewLoaded {
+                self.tvContent.text = content
+            }
+        }
+        get {
+            return self.tvContent.text
+        }
+    }
     
     @IBOutlet var tvContent: UITextView!
     @IBOutlet var imagesCollectionView: UICollectionView!
@@ -110,18 +122,20 @@ extension CircleComposeViewController {
                                                                 style: .plain,
                                                                 target: self,
                                                                 action: #selector(CircleComposeViewController.quitEditing))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString(self.isOneClickSharing ? "circle_compose_share" : "circle_compose_post"),
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString(self.isSharing ? "circle_compose_share" : "circle_compose_post"),
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(CircleComposeViewController.post))
         self.updatePostButton()
         self.tvContent.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
         self.tvContent.textContainer.lineFragmentPadding = 0
+        let currContent = self.content
+        self.content = currContent
         self.lblShareToWeChat.text = NSLocalizedString("circle_compose_share_to_wechat")
         self.imgShareToWeChat.image = UIImage(named: "img_moments")?.withRenderingMode(.alwaysTemplate)
         self.imgShareToWeChat.tintColor = UIColor.gray
-        self.shareToWeChat.isEnabled = !self.isOneClickSharing
-        self.shareToWeChat.isOn = self.isOneClickSharing
+        self.shareToWeChat.isEnabled = !self.isSharing
+        self.shareToWeChat.isOn = self.isSharing
         self.imgVisibility.image = UIImage(named: "img_globe")?.withRenderingMode(.alwaysTemplate)
         let currVisibility = self.visibility
         self.visibility = currVisibility
@@ -144,9 +158,19 @@ extension CircleComposeViewController {
             if indexPath.row == 0 {
                 return 104
             } else if indexPath.row == 1 {
-                self.imagesCollectionView.setNeedsLayout()
-                self.imagesCollectionView.layoutIfNeeded()
-                return self.imagesCollectionView.contentSize.height + 22 // CollectionView Top/Bottom margins
+                let topBottomMargin = CGFloat(10)
+                let leftRightMargin = CGFloat(20)
+                let cellSize = CGFloat(80)
+                let cellSpacing = CGFloat(4)
+                let collectionViewWidth = tableView.frame.width - leftRightMargin - leftRightMargin
+                let rowSize = floor((CGFloat(collectionViewWidth) - cellSize) / (cellSize + cellSpacing)) + 1
+                var cellCount = CGFloat(self.selectedAssets?.count ?? 0)
+                if cellCount < 9 {
+                    cellCount += 1
+                }
+                let rowCount = ceil(cellCount / rowSize)
+                let collectionViewHeight = cellSize + (cellSize + cellSpacing) * (rowCount - 1)
+                return topBottomMargin + collectionViewHeight + topBottomMargin
             } else if indexPath.row == 2 {
                 return 44
             }

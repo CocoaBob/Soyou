@@ -510,8 +510,9 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         var assets: [TLPHAsset]?
         if let images = images {
             assets = [TLPHAsset]()
-            for image in images {
+            for (i, image) in images.enumerated() {
                 assets?.append(TLPHAsset(image: image))
+                assets?.last?.selectedOrder = i + 1
             }
         }
         // Create CircleComposeViewController
@@ -521,9 +522,8 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.delegate = self
         vc.customAssets = assets
         vc.selectedAssets = assets
-        vc.loadViewIfNeeded()
-        vc.tvContent.text = text
-        vc.isOneClickSharing = true
+        vc.content = text
+        vc.isSharing = true
         vc.visibility = CircleVisibility.friends
         vc.originalId = self.circle?.id
         // Present
