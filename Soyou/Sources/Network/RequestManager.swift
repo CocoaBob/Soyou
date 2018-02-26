@@ -405,6 +405,34 @@ class RequestManager {
     }
     
     //////////////////////////////////////
+    // MARK: Tags
+    //////////////////////////////////////
+    
+    func addOrRemoveMembersForTag(_ id: Int, operation: String, userIds: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/tags/\(id)/members", "Tags", ["operation": operation, "userIds": userIds], onSuccess, onFailure)
+    }
+    
+    func allMembersOfTag(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/tags/\(id)/members", "Tags", onSuccess, onFailure)
+    }
+    
+    func createOrModifyTag(_ id: Int, label: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/tags", "Tags", ["id": id, "label": label], onSuccess, onFailure)
+    }
+    
+    func allTags(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/tags", "Tags", onSuccess, onFailure)
+    }
+    
+    func removeTag(_ tagId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/tags/\(tagId)", "Tags", onSuccess, onFailure)
+    }
+    
+    func getTagsForUser(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/tags/\(userId)", "Tags", onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
     // MARK: User
     //////////////////////////////////////
     

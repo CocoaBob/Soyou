@@ -124,12 +124,8 @@ extension CommentsViewController {
     }
 }
 
-//// MARK: UITableViewDataSource, UITableViewDelegate
+//// MARK: - UITableViewDataSource, UITableViewDelegate
 extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.commentIDs.count

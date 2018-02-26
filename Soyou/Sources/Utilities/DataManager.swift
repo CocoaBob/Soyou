@@ -822,6 +822,58 @@ class DataManager {
     }
     
     //////////////////////////////////////
+    // MARK: Tags
+    //////////////////////////////////////
+    
+    func addOrRemoveMembersForTag(_ id: Int, isAdd: Bool, userIds: [Int], _ completion: CompletionClosure?) {
+        RequestManager.shared.addOrRemoveMembersForTag(id, operation: isAdd ? "-" : "+", userIds: userIds, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func allMembersOfTag(_ id: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.allMembersOfTag(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func createOrModifyTag(_ id: Int, label: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.createOrModifyTag(id, label: label, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func allTags(_ completion: CompletionClosure?) {
+        RequestManager.shared.allTags({ responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func removeTag(_ tagId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.removeTag(tagId, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func getTagsForUser(_ userId: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.getTagsForUser(userId, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    //////////////////////////////////////
     // MARK: Update data
     //////////////////////////////////////
     

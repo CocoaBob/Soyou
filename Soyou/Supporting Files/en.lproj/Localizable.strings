@@ -151,6 +151,7 @@
 "user_vc_cell_my_qr_code"="My QR code";
 "user_vc_cell_my_followings"="My followings";
 "user_vc_cell_my_followers"="My followers";
+"user_vc_cell_my_tags"="My tags";
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
 "user_vc_cell_favs_discounts"="Discounts";
@@ -175,6 +176,13 @@
 "qr_code_vc_save_image"="Save image";
 "qr_code_vc_save_image_succeed"="Image saved!";
 "qr_code_vc_save_image_fail"="Failed to save!\n%@";
+
+/* Tags View Controller */
+"tags_vc_title"="Tags";
+"tags_vc_loading_data"="Loading...";
+"tags_vc_no_result"="No result";
+"tags_vc_no_member"="No member";
+"tags_vc_loading_members"="Loading...";
 
 /* Invitation Success View Controller */
 "invitation_success_vc_title"="Followed Successfully";

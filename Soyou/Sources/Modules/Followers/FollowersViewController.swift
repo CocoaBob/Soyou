@@ -102,7 +102,7 @@ class FollowersViewController: UIViewController {
     }
 }
 
-// MARK: - Table View DataSource & Delegate
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
     
     fileprivate func numberOfRows() -> Int {

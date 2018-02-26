@@ -188,7 +188,7 @@ class SimpleTableViewController: UIViewController {
     }
 }
 
-// MARK: UITableViewDataSource, UITableViewDelegate
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension SimpleTableViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {

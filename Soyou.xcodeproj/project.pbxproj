@@ -47,6 +47,7 @@
 		4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */; };
 		4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */; };
 		454C2F6A1C26B88900C00C52 /* MBProgressHUD+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */; };
+		454C6A6920436F6F0071E7BE /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C6A6820436F6F0071E7BE /* TagsViewController.swift */; };
 		454ECE9B1C567AE5003A0E94 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */; };
 		454ECE9C1C567AE5003A0E94 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454ECE9A1C567AE5003A0E94 /* User.swift */; };
 		4556F9231FC763CE0077D436 /* SearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */; };
@@ -226,6 +227,7 @@
 		4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserViewController.storyboard; sourceTree = "<group>"; };
 		4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MBProgressHUD+Additions.swift"; sourceTree = "<group>"; };
+		454C6A6820436F6F0071E7BE /* TagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
 		454ECE991C567AE5003A0E94 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454ECE9A1C567AE5003A0E94 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4556F9221FC763CE0077D436 /* SearchBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarContainerView.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				45640AF31C51A934009984EC /* ProfileViewController.swift */,
 				4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */,
 				455D06AE1C0394E200D81ABF /* SettingsViewController.swift */,
+				454C6A6820436F6F0071E7BE /* TagsViewController.swift */,
 			);
 			name = User;
 			path = Soyou/Sources/Modules/Account;
@@ -1216,6 +1219,7 @@
 				4597B2371D30FACE00287873 /* UIImage+Zoom.m in Sources */,
 				45F5C2A01D01DFA70024B5DF /* DiscountDetailViewController.swift in Sources */,
 				456BCABE1C5D1AD200590295 /* ClusterAnnotationView.swift in Sources */,
+				454C6A6920436F6F0071E7BE /* TagsViewController.swift in Sources */,
 				45A904C72027972300E6EC73 /* CirclesTableViewCell.swift in Sources */,
 				4597B2431D30FACE00287873 /* DDWeChatHandler.m in Sources */,
 				4597B23E1D30FACE00287873 /* DDSinaHandler.m in Sources */,

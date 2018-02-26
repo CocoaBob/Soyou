@@ -6,8 +6,6 @@
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
-
-
 class FollowersTableViewCell: UITableViewCell {
     
     var follower: Follower? {

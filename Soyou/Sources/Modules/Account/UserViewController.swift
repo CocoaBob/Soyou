@@ -86,7 +86,7 @@ class UserViewController: SimpleTableViewController {
         }
     }
     
-    // MARK: UITableViewDataSource, UITableViewDelegate
+    // MARK: - UITableViewDataSource, UITableViewDelegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = sections[indexPath.section].rows[indexPath.row]
         if row.type == .Custom {
@@ -145,6 +145,13 @@ extension UserViewController {
                                 title: Text(text: NSLocalizedString("user_vc_cell_my_followers")),
                                 didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                                     self.showFollowers()
+                            }),
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_tags"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_my_tags")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showTags()
                             })
                     ]),
                 Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
@@ -191,13 +198,13 @@ extension UserViewController {
 // Routines
 extension UserViewController {
     
-    @IBAction func showUserProfile() {
+    func showUserProfile() {
         UserManager.shared.loginOrDo() { () -> () in
             self.navigationController?.pushViewController(ProfileViewController(), animated: true)
         }
     }
     
-    @IBAction func showQRCode() {
+    func showQRCode() {
         guard let matricule = UserManager.shared.matricule else { return }
         var countryName: String?
         if let countryCode = UserManager.shared.region {
@@ -211,21 +218,26 @@ extension UserViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func showFollowings() {
+    func showFollowings() {
         let vc = FollowersViewController.instantiate()
         vc.userID = UserManager.shared.userID
         vc.isShowingFollowers = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func showFollowers() {
+    func showFollowers() {
         let vc = FollowersViewController.instantiate()
         vc.userID = UserManager.shared.userID
         vc.isShowingFollowers = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func showSettingsViewController(_ sender: UIBarButtonItem?) {
+    func showTags() {
+        let vc = TagsViewController.instantiate()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showSettingsViewController(_ sender: UIBarButtonItem?) {
         let vc = SettingsViewController()
         // Setup Navigation Controller
         let nav = UINavigationController(rootViewController: vc)
@@ -239,7 +251,7 @@ extension UserViewController {
         self.present(nav, animated: true, completion: nil)
     }
     
-    @IBAction func likeApp(_ sender: UIBarButtonItem?) {
+    func likeApp(_ sender: UIBarButtonItem?) {
         UIAlertController.presentAlert(from: self,
                                        title: NSLocalizedString("user_vc_feedback_alert_title"),
                                        message: NSLocalizedString("user_vc_feedback_alert_message"),

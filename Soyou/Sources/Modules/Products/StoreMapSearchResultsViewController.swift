@@ -30,7 +30,7 @@ class StoreMapSearchResultsViewController: UITableViewController {
     }
 }
 
-// MARK: UITableViewDataSource, UITableViewDelegate
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension StoreMapSearchResultsViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
