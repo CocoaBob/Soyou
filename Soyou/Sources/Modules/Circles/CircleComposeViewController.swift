@@ -55,13 +55,10 @@ class CircleComposeViewController: UITableViewController {
     }
     var originalId: String? // If it's forwarding another circle, this is the other one's ID
     var content: String? {
-        set {
+        didSet {
             if self.isViewLoaded {
                 self.tvContent.text = content
             }
-        }
-        get {
-            return self.tvContent.text
         }
     }
     
