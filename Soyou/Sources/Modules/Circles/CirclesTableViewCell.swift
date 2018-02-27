@@ -536,8 +536,12 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
         if needsToShare {
-            DataManager.shared.analyticsShareCircle(id: self.circle?.id ?? "")
             Utils.copyTextAndShareImages(from: self.parentViewController, text: text, images: images)
+            if let id = self.circle?.id {
+                DataManager.shared.analyticsShareCircle(id: id)
+            } else {
+                DLog("Circle ID is nil!")
+            }
         }
     }
 }
