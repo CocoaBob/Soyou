@@ -200,7 +200,7 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
         vc.visibility = CircleVisibility.friends
         let nav = UINavigationController(rootViewController: vc)
         // Present
-        self.tabBarController?.present(nav, animated: true, completion: nil)
+        self.present(nav, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {

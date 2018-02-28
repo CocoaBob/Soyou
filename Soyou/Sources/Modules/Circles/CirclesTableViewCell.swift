@@ -527,7 +527,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.visibility = CircleVisibility.friends
         vc.originalId = self.circle?.id
         // Present
-        self.parentViewController?.tabBarController?.present(nav, animated: true, completion: nil)
+        self.parentViewController?.present(nav, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {

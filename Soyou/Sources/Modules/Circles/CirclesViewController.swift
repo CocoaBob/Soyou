@@ -417,7 +417,7 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
         vc.delegate = self
         let nav = UINavigationController(rootViewController: vc)
         // Present
-        self.tabBarController?.present(nav, animated: true, completion: nil)
+        self.present(nav, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {
