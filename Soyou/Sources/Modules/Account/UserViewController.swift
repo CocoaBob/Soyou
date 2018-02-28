@@ -145,13 +145,6 @@ extension UserViewController {
                                 title: Text(text: NSLocalizedString("user_vc_cell_my_followers")),
                                 didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                                     self.showFollowers()
-                            }),
-                            Row(type: .IconTitle,
-                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                                image: UIImage(named: "img_tags"),
-                                title: Text(text: NSLocalizedString("user_vc_cell_my_tags")),
-                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                                    self.showTags()
                             })
                     ]),
                 Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
