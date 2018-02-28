@@ -41,9 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         URLCache.shared = URLCache(memoryCapacity:64*1024*1024, diskCapacity:512*1024*1024, diskPath:FileManager.cacheURL.path)
         
         // Setup SDWebImage cache
-        SDWebImageDownloader.shared().shouldDecompressImages = true
+        SDWebImageDownloader.shared().shouldDecompressImages = false
         SDWebImageDownloader.shared().executionOrder = SDWebImageDownloaderExecutionOrder.lifoExecutionOrder
         SDWebImageManager.shared().delegate = SDWebImageManagerDelegateHandler.shared
+        SDImageCache.shared().config.shouldDecompressImages = false
         
         // Setup themes
         Themes.setupAppearances()

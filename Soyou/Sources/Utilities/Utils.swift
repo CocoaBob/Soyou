@@ -63,8 +63,13 @@ extension Utils {
     }
     
     class func shareItems(from vc: UIViewController?, items: [Any], completion: (() -> Void)?) {
-        let activityView = UIActivityViewController(activityItems: items, applicationActivities: [WeChatActivityMoments()])
-        (vc ?? UIApplication.shared.keyWindow?.rootViewController)?.present(activityView, animated: true, completion: completion)
+        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: [WeChatActivityMoments()])
+        activityVC.completionWithItemsHandler = {(activity, success, items, error) in
+            if let error = error {
+                DLog(error.localizedDescription)
+            }
+        }
+        (vc ?? UIApplication.shared.keyWindow?.rootViewController)?.present(activityVC, animated: true, completion: completion)
     }
     
     // Combines all images into one image
