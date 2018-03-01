@@ -264,7 +264,7 @@ extension HTTPRequestOperationManager {
         // System Version
         userAgent  += ";\(UIDevice.current.systemVersion)"
         // Device UUID
-        userAgent  += ";\(UIDevice.current.identifierForVendor?.uuidString ?? "")"
+        userAgent  += ";\(self.uuid)"
         self.requestSerializer.setValue(userAgent, forHTTPHeaderField: "User-Agent")
     }
 }
