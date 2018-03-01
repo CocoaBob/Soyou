@@ -230,7 +230,7 @@ extension UserViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showSettingsViewController(_ sender: UIBarButtonItem?) {
+    @objc func showSettingsViewController(_ sender: UIBarButtonItem?) {
         let vc = SettingsViewController()
         // Setup Navigation Controller
         let nav = UINavigationController(rootViewController: vc)
@@ -244,7 +244,7 @@ extension UserViewController {
         self.present(nav, animated: true, completion: nil)
     }
     
-    func likeApp(_ sender: UIBarButtonItem?) {
+    @objc func likeApp(_ sender: UIBarButtonItem?) {
         UIAlertController.presentAlert(from: self,
                                        title: NSLocalizedString("user_vc_feedback_alert_title"),
                                        message: NSLocalizedString("user_vc_feedback_alert_message"),

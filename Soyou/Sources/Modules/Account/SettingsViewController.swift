@@ -35,7 +35,6 @@ class SettingsViewController: SimpleTableViewController {
     }
     
     deinit {
-        
         UserManager.shared.removeObserver(self, forKeyPath: "username")
     }
     

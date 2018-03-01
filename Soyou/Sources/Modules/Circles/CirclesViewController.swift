@@ -30,7 +30,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     
     var userID: Int? {
         didSet {
-            self.observeUserManager() // Start/Stop observing the app user's info
             self.isSingleUserMode = userID != nil // Update UI
         }
     }
@@ -55,7 +54,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     
     // KVO
     fileprivate var KVOContextCirclesViewController = 0
-    fileprivate var needsToRemoveObserver = false
     
     // Pull and reload
     var isLoadingData = false
@@ -116,7 +114,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.reloadDataWithoutCompletion()
         
         // Observe UserManager.shared.token & avatar
-        self.observeUserManager()
+        self.startObservingUserManager()
     }
     
     deinit {
@@ -193,24 +191,16 @@ extension CirclesViewController {
 extension CirclesViewController {
     
     // Observe UserManager.shared.token & avatar
-    fileprivate func observeUserManager() {
-        if self.userID == nil {
-            UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
-            UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextCirclesViewController)
-            UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextCirclesViewController)
-            self.needsToRemoveObserver = true
-        } else {
-            self.stopObservingUserManager()
-        }
+    fileprivate func startObservingUserManager() {
+        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextCirclesViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextCirclesViewController)
     }
     
     fileprivate func stopObservingUserManager() {
-        if self.needsToRemoveObserver {
-            self.needsToRemoveObserver = false
-            UserManager.shared.removeObserver(self, forKeyPath: "token")
-            UserManager.shared.removeObserver(self, forKeyPath: "avatar")
-            UserManager.shared.removeObserver(self, forKeyPath: "username")
-        }
+        UserManager.shared.removeObserver(self, forKeyPath: "token")
+        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
+        UserManager.shared.removeObserver(self, forKeyPath: "username")
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -223,6 +213,7 @@ extension CirclesViewController {
                     self.loadData(nil)
                 } else {
                     self.hideUserInfoRelatedControls()
+                    self.recommendations = nil
                 }
             }
         } else {
