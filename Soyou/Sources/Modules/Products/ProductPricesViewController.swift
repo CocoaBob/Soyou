@@ -157,7 +157,7 @@ extension ProductPricesViewController: UITableViewDataSource, UITableViewDelegat
         
         if indexPath.row == 0 {
             guard let prices = self.prices else { return }
-            guard let item: [String: AnyObject] = prices[indexPath.section] else { return }
+            let item: [String: AnyObject] = prices[indexPath.section]
             guard let officialUrlString = item["officialUrl"] as? String else { return }
             if officialUrlString.isEmpty {
                 return

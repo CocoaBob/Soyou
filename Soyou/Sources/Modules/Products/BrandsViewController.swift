@@ -279,8 +279,11 @@ extension BrandsViewController: UITableViewDelegate, UITableViewDataSource {
         // Prepare attributes
         var imageURLString: String? = nil
         MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) -> Void in
-            guard let localBrand = brand.mr_(in: localContext) else { return }
-            brandViewController.brandID = localBrand.id as! Int
+            guard let localBrand = brand.mr_(in: localContext),
+                let brandID = localBrand.id as? Int else {
+                return
+            }
+            brandViewController.brandID = brandID
             brandViewController.brandName = localBrand.label
             brandViewController.brandCategories = localBrand.categories as? [NSDictionary]
             imageURLString = localBrand.imageUrl

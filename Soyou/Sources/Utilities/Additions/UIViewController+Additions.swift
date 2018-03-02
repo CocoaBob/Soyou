@@ -258,7 +258,7 @@ extension UIViewController {
         }
     }
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    @objc func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return !__isDismissingKeyboard
     }
     
@@ -349,13 +349,13 @@ extension UIViewController {
 // MARK: ZoomInteractiveTransition
 extension UIViewController {
     
-    func animationBlockForZoomTransition() -> ZoomAnimationBlock! {
+    @objc func animationBlockForZoomTransition() -> ZoomAnimationBlock! {
         return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!) -> Void in
             animatedSnapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
         }
     }
     
-    func completionBlockForZoomTransition() -> ZoomCompletionBlock! {
+    @objc func completionBlockForZoomTransition() -> ZoomCompletionBlock! {
         return { (animatedSnapshot: UIImageView!, sourceView: UIView!, destinationView: UIView!, completion: (() -> Void)?) -> Void in
             UIView.animate(withDuration: 0.1, animations: { () -> Void in
                 animatedSnapshot.transform = CGAffineTransform.identity
