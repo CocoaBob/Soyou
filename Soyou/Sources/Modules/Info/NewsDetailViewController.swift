@@ -66,12 +66,6 @@ class NewsDetailViewController: InfoDetailBaseViewController {
     override func shareURL() {
         MBProgressHUD.show(self.view)
         
-        var htmlString: String?
-        MagicalRecord.save(blockAndWait: { (localContext: NSManagedObjectContext!) in
-            if let localNews = self.news?.mr_(in: localContext) {
-                htmlString = localNews.content
-            }
-        })
         var items = [Any]()
         if let item = self.headerImage {
             items.append(item)

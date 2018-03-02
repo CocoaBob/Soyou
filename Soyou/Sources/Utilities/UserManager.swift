@@ -6,6 +6,7 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
+@objcMembers
 class UserManager: NSObject {
     
     static let shared = UserManager()
