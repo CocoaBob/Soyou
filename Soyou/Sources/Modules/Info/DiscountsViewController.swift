@@ -22,7 +22,6 @@ class DiscountsViewController: InfoListBaseViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Cons.DB.discountsUpdatingDidFinishNotification), object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
@@ -31,12 +30,6 @@ class DiscountsViewController: InfoListBaseViewController {
         
         self.title = NSLocalizedString("discouts_vc_title")
         self.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-        
-        // Observe data updating
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(DiscountsViewController.reloadDataWithoutCompletion),
-                                               name: NSNotification.Name(rawValue: Cons.DB.discountsUpdatingDidFinishNotification),
-                                               object: nil)
         
         // Observe UIApplicationDidBecomeActive to update EXPIRED labels
         NotificationCenter.default.addObserver(self,

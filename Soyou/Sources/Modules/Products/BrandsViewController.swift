@@ -75,11 +75,6 @@ class BrandsViewController: SyncedFetchedResultsViewController {
                                        selectedImage: UIImage(named: "img_tab_tag_selected"))
     }
     
-    deinit {
-        // Stop observing data updating
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Cons.DB.brandsUpdatingDidFinishNotification), object: nil)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,9 +116,6 @@ class BrandsViewController: SyncedFetchedResultsViewController {
             // Setups
             self.setupCollectionView()
         }
-        
-        // Observe data updating
-        NotificationCenter.default.addObserver(self, selector: #selector(BrandsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.brandsUpdatingDidFinishNotification), object: nil)
         
         // Load data
         self.showLoadingMessage()

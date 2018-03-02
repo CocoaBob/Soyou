@@ -36,9 +36,10 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         self.setupCollectionView()
         self.setupRefreshControls()
         
-        // Prepare FetchedResultsController
+        // Create FetchedResultsController
         self.reloadDataWithoutCompletion()
-        // Load Data
+        
+        // Load data from server
         self.loadData(nil)
     }
     

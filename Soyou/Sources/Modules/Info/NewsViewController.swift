@@ -20,20 +20,12 @@ class NewsViewController: InfoListBaseViewController {
         object_setClass(instance, NewsViewController.self)
         return (instance as? NewsViewController)!
     }
-    
-    deinit {
-        // Stop observing data updating
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Cons.DB.newsUpdatingDidFinishNotification), object: nil)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("news_vc_title")
         self.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-        
-        // Observe data updating
-        NotificationCenter.default.addObserver(self, selector: #selector(NewsViewController.reloadDataWithoutCompletion), name: NSNotification.Name(rawValue: Cons.DB.newsUpdatingDidFinishNotification), object: nil)
     }
     
     // MARK: Data

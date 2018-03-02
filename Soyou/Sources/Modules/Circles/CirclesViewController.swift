@@ -107,10 +107,10 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         // Setup views
         self.setupViews()
         
-        // Load Data
+        // Load data from server
         self.loadData(nil)
         
-        // Prepare FetchedResultsController
+        // Create FetchedResultsController and load data
         self.reloadDataWithoutCompletion()
         
         // Observe UserManager.shared.token & avatar

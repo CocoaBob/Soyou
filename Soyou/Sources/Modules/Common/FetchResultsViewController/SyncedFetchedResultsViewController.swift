@@ -161,16 +161,18 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
         } else if let collectionView = self.collectionView() {
             UIView.setAnimationsEnabled(false)
             collectionView.performBatchUpdates({ () -> Void in
-                if let fetchedResultsChangesInsert = self.fetchedResultsChangesInsert {
+                // The indexes for Insert must be the final items
+                if let fetchedResultsChangesInsert = self.fetchedResultsChangesInsert, fetchedResultsChangesInsert.count > 0 {
                     collectionView.insertItems(at: fetchedResultsChangesInsert)
                 }
-                if let fetchedResultsChangesDelete = self.fetchedResultsChangesDelete {
+                // The indexes for Update/Delete must be the original items
+                if let fetchedResultsChangesDelete = self.fetchedResultsChangesDelete, fetchedResultsChangesDelete.count > 0 {
                     collectionView.deleteItems(at: fetchedResultsChangesDelete)
                 }
-                if let fetchedResultsChangesUpdate = self.fetchedResultsChangesUpdate {
+                if let fetchedResultsChangesUpdate = self.fetchedResultsChangesUpdate, fetchedResultsChangesUpdate.count > 0 {
                     collectionView.reloadItems(at: fetchedResultsChangesUpdate)
                 }
-                if let fetchedResultsChangesMove = self.fetchedResultsChangesMove {
+                if let fetchedResultsChangesMove = self.fetchedResultsChangesMove, fetchedResultsChangesMove.count > 0 {
                     for (oldIndexPath, newIndexPath) in fetchedResultsChangesMove {
                         collectionView.moveItem(at: oldIndexPath, to: newIndexPath)
                     }
