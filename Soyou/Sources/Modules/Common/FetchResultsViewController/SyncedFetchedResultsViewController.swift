@@ -12,6 +12,8 @@ class SyncedFetchedResultsViewController: UIViewController {
     var fetchedResultsChangesDelete: [IndexPath]?
     var fetchedResultsChangesUpdate: [IndexPath]?
     var fetchedResultsChangesMove: [(IndexPath,IndexPath)]?
+    private var deletedSections = Set<Int>()
+    private var insertedSections = Set<Int>()
     
     // MARK: NSFetchedResultsController
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
@@ -78,6 +80,8 @@ extension SyncedFetchedResultsViewController {
 extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.deletedSections = Set<Int>()
+        self.insertedSections = Set<Int>()
         if let tableView = self.tableView() {
             DispatchQueue.main.async {
                 UIView.setAnimationsEnabled(self.tableViewRowIsAnimated());
@@ -95,6 +99,10 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
         if let tableView = self.tableView() {
             DispatchQueue.main.async {
                 switch(type) {
+                case .update:
+                    if let indexPath = indexPath, !self.deletedSections.contains(indexPath.section), !self.insertedSections.contains(indexPath.section) {
+                        tableView.reloadRows(at: [indexPath], with: .fade)
+                    }
                 case .insert:
                     if let newIndexPath = newIndexPath {
                         tableView.insertRows(at: [newIndexPath], with:.fade)
@@ -104,19 +112,17 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
                         tableView.deleteRows(at: [indexPath], with: .fade)
                     }
                 case .move:
-                    if let indexPath = indexPath,
-                        let newIndexPath = newIndexPath {
-                        tableView.deleteRows(at: [indexPath], with: .fade)
-                        tableView.insertRows(at: [newIndexPath], with: .fade)
-                    }
-                case .update:
-                    if let indexPath = indexPath {
-                        tableView.reloadRows(at: [indexPath], with: .fade)
+                    if let indexPath = indexPath, let newIndexPath = newIndexPath, indexPath != newIndexPath {
+                        tableView.moveRow(at: indexPath, to: newIndexPath)
                     }
                 }
             }
         } else if let _ = self.collectionView() {
             switch(type) {
+            case .update:
+                if let indexPath = indexPath, !self.deletedSections.contains(indexPath.section), !self.insertedSections.contains(indexPath.section) {
+                    self.fetchedResultsChangesUpdate?.append(indexPath)
+                }
             case .insert:
                 if let newIndexPath = newIndexPath {
                     self.fetchedResultsChangesInsert?.append(newIndexPath)
@@ -126,33 +132,24 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
                     self.fetchedResultsChangesDelete?.append(indexPath)
                 }
             case .move:
-                if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                if let indexPath = indexPath, let newIndexPath = newIndexPath, indexPath != newIndexPath {
                     self.fetchedResultsChangesMove?.append((indexPath, newIndexPath))
-                }
-            case .update:
-                if let indexPath = indexPath {
-                    self.fetchedResultsChangesUpdate?.append(indexPath)
                 }
             }
         }
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        if let tableView = self.tableView() {
-            DispatchQueue.main.async {
-                switch(type) {
-                case .insert:
-                    tableView.insertRows(at: [IndexPath(index: sectionIndex)], with: .fade)
-                case .delete:
-                    tableView.deleteRows(at: [IndexPath(index: sectionIndex)], with: .fade)
-                default:
-                    break
-                }
-            }
+        switch type {
+        case .delete:   self.deletedSections.insert(sectionIndex)
+        case .insert:   self.insertedSections.insert(sectionIndex)
+        default: break
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.deletedSections.removeAll()
+        self.insertedSections.removeAll()
         if let tableView = self.tableView() {
             DispatchQueue.main.async {
                 tableView.endUpdates()
@@ -161,6 +158,9 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
         } else if let collectionView = self.collectionView() {
             UIView.setAnimationsEnabled(false)
             collectionView.performBatchUpdates({ () -> Void in
+                if let fetchedResultsChangesUpdate = self.fetchedResultsChangesUpdate, fetchedResultsChangesUpdate.count > 0 {
+                    collectionView.reloadItems(at: fetchedResultsChangesUpdate)
+                }
                 // The indexes for Insert must be the final items
                 if let fetchedResultsChangesInsert = self.fetchedResultsChangesInsert, fetchedResultsChangesInsert.count > 0 {
                     collectionView.insertItems(at: fetchedResultsChangesInsert)
@@ -168,9 +168,6 @@ extension SyncedFetchedResultsViewController: NSFetchedResultsControllerDelegate
                 // The indexes for Update/Delete must be the original items
                 if let fetchedResultsChangesDelete = self.fetchedResultsChangesDelete, fetchedResultsChangesDelete.count > 0 {
                     collectionView.deleteItems(at: fetchedResultsChangesDelete)
-                }
-                if let fetchedResultsChangesUpdate = self.fetchedResultsChangesUpdate, fetchedResultsChangesUpdate.count > 0 {
-                    collectionView.reloadItems(at: fetchedResultsChangesUpdate)
                 }
                 if let fetchedResultsChangesMove = self.fetchedResultsChangesMove, fetchedResultsChangesMove.count > 0 {
                     for (oldIndexPath, newIndexPath) in fetchedResultsChangesMove {

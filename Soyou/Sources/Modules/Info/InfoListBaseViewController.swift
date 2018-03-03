@@ -8,6 +8,8 @@
 
 class InfoListBaseViewController: SyncedFetchedResultsViewController {
     
+    var hasLoadedData = false
+    
     // Used for getting the navigation controller
     var infoViewController: UIViewController?
     
@@ -38,9 +40,15 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         
         // Create FetchedResultsController
         self.reloadDataWithoutCompletion()
-        
-        // Load data from server
-        self.loadData(nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !self.hasLoadedData {
+            self.hasLoadedData = true
+            // Load data from server
+            self.loadData(nil)
+        }
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
