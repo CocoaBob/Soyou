@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.8</string>
+	<string>1.6.9</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -94,7 +94,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>921</string>
+	<string>938</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -241,14 +241,6 @@
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemIconFile</key>
-			<string>img_shortcut_favorites</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>shortcut_favorites</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>shortcut.favorites</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
 			<string>img_shortcut_circles</string>
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>shortcut_circles</string>
@@ -257,11 +249,11 @@
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconFile</key>
-			<string>img_shortcut_search</string>
+			<string>img_shortcut_favorites</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>shortcut_search</string>
+			<string>shortcut_favorites</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>shortcut.search</string>
+			<string>shortcut.favorites</string>
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconFile</key>
@@ -270,6 +262,14 @@
 			<string>shortcut_news</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>shortcut.news</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>img_shortcut_search</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_search</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut.search</string>
 		</dict>
 	</array>
 	<key>UILaunchStoryboardName</key>

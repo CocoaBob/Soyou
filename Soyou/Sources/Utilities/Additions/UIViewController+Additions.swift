@@ -391,3 +391,14 @@ extension UIViewController {
         return self.toppestViewController(self)
     }
 }
+
+// MARK: Scroll to top
+extension UIViewController {
+    
+    func scrollToTop() {
+        if let topVC = self.toppestViewController(), let scrollView = topVC.view.topVerticalScrollView() {
+            scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+            scrollView.flashScrollIndicators()
+        }
+    }
+}

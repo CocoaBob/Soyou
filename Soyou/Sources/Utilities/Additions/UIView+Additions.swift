@@ -81,3 +81,18 @@ extension UIView {
         }
     }
 }
+
+extension UIView {
+
+    func topVerticalScrollView() -> UIScrollView? {
+        if let scrollView = self as? UIScrollView, scrollView.contentSize.height > scrollView.bounds.height {
+            return scrollView
+        }
+        for subview in self.subviews {
+            if let scrollView = subview.topVerticalScrollView() {
+                return scrollView
+            }
+        }
+        return nil
+    }
+}

@@ -313,9 +313,9 @@ extension AppDelegate {
         }
     }
     
-    func showNewsView() {
+    func showCirclesView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
-            let navController = tabBarController.viewControllers?[0] as? UINavigationController {
+            let navController = tabBarController.viewControllers?[2] as? UINavigationController {
             tabBarController.selectedIndex = 0
             navController.popToRootViewController(animated: false)
         }
@@ -334,9 +334,9 @@ extension AppDelegate {
         }
     }
     
-    func showCirclesView() {
+    func showNewsView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
-            let navController = tabBarController.viewControllers?[2] as? UINavigationController {
+            let navController = tabBarController.viewControllers?[0] as? UINavigationController {
             tabBarController.selectedIndex = 2
             navController.popToRootViewController(animated: false)
         }
@@ -364,20 +364,10 @@ extension AppDelegate: UITabBarControllerDelegate {
         let hasTappedTwice = self.tabBarTappedVC == viewController
         self.tabBarTappedVC = viewController
         
+        // Double Tapped
         if self.tabBarTapCounter == 2 && hasTappedTwice {
             self.tabBarTapCounter = 0
-            // Double Tapped
-            if let navC = viewController as? UINavigationController,
-                let circlesVC = navC.topViewController as? CirclesViewController {
-                let tableView = circlesVC.tableView()
-                if tableView.numberOfSections > 0, tableView.numberOfRows(inSection: 0) > 0 {
-                    tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: false)
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
-                        tableView.setContentOffset(CGPoint(x: 0, y: -tableView.contentInset.top), animated: true)
-                        tableView.flashScrollIndicators()
-                    }
-                }
-            }
+            viewController.scrollToTop()
         }
         if self.tabBarTapCounter == 1 {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
