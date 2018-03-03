@@ -213,7 +213,7 @@ NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBund
             self.automaticallyAdjustsScrollViewInsets = NO;
 		}
 		
-        _applicationWindow = [[[UIApplication sharedApplication] delegate] window];
+        _applicationWindow = [[UIApplication sharedApplication] keyWindow];
 		self.modalPresentationStyle = UIModalPresentationCustom;
 		self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 		self.modalPresentationCapturesStatusBarAppearance = YES;
