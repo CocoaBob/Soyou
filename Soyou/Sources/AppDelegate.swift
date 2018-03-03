@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var needsToAcceptInvitationMatricule: String?
     
+    var tabBarTapCounter : Int = 0
+    var tabBarTappedVC = UIViewController()
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -354,6 +357,34 @@ extension AppDelegate: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         let toppestViewController = viewController.toppestViewController()
         toppestViewController?.viewDidAppear(false)
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        self.tabBarTapCounter += 1
+        let hasTappedTwice = self.tabBarTappedVC == viewController
+        self.tabBarTappedVC = viewController
+        
+        if self.tabBarTapCounter == 2 && hasTappedTwice {
+            self.tabBarTapCounter = 0
+            // Double Tapped
+            if let navC = viewController as? UINavigationController,
+                let circlesVC = navC.topViewController as? CirclesViewController {
+                let tableView = circlesVC.tableView()
+                if tableView.numberOfSections > 0, tableView.numberOfRows(inSection: 0) > 0 {
+                    tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: false)
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+                        tableView.setContentOffset(CGPoint(x: 0, y: -tableView.contentInset.top), animated: true)
+                        tableView.flashScrollIndicators()
+                    }
+                }
+            }
+        }
+        if self.tabBarTapCounter == 1 {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+                self.tabBarTapCounter = 0
+            }
+        }
+        return true
     }
 }
 
