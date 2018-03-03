@@ -204,8 +204,14 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
     }
     
     func didPostNewCircle() {
-        if let circlesVC = self.tabBarController?.viewControllers?[2] as? CirclesViewController {
-            circlesVC.loadData(nil)
+        guard let vcs = self.tabBarController?.viewControllers else {
+            return
+        }
+        for vc in vcs {
+            if let navC = vc as? UINavigationController,
+                let circlesVC = navC.topViewController as? CirclesViewController {
+                circlesVC.loadData(nil, completion: nil)
+            }
         }
     }
     

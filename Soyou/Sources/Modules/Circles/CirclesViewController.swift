@@ -108,7 +108,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.setupViews()
         
         // Load data from server
-        self.loadData(nil)
+        self.loadData(nil, completion: nil)
         
         // Create FetchedResultsController and load data
         self.reloadDataWithoutCompletion()
@@ -210,7 +210,7 @@ extension CirclesViewController {
             // Show/Hide all user related controls
             if keyPath == "token" {
                 if UserManager.shared.isLoggedIn {
-                    self.loadData(nil)
+                    self.loadData(nil, completion: nil)
                 } else {
                     self.hideUserInfoRelatedControls()
                     self.recommendations = nil
@@ -226,7 +226,7 @@ extension CirclesViewController {
 extension CirclesViewController {
     
     // MARK: Data
-    func loadData(_ timestamp: String?) {
+    func loadData(_ timestamp: String?, completion: (() -> Void)?) {
         guard UserManager.shared.isLoggedIn else {
             return
         }
@@ -247,6 +247,7 @@ extension CirclesViewController {
                 self.endRefreshing(0)
                 self.showNoDataMessage()
             }
+            completion?()
         }
         if isSingleUserMode {
             self.recommendations = nil
@@ -263,7 +264,17 @@ extension CirclesViewController {
     func loadNextData() {
         if let lastCircle = self.fetchedResultsController?.fetchedObjects?.last as? Circle,
             let date = lastCircle.createdDate {
-            self.loadData(Cons.utcDateFormatter.string(from: date))
+            // We need to avoid scrolling during the loading of new data
+            // to make is smooth, otherwise the scroll view may jump the contentOffset position
+            // 1. Stop scrolling
+            self.tableView().setContentOffset(self.tableView().contentOffset, animated: false)
+            // 2. Stop pan gesture
+            self.tableView().panGestureRecognizer.isEnabled = false
+            // 3. Load data
+            self.loadData(Cons.utcDateFormatter.string(from: date)) {
+                // 4. Enable pan gesture
+                self.tableView().panGestureRecognizer.isEnabled = true
+            }
         }
     }
 }
@@ -412,7 +423,7 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     }
     
     func didPostNewCircle() {
-        self.loadData(nil)
+        self.loadData(nil, completion: nil)
     }
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
