@@ -79,6 +79,9 @@
 		457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB71BFBDE9700D451D0 /* RequestManager.swift */; };
 		457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */; };
 		457D1EBC1BFBE0BB00D451D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457D1EBB1BFBE0BB00D451D0 /* Constants.swift */; };
+		4585425B204B10A900B35355 /* CirclesTableViewCell+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4585425A204B10A900B35355 /* CirclesTableViewCell+CollectionView.swift */; };
+		4585425E204B110500B35355 /* CirclesTableViewCell+MISC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4585425C204B110500B35355 /* CirclesTableViewCell+MISC.swift */; };
+		4585425F204B110500B35355 /* CirclesTableViewCell+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4585425D204B110500B35355 /* CirclesTableViewCell+Actions.swift */; };
 		458AA5EF203B36C100D3BA93 /* UITextView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458AA5EE203B36C100D3BA93 /* UITextView+Additions.swift */; };
 		458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */; };
 		458B2E4A1FECA28700BD6843 /* PicturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 458B2E481FECA28600BD6843 /* PicturePickerCell.xib */; };
@@ -263,6 +266,9 @@
 		457D1EB71BFBDE9700D451D0 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		457D1EB91BFBE00F00D451D0 /* HTTPRequestOperationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestOperationManager.swift; sourceTree = "<group>"; };
 		457D1EBB1BFBE0BB00D451D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4585425A204B10A900B35355 /* CirclesTableViewCell+CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CirclesTableViewCell+CollectionView.swift"; sourceTree = "<group>"; };
+		4585425C204B110500B35355 /* CirclesTableViewCell+MISC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CirclesTableViewCell+MISC.swift"; sourceTree = "<group>"; };
+		4585425D204B110500B35355 /* CirclesTableViewCell+Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CirclesTableViewCell+Actions.swift"; sourceTree = "<group>"; };
 		458AA5EE203B36C100D3BA93 /* UITextView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Additions.swift"; sourceTree = "<group>"; };
 		458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturePickerViewController.swift; sourceTree = "<group>"; };
 		458B2E481FECA28600BD6843 /* PicturePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PicturePickerCell.xib; sourceTree = "<group>"; };
@@ -413,6 +419,9 @@
 				45C1D3F9203D1D3B00580A31 /* CirclesViewController+MISC.swift */,
 				45C1D3F5203D115400580A31 /* CirclesViewController+Recommendation.swift */,
 				45A904C62027972300E6EC73 /* CirclesTableViewCell.swift */,
+				4585425D204B110500B35355 /* CirclesTableViewCell+Actions.swift */,
+				4585425A204B10A900B35355 /* CirclesTableViewCell+CollectionView.swift */,
+				4585425C204B110500B35355 /* CirclesTableViewCell+MISC.swift */,
 				45BAAF4320052C8000CEE6A3 /* CircleImagesCollectionView.swift */,
 				458CEDB32001D62E00B8A6BC /* CircleComposeViewController.swift */,
 			);
@@ -1228,6 +1237,7 @@
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
 				45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */,
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
+				4585425F204B110500B35355 /* CirclesTableViewCell+Actions.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
 				458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */,
 				450D47641FFC288E00A2F3D1 /* CirclesViewController.swift in Sources */,
@@ -1258,6 +1268,7 @@
 				45F5C2A21D01DFA70024B5DF /* InfoDetailBaseViewController.swift in Sources */,
 				453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */,
 				45EE80CA1CF659A8004AE158 /* Discount.swift in Sources */,
+				4585425B204B10A900B35355 /* CirclesTableViewCell+CollectionView.swift in Sources */,
 				455D06A61C0388C700D81ABF /* Themes.swift in Sources */,
 				4595FDAF2030AF7D002692AC /* QRCodeViewController.swift in Sources */,
 				45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */,
@@ -1298,6 +1309,7 @@
 				45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */,
 				455D06B41C03950300D81ABF /* UserViewController.swift in Sources */,
 				4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */,
+				4585425E204B110500B35355 /* CirclesTableViewCell+MISC.swift in Sources */,
 				45D418AD1C1B935200685DFC /* Brand.swift in Sources */,
 				4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */,
 				457777831BFCB60100805D79 /* News.swift in Sources */,
