@@ -8,8 +8,8 @@
 
 struct TagUser {
     var userId: Int = -1
-    var username: String = ""
-    var userProfileUrl: String = ""
+    var username: String?
+    var userProfileUrl: String?
 }
 
 struct Tag {
@@ -113,6 +113,23 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TagsTableViewCell", for: indexPath)
             if let cell = cell as? TagsTableViewCell, let tag = self.tags?[indexPath.row] {
                 cell.aTag = tag
+                if let tagId = tag.id, tag.members == nil {
+                    DataManager.shared.allMembersOfTag(tagId) { responseObject, error in
+                        if let responseObject = responseObject as? Dictionary<String, AnyObject>,
+                            let data = responseObject["data"] as? [NSDictionary] {
+                            var members = [TagUser]()
+                            for dict in data {
+                                let userId = dict["userId"] as? Int ?? -1
+                                var username = dict["username"] as? String
+                                username = username?.removingPercentEncoding ?? username
+                                let userProfileUrl = dict["userProfileUrl"] as? String
+                                members.append(TagUser(userId: userId, username: username, userProfileUrl: userProfileUrl))
+                            }
+                            self.tags?[indexPath.row].members = members
+                            cell.aTag = self.tags?[indexPath.row]
+                        }
+                    }
+                }
             }
             return cell
         }
@@ -204,27 +221,6 @@ class TagsTableViewCell: UITableViewCell {
     var aTag: Tag? {
         didSet {
             self.configureCell()
-            guard let tag = self.aTag, let tagId = tag.id else {
-                return
-            }
-            if tag.members == nil {
-                DataManager.shared.allMembersOfTag(tagId) { responseObject, error in
-                    if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                        let data = responseObject["data"] as? [NSDictionary] {
-                        var members = [TagUser]()
-                        for dict in data {
-                            if let userId = dict["userId"] as? Int,
-                                var username = dict["username"] as? String,
-                                let userProfileUrl = dict["userProfileUrl"] as? String {
-                                username = username.removingPercentEncoding ?? username
-                                members.append(TagUser(userId: userId, username: username, userProfileUrl: userProfileUrl))
-                            }
-                        }
-                        self.aTag?.members = members
-                        self.configureCell()
-                    }
-                }
-            }
         }
     }
     

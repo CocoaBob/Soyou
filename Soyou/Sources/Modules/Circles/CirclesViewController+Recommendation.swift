@@ -81,7 +81,7 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(_ user: Member) {
-        if let url = URL(string: user.profileUrl) {
+        if let profileUrlStr = user.profileUrl, let url = URL(string: profileUrlStr) {
             self.imgUser.sd_setImage(with: url,
                                      placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                      options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])

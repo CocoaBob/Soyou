@@ -826,7 +826,7 @@ class DataManager {
     //////////////////////////////////////
     
     func addOrRemoveMembersForTag(_ id: Int, isAdd: Bool, userIds: [Int], _ completion: CompletionClosure?) {
-        RequestManager.shared.addOrRemoveMembersForTag(id, operation: isAdd ? "-" : "+", userIds: userIds, { responseObject in
+        RequestManager.shared.addOrRemoveMembersForTag(id, operation: isAdd ? "+" : "-", userIds: userIds, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)

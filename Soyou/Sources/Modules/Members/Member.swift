@@ -10,15 +10,15 @@ struct Member {
     
     var id: Int = 0
     var gender: String = ""
-    var username: String = ""
-    var profileUrl: String = ""
+    var username: String?
+    var profileUrl: String?
     var matricule: Int = 0
     var badges: [Any]?
     
     init(id: Int = 0,
          gender: String = "",
-         username: String = "",
-         profileUrl: String = "",
+         username: String? = nil,
+         profileUrl: String? = nil,
          matricule: Int = 0,
          badges: [Any]? = nil) {
         self.id = id

@@ -37,17 +37,17 @@ class MembersTableViewCell: UITableViewCell {
 extension MembersTableViewCell {
     
     func configureCell() {
-        guard let follower = self.member else {
+        guard let member = self.member else {
             return
         }
-        if let url = URL(string: follower.profileUrl) {
+        if let profileUrlStr = member.profileUrl, let url = URL(string: profileUrlStr) {
             self.imgUser.sd_setImage(with: url,
                                      placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
                                      options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
-        self.imgUserBadge?.isHidden = follower.badges?.count ?? 0 == 0
-        self.lblName.text = follower.username
+        self.imgUserBadge?.isHidden = member.badges?.count ?? 0 == 0
+        self.lblName.text = member.username
     }
 }
