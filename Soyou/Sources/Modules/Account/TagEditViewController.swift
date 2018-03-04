@@ -174,6 +174,7 @@ extension TagEditViewController: UITableViewDataSource, UITableViewDelegate {
                 self.tag.members?.remove(at: indexPath.row - 1)
                 self.tableView.deleteRows(at: [indexPath], with: .left)
                 self.tableView.endUpdates()
+                self.updateSaveButton()
             }
         }
     }
@@ -209,11 +210,17 @@ extension TagEditViewController: UIGestureRecognizerDelegate {
 extension TagEditViewController {
     
     func updateSaveButton() {
-        var isEnabled = false
-        if self.originalTag == nil, self.tag.label?.count ?? 0 > 0 {
-            isEnabled = true
-        } else if self.originalTag != nil, self.tag.label?.count ?? 0 > 0, self.tag.label ?? "" != self.originalTag?.label ?? "" {
-            isEnabled = true
+        var isEnabled = true
+        if let label = self.tag.label, label.count == 0 {
+            isEnabled = false
+        } else if let originalTag = self.originalTag {
+            let originalLabel = originalTag.label ?? ""
+            let currentLabel = self.tag.label ?? ""
+            let originalIds = originalTag.members?.map({ $0.userId }) ?? [Int]()
+            let currentIds = self.tag.members?.map({ $0.userId }) ?? [Int]()
+            if originalLabel == currentLabel && originalIds == currentIds {
+                isEnabled = false
+            }
         }
         self.navigationItem.rightBarButtonItem?.isEnabled = isEnabled
     }
