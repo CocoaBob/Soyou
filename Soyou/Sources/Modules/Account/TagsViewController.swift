@@ -7,15 +7,26 @@
 //
 
 struct TagUser {
-    var userId: Int?
-    var username: String?
-    var userProfileUrl: String?
+    var userId: Int = -1
+    var username: String = ""
+    var userProfileUrl: String = ""
 }
 
 struct Tag {
     var id: Int?
     var label: String?
     var members: [TagUser]?
+    
+    mutating func addMember(member: TagUser) {
+        if members == nil {
+            self.members = [TagUser]()
+        }
+        if let members = self.members,
+            members.map({ $0.userId }).contains(member.userId) {
+            return
+        }
+        self.members?.append(member)
+    }
 }
 
 class TagsViewController: UIViewController {
@@ -41,12 +52,14 @@ class TagsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Title
+        self.title = NSLocalizedString("tags_vc_title")
+        
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
         
         // Setup Table
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.tableView.separatorColor = UIColor.clear
         
         // Load data
         self.loadData()
@@ -56,8 +69,6 @@ class TagsViewController: UIViewController {
         // Nav bar
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
-        // For navigation bar search bar
-        self.definesPresentationContext = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -71,8 +82,6 @@ class TagsViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // For navigation bar search bar
-        self.definesPresentationContext = false
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -115,7 +124,40 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        guard indexPath.row < self.tags?.count ?? 0 else {
+            return
+        }
+        if let tag = self.tags?[indexPath.row] {
+            let vc = TagEditViewController.instantiate(tag: tag)
+            vc.completion = {
+                self.loadData()
+            }
+            let navC = UINavigationController(rootViewController: vc)
+            self.present(navC, animated: true, completion: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return self.numberOfRows() == 0 ? false : true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if self.numberOfRows() > 0,
+            let tag = self.tags?[indexPath.row],
+            let tagId = tag.id {
+            DataManager.shared.removeTag(tagId, { (responseObject, error) in
+                if error == nil {
+                    self.tableView.beginUpdates()
+                    self.tags?.remove(at: indexPath.row)
+                    if self.tags?.count ?? 0 == 0 {
+                        self.tableView.reloadData()
+                    } else {
+                        self.tableView.deleteRows(at: [indexPath], with: .left)
+                    }
+                    self.tableView.endUpdates()
+                }
+            })
+        }
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
@@ -133,7 +175,7 @@ extension TagsViewController {
                 var tags = [Tag]()
                 for dict in data {
                     if let id = dict["id"] as? Int, let label = dict["label"] as? String {
-                        let tag = Tag(id: id, label: label, members: nil)
+                        let tag = Tag(id: id, label: label.removingPercentEncoding ?? label, members: nil)
                         tags.append(tag)
                     }
                 }
@@ -147,9 +189,16 @@ extension TagsViewController {
 extension TagsViewController {
     
     @IBAction func addNewTag() {
-        
+        let vc = TagEditViewController.instantiate(tag: nil)
+        vc.completion = {
+            self.loadData()
+        }
+        let navC = UINavigationController(rootViewController: vc)
+        self.present(navC, animated: true, completion: nil)
     }
 }
+
+// MARK: - TagsTableViewCell
 class TagsTableViewCell: UITableViewCell {
     
     var aTag: Tag? {
@@ -168,8 +217,7 @@ class TagsTableViewCell: UITableViewCell {
                                 var username = dict["username"] as? String,
                                 let userProfileUrl = dict["userProfileUrl"] as? String {
                                 username = username.removingPercentEncoding ?? username
-                                let user = TagUser(userId: userId, username: username, userProfileUrl: userProfileUrl)
-                                members.append(user)
+                                members.append(TagUser(userId: userId, username: username, userProfileUrl: userProfileUrl))
                             }
                         }
                         self.aTag?.members = members
@@ -186,6 +234,7 @@ class TagsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.prepareForReuse()
+        self.separatorInset = UIEdgeInsets.zero
     }
     
     override func prepareForReuse() {

@@ -133,14 +133,14 @@
 "circle_compose_drag_to_delete"="Drag here to delete";
 "circle_compose_drop_to_delete"="Drop here to delete";
 
-/* Followers View Controller */
-"followers_vc_title_followers"="Followers";
-"followers_vc_title_followings"="Followings";
-"followers_vc_search_bar_placeholder"="User Name, Soyou ID...";
-"followers_vc_tap_search"="Tap \"Search\" to continue...";
-"followers_vc_loading"="Loading...";
-"followers_vc_no_data"="No data";
-"followers_vc_no_result"="No result";
+/* Members View Controller */
+"members_vc_title_followers"="Followers";
+"members_vc_title_followings"="Followings";
+"members_vc_search_bar_placeholder"="User Name, Soyou ID...";
+"members_vc_tap_search"="Tap \"Search\" to continue...";
+"members_vc_loading"="Loading...";
+"members_vc_no_data"="No data";
+"members_vc_no_result"="No result";
 
 /* User View Controller */
 "user_vc_title"="Me";
@@ -180,9 +180,15 @@
 /* Tags View Controller */
 "tags_vc_title"="Tags";
 "tags_vc_loading_data"="Loading...";
-"tags_vc_no_result"="No result";
+"tags_vc_no_result"="Tap + to create a new tag...";
 "tags_vc_no_member"="No member";
 "tags_vc_loading_members"="Loading...";
+
+/* Tag Edit View Controller */
+"tag_edit_vc_title"="Edit Tag";
+"tag_edit_vc_add_member"="Add member...";
+"tag_edit_vc_section_title_name"="Tag Name";
+"tag_edit_vc_section_title_member"="Tag Members (%d)";
 
 /* Invitation Success View Controller */
 "invitation_success_vc_title"="Followed Successfully";

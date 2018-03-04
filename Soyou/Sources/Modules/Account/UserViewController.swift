@@ -145,6 +145,13 @@ extension UserViewController {
                                 title: Text(text: NSLocalizedString("user_vc_cell_my_followers")),
                                 didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                                     self.showFollowers()
+                            }),
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_tags"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_my_tags")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showTags()
                             })
                     ]),
                 Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
@@ -212,14 +219,14 @@ extension UserViewController {
     }
     
     func showFollowings() {
-        let vc = FollowersViewController.instantiate()
+        let vc = MembersViewController.instantiate()
         vc.userID = UserManager.shared.userID
         vc.isShowingFollowers = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func showFollowers() {
-        let vc = FollowersViewController.instantiate()
+        let vc = MembersViewController.instantiate()
         vc.userID = UserManager.shared.userID
         vc.isShowingFollowers = true
         self.navigationController?.pushViewController(vc, animated: true)
@@ -233,15 +240,15 @@ extension UserViewController {
     @objc func showSettingsViewController(_ sender: UIBarButtonItem?) {
         let vc = SettingsViewController()
         // Setup Navigation Controller
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .custom
-        nav.modalPresentationCapturesStatusBarAppearance = true
+        let navC = UINavigationController(rootViewController: vc)
+        navC.modalPresentationStyle = .custom
+        navC.modalPresentationCapturesStatusBarAppearance = true
         // Setup Transition Animator
         vc.loadViewIfNeeded()
         vc.setupTransitionAnimator(modalVC: vc)
-        nav.transitioningDelegate = vc.transitionAnimator
+        navC.transitioningDelegate = vc.transitionAnimator
         // Present
-        self.present(nav, animated: true, completion: nil)
+        self.present(navC, animated: true, completion: nil)
     }
     
     @objc func likeApp(_ sender: UIBarButtonItem?) {

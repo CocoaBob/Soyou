@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Followers View Controller-->
+        <!--Members View Controller-->
         <scene sceneID="uCF-eA-bsS">
             <objects>
-                <viewController storyboardIdentifier="FollowersViewController" id="MUr-UF-K8g" customClass="FollowersViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MembersViewController" id="MUr-UF-K8g" customClass="MembersViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GsO-Ge-BVU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FollowersTableViewCell" rowHeight="80" id="vP0-fQ-gD6" customClass="FollowersTableViewCell" customModule="Soyou" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MembersTableViewCell" rowHeight="80" id="vP0-fQ-gD6" customClass="MembersTableViewCell" customModule="Soyou" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vP0-fQ-gD6" id="cHH-8O-a0C">
@@ -75,7 +75,7 @@
                                             <outlet property="lblName" destination="emx-gs-g4Q" id="O2I-tc-0eJ"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StatusMessageTableViewCell" id="V2f-wP-Pdg" customClass="StatusMessageTableViewCell" customModule="Soyou" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="StatusMessageTableViewCell" id="V2f-wP-Pdg" customClass="StatusMessageTableViewCell" customModule="Soyou" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="108" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="V2f-wP-Pdg" id="hBt-WV-LmO">

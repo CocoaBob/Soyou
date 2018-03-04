@@ -46,7 +46,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     
     // Recommendations
     @IBOutlet var recommendationsCollectionView: UICollectionView!
-    var recommendations: [Follower]? {
+    var recommendations: [Member]? {
         didSet {
             self.updateRecommendations()
         }
@@ -255,7 +255,7 @@ extension CirclesViewController {
             DataManager.shared.getRecommendation { (response, error) in
                 if let response = response,
                     let data = DataManager.getResponseData(response) as? [NSDictionary] {
-                    self.recommendations = Follower.newList(dicts: data)
+                    self.recommendations = Member.newList(dicts: data)
                 }
             }
         }
@@ -417,9 +417,9 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     @IBAction fileprivate func createCircle() {
         let vc = CircleComposeViewController.instantiate()
         vc.delegate = self
-        let nav = UINavigationController(rootViewController: vc)
+        let navC = UINavigationController(rootViewController: vc)
         // Present
-        self.present(nav, animated: true, completion: nil)
+        self.present(navC, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {
@@ -472,7 +472,7 @@ extension CirclesViewController {
     }
     
     @IBAction func followingFollowerAction(_ sender: UIButton) {
-        let vc = FollowersViewController.instantiate()
+        let vc = MembersViewController.instantiate()
         vc.userID = self.isSingleUserMode ? self.userID : UserManager.shared.userID
         vc.isShowingFollowers = sender.tag == 1
         self.navigationController?.pushViewController(vc, animated: true)

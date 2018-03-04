@@ -272,18 +272,18 @@ extension UserManager {
         } else {
             let vc = LoginViewController.instantiate(.login)
             // Setup Navigation Controller
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .custom
-            nav.modalPresentationCapturesStatusBarAppearance = true
+            let navC = UINavigationController(rootViewController: vc)
+            navC.modalPresentationStyle = .custom
+            navC.modalPresentationCapturesStatusBarAppearance = true
             // Setup Transition Animator
             vc.loadViewIfNeeded()
             vc.setupTransitionAnimator(modalVC: vc)
-            nav.transitioningDelegate = vc.transitionAnimator
+            navC.transitioningDelegate = vc.transitionAnimator
             // Present
             if !UIView.areAnimationsEnabled {
                 UIView.setAnimationsEnabled(true)
             }
-            UIApplication.shared.keyWindow?.rootViewController?.present(nav, animated: true, completion: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.present(navC, animated: true, completion: nil)
         }
     }
 }

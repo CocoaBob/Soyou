@@ -1,12 +1,12 @@
 //
-//  FollowersViewController.swift
+//  MembersViewController.swift
 //  Soyou
 //
 //  Created by CocoaBob on 2018-02-04.
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
-class FollowersViewController: UIViewController {
+class MembersViewController: UIViewController {
     
     // Properties
     @IBOutlet var tableView: UITableView!
@@ -23,14 +23,17 @@ class FollowersViewController: UIViewController {
             }
         }
     }
-    var followers: [Follower]?
-    var followings: [Follower]?
-    var searchedUsers: [Follower]?
+    var followers: [Member]?
+    var followings: [Member]?
+    var searchedUsers: [Member]?
     var isLoadingData = false {
         didSet {
             self.tableView.reloadData()
         }
     }
+    
+    // Selection Handler
+    var selectionHandler: ((Member) -> ())?
     
     // Search
     var searchController: UISearchController?
@@ -39,8 +42,8 @@ class FollowersViewController: UIViewController {
     weak var searchFromViewController: UIViewController?
     
     // Class methods
-    class func instantiate() -> FollowersViewController {
-        return  UIStoryboard(name: "FollowersViewController", bundle: nil).instantiateViewController(withIdentifier: "FollowersViewController") as! FollowersViewController
+    class func instantiate() -> MembersViewController {
+        return  UIStoryboard(name: "MembersViewController", bundle: nil).instantiateViewController(withIdentifier: "MembersViewController") as! MembersViewController
     }
     
     // Life Cycle
@@ -53,8 +56,8 @@ class FollowersViewController: UIViewController {
         super.viewDidLoad()
         
         // Titles
-        self.segmentedControl.setTitle(NSLocalizedString("followers_vc_title_followings"), forSegmentAt: 0)
-        self.segmentedControl.setTitle(NSLocalizedString("followers_vc_title_followers"), forSegmentAt: 1)
+        self.segmentedControl.setTitle(NSLocalizedString("members_vc_title_followings"), forSegmentAt: 0)
+        self.segmentedControl.setTitle(NSLocalizedString("members_vc_title_followers"), forSegmentAt: 1)
         self.segmentedControl.selectedSegmentIndex = isShowingFollowers ? 1 : 0
         
         // Fix scroll view insets
@@ -65,7 +68,6 @@ class FollowersViewController: UIViewController {
         
         // Setup Table
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.tableView.separatorColor = UIColor.clear
         
         // Load data
         self.loadData()
@@ -103,7 +105,7 @@ class FollowersViewController: UIViewController {
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
-extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
+extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
     
     fileprivate func numberOfRows() -> Int {
         if self.isSearchResultsViewController {
@@ -123,24 +125,30 @@ extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
         if count == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StatusMessageTableViewCell", for: indexPath)
             if let cell = cell as? StatusMessageTableViewCell {
-                if self.isSearchResultsViewController && self.searchKeywordIsEmpty() {
-                    cell.lblTitle.text = NSLocalizedString(self.isLoadingData ? "followers_vc_loading" : "followers_vc_tap_search")
+                if self.isSearchResultsViewController {
+                    cell.lblTitle.text = NSLocalizedString(
+                        self.isLoadingData ?
+                            "members_vc_loading" :
+                            (self.searchedUsers == nil ? "members_vc_tap_search" : "members_vc_no_result"))
                 } else {
                     cell.lblTitle.text = NSLocalizedString(
                         self.isLoadingData ?
-                            ((self.tableView.mj_header != nil && self.tableView.mj_header.isRefreshing) ? "" : "followers_vc_loading") :
-                            (self.isSearchResultsViewController ? "followers_vc_no_result" : "followers_vc_no_data"))
+                            ((self.tableView.mj_header != nil && self.tableView.mj_header.isRefreshing) ? "" : "members_vc_loading") :
+                            "members_vc_no_data")
                 }
             }
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersTableViewCell", for: indexPath)
-            if let cell = cell as? FollowersTableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MembersTableViewCell", for: indexPath)
+            if let cell = cell as? MembersTableViewCell {
                 if self.isSearchResultsViewController {
-                    cell.follower = self.searchedUsers?[indexPath.row]
+                    cell.member = self.searchedUsers?[indexPath.row]
                 } else {
-                    cell.follower = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
+                    cell.member = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
                 }
+            }
+            if let _ = self.selectionHandler {
+                cell.accessoryType = .none
             }
             return cell
         }
@@ -156,18 +164,23 @@ extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        var user: Follower?
+        var member: Member?
         if self.isSearchResultsViewController {
-            user = self.searchedUsers?[indexPath.row]
+            member = self.searchedUsers?[indexPath.row]
         } else {
-            user = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
+            member = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
         }
-        if let follower = user {
-            let circlesVC = CirclesViewController.instantiate(follower.id, follower.profileUrl, follower.username)
-            if self.isSearchResultsViewController {
-                self.presentingViewController?.navigationController?.pushViewController(circlesVC, animated: true)
+        if let member = member {
+            if let selectionHandler = self.selectionHandler {
+                selectionHandler(member)
+                self.dismissSelf()
             } else {
-                self.navigationController?.pushViewController(circlesVC, animated: true)
+                let circlesVC = CirclesViewController.instantiate(member.id, member.profileUrl, member.username)
+                if self.isSearchResultsViewController {
+                    self.presentingViewController?.navigationController?.pushViewController(circlesVC, animated: true)
+                } else {
+                    self.navigationController?.pushViewController(circlesVC, animated: true)
+                }
             }
         }
     }
@@ -178,7 +191,7 @@ extension FollowersViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: - Load data
-extension FollowersViewController {
+extension MembersViewController {
     
     func loadData() {
         if self.isLoadingData {
@@ -191,7 +204,7 @@ extension FollowersViewController {
                 DataManager.shared.searchUsers(keyword) { responseObject, error in
                     if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                         let data = responseObject["data"] as? [NSDictionary] {
-                        self.searchedUsers = Follower.newList(dicts: data)
+                        self.searchedUsers = Member.newList(dicts: data)
                     }
                     self.endRefreshing()
                     self.isLoadingData = false // Will refresh the table
@@ -205,7 +218,7 @@ extension FollowersViewController {
             DataManager.shared.allFollowers()  { responseObject, error in
                 if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                     let data = responseObject["data"] as? [NSDictionary] {
-                    self.followers = Follower.newList(dicts: data)
+                    self.followers = Member.newList(dicts: data)
                 }
                 dispatchGroup.leave()
             }
@@ -213,7 +226,7 @@ extension FollowersViewController {
             DataManager.shared.allFollowings()  { responseObject, error in
                 if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                     let data = responseObject["data"] as? [NSDictionary] {
-                    self.followings = Follower.newList(dicts: data)
+                    self.followings = Member.newList(dicts: data)
                 }
                 dispatchGroup.leave()
             }
@@ -226,7 +239,7 @@ extension FollowersViewController {
 }
 
 // MARK: - Refreshing
-extension FollowersViewController {
+extension MembersViewController {
     
     func setupRefreshControls() {
         if self.isSearchResultsViewController {
@@ -263,10 +276,10 @@ extension FollowersViewController {
 }
 
 // MARK: - SearchControler
-extension FollowersViewController: UISearchControllerDelegate {
+extension MembersViewController: UISearchControllerDelegate {
     
     func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(FollowersViewController.showSearchController))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(MembersViewController.showSearchController))
     }
     
     @objc func showSearchController() {
@@ -289,16 +302,24 @@ extension FollowersViewController: UISearchControllerDelegate {
     }
     
     func setupSearchController() {
-        let searchResultsController = FollowersViewController.instantiate()
+        let searchResultsController = MembersViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
         searchResultsController.searchFromViewController = self
         self.searchController = UISearchController(searchResultsController: searchResultsController)
         self.searchController!.delegate = self
         self.searchController!.searchResultsUpdater = searchResultsController
         self.searchController!.searchBar.delegate = searchResultsController
-        self.searchController!.searchBar.placeholder = NSLocalizedString("followers_vc_search_bar_placeholder")
+        self.searchController!.searchBar.placeholder = NSLocalizedString("members_vc_search_bar_placeholder")
         self.searchController!.searchBar.showsCancelButton = false
         self.searchController!.hidesNavigationBarDuringPresentation = false
+        
+        if let selectionHandler = self.selectionHandler {
+            searchResultsController.selectionHandler = { member in
+                self.searchController?.isActive = false
+                selectionHandler(member)
+                self.dismissSelf()
+            }
+        }
         
         self.setupRightBarButtonItem()
     }
@@ -310,7 +331,7 @@ extension FollowersViewController: UISearchControllerDelegate {
 }
 
 // MARK: UISearchBarDelegate
-extension FollowersViewController: UISearchBarDelegate {
+extension MembersViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.searchKeyword = searchBar.text
@@ -319,7 +340,7 @@ extension FollowersViewController: UISearchBarDelegate {
 }
 
 // MARK: UISearchResultsUpdating
-extension FollowersViewController: UISearchResultsUpdating {
+extension MembersViewController: UISearchResultsUpdating {
     
     func searchKeywordIsEmpty() -> Bool {
         return self.searchKeyword?.count ?? 0 == 0
@@ -360,7 +381,7 @@ extension FollowersViewController: UISearchResultsUpdating {
 }
 
 // MARK: - Actions
-extension FollowersViewController {
+extension MembersViewController {
     
     @IBAction func toggleFollowingFollower(_ sender: UISegmentedControl) {
         self.isShowingFollowers = sender.selectedSegmentIndex == 1

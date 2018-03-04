@@ -80,7 +80,7 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
         self.lblUsername.text = nil
     }
     
-    func configureCell(_ user: Follower) {
+    func configureCell(_ user: Member) {
         if let url = URL(string: user.profileUrl) {
             self.imgUser.sd_setImage(with: url,
                                      placeholderImage: UIImage(named: "img_placeholder_1_1_s"),

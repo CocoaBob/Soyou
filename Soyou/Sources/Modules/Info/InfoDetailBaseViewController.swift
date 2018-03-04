@@ -198,9 +198,9 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
         vc.customAssets = self.webViewAssets
         vc.selectedAssets = tlphAssets
         vc.visibility = CircleVisibility.friends
-        let nav = UINavigationController(rootViewController: vc)
+        let navC = UINavigationController(rootViewController: vc)
         // Present
-        self.present(nav, animated: true, completion: nil)
+        self.present(navC, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {

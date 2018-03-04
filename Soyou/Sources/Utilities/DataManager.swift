@@ -841,7 +841,7 @@ class DataManager {
         })
     }
     
-    func createOrModifyTag(_ id: Int, label: String, _ completion: CompletionClosure?) {
+    func createOrModifyTag(_ id: Int?, label: String, _ completion: CompletionClosure?) {
         RequestManager.shared.createOrModifyTag(id, label: label, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in

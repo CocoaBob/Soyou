@@ -120,7 +120,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         }
         // Create CircleComposeViewController
         let vc = CircleComposeViewController.instantiate()
-        let nav = UINavigationController(rootViewController: vc)
+        let navC = UINavigationController(rootViewController: vc)
         // Setup
         vc.delegate = self
         vc.customAssets = assets
@@ -130,7 +130,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.visibility = CircleVisibility.friends
         vc.originalId = self.circle?.id
         // Present
-        self.parentViewController?.present(nav, animated: true, completion: nil)
+        self.parentViewController?.present(navC, animated: true, completion: nil)
     }
     
     func didPostNewCircle() {

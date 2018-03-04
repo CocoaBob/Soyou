@@ -1,42 +1,43 @@
 //
-//  FollowersTableViewCell.swift
+//  MembersTableViewCell.swift
 //  Soyou
 //
 //  Created by CocoaBob on 2018-02-04.
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
-class FollowersTableViewCell: UITableViewCell {
+class MembersTableViewCell: UITableViewCell {
     
-    var follower: Follower? {
+    var member: Member? {
         didSet {
             self.configureCell()
         }
     }
     
     @IBOutlet var imgUser: UIImageView!
-    @IBOutlet var imgUserBadge: UIImageView!
+    @IBOutlet var imgUserBadge: UIImageView?
     @IBOutlet var lblName: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.prepareForReuse()
+        self.separatorInset = UIEdgeInsets.zero
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imgUser.sd_cancelCurrentImageLoad()
         self.imgUser.image = nil
-        self.imgUserBadge.isHidden = true
+        self.imgUserBadge?.isHidden = true
         self.lblName.text = nil
     }
 }
 
 // MARK: - Configure Cell
-extension FollowersTableViewCell {
+extension MembersTableViewCell {
     
     func configureCell() {
-        guard let follower = self.follower else {
+        guard let follower = self.member else {
             return
         }
         if let url = URL(string: follower.profileUrl) {
@@ -46,7 +47,7 @@ extension FollowersTableViewCell {
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
-        self.imgUserBadge.isHidden = follower.badges?.count ?? 0 == 0
+        self.imgUserBadge?.isHidden = follower.badges?.count ?? 0 == 0
         self.lblName.text = follower.username
     }
 }

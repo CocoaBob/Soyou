@@ -6,7 +6,7 @@
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
-struct Follower {
+struct User {
     
     var id: Int = 0
     var gender: String = ""
@@ -15,10 +15,10 @@ struct Follower {
     var matricule: Int = 0
     var badges: [Any]?
     
-    static func newList(dicts: [NSDictionary]) -> [Follower] {
-        var followers = [Follower]()
+    static func newList(dicts: [NSDictionary]) -> [User] {
+        var followers = [User]()
         for dict in dicts {
-            followers.append(Follower(dict: dict))
+            followers.append(User(dict: dict))
         }
         return followers
     }

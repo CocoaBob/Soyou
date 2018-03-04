@@ -448,19 +448,19 @@ extension AppDelegate {
                                                                          name: username.removingPercentEncoding ?? username,
                                                                          gender: gender,
                                                                          region: countryName)
-                    let nav = UINavigationController(rootViewController: vc)
+                    let navC = UINavigationController(rootViewController: vc)
                     if let presentedVC = rootVC.presentedViewController {
                         presentedVC.dismiss(animated: false, completion: nil)
                     }
-                    rootVC.present(nav, animated: true, completion: nil)
+                    rootVC.present(navC, animated: true, completion: nil)
                 }
             })
         } else {
             self.needsToAcceptInvitationMatricule = matricule
             UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: nil)
             let vc = LoginViewController.instantiate(.login)
-            let nav = UINavigationController(rootViewController: vc)
-            rootVC.present(nav, animated: true) {
+            let navC = UINavigationController(rootViewController: vc)
+            rootVC.present(navC, animated: true) {
                 vc.loginWechat(nil)
             }
         }

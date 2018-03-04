@@ -117,10 +117,8 @@ extension InvitationSuccessViewController {
 extension InvitationSuccessViewController {
     
     @IBAction func visitAction() {
-        guard let matricule = self.matricule,
-            let profileUrl = self.profileUrl,
-            let username = self.name else {
-                return
+        guard let profileUrl = self.profileUrl, let username = self.name else {
+            return
         }
         let vc = CirclesViewController.instantiate(self.userID, profileUrl.absoluteString, username)
         self.navigationController?.pushViewController(vc, animated: true)
