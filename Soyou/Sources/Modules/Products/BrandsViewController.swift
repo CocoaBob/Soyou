@@ -36,6 +36,8 @@ class BrandsViewController: SyncedFetchedResultsViewController {
     }
     
     var searchController: UISearchController?
+    fileprivate var leftBarButtonItem: UIBarButtonItem?
+    fileprivate var rightBarButtonItem: UIBarButtonItem?
     
     override func collectionView() -> UICollectionView? {
         return isListMode ? nil : _collectionView
@@ -424,9 +426,12 @@ extension BrandsViewController: UISearchControllerDelegate {
     }
     
     @objc func showSearchController() {
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.leftBarButtonItem = self.navigationItem.leftBarButtonItem
+        self.navigationItem.setLeftBarButton(nil, animated: false)
+        self.rightBarButtonItem = self.navigationItem.rightBarButtonItem
+        self.navigationItem.setRightBarButton(nil, animated: false)
         if isListMode {
-            self.navigationItem.setHidesBackButton(true, animated: false)
-            self.navigationItem.setRightBarButton(nil, animated: false)
             let searchBar = self.searchController!.searchBar
             if #available(iOS 11.0, *) {
                 let searchBarContainer = SearchBarContainerView(searchBar: searchBar)
@@ -440,8 +445,10 @@ extension BrandsViewController: UISearchControllerDelegate {
     }
     
     func hideSearchController() {
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(self.rightBarButtonItem, animated: false)
         if isListMode {
-            self.setupRightBarButtonItem()
             self.navigationItem.titleView = nil
         }
     }
@@ -473,7 +480,6 @@ extension BrandsViewController: UISearchControllerDelegate {
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
-        self.navigationItem.setHidesBackButton(false, animated: false)
         self.hideSearchController()
     }
 }

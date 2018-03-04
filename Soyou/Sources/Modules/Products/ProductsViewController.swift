@@ -31,6 +31,8 @@ class ProductsViewController: AsyncedFetchedResultsViewController {
     var isSearchResultsViewController: Bool = false
     var searchKeywords: [String]?
     weak var searchFromViewController: UIViewController?
+    fileprivate var leftBarButtonItem: UIBarButtonItem?
+    fileprivate var rightBarButtonItem: UIBarButtonItem?
     
     let bottomMargin: CGFloat = 53.0 // Height of 3 Labels + inner margins
     let cellMargin: CGFloat = 4.0 // Cell outer margins
@@ -631,6 +633,9 @@ extension ProductsViewController: UISearchControllerDelegate {
     
     @objc func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
+        self.leftBarButtonItem = self.navigationItem.leftBarButtonItem
+        self.navigationItem.setLeftBarButton(nil, animated: false)
+        self.rightBarButtonItem = self.navigationItem.rightBarButtonItem
         self.navigationItem.setRightBarButton(nil, animated: false)
         let searchBar = self.searchController!.searchBar
         if #available(iOS 11.0, *) {
@@ -644,7 +649,9 @@ extension ProductsViewController: UISearchControllerDelegate {
     }
     
     func hideSearchController() {
-        self.setupRightBarButtonItem()
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(self.rightBarButtonItem, animated: false)
         self.navigationItem.titleView = nil
     }
     

@@ -22,6 +22,8 @@ class StoreMapViewController: UIViewController {
     var brandName: String?
     
     var searchController: UISearchController?
+    fileprivate var leftBarButtonItem: UIBarButtonItem?
+    fileprivate var rightBarButtonItem: UIBarButtonItem?
     
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
@@ -350,6 +352,9 @@ extension StoreMapViewController: UISearchControllerDelegate {
     
     @objc func showSearchController() {
         self.navigationItem.setHidesBackButton(true, animated: false)
+        self.leftBarButtonItem = self.navigationItem.leftBarButtonItem
+        self.navigationItem.setLeftBarButton(nil, animated: false)
+        self.rightBarButtonItem = self.navigationItem.rightBarButtonItem
         self.navigationItem.setRightBarButton(nil, animated: false)
         let searchBar = self.searchController!.searchBar
         if #available(iOS 11.0, *) {
@@ -364,7 +369,9 @@ extension StoreMapViewController: UISearchControllerDelegate {
     
     func hideSearchController() {
         self.removeSearchResultAnnotation()
-        self.setupRightBarButtonItem()
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(self.rightBarButtonItem, animated: false)
         self.navigationItem.titleView = nil
     }
     
@@ -382,7 +389,6 @@ extension StoreMapViewController: UISearchControllerDelegate {
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
-        self.navigationItem.setHidesBackButton(false, animated: false)
         self.hideSearchController()
     }
 }
