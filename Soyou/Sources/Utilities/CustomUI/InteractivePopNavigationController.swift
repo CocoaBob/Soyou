@@ -60,7 +60,8 @@ extension InteractivePopNavigationController: UINavigationControllerDelegate {
     }
     
     func navigationControllerPreferredInterfaceOrientationForPresentation(_ navigationController: UINavigationController) -> UIInterfaceOrientation {
-        return externalDelegate?.navigationControllerPreferredInterfaceOrientationForPresentation?(navigationController) ?? self.preferredInterfaceOrientationForPresentation
+        return externalDelegate?.navigationControllerPreferredInterfaceOrientationForPresentation?(navigationController) ??
+        (self.topViewController?.preferredInterfaceOrientationForPresentation ?? self.preferredInterfaceOrientationForPresentation)
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

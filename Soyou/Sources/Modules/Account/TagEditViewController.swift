@@ -198,14 +198,6 @@ extension TagEditViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: UIGestureRecognizerDelegate
-extension TagEditViewController: UIGestureRecognizerDelegate {
-
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
-
 // MARK: Routines
 extension TagEditViewController {
     
@@ -240,7 +232,7 @@ extension TagEditViewController {
             self.tableView.reloadData()
             self.updateSaveButton()
         }
-        let navC = UINavigationController(rootViewController: vc)
+        let navC = InteractivePopNavigationController(rootViewController: vc)
         self.present(navC, animated: true, completion: nil)
     }
     

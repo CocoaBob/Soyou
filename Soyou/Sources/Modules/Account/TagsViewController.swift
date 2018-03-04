@@ -149,7 +149,7 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
             vc.completion = {
                 self.loadData()
             }
-            let navC = UINavigationController(rootViewController: vc)
+            let navC = InteractivePopNavigationController(rootViewController: vc)
             self.present(navC, animated: true, completion: nil)
         }
     }
@@ -210,7 +210,7 @@ extension TagsViewController {
         vc.completion = {
             self.loadData()
         }
-        let navC = UINavigationController(rootViewController: vc)
+        let navC = InteractivePopNavigationController(rootViewController: vc)
         self.present(navC, animated: true, completion: nil)
     }
 }
