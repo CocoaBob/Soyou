@@ -51,7 +51,7 @@ struct Cell {
     init(
         height: CGFloat? = nil,
         tintColor: UIColor? = nil,
-        separatorInset: UIEdgeInsets? = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0),
+        separatorInset: UIEdgeInsets? = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0),
         accessoryType: UITableViewCellAccessoryType = .none,
         selectionStyle: UITableViewCellSelectionStyle = .default) {
         self.height = height
@@ -150,7 +150,7 @@ class SimpleTableViewController: UIViewController {
             self.tableView.dataSource = self
             self.view.addSubview(self.tableView)
         }
-        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         
         self.tableView.estimatedRowHeight = 44
         self.tableView.rowHeight = UITableViewAutomaticDimension

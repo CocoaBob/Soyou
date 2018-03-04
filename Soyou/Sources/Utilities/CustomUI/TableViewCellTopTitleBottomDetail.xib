@@ -20,26 +20,26 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAU-pv-qqz">
-                        <rect key="frame" x="15" y="6" width="570" height="20.5"/>
+                        <rect key="frame" x="20" y="6" width="560" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                         <color key="textColor" red="0.15054917335510254" green="0.15056833624839783" blue="0.15053895115852356" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="749" text="Details" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zDU-ta-LPj">
-                        <rect key="frame" x="16" y="28.5" width="579" height="11"/>
+                        <rect key="frame" x="21" y="28.5" width="580" height="11"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="QAU-pv-qqz" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leading" constant="15" id="GCi-1M-xOW"/>
-                    <constraint firstItem="zDU-ta-LPj" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leading" constant="16" id="GvO-1g-EmO"/>
+                    <constraint firstItem="QAU-pv-qqz" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leading" constant="20" id="GCi-1M-xOW"/>
+                    <constraint firstItem="zDU-ta-LPj" firstAttribute="leading" secondItem="Tgf-4e-clL" secondAttribute="leading" constant="21" id="GvO-1g-EmO"/>
                     <constraint firstItem="zDU-ta-LPj" firstAttribute="top" secondItem="QAU-pv-qqz" secondAttribute="bottom" constant="2" id="beY-WV-294"/>
-                    <constraint firstAttribute="trailing" secondItem="QAU-pv-qqz" secondAttribute="trailing" constant="15" id="bue-jo-rDG"/>
+                    <constraint firstAttribute="trailing" secondItem="QAU-pv-qqz" secondAttribute="trailing" constant="20" id="bue-jo-rDG"/>
                     <constraint firstAttribute="bottom" secondItem="zDU-ta-LPj" secondAttribute="bottom" constant="4" id="g5Q-ef-wax"/>
                     <constraint firstItem="QAU-pv-qqz" firstAttribute="top" secondItem="Tgf-4e-clL" secondAttribute="top" constant="6" id="uXl-GA-dOc"/>
-                    <constraint firstItem="zDU-ta-LPj" firstAttribute="trailing" secondItem="Tgf-4e-clL" secondAttribute="trailingMargin" constant="15" id="v0w-gp-3G5"/>
+                    <constraint firstItem="zDU-ta-LPj" firstAttribute="trailing" secondItem="Tgf-4e-clL" secondAttribute="trailingMargin" constant="21" id="v0w-gp-3G5"/>
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>

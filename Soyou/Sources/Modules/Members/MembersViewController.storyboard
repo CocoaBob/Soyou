@@ -30,7 +30,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VXq-pk-99m">
-                                                    <rect key="frame" x="16" y="16" width="48" height="48"/>
+                                                    <rect key="frame" x="20" y="16" width="48" height="48"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="48" id="Eff-Hm-Gck"/>
                                                         <constraint firstAttribute="width" constant="48" id="XDo-El-uXF"/>
@@ -48,10 +48,10 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_m" translatesAutoresizingMaskIntoConstraints="NO" id="2Nu-wx-LBd">
-                                                    <rect key="frame" x="16" y="16" width="48" height="48"/>
+                                                    <rect key="frame" x="20" y="16" width="48" height="48"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emx-gs-g4Q">
-                                                    <rect key="frame" x="74" y="40" width="253" height="0.0"/>
+                                                    <rect key="frame" x="78" y="40" width="249" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -60,7 +60,7 @@
                                             <constraints>
                                                 <constraint firstItem="2Nu-wx-LBd" firstAttribute="centerY" secondItem="VXq-pk-99m" secondAttribute="centerY" id="1GG-x9-FGz"/>
                                                 <constraint firstItem="2Nu-wx-LBd" firstAttribute="centerX" secondItem="VXq-pk-99m" secondAttribute="centerX" id="AdL-dt-S5G"/>
-                                                <constraint firstItem="VXq-pk-99m" firstAttribute="leading" secondItem="cHH-8O-a0C" secondAttribute="leading" constant="16" id="BWm-G1-xlD"/>
+                                                <constraint firstItem="VXq-pk-99m" firstAttribute="leading" secondItem="cHH-8O-a0C" secondAttribute="leading" constant="20" id="BWm-G1-xlD"/>
                                                 <constraint firstAttribute="trailing" secondItem="emx-gs-g4Q" secondAttribute="trailing" constant="15" id="Lcn-a6-sJ2"/>
                                                 <constraint firstItem="VXq-pk-99m" firstAttribute="centerY" secondItem="cHH-8O-a0C" secondAttribute="centerY" id="Rw6-eA-ZLu"/>
                                                 <constraint firstItem="emx-gs-g4Q" firstAttribute="leading" secondItem="VXq-pk-99m" secondAttribute="trailing" constant="10" id="byn-Iw-lUy"/>
@@ -83,16 +83,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pty-Ui-oRX">
-                                                    <rect key="frame" x="15" y="22" width="345" height="0.0"/>
+                                                    <rect key="frame" x="20" y="22" width="335" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="pty-Ui-oRX" firstAttribute="leading" secondItem="hBt-WV-LmO" secondAttribute="leading" constant="15" id="7d0-9m-adj"/>
+                                                <constraint firstItem="pty-Ui-oRX" firstAttribute="leading" secondItem="hBt-WV-LmO" secondAttribute="leading" constant="20" id="7d0-9m-adj"/>
                                                 <constraint firstItem="pty-Ui-oRX" firstAttribute="centerY" secondItem="hBt-WV-LmO" secondAttribute="centerY" id="gtj-hE-82X"/>
-                                                <constraint firstAttribute="trailing" secondItem="pty-Ui-oRX" secondAttribute="trailing" constant="15" id="lNx-Ya-IkC"/>
+                                                <constraint firstAttribute="trailing" secondItem="pty-Ui-oRX" secondAttribute="trailing" constant="20" id="lNx-Ya-IkC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
