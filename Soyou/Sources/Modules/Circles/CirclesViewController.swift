@@ -242,10 +242,13 @@ extension CirclesViewController {
             return
         }
         self.showLoadingMessage()
-        let deleteAll = timestamp == nil
+        let isRefresh = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
+        if isRefresh {
+            // TODO: Hide red dot
+        }
         self.beginRefreshing()
-        DataManager.shared.requestPreviousCicles(timestamp, deleteAll, self.userID, self.isSingleUserMode ? self.singleUserMemCtx() : nil) { responseObject, error in
+        DataManager.shared.requestPreviousCicles(timestamp, isRefresh, self.userID, self.isSingleUserMode ? self.singleUserMemCtx() : nil) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                 let data = responseObject["data"] as? [NSDictionary] {
                 self.endRefreshing(data.count)
@@ -287,6 +290,12 @@ extension CirclesViewController {
                 self.tableView().panGestureRecognizer.isEnabled = true
             }
         }
+    }
+    
+    func checkNewCircles() {
+        // TODO: If already checked (aka: red dot is visible), return
+        
+        // TODO: Check /secure/circle/:userId/count/:timestamp to see if there are new circles, if true, show red dot
     }
 }
 
@@ -434,7 +443,7 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     }
     
     func didPostNewCircle() {
-        self.loadData(nil, completion: nil)
+        self.checkNewCircles()
     }
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {

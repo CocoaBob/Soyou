@@ -98,8 +98,6 @@ class CircleComposeViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.tvContent.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

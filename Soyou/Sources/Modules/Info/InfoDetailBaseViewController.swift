@@ -210,7 +210,7 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
         for vc in vcs {
             if let navC = vc as? UINavigationController,
                 let circlesVC = navC.topViewController as? CirclesViewController {
-                circlesVC.loadData(nil, completion: nil)
+                circlesVC.checkNewCircles()
             }
         }
     }
