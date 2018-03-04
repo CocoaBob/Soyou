@@ -211,7 +211,7 @@ extension TagEditViewController {
     
     func updateSaveButton() {
         var isEnabled = true
-        if let label = self.tag.label, label.count == 0 {
+        if self.tag.label?.count ?? 0 == 0 {
             isEnabled = false
         } else if let originalTag = self.originalTag {
             let originalLabel = originalTag.label ?? ""
