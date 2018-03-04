@@ -715,10 +715,13 @@ class DataManager {
     // MARK: Circles
     //////////////////////////////////////
     
-    func requestPreviousCicles(_ timestamp: String, _ deleteAll: Bool, _ userID: Int?, _ isInMemory: Bool = false, _ completion: CompletionClosure?) {
+    func requestPreviousCicles(_ timestamp: String, _ deleteAll: Bool, _ userID: Int?, _ moc: NSManagedObjectContext?, _ completion: CompletionClosure?) {
         RequestManager.shared.requestPreviousCicles(timestamp, userID, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                let context = isInMemory ? self.memoryContext() : NSManagedObjectContext.mr_rootSaving()
+                var context = NSManagedObjectContext.mr_rootSaving()
+                if let moc = moc {
+                    context = moc
+                }
                 Circle.importDatas(data, deleteAll, context) { (_, _) -> () in
                     self.completeWithData(responseObject, completion: completion)
                 }

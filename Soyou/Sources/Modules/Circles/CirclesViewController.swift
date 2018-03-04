@@ -43,6 +43,17 @@ class CirclesViewController: SyncedFetchedResultsViewController {
             self.setupViews()
         }
     }
+    var _singleUserMemCtx: NSManagedObjectContext?
+    func singleUserMemCtx() -> NSManagedObjectContext {
+        if let ctx = _singleUserMemCtx {
+            return ctx
+        } else {
+            let inMemoryStoreCoordinator = NSPersistentStoreCoordinator.mr_coordinatorWithInMemoryStore()
+            let ctx = NSManagedObjectContext.mr_context(with: inMemoryStoreCoordinator)
+            _singleUserMemCtx = ctx
+            return ctx
+        }
+    }
     
     // Recommendations
     @IBOutlet var recommendationsCollectionView: UICollectionView!
@@ -99,7 +110,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Clear old data
         if self.isSingleUserMode {
-            DataManager.shared.memoryContext().save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            self.singleUserMemCtx().save(blockAndWait: { (localContext: NSManagedObjectContext!) in
                 Circle.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
             })
         }
@@ -172,7 +183,7 @@ extension CirclesViewController {
     
     override func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
         if self.isSingleUserMode {
-            return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false, in: DataManager.shared.memoryContext())
+            return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false, in: self.singleUserMemCtx())
         } else {
             return Circle.mr_fetchAllGrouped(by: nil, with: nil, sortedBy: "createdDate", ascending: false)
         }
@@ -234,7 +245,7 @@ extension CirclesViewController {
         let deleteAll = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
         self.beginRefreshing()
-        DataManager.shared.requestPreviousCicles(timestamp, deleteAll, self.userID, self.isSingleUserMode) { responseObject, error in
+        DataManager.shared.requestPreviousCicles(timestamp, deleteAll, self.userID, self.isSingleUserMode ? self.singleUserMemCtx() : nil) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                 let data = responseObject["data"] as? [NSDictionary] {
                 self.endRefreshing(data.count)
