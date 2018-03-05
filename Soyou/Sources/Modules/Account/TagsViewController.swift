@@ -58,6 +58,9 @@ class TagsViewController: UIViewController {
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
         
+        // Setup refresh controls
+        self.setupRefreshControls()
+        
         // Setup Table
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
@@ -182,6 +185,36 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - Refreshing
+extension TagsViewController {
+    
+    func setupRefreshControls() {
+        guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
+            self.loadData()
+        }) else { return }
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_idle"), for: .idle)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_pulling"), for: .pulling)
+        header.setTitle(NSLocalizedString("pull_to_refresh_header_refreshing"), for: .refreshing)
+        header.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
+        header.lastUpdatedTimeLabel?.isHidden = true
+        self.tableView.mj_header = header
+    }
+    
+    func beginRefreshing() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        DispatchQueue.main.async {
+            self.tableView.mj_header.beginRefreshing()
+        }
+    }
+    
+    func endRefreshing() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        DispatchQueue.main.async {
+            self.tableView.mj_header.endRefreshing()
+        }
+    }
+}
+
 // MARK: - Load data
 extension TagsViewController {
     
@@ -198,6 +231,7 @@ extension TagsViewController {
                 }
                 self.tags = tags
             }
+            self.endRefreshing()
         }
     }
 }

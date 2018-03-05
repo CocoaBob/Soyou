@@ -124,6 +124,11 @@ class LoginViewController: UIViewController {
             self.btnAction?.setTitle(NSLocalizedString("login_vc_reset_password_action_button"), for: .normal)
         }
         
+        // Hide Sign Up button if it's Chinese, as Chinese user can't receive registration email
+        if let currentLanguageCode = Locale.preferredLanguages.first, currentLanguageCode.hasPrefix("zh") {
+            self.btnSignUp?.isHidden = true
+        }
+        
         // Navigation Bar Items
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(UIViewController.dismissSelf))
         
