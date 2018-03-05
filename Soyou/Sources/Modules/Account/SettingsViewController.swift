@@ -6,6 +6,8 @@
 //  Copyright © 2015 Soyou. All rights reserved.
 //
 
+import UserNotifications
+
 class SettingsViewController: SimpleTableViewController {
     
     fileprivate var KVOContextSettingsViewController = 0
@@ -92,25 +94,28 @@ class SettingsViewController: SimpleTableViewController {
 extension SettingsViewController {
     
     override func rebuildTable() {
-        let application = UIApplication.shared
-        // Gether info about Push Notifications
-        let registeredTypes = application.currentUserNotificationSettings?.types
-        let isRegisteredForNotifications = application.isRegisteredForRemoteNotifications
-        var notificationTypes = [String]()
-        if registeredTypes?.contains(UIUserNotificationType.badge) == true {
-            notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_badge"))
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            var notificationTypes = [String]()
+            if settings.badgeSetting == .enabled {
+                notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_badge"))
+            }
+            if settings.soundSetting == .enabled {
+                notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_sound"))
+            }
+            if settings.alertSetting == .enabled {
+                notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_banner"))
+            }
+            let notificationTypesString = notificationTypes.joined(separator: ",")
+            let isRegisteredForNotifications = settings.notificationCenterSetting == .enabled
+            var notificationSubTitle = isRegisteredForNotifications ? NSLocalizedString("settings_vc_cell_notification_enabled") : NSLocalizedString("settings_vc_cell_notification_not_enabled")
+            if isRegisteredForNotifications && notificationTypes.count != 3 {
+                notificationSubTitle = notificationTypesString
+            }
+            self.buildTable(notificationSubTitle)
         }
-        if registeredTypes?.contains(UIUserNotificationType.sound) == true {
-            notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_sound"))
-        }
-        if registeredTypes?.contains(UIUserNotificationType.alert) == true {
-            notificationTypes.append(NSLocalizedString("settings_vc_cell_notification_banner"))
-        }
-        let notificationTypesString = notificationTypes.joined(separator: ",")
-        var notificationSubTitle = isRegisteredForNotifications ? NSLocalizedString("settings_vc_cell_notification_enabled") : NSLocalizedString("settings_vc_cell_notification_not_enabled")
-        if isRegisteredForNotifications && notificationTypes.count != 3 {
-            notificationSubTitle = notificationTypesString
-        }
+    }
+    
+    func buildTable(_ notificationSubTitle: String) {
         // Create DataSource
         var sections = [Section]()
         // Regions
@@ -178,12 +183,6 @@ extension SettingsViewController {
                     didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                         self.sendFeedback()
                 }),
-//                Row(type: .LeftTitle,
-//                    cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-//                    title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
-//                    didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-//                        self.analyzeNetwork()
-//                }),
                 Row(type: .LeftTitle,
                     cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                     title: Text(text: NSLocalizedString("settings_vc_cell_review")),
@@ -213,11 +212,17 @@ extension SettingsViewController {
         if Utils.isSTGMode() {
             sections.append(Section(
                 rows: [
-                    Row(type: .CenterTitle,
-                        cell: Cell(height: 44, accessoryType: .none),
-                        title: Text(text: "Test new version"),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_test_app_store")),
                         didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                             Utils.shared.showNewVersionAvailable()
+                    }),
+                    Row(type: .LeftTitle,
+                        cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                        title: Text(text: NSLocalizedString("settings_vc_cell_analyze_network")),
+                        didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                            self.analyzeNetwork()
                     })
                 ]
             ))

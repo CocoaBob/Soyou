@@ -40,7 +40,9 @@ extension Utils {
                                                }),
                                                UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
                                                              style: UIAlertActionStyle.cancel,
-                                                             handler: nil))
+                                                             handler: { (action: UIAlertAction) -> Void in
+                                                                self.isShowingNewVersionAlert = false
+                                               }))
             }
         }
     }
