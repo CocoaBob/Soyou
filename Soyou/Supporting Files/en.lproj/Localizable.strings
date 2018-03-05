@@ -97,9 +97,6 @@
 /* Circles View Controller */
 "circles_vc_title"="Circles";
 "circles_vc_tab_title"="Circles";
-"circles_vc_delete_button"="Del";
-"circles_vc_like_button"="Like";
-"circles_vc_like_button_cancel"="Cancel";
 "circles_vc_share_button"="Share";
 "circles_vc_delete_alert"="Delete this post?";
 "circles_vc_button_more"="More";

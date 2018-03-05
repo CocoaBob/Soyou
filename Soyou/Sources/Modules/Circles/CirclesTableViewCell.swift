@@ -19,7 +19,7 @@ class CirclesTableViewCell: UITableViewCell {
     weak var parentViewController: CirclesViewController?
     var isLiked = false {
         didSet {
-            self.btnLike.setTitle(NSLocalizedString(isLiked ? "circles_vc_like_button_cancel" : "circles_vc_like_button"), for: .normal)
+            self.btnLike.setImage(UIImage(named: isLiked ? "img_circle_liked" : "img_circle_like"), for: .normal)
         }
     }
     
@@ -100,8 +100,7 @@ extension CirclesTableViewCell {
         }
         self.imgUserBadge.isHidden = circle.userBadges?.count ?? 0 == 0
         self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
-        self.btnDeleteWidth.constant = self.btnDelete.isHidden ? 0 : 999
-        self.btnDelete.setTitle(self.btnDelete.isHidden ? "" : NSLocalizedString("circles_vc_delete_button"), for: .normal)
+        self.btnDeleteWidth.constant = self.btnDelete.isHidden ? 0 : 22
     }
     
     func configureLabels(_ circle: Circle) {

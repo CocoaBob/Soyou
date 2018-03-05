@@ -99,10 +99,7 @@
 /* Circles View Controller */
 "circles_vc_title"="照片墙";
 "circles_vc_tab_title"="照片墙";
-"circles_vc_delete_button"="删除";
-"circles_vc_like_button"="点赞";
-"circles_vc_like_button_cancel"="取消";
-"circles_vc_share_button"="分享";
+"circles_vc_share_button"="一键分享";
 "circles_vc_delete_alert"="确定删除吗？";
 "circles_vc_button_more"="全文";
 "circles_vc_button_less"="收起";
