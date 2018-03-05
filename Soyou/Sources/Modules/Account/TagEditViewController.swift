@@ -224,7 +224,9 @@ extension TagEditViewController {
     @IBAction func addMember() {
         let vc = MembersViewController.instantiate()
         vc.userID = UserManager.shared.userID
-        vc.isShowingFollowers = false
+        vc.isShowingFollowers = true
+        vc.isSegmentedControlHidden = true
+        vc.isSearchBarHidden = true
         vc.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: vc, action: #selector(dismissSelf))
         vc.selectionHandler = { member in
             let tagUser = TagUser(userId: member.id, username: member.username, userProfileUrl: member.profileUrl)

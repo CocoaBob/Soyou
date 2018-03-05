@@ -11,8 +11,14 @@ class MembersViewController: UIViewController {
     // Properties
     @IBOutlet var tableView: UITableView!
     @IBOutlet var segmentedControl: UISegmentedControl!
+    var isSegmentedControlHidden = false {
+        didSet {
+            if self.isViewLoaded {
+                self.segmentedControl.isHidden = isSegmentedControlHidden
+            }
+        }
+    }
     
-    var userID: Int?
     var isShowingFollowers = true {// If false, it's followings
         didSet {
             if self.isViewLoaded {
@@ -23,21 +29,31 @@ class MembersViewController: UIViewController {
             }
         }
     }
-    var followers: [Member]?
-    var followings: [Member]?
-    var searchedUsers: [Member]?
     var isLoadingData = false {
         didSet {
             self.tableView.reloadData()
         }
     }
     
+    var userID: Int?
+    var followers: [Member]?
+    var followings: [Member]?
+    var searchedUsers: [Member]?
+    
     // Selection Handler
     var selectionHandler: ((Member) -> ())?
     
     // Search
+    var isSearchResultsViewController = false
+    var isSearchBarHidden = false {
+        didSet {
+            if self.isViewLoaded {
+                self.searchController?.searchBar.isHidden = isSearchBarHidden
+                self.navigationItem.setRightBarButton(nil, animated: false)
+            }
+        }
+    }
     var searchController: UISearchController?
-    var isSearchResultsViewController: Bool = false
     var searchKeyword: String?
     weak var searchFromViewController: UIViewController?
     fileprivate var leftBarButtonItem: UIBarButtonItem?
@@ -61,6 +77,7 @@ class MembersViewController: UIViewController {
         self.segmentedControl.setTitle(NSLocalizedString("members_vc_title_followings"), forSegmentAt: 0)
         self.segmentedControl.setTitle(NSLocalizedString("members_vc_title_followers"), forSegmentAt: 1)
         self.segmentedControl.selectedSegmentIndex = isShowingFollowers ? 1 : 0
+        self.segmentedControl.isHidden = self.isSegmentedControlHidden
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
@@ -304,7 +321,7 @@ extension MembersViewController: UISearchControllerDelegate {
     func hideSearchController() {
         self.navigationItem.setHidesBackButton(false, animated: false)
         self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
-        self.navigationItem.setRightBarButton(self.rightBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(self.isSearchBarHidden ? nil : self.rightBarButtonItem, animated: false)
         self.navigationItem.titleView = self.segmentedControl
     }
     
@@ -313,12 +330,15 @@ extension MembersViewController: UISearchControllerDelegate {
         searchResultsController.isSearchResultsViewController = true
         searchResultsController.searchFromViewController = self
         self.searchController = UISearchController(searchResultsController: searchResultsController)
-        self.searchController!.delegate = self
-        self.searchController!.searchResultsUpdater = searchResultsController
-        self.searchController!.searchBar.delegate = searchResultsController
-        self.searchController!.searchBar.placeholder = NSLocalizedString("members_vc_search_bar_placeholder")
-        self.searchController!.searchBar.showsCancelButton = false
-        self.searchController!.hidesNavigationBarDuringPresentation = false
+        self.searchController?.delegate = self
+        self.searchController?.searchResultsUpdater = searchResultsController
+        self.searchController?.searchBar.delegate = searchResultsController
+        self.searchController?.searchBar.placeholder = NSLocalizedString("members_vc_search_bar_placeholder")
+        self.searchController?.searchBar.showsCancelButton = false
+        self.searchController?.hidesNavigationBarDuringPresentation = false
+        if self.isSearchBarHidden {
+            self.searchController?.searchBar.isHidden = true
+        }
         
         if let selectionHandler = self.selectionHandler {
             searchResultsController.selectionHandler = { member in
@@ -328,7 +348,11 @@ extension MembersViewController: UISearchControllerDelegate {
             }
         }
         
-        self.setupRightBarButtonItem()
+        if self.isSearchBarHidden {
+            self.navigationItem.setRightBarButton(nil, animated: false)
+        } else {
+            self.setupRightBarButtonItem()
+        }
     }
     
     func willDismissSearchController(_ searchController: UISearchController) {
