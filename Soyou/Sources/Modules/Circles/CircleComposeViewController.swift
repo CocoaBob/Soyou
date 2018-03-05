@@ -16,13 +16,8 @@ protocol CircleComposeViewControllerDelegate {
 
 extension CircleComposeViewControllerDelegate {
     
-    func didPostNewCircle() {
-        
-    }
-    
-    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
-        
-    }
+    func didPostNewCircle() {}
+    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {}
 }
 
 class CircleComposeViewController: UITableViewController {
@@ -41,13 +36,15 @@ class CircleComposeViewController: UITableViewController {
             }
         }
     }
-    var visibility: Int = CircleVisibility.everyone {
+    var visibility: Int = CircleVisibility.friends {
         didSet {
             if self.isViewLoaded {
                 if visibility == CircleVisibility.everyone {
-                    self.imgVisibility.tintColor = UIColor.gray
-                } else {
+                    self.imgVisibility.tintColor = Cons.UI.colorTheme
+                } else if visibility == CircleVisibility.friends {
                     self.imgVisibility.tintColor = Cons.UI.colorLike
+                } else if visibility == CircleVisibility.author {
+                    self.imgVisibility.tintColor = Cons.UI.colorStore
                 }
                 self.updateVisibilityValue()
             }
@@ -68,6 +65,10 @@ class CircleComposeViewController: UITableViewController {
     @IBOutlet var imgShareToWeChat: UIImageView!
     @IBOutlet var lblShareToWeChat: UILabel!
     @IBOutlet var shareToWeChat: UISwitch!
+    
+    @IBOutlet var imgSubmitToSoyou: UIImageView!
+    @IBOutlet var lblSubmitToSoyou: UILabel!
+    @IBOutlet var submitToSoyou: UISwitch!
     
     @IBOutlet var imgVisibility: UIImageView!
     @IBOutlet var lblVisibilityTitle: UILabel!
@@ -131,6 +132,11 @@ extension CircleComposeViewController {
         self.imgShareToWeChat.tintColor = UIColor.gray
         self.shareToWeChat.isEnabled = !self.isSharing
         self.shareToWeChat.isOn = self.isSharing
+        self.lblSubmitToSoyou.text = NSLocalizedString("circle_compose_submit_to_soyou")
+        self.imgSubmitToSoyou.image = UIImage(named: "img_soyou_logo")?.withRenderingMode(.alwaysTemplate)
+        self.imgSubmitToSoyou.tintColor = UIColor.gray
+        self.submitToSoyou.isEnabled = true
+        self.submitToSoyou.isOn = !self.isSharing
         self.imgVisibility.image = UIImage(named: "img_globe")?.withRenderingMode(.alwaysTemplate)
         let currVisibility = self.visibility
         self.visibility = currVisibility
@@ -381,20 +387,27 @@ extension CircleComposeViewController {
     }
     
     @IBAction func post() {
-        MBProgressHUD.show(self.view)
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
-        UserManager.shared.loginOrDo {
-            let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
-            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
-            let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
-            DataManager.shared.createCircle(encodedText, imageDatas, self.visibility, self.originalId) { (responseObject, error) in
-                MBProgressHUD.hide(self.view)
-                self.navigationItem.rightBarButtonItem?.isEnabled = true
-                self.delegate?.didPostNewCircle()
-                self.dismiss(animated: true, completion: {
-                    self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
-                })
+        if self.submitToSoyou.isOn {
+            MBProgressHUD.show(self.view)
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            UserManager.shared.loginOrDo {
+                let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
+                let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
+                let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
+                DataManager.shared.createCircle(encodedText, imageDatas, self.visibility, self.originalId) { (responseObject, error) in
+                    MBProgressHUD.hide(self.view)
+                    self.navigationItem.rightBarButtonItem?.isEnabled = true
+                    self.delegate?.didPostNewCircle()
+                    self.dismiss(animated: true, completion: {
+                        self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+                    })
+                }
             }
+        } else {
+            let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
+            self.dismiss(animated: true, completion: {
+                self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+            })
         }
     }
     

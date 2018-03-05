@@ -123,6 +123,7 @@
 "circle_compose_text_placeholder"="Idea at this moment...";
 "circle_compose_share_to_wechat"="Share to WeChat";
 "circle_compose_share_to_wechat_copied"="Text has been copied\nPlease paste while sharing";
+"circle_compose_submit_to_soyou"="Submit to Soyou";
 "circle_compose_visibility_title"="Who can see";
 "circle_compose_visibility_everyone"="Public";
 "circle_compose_visibility_everyone_desc"="Visible to all Soyou users";

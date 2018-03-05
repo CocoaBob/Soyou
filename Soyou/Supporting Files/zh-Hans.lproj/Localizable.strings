@@ -125,6 +125,7 @@
 "circle_compose_text_placeholder"="这一刻的想法…";
 "circle_compose_share_to_wechat"="分享到微信朋友圈";
 "circle_compose_share_to_wechat_copied"="文字已复制到剪贴板\n分享到微信时请粘贴";
+"circle_compose_submit_to_soyou"="发布到奢有照片墙";
 "circle_compose_visibility_title"="谁可以看见";
 "circle_compose_visibility_everyone"="公开";
 "circle_compose_visibility_everyone_desc"="所有奢有用户都可以看见";
