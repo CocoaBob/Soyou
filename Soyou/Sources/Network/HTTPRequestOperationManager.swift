@@ -151,20 +151,21 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                                                             }
                                                             for (key, value) in dict {
                                                                 if let value = value as? Data {
-                                                                    formData.appendPart(withFileData: value, name: key, fileName: "\(key)", mimeType: "image/jpeg")
+                                                                    formData.appendPart(withFileData: value, name: key, fileName: key, mimeType: "image/jpeg")
                                                                 } else if let value = value as? [Data] {
                                                                     for (i, data) in value.enumerated() {
                                                                         formData.appendPart(withFileData: data, name: key, fileName: "\(key)\(i)", mimeType: "image/jpeg")
                                                                     }
                                                                 } else {
-                                                                    var string: String?
-                                                                    if let value = value as? String {
-                                                                        string = value
-                                                                    } else {
-                                                                        string = "\(value)"
-                                                                    }
-                                                                    if let data = string?.data(using: .utf8) {
+                                                                    if let value = value as? String, let data = value.data(using: .utf8) {
                                                                         formData.appendPart(withForm: data, name: key)
+                                                                    } else if JSONSerialization.isValidJSONObject(value),
+                                                                        let jsonData = try? JSONSerialization.data(withJSONObject: value, options: []) {
+                                                                        formData.appendPart(withForm: jsonData, name: key)
+                                                                    } else {
+                                                                        if let data = "\(value)".data(using: .utf8) {
+                                                                            formData.appendPart(withForm: data, name: key)
+                                                                        }
                                                                     }
                                                                 }
                                                             }
