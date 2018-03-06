@@ -139,23 +139,6 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TagsTableViewCell", for: indexPath)
             if let cell = cell as? TagsTableViewCell, let tag = self.tags?[indexPath.row] {
                 cell.aTag = tag
-                if let tagId = tag.id, tag.members == nil {
-                    DataManager.shared.allMembersOfTag(tagId) { responseObject, error in
-                        if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                            let data = responseObject["data"] as? [NSDictionary] {
-                            var members = [TagUser]()
-                            for dict in data {
-                                let userId = dict["userId"] as? Int ?? -1
-                                var username = dict["username"] as? String
-                                username = username?.removingPercentEncoding ?? username
-                                let userProfileUrl = dict["userProfileUrl"] as? String
-                                members.append(TagUser(userId: userId, username: username, userProfileUrl: userProfileUrl))
-                            }
-                            self.tags?[indexPath.row].members = members
-                            cell.aTag = self.tags?[indexPath.row]
-                        }
-                    }
-                }
             }
             return cell
         }
@@ -243,16 +226,8 @@ extension TagsViewController {
     
     func loadData() {
         DataManager.shared.allTags() { responseObject, error in
-            if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                let data = responseObject["data"] as? [NSDictionary] {
-                var tags = [Tag]()
-                for dict in data {
-                    if let id = dict["id"] as? Int, let label = dict["label"] as? String {
-                        let tag = Tag(id: id, label: label.removingPercentEncoding ?? label, members: nil)
-                        tags.append(tag)
-                    }
-                }
-                self.tags = tags
+            if let responseObject = responseObject as? [Tag] {
+                self.tags = responseObject
             }
             self.endRefreshing()
         }

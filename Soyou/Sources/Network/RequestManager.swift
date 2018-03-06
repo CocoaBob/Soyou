@@ -419,10 +419,6 @@ class RequestManager {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/tags/\(id)/members", "Tags", ["operation": operation, "userIds": userIds], onSuccess, onFailure)
     }
     
-    func allMembersOfTag(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/secure/tags/\(id)/members", "Tags", onSuccess, onFailure)
-    }
-    
     func createOrModifyTag(_ id: Int?, label: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         var parameters = [String: Any]()
         parameters["label"] = label

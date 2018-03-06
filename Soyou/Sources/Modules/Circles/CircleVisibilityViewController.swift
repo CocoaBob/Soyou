@@ -107,29 +107,34 @@ extension CircleVisibilityViewController: UITableViewDataSource, UITableViewDele
                     cell.lblTitle.text = NSLocalizedString("circles_visibility_vc_everyone")
                     cell.lblSubTitle.text = NSLocalizedString("circles_visibility_vc_everyone_desc")
                     cell.imgSelection.isHidden = selectedVisibility != Visibility.everyone
+                    cell.imgSelection.image = UIImage(named: "img_cell_selected_green")
                     cell.imgFolder.isHidden = true
                 } else if indexPath.row == Visibility.followers {
                     cell.lblTitle.text = NSLocalizedString("circles_visibility_vc_followers")
                     cell.lblSubTitle.text = NSLocalizedString("circles_visibility_vc_followers_desc")
                     cell.imgSelection.isHidden = selectedVisibility != Visibility.followers
+                    cell.imgSelection.image = UIImage(named: "img_cell_selected_green")
                     cell.imgFolder.isHidden = true
                 } else if indexPath.row == Visibility.author {
                     cell.lblTitle.text = NSLocalizedString("circles_visibility_vc_author")
                     cell.lblSubTitle.text = NSLocalizedString("circles_visibility_vc_author_desc")
                     cell.imgSelection.isHidden = selectedVisibility != Visibility.author
+                    cell.imgSelection.image = UIImage(named: "img_cell_selected_green")
                     cell.imgFolder.isHidden = true
                 } else if indexPath.row == Visibility.allowSelected {
                     cell.lblTitle.text = NSLocalizedString("circles_visibility_vc_allowed_followers")
                     cell.lblSubTitle.text = NSLocalizedString("circles_visibility_vc_allowed_followers_desc")
                     cell.imgSelection.isHidden = selectedVisibility != Visibility.allowSelected
+                    cell.imgSelection.image = UIImage(named: "img_cell_selected_green")
                     cell.imgFolder.isHidden = false
-                    cell.imgFolder.image = UIImage(named:(selectedVisibility == Visibility.allowSelected && isUnfolded) ? "img_arrow_up" : "img_arrow_down")
+                    cell.imgFolder.image = UIImage(named:(selectedVisibility == Visibility.allowSelected && isUnfolded) ? "img_cell_fold" : "img_cell_unfold")
                 } else {
                     cell.lblTitle.text = NSLocalizedString("circles_visibility_vc_forbidden_followers")
                     cell.lblSubTitle.text = NSLocalizedString("circles_visibility_vc_forbidden_followers_desc")
                     cell.imgSelection.isHidden = selectedVisibility != Visibility.forbidSelected
+                    cell.imgSelection.image = UIImage(named: "img_cell_selected_red")
                     cell.imgFolder.isHidden = false
-                    cell.imgFolder.image = UIImage(named:(selectedVisibility == Visibility.forbidSelected && isUnfolded) ? "img_arrow_up" : "img_arrow_down")
+                    cell.imgFolder.image = UIImage(named:(selectedVisibility == Visibility.forbidSelected && isUnfolded) ? "img_cell_fold" : "img_cell_unfold")
                 }
             }
             return cell
@@ -139,26 +144,11 @@ extension CircleVisibilityViewController: UITableViewDataSource, UITableViewDele
                 let tagIndex = indexPath.row - selectedVisibility - 1
                 let tag = self.tags[tagIndex]
                 let isSelected = self.selectedTags.contains(tag)
-                cell.imgSelection.image = UIImage(named: isSelected ? "img_cell_checked" : "img_cell_unchecked")
+                cell.imgSelection.image = UIImage(named: isSelected ?
+                    (selectedVisibility == Visibility.allowSelected ? "img_cell_checked_green" : "img_cell_checked_red") :
+                    "img_cell_unchecked")
                 cell.lblTitle.text = tag.label
                 cell.lblSubTitle.text = tag.memberNames()
-                if let tagId = tag.id, tag.members == nil {
-                    DataManager.shared.allMembersOfTag(tagId) { responseObject, error in
-                        if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                            let data = responseObject["data"] as? [NSDictionary] {
-                            var members = [TagUser]()
-                            for dict in data {
-                                let userId = dict["userId"] as? Int ?? -1
-                                var username = dict["username"] as? String
-                                username = username?.removingPercentEncoding ?? username
-                                let userProfileUrl = dict["userProfileUrl"] as? String
-                                members.append(TagUser(userId: userId, username: username, userProfileUrl: userProfileUrl))
-                            }
-                            self.tags[tagIndex].members = members
-                            cell.lblSubTitle.text = tag.memberNames()
-                        }
-                    }
-                }
             }
             return cell
         }
@@ -237,18 +227,12 @@ extension CircleVisibilityViewController: UITableViewDataSource, UITableViewDele
 extension CircleVisibilityViewController {
     
     func loadData() {
+        MBProgressHUD.show(self.view)
         DataManager.shared.allTags() { responseObject, error in
-            if let responseObject = responseObject as? Dictionary<String, AnyObject>,
-                let data = responseObject["data"] as? [NSDictionary] {
-                var tags = [Tag]()
-                for dict in data {
-                    if let id = dict["id"] as? Int, let label = dict["label"] as? String {
-                        let tag = Tag(id: id, label: label.removingPercentEncoding ?? label, members: nil)
-                        tags.append(tag)
-                    }
-                }
-                self.tags = tags
+            if let responseObject = responseObject as? [Tag] {
+                self.tags = responseObject
             }
+            MBProgressHUD.hide(self.view)
         }
     }
 }

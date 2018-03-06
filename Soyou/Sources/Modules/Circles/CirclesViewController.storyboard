@@ -1009,7 +1009,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="63.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cell_selected" translatesAutoresizingMaskIntoConstraints="NO" id="U17-QV-grS">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U17-QV-grS">
                                                     <rect key="frame" x="15" y="22" width="18" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="PgG-j2-8ig"/>
@@ -1142,7 +1142,6 @@
         <image name="img_badge_s" width="12" height="12"/>
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_camera_shadow" width="36" height="29"/>
-        <image name="img_cell_selected" width="15" height="11"/>
         <image name="img_cell_unchecked" width="22" height="23"/>
         <image name="img_circle_bg_like" width="22" height="8"/>
         <image name="img_circle_delete" width="11" height="13"/>

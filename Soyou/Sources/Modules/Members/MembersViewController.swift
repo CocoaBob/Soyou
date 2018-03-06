@@ -41,7 +41,9 @@ class MembersViewController: UIViewController {
     var searchedUsers: [Member]?
     
     // Selection Handler
-    var selectionHandler: ((Member) -> ())?
+    var completionHandler: (([Member]) -> ())?
+    var isMultiSelectionMode = false
+    var selectedUsers = [Member]()
     
     // Search
     var isSearchResultsViewController = false
@@ -166,7 +168,7 @@ extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.member = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
                 }
             }
-            if let _ = self.selectionHandler {
+            if let _ = self.completionHandler {
                 cell.accessoryType = .none
             }
             return cell
@@ -190,8 +192,8 @@ extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
             member = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
         }
         if let member = member {
-            if let selectionHandler = self.selectionHandler {
-                selectionHandler(member)
+            if let completionHandler = self.completionHandler {
+                completionHandler([member])
                 self.dismissSelf()
             } else {
                 let circlesVC = CirclesViewController.instantiate(member.id, member.profileUrl, member.username)
@@ -340,10 +342,10 @@ extension MembersViewController: UISearchControllerDelegate {
             self.searchController?.searchBar.isHidden = true
         }
         
-        if let selectionHandler = self.selectionHandler {
-            searchResultsController.selectionHandler = { member in
+        if let completionHandler = self.completionHandler {
+            searchResultsController.completionHandler = { members in
                 self.searchController?.isActive = false
-                selectionHandler(member)
+                completionHandler(members)
                 self.dismissSelf()
             }
         }

@@ -840,14 +840,6 @@ class DataManager {
         })
     }
     
-    func allMembersOfTag(_ id: Int, _ completion: CompletionClosure?) {
-        RequestManager.shared.allMembersOfTag(id, { responseObject in
-            self.completeWithData(responseObject, completion: completion)
-        }, { error in
-            self.completeWithError(error, completion: completion)
-        })
-    }
-    
     func createOrModifyTag(_ id: Int?, label: String, _ completion: CompletionClosure?) {
         RequestManager.shared.createOrModifyTag(id, label: label, { responseObject in
             self.completeWithData(responseObject, completion: completion)
@@ -858,7 +850,28 @@ class DataManager {
     
     func allTags(_ completion: CompletionClosure?) {
         RequestManager.shared.allTags({ responseObject in
-            self.completeWithData(responseObject, completion: completion)
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                var tags = [Tag]()
+                for dict in data {
+                    let id = dict["id"] as? Int ?? -1
+                    var label = dict["label"] as? String ?? ""
+                    label = label.removingPercentEncoding ?? label
+                    let memberDicts = dict["members"] as? [NSDictionary] ?? []
+                    var members = [TagUser]()
+                    for dict in memberDicts {
+                        let userId = dict["userId"] as? Int ?? -1
+                        var username = dict["username"] as? String
+                        username = username?.removingPercentEncoding ?? username
+                        let userProfileUrl = dict["profileUrl"] as? String
+                        members.append(TagUser(userId: userId, username: username, userProfileUrl: userProfileUrl))
+                    }
+                    let tag = Tag(id: id, label: label, members: members)
+                    tags.append(tag)
+                }
+                self.completeWithData(tags, completion: completion)
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })

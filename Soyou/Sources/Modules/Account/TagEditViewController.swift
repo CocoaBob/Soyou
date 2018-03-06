@@ -228,9 +228,11 @@ extension TagEditViewController {
         vc.isSegmentedControlHidden = true
         vc.isSearchBarHidden = true
         vc.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: vc, action: #selector(dismissSelf))
-        vc.selectionHandler = { member in
-            let tagUser = TagUser(userId: member.id, username: member.username, userProfileUrl: member.profileUrl)
-            self.tag.addMember(member: tagUser)
+        vc.completionHandler = { members in
+            for member in members {
+                let tagUser = TagUser(userId: member.id, username: member.username, userProfileUrl: member.profileUrl)
+                self.tag.addMember(member: tagUser)
+            }
             self.tableView.reloadData()
             self.updateSaveButton()
         }
