@@ -27,6 +27,29 @@ struct Tag {
         }
         self.members?.append(member)
     }
+    
+    func memberNames() -> String {
+        if let members = self.members {
+            let nameString = members.flatMap({ $0.username }).joined(separator: ", ")
+            return nameString.count > 0 ? nameString : NSLocalizedString("tags_vc_no_member")
+        } else {
+            return NSLocalizedString("tags_vc_loading_members")
+        }
+    }
+}
+
+extension Tag: Hashable {
+    
+    var hashValue: Int {
+        return self.id ?? -1
+    }
+}
+
+extension Tag: Equatable {
+    
+    static func ==(lhs: Tag, rhs: Tag) -> Bool {
+        return (lhs.id ?? -1) == (rhs.id ?? -1)
+    }
 }
 
 class TagsViewController: UIViewController {
@@ -276,11 +299,7 @@ class TagsTableViewCell: UITableViewCell {
     func configureCell() {
         if let tag = self.aTag {
             self.lblName.text = "\(tag.label ?? "") (\(tag.members?.count ?? 0))"
-            if let nameString = tag.members?.flatMap({ $0.username }).joined(separator: ", ") {
-                self.lblMembers.text = nameString.count > 0 ? nameString : NSLocalizedString("tags_vc_no_member")
-            } else {
-                self.lblMembers.text = NSLocalizedString("tags_vc_loading_members")
-            }
+            self.lblMembers.text = tag.memberNames()
         } else {
             self.prepareForReuse()
         }

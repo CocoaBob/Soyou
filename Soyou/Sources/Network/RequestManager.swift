@@ -341,7 +341,9 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(userID ?? 0)/next/\(timestamp)", "Circle", onSuccess, onFailure)
     }
     
-    func createCircle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ originalId: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+    func createCircle(_ text: String?, _ imgs: [Data]?, _ visibility: Int,
+                      _ tagUserIds: [Int]?, _ forbiddenTagUserIds: [Int]?,
+                      _ originalId: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
         if text == nil && imgs == nil {
             return
         }
@@ -355,6 +357,11 @@ class RequestManager {
         }
         if let originalId = originalId {
             params["originalId"] = originalId
+        }
+        if let tagUserIds = tagUserIds {
+            params["tagUserIds"] = tagUserIds
+        } else if let forbiddenTagUserIds = forbiddenTagUserIds {
+            params["forbiddenTagUserIds"] = forbiddenTagUserIds
         }
         requestOperationManager.request("POST",
                                         "/api/\(Cons.Svr.apiVersion)/secure/circle",

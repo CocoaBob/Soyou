@@ -748,8 +748,12 @@ class DataManager {
         })
     }
     
-    func createCircle(_ text: String?, _ imgs: [Data]?, _ visibility: Int, _ originalId: String?, _ completion: CompletionClosure?) {
-        RequestManager.shared.createCircle(text, imgs, visibility, originalId, { responseObject in
+    func createCircle(_ text: String?, _ imgs: [Data]?, _ visibility: Int,
+                      _ tagUserIds: [Int]?, _ forbiddenTagUserIds: [Int]?,
+                      _ originalId: String?, _ completion: CompletionClosure?) {
+        RequestManager.shared.createCircle(text, imgs, visibility,
+                                           tagUserIds, forbiddenTagUserIds,
+                                           originalId, { responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: completion)

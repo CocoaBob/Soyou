@@ -125,13 +125,24 @@
 "circle_compose_submit_to_soyou"="发布到奢有照片墙";
 "circle_compose_visibility_title"="谁可以看见";
 "circle_compose_visibility_everyone"="公开";
-"circle_compose_visibility_everyone_desc"="所有奢有用户都可以看见";
 "circle_compose_visibility_followers"="粉丝";
-"circle_compose_visibility_followers_desc"="我的粉丝都可以看见";
+"circle_compose_visibility_followers_except"="除去 %@";
 "circle_compose_visibility_author"="自己";
-"circle_compose_visibility_author_desc"="只有我自己可以看见";
 "circle_compose_drag_to_delete"="拖到此处删除";
 "circle_compose_drop_to_delete"="松手确认删除";
+
+/* Circle Visibility View Controller */
+"circles_visibility_vc_title"="谁可以看见";
+"circles_visibility_vc_everyone"="公开";
+"circles_visibility_vc_everyone_desc"="所有奢有用户都可以看见";
+"circles_visibility_vc_followers"="粉丝";
+"circles_visibility_vc_followers_desc"="我的粉丝都可以看见";
+"circles_visibility_vc_author"="自己";
+"circles_visibility_vc_author_desc"="只有我自己可以看见";
+"circles_visibility_vc_allowed_followers"="只给谁看";
+"circles_visibility_vc_allowed_followers_desc"="只有选中的粉丝可见";
+"circles_visibility_vc_forbidden_followers"="不给谁看";
+"circles_visibility_vc_forbidden_followers_desc"="选中的粉丝不可见";
 
 /* Members View Controller */
 "members_vc_title_followers"="粉丝";

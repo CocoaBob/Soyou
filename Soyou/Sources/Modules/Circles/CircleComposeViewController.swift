@@ -36,20 +36,17 @@ class CircleComposeViewController: UITableViewController {
             }
         }
     }
+    
     var visibility: Int = CircleVisibility.friends {
         didSet {
             if self.isViewLoaded {
-                if visibility == CircleVisibility.everyone {
-                    self.imgVisibility.tintColor = Cons.UI.colorTheme
-                } else if visibility == CircleVisibility.friends {
-                    self.imgVisibility.tintColor = Cons.UI.colorLike
-                } else if visibility == CircleVisibility.author {
-                    self.imgVisibility.tintColor = Cons.UI.colorStore
-                }
-                self.updateVisibilityValue()
+                self.updateVisibility()
             }
         }
     }
+    var allowedTags: [Tag]?
+    var forbiddenTags: [Tag]?
+    
     var originalId: String? // If it's forwarding another circle, this is the other one's ID
     var content: String? {
         didSet {
@@ -141,7 +138,7 @@ extension CircleComposeViewController {
         let currVisibility = self.visibility
         self.visibility = currVisibility
         self.lblVisibilityTitle.text = NSLocalizedString("circle_compose_visibility_title")
-        self.updateVisibilityValue()
+        self.updateVisibility()
     }
 }
 
@@ -394,7 +391,25 @@ extension CircleComposeViewController {
                 let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
                 let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
                 let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
-                DataManager.shared.createCircle(encodedText, imageDatas, self.visibility, self.originalId) { (responseObject, error) in
+                var allowedUserIds = Set<Int>()
+                if let allowedTags = self.allowedTags {
+                    for tag in allowedTags {
+                        for tagUser in tag.members ?? [] {
+                            allowedUserIds.insert(tagUser.userId)
+                        }
+                    }
+                }
+                var forbiddenUserIds = Set<Int>()
+                if let forbiddenTags = self.forbiddenTags {
+                    for tag in forbiddenTags {
+                        for tagUser in tag.members ?? [] {
+                            forbiddenUserIds.insert(tagUser.userId)
+                        }
+                    }
+                }
+                DataManager.shared.createCircle(encodedText, imageDatas, self.visibility,
+                                                allowedUserIds.isEmpty ? nil : Array(allowedUserIds), forbiddenUserIds.isEmpty ? nil : Array(forbiddenUserIds),
+                                                self.originalId) { (responseObject, error) in
                     MBProgressHUD.hide(self.view)
                     self.navigationItem.rightBarButtonItem?.isEnabled = true
                     self.delegate?.didPostNewCircle()
@@ -633,66 +648,51 @@ extension CircleComposeViewController: TLPhotosPickerViewControllerDelegate {
 extension CircleComposeViewController {
     
     func changeVisibility() {
-        let simpleViewController = SimpleTableViewController(tableStyle: .grouped)
-        // UI
-        simpleViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: simpleViewController, action: #selector(SimpleTableViewController.doneAction))
-        simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = false
-        // Data
-        let visibilities = [(CircleVisibility.everyone, NSLocalizedString("circle_compose_visibility_everyone"), NSLocalizedString("circle_compose_visibility_everyone_desc")),
-                            (CircleVisibility.friends, NSLocalizedString("circle_compose_visibility_followers"), NSLocalizedString("circle_compose_visibility_followers_desc")),
-                            (CircleVisibility.author, NSLocalizedString("circle_compose_visibility_author"), NSLocalizedString("circle_compose_visibility_author_desc"))]
-        // Prepare rows
-        var rows = [Row]()
-        for (visibility, title, desc) in visibilities {
-            let row = Row(type: .TopTitleBottomDetail,
-                          cell: Cell(height: 52, tintColor: UIColor(white: 0.15, alpha: 1), accessoryType: .none),
-                          title: Text(text: title),
-                          subTitle: Text(text: desc),
-                          userInfo: ["visibility": visibility],
-                          didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                            let row = simpleViewController.sections[indexPath.section].rows[indexPath.row]
-                            guard let visibility = row.userInfo?["visibility"] as? Int else {
-                                return
-                            }
-                            simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = (visibility != self.visibility)
-                            simpleViewController.updateSelectionCheckmark(indexPath)
-                            simpleViewController.tableView.reloadData()
-            })
-            rows.append(row)
+        let vc = CircleVisibilityViewController.instantiate()
+        vc.completionHandler = { visibility, allowedTags, forbiddenTags in
+            self.visibility = visibility
+            self.allowedTags = allowedTags
+            self.forbiddenTags = forbiddenTags
+            self.updateVisibility()
         }
-        simpleViewController.sections = [
-            Section(
-                rows: rows
-            )
-        ]
-        // Pre-select the current selection
-        let row = self.visibility == CircleVisibility.everyone ? 0 : (self.visibility == CircleVisibility.friends ? 1 : 2)
-        simpleViewController.updateSelectionCheckmark(IndexPath(row: row, section: 0))
-        
-        // Handler
-        simpleViewController.completion = { () -> () in
-            if let selectedIndexPath = simpleViewController.selectedIndexPath {
-                if selectedIndexPath.row == 0 {
-                    self.visibility = CircleVisibility.everyone
-                } else if selectedIndexPath.row == 1 {
-                    self.visibility = CircleVisibility.friends
-                } else if selectedIndexPath.row == 2 {
-                    self.visibility = CircleVisibility.author
-                }
+        if self.visibility == CircleVisibility.everyone {
+            vc.selectedVisibility = Visibility.everyone
+        } else if self.visibility == CircleVisibility.friends {
+            if let _ = self.allowedTags {
+                vc.selectedVisibility = Visibility.allowSelected
+            } else if let _ = self.forbiddenTags {
+                vc.selectedVisibility = Visibility.forbidSelected
+            } else {
+                vc.selectedVisibility = Visibility.followers
             }
-            self.updateVisibilityValue()
-            simpleViewController.navigationController?.popViewController(animated: true)
+        }  else if self.visibility == CircleVisibility.author {
+            vc.selectedVisibility = Visibility.author
         }
-        // Push
-        self.navigationController?.pushViewController(simpleViewController, animated: true)
+        if let allowedTags = self.allowedTags {
+            vc.selectedTags = Set(allowedTags)
+        } else if let forbiddenTags = self.forbiddenTags {
+            vc.selectedTags = Set(forbiddenTags)
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func updateVisibilityValue() {
+    func updateVisibility() {
         if self.visibility == CircleVisibility.everyone {
+            self.imgVisibility.tintColor = Cons.UI.colorTheme
             self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_everyone")
         } else if self.visibility == CircleVisibility.friends {
+            self.imgVisibility.tintColor = Cons.UI.colorLike
+            if let allowedTags = self.allowedTags {
+                let tagNames = allowedTags.flatMap({ $0.label }).joined(separator: ", ")
+                self.lblVisibilityValue.text = tagNames
+            } else if let forbiddenTags = self.forbiddenTags {
+                let tagNames = forbiddenTags.flatMap({ $0.label }).joined(separator: ", ")
+                self.lblVisibilityValue.text = FmtString(NSLocalizedString("circle_compose_visibility_followers_except"), tagNames)
+            } else {
                 self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_followers")
+            }
         } else if self.visibility == CircleVisibility.author {
+            self.imgVisibility.tintColor = Cons.UI.colorStore
             self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_author")
         }
     }
