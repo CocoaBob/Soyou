@@ -10,8 +10,6 @@ import UserNotifications
 
 class SettingsViewController: SimpleTableViewController {
     
-    fileprivate var KVOContextSettingsViewController = 0
-    
     var cacheSize: Double = 0
     
     fileprivate var locationManager: CLLocationManager?
@@ -37,7 +35,6 @@ class SettingsViewController: SimpleTableViewController {
     }
     
     deinit {
-        UserManager.shared.removeObserver(self, forKeyPath: "username")
     }
     
     override func viewDidLoad() {
@@ -52,9 +49,6 @@ class SettingsViewController: SimpleTableViewController {
         doubleDoubleGesture.numberOfTapsRequired = 10
         doubleDoubleGesture.numberOfTouchesRequired = 2
         self.tableView.addGestureRecognizer(doubleDoubleGesture)
-        
-        // Observe UserManager.shared.username
-        UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextSettingsViewController)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,24 +70,18 @@ class SettingsViewController: SimpleTableViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &KVOContextSettingsViewController {
-            if keyPath == "username" {
-                self.tableView.beginUpdates()
-                self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
-                self.tableView.endUpdates()
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
 }
 
 // MARK: Build hierarchy
 extension SettingsViewController {
     
     override func rebuildTable() {
+        self.rebuildTable() {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func rebuildTable(_ completionHandler: (()->())?) {
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
             var notificationTypes = [String]()
             if settings.badgeSetting == .enabled {
@@ -112,6 +100,9 @@ extension SettingsViewController {
                 notificationSubTitle = notificationTypesString
             }
             self.buildTable(notificationSubTitle)
+            DispatchQueue.main.async {
+                completionHandler?()
+            }
         }
     }
     
@@ -555,9 +546,10 @@ extension SettingsViewController {
     
     func refreshUI() {
         // Reload table in case UserInfo is updated
-        rebuildTable()
-        if let indexPaths = self.tableView.indexPathsForVisibleRows {
-            self.tableView.reloadRows(at: indexPaths, with: .fade)
+        rebuildTable() {
+            if let indexPaths = self.tableView.indexPathsForVisibleRows {
+                self.tableView.reloadRows(at: indexPaths, with: .fade)
+            }
         }
         
         // Update cache size
@@ -574,8 +566,9 @@ extension SettingsViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         DispatchQueue.main.async {
-            self.rebuildTable()
-            self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
+            self.rebuildTable() {
+                self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
+            }
         }
     }
 }
@@ -595,7 +588,8 @@ extension SettingsViewController {
         // Update status bar color
         (UIApplication.shared.delegate as? AppDelegate)?.setupOverlayWindow()
         // Update table
-        self.rebuildTable()
-        self.tableView.reloadData()
+        self.rebuildTable() {
+            self.tableView.reloadData()
+        }
     }
 }
