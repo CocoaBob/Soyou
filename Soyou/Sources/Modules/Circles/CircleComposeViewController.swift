@@ -678,7 +678,7 @@ extension CircleComposeViewController {
     
     func updateVisibility() {
         if self.visibility == CircleVisibility.everyone {
-            self.imgVisibility.tintColor = Cons.UI.colorTheme
+            self.imgVisibility.tintColor = UIColor(hex8: 0x3EB900FF) // WeChat green
             self.lblVisibilityValue.text = NSLocalizedString("circle_compose_visibility_everyone")
         } else if self.visibility == CircleVisibility.friends {
             self.imgVisibility.tintColor = Cons.UI.colorLike

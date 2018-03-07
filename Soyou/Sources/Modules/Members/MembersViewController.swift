@@ -40,10 +40,19 @@ class MembersViewController: UIViewController {
     var followings: [Member]?
     var searchedUsers: [Member]?
     
-    // Selection Handler
+    // Selection
     var completionHandler: (([Member]) -> ())?
-    var isMultiSelectionMode = false
     var selectedUsers = [Member]()
+    var excludedUsers: [Member]?
+    var isSelectionMode = false {
+        didSet {
+            if isSelectionMode {
+                self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(MembersViewController.completeSelection)), animated: false)
+            } else {
+                self.navigationItem.setRightBarButton(nil, animated: false)
+            }
+        }
+    }
     
     // Search
     var isSearchResultsViewController = false
@@ -51,7 +60,9 @@ class MembersViewController: UIViewController {
         didSet {
             if self.isViewLoaded {
                 self.searchController?.searchBar.isHidden = isSearchBarHidden
-                self.navigationItem.setRightBarButton(nil, animated: false)
+                if let action = self.navigationItem.rightBarButtonItem?.action, action == #selector(MembersViewController.showSearchController) {
+                    self.navigationItem.setRightBarButton(nil, animated: false)
+                }
             }
         }
     }
@@ -167,9 +178,13 @@ extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
                 } else {
                     cell.member = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
                 }
-            }
-            if let _ = self.completionHandler {
-                cell.accessoryType = .none
+                if let member = cell.member {
+                    // Is selected or not
+                    cell.isMemberSelected = self.selectedUsers.contains(member)
+                    // Was already selected or not
+                    cell.isMemberExcluded = self.excludedUsers?.contains(member) ?? false
+                }
+                cell.isSelectionMode = self.isSelectionMode
             }
             return cell
         }
@@ -192,9 +207,20 @@ extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
             member = self.isShowingFollowers ? self.followers?[indexPath.row] : self.followings?[indexPath.row]
         }
         if let member = member {
-            if let completionHandler = self.completionHandler {
-                completionHandler([member])
-                self.dismissSelf()
+            if self.isSelectionMode {
+                var isSelected = false
+                if self.excludedUsers?.contains(member) ?? false {
+                    return
+                }
+                if let index = self.selectedUsers.index(of: member) {
+                    self.selectedUsers.remove(at: index)
+                } else {
+                    self.selectedUsers.append(member)
+                    isSelected = true
+                }
+                if let cell = tableView.cellForRow(at: indexPath) as? MembersTableViewCell {
+                    cell.isMemberSelected = isSelected
+                }
             } else {
                 let circlesVC = CirclesViewController.instantiate(member.id, member.profileUrl, member.username)
                 if self.isSearchResultsViewController {
@@ -218,6 +244,9 @@ extension MembersViewController {
         if self.isLoadingData {
             return
         }
+        // Clear selections before loading
+        self.selectedUsers.removeAll()
+        // Update status and reload table
         self.isLoadingData = true
         // Load data
         if self.isSearchResultsViewController {
@@ -328,13 +357,13 @@ extension MembersViewController: UISearchControllerDelegate {
     }
     
     func setupSearchController() {
-        let searchResultsController = MembersViewController.instantiate()
-        searchResultsController.isSearchResultsViewController = true
-        searchResultsController.searchFromViewController = self
-        self.searchController = UISearchController(searchResultsController: searchResultsController)
+        let vc = MembersViewController.instantiate()
+        vc.isSearchResultsViewController = true
+        vc.searchFromViewController = self
+        self.searchController = UISearchController(searchResultsController: vc)
         self.searchController?.delegate = self
-        self.searchController?.searchResultsUpdater = searchResultsController
-        self.searchController?.searchBar.delegate = searchResultsController
+        self.searchController?.searchResultsUpdater = vc
+        self.searchController?.searchBar.delegate = vc
         self.searchController?.searchBar.placeholder = NSLocalizedString("members_vc_search_bar_placeholder")
         self.searchController?.searchBar.showsCancelButton = false
         self.searchController?.hidesNavigationBarDuringPresentation = false
@@ -342,16 +371,10 @@ extension MembersViewController: UISearchControllerDelegate {
             self.searchController?.searchBar.isHidden = true
         }
         
-        if let completionHandler = self.completionHandler {
-            searchResultsController.completionHandler = { members in
-                self.searchController?.isActive = false
-                completionHandler(members)
-                self.dismissSelf()
-            }
-        }
-        
         if self.isSearchBarHidden {
-            self.navigationItem.setRightBarButton(nil, animated: false)
+            if let action = self.navigationItem.rightBarButtonItem?.action, action == #selector(MembersViewController.showSearchController) {
+                self.navigationItem.setRightBarButton(nil, animated: false)
+            }
         } else {
             self.setupRightBarButtonItem()
         }
@@ -417,5 +440,10 @@ extension MembersViewController {
     
     @IBAction func toggleFollowingFollower(_ sender: UISegmentedControl) {
         self.isShowingFollowers = sender.selectedSegmentIndex == 1
+    }
+    
+    @IBAction func completeSelection() {
+        self.completionHandler?(self.selectedUsers)
+        self.dismissSelf()
     }
 }

@@ -55,3 +55,17 @@ struct Member {
         self.badges = json["badges"].arrayObject
     }
 }
+
+extension Member: Hashable {
+    
+    var hashValue: Int {
+        return self.id
+    }
+}
+
+extension Member: Equatable {
+    
+    static func ==(lhs: Member, rhs: Member) -> Bool {
+        return lhs.id == rhs.id
+    }
+}

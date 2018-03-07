@@ -227,6 +227,8 @@ extension TagEditViewController {
         vc.isShowingFollowers = true
         vc.isSegmentedControlHidden = true
         vc.isSearchBarHidden = true
+        vc.isSelectionMode = true
+        vc.excludedUsers = self.tag.members?.map { Member.init(id: $0.userId, gender: "", username: $0.username, profileUrl: $0.userProfileUrl, matricule: -1, badges: nil) }
         vc.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: vc, action: #selector(dismissSelf))
         vc.completionHandler = { members in
             for member in members {

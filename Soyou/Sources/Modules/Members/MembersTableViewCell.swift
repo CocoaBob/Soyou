@@ -17,6 +17,35 @@ class MembersTableViewCell: UITableViewCell {
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var imgUserBadge: UIImageView?
     @IBOutlet var lblName: UILabel!
+    @IBOutlet var imgSelection: UIImageView!
+    @IBOutlet var imgSelectionWidth: NSLayoutConstraint!
+    @IBOutlet var imgSelectionTrailing: NSLayoutConstraint!
+    
+    var isSelectionMode = false {
+        didSet {
+            self.imgSelectionWidth.constant = isSelectionMode ? 22 : 0
+            self.imgSelectionTrailing.constant = isSelectionMode ? 20 : 0
+            self.accessoryType = isSelectionMode ? .none : .disclosureIndicator
+        }
+    }
+    
+    var isMemberSelected = false {
+        didSet {
+            self.imgSelection.image = UIImage(named: isMemberSelected ? "img_cell_checked_blue" : "img_cell_unchecked")
+        }
+    }
+    var isMemberExcluded = false {
+        didSet {
+            if isMemberExcluded {
+                self.imgSelection.image = UIImage(named: "img_cell_checked_gray")
+                self.selectionStyle = .none
+            } else {
+                let isSelected = self.isMemberSelected
+                self.isMemberSelected = isSelected
+                self.selectionStyle = .gray
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
