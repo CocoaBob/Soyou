@@ -254,6 +254,14 @@ class DataManager {
         })
     }
     
+    func blockUser(_ userId: Int, _ isInvisibleToHim: Bool, _ isInvisibleToMe: Bool, _ completion: CompletionClosure?) {
+        RequestManager.shared.blockUser(userId, isInvisibleToHim, isInvisibleToMe, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Products
     //////////////////////////////////////

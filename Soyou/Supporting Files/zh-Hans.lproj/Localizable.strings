@@ -114,6 +114,11 @@
 "circles_vc_loading"="努力加载中...";
 "circles_vc_no_data"="没有数据";
 
+/* Circle Setting Controller */
+"circle_settings_vc_title"="资料设置";
+"circle_settings_vc_is_invisible_to_him"="不让TA看我的照片墙";
+"circle_settings_vc_is_invisible_to_me"="不看TA的照片墙";
+
 /* Circle Compose View Controller */
 "circle_compose_post"="发布";
 "circle_compose_share"="分享";

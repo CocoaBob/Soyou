@@ -55,6 +55,10 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         }
     }
     
+    // User Settings
+    var isInvisibleToHim = false
+    var isInvisibleToMe = false
+    
     // Recommendations
     @IBOutlet var recommendationsCollectionView: UICollectionView!
     var recommendations: [Member]? {
@@ -265,6 +269,7 @@ extension CirclesViewController {
         }
         if isSingleUserMode {
             self.recommendations = nil
+            self.updateUserInfo(false)
         } else {
             DataManager.shared.getRecommendation { (response, error) in
                 if let response = response,
@@ -314,7 +319,7 @@ extension CirclesViewController {
         // Nav buttons
         self.btnBack.isHidden = !self.isSingleUserMode
         self.btnCompose.isHidden = self.isSingleUserMode
-        self.btnMore.isHidden = true//!self.isSingleUserMode
+        self.btnMore.isHidden = !self.isSingleUserMode
         self.loadingIndicatorLeading.constant = self.isSingleUserMode ? 64 : 24
         
         // Setup table
@@ -488,7 +493,16 @@ extension CirclesViewController {
     }
     
     @IBAction func moreAction() {
-        
+        let vc = CircleSettingsViewController.instantiate()
+        vc.isInvisibleToHim = isInvisibleToHim
+        vc.isInvisibleToMe = isInvisibleToMe
+        vc.completionHandler = { isInvisibleToHim, isInvisibleToMe in
+            self.isInvisibleToHim = isInvisibleToHim
+            self.isInvisibleToMe = isInvisibleToMe
+            guard let userID = self.userID else { return }
+            DataManager.shared.blockUser(userID, isInvisibleToHim, isInvisibleToMe, nil)
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func followingFollowerAction(_ sender: UIButton) {
@@ -553,6 +567,7 @@ extension CirclesViewController {
                     // Update Follow/Unfollow button
                     if !isMyself, let friendStatus = data["friendStatus"] as? Int {
                         self.btnFollow.isHidden = false
+                        // 0: no friend status specified
                         // 1: current user is following userId
                         // 2: userId is following current user
                         // 3: both are following each other
@@ -633,6 +648,16 @@ extension CirclesViewController {
                         }
                     } else {
                         self.imgGender.isHidden = true
+                    }
+                    
+                    // Get block info
+                    if !isMyself, let blockStatus = data["blockStatus"] as? Int {
+                        // 0: no blockStatus is specified
+                        // 1: current user won't see target user's circle
+                        // 2: current user want target user to see its circle
+                        // 3: both 1 and 2
+                        self.isInvisibleToHim = blockStatus == 2 || blockStatus == 3
+                        self.isInvisibleToMe = blockStatus == 1 || blockStatus == 3
                     }
                 }
             }

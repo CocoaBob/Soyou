@@ -112,6 +112,11 @@
 "circles_vc_loading"="Loading...";
 "circles_vc_no_data"="No data";
 
+/* Circle Setting Controller */
+"circle_settings_vc_title"="Settings";
+"circle_settings_vc_is_invisible_to_him"="Don't share my circles";
+"circle_settings_vc_is_invisible_to_me"="Hide her/his circles";
+
 /* Circle Compose View Controller */
 "circle_compose_post"="Post";
 "circle_compose_share"="Share";

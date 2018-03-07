@@ -505,6 +505,9 @@
                                     <constraint firstAttribute="height" constant="56" id="pEA-6s-Rgm"/>
                                 </constraints>
                                 <state key="normal" image="img_more_shadow"/>
+                                <connections>
+                                    <action selector="moreAction" destination="AQv-Tr-KQN" eventType="touchUpInside" id="C0X-Bi-4OA"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1131,6 +1134,83 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fK-ne-M0O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2490" y="-109"/>
+        </scene>
+        <!--Circle Settings View Controller-->
+        <scene sceneID="f9W-UQ-0Qv">
+            <objects>
+                <viewController storyboardIdentifier="CircleSettingsViewController" id="dfl-9n-mQD" customClass="CircleSettingsViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Igq-tt-H8w">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="LKI-py-NEL">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" red="0.9137254901960784" green="0.89411764705882346" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CircleSettingsTableViewCell" id="Owq-FM-Rve" customClass="CircleSettingsTableViewCell" customModule="Soyou" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55.5" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Owq-FM-Rve" id="ggI-Hd-Y5F">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9j-FZ-FmH">
+                                                    <rect key="frame" x="15" y="12" width="233" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rUF-px-t57">
+                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="toggleSwitch:" destination="dfl-9n-mQD" eventType="valueChanged" id="I4y-Og-wcm"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="rUF-px-t57" firstAttribute="centerY" secondItem="ggI-Hd-Y5F" secondAttribute="centerY" id="8Fc-Cs-I0H"/>
+                                                <constraint firstItem="B9j-FZ-FmH" firstAttribute="leading" secondItem="ggI-Hd-Y5F" secondAttribute="leadingMargin" id="XYA-4U-M8B"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="rUF-px-t57" secondAttribute="trailing" id="Zyh-3n-XXL"/>
+                                                <constraint firstItem="rUF-px-t57" firstAttribute="leading" secondItem="B9j-FZ-FmH" secondAttribute="trailing" constant="8" id="iMp-ba-hfA"/>
+                                                <constraint firstItem="B9j-FZ-FmH" firstAttribute="centerY" secondItem="ggI-Hd-Y5F" secondAttribute="centerY" id="xsc-nV-dcJ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="aSwitch" destination="rUF-px-t57" id="eD0-Nn-I7g"/>
+                                            <outlet property="lblTitle" destination="B9j-FZ-FmH" id="Jqe-Dl-fCD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="dfl-9n-mQD" id="bUJ-gF-MbN"/>
+                                    <outlet property="delegate" destination="dfl-9n-mQD" id="XEE-v8-xjP"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="LKI-py-NEL" secondAttribute="trailing" id="8Jh-TG-5es"/>
+                            <constraint firstAttribute="bottom" secondItem="LKI-py-NEL" secondAttribute="bottom" id="onY-yM-uKm"/>
+                            <constraint firstItem="LKI-py-NEL" firstAttribute="top" secondItem="Igq-tt-H8w" secondAttribute="top" id="phs-Q5-0GE"/>
+                            <constraint firstItem="LKI-py-NEL" firstAttribute="leading" secondItem="Igq-tt-H8w" secondAttribute="leading" id="yOF-Fq-joh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="g8a-95-xGT"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="awM-Vn-u1a">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="1Eu-vO-6fb">
+                            <connections>
+                                <action selector="done" destination="dfl-9n-mQD" id="s0K-Da-fgj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="tableView" destination="LKI-py-NEL" id="ryG-0p-qYU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SXK-xh-ZGT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3181.875" y="-109.85915492957747"/>
         </scene>
     </scenes>
     <resources>

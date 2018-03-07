@@ -164,13 +164,11 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return self.numberOfRows() == 0 ? false : true
+        return true
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if self.numberOfRows() > 0,
-            let tag = self.tags?[indexPath.row],
-            let tagId = tag.id {
+        if let tag = self.tags?[indexPath.row], let tagId = tag.id {
             DataManager.shared.removeTag(tagId, { (responseObject, error) in
                 if error == nil {
                     self.tableView.beginUpdates()

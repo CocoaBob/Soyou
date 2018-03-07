@@ -496,6 +496,11 @@ class RequestManager {
         getAsync("/api/\(Cons.Svr.apiVersion)/secure/user/recommendation", "User", onSuccess, onFailure)
     }
     
+    func blockUser(_ userId: Int, _ isInvisibleToHim: Bool, _ isInvisibleToMe: Bool, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let blockStatus = (isInvisibleToHim ? 2 : 0) + (isInvisibleToMe ? 1 : 0)
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/block/\(userId)/\(blockStatus)", "User", ["userId": userId, "blockStatus": blockStatus], onSuccess, onFailure)
+    }
+    
     //////////////////////////////////////
     // MARK: Analytics
     //////////////////////////////////////
