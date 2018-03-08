@@ -135,8 +135,7 @@ extension CircleComposeViewController {
         self.submitToSoyou.isEnabled = true
         self.submitToSoyou.isOn = !self.isSharing
         self.imgVisibility.image = UIImage(named: "img_globe")?.withRenderingMode(.alwaysTemplate)
-        let currVisibility = self.visibility
-        self.visibility = currVisibility
+        self.visibility = self.isSharing ? CircleVisibility.friends : CircleVisibility.everyone
         self.lblVisibilityTitle.text = NSLocalizedString("circle_compose_visibility_title")
         self.updateVisibility()
     }
