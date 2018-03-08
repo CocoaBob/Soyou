@@ -16,6 +16,7 @@ class CirclesTableViewCell: UITableViewCell {
     }
     var imgURLs: [[String: String]]?
     var imagesToSave: [UIImage]?
+    var imagesCountToSave: Int = 0
     var textToShare: String?
     weak var parentViewController: CirclesViewController?
     var isLiked = false {

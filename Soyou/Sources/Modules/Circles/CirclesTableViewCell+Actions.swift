@@ -68,6 +68,7 @@ extension CirclesTableViewCell {
                                                                 MBProgressHUD.show(self.parentViewController?.view)
                                                             }
                                                             self.imagesToSave = images
+                                                            self.imagesCountToSave = images?.count ?? 0
                                                             self.saveNextImage()
                                                         }
                                        }),
@@ -81,6 +82,13 @@ extension CirclesTableViewCell {
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
         } else {
             MBProgressHUD.hide(self.parentViewController?.view)
+            if let window = UIApplication.shared.keyWindow  {
+                let hud = MBProgressHUD.showAdded(to: window, animated: true)
+                hud.isUserInteractionEnabled = false
+                hud.mode = .text
+                hud.label.text = FmtString(NSLocalizedString("circles_vc_save_completed"), self.imagesCountToSave)
+                hud.hide(animated: true, afterDelay: 1)
+            }
         }
     }
     

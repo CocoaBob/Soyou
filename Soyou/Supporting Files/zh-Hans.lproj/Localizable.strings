@@ -102,6 +102,7 @@
 "circles_vc_share_button"="一键分享";
 "circles_vc_delete_alert"="确定删除吗？";
 "circles_vc_save_alert"="保存所有图片至相册？";
+"circles_vc_save_completed"="%d 张图片已保存";
 "circles_vc_button_more"="全文";
 "circles_vc_button_less"="收起";
 "circles_vc_user_follow"="关注";
