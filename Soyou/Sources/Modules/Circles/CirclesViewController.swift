@@ -114,9 +114,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Clear old data
         if self.isSingleUserMode {
-            self.singleUserMemCtx().save(blockAndWait: { (localContext: NSManagedObjectContext!) in
-                Circle.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
-            })
+            self.clearAllCirclesOfCurrentUser()
         }
         
         // Setup views
@@ -494,14 +492,19 @@ extension CirclesViewController {
     }
     
     @IBAction func moreAction() {
+        guard let userID = self.userID else { return }
         let vc = CircleSettingsViewController.instantiate()
-        vc.isInvisibleToHim = isInvisibleToHim
-        vc.isInvisibleToMe = isInvisibleToMe
+        vc.userID = userID
+        vc.isInvisibleToHim = self.isInvisibleToHim
+        vc.isInvisibleToMe = self.isInvisibleToMe
         vc.completionHandler = { isInvisibleToHim, isInvisibleToMe in
+            if isInvisibleToMe { // Hide all circles
+                self.clearAllCirclesOfCurrentUser()
+            } else if self.isInvisibleToMe { // All circles were invisible, now load them to show
+                self.loadData(nil, completion: nil)
+            }
             self.isInvisibleToHim = isInvisibleToHim
             self.isInvisibleToMe = isInvisibleToMe
-            guard let userID = self.userID else { return }
-            DataManager.shared.blockUser(userID, isInvisibleToHim, isInvisibleToMe, nil)
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }

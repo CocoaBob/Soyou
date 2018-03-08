@@ -11,6 +11,7 @@ class CircleSettingsViewController: UIViewController {
     // Properties
     @IBOutlet var tableView: UITableView!
     
+    var userID: Int = -1
     var isInvisibleToHim = false
     var isInvisibleToMe = false
     
@@ -129,8 +130,14 @@ extension CircleSettingsViewController {
     }
     
     @IBAction func done() {
-        self.completionHandler?(isInvisibleToHim, isInvisibleToMe)
-        self.dismissSelf()
+        MBProgressHUD.show(self.view)
+        DataManager.shared.blockUser(self.userID, self.isInvisibleToHim, self.isInvisibleToMe) { (responseObject, error) in
+            MBProgressHUD.hide(self.view)
+            if error == nil {
+                self.completionHandler?(self.isInvisibleToHim, self.isInvisibleToMe)
+                self.dismissSelf()
+            }
+        }
     }
 }
 
@@ -153,4 +160,3 @@ class CircleSettingsTableViewCell: UITableViewCell {
         self.aSwitch.isOn = false
     }
 }
-

@@ -135,3 +135,13 @@ extension CirclesViewController {
         (self.tableView().mj_footer as? MJRefreshAutoStateFooter)?.setTitle(NSLocalizedString("pull_to_refresh_no_more_data"), for: .noMoreData)
     }
 }
+
+// MARK: - Single User Mode
+extension CirclesViewController {
+    
+    func clearAllCirclesOfCurrentUser() {
+        self.singleUserMemCtx().save(blockAndWait: { (localContext: NSManagedObjectContext!) in
+            Circle.mr_deleteAll(matching: FmtPredicate("1==1"), in: localContext)
+        })
+    }
+}
