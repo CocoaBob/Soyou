@@ -193,6 +193,19 @@ extension ProductViewController: UIScrollViewDelegate {
 extension ProductViewController {
     
     fileprivate func setupCarouselView() {
+        // Avoid adjustedContentInset
+        if #available(iOS 11.0, *) {
+            if let scrollView = self.carouselView.value(forKey: "scrollView") as? UIScrollView {
+                scrollView.contentInsetAdjustmentBehavior = .never
+            }
+        }
+        
+        // Yield for the edge swipe gesture
+        if let scrollView = self.carouselView.value(forKey: "scrollView") as? UIScrollView,
+            let popGestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
+            scrollView.panGestureRecognizer.require(toFail: popGestureRecognizer)
+        }
+        
         // Update the frame of carousel view
         let carouselViewHeight = self.view.frame.width / self.carouselViewRatio
         self.carouselViewHeight?.constant = carouselViewHeight
@@ -334,6 +347,12 @@ extension ProductViewController {
                 pageMenu.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
                 self.subViewsContainer.addSubview(pageMenu.view)
                 pageMenu.view.frame = CGRect(x: 0, y: 0, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height)
+                
+                // Yield for the edge swipe gesture
+                if let scrollView = pageMenu.value(forKey: "controllerScrollView") as? UIScrollView,
+                    let popGestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
+                    scrollView.panGestureRecognizer.require(toFail: popGestureRecognizer)
+                }
             }
         }
         
