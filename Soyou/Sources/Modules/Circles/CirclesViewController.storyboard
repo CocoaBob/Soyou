@@ -314,14 +314,14 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="226" height="44"/>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_circle_like" translatesAutoresizingMaskIntoConstraints="NO" id="T1L-j2-cKG">
-                                                            <rect key="frame" x="11" y="11" width="10" height="10"/>
+                                                            <rect key="frame" x="9" y="10" width="14" height="12"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="10" id="HgU-jC-Iaf"/>
-                                                                <constraint firstAttribute="height" constant="10" id="VeG-AZ-OAI"/>
+                                                                <constraint firstAttribute="width" constant="14" id="HgU-jC-Iaf"/>
+                                                                <constraint firstAttribute="height" constant="12" id="VeG-AZ-OAI"/>
                                                             </constraints>
                                                         </imageView>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="749" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aI6-d7-EoM">
-                                                            <rect key="frame" x="21" y="8" width="205" height="32"/>
+                                                            <rect key="frame" x="23" y="8" width="203" height="32"/>
                                                             <attributedString key="attributedText">
                                                                 <fragment content="A">
                                                                     <attributes>
@@ -395,8 +395,8 @@
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="9999" id="29x-XJ-YTf"/>
                                                         <constraint firstItem="aI6-d7-EoM" firstAttribute="leading" secondItem="T1L-j2-cKG" secondAttribute="trailing" id="COT-IT-4jt"/>
                                                         <constraint firstItem="mYf-3y-7cA" firstAttribute="leading" secondItem="21N-Po-HU4" secondAttribute="leading" id="Q0w-J1-5Ln"/>
-                                                        <constraint firstItem="T1L-j2-cKG" firstAttribute="leading" secondItem="21N-Po-HU4" secondAttribute="leading" constant="11" id="US6-Jv-cNS"/>
-                                                        <constraint firstItem="T1L-j2-cKG" firstAttribute="top" secondItem="21N-Po-HU4" secondAttribute="top" constant="11" id="UtC-rp-idl"/>
+                                                        <constraint firstItem="T1L-j2-cKG" firstAttribute="leading" secondItem="21N-Po-HU4" secondAttribute="leading" constant="9" id="US6-Jv-cNS"/>
+                                                        <constraint firstItem="T1L-j2-cKG" firstAttribute="top" secondItem="21N-Po-HU4" secondAttribute="top" constant="10" id="UtC-rp-idl"/>
                                                         <constraint firstAttribute="trailing" secondItem="mYf-3y-7cA" secondAttribute="trailing" id="YLG-Yd-WJa"/>
                                                         <constraint firstItem="aI6-d7-EoM" firstAttribute="top" secondItem="21N-Po-HU4" secondAttribute="top" constant="8" id="gxb-77-dOx"/>
                                                         <constraint firstItem="mYf-3y-7cA" firstAttribute="top" secondItem="21N-Po-HU4" secondAttribute="top" id="m8V-Bh-yQE"/>
@@ -1246,8 +1246,8 @@
         <image name="img_cell_unchecked" width="22" height="23"/>
         <image name="img_circle_bg_like" width="22" height="8"/>
         <image name="img_circle_delete" width="11" height="13"/>
-        <image name="img_circle_like" width="13" height="12"/>
-        <image name="img_circle_save" width="11" height="13"/>
+        <image name="img_circle_like" width="14" height="12"/>
+        <image name="img_circle_save" width="11" height="12"/>
         <image name="img_delete" width="18" height="18"/>
         <image name="img_more_shadow" width="32" height="10"/>
         <image name="img_placeholder_1_1_s" width="80" height="80"/>
