@@ -99,6 +99,7 @@
 "circles_vc_tab_title"="Circles";
 "circles_vc_share_button"="Share";
 "circles_vc_delete_alert"="Delete this post?";
+"circles_vc_save_alert"="Save all images to album?";
 "circles_vc_button_more"="More";
 "circles_vc_button_less"="Less";
 "circles_vc_user_follow"="Follow";
@@ -326,6 +327,7 @@
 "alert_button_close"="Close";
 "alert_button_cancel"="Cancel";
 "alert_button_delete"="Delete";
+"alert_button_save"="Save";
 
 /* MISC */
 "currency_unknown"="Unknown Currency";

@@ -101,6 +101,7 @@
 "circles_vc_tab_title"="照片墙";
 "circles_vc_share_button"="一键分享";
 "circles_vc_delete_alert"="确定删除吗？";
+"circles_vc_save_alert"="保存所有图片至相册？";
 "circles_vc_button_more"="全文";
 "circles_vc_button_less"="收起";
 "circles_vc_user_follow"="关注";
@@ -325,6 +326,7 @@
 "alert_button_close"="关闭";
 "alert_button_cancel"="取消";
 "alert_button_delete"="删除";
+"alert_button_save"="保存";
 
 /* MISC */
 "currency_unknown"="未知汇率";

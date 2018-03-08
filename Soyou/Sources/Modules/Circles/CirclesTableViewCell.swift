@@ -15,6 +15,7 @@ class CirclesTableViewCell: UITableViewCell {
         }
     }
     var imgURLs: [[String: String]]?
+    var imagesToSave: [UIImage]?
     var textToShare: String?
     weak var parentViewController: CirclesViewController?
     var isLiked = false {
@@ -30,6 +31,8 @@ class CirclesTableViewCell: UITableViewCell {
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnDelete: UIButton!
     @IBOutlet var btnDeleteWidth: NSLayoutConstraint!
+    @IBOutlet var btnSave: UIButton!
+    @IBOutlet var btnSaveWidth: NSLayoutConstraint!
     @IBOutlet var btnLike: UIButton!
     @IBOutlet var btnShare: UIButton!
     @IBOutlet var likesContainer: UIView!
@@ -67,7 +70,8 @@ class CirclesTableViewCell: UITableViewCell {
         self.lblContent.text = nil
         self.btnDelete.isHidden = true
         self.btnDeleteWidth.constant = 0
-        self.btnDelete.setTitle("", for: .normal)
+        self.btnSave.isHidden = true
+        self.btnSaveWidth.constant = 0
         self.imagesCollectionView.reloadData()
         self.resetMoreLessControl()
         self.updateMoreLessControl()
@@ -101,6 +105,8 @@ extension CirclesTableViewCell {
         self.imgUserBadge.isHidden = circle.userBadges?.count ?? 0 == 0
         self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
         self.btnDeleteWidth.constant = self.btnDelete.isHidden ? 0 : 22
+        self.btnSave.isHidden = self.imgURLs == nil
+        self.btnSaveWidth.constant = self.btnSave.isHidden ? 0 : 22
     }
     
     func configureLabels(_ circle: Circle) {

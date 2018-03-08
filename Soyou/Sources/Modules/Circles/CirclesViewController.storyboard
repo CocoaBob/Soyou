@@ -277,7 +277,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ak5-EJ-wBn">
-                                                    <rect key="frame" x="229" y="248.5" width="21" height="21"/>
+                                                    <rect key="frame" x="237" y="249" width="21" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="BR0-Iq-j5H"/>
                                                         <constraint firstAttribute="width" constant="21" id="D7J-5Z-aNB"/>
@@ -294,12 +294,12 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rf-yb-3hR">
-                                                    <rect key="frame" x="254" y="249" width="46" height="21"/>
+                                                    <rect key="frame" x="258" y="249" width="42" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="gLD-JI-kzH"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <inset key="contentEdgeInsets" minX="4" minY="0.0" maxX="4" maxY="0.0"/>
+                                                    <inset key="contentEdgeInsets" minX="2" minY="0.0" maxX="2" maxY="0.0"/>
                                                     <state key="normal" title="Share">
                                                         <color key="titleColor" red="0.36078431372549019" green="0.41176470588235292" blue="0.58039215686274503" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
@@ -405,6 +405,23 @@
                                                         <constraint firstAttribute="trailing" secondItem="aI6-d7-EoM" secondAttribute="trailing" id="ulW-Ho-K5k"/>
                                                     </constraints>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="08E-j2-YBq">
+                                                    <rect key="frame" x="216" y="249" width="21" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="21" id="XQ7-pV-syZ"/>
+                                                        <constraint firstAttribute="height" constant="21" id="o8E-g5-PlQ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="1" maxY="0.0"/>
+                                                    <inset key="titleEdgeInsets" minX="1" minY="0.0" maxX="-1" maxY="0.0"/>
+                                                    <inset key="imageEdgeInsets" minX="-1" minY="0.0" maxX="1" maxY="0.0"/>
+                                                    <state key="normal" image="img_circle_save">
+                                                        <color key="titleColor" red="0.36078431370000003" green="0.41176470590000003" blue="0.58039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="save" destination="7Rp-5M-mvX" eventType="touchUpInside" id="IRe-Ze-x8Y"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="wUB-Yb-mr1" secondAttribute="trailing" constant="74" id="28p-jq-r62"/>
@@ -412,13 +429,14 @@
                                                 <constraint firstItem="eIz-v2-3zl" firstAttribute="leading" secondItem="qxk-a3-8H1" secondAttribute="leading" id="4Na-XF-o60"/>
                                                 <constraint firstItem="2Xn-1I-bbL" firstAttribute="bottom" secondItem="wUB-Yb-mr1" secondAttribute="top" id="5Zl-Qn-4td"/>
                                                 <constraint firstItem="2Xn-1I-bbL" firstAttribute="leading" secondItem="xSs-Ar-EMy" secondAttribute="leading" id="6wz-lO-0ra"/>
+                                                <constraint firstItem="ak5-EJ-wBn" firstAttribute="leading" secondItem="08E-j2-YBq" secondAttribute="trailing" id="8Ja-j5-Ege"/>
                                                 <constraint firstItem="21N-Po-HU4" firstAttribute="leading" secondItem="wUB-Yb-mr1" secondAttribute="leading" id="C7i-K4-ZUF"/>
                                                 <constraint firstItem="gRn-UA-gh5" firstAttribute="width" secondItem="qxk-a3-8H1" secondAttribute="width" id="KBT-09-aOi"/>
                                                 <constraint firstAttribute="trailing" secondItem="7Rf-yb-3hR" secondAttribute="trailing" priority="500" constant="20" id="PqF-GF-YDV"/>
                                                 <constraint firstItem="gRn-UA-gh5" firstAttribute="height" secondItem="qxk-a3-8H1" secondAttribute="height" id="R71-w1-Pf8"/>
                                                 <constraint firstItem="eIz-v2-3zl" firstAttribute="trailing" secondItem="qxk-a3-8H1" secondAttribute="trailing" id="RLa-fC-Cmr"/>
                                                 <constraint firstItem="21N-Po-HU4" firstAttribute="top" secondItem="nvv-1Y-Gn3" secondAttribute="bottom" constant="4" id="RY4-bc-wM7"/>
-                                                <constraint firstItem="7Rf-yb-3hR" firstAttribute="leading" secondItem="ak5-EJ-wBn" secondAttribute="trailing" constant="4" id="TXQ-FY-Qey"/>
+                                                <constraint firstItem="7Rf-yb-3hR" firstAttribute="leading" secondItem="ak5-EJ-wBn" secondAttribute="trailing" id="TXQ-FY-Qey"/>
                                                 <constraint firstItem="8R0-xI-v12" firstAttribute="leading" secondItem="nvv-1Y-Gn3" secondAttribute="trailing" constant="4" id="UGA-Zt-2PR"/>
                                                 <constraint firstItem="xSs-Ar-EMy" firstAttribute="leading" secondItem="qxk-a3-8H1" secondAttribute="trailing" constant="10" id="WUD-MG-G6w"/>
                                                 <constraint firstItem="eIz-v2-3zl" firstAttribute="top" secondItem="qxk-a3-8H1" secondAttribute="top" id="YKd-6g-uNb"/>
@@ -428,11 +446,13 @@
                                                 <constraint firstItem="2Xn-1I-bbL" firstAttribute="top" secondItem="Pv3-TR-fQJ" secondAttribute="bottom" id="boJ-3s-ZBP"/>
                                                 <constraint firstItem="21N-Po-HU4" firstAttribute="trailing" secondItem="7Rf-yb-3hR" secondAttribute="trailing" id="cs9-mX-Zwl"/>
                                                 <constraint firstItem="gRn-UA-gh5" firstAttribute="centerX" secondItem="qxk-a3-8H1" secondAttribute="centerX" id="evd-wq-4BG"/>
+                                                <constraint firstItem="08E-j2-YBq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8R0-xI-v12" secondAttribute="trailing" constant="2" id="f58-wt-NC2"/>
                                                 <constraint firstItem="xSs-Ar-EMy" firstAttribute="top" secondItem="qxk-a3-8H1" secondAttribute="top" id="hTp-yW-ZNi"/>
                                                 <constraint firstAttribute="trailing" secondItem="xSs-Ar-EMy" secondAttribute="trailing" constant="20" id="inA-e6-chl"/>
                                                 <constraint firstItem="nvv-1Y-Gn3" firstAttribute="leading" secondItem="xSs-Ar-EMy" secondAttribute="leading" id="k80-tJ-hdS"/>
                                                 <constraint firstItem="qxk-a3-8H1" firstAttribute="top" secondItem="RsM-Sz-DFc" secondAttribute="top" constant="16" id="kcW-kw-3xP"/>
                                                 <constraint firstItem="wUB-Yb-mr1" firstAttribute="leading" secondItem="RsM-Sz-DFc" secondAttribute="leading" constant="74" id="n9J-CU-uw3"/>
+                                                <constraint firstItem="08E-j2-YBq" firstAttribute="centerY" secondItem="nvv-1Y-Gn3" secondAttribute="centerY" id="nV9-bx-Hce"/>
                                                 <constraint firstItem="xSs-Ar-EMy" firstAttribute="bottom" secondItem="Pv3-TR-fQJ" secondAttribute="top" constant="-4" id="oLW-h2-vpg"/>
                                                 <constraint firstItem="nvv-1Y-Gn3" firstAttribute="top" secondItem="wUB-Yb-mr1" secondAttribute="bottom" constant="7" id="ofi-qp-VR6"/>
                                                 <constraint firstItem="8R0-xI-v12" firstAttribute="centerY" secondItem="nvv-1Y-Gn3" secondAttribute="centerY" id="pDu-ez-9WT"/>
@@ -440,7 +460,6 @@
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="qxk-a3-8H1" secondAttribute="bottom" priority="750" constant="-16" id="uyW-Ke-MQX"/>
                                                 <constraint firstItem="Pv3-TR-fQJ" firstAttribute="leading" secondItem="xSs-Ar-EMy" secondAttribute="leading" id="vhD-t3-cx4"/>
                                                 <constraint firstItem="qxk-a3-8H1" firstAttribute="leading" secondItem="RsM-Sz-DFc" secondAttribute="leading" constant="16" id="wC3-oN-aYI"/>
-                                                <constraint firstItem="ak5-EJ-wBn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8R0-xI-v12" secondAttribute="trailing" constant="4" id="yvD-Lh-SsR"/>
                                                 <constraint firstItem="gRn-UA-gh5" firstAttribute="centerY" secondItem="qxk-a3-8H1" secondAttribute="centerY" id="z0a-YR-uey"/>
                                                 <constraint firstItem="ak5-EJ-wBn" firstAttribute="centerY" secondItem="nvv-1Y-Gn3" secondAttribute="centerY" id="zb4-nP-3of"/>
                                             </constraints>
@@ -453,6 +472,8 @@
                                             <outlet property="btnMoreLess" destination="2Xn-1I-bbL" id="pUG-yB-Nvt"/>
                                             <outlet property="btnMoreLessHeight" destination="Gn1-Sa-4G7" id="Kmd-af-cqJ"/>
                                             <outlet property="btnName" destination="xSs-Ar-EMy" id="Qxk-BX-sQG"/>
+                                            <outlet property="btnSave" destination="08E-j2-YBq" id="LJ3-1P-1wF"/>
+                                            <outlet property="btnSaveWidth" destination="o8E-g5-PlQ" id="bSh-ad-rBQ"/>
                                             <outlet property="btnShare" destination="7Rf-yb-3hR" id="IAj-gk-6WG"/>
                                             <outlet property="imagesCollectionView" destination="NtH-j9-3Bo" id="AoD-DH-bEC"/>
                                             <outlet property="imagesCollectionViewContainer" destination="wUB-Yb-mr1" id="jBT-QO-XCv"/>
@@ -1226,6 +1247,7 @@
         <image name="img_circle_bg_like" width="22" height="8"/>
         <image name="img_circle_delete" width="11" height="13"/>
         <image name="img_circle_like" width="13" height="12"/>
+        <image name="img_circle_save" width="11" height="13"/>
         <image name="img_delete" width="18" height="18"/>
         <image name="img_more_shadow" width="32" height="10"/>
         <image name="img_placeholder_1_1_s" width="80" height="80"/>

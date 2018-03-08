@@ -50,6 +50,47 @@ extension CirclesTableViewCell {
         }
     }
     
+    @IBAction func save() {
+        guard let imgURLs = self.imgURLs else { return }
+        UIAlertController.presentAlert(from: self.parentViewController,
+                                       message: NSLocalizedString("circles_vc_save_alert"),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_save"),
+                                                     style: UIAlertActionStyle.default,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        var urls = [URL]()
+                                                        for dict in imgURLs {
+                                                            if let str = dict["original"], let url = URL(string: str) {
+                                                                urls.append(url)
+                                                            }
+                                                        }
+                                                        self.getAllImages(urls: urls) { images in
+                                                            if images?.count ?? 0 > 0 {
+                                                                MBProgressHUD.show(self.parentViewController?.view)
+                                                            }
+                                                            self.imagesToSave = images
+                                                            self.saveNextImage()
+                                                        }
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                     style: UIAlertActionStyle.cancel,
+                                                     handler: nil))
+    }
+    
+    func saveNextImage() {
+        if let image = self.imagesToSave?.first {
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
+        } else {
+            MBProgressHUD.hide(self.parentViewController?.view)
+        }
+    }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let index = self.imagesToSave?.index(of: image) {
+            self.imagesToSave?.remove(at: index)
+        }
+        self.saveNextImage()
+    }
+    
     @IBAction func share() {
         guard let circle = self.circle else {
             return

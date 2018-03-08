@@ -67,9 +67,7 @@ extension CirclesTableViewCell {
 // MARK: Share original images
 extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
     
-    func forwardTextAndImages(text: String?, urls: [URL]?) {
-        self.textToShare = text
-        
+    func getAllImages(urls: [URL]?, completionHandler: @escaping ([UIImage]?)->()) {
         if let urls = urls {
             var imagesToShare = [URL: UIImage]()
             let dispatchGroup = DispatchGroup()
@@ -101,10 +99,17 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
                         images.append(image)
                     }
                 }
-                self.composeTextAndImages(text: self.textToShare, images: images)
+                completionHandler(images.count > 0 ? images : nil)
             }
         } else {
-            self.composeTextAndImages(text: self.textToShare, images: nil)
+            completionHandler(nil)
+        }
+    }
+    
+    func forwardTextAndImages(text: String?, urls: [URL]?) {
+        self.textToShare = text
+        self.getAllImages(urls: urls) { (images) in
+            self.composeTextAndImages(text: self.textToShare, images: images)
         }
     }
     
