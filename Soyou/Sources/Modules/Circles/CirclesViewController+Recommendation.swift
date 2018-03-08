@@ -14,10 +14,13 @@ extension CirclesViewController {
             return
         }
         let needsToShow = !isSingleUserMode && self.recommendations?.count ?? 0 > 0
-        var frame = tableHeaderView.frame
-        frame.size.height = needsToShow ? 80 : 0
-        tableHeaderView.frame = frame
-        self.tableView().tableHeaderView = tableHeaderView
+        let newHeight: CGFloat = needsToShow ? 80.0 : 0.0
+        if tableHeaderView.frame.height != newHeight {
+            var frame = tableHeaderView.frame
+            frame.size.height = newHeight
+            tableHeaderView.frame = frame
+            self.tableView().tableHeaderView = tableHeaderView
+        }
         self.recommendationsCollectionView.reloadData()
     }
 }

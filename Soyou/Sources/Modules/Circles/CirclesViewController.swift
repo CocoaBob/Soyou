@@ -319,7 +319,8 @@ extension CirclesViewController {
         // Nav buttons
         self.btnBack.isHidden = !self.isSingleUserMode
         self.btnCompose.isHidden = self.isSingleUserMode
-        self.btnMore.isHidden = !self.isSingleUserMode
+        let isMyself = userID == UserManager.shared.userID ?? 0
+        self.btnMore.isHidden = !self.isSingleUserMode || isMyself
         self.loadingIndicatorLeading.constant = self.isSingleUserMode ? 64 : 24
         
         // Setup table
