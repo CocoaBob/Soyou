@@ -45,6 +45,9 @@ class QRCodeViewController: UIViewController {
         self.title = NSLocalizedString("qr_code_vc_title")
         
         // Navigation Items
+        if let vcs = self.navigationController?.viewControllers, vcs.count == 1, vcs.last == self {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissSelf))
+        }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(QRCodeViewController.shareQRCodeImage))
         
         // Setup views

@@ -221,6 +221,10 @@ extension AppDelegate {
             self.showCirclesView()
         } else if self.shortcutItemType == "shortcut.favorites" {
             self.showFavoritesView()
+        } else if self.shortcutItemType == "shortcut.scan" {
+            self.showScanView()
+        } else if self.shortcutItemType == "shortcut.qr_code" {
+            self.showMyQRCodeView()
         }
     }
     
@@ -346,6 +350,14 @@ extension AppDelegate {
             tabBarController.selectedIndex = 3
             navController.popToRootViewController(animated: false)
         }
+    }
+    
+    func showScanView() {
+        Utils.shared.showScanViewController(nil)
+    }
+    
+    func showMyQRCodeView() {
+        Utils.showMyQRCode(nil)
     }
 }
 

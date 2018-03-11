@@ -12,6 +12,8 @@
 "shortcut_search"="搜索";
 "shortcut_circles"="照片墙";
 "shortcut_favorites"="收藏夹";
+"shortcut_scan"="扫描二维码";
+"shortcut_qr_code"="我的二维码";
 "NSLocationWhenInUseUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
 "NSLocationAlwaysUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
 "NSLocationUsageDescription"="我们将使用您的位置帮您定位品牌商店。";

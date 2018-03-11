@@ -22,8 +22,6 @@ extension UniversalLinkerHandler {
             self.handleInvitation(url)
         } else if url.path.hasPrefix("/share") {
             self.handleShare(url)
-//        } else if UIApplication.shared.canOpenURL(url) {
-//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             if let presentedVC = UIViewController.root()?.presentedViewController {
                 presentedVC.dismiss(animated: false, completion: nil)

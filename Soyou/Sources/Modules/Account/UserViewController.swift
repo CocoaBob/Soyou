@@ -205,17 +205,7 @@ extension UserViewController {
     }
     
     func showQRCode() {
-        guard let matricule = UserManager.shared.matricule else { return }
-        var countryName: String?
-        if let countryCode = UserManager.shared.region {
-            countryName = CurrencyManager.shared.countryName(countryCode)
-        }
-        let vc = QRCodeViewController.instantiate(matricule: matricule,
-                                                  avatar: self.userProfileTableViewCell?.imgAvatar?.image,
-                                                  name: UserManager.shared.username,
-                                                  gender: UserManager.shared["gender"] as? String,
-                                                  region: countryName)
-        self.navigationController?.pushViewController(vc, animated: true)
+        Utils.showMyQRCode(self)
     }
     
     func showFollowings() {

@@ -279,3 +279,57 @@ extension Utils {
         return object as AnyObject?
     }
 }
+
+extension Utils {
+    
+    static func showMyQRCode(_ fromVC: UIViewController?) {
+        guard let matricule = UserManager.shared.matricule else { return }
+        var countryName: String?
+        if let countryCode = UserManager.shared.region {
+            countryName = CurrencyManager.shared.countryName(countryCode)
+        }
+        var avatar: UIImage?
+        if let url = URL(string: UserManager.shared.avatar ?? "") {
+            avatar = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: url))
+        }
+        let vc = QRCodeViewController.instantiate(matricule: matricule,
+                                                  avatar: avatar,
+                                                  name: UserManager.shared.username,
+                                                  gender: UserManager.shared["gender"] as? String,
+                                                  region: countryName)
+        if let navC = fromVC?.navigationController {
+            navC.pushViewController(vc, animated: true)
+        } else {
+            if let topVC = UIViewController.root()?.toppestViewController(), topVC is QRCodeViewController {
+                return
+            }
+            let fromVC = fromVC ?? UIViewController.root()?.toppestViewController()
+            fromVC?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - Scan QR Code
+extension Utils: ScanViewControllerDelegate {
+    
+    func showScanViewController(_ fromVC: UIViewController?) {
+        let vc = ScanViewController.instantiate()
+        vc.delegate = self
+        let fromVC = fromVC ?? UIViewController.root()?.toppestViewController()
+        fromVC?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+    }
+    
+    func scanViewControllerDidScanCode(scanVC: ScanViewController, code: String?) {
+        guard let code = code else { return }
+        if let url = URL(string: code) {
+            UniversalLinkerHandler.shared.handleURL(url)
+        } else {
+            UIAlertController.presentAlert(from: UIViewController.root()?.toppestViewController(),
+                                           title: "",
+                                           message: code,
+                                           UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                                         style: UIAlertActionStyle.default,
+                                                         handler: nil))
+        }
+    }
+}

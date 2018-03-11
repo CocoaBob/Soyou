@@ -186,20 +186,6 @@ extension ScanViewController {
 extension ScanViewController {
 
     @IBAction func showMyQRCode() {
-        guard let matricule = UserManager.shared.matricule else { return }
-        var countryName: String?
-        if let countryCode = UserManager.shared.region {
-            countryName = CurrencyManager.shared.countryName(countryCode)
-        }
-        var avatar: UIImage?
-        if let url = URL(string: UserManager.shared.avatar ?? "") {
-            avatar = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: url))
-        }
-        let vc = QRCodeViewController.instantiate(matricule: matricule,
-                                                  avatar: avatar,
-                                                  name: UserManager.shared.username,
-                                                  gender: UserManager.shared["gender"] as? String,
-                                                  region: countryName)
-        self.navigationController?.pushViewController(vc, animated: true)
+        Utils.showMyQRCode(self)
     }
 }

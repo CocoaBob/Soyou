@@ -519,7 +519,7 @@ extension CirclesViewController {
     }
     
     @IBAction func scanQRCode() {
-        self.showScanViewController()
+        Utils.shared.showScanViewController(self)
     }
 }
 

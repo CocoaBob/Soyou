@@ -94,7 +94,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>971</string>
+	<string>974</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -241,27 +241,27 @@
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemIconFile</key>
+			<string>img_shortcut_scan</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_scan</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut.scan</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>img_shortcut_qr_code</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_qr_code</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut.qr_code</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
 			<string>img_shortcut_circles</string>
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>shortcut_circles</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>shortcut.circles</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>img_shortcut_favorites</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>shortcut_favorites</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>shortcut.favorites</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>img_shortcut_news</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>shortcut_news</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>shortcut.news</string>
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconFile</key>
