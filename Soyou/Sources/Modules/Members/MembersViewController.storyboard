@@ -47,7 +47,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_m" translatesAutoresizingMaskIntoConstraints="NO" id="2Nu-wx-LBd">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_orange_v_m" translatesAutoresizingMaskIntoConstraints="NO" id="2Nu-wx-LBd">
                                                     <rect key="frame" x="20" y="16" width="48" height="48"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emx-gs-g4Q">
@@ -155,7 +155,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="img_badge_m" width="48" height="48"/>
+        <image name="img_badge_orange_v_m" width="48" height="48"/>
         <image name="img_cell_unchecked" width="22" height="23"/>
     </resources>
 </document>

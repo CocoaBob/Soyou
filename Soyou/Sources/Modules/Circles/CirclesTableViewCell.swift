@@ -103,7 +103,12 @@ extension CirclesTableViewCell {
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
-        self.imgUserBadge.isHidden = circle.userBadges?.count ?? 0 == 0
+        if let badge = (circle.userBadges as? [NSDictionary])?.first {
+            self.imgUserBadge.isHidden = false
+            self.imgUserBadge.image = Member.badgeImage(badge["id"] as? Int, "m")
+        } else {
+            self.imgUserBadge.isHidden = true
+        }
         self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
         self.btnDeleteWidth.constant = self.btnDelete.isHidden ? 0 : 22
         self.btnSave.isHidden = true//self.imgURLs == nil

@@ -79,7 +79,7 @@
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
                                                             </imageView>
-                                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_m" translatesAutoresizingMaskIntoConstraints="NO" id="yjf-yt-KUQ">
+                                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_orange_v_m" translatesAutoresizingMaskIntoConstraints="NO" id="yjf-yt-KUQ">
                                                                 <rect key="frame" x="0.0" y="0.5" width="48" height="47.5"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NrQ-c7-o9M">
@@ -149,7 +149,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_m" translatesAutoresizingMaskIntoConstraints="NO" id="gRn-UA-gh5">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_orange_v_m" translatesAutoresizingMaskIntoConstraints="NO" id="gRn-UA-gh5">
                                                     <rect key="frame" x="16" y="16" width="48" height="48"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eIz-v2-3zl">
@@ -592,7 +592,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </imageView>
-                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_l" translatesAutoresizingMaskIntoConstraints="NO" id="cVg-LU-lZ3">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_orange_v_l" translatesAutoresizingMaskIntoConstraints="NO" id="cVg-LU-lZ3">
                             <rect key="frame" x="258" y="78" width="84" height="84"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qa0-y2-tbq" userLabel="Follow Button Container">
@@ -651,7 +651,7 @@
                                 <constraint firstAttribute="height" constant="14" id="z5X-7b-Cce"/>
                             </constraints>
                         </imageView>
-                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_s" translatesAutoresizingMaskIntoConstraints="NO" id="iOn-9U-fkp">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge_orange_v_s" translatesAutoresizingMaskIntoConstraints="NO" id="iOn-9U-fkp">
                             <rect key="frame" x="284" y="184.5" width="12" height="12"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="12" id="56Q-VJ-AWM"/>
@@ -1238,16 +1238,16 @@
         <image name="img_arrow_down" width="18" height="10"/>
         <image name="img_avatar_neutral" width="84" height="84"/>
         <image name="img_back" width="16" height="28"/>
-        <image name="img_badge_l" width="80" height="80"/>
-        <image name="img_badge_m" width="48" height="48"/>
-        <image name="img_badge_s" width="12" height="12"/>
+        <image name="img_badge_orange_v_l" width="80" height="80"/>
+        <image name="img_badge_orange_v_m" width="48" height="48"/>
+        <image name="img_badge_orange_v_s" width="12" height="12"/>
         <image name="img_bg_user" width="512" height="512"/>
         <image name="img_camera_shadow" width="36" height="29"/>
         <image name="img_cell_unchecked" width="22" height="23"/>
         <image name="img_circle_bg_like" width="22" height="8"/>
         <image name="img_circle_delete" width="11" height="13"/>
-        <image name="img_circle_like" width="14" height="12"/>
-        <image name="img_circle_save" width="11" height="12"/>
+        <image name="img_circle_like" width="15" height="13"/>
+        <image name="img_circle_save" width="11" height="13"/>
         <image name="img_delete" width="18" height="18"/>
         <image name="img_more_shadow" width="32" height="10"/>
         <image name="img_placeholder_1_1_s" width="80" height="80"/>

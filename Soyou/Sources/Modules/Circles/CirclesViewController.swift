@@ -616,14 +616,20 @@ extension CirclesViewController {
                         }
                         let badgeContent = FmtString(NSLocalizedString("circles_vc_user_certified"), badgeString)
                         if badgeString.isEmpty {
-                            self.imgBadge?.isHidden = true
-                            self.lblBadge?.isHidden = true
+                            self.imgBadge.isHidden = true
+                            self.lblBadge.isHidden = true
                         } else {
-                            self.imgBadge?.isHidden = false
-                            self.lblBadge?.isHidden = false
-                            self.lblBadge?.text = badgeContent
+                            self.imgBadge.isHidden = false
+                            self.lblBadge.isHidden = false
+                            self.lblBadge.text = badgeContent
                         }
-                        self.imgUserBadge.isHidden = badges.count == 0
+                        if let badge = badges.first {
+                            self.imgUserBadge.isHidden = false
+                            self.imgUserBadge.image = Member.badgeImage(badge["id"] as? Int, "l")
+                            self.imgBadge.image = Member.badgeImage(badge["id"] as? Int, "s")
+                        } else {
+                            self.imgUserBadge.isHidden = true
+                        }
                     } else {
                         self.imgUserBadge.isHidden = true
                     }

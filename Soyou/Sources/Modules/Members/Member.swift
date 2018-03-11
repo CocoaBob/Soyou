@@ -56,6 +56,35 @@ struct Member {
     }
 }
 
+// MARK: - Badge image
+extension Member {
+    
+    // Type could be s, m or l
+    static func badgeImage(_ id: Int?, _ type: String) -> UIImage? {
+        guard let id = id else {
+            return nil
+        }
+        var image_name = "img_badge_blue"
+        if id == 1 {
+            image_name = "img_badge_orange_v"
+        } else if id == 2 {
+            image_name = "img_badge_blue_v"
+        } else if id == 3 {
+            image_name = "img_badge_red_v"
+        } else if id == 4 {
+            image_name = "img_badge_green_v"
+        } else if id == 5 {
+            image_name = "img_badge_blue"
+        } else if id == 6 {
+            image_name = "img_badge_purple_v"
+        } else if id == 7 {
+            image_name = "img_badge_yellow_v"
+        }
+        image_name += "_" + type
+        return UIImage(named: image_name)
+    }
+}
+
 extension Member: Hashable {
     
     var hashValue: Int {

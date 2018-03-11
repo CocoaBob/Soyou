@@ -91,7 +91,12 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
-        self.imgUserBadge.isHidden = user.badges?.count ?? 0 == 0
+        if let badge = user.badges?.first as? NSDictionary {
+            self.imgUserBadge.isHidden = false
+            self.imgUserBadge.image = Member.badgeImage(badge["id"] as? Int, "m")
+        } else {
+            self.imgUserBadge.isHidden = true
+        }
         self.lblUsername.text = user.username
     }
 }

@@ -76,7 +76,12 @@ extension MembersTableViewCell {
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }
-        self.imgUserBadge?.isHidden = member.badges?.count ?? 0 == 0
+        if let badge = member.badges?.first as? NSDictionary {
+            self.imgUserBadge?.isHidden = false
+            self.imgUserBadge?.image = Member.badgeImage(badge["id"] as? Int, "m")
+        } else {
+            self.imgUserBadge?.isHidden = true
+        }
         self.lblName.text = member.username
     }
 }
