@@ -312,7 +312,8 @@ extension Utils {
 // MARK: - Scan QR Code
 extension Utils: ScanViewControllerDelegate {
     
-    static func detectQRCode(_ image: UIImage) -> String? {
+    static func detectQRCode(_ image: UIImage?) -> String? {
+        guard let image = image else { return nil }
         guard let ciImage = CIImage(image: image) else { return nil }
         let context = CIContext()
         let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: context, options: nil)

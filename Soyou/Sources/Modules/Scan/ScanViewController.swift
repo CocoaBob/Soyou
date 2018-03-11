@@ -199,10 +199,18 @@ extension ScanViewController {
 extension ScanViewController: TLPhotosPickerViewControllerDelegate {
     
     func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
-        guard let asset = tlphAssets.first, let image = asset.fullResolutionImage else {
-            return
+        guard let asset = tlphAssets.first else { return }
+        if let image = asset.fullResolutionImage {
+            let code = Utils.detectQRCode(image)
+            Utils.shared.handleScannedQRCode(code)
+        } else {
+            MBProgressHUD.show(self.view)
+            asset.cloudImageDownload(progressBlock: { (progress) in
+            }, completionBlock: { (image) in
+                MBProgressHUD.hide(self.view)
+                let code = Utils.detectQRCode(image)
+                Utils.shared.handleScannedQRCode(code)
+            })
         }
-        let code = Utils.detectQRCode(image)
-        Utils.shared.handleScannedQRCode(code)
     }
 }

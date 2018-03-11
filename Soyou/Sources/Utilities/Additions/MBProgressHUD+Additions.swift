@@ -28,7 +28,7 @@ extension MBProgressHUD {
     }
     
     class func hide(_ view: UIView? = nil) {
-        let closure = {
+        let closure: (()->()) = {
             MBProgressHUD.hide(for: view ?? UIApplication.shared.keyWindow!, animated: true)
         }
         if Thread.isMainThread {
