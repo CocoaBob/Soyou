@@ -23,10 +23,7 @@ extension UniversalLinkerHandler {
         } else if url.path.hasPrefix("/share") {
             self.handleShare(url)
         } else {
-            if let presentedVC = UIViewController.root()?.presentedViewController {
-                presentedVC.dismiss(animated: false, completion: nil)
-            }
-            UIViewController.root()?.present(SFSafariViewController(url: url), animated: true, completion: nil)
+            UIViewController.root()?.toppestViewController()?.present(SFSafariViewController(url: url), animated: true, completion: nil)
         }
     }
     

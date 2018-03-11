@@ -10,6 +10,7 @@
 @import AddressBook;
 @import AVFoundation;
 @import Contacts;
+@import CoreImage;
 @import CoreLocation;
 @import Foundation;
 @import MapKit;

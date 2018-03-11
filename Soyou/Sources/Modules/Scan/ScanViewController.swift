@@ -38,6 +38,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         self.title = NSLocalizedString("scan_vc_title")
         self.messageLabel.text = NSLocalizedString("scan_vc_message")
         self.myQRCodeButton.setTitle(NSLocalizedString("scan_vc_my_qr_code"), for: .normal)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("scan_vc_album"), style: .done, target: self, action: #selector(ScanViewController.pickFromAlbum))
         self.setupScanner()
         self.setupOverlayView()
     }
@@ -184,8 +185,24 @@ extension ScanViewController {
 
 // MARK: - Actions
 extension ScanViewController {
+    
+    @IBAction func pickFromAlbum() {
+        PicturePickerViewController.pickOnePhoto(from: self, delegate: self)
+    }
 
     @IBAction func showMyQRCode() {
         Utils.showMyQRCode(self)
+    }
+}
+
+// MARK: Pick a photo to scan QR code
+extension ScanViewController: TLPhotosPickerViewControllerDelegate {
+    
+    func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
+        guard let asset = tlphAssets.first, let image = asset.fullResolutionImage else {
+            return
+        }
+        let code = Utils.detectQRCode(image)
+        Utils.shared.handleScannedQRCode(code)
     }
 }

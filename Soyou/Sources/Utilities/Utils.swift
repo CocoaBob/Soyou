@@ -312,6 +312,20 @@ extension Utils {
 // MARK: - Scan QR Code
 extension Utils: ScanViewControllerDelegate {
     
+    static func detectQRCode(_ image: UIImage) -> String? {
+        guard let ciImage = CIImage(image: image) else { return nil }
+        let context = CIContext()
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: context, options: nil)
+        if let features = detector?.features(in: ciImage) as? [CIQRCodeFeature] {
+            for feature in features  {
+                if let decodedString = feature.messageString {
+                    return decodedString
+                }
+            }
+        }
+        return nil
+    }
+    
     func showScanViewController(_ fromVC: UIViewController?) {
         let vc = ScanViewController.instantiate()
         vc.delegate = self
@@ -320,6 +334,10 @@ extension Utils: ScanViewControllerDelegate {
     }
     
     func scanViewControllerDidScanCode(scanVC: ScanViewController, code: String?) {
+        self.handleScannedQRCode(code)
+    }
+    
+    func handleScannedQRCode(_ code: String?) {
         guard let code = code else { return }
         if let url = URL(string: code) {
             UniversalLinkerHandler.shared.handleURL(url)
