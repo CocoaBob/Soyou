@@ -26,18 +26,44 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_scan_view_bg" translatesAutoresizingMaskIntoConstraints="NO" id="wOm-5P-GkU">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pwh-At-wlh">
+                                <rect key="frame" x="187.5" y="462" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kxy-Dh-R4T">
+                                <rect key="frame" x="172" y="477" width="30" height="30"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.21489483118057251" green="0.73345023393630981" blue="0.055978290736675262" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="showMyQRCode" destination="86h-N5-WwD" eventType="touchUpInside" id="ues-Q5-JeK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="lYd-2X-dsG" firstAttribute="top" secondItem="0kk-gm-8hJ" secondAttribute="top" id="Jl8-rB-T0a"/>
-                            <constraint firstAttribute="trailing" secondItem="lYd-2X-dsG" secondAttribute="trailing" id="axE-vy-uBl"/>
-                            <constraint firstItem="xeN-9a-EhI" firstAttribute="top" secondItem="lYd-2X-dsG" secondAttribute="bottom" id="eGH-Q8-2dG"/>
-                            <constraint firstItem="lYd-2X-dsG" firstAttribute="leading" secondItem="0kk-gm-8hJ" secondAttribute="leading" id="nNC-KG-TPy"/>
+                            <constraint firstItem="lYd-2X-dsG" firstAttribute="trailing" secondItem="0kk-gm-8hJ" secondAttribute="trailing" id="0LX-Do-Gps"/>
+                            <constraint firstItem="wOm-5P-GkU" firstAttribute="leading" secondItem="0kk-gm-8hJ" secondAttribute="leading" id="8QG-Ld-JKy"/>
+                            <constraint firstItem="pwh-At-wlh" firstAttribute="centerX" secondItem="0kk-gm-8hJ" secondAttribute="centerX" id="HYK-qz-wvm"/>
+                            <constraint firstItem="Kxy-Dh-R4T" firstAttribute="centerX" secondItem="0kk-gm-8hJ" secondAttribute="centerX" id="KZe-jr-f8k"/>
+                            <constraint firstItem="Kxy-Dh-R4T" firstAttribute="top" secondItem="pwh-At-wlh" secondAttribute="bottom" constant="15" id="O2N-xh-aWf"/>
+                            <constraint firstItem="lYd-2X-dsG" firstAttribute="leading" secondItem="0kk-gm-8hJ" secondAttribute="leading" id="Ol3-47-kjI"/>
+                            <constraint firstItem="wOm-5P-GkU" firstAttribute="top" secondItem="0kk-gm-8hJ" secondAttribute="top" id="Qv5-jS-ZZl"/>
+                            <constraint firstItem="wOm-5P-GkU" firstAttribute="trailing" secondItem="0kk-gm-8hJ" secondAttribute="trailing" id="UJT-nP-fbl"/>
+                            <constraint firstItem="lYd-2X-dsG" firstAttribute="top" secondItem="0kk-gm-8hJ" secondAttribute="top" id="a0G-Sq-LhF"/>
+                            <constraint firstAttribute="bottom" secondItem="lYd-2X-dsG" secondAttribute="bottom" id="eE7-y8-8af"/>
+                            <constraint firstItem="pwh-At-wlh" firstAttribute="centerY" secondItem="0kk-gm-8hJ" secondAttribute="centerY" constant="160" id="qSf-Zy-xnD"/>
+                            <constraint firstAttribute="bottom" secondItem="wOm-5P-GkU" secondAttribute="bottom" id="xsh-np-TYo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="S4b-w4-d27"/>
                     </view>
                     <navigationItem key="navigationItem" id="aiG-yp-IDF">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="eEY-nT-BYp">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="eEY-nT-BYp">
                             <connections>
                                 <action selector="dismissSelf" destination="86h-N5-WwD" id="frj-04-Du4"/>
                             </connections>
@@ -46,6 +72,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="cameraView" destination="lYd-2X-dsG" id="VWi-y0-uW5"/>
+                        <outlet property="messageLabel" destination="pwh-At-wlh" id="QBv-L4-KZN"/>
+                        <outlet property="myQRCodeButton" destination="Kxy-Dh-R4T" id="zVg-Wp-JYz"/>
+                        <outlet property="overlayView" destination="wOm-5P-GkU" id="VLG-nE-jem"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9XL-Qp-OlG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -53,4 +82,7 @@
             <point key="canvasLocation" x="2092" y="139"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="img_scan_view_bg" width="280" height="280"/>
+    </resources>
 </document>

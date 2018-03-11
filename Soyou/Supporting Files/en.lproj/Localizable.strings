@@ -222,6 +222,8 @@
 
 /* Scan View Controller */
 "scan_vc_title"="Scan QR Code";
+"scan_vc_message"="Align QR Code within frame to scan";
+"scan_vc_my_qr_code"="My QR Code";
 
 /* Profile View Controller */
 "profile_vc_title"="Profile";

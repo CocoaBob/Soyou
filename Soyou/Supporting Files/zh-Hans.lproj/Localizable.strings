@@ -222,6 +222,8 @@
 
 /* Scan View Controller */
 "scan_vc_title"="扫描二维码";
+"scan_vc_message"="将二维码放入框内即可自动扫描";
+"scan_vc_my_qr_code"="我的二维码";
 
 /* Profile View Controller */
 "profile_vc_title"="个人信息";
