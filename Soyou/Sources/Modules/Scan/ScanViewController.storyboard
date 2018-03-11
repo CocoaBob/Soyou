@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Scan View Controller-->
+        <scene sceneID="TR7-Zs-5iN">
+            <objects>
+                <viewController storyboardIdentifier="ScanViewController" id="86h-N5-WwD" customClass="ScanViewController" customModule="Soyou" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tHd-AI-F7h"/>
+                        <viewControllerLayoutGuide type="bottom" id="xeN-9a-EhI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0kk-gm-8hJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYd-2X-dsG">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lYd-2X-dsG" firstAttribute="top" secondItem="0kk-gm-8hJ" secondAttribute="top" id="Jl8-rB-T0a"/>
+                            <constraint firstAttribute="trailing" secondItem="lYd-2X-dsG" secondAttribute="trailing" id="axE-vy-uBl"/>
+                            <constraint firstItem="xeN-9a-EhI" firstAttribute="top" secondItem="lYd-2X-dsG" secondAttribute="bottom" id="eGH-Q8-2dG"/>
+                            <constraint firstItem="lYd-2X-dsG" firstAttribute="leading" secondItem="0kk-gm-8hJ" secondAttribute="leading" id="nNC-KG-TPy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="S4b-w4-d27"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="aiG-yp-IDF">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="eEY-nT-BYp">
+                            <connections>
+                                <action selector="dismissSelf" destination="86h-N5-WwD" id="frj-04-Du4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="cameraView" destination="lYd-2X-dsG" id="VWi-y0-uW5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9XL-Qp-OlG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2092" y="139"/>
+        </scene>
+    </scenes>
+</document>

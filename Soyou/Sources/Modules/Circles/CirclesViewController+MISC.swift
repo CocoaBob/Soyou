@@ -145,3 +145,21 @@ extension CirclesViewController {
         })
     }
 }
+
+// MARK: - Scan QR Code
+extension CirclesViewController: ScanViewControllerDelegate {
+    
+    func showScanViewController() {
+        let vc = ScanViewController.instantiate()
+        vc.delegate = self
+        self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+    }
+
+    func scanViewControllerDidScanCode(scanVC: ScanViewController, code: String?) {
+        if let code = code, let url = URL(string: code) {
+            if url.host?.contains("www.soyou.io") ?? false {
+                UniversalLinkerHandler.shared.handleURL(url)
+            }
+        }
+    }
+}

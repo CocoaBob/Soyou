@@ -11,6 +11,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     // Properties
     @IBOutlet var _tableView: UITableView!
     // Nav Buttons
+    @IBOutlet var btnScan: UIButton!
     @IBOutlet var btnBack: UIButton!
     @IBOutlet var btnCompose: UIButton!
     @IBOutlet var btnMore: UIButton!
@@ -315,6 +316,7 @@ extension CirclesViewController {
         self.title = NSLocalizedString("circles_vc_title")
         
         // Nav buttons
+        self.btnScan.isHidden = self.isSingleUserMode
         self.btnBack.isHidden = !self.isSingleUserMode
         self.btnCompose.isHidden = self.isSingleUserMode
         let isMyself = userID == UserManager.shared.userID ?? 0
@@ -514,6 +516,10 @@ extension CirclesViewController {
         vc.userID = self.isSingleUserMode ? self.userID : UserManager.shared.userID
         vc.isShowingFollowers = sender.tag == 1
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func scanQRCode() {
+        self.showScanViewController()
     }
 }
 

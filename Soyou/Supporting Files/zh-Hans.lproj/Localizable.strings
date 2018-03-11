@@ -220,6 +220,9 @@
 "fav_vc_title_products"="收藏的产品";
 "fav_vc_empty_label"="暂无收藏";
 
+/* Scan View Controller */
+"scan_vc_title"="扫描二维码";
+
 /* Profile View Controller */
 "profile_vc_title"="个人信息";
 "profile_vc_cell_account_username"="名字";

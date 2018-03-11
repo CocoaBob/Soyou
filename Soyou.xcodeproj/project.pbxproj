@@ -109,6 +109,9 @@
 		4597B2401D30FACE00287873 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */; };
 		4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2111D30FACD00287873 /* DDTwitterHandler.m */; };
 		4597B2431D30FACE00287873 /* DDWeChatHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2141D30FACD00287873 /* DDWeChatHandler.m */; };
+		459A7D6E2054FACB00871E85 /* ScanViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 459A7D6C2054FACA00871E85 /* ScanViewController.storyboard */; };
+		459A7D6F2054FACB00871E85 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459A7D6D2054FACA00871E85 /* ScanViewController.swift */; };
+		459A7D71205503FA00871E85 /* UniversalLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459A7D70205503FA00871E85 /* UniversalLinkHandler.swift */; };
 		459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */; };
 		459E16F9202A129200E8206D /* StatusMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E16F8202A129200E8206D /* StatusMessageTableViewCell.swift */; };
 		459E16FB202A643300E8206D /* TableViewCellTopTitleBottomDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 459E16FA202A643300E8206D /* TableViewCellTopTitleBottomDetail.xib */; };
@@ -314,6 +317,9 @@
 		4597B2111D30FACD00287873 /* DDTwitterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTwitterHandler.m; sourceTree = "<group>"; };
 		4597B2131D30FACD00287873 /* DDWeChatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDWeChatHandler.h; sourceTree = "<group>"; };
 		4597B2141D30FACD00287873 /* DDWeChatHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDWeChatHandler.m; sourceTree = "<group>"; };
+		459A7D6C2054FACA00871E85 /* ScanViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ScanViewController.storyboard; sourceTree = "<group>"; };
+		459A7D6D2054FACA00871E85 /* ScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		459A7D70205503FA00871E85 /* UniversalLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkHandler.swift; sourceTree = "<group>"; };
 		459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AFNetworking+Additions.swift"; sourceTree = "<group>"; };
 		459E16F8202A129200E8206D /* StatusMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMessageTableViewCell.swift; sourceTree = "<group>"; };
 		459E16FA202A643300E8206D /* TableViewCellTopTitleBottomDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellTopTitleBottomDetail.xib; sourceTree = "<group>"; };
@@ -523,6 +529,7 @@
 				45A904C82027E7CC00E6EC73 /* Members */,
 				45F5C2971D01DFA70024B5DF /* Info */,
 				45CFA5971C2B1585007D38F3 /* Products */,
+				459A7D6B2054FAAA00871E85 /* Scan */,
 				455D06AD1C0394E200D81ABF /* User */,
 			);
 			path = Modules;
@@ -561,6 +568,7 @@
 				0D28BD711C51749E008CCF80 /* CurrencyManager.swift */,
 				45BED0901C8A3DDF002E375B /* DataManager.swift */,
 				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
+				459A7D70205503FA00871E85 /* UniversalLinkHandler.swift */,
 				45B77F091C05A77B002E3385 /* UserManager.swift */,
 				0D783C7B1C3B2098001CC36D /* Utils.swift */,
 			);
@@ -758,6 +766,15 @@
 				4597B2141D30FACD00287873 /* DDWeChatHandler.m */,
 			);
 			path = Wechat;
+			sourceTree = "<group>";
+		};
+		459A7D6B2054FAAA00871E85 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				459A7D6C2054FACA00871E85 /* ScanViewController.storyboard */,
+				459A7D6D2054FACA00871E85 /* ScanViewController.swift */,
+			);
+			path = Scan;
 			sourceTree = "<group>";
 		};
 		459E90D61D02D41000FEDC3A /* Migration */ = {
@@ -1010,6 +1027,7 @@
 				0D05D6551C484B7D00D8A7C2 /* productDescription.html in Resources */,
 				4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */,
 				455D06A91C0391A600D81ABF /* InfoPlist.strings in Resources */,
+				459A7D6E2054FACB00871E85 /* ScanViewController.storyboard in Resources */,
 				45B8233F1C56C9260034DA98 /* TableViewCellTextField.xib in Resources */,
 				45DAF6751BFA4DC1007355C8 /* LaunchScreen.storyboard in Resources */,
 				457777881BFCE15700805D79 /* Localizable.strings in Resources */,
@@ -1244,6 +1262,7 @@
 				45A904D22028126500E6EC73 /* MembersTableViewCell.swift in Sources */,
 				0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */,
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
+				459A7D6F2054FACB00871E85 /* ScanViewController.swift in Sources */,
 				45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */,
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4585425F204B110500B35355 /* CirclesTableViewCell+Actions.swift in Sources */,
@@ -1341,6 +1360,7 @@
 				4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */,
 				450D47601FFC176700A2F3D1 /* Circle.swift in Sources */,
 				4597B23B1D30FACE00287873 /* DDSocialShareHandler.m in Sources */,
+				459A7D71205503FA00871E85 /* UniversalLinkHandler.swift in Sources */,
 				4525C0F71C5B8B4200C26992 /* Store+CoreDataProperties.swift in Sources */,
 				45FACD521CF50A710040C252 /* FavoriteDiscount.swift in Sources */,
 				45C1D3FA203D1D3B00580A31 /* CirclesViewController+MISC.swift in Sources */,

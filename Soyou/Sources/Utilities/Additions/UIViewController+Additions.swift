@@ -402,3 +402,11 @@ extension UIViewController {
         }
     }
 }
+
+// MARK: RootViewController
+extension UIViewController {
+    
+    static func root() -> UIViewController? {
+        return UIApplication.shared.keyWindow?.rootViewController
+    }
+}

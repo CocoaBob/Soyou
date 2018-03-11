@@ -508,6 +508,18 @@
                                     <action selector="dismissSelf" destination="AQv-Tr-KQN" eventType="touchUpInside" id="An3-jI-3F8"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdB-yb-imN">
+                                <rect key="frame" x="0.0" y="64" width="56" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="Eto-mz-7O7"/>
+                                    <constraint firstAttribute="width" constant="56" id="rTI-Xa-oyM"/>
+                                </constraints>
+                                <state key="normal" image="img_scan_code"/>
+                                <connections>
+                                    <action selector="moreAction" destination="AQv-Tr-KQN" eventType="touchUpInside" id="6gn-kk-UiN"/>
+                                    <action selector="scanQRCode" destination="AQv-Tr-KQN" eventType="touchUpInside" id="IfT-qi-bUO"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MU0-i6-2J8">
                                 <rect key="frame" x="264" y="64" width="56" height="56"/>
                                 <constraints>
@@ -537,8 +549,10 @@
                             <constraint firstItem="Blx-VJ-DkP" firstAttribute="top" secondItem="RXe-Ca-Rs7" secondAttribute="top" id="0XY-7c-jDg"/>
                             <constraint firstItem="Blx-VJ-DkP" firstAttribute="leading" secondItem="RXe-Ca-Rs7" secondAttribute="leading" id="96b-8F-Epa"/>
                             <constraint firstItem="RXe-Ca-Rs7" firstAttribute="top" secondItem="VRh-Vt-oG1" secondAttribute="bottom" id="Dck-IZ-IZ3"/>
+                            <constraint firstItem="FdB-yb-imN" firstAttribute="leading" secondItem="RXe-Ca-Rs7" secondAttribute="leading" id="M5C-sE-Deq"/>
                             <constraint firstItem="0WY-NY-YUX" firstAttribute="bottom" secondItem="RXe-Ca-Rs7" secondAttribute="bottom" id="Uz6-8g-ZRl"/>
                             <constraint firstItem="RXe-Ca-Rs7" firstAttribute="trailing" secondItem="26O-LO-NiM" secondAttribute="trailing" id="XFl-qu-a6i"/>
+                            <constraint firstItem="FdB-yb-imN" firstAttribute="top" secondItem="RXe-Ca-Rs7" secondAttribute="top" id="XH8-fX-CmS"/>
                             <constraint firstItem="MU0-i6-2J8" firstAttribute="top" secondItem="RXe-Ca-Rs7" secondAttribute="top" id="YeK-ok-Byd"/>
                             <constraint firstItem="26O-LO-NiM" firstAttribute="top" secondItem="RXe-Ca-Rs7" secondAttribute="top" id="dNc-uF-9bH"/>
                             <constraint firstItem="0WY-NY-YUX" firstAttribute="leading" secondItem="RXe-Ca-Rs7" secondAttribute="leading" id="mJb-pQ-ygb"/>
@@ -557,6 +571,7 @@
                         <outlet property="btnFollower" destination="ds0-Ei-UfC" id="E2A-gF-JYl"/>
                         <outlet property="btnFollowing" destination="d9y-2A-X5h" id="c8t-A3-x5L"/>
                         <outlet property="btnMore" destination="26O-LO-NiM" id="FWC-CP-QsB"/>
+                        <outlet property="btnScan" destination="FdB-yb-imN" id="a5N-TX-qS8"/>
                         <outlet property="followingFollowerContainer" destination="2kQ-iq-0me" id="icb-nT-U0N"/>
                         <outlet property="imgBadge" destination="iOn-9U-fkp" id="G77-B4-o9y"/>
                         <outlet property="imgGender" destination="h7V-1n-UC8" id="oCL-33-lCR"/>
@@ -1251,5 +1266,6 @@
         <image name="img_delete" width="18" height="18"/>
         <image name="img_more_shadow" width="32" height="10"/>
         <image name="img_placeholder_1_1_s" width="80" height="80"/>
+        <image name="img_scan_code" width="28" height="28"/>
     </resources>
 </document>

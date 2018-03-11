@@ -220,6 +220,9 @@
 "fav_vc_title_products"="Favorite Products";
 "fav_vc_empty_label"="No favorite yet";
 
+/* Scan View Controller */
+"scan_vc_title"="Scan QR Code";
+
 /* Profile View Controller */
 "profile_vc_title"="Profile";
 "profile_vc_cell_account_username"="Name";
