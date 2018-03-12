@@ -96,6 +96,11 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         navC?.pushViewController(CirclesViewController.instantiate(userID, avatar, username), animated: true)
     }
     
+    deinit {
+        self.stopObservingUserManager()
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+    
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -129,10 +134,12 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Observe UserManager.shared.token & avatar
         self.startObservingUserManager()
-    }
-    
-    deinit {
-        self.stopObservingUserManager()
+        
+        // Observe UIApplicationDidBecomeActive to update circles
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(CirclesViewController.checkNewCircles),
+                                               name: Notification.Name.UIApplicationDidBecomeActive,
+                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -164,6 +171,9 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Update Status Bar Cover
         self.updateStatusBarCover(self.tableView().contentOffset.y)
+        
+        // Check if there's newer data
+        self.checkNewCircles()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -247,13 +257,13 @@ extension CirclesViewController {
         self.showLoadingMessage()
         let isRefresh = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
-        if isRefresh {
-            // TODO: Hide red dot
-        }
         self.beginRefreshing()
         DataManager.shared.requestPreviousCicles(timestamp, isRefresh, self.userID, self.isSingleUserMode ? self.singleUserMemCtx() : nil) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                 let data = responseObject["data"] as? [NSDictionary] {
+                if isRefresh {
+                    self.hideRedDot()
+                }
                 self.endRefreshing(data.count)
                 if data.count == 0 {
                     self.showNoDataMessage()
@@ -294,12 +304,6 @@ extension CirclesViewController {
                 self.tableView().panGestureRecognizer.isEnabled = true
             }
         }
-    }
-    
-    func checkNewCircles() {
-        // TODO: If already checked (aka: red dot is visible), return
-        
-        // TODO: Check /secure/circle/:userId/count/:timestamp to see if there are new circles, if true, show red dot
     }
 }
 
@@ -449,7 +453,7 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     }
     
     func didPostNewCircle() {
-        self.checkNewCircles()
+        self.showRedDot()
     }
     
     func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {

@@ -145,3 +145,59 @@ extension CirclesViewController {
         })
     }
 }
+
+// MARK: - Check New Circles
+extension CirclesViewController {
+    
+    @objc func checkNewCircles() {
+        if self.isSingleUserMode {
+            return
+        }
+        if self.isRedDotVisible() {
+            return
+        }
+        if let firstCircle = self.fetchedResultsController?.fetchedObjects?.first as? Circle,
+            let date = firstCircle.createdDate {
+            let timestamp = Cons.utcDateFormatter.string(from: date)
+            DataManager.shared.getNumberOfNewerCircles(self.userID, timestamp) { (responseObject, error) in
+                if let responseObject = responseObject,
+                    let count = DataManager.getResponseData(responseObject) as? Int {
+                    if count > 0 {
+                        self.showRedDot()
+                    } else {
+                        self.hideRedDot()
+                    }
+                }
+            }
+        }
+    }
+    
+    func showRedDot() {
+        if isRedDotVisible() { return }
+        guard let tabbar = self.tabBarController?.tabBar else { return }
+        
+        let tabIndex = 0
+        let redDotRadius: CGFloat = 5
+        let redDotDiameter = redDotRadius * 2
+        let topMargin:CGFloat = 4
+        let count = CGFloat(self.tabBarController!.tabBar.items!.count)
+        let tabHalfWidth = view.bounds.width / (count * 2)
+        let xOffset = tabHalfWidth * CGFloat(tabIndex * 2 + 1)
+        let imageHalfWidth: CGFloat = (tabbar.items?[tabIndex].selectedImage?.size.width ?? 0) / CGFloat(2)
+        let redDot = UIView(frame: CGRect(x: xOffset + imageHalfWidth - redDotRadius, y: topMargin, width: redDotDiameter, height: redDotDiameter))
+        redDot.tag = 1234
+        redDot.backgroundColor = UIColor(hex8:0xE1483CFF)
+        redDot.layer.cornerRadius = redDotRadius
+        self.tabBarController?.tabBar.addSubview(redDot)
+    }
+    
+    func hideRedDot() {
+        guard let tabbar = self.tabBarController?.tabBar else { return }
+        tabbar.subviews.filter({ $0.tag == 1234 }).last?.removeFromSuperview()
+    }
+    
+    func isRedDotVisible() -> Bool {
+        guard let tabbar = self.tabBarController?.tabBar else { return false }
+        return !tabbar.subviews.filter({ $0.tag == 1234 }).isEmpty
+    }
+}

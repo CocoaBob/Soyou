@@ -800,6 +800,14 @@ class DataManager {
         })
     }
     
+    func getNumberOfNewerCircles(_ userId: Int?, _ timestamp: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.getNumberOfNewerCircles(userId, timestamp, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Friends
     //////////////////////////////////////

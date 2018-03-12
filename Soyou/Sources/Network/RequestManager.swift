@@ -23,7 +23,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: General
+    // MARK: - General
     //////////////////////////////////////
     
     func getSyncExternal(_ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -47,7 +47,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Authentication
+    // MARK: - Authentication
     //////////////////////////////////////
     
     func checkToken(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -89,7 +89,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Brands
+    // MARK: - Brands
     //////////////////////////////////////
     
     func requestAllBrands(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -97,7 +97,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Favorites News
+    // MARK: - Favorites News
     //////////////////////////////////////
     
     // Add (remove) news to (from) favorite
@@ -110,7 +110,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Favorites Discounts
+    // MARK: - Favorites Discounts
     //////////////////////////////////////
     
     // Add (remove) discount to (from) favorite
@@ -123,7 +123,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Favorites Products
+    // MARK: - Favorites Products
     //////////////////////////////////////
     
     func favoriteProduct(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -139,7 +139,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: News
+    // MARK: - News
     //////////////////////////////////////
     
     func likeNews(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -177,7 +177,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Discounts
+    // MARK: - Discounts
     //////////////////////////////////////
     
     func likeDiscount(_ id: Int, operation: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -215,7 +215,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Notification
+    // MARK: - Notification
     //////////////////////////////////////
     
     func registerForMonitoring(_ deviceToken: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -227,7 +227,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Products
+    // MARK: - Products
     //////////////////////////////////////
     
     func translateProduct(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -288,7 +288,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Search Products
+    // MARK: - Search Products
     //////////////////////////////////////
     
     func searchProducts(_ query: String?, _ brandId: Int?, _ categories: [Int]?, _ page: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -314,7 +314,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Region
+    // MARK: - Region
     //////////////////////////////////////
     
     func requestAllRegions(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -322,7 +322,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Store
+    // MARK: - Store
     //////////////////////////////////////
     
     func requestAllStores(_ timestamp: String?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -330,7 +330,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Circles
+    // MARK: - Circles
     //////////////////////////////////////
     
     func requestPreviousCicles(_ timestamp: String, _ userID: Int?, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -391,8 +391,12 @@ class RequestManager {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(id)/like", "Circle", ["operation": operation], onSuccess, onFailure)
     }
     
+    func getNumberOfNewerCircles(_ userId: Int?, _ timestamp: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/circle/\(userId ?? 0)/count/\(timestamp)", "Circle", onSuccess, onFailure)
+    }
+    
     //////////////////////////////////////
-    // MARK: Friends
+    // MARK: - Friends
     //////////////////////////////////////
     
     func followFriend(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -412,7 +416,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Tags
+    // MARK: - Tags
     //////////////////////////////////////
     
     func addOrRemoveMembersForTag(_ id: Int, operation: String, userIds: [Int], _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -441,7 +445,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: User
+    // MARK: - User
     //////////////////////////////////////
     
     func getUserInfo(_ userId: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
@@ -502,7 +506,7 @@ class RequestManager {
     }
     
     //////////////////////////////////////
-    // MARK: Analytics
+    // MARK: - Analytics
     //////////////////////////////////////
     
     func sendAnalyticsData(_ target: Int, _ action: Int, _ data: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
