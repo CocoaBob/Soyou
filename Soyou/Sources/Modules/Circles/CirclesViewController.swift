@@ -75,7 +75,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     var isLoadingData = false
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet var loadingIndicatorBottom: NSLayoutConstraint!
-    @IBOutlet var loadingIndicatorLeading: NSLayoutConstraint!
     
     // Status Bar Cover
     var isStatusBarCoverVisible = false
@@ -325,7 +324,6 @@ extension CirclesViewController {
         self.btnCompose.isHidden = self.isSingleUserMode
         let isMyself = userID == UserManager.shared.userID ?? 0
         self.btnMore.isHidden = !self.isSingleUserMode || isMyself
-        self.loadingIndicatorLeading.constant = self.isSingleUserMode ? 64 : 24
         
         // Setup table
         self.tableView().rowHeight = UITableViewAutomaticDimension

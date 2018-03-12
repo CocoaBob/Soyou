@@ -582,7 +582,6 @@
                         <outlet property="lblUsername" destination="Y9Z-lF-JXC" id="Djf-u5-pyg"/>
                         <outlet property="loadingIndicator" destination="VRh-Vt-oG1" id="dZU-Sg-brU"/>
                         <outlet property="loadingIndicatorBottom" destination="Dck-IZ-IZ3" id="amm-By-goK"/>
-                        <outlet property="loadingIndicatorLeading" destination="rwj-sH-4ZG" id="ikZ-Y7-ntT"/>
                         <outlet property="parallaxHeaderView" destination="jmI-uT-zgo" id="MLk-EM-3Cs"/>
                         <outlet property="recommendationsCollectionView" destination="Alu-gL-rVK" id="jev-hl-X8j"/>
                     </connections>
