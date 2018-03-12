@@ -31,6 +31,11 @@
 "photo_picker_photo_library_unavailable_content"="无法访问相册，请修改设置。";
 "photo_picker_settings"="设置";
 
+/* Photo Browser */
+"photo_browser_action_save_image"="保存图片";
+"photo_browser_action_detect_qr_code"="识别二维码";
+"photo_browser_image_saved"="图片已保存";
+
 /* Info View Controller */
 "info_vc_title"="资讯";
 "info_vc_tab_title"="资讯";
@@ -339,6 +344,7 @@
 "currency_unknown"="未知汇率";
 "needs_wechat_account"="转发微信朋友圈功能\n需要登录微信帐户";
 "needs_wechat_account_action"="登录";
+"qr_code_content"="二维码内容";
 
 /* Product descriptions */
 "product_surname"="别名";

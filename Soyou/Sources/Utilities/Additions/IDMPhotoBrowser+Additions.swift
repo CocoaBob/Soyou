@@ -28,6 +28,45 @@ extension IDMPhotoBrowser {
         
         photoBrowser.setInitialPageIndex(index)
         
+        let gesture = UILongPressGestureRecognizer.init(target: photoBrowser, action: #selector(IDMPhotoBrowser.handleLongPressGesture(_:)))
+        photoBrowser.view.addGestureRecognizer(gesture)
+        
         viewVC.present(photoBrowser, animated: true, completion: nil)
+    }
+    
+    @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else { return }
+        guard let currentIndex = self.value(forKey: "_currentPageIndex") as? UInt else { return }
+        guard let photo = self.photo(at: currentIndex) else { return }
+        let code = Utils.detectQRCode(photo.underlyingImage())
+        var actions = [UIAlertAction]()
+        actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_save_image"),
+                                     style: UIAlertActionStyle.default,
+                                     handler: { (action: UIAlertAction) -> Void in
+                                        MBProgressHUD.show(self.view)
+                                        UIImageWriteToSavedPhotosAlbum(photo.underlyingImage(), self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }))
+        if code != nil {
+            actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_detect_qr_code"),
+                                         style: UIAlertActionStyle.default,
+                                         handler: { (action: UIAlertAction) -> Void in
+                                            Utils.shared.handleScannedQRCode(code)
+            }))
+        }
+        actions.append(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                     style: UIAlertActionStyle.cancel,
+                                     handler: nil))
+        UIAlertController.presentActionSheet(from: self, actions: actions)
+    }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        MBProgressHUD.hide(self.view)
+        if let window = UIApplication.shared.keyWindow  {
+            let hud = MBProgressHUD.showAdded(to: window, animated: true)
+            hud.isUserInteractionEnabled = false
+            hud.mode = .text
+            hud.label.text = NSLocalizedString("photo_browser_image_saved")
+            hud.hide(animated: true, afterDelay: 1)
+        }
     }
 }

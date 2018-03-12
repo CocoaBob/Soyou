@@ -29,6 +29,11 @@
 "photo_picker_photo_library_unavailable_content"="No access to photo library, please change the settings.";
 "photo_picker_settings"="Settings";
 
+/* Photo Browser */
+"photo_browser_action_save_image"="Save Image";
+"photo_browser_action_detect_qr_code"="Detect QR Code";
+"photo_browser_image_saved"="Image saved";
+
 /* Info View Controller */
 "info_vc_title"="Info";
 "info_vc_tab_title"="Info";
@@ -340,6 +345,7 @@
 "currency_unknown"="Unknown Currency";
 "needs_wechat_account"="Need to login with WeChat";
 "needs_wechat_account_action"="Login";
+"qr_code_content"="QR Code Content";
 
 /* Product descriptions */
 "product_surname"="Surname";

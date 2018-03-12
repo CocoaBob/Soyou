@@ -344,7 +344,7 @@ extension Utils: ScanViewControllerDelegate {
             UniversalLinkerHandler.shared.handleURL(url)
         } else {
             UIAlertController.presentAlert(from: UIViewController.root()?.toppestViewController(),
-                                           title: "",
+                                           title: NSLocalizedString("qr_code_content"),
                                            message: code,
                                            UIAlertAction(title: NSLocalizedString("alert_button_ok"),
                                                          style: UIAlertActionStyle.default,
