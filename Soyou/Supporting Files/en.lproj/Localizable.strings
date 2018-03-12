@@ -340,6 +340,7 @@
 "alert_button_cancel"="Cancel";
 "alert_button_delete"="Delete";
 "alert_button_save"="Save";
+"alert_button_copy"="Copy";
 
 /* MISC */
 "currency_unknown"="Unknown Currency";

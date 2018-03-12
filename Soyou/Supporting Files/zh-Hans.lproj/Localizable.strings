@@ -339,6 +339,7 @@
 "alert_button_cancel"="取消";
 "alert_button_delete"="删除";
 "alert_button_save"="保存";
+"alert_button_copy"="复制";
 
 /* MISC */
 "currency_unknown"="未知汇率";

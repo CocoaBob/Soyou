@@ -346,8 +346,13 @@ extension Utils: ScanViewControllerDelegate {
             UIAlertController.presentAlert(from: UIViewController.root()?.toppestViewController(),
                                            title: NSLocalizedString("qr_code_content"),
                                            message: code,
-                                           UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                           UIAlertAction(title: NSLocalizedString("alert_button_copy"),
                                                          style: UIAlertActionStyle.default,
+                                                         handler:  { (action: UIAlertAction) -> Void in
+                                                            UIPasteboard.general.string = code
+                                           }),
+                                           UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
+                                                         style: UIAlertActionStyle.cancel,
                                                          handler: nil))
         }
     }
