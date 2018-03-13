@@ -387,7 +387,7 @@ extension CircleComposeViewController {
             MBProgressHUD.show(self.view)
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             UserManager.shared.loginOrDo {
-                let encodedText = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
+                let text = self.tvContent.text
                 let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
                 let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
                 var allowedUserIds = Set<Int>()
@@ -406,21 +406,22 @@ extension CircleComposeViewController {
                         }
                     }
                 }
-                DataManager.shared.createCircle(encodedText, imageDatas, self.visibility,
+                DataManager.shared.createCircle(text, imageDatas, self.visibility,
                                                 allowedUserIds.isEmpty ? nil : Array(allowedUserIds), forbiddenUserIds.isEmpty ? nil : Array(forbiddenUserIds),
                                                 self.originalId) { (responseObject, error) in
                     MBProgressHUD.hide(self.view)
                     self.navigationItem.rightBarButtonItem?.isEnabled = true
                     self.delegate?.didPostNewCircle()
                     self.dismiss(animated: true, completion: {
-                        self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+                        self.delegate?.didDismiss(text: text, images: images, needsToShare: self.shareToWeChat.isOn)
                     })
                 }
             }
         } else {
+            let text = self.tvContent.text
             let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
             self.dismiss(animated: true, completion: {
-                self.delegate?.didDismiss(text: self.tvContent.text, images: images, needsToShare: self.shareToWeChat.isOn)
+                self.delegate?.didDismiss(text: text, images: images, needsToShare: self.shareToWeChat.isOn)
             })
         }
     }
