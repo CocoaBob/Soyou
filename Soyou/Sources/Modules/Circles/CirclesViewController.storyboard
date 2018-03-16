@@ -633,7 +633,7 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8o8-lF-6g2" customClass="MarginLabel" customModule="Soyou" customModuleProvider="target">
-                            <rect key="frame" x="471" y="137" width="0.0" height="0.0"/>
+                            <rect key="frame" x="471" y="141" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -751,7 +751,7 @@
                         <constraint firstItem="73j-oh-zvl" firstAttribute="top" secondItem="jmI-uT-zgo" secondAttribute="top" id="a5n-O5-3Qv"/>
                         <constraint firstItem="ebh-SV-vTf" firstAttribute="top" secondItem="Y9Z-lF-JXC" secondAttribute="bottom" constant="4" id="bPR-8S-rrs"/>
                         <constraint firstItem="qa0-y2-tbq" firstAttribute="leading" secondItem="9P3-pe-DFT" secondAttribute="trailing" constant="8" id="c17-Oq-S2X"/>
-                        <constraint firstItem="8o8-lF-6g2" firstAttribute="top" secondItem="qa0-y2-tbq" secondAttribute="bottom" constant="4" id="ekw-wQ-NU5"/>
+                        <constraint firstItem="8o8-lF-6g2" firstAttribute="top" secondItem="qa0-y2-tbq" secondAttribute="bottom" constant="8" id="ekw-wQ-NU5"/>
                         <constraint firstItem="cVg-LU-lZ3" firstAttribute="width" secondItem="9P3-pe-DFT" secondAttribute="width" id="j2h-hZ-LR4"/>
                         <constraint firstItem="zVn-ST-85r" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="h7V-1n-UC8" secondAttribute="trailing" constant="4" id="jf0-c1-0Sf"/>
                         <constraint firstItem="2kQ-iq-0me" firstAttribute="top" secondItem="ebh-SV-vTf" secondAttribute="bottom" id="lUf-rS-X61"/>

@@ -579,6 +579,7 @@ extension CirclesViewController {
                     // Update Follow/Unfollow button
                     if !isMyself, let friendStatus = data["friendStatus"] as? Int {
                         self.btnFollow.isHidden = false
+                        self.lblFollowStatus.isHidden = false
                         // 0: no friend status specified
                         // 1: current user is following userId
                         // 2: userId is following current user
@@ -609,6 +610,7 @@ extension CirclesViewController {
                         }
                     } else {
                         self.btnFollow.isHidden = true
+                        self.lblFollowStatus.isHidden = true
                     }
                     
                     // Update certifications
