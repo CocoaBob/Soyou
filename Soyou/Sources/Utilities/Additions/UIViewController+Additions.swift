@@ -265,7 +265,7 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         __isDismissingKeyboard = true
         self.view.endEditing(true)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+        DispatchAfter(0.25) {
             __isDismissingKeyboard = false
         }
     }

@@ -122,7 +122,7 @@ extension InvitationSuccessViewController {
         }
         let vc = CirclesViewController.instantiate(self.userID, profileUrl.absoluteString, username)
         self.navigationController?.pushViewController(vc, animated: true)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+        DispatchAfter(0.3) {
             self.navigationController?.setViewControllers([vc], animated: false)
         }
     }

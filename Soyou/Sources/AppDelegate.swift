@@ -380,7 +380,7 @@ extension AppDelegate: UITabBarControllerDelegate {
             viewController.scrollToTop()
         }
         if self.tabBarTapCounter == 1 {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+            DispatchAfter(0.3) {
                 self.tabBarTapCounter = 0
             }
         }
