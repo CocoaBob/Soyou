@@ -199,6 +199,7 @@ extension InfoDetailBaseViewController: CircleComposeViewControllerDelegate {
         vc.selectedAssets = tlphAssets
         vc.visibility = CircleVisibility.friends
         vc.isSharing = true
+        vc.isPublicDisabled = true
         let navC = UINavigationController(rootViewController: vc)
         // Present
         self.present(navC, animated: true, completion: nil)

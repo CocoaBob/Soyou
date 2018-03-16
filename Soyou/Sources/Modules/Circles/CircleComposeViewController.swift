@@ -36,6 +36,7 @@ class CircleComposeViewController: UITableViewController {
             }
         }
     }
+    var isPublicDisabled = false
     
     var visibility: Int = CircleVisibility.friends {
         didSet {
@@ -649,6 +650,7 @@ extension CircleComposeViewController {
     
     func changeVisibility() {
         let vc = CircleVisibilityViewController.instantiate()
+        vc.isPublicDisabled = self.isPublicDisabled
         vc.completionHandler = { visibility, allowedTags, forbiddenTags in
             self.visibility = visibility
             self.allowedTags = allowedTags
@@ -672,9 +674,6 @@ extension CircleComposeViewController {
             vc.selectedTags = Set(allowedTags)
         } else if let forbiddenTags = self.forbiddenTags {
             vc.selectedTags = Set(forbiddenTags)
-        }
-        if self.isSharing {
-            vc.isPublicDisabled = true
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }

@@ -445,6 +445,7 @@ extension CirclesViewController: CircleComposeViewControllerDelegate {
     @IBAction fileprivate func createCircle() {
         let vc = CircleComposeViewController.instantiate()
         vc.delegate = self
+        vc.isPublicDisabled = false
         let navC = UINavigationController(rootViewController: vc)
         // Present
         self.present(navC, animated: true, completion: nil)
@@ -614,6 +615,7 @@ extension CirclesViewController {
                     }
                     
                     // Update certifications
+                    UserManager.shared.hasCurrentUserBadges = false
                     if let badges = data["badges"] as? [NSDictionary] {
                         var badgeString = ""
                         for badge in badges {
@@ -634,6 +636,7 @@ extension CirclesViewController {
                             self.lblBadge.text = badgeContent
                         }
                         if let badge = badges.first {
+                            UserManager.shared.hasCurrentUserBadges = true
                             self.imgUserBadge.isHidden = false
                             self.imgUserBadge.image = Member.badgeImage(badge["id"] as? Int, "l")
                             self.imgBadge.image = Member.badgeImage(badge["id"] as? Int, "s")

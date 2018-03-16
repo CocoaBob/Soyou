@@ -134,6 +134,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.isSharing = true
         vc.visibility = CircleVisibility.friends
         vc.originalId = self.circle?.id
+        vc.isPublicDisabled = !UserManager.shared.hasCurrentUserBadges
         // Present
         self.parentViewController?.present(navC, animated: true, completion: nil)
     }

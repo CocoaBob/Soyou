@@ -11,6 +11,7 @@ class UserManager: NSObject {
     
     static let shared = UserManager()
     fileprivate var currentUser: User?
+    var hasCurrentUserBadges = false
     
     subscript(key: String) -> Any? {
         get {

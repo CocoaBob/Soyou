@@ -104,20 +104,12 @@ extension CircleVisibilityViewController: UITableViewDataSource, UITableViewDele
             (selectedVisibility != Visibility.allowSelected && indexPath.row == Visibility.forbidSelected) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CircleVisibilityTableViewCell", for: indexPath)
             if let cell = cell as? CircleVisibilityTableViewCell {
-                cell.lblTitle.isEnabled = true
-                cell.lblSubTitle.isEnabled = true
-                cell.selectionStyle = .gray
                 if indexPath.row == Visibility.everyone {
                     cell.lblTitle.text = NSLocalizedString("circles_visibility_vc_everyone")
                     cell.lblSubTitle.text = NSLocalizedString("circles_visibility_vc_everyone_desc")
                     cell.imgSelection.isHidden = selectedVisibility != Visibility.everyone
                     cell.imgSelection.image = UIImage(named: "img_cell_selected_green")
                     cell.imgFolder.isHidden = true
-                    if self.isPublicDisabled {
-                        cell.lblTitle.isEnabled = false
-                        cell.lblSubTitle.isEnabled = false
-                        cell.selectionStyle = .none
-                    }
                 } else if indexPath.row == Visibility.followers {
                     cell.lblTitle.text = NSLocalizedString("circles_visibility_vc_followers")
                     cell.lblSubTitle.text = NSLocalizedString("circles_visibility_vc_followers_desc")
@@ -164,7 +156,11 @@ extension CircleVisibilityViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64
+        if self.isPublicDisabled && indexPath.row == Visibility.everyone {
+            return 0
+        } else {
+            return 64
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
