@@ -673,6 +673,9 @@ extension CircleComposeViewController {
         } else if let forbiddenTags = self.forbiddenTags {
             vc.selectedTags = Set(forbiddenTags)
         }
+        if self.isSharing {
+            vc.isPublicDisabled = true
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
