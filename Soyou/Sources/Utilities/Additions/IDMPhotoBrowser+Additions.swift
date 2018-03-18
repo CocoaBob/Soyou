@@ -47,7 +47,12 @@ extension IDMPhotoBrowser {
                                             return
                                         }
                                         MBProgressHUD.show(self.view)
-                                        UIImageWriteToSavedPhotosAlbum(photo.underlyingImage(), self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                                        if var image = photo.underlyingImage() {
+                                            if image.size.width > 1080 && image.size.height > 1080 {
+                                                image = image.resizedImage(byMagick: "1080x1080^")
+                                            }
+                                            UIImageWriteToSavedPhotosAlbum(image, self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                                        }
         }))
         if code != nil {
             actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_detect_qr_code"),
