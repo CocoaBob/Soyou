@@ -110,7 +110,8 @@ class PicturePickerViewController: TLPhotosPickerViewController {
     }
     
     static func isNeedsToShowAuthorizationAlert() -> Bool {
-        if PHPhotoLibrary.authorizationStatus() == .restricted || PHPhotoLibrary.authorizationStatus() == .denied {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .restricted || status == .denied {
             UIAlertController.presentAlert(from: nil,
                                            title: NSLocalizedString("photo_picker_photo_library_unavailable_title"),
                                            message: NSLocalizedString("photo_picker_photo_library_unavailable_content"),
@@ -124,6 +125,11 @@ class PicturePickerViewController: TLPhotosPickerViewController {
                                            UIAlertAction(title: NSLocalizedString("alert_button_close"),
                                                          style: UIAlertActionStyle.cancel,
                                                          handler: nil))
+            return true
+        } else if status == .notDetermined {
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                
+            })
             return true
         }
         return false

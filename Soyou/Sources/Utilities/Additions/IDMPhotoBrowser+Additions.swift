@@ -43,6 +43,9 @@ extension IDMPhotoBrowser {
         actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_save_image"),
                                      style: UIAlertActionStyle.default,
                                      handler: { (action: UIAlertAction) -> Void in
+                                        if PicturePickerViewController.isNeedsToShowAuthorizationAlert() {
+                                            return
+                                        }
                                         MBProgressHUD.show(self.view)
                                         UIImageWriteToSavedPhotosAlbum(photo.underlyingImage(), self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
         }))
@@ -65,7 +68,7 @@ extension IDMPhotoBrowser {
             let hud = MBProgressHUD.showAdded(to: window, animated: true)
             hud.isUserInteractionEnabled = false
             hud.mode = .text
-            hud.label.text = NSLocalizedString("photo_browser_image_saved")
+            hud.label.text = error == nil ? NSLocalizedString("photo_browser_image_saved") : error?.localizedDescription
             hud.hide(animated: true, afterDelay: 1)
         }
     }

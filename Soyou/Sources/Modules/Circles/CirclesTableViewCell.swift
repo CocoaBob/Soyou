@@ -111,7 +111,7 @@ extension CirclesTableViewCell {
         }
         self.btnDelete.isHidden = UserManager.shared.userID != (circle.userId as? Int)
         self.btnDeleteWidth.constant = self.btnDelete.isHidden ? 0 : 22
-        self.btnSave.isHidden = self.imgURLs == nil
+        self.btnSave.isHidden = self.imgURLs == nil || self.imgURLs?.count ?? 0 == 0
         self.btnSaveWidth.constant = self.btnSave.isHidden ? 0 : 22
     }
     

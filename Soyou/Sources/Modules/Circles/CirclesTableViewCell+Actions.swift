@@ -57,6 +57,9 @@ extension CirclesTableViewCell {
                                        UIAlertAction(title: NSLocalizedString("alert_button_save"),
                                                      style: UIAlertActionStyle.default,
                                                      handler: { (action: UIAlertAction) -> Void in
+                                                        if PicturePickerViewController.isNeedsToShowAuthorizationAlert() {
+                                                            return
+                                                        }
                                                         var urls = [URL]()
                                                         for dict in imgURLs {
                                                             if let str = dict["original"], let url = URL(string: str) {
