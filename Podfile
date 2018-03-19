@@ -1,12 +1,10 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-use_frameworks!
 platform :ios, '10.0'
-project "Soyou"
-
+use_frameworks!
 inhibit_all_warnings!
 
-target :'Soyou' do
+target "Soyou" do
 	pod "1PasswordExtension"
 	pod "ActionSheetPicker-3.0"
 	pod "AFNetworking", '~> 2'

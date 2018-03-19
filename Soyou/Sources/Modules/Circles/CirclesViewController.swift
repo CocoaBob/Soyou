@@ -113,10 +113,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = UIRectEdge.all
-        self.extendedLayoutIncludesOpaqueBars = true
-        self.automaticallyAdjustsScrollViewInsets = false
-        
         // Clear old data
         if self.isSingleUserMode {
             self.clearAllCirclesOfCurrentUser()
