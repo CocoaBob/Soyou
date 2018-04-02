@@ -156,6 +156,10 @@
 "circles_visibility_vc_forbidden_followers"="不给谁看";
 "circles_visibility_vc_forbidden_followers_desc"="选中的粉丝不可见";
 
+/* Chats View Controller */
+"chats_vc_title"="私信";
+"chats_vc_tab_title"="私信";
+
 /* Members View Controller */
 "members_vc_title_followers"="粉丝";
 "members_vc_title_followings"="关注";

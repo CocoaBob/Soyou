@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "2H429X3TEM.io.woniu.baodating-cjs",
+                "paths": [ "/invitation/*", "share/*"]
+            }
+        ]
+    }
+}

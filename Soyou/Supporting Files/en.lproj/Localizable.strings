@@ -156,6 +156,10 @@
 "circles_visibility_vc_forbidden_followers"="Except some followers";
 "circles_visibility_vc_forbidden_followers_desc"="Invisible to selected followers";
 
+/* Chats View Controller */
+"chats_vc_title"="Messages";
+"chats_vc_tab_title"="Messages";
+
 /* Members View Controller */
 "members_vc_title_followers"="Followers";
 "members_vc_title_followings"="Followings";

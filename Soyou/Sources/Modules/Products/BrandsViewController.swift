@@ -212,7 +212,9 @@ extension BrandsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "MoreCollectionReusableView", for: indexPath as IndexPath)
+        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                               withReuseIdentifier: "MoreCollectionReusableView",
+                                                               for: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -567,6 +569,7 @@ extension BrandsViewController {
 
 // MARK: - Custom cells
 class BrandsCollectionViewCell: UICollectionViewCell {
+    
     @IBOutlet var fgImageView: UIImageView!
     @IBOutlet var lblTitle: UILabel!
     
@@ -585,6 +588,7 @@ class BrandsCollectionViewCell: UICollectionViewCell {
 }
 
 class MoreCollectionReusableView: UICollectionReusableView {
+    
     @IBOutlet var lblTitle: UILabel!
     
     override func awakeFromNib() {
@@ -600,6 +604,7 @@ class MoreCollectionReusableView: UICollectionReusableView {
 
 
 class BrandsTableViewCell: UITableViewCell {
+    
     @IBOutlet var lblTitle: UILabel!
     
     override func awakeFromNib() {

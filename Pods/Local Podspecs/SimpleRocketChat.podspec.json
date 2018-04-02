@@ -1,0 +1,65 @@
+{
+  "name": "SimpleRocketChat",
+  "version": "2.0.2",
+  "summary": "A simpler version of RocketChat.",
+  "homepage": "https://github.com/CocoaBob/SimpleRocketChat",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "CocoaBob": "mengke.wang@gmail.com"
+  },
+  "social_media_url": "http://twitter.com/CocoaBob",
+  "source": {
+    "git": "https://github.com/CocoaBob/SimpleRocketChat.git",
+    "tag": "v2.0.2"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "SimpleRocketChat/Sources/**/*.swift",
+  "resources": "SimpleRocketChat/**/*.{png,xib,storyboard}",
+  "frameworks": [
+    "Foundation",
+    "UIKit",
+    "UserNotifications"
+  ],
+  "requires_arc": true,
+  "xcconfig": {
+    "SWIFT_INCLUDE_PATHS": "${PODS_ROOT}/SimpleRocketChat/ModuleMap/CommonCrypto"
+  },
+  "preserve_paths": "ModuleMap/CommonCrypto/module.modulemap",
+  "dependencies": {
+    "SwiftyJSON": [
+
+    ],
+    "SlackTextViewController": [
+
+    ],
+    "MobilePlayer": [
+
+    ],
+    "SimpleImageViewer": [
+
+    ],
+    "RCMarkdownParser": [
+
+    ],
+    "RealmSwift": [
+
+    ],
+    "SDWebImage": [
+
+    ],
+    "SDWebImage/GIF": [
+
+    ],
+    "Starscream": [
+
+    ],
+    "ReachabilitySwift": [
+
+    ]
+  }
+}

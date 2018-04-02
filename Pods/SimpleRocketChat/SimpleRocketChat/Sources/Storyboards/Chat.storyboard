@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Rocket.Chat-->
+        <scene sceneID="sPN-TU-rHY">
+            <objects>
+                <viewController storyboardIdentifier="ChatViewController" extendedLayoutIncludesOpaqueBars="YES" id="A1E-cs-q8E" customClass="ChatViewController" customModule="SimpleRocketChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rlV-iR-eWf"/>
+                        <viewControllerLayoutGuide type="bottom" id="AmO-ZE-7Kw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OVX-LA-RMF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fbt-TF-z7U">
+                                <rect key="frame" x="157.5" y="276.5" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="RDs-qf-dR9"/>
+                                    <constraint firstAttribute="width" constant="60" id="rqT-ly-vaC"/>
+                                </constraints>
+                            </view>
+                            <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Stw-bA-gXV">
+                                <rect key="frame" x="297" y="667" width="50" height="50"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="bhf-ad-40E"/>
+                                    <constraint firstAttribute="width" constant="50" id="yvM-a6-qZc"/>
+                                </constraints>
+                                <state key="normal" image="Arrow Down"/>
+                                <connections>
+                                    <action selector="buttonScrollToBottomPressed:" destination="A1E-cs-q8E" eventType="touchUpInside" id="t4d-sb-ypv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="fbt-TF-z7U" firstAttribute="centerX" secondItem="OVX-LA-RMF" secondAttribute="centerX" id="KJR-gK-4gl"/>
+                            <constraint firstItem="Stw-bA-gXV" firstAttribute="bottom" secondItem="AmO-ZE-7Kw" secondAttribute="top" constant="50" id="Rmd-sZ-pDt"/>
+                            <constraint firstItem="fbt-TF-z7U" firstAttribute="centerY" secondItem="OVX-LA-RMF" secondAttribute="centerY" constant="-27" id="cGn-Mi-wTF"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Stw-bA-gXV" secondAttribute="trailing" constant="12" id="hLW-Z0-cMV"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Rocket.Chat" id="NRY-HN-GEa"/>
+                    <connections>
+                        <outlet property="activityIndicatorContainer" destination="fbt-TF-z7U" id="Nmz-IG-SvM"/>
+                        <outlet property="buttonScrollToBottom" destination="Stw-bA-gXV" id="u7H-cM-6TS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IA8-7w-0ga" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="422" y="636"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Arrow Down" width="25" height="25"/>
+    </resources>
+</document>

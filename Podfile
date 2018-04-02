@@ -39,11 +39,11 @@ target "Soyou" do
 #    pod "PullToDismiss"
 	pod "ZoomInteractiveTransition"
     
-	#Continuous Integration
+	# Continuous Integration
 	pod "Fabric"
 	pod "Crashlytics"
 
-    #SNS SDKs
+    # SNS SDKs
 #    pod "DDThirdShareLibrary/TencentSDK" // Added manually
     pod "WechatOpenSDK"
     pod "WeiboSDK", '~> 3.1.3'
@@ -53,10 +53,18 @@ target "Soyou" do
     pod "TwitterCore", '~> 2'
     pod "Google/SignIn"
     
+    # Simple Rocket Chat
+    pod "SimpleRocketChat", :git => 'git://github.com/CocoaBob/SimpleRocketChat', :commit => '020f20e173b518dd5f7545332e7d5c5dde8dfb31'
+    # Override the dependencies of Rocket Chat
+    pod "SlackTextViewController", :git => 'https://github.com/rafaelks/SlackTextViewController.git'
+    pod "MobilePlayer"
+    pod "SimpleImageViewer", :git => 'https://github.com/cardoso/SimpleImageViewer.git'
+    pod "RCMarkdownParser", :git => 'https://github.com/RocketChat/RCMarkdownParser.git'
+    
 #    pod "Alamofire"
 end
 
-Swift4Targets = ['TLPhotoPicker', 'SnapKit']
+Swift4Targets = ['TLPhotoPicker', 'SnapKit', 'SimpleRocketChat']
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|

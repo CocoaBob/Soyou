@@ -30,6 +30,8 @@ public struct Cons {
         static let uuid                                     = "uuid"
         static let token                                    = "token"
         static let deviceToken                              = "deviceToken"
+        static let imUserId                                 = "imUserId"
+        static let imAuthToken                              = "imAuthToken"
         static let roleCode                                 = "roleCode"
         static let DidRegisterForRemoteNotifications        = "DidRegisterForRemoteNotifications"
         static let genderSecret                             = 1

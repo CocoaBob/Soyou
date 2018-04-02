@@ -37,6 +37,7 @@
 @import PageMenu;
 @import PFCarouselView;
 @import QRCode;
+@import SimpleRocketChat;
 @import SMCalloutView;
 @import SnapKit;
 @import SSZipArchive;

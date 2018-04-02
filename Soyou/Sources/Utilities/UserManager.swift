@@ -10,8 +10,19 @@
 class UserManager: NSObject {
     
     static let shared = UserManager()
-    fileprivate var currentUser: User?
+    fileprivate var currentUser: User? {
+        didSet {
+            self.willChangeValue(for: \.isLoggedIn)
+            self.didChangeValue(for: \.isLoggedIn)
+        }
+    }
     var hasCurrentUserBadges = false
+    var isRocketChatReady: Bool = false {
+        didSet {
+            self.willChangeValue(for: \.isLoggedIn)
+            self.didChangeValue(for: \.isLoggedIn)
+        }
+    }
     
     subscript(key: String) -> Any? {
         get {
@@ -91,11 +102,45 @@ extension UserManager {
             return UICKeyChainStore.string(forKey: Cons.Usr.token)
         }
         set {
+            self.willChangeValue(for: \.isLoggedIn)
             if newValue != nil {
                 UICKeyChainStore.setString(newValue, forKey: Cons.Usr.token)
             } else {
                 UICKeyChainStore.removeItem(forKey: Cons.Usr.token)
             }
+            self.didChangeValue(for: \.isLoggedIn)
+        }
+    }
+    
+    // Rocket Chat User Id
+    var imUserId: String? {
+        get {
+            return UICKeyChainStore.string(forKey: Cons.Usr.imUserId)
+        }
+        set {
+            self.willChangeValue(for: \.isLoggedIn)
+            if newValue != nil {
+                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.imUserId)
+            } else {
+                UICKeyChainStore.removeItem(forKey: Cons.Usr.imUserId)
+            }
+            self.didChangeValue(for: \.isLoggedIn)
+        }
+    }
+    
+    // Rocket Chat token
+    var imAuthToken: String? {
+        get {
+            return UICKeyChainStore.string(forKey: Cons.Usr.imAuthToken)
+        }
+        set {
+            self.willChangeValue(for: \.isLoggedIn)
+            if newValue != nil {
+                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.imAuthToken)
+            } else {
+                UICKeyChainStore.removeItem(forKey: Cons.Usr.imAuthToken)
+            }
+            self.didChangeValue(for: \.isLoggedIn)
         }
     }
 }
@@ -112,7 +157,7 @@ extension UserManager {
         })
     }
     
-    func logIn(_ token: String) {
+    func userDidLogIn(_ token: String) {
         self.token = token
         // Load Favorites
         DataManager.shared.requestNewsFavorites(nil)
@@ -139,10 +184,28 @@ extension UserManager {
         FavoriteDiscount.deleteAll()
         FavoriteProduct.deleteAll()
         Circle.deleteAll()
+        // RocketChat
+        self.isRocketChatReady = false
     }
     
     var isLoggedIn: Bool {
-        return self.token != nil && self.currentUser != nil
+        return self.token != nil && self.currentUser != nil && self.imUserId != nil && self.imAuthToken != nil
+    }
+}
+
+// RocketChat
+extension UserManager {
+    
+    func signInRocketChat(_ completion: (()->())?) {
+        guard let imUserId = self.imUserId, let imAuthToken = self.imAuthToken else {
+                completion?()
+                return
+        }
+        let server = "wss://test-im.soyou.io/websocket"
+        RocketChatManager.signIn(socketServerAddress: server, userId: imUserId, token: imAuthToken) { success in
+            self.isRocketChatReady = success
+            completion?()
+        }
     }
 }
 

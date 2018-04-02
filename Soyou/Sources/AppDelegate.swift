@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        UserManager.shared.removeObserver(self, forKeyPath: "deviceToken")
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -53,8 +54,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup the window (must before MBProgressHUD)
         self.setupWindow()
         
-        // Setup view controllers (Must after setupWindow())
+        // Setup TabBarController
         self.setupTabBarController()
+        
+        // Setup view controllers (Must after setupWindow())
+        self.setupViewControllers()
+        
+        // Observe
+        UserManager.shared.addObserver(self, forKeyPath: "isLoggedIn", options: .new, context: nil)
         
         // Setup the overlay window
         self.setupOverlayWindow()
@@ -156,6 +163,16 @@ extension AppDelegate {
     }
 }
 
+// MARK: - KVO
+extension AppDelegate {
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "isLoggedIn" {
+            self.setupViewControllers()
+        }
+    }
+}
+
 // MARK: - Routines
 extension AppDelegate {
     
@@ -189,18 +206,40 @@ extension AppDelegate {
     }
     
     func setupTabBarController() {
-        let storyboardNames = ["CirclesViewController", "ProductsViewController", "InfoViewController", "UserViewController"]
-        let viewControllers = storyboardNames.flatMap {
-            UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
-        }
-        
         // Setup the tab bar controller
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = viewControllers
         tabBarController.delegate = self
         
         self.window?.rootViewController = tabBarController
         self.uiIsInitialized = true
+    }
+    
+    func setupViewControllers() {
+        guard let tabBarController = self.window?.rootViewController as? UITabBarController else { return }
+        
+        var viewControllers = [UIViewController]()
+        if let existingVCs = tabBarController.viewControllers {
+            viewControllers.append(contentsOf: existingVCs)
+        } else {
+            let storyboardNames = ["CirclesViewController", "ProductsViewController", "InfoViewController", "UserViewController"]
+            let newVCs = storyboardNames.flatMap {
+                UIStoryboard(name: $0, bundle: nil).instantiateInitialViewController()
+            }
+            viewControllers.append(contentsOf: newVCs)
+        }
+        
+        if UserManager.shared.isLoggedIn && viewControllers.count == 4 {
+            guard let rocketChatVC = SubscriptionsViewController.shared else { return }
+            rocketChatVC.tabBarItem = UITabBarItem(title: NSLocalizedString("chats_vc_tab_title"),
+                                                   image: UIImage(named: "img_tab_chat"),
+                                                   selectedImage: UIImage(named: "img_tab_chat_selected"))
+            let navV = UINavigationController(rootViewController: rocketChatVC)
+            viewControllers.insert(navV, at: 1)
+        } else if !UserManager.shared.isLoggedIn && viewControllers.count == 5 {
+            viewControllers.remove(at: 1)
+        }
+        
+        tabBarController.setViewControllers(viewControllers, animated: true)
     }
     
     func setupSocialServices() {

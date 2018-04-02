@@ -98,8 +98,14 @@ class DataManager {
                         UserManager.shared[key] = value
                     }
                 }
-                if let token = data["token"] as? String {
-                    UserManager.shared.logIn(token)
+                if let value = data["token"] as? String {
+                    UserManager.shared.userDidLogIn(value)
+                }
+                if let value = data["imUserId"] as? String {
+                    UserManager.shared.imUserId = value
+                }
+                if let value = data["imAuthToken"] as? String {
+                    UserManager.shared.imAuthToken = value
                 }
                 if let profileUrl = data["profileUrl"] as? String {
                     UserManager.shared.avatar = profileUrl
@@ -108,7 +114,9 @@ class DataManager {
                     UserManager.shared.username = username.removingPercentEncoding ?? username
                 }
             }
-            self.completeWithData(responseObject, completion: completion)
+            UserManager.shared.signInRocketChat() {
+                self.completeWithData(responseObject, completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })
@@ -141,14 +149,22 @@ class DataManager {
                     }
                 }
                 if let token = data["token"]! as? String {
-                    UserManager.shared.logIn(token)
+                    UserManager.shared.userDidLogIn(token)
+                }
+                if let value = data["imUserId"] as? String {
+                    UserManager.shared.imUserId = value
+                }
+                if let value = data["imAuthToken"] as? String {
+                    UserManager.shared.imAuthToken = value
                 }
                 if let username = data["username"] as? String {
                     UserManager.shared.username = username.removingPercentEncoding ?? username
                 }
                 profileURL = data["profileUrl"] as? String
             }
-            completion?(responseObject, nil, profileURL)
+            UserManager.shared.signInRocketChat() {
+                completion?(responseObject, nil, profileURL)
+            }
         }, { error in
             self.handleError(error)
             completion?(nil, error, nil)
@@ -166,16 +182,24 @@ class DataManager {
     func resetPassword(_ verifyCode: String, _ password: String, _ completion: CompletionClosure?) {
         RequestManager.shared.resetPassword(verifyCode, password, { responseObject in
             if let data = DataManager.getResponseData(responseObject) as? NSDictionary {
-                if let token = data["token"]! as? String {
-                    UserManager.shared.logIn(token)
-                }
                 for (key, value) in data {
                     if let key = key as? String {
                         UserManager.shared[key] = value
                     }
                 }
+                if let token = data["token"]! as? String {
+                    UserManager.shared.userDidLogIn(token)
+                }
+                if let value = data["imUserId"] as? String {
+                    UserManager.shared.imUserId = value
+                }
+                if let value = data["imAuthToken"] as? String {
+                    UserManager.shared.imAuthToken = value
+                }
             }
-            self.completeWithData(responseObject, completion: completion)
+            UserManager.shared.signInRocketChat() {
+                self.completeWithData(responseObject, completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })
