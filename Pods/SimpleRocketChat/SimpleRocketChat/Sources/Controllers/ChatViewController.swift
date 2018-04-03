@@ -150,9 +150,8 @@ final class ChatViewController: SLKTextViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = UIColor.white
-        navigationController?.navigationBar.tintColor = UIColor(rgb: 0x5B5B5B, alphaVal: 1)
+        
+        self.hidesBottomBarWhenPushed = true
 
         collectionView?.isPrefetchingEnabled = true
         collectionView?.keyboardDismissMode = .interactive
@@ -180,7 +179,6 @@ final class ChatViewController: SLKTextViewController {
         } else {
             subscription = nil
         }
-
 
         view.bringSubview(toFront: activityIndicatorContainer)
         view.bringSubview(toFront: buttonScrollToBottom)
@@ -267,7 +265,7 @@ final class ChatViewController: SLKTextViewController {
         collectionViewCells.forEach {
             collectionView?.register(UINib(
                 nibName: $0.nibName,
-                bundle: Bundle.main
+                bundle: Bundle(for: type(of: self))
             ), forCellWithReuseIdentifier: $0.cellIdentifier)
         }
 
@@ -278,7 +276,7 @@ final class ChatViewController: SLKTextViewController {
         autoCompletionViewCells.forEach {
             autoCompletionView.register(UINib(
                 nibName: $0.nibName,
-                bundle: Bundle.main
+                bundle: Bundle(for: type(of: self))
             ), forCellReuseIdentifier: $0.cellIdentifier)
         }
     }

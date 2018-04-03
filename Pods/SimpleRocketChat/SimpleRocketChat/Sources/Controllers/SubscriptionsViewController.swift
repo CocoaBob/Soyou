@@ -27,6 +27,16 @@ public final class SubscriptionsViewController: UIViewController {
         super.awakeFromNib()
         subscribeModelChanges()
     }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if !SocketManager.isConnected() {
+            SocketManager.reconnect() {
+                self.reloadData()
+            }
+        }
+    }
 }
 
 extension SubscriptionsViewController {
