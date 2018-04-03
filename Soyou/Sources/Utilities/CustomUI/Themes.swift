@@ -14,8 +14,10 @@ class Themes {
         
         // UINavigationBar
         UINavigationBar.appearance().barStyle = .default
+        UINavigationBar.appearance().isOpaque = true
+        UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().tintColor = Cons.UI.colorNavBar
-        UINavigationBar.appearance().isTranslucent = true
+        UINavigationBar.appearance().backgroundColor = Cons.UI.colorBG
         
         // UITabBar
         UITabBar.appearance().isTranslucent = false

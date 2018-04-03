@@ -230,6 +230,7 @@ extension AppDelegate {
         
         if UserManager.shared.isLoggedIn && viewControllers.count == 4 {
             guard let rocketChatVC = SubscriptionsViewController.shared else { return }
+            rocketChatVC.title = NSLocalizedString("chats_vc_title")
             rocketChatVC.tabBarItem = UITabBarItem(title: NSLocalizedString("chats_vc_tab_title"),
                                                    image: UIImage(named: "img_tab_chat"),
                                                    selectedImage: UIImage(named: "img_tab_chat_selected"))
@@ -364,13 +365,19 @@ extension AppDelegate {
     
     func showSearchView() {
         if let tabBarController = self.window?.rootViewController as? UITabBarController,
-            let navController = tabBarController.viewControllers?[1] as? UINavigationController,
-            let brandsViewController = navController.viewControllers.first as? BrandsViewController {
-            tabBarController.selectedIndex = 1
-            navController.popToRootViewController(animated: false)
-            let _ = brandsViewController.view
-            DispatchQueue.main.async {
-                brandsViewController.searchController?.searchBar.becomeFirstResponder()
+            let viewControllers = tabBarController.viewControllers {
+            var searchTabIndex = 1
+            if viewControllers.count == 5 {
+                searchTabIndex = 2
+            }
+            if let navController = viewControllers[searchTabIndex] as? UINavigationController,
+                let brandsViewController = navController.viewControllers.first as? BrandsViewController {
+                tabBarController.selectedIndex = searchTabIndex
+                navController.popToRootViewController(animated: false)
+                let _ = brandsViewController.view
+                DispatchQueue.main.async {
+                    brandsViewController.searchController?.searchBar.becomeFirstResponder()
+                }
             }
         }
     }

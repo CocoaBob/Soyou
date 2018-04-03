@@ -17,12 +17,6 @@ class UserManager: NSObject {
         }
     }
     var hasCurrentUserBadges = false
-    var isRocketChatReady: Bool = false {
-        didSet {
-            self.willChangeValue(for: \.isLoggedIn)
-            self.didChangeValue(for: \.isLoggedIn)
-        }
-    }
     
     subscript(key: String) -> Any? {
         get {
@@ -184,8 +178,6 @@ extension UserManager {
         FavoriteDiscount.deleteAll()
         FavoriteProduct.deleteAll()
         Circle.deleteAll()
-        // RocketChat
-        self.isRocketChatReady = false
     }
     
     var isLoggedIn: Bool {
@@ -198,12 +190,11 @@ extension UserManager {
     
     func signInRocketChat(_ completion: (()->())?) {
         guard let imUserId = self.imUserId, let imAuthToken = self.imAuthToken else {
-                completion?()
-                return
+            completion?()
+            return
         }
         let server = "wss://test-im.soyou.io/websocket"
         RocketChatManager.signIn(socketServerAddress: server, userId: imUserId, token: imAuthToken) { success in
-            self.isRocketChatReady = success
             completion?()
         }
     }
