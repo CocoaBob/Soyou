@@ -24,7 +24,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.allowedLivePhotos = false
         configure.allowedVideo = false
         configure.allowedVideoRecording = false
-        configure.numberOfColumn = 3
+        configure.numberOfColumn = 4
         configure.singleSelectedMode = false
         configure.maxSelectedAssets = 9
         configure.fetchOption = nil
@@ -55,7 +55,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.allowedLivePhotos = false
         configure.allowedVideo = false
         configure.allowedVideoRecording = false
-        configure.numberOfColumn = 3
+        configure.numberOfColumn = 4
         configure.singleSelectedMode = true
         configure.maxSelectedAssets = 1
         configure.fetchOption = nil
@@ -87,7 +87,8 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.allowedLivePhotos = false
         configure.allowedVideo = false
         configure.allowedVideoRecording = false
-        configure.numberOfColumn = 3
+        configure.numberOfColumn = 4
+        configure.itemMinSpacing = 1
         configure.singleSelectedMode = maxSelection == 1
         configure.maxSelectedAssets = maxSelection
         configure.fetchOption = nil
