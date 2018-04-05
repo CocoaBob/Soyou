@@ -25,7 +25,7 @@ class KeyboardFrameView: UIView {
     }
 
     private func registerForNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrameNotificationReceived), name: Notification.Name.UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardFrameView.keyboardDidChangeFrameNotificationReceived), name: Notification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
 
     func updateFrame() {

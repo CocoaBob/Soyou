@@ -41,7 +41,7 @@ final class ChatMessageTextView: UIView {
     private static let imageViewDefaultWidth = CGFloat(50)
 
     private lazy var tapGesture: UITapGestureRecognizer = {
-        return UITapGestureRecognizer(target: self, action: #selector(viewDidTapped(_:)))
+        return UITapGestureRecognizer(target: self, action: #selector(ChatMessageTextView.viewDidTapped(_:)))
     }()
 
     func prepareView() {

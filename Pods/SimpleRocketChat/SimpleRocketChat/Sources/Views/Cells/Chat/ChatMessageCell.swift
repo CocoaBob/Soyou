@@ -153,7 +153,7 @@ final class ChatMessageCell: UICollectionViewCell {
 
     func insertGesturesIfNeeded() {
         if longPressGesture == nil {
-            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressMessageCell(recognizer:)))
+            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(ChatMessageCell.handleLongPressMessageCell(recognizer:)))
             gesture.minimumPressDuration = 0.325
             gesture.delegate = self
             addGestureRecognizer(gesture)
@@ -162,7 +162,7 @@ final class ChatMessageCell: UICollectionViewCell {
         }
 
         if usernameTapGesture == nil {
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(handleUsernameTapGestureCell(recognizer:)))
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(ChatMessageCell.handleUsernameTapGestureCell(recognizer:)))
             gesture.delegate = self
             labelUsername.addGestureRecognizer(gesture)
 
@@ -170,7 +170,7 @@ final class ChatMessageCell: UICollectionViewCell {
         }
 
         if avatarTapGesture == nil {
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(handleUsernameTapGestureCell(recognizer:)))
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(ChatMessageCell.handleUsernameTapGestureCell(recognizer:)))
             gesture.delegate = self
             avatarView.addGestureRecognizer(gesture)
 

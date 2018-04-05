@@ -47,7 +47,7 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
     }
 
     private lazy var tapGesture: UITapGestureRecognizer = {
-        return UITapGestureRecognizer(target: self, action: #selector(didTapView))
+        return UITapGestureRecognizer(target: self, action: #selector(ChatMessageImageView.didTapView))
     }()
 
     private func getImage() -> URL? {

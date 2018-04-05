@@ -34,7 +34,7 @@ final class ChatMessageURLView: UIView {
     @IBOutlet weak var labelURLDescription: UILabel!
 
     private lazy var tapGesture: UITapGestureRecognizer = {
-        return UITapGestureRecognizer(target: self, action: #selector(viewDidTapped(_:)))
+        return UITapGestureRecognizer(target: self, action: #selector(ChatMessageURLView.viewDidTapped(_:)))
     }()
 
     fileprivate func updateMessageInformation() {
