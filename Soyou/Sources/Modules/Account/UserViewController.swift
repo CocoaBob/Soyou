@@ -23,6 +23,9 @@ class UserViewController: SimpleTableViewController {
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("user_vc_tab_title"),
                                        image: UIImage(named: "img_tab_user"),
                                        selectedImage: UIImage(named: "img_tab_user_selected"))
+        
+        // KVO
+        self.startObservingUserManager()
     }
     
     override func viewDidLoad() {
@@ -31,26 +34,21 @@ class UserViewController: SimpleTableViewController {
         // Title
         self.title = NSLocalizedString("user_vc_title")
         
-        // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, 0, true, true, false, true)
+        if let tableView = self.tableView {
+            // Fix scroll view insets
+            self.updateScrollViewInset(tableView, 0, true, true, false, true)
+        }
         
         // Background Color
-        self.tableView.backgroundColor = Cons.UI.colorBG
+        self.tableView?.backgroundColor = Cons.UI.colorBG
         
         // Navigation Items
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "img_heart"), style: .plain, target: self, action: #selector(UserViewController.likeApp(_:)))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "img_gear"), style: .plain, target: self, action: #selector(UserViewController.showSettingsViewController(_:)))
-        
-        // Observe UserManager.shared.token/avatar/username
-        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextUserViewController)
-        UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextUserViewController)
-        UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextUserViewController)
     }
     
     deinit {
-        UserManager.shared.removeObserver(self, forKeyPath: "token")
-        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
-        UserManager.shared.removeObserver(self, forKeyPath: "username")
+        self.stopObservingUserManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,21 +69,6 @@ class UserViewController: SimpleTableViewController {
         return UIStatusBarStyle.lightContent
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &KVOContextUserViewController {
-            if keyPath == "token" {
-                self.rebuildTable()
-                self.tableView.reloadData()
-            } else if keyPath == "avatar" {
-                self.userProfileTableViewCell?.updateUserInfo(true)
-            } else if keyPath == "username" {
-                self.userProfileTableViewCell?.updateUserInfo(false)
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-    
     // MARK: - UITableViewDataSource, UITableViewDelegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = sections[indexPath.section].rows[indexPath.row]
@@ -102,6 +85,37 @@ class UserViewController: SimpleTableViewController {
             }
         } else {
             return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+    }
+}
+
+// MARK: - KVO
+extension UserViewController {
+    
+    func startObservingUserManager() {
+        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextUserViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextUserViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextUserViewController)
+    }
+    
+    func stopObservingUserManager() {
+        UserManager.shared.removeObserver(self, forKeyPath: "token")
+        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
+        UserManager.shared.removeObserver(self, forKeyPath: "username")
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &KVOContextUserViewController {
+            if keyPath == "token" {
+                self.rebuildTable()
+                self.tableView?.reloadData()
+            } else if keyPath == "avatar" {
+                self.userProfileTableViewCell?.updateUserInfo(true)
+            } else if keyPath == "username" {
+                self.userProfileTableViewCell?.updateUserInfo(false)
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 }

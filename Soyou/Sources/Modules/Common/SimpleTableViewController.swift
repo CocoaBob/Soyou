@@ -110,7 +110,7 @@ struct Section {
 
 class SimpleTableViewController: UIViewController {
     
-    @objc var tableView: UITableView!
+    @objc var tableView: UITableView?
     
     fileprivate var tableStyle: UITableViewStyle?
     
@@ -144,34 +144,35 @@ class SimpleTableViewController: UIViewController {
         
         // If created programmatically
         if self.tableView == nil {
-            self.tableView = UITableView(frame: self.view.bounds, style: self.tableStyle ?? .grouped)
-            self.tableView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-            self.tableView.delegate = self
-            self.tableView.dataSource = self
-            self.view.addSubview(self.tableView)
+            let tableView = UITableView(frame: self.view.bounds, style: self.tableStyle ?? .grouped)
+            tableView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+            tableView.delegate = self
+            tableView.dataSource = self
+            self.view.addSubview(tableView)
+            self.tableView = tableView
         }
-        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        self.tableView?.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         
-        self.tableView.estimatedRowHeight = 44
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-//        self.tableView.estimatedSectionHeaderHeight = 15
-//        self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-//        self.tableView.estimatedSectionFooterHeight = 5
-//        self.tableView.sectionFooterHeight = UITableViewAutomaticDimension
-//        self.tableView.tableHeaderView = UIView(frame: CGRect.zero)
-//        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView?.estimatedRowHeight = 44
+        self.tableView?.rowHeight = UITableViewAutomaticDimension
+//        self.tableView?.estimatedSectionHeaderHeight = 15
+//        self.tableView?.sectionHeaderHeight = UITableViewAutomaticDimension
+//        self.tableView?.estimatedSectionFooterHeight = 5
+//        self.tableView?.sectionFooterHeight = UITableViewAutomaticDimension
+//        self.tableView?.tableHeaderView = UIView(frame: CGRect.zero)
+//        self.tableView?.tableFooterView = UIView(frame: CGRect.zero)
         
         // Background Color
-        self.tableView.backgroundColor = Cons.UI.colorBG
+        self.tableView?.backgroundColor = Cons.UI.colorBG
         
         // Register custom cells
-        self.tableView.register(UINib(nibName: "TableViewCellCenterTitle",           bundle: Bundle.main), forCellReuseIdentifier: "CenterTitle")
-        self.tableView.register(UINib(nibName: "TableViewCellIconTitle",             bundle: Bundle.main), forCellReuseIdentifier: "IconTitle")
-        self.tableView.register(UINib(nibName: "TableViewCellIconTitleContent",      bundle: Bundle.main), forCellReuseIdentifier: "IconTitleContent")
-        self.tableView.register(UINib(nibName: "TableViewCellLeftTitle",             bundle: Bundle.main), forCellReuseIdentifier: "LeftTitle")
-        self.tableView.register(UINib(nibName: "TableViewCellLeftTitleRightDetail",  bundle: Bundle.main), forCellReuseIdentifier: "LeftTitleRightDetail")
-        self.tableView.register(UINib(nibName: "TableViewCellTopTitleBottomDetail",  bundle: Bundle.main), forCellReuseIdentifier: "TopTitleBottomDetail")
-        self.tableView.register(UINib(nibName: "TableViewCellTextField",             bundle: Bundle.main), forCellReuseIdentifier: "TextField")
+        self.tableView?.register(UINib(nibName: "TableViewCellCenterTitle",           bundle: Bundle.main), forCellReuseIdentifier: "CenterTitle")
+        self.tableView?.register(UINib(nibName: "TableViewCellIconTitle",             bundle: Bundle.main), forCellReuseIdentifier: "IconTitle")
+        self.tableView?.register(UINib(nibName: "TableViewCellIconTitleContent",      bundle: Bundle.main), forCellReuseIdentifier: "IconTitleContent")
+        self.tableView?.register(UINib(nibName: "TableViewCellLeftTitle",             bundle: Bundle.main), forCellReuseIdentifier: "LeftTitle")
+        self.tableView?.register(UINib(nibName: "TableViewCellLeftTitleRightDetail",  bundle: Bundle.main), forCellReuseIdentifier: "LeftTitleRightDetail")
+        self.tableView?.register(UINib(nibName: "TableViewCellTopTitleBottomDetail",  bundle: Bundle.main), forCellReuseIdentifier: "TopTitleBottomDetail")
+        self.tableView?.register(UINib(nibName: "TableViewCellTextField",             bundle: Bundle.main), forCellReuseIdentifier: "TextField")
         
         // Setup table data
         if sections.isEmpty {
@@ -386,7 +387,7 @@ extension SimpleTableViewController: UITextFieldDelegate {
     
     @objc func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let position = textField.convert(CGPoint.zero, to: self.tableView)
-        guard let indexPath = self.tableView.indexPathForRow(at: position) else { return true }
+        guard let indexPath = self.tableView?.indexPathForRow(at: position) else { return true }
         
         if let nextTextField = self.findNextTextField(textField, indexPath) {
             nextTextField.becomeFirstResponder()
@@ -404,7 +405,7 @@ extension SimpleTableViewController {
     @objc func textFieldDidEdit(_ textField: UITextField) {
         self.editedText = textField.text
         let position = textField.convert(CGPoint.zero, to: self.tableView)
-        guard let indexPath = self.tableView.indexPathForRow(at: position) else { return }
+        guard let indexPath = self.tableView?.indexPathForRow(at: position) else { return }
         let row = sections[indexPath.section].rows[indexPath.row]
         textField.textColor = row.title?.color
     }
@@ -429,7 +430,7 @@ extension SimpleTableViewController {
             for idxRow in (indexPath != nil ? indexPath!.row : 0)..<self.sections[idxSection].rows.count {
                 let row = sections[idxSection].rows[idxRow]
                 if row.type == .TextField {
-                    if let tableViewCell = self.tableView.cellForRow(at: IndexPath(row: idxRow, section: idxSection)) as? TableViewCellTextField {
+                    if let tableViewCell = self.tableView?.cellForRow(at: IndexPath(row: idxRow, section: idxSection)) as? TableViewCellTextField {
                         if tableViewCell.tfTitle != textField {
                             return tableViewCell.tfTitle
                         }

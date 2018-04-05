@@ -37,8 +37,8 @@ class ProfileViewController: SimpleTableViewController {
         
         // Reload table in case UserInfo is updated
         rebuildTable()
-        if let indexPaths = self.tableView.indexPathsForVisibleRows {
-            self.tableView.reloadRows(at: indexPaths, with: .fade)
+        if let indexPaths = self.tableView?.indexPathsForVisibleRows {
+            self.tableView?.reloadRows(at: indexPaths, with: .fade)
         }
     }
 }
@@ -193,8 +193,8 @@ extension ProfileViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             // Validation
-            guard let tfNewEmail = (simpleViewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? TableViewCellTextField)?.tfTitle else { return }
-            guard let tfConfirmNewEmail = (simpleViewController.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TableViewCellTextField)?.tfTitle else { return }
+            guard let tfNewEmail = (simpleViewController.tableView?.cellForRow(at: IndexPath(row: 0, section: 0)) as? TableViewCellTextField)?.tfTitle else { return }
+            guard let tfConfirmNewEmail = (simpleViewController.tableView?.cellForRow(at: IndexPath(row: 1, section: 0)) as? TableViewCellTextField)?.tfTitle else { return }
             if (tfNewEmail.text != nil &&
                 tfNewEmail.text == tfConfirmNewEmail.text &&
                 tfNewEmail.text!.isEmail()) {
@@ -290,9 +290,9 @@ extension ProfileViewController {
                                     if let selectedIndexPath = simpleViewController.selectedIndexPath {
                                         rowsToReload.append(selectedIndexPath)
                                     }
-                                    simpleViewController.tableView.beginUpdates()
-                                    simpleViewController.tableView.reloadRows(at: rowsToReload, with: .fade)
-                                    simpleViewController.tableView.endUpdates()
+                                    simpleViewController.tableView?.beginUpdates()
+                                    simpleViewController.tableView?.reloadRows(at: rowsToReload, with: .fade)
+                                    simpleViewController.tableView?.endUpdates()
                                 }
                 })
                 rows.append(row)
@@ -354,9 +354,9 @@ extension ProfileViewController {
                 didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
                     simpleViewController.navigationItem.rightBarButtonItem?.isEnabled = (indexPath.row != UserManager.shared.genderIndex)
                     if simpleViewController.updateSelectionCheckmark(indexPath) {
-                        simpleViewController.tableView.beginUpdates()
-                        simpleViewController.tableView.reloadRows(at: [simpleViewController.selectedIndexPath!, indexPath], with: .fade)
-                        simpleViewController.tableView.endUpdates()
+                        simpleViewController.tableView?.beginUpdates()
+                        simpleViewController.tableView?.reloadRows(at: [simpleViewController.selectedIndexPath!, indexPath], with: .fade)
+                        simpleViewController.tableView?.endUpdates()
                     }
                 })
             rows.append(row)

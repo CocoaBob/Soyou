@@ -84,11 +84,13 @@ class LoginViewController: UIViewController {
         
         // Bars
         self.hidesBottomBarWhenPushed = true
+        
+        // Observing token to aotumatically dismiss
+        self.startObservingUserManager()
     }
     
     deinit {
-        // Stop observing
-        UserManager.shared.removeObserver(self, forKeyPath: "token")
+        self.stopObservingUserManager()
     }
     
     override func viewDidLoad() {
@@ -158,9 +160,6 @@ class LoginViewController: UIViewController {
             segmentedControl.segmentIndicatorBorderWidth = 0
             segmentedControl.usesSpringAnimations = true
         }
-        
-        // Observing token to aotumatically dismiss
-        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextLoginViewController)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -200,6 +199,18 @@ class LoginViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.keyboardControlRotateWithTransitionCoordinator(coordinator)
+    }
+}
+
+// MARK: - KVO
+extension LoginViewController {
+    
+    func startObservingUserManager() {
+        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextLoginViewController)
+    }
+    
+    func stopObservingUserManager() {
+        UserManager.shared.removeObserver(self, forKeyPath: "token")
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

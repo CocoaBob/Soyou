@@ -48,7 +48,7 @@ class SettingsViewController: SimpleTableViewController {
                                                          action: #selector(SettingsViewController.toggleSTGMode))
         doubleDoubleGesture.numberOfTapsRequired = 10
         doubleDoubleGesture.numberOfTouchesRequired = 2
-        self.tableView.addGestureRecognizer(doubleDoubleGesture)
+        self.tableView?.addGestureRecognizer(doubleDoubleGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,7 +77,7 @@ extension SettingsViewController {
     
     override func rebuildTable() {
         self.rebuildTable() {
-            self.tableView.reloadData()
+            self.tableView?.reloadData()
         }
     }
     
@@ -231,7 +231,7 @@ extension SettingsViewController {
         // UI
         simpleViewController.title = NSLocalizedString("settings_vc_cell_about")
         let _ = simpleViewController.view
-        simpleViewController.tableView.separatorStyle = .none
+        simpleViewController.tableView?.separatorStyle = .none
         // Data
         var title = "\n" + NSLocalizedString("app_about_title")
         if let shortVersionString = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString" as String) as? String {
@@ -337,9 +337,9 @@ extension SettingsViewController {
                                 if let selectedIndexPath = simpleViewController.selectedIndexPath {
                                     rowsToReload.append(selectedIndexPath)
                                 }
-                                simpleViewController.tableView.beginUpdates()
-                                simpleViewController.tableView.reloadRows(at: rowsToReload, with: .fade)
-                                simpleViewController.tableView.endUpdates()
+                                simpleViewController.tableView?.beginUpdates()
+                                simpleViewController.tableView?.reloadRows(at: rowsToReload, with: .fade)
+                                simpleViewController.tableView?.endUpdates()
                             }
             })
             rows.append(row)
@@ -422,9 +422,9 @@ extension SettingsViewController {
                         if let selectedIndexPath = simpleViewController.selectedIndexPath {
                             rowsToReload.append(selectedIndexPath)
                         }
-                        simpleViewController.tableView.beginUpdates()
-                        simpleViewController.tableView.reloadRows(at: rowsToReload, with: .fade)
-                        simpleViewController.tableView.endUpdates()
+                        simpleViewController.tableView?.beginUpdates()
+                        simpleViewController.tableView?.reloadRows(at: rowsToReload, with: .fade)
+                        simpleViewController.tableView?.endUpdates()
                     }
             })
             rows.append(row)
@@ -529,7 +529,7 @@ extension SettingsViewController {
             var row = self.sections[3].rows[0]
             row.title?.text = cacheSize != nil ? (NSLocalizedString("settings_vc_cell_clear_cache") + " (" + strSize + ")") : NSLocalizedString("settings_vc_cell_clearing_cache")
             self.sections[3].rows = [row]
-            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 3)], with: .fade)
+            self.tableView?.reloadRows(at: [IndexPath(row: 0, section: 3)], with: .fade)
         }
     }
     
@@ -547,8 +547,8 @@ extension SettingsViewController {
     func refreshUI() {
         // Reload table in case UserInfo is updated
         rebuildTable() {
-            if let indexPaths = self.tableView.indexPathsForVisibleRows {
-                self.tableView.reloadRows(at: indexPaths, with: .fade)
+            if let indexPaths = self.tableView?.indexPathsForVisibleRows {
+                self.tableView?.reloadRows(at: indexPaths, with: .fade)
             }
         }
         
@@ -567,7 +567,7 @@ extension SettingsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         DispatchQueue.main.async {
             self.rebuildTable() {
-                self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
+                self.tableView?.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
             }
         }
     }
@@ -589,7 +589,7 @@ extension SettingsViewController {
         (UIApplication.shared.delegate as? AppDelegate)?.setupOverlayWindow()
         // Update table
         self.rebuildTable() {
-            self.tableView.reloadData()
+            self.tableView?.reloadData()
         }
     }
 }

@@ -108,6 +108,9 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.tabBarItem = UITabBarItem(title: NSLocalizedString("circles_vc_tab_title"),
                                        image: UIImage(named: "img_tab_images"),
                                        selectedImage: UIImage(named: "img_tab_images_selected"))
+        
+        // Observe UserManager.shared.token & avatar
+        self.startObservingUserManager()
     }
     
     override func viewDidLoad() {
@@ -126,9 +129,6 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         
         // Create FetchedResultsController and load data
         self.reloadDataWithoutCompletion()
-        
-        // Observe UserManager.shared.token & avatar
-        self.startObservingUserManager()
         
         // Observe UIApplicationDidBecomeActive to update circles
         NotificationCenter.default.addObserver(self,
