@@ -35,20 +35,22 @@ class IntroViewController: NSObject {
         guard let keyWindow = UIApplication.shared.keyWindow else { return }
         
         var introPages = [EAIntroPage]()
+        var size = keyWindow.bounds.size
+        size.height = size.height - Cons.UI.screenTopMargin - Cons.UI.screenBottomMargin
         
         for i in 0..<IntroViewPage.count.rawValue {
             let page: IntroViewPage = IntroViewPage(rawValue: i) ?? .count
             switch page {
             case .welcome:
-                introPages.append(introPageForWelcome(keyWindow.bounds.size))
+                introPages.append(introPageForWelcome(size))
             case .search:
-                introPages.append(introPageForSearch(keyWindow.bounds.size))
+                introPages.append(introPageForSearch(size))
             case .prices:
-                introPages.append(introPageForPrices(keyWindow.bounds.size))
+                introPages.append(introPageForPrices(size))
             case .map:
-                introPages.append(introPageForMap(keyWindow.bounds.size))
+                introPages.append(introPageForMap(size))
             case .news:
-                introPages.append(introPageForNews(keyWindow.bounds.size))
+                introPages.append(introPageForNews(size))
             default:
                 break
             }
@@ -57,11 +59,14 @@ class IntroViewController: NSObject {
         self.introView = EAIntroView(frame: keyWindow.bounds, andPages: introPages)
         self.introView?.delegate = self
         self.introView?.bgImage = UIImage(named: "img_bg_user")
-        self.introView?.pageControlY = 24
-        self.introView?.skipButtonY = 8
+        self.introView?.pageControlY = 36 + Cons.UI.screenBottomMargin
+        self.introView?.skipButtonY = 42 + Cons.UI.screenBottomMargin
+        self.introView?.skipButtonSideMargin = 16
         self.introView?.skipButton.setTitle(NSLocalizedString("intro_vc_skip_button_done"), for: .normal)
         self.introView?.showSkipButtonOnlyOnLastPage = true
-//        self.introView?.swipeToExit = false
+        if #available(iOS 11.0, *) {
+            self.introView?.scrollView?.contentInsetAdjustmentBehavior = .never
+        }
         
         self.introView?.show(in: keyWindow, animateDuration: 0.3)
     }
@@ -99,7 +104,7 @@ extension IntroViewController {
         let introPage = self.newIntroPage("intro_vc_title_map", "intro_vc_desc_map", "intro_vc_image_map", viewSize)
         
         if CLLocationManager.authorizationStatus() == .notDetermined {
-            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 50 - 44, width: 240, height: 44))
+            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 44 - 26, width: 240, height: 44))
             actionButton.borderColor = UIColor.white
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
@@ -115,7 +120,7 @@ extension IntroViewController {
         let introPage = self.newIntroPage("intro_vc_title_news", "intro_vc_desc_news", "intro_vc_image_news", viewSize)
         
         if !UIApplication.shared.isRegisteredForRemoteNotifications {
-            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 50 - 44, width: 240, height: 44))
+            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 44 - 26, width: 240, height: 44))
             actionButton.borderColor = UIColor.white
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
