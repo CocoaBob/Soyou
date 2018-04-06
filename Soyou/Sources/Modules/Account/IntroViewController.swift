@@ -104,7 +104,7 @@ extension IntroViewController {
         let introPage = self.newIntroPage("intro_vc_title_map", "intro_vc_desc_map", "intro_vc_image_map", viewSize)
         
         if CLLocationManager.authorizationStatus() == .notDetermined {
-            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 44 - 26, width: 240, height: 44))
+            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 44 - 36, width: 240, height: 44))
             actionButton.borderColor = UIColor.white
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5
@@ -120,7 +120,7 @@ extension IntroViewController {
         let introPage = self.newIntroPage("intro_vc_title_news", "intro_vc_desc_news", "intro_vc_image_news", viewSize)
         
         if !UIApplication.shared.isRegisteredForRemoteNotifications {
-            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 44 - 26, width: 240, height: 44))
+            let actionButton = UIButton(frame: CGRect(x: (viewSize.width - 240)/2.0, y: viewSize.height - 44 - 36, width: 240, height: 44))
             actionButton.borderColor = UIColor.white
             actionButton.borderWidth = 1
             actionButton.cornerRadius = 5

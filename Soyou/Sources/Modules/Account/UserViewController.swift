@@ -87,6 +87,14 @@ class UserViewController: SimpleTableViewController {
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
     }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return CGFloat.leastNormalMagnitude
+        } else {
+            return super.tableView(tableView, heightForHeaderInSection: section)
+        }
+    }
 }
 
 // MARK: - KVO
