@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 extension ChatViewController {
-    override func didChangeAutoCompletionPrefix(_ prefix: String, andWord word: String) {
+    override public func didChangeAutoCompletionPrefix(_ prefix: String, andWord word: String) {
         guard let realm = Realm.shared else { return }
 
         searchResult = []
@@ -50,23 +50,23 @@ extension ChatViewController {
         showAutoCompletionView(show)
     }
 
-    override func heightForAutoCompletionView() -> CGFloat {
+    override public func heightForAutoCompletionView() -> CGFloat {
         return AutocompleteCell.minimumHeight * CGFloat(searchResult.count)
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResult.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return autoCompletionCellForRowAtIndexPath(indexPath)
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return AutocompleteCell.minimumHeight
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let result = searchResult[indexPath.row]
         let key = result.0
 

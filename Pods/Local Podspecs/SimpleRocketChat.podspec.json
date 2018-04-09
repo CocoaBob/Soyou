@@ -20,6 +20,11 @@
   },
   "source_files": "SimpleRocketChat/Sources/**/*.swift",
   "resources": "SimpleRocketChat/**/*.{png,xib,storyboard}",
+  "resource_bundles": {
+    "SimpleRocketChat": [
+      "SimpleRocketChat/Resources/*.lproj/*.strings"
+    ]
+  },
   "frameworks": [
     "Foundation",
     "UIKit",

@@ -72,7 +72,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     }
 
     // MARK: UIImagePickerControllerDelegate
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         var filename = String.random()
         var file: FileUpload?
 
@@ -142,7 +142,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         dismiss(animated: true, completion: nil)
     }
 
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
 
@@ -163,7 +163,7 @@ extension ChatViewController: UIDocumentMenuDelegate {
         present(documentPicker, animated: true, completion: nil)
     }
 
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         dismiss(animated: true, completion: nil)
     }
 
@@ -186,7 +186,7 @@ extension ChatViewController: UIDocumentPickerDelegate {
 
     // MARK: UIDocumentPickerDelegate
 
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         if controller.documentPickerMode == .import {
             if let file = UploadHelper.file(for: url) {
                 uploadDialog(file)

@@ -14,7 +14,7 @@ import FLAnimatedImage
 
 extension ChatViewController: UIDocumentInteractionControllerDelegate {
 
-    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+    public func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
 

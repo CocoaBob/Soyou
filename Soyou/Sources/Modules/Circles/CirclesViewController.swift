@@ -19,6 +19,8 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     @IBOutlet var parallaxHeaderView: UIView!
     @IBOutlet var imgUserAvatar: UIImageView!
     @IBOutlet var imgUserBadge: UIImageView!
+    @IBOutlet var btnMessage: UIButton!
+    @IBOutlet var lblMessageStatus: UILabel!
     @IBOutlet var btnFollow: UIButton!
     @IBOutlet var lblFollowStatus: UILabel!
     @IBOutlet var lblUsername: UILabel!
@@ -355,6 +357,12 @@ extension CirclesViewController {
         self.lblUsername.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CirclesViewController.avatarAction)))
         
         // User Info related
+        self.btnMessage.layer.cornerRadius = 4
+        self.btnMessage.clipsToBounds = true
+        self.btnMessage.setTitle(NSLocalizedString("circles_vc_user_btn_message"), for: .normal)
+        self.lblMessageStatus.backgroundColor = UIColor(white: 0, alpha: 0.1)
+        self.lblMessageStatus.layer.cornerRadius = 4
+        self.lblMessageStatus.clipsToBounds = true
         self.btnFollow.layer.cornerRadius = 4
         self.btnFollow.clipsToBounds = true
         self.lblFollowStatus.layer.cornerRadius = 4
@@ -382,6 +390,8 @@ extension CirclesViewController {
     
     func hideUserInfoRelatedControls() {
         self.imgUserBadge.isHidden = true
+        self.btnMessage.isHidden = true
+        self.lblMessageStatus.isHidden = true
         self.btnFollow.isHidden = true
         self.lblFollowStatus.isHidden = true
         self.imgGender.isHidden = true
@@ -469,6 +479,17 @@ extension CirclesViewController {
                 if self.avatar != nil, let image = self.imgUserAvatar.image {
                     IDMPhotoBrowser.present([IDMPhoto(image: image)], index: 0, view: self.imgUserAvatar, scaleImage: image, viewVC: self)
                 }
+            }
+        }
+    }
+    
+    @IBAction func messageAction(_ sender: UIButton) {
+        guard let userID = self.userID else { return }
+        let username = 100000 + userID
+        RocketChatManager.openDirectMessage(username: "\(username)") {
+            if let chatVC = ChatViewController.shared {
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                self.navigationController?.pushViewController(chatVC, animated: true)
             }
         }
     }
@@ -573,15 +594,19 @@ extension CirclesViewController {
             // Load User Info
             DataManager.shared.getUserInfo(userID) { response, error in
                 if let response = response as? Dictionary<String, AnyObject>, let data = response["data"] as? [String: AnyObject] {
+                    var isFollowing = false
+                    var isFollower = false
                     // Update Follow/Unfollow button
                     if !isMyself, let friendStatus = data["friendStatus"] as? Int {
+                        self.btnMessage.isHidden = false
+                        self.lblMessageStatus.isHidden = false
                         self.btnFollow.isHidden = false
                         self.lblFollowStatus.isHidden = false
                         // 0: no friend status specified
                         // 1: current user is following userId
                         // 2: userId is following current user
                         // 3: both are following each other
-                        let isFollowing = friendStatus & 1 == 1
+                        isFollowing = friendStatus & 1 == 1
                         if isFollowing {
                             self.btnFollow.backgroundColor = UIColor(hex8: 0xD4514CFF)
                             self.btnFollow.layer.borderColor = UIColor.clear.cgColor
@@ -597,7 +622,7 @@ extension CirclesViewController {
                             self.btnFollow.setTitle(NSLocalizedString("circles_vc_user_follow"), for: .normal)
                             self.btnFollow.tag = 0
                         }
-                        let isFollower = friendStatus & 2 == 2
+                        isFollower = friendStatus & 2 == 2
                         if isFollower {
                             self.lblFollowStatus.text = NSLocalizedString("circles_vc_user_follows_you")
                             self.lblFollowStatus.backgroundColor = UIColor(hex8: 0x829FC8FF)
@@ -606,8 +631,24 @@ extension CirclesViewController {
                             self.lblFollowStatus.backgroundColor = UIColor(white: 0, alpha: 0.1)
                         }
                     } else {
+                        self.btnMessage.isHidden = true
+                        self.lblMessageStatus.isHidden = true
                         self.btnFollow.isHidden = true
                         self.lblFollowStatus.isHidden = true
+                    }
+                    
+                    // Update Message button based on the following/follower status
+                    let isMessageButtonEnabled = isFollowing || isFollower
+                    if isMessageButtonEnabled {
+                        self.btnMessage.isEnabled = true
+                        self.btnMessage.backgroundColor = UIColor(hex8: 0x19AD19FF)
+                        self.btnMessage.setTitleColor(UIColor.white, for: .normal)
+                        self.lblMessageStatus.text = NSLocalizedString("circles_vc_user_tap_to_message")
+                    } else {
+                        self.btnMessage.isEnabled = false
+                        self.btnMessage.backgroundColor = UIColor(white: 0, alpha: 0.05)
+                        self.btnMessage.setTitleColor(UIColor(white: 0, alpha: 0.33), for: .normal)
+                        self.lblMessageStatus.text = NSLocalizedString("circles_vc_user_follow_to_message")
                     }
                     
                     // Update certifications

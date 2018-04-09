@@ -179,7 +179,7 @@ DEPENDENCIES:
   - RCMarkdownParser (from `https://github.com/RocketChat/RCMarkdownParser.git`)
   - SDWebImage
   - SimpleImageViewer (from `https://github.com/cardoso/SimpleImageViewer.git`)
-  - SimpleRocketChat (from `git://github.com/CocoaBob/SimpleRocketChat`, branch `master`)
+  - SimpleRocketChat (from `git://github.com/CocoaBob/SimpleRocketChat`, commit `f1db7c49f14512d693ee8866726b9b4796457ca4`)
   - SlackTextViewController (from `https://github.com/rafaelks/SlackTextViewController.git`)
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, branch `master`)
   - SnapKit (~> 4.0.0)
@@ -218,7 +218,7 @@ EXTERNAL SOURCES:
   SimpleImageViewer:
     :git: https://github.com/cardoso/SimpleImageViewer.git
   SimpleRocketChat:
-    :branch: master
+    :commit: f1db7c49f14512d693ee8866726b9b4796457ca4
     :git: git://github.com/CocoaBob/SimpleRocketChat
   SlackTextViewController:
     :git: https://github.com/rafaelks/SlackTextViewController.git
@@ -255,7 +255,7 @@ CHECKOUT OPTIONS:
     :commit: 0398657e933c8c8f06831a93d2cc96610e18a4f2
     :git: https://github.com/cardoso/SimpleImageViewer.git
   SimpleRocketChat:
-    :commit: 14eef431c0af0c77c5a62e902be300df450c57b8
+    :commit: f1db7c49f14512d693ee8866726b9b4796457ca4
     :git: git://github.com/CocoaBob/SimpleRocketChat
   SlackTextViewController:
     :commit: 944b7cc4de734638cdefdecb9c7d7846fc3ab252
@@ -315,7 +315,7 @@ SPEC CHECKSUMS:
   RealmSwift: 4e903a494e05d866581d69ad6f7e7b879d446baf
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SimpleImageViewer: 329a155b04fcb93c5da0e296044250ad113c3158
-  SimpleRocketChat: f1b10e1cc33929518bcd8503ba377f6aa948028b
+  SimpleRocketChat: 214e4bdc7732a93e69a7d76d2511c6875d2a56e9
   SlackTextViewController: b854e62c1c156336bc4fd409c6ca79b5773e8f9d
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
@@ -334,6 +334,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: 0c6e434ee66f11708e1e11f72540d111ad961d03
+PODFILE CHECKSUM: 7fab71c2c3ca8b1df2d3b816acf0ba27a03bf8c5
 
 COCOAPODS: 1.4.0

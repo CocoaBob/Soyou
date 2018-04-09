@@ -11,10 +11,10 @@ import SlackTextViewController
 import SimpleImageViewer
 
 // swiftlint:disable file_length type_body_length
-final class ChatViewController: SLKTextViewController {
+public final class ChatViewController: SLKTextViewController {
     
     // Class methods
-    static var shared: ChatViewController? {
+    public static var shared: ChatViewController? {
          return UIStoryboard(name: "Chat", bundle: Bundle(for: self)).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
     }
 
@@ -143,12 +143,12 @@ final class ChatViewController: SLKTextViewController {
         subscriptionToken?.invalidate()
     }
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         registerCells()
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         self.hidesBottomBarWhenPushed = true
@@ -164,7 +164,7 @@ final class ChatViewController: SLKTextViewController {
         isKeyboardPanningEnabled = true
         shouldScrollToBottomAfterKeyboardShows = false
 
-        leftButton.setImage(UIImage(named: "Upload"), for: .normal)
+        leftButton.setImage(UIImage(named: "Upload", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil), for: .normal)
 
         setupTextViewSettings()
         setupScrollToBottomButton()
@@ -192,7 +192,7 @@ final class ChatViewController: SLKTextViewController {
         setupReplyView()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         keyboardFrame?.updateFrame()
     }
@@ -215,13 +215,13 @@ final class ChatViewController: SLKTextViewController {
         }
     }
 
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         updateChatPreviewModeViewConstraints()
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
         coordinator.animate(alongsideTransition: nil, completion: { _ in
@@ -246,7 +246,7 @@ final class ChatViewController: SLKTextViewController {
         buttonScrollToBottom.layer.borderWidth = 1
     }
 
-    override class func collectionViewLayout(for decoder: NSCoder) -> UICollectionViewLayout {
+    override public class func collectionViewLayout(for decoder: NSCoder) -> UICollectionViewLayout {
         return ChatCollectionViewFlowLayout()
     }
 
@@ -386,7 +386,7 @@ final class ChatViewController: SLKTextViewController {
 
     // MARK: SlackTextViewController
 
-    override func didPressRightButton(_ sender: Any?) {
+    override public func didPressRightButton(_ sender: Any?) {
         guard let messageText = textView.text else { return }
 
         resetMessageSending()
@@ -409,7 +409,7 @@ final class ChatViewController: SLKTextViewController {
         sendTextMessage(text: text)
     }
 
-    override func didCommitTextEditing(_ sender: Any) {
+    override public func didCommitTextEditing(_ sender: Any) {
         if let messageToEdit = messageToEdit {
             editTextMessage(message: messageToEdit, text: textView.text)
         }
@@ -420,16 +420,16 @@ final class ChatViewController: SLKTextViewController {
         super.didCommitTextEditing(sender)
     }
 
-    override func didCancelTextEditing(_ sender: Any) {
+    override public func didCancelTextEditing(_ sender: Any) {
         messageToEdit = nil
         super.didCancelTextEditing(sender)
     }
 
-    override func didPressLeftButton(_ sender: Any?) {
+    override public func didPressLeftButton(_ sender: Any?) {
         buttonUploadDidPressed()
     }
 
-    override func didPressReturnKey(_ keyCommand: UIKeyCommand?) {
+    override public func didPressReturnKey(_ keyCommand: UIKeyCommand?) {
         if messageToEdit != nil {
             didCommitTextEditing(self)
         } else {
@@ -437,7 +437,7 @@ final class ChatViewController: SLKTextViewController {
         }
     }
 
-    override func textViewDidChange(_ textView: UITextView) {
+    override public func textViewDidChange(_ textView: UITextView) {
         guard let subscription = self.subscription else { return }
 
         DraftMessageManager.update(draftMessage: textView.text, for: subscription)
@@ -449,7 +449,7 @@ final class ChatViewController: SLKTextViewController {
         }
     }
 
-    @objc override func keyboardWillShow(_ notification: Notification) {
+    @objc override public func keyboardWillShow(_ notification: Notification) {
         // Scroll to the bottom when the collectionView has scrolled more
         // than scrollToBottomHeightMultiplier times the view's height.
         let scrollToBottomHeightMultiplier: CGFloat = 1.2
@@ -883,7 +883,7 @@ final class ChatViewController: SLKTextViewController {
 
 extension ChatViewController {
 
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    override public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row < 4 {
             if let message = dataController.oldestMessage() {
                 loadMoreMessagesFrom(date: message.createdAt)
@@ -891,11 +891,11 @@ extension ChatViewController {
         }
     }
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataController.data.count
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard
             dataController.data.count > indexPath.row,
             let subscription = subscription,
@@ -1017,15 +1017,15 @@ extension ChatViewController {
 
 extension ChatViewController: UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return .zero
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let subscription = subscription, !subscription.isInvalidated else {
             return .zero
         }
@@ -1077,7 +1077,7 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
 // MARK: UIScrollViewDelegate
 
 extension ChatViewController {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    override public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
 
         if scrollView.contentOffset.y < -10 {
