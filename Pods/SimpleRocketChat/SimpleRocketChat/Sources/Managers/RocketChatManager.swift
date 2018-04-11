@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import UserNotifications
 
 public struct RocketChatManager {
 
@@ -102,8 +103,7 @@ public extension RocketChatManager {
     }
 }
 
-// MARK: Open Rooms
-
+// MARK: - Open Rooms
 public extension RocketChatManager {
     
     public static func openDirectMessage(username: String, completion: (() -> Void)? = nil) {
@@ -166,5 +166,40 @@ public extension RocketChatManager {
                 _ = openChannel()
             }
         }, errored: nil)
+    }
+}
+
+// MARK: - UIApplicationDelegate
+
+public extension RocketChatManager {
+    
+    public static func appDidFinishLaunchingWithOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+        PushManager.setupNotificationCenter()
+        UIApplication.shared.registerForRemoteNotifications()
+        if let launchOptions = launchOptions,
+            let notification = launchOptions[.remoteNotification] as? [AnyHashable: Any] {
+            PushManager.handleNotification(raw: notification)
+        }
+    }
+    
+    public static func appDidBecomeActive() {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+    }
+    
+    public static func appDidEnterBackground() {
+        SubscriptionManager.updateUnreadApplicationBadge()
+        if AuthManager.isAuthenticated() != nil {
+            UserManager.setUserPresence(status: .away) { (_) in
+                SocketManager.disconnect({ (_, _) in })
+            }
+        }
+    }
+    
+    public static func appDidRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
+        UserDefaults.standard.set(deviceToken.hexString, forKey: PushManager.kDeviceTokenKey)
+    }
+    
+    public static func appDidFailToRegisterForRemoteNotificationsWithError(_ error: Error) {
+        Log.debug("Fail to register for notification: \(error)")
     }
 }

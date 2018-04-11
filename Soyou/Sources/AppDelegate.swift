@@ -93,6 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.checkIfShowIntroView()
         }
         
+        // RocketChat
+        RocketChatManager.appDidFinishLaunchingWithOptions(launchOptions)
+        
         return true
     }
 
@@ -105,6 +108,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Clear badge
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        // RocketChat
+        RocketChatManager.appDidBecomeActive()
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        // RocketChat
+        RocketChatManager.appDidEnterBackground()
     }
 
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
@@ -114,6 +125,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SDImageCache.shared().clearMemory()
     }
     
+    // MARK: Shortcut and Deep Link
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         self.shortcutItemType = shortcutItem.type
@@ -152,9 +164,12 @@ extension AppDelegate {
         DataManager.shared.registerForNotification(false)
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: Cons.Usr.DidRegisterForRemoteNotifications), object: nil)
+        
+        RocketChatManager.appDidRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        RocketChatManager.appDidFailToRegisterForRemoteNotificationsWithError(error)
         DLog(error)
     }
     

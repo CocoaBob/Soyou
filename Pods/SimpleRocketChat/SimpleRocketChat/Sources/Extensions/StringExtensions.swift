@@ -14,7 +14,7 @@ func localized(_ string: String) -> String {
         let bundle = Bundle(url: url) {
         return NSLocalizedString(string, bundle: bundle, comment: "")
     } else {
-        return string
+        return NSLocalizedString(string, comment: "")
     }
 }
 

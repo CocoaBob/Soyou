@@ -107,17 +107,20 @@ final class AvatarView: UIView {
             return
         }
 
-        let username = user.username ?? "?"
+        var displayName = user.displayName()
+        if displayName.isEmpty {
+            displayName = "?"
+        }
         var initials = ""
         var color: UInt = 0x000000
 
-        if username == "?" {
-            initials = username
+        if displayName == "?" {
+            initials = displayName
             color = 0x000000
         } else {
-            let position = username.count % avatarColors.count
+            let position = displayName.count % avatarColors.count
             color = avatarColors[position]
-            initials = initialsFor(username)
+            initials = initialsFor(displayName)
         }
 
         labelInitials?.text = initials.uppercased()

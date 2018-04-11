@@ -38,6 +38,11 @@ extension APIResult where T == UserInfoRequest {
 
         let user = User()
         user.map(raw, realm: nil)
+        
+        let customFields = raw["customFields"]
+        user.avatarUrl = customFields["avatarUrl"].string
+        user.userId = customFields["userId"].intValue
+        
         return user
     }
 }
