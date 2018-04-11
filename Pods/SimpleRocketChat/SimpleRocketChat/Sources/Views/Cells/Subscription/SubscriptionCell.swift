@@ -58,7 +58,7 @@ final class SubscriptionCell: UITableViewCell {
 
         switch subscription.type {
         case .channel:
-            imageViewIcon.image = UIImage(named: "Hashtag", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            imageViewIcon.image = UIImage(namedInBundle: "Hashtag")?.withRenderingMode(.alwaysTemplate)
             imageViewIcon.tintColor = .RCInvisible()
         case .directMessage:
             var color: UIColor = .RCInvisible()
@@ -78,10 +78,10 @@ final class SubscriptionCell: UITableViewCell {
                 }(())
             }
 
-            imageViewIcon.image = UIImage(named: "Mention", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            imageViewIcon.image = UIImage(namedInBundle: "Mention")?.withRenderingMode(.alwaysTemplate)
             imageViewIcon.tintColor = color
         case .group:
-            imageViewIcon.image = UIImage(named: "Lock", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            imageViewIcon.image = UIImage(namedInBundle: "Lock")?.withRenderingMode(.alwaysTemplate)
             imageViewIcon.tintColor = .RCInvisible()
         }
     }

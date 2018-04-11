@@ -10,7 +10,12 @@ import Foundation
 import CommonCrypto
 
 func localized(_ string: String) -> String {
-    return NSLocalizedString(string, bundle: Bundle(for: SubscriptionsViewController.self), comment: "")
+    if let url = Bundle(for: SubscriptionsViewController.self).url(forResource: "SimpleRocketChat", withExtension: "bundle"),
+        let bundle = Bundle(url: url) {
+        return NSLocalizedString(string, bundle: bundle, comment: "")
+    } else {
+        return string
+    }
 }
 
 extension String {

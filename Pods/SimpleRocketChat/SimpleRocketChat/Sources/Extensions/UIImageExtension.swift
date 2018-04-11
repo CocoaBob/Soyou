@@ -9,6 +9,15 @@
 import UIKit
 
 extension UIImage {
+    
+    convenience init?(namedInBundle name: String) {
+        if let url = Bundle(for: SubscriptionsViewController.self).url(forResource: "SimpleRocketChat", withExtension: "bundle"),
+            let bundle = Bundle(url: url) {
+            self.init(named: name, in: bundle, compatibleWith: nil)
+        } else {
+            self.init(named: name)
+        }
+    }
 
     func imageWithTint(_ color: UIColor, alpha: CGFloat = 1.0) -> UIImage {
         guard let cgImage = cgImage else { return self }
@@ -52,5 +61,4 @@ extension UIImage {
 
         return result
     }
-
 }

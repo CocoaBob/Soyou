@@ -301,11 +301,11 @@ final class ChatMessageCell: UICollectionViewCell {
         switch (message.failed, message.temporary) {
         case (true, _):
             statusView.isHidden = false
-            statusView.image = UIImage(named: "Exclamation", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            statusView.image = UIImage(namedInBundle: "Exclamation")?.withRenderingMode(.alwaysTemplate)
             statusView.tintColor = .red
         case (false, true):
             statusView.isHidden = false
-            statusView.image = UIImage(named: "Clock", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            statusView.image = UIImage(namedInBundle: "Clock")?.withRenderingMode(.alwaysTemplate)
             statusView.tintColor = .gray
         case (false, false):
             statusView.isHidden = true

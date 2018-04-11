@@ -22,7 +22,8 @@
   "resources": "SimpleRocketChat/**/*.{png,xib,storyboard}",
   "resource_bundles": {
     "SimpleRocketChat": [
-      "SimpleRocketChat/Resources/*.lproj/*.strings"
+      "SimpleRocketChat/Resources/*.lproj/*.strings",
+      "SimpleRocketChat/Resources/Assets.xcassets"
     ]
   },
   "frameworks": [

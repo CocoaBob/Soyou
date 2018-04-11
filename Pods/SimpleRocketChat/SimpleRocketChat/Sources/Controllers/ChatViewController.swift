@@ -164,7 +164,7 @@ public final class ChatViewController: SLKTextViewController {
         isKeyboardPanningEnabled = true
         shouldScrollToBottomAfterKeyboardShows = false
 
-        leftButton.setImage(UIImage(named: "Upload", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil), for: .normal)
+        leftButton.setImage(UIImage(namedInBundle: "Upload"), for: .normal)
 
         setupTextViewSettings()
         setupScrollToBottomButton()

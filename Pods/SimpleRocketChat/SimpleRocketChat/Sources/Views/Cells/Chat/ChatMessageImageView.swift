@@ -59,7 +59,7 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
             detailText.text = ""
             labelTitle.text = attachment.title + " (" + localized("alert.insecure_image.title") + ")"
             imageView.contentMode = UIViewContentMode.center
-            imageView.sd_setImage(with: nil, placeholderImage: UIImage(named: "Resource Unavailable", in: Bundle(for: SubscriptionsViewController.self), compatibleWith: nil))
+            imageView.sd_setImage(with: nil, placeholderImage: UIImage(namedInBundle: "Resource Unavailable"))
             return nil
         }
         labelTitle.text = attachment.title
