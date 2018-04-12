@@ -178,6 +178,9 @@ extension UserManager {
         FavoriteDiscount.deleteAll()
         FavoriteProduct.deleteAll()
         Circle.deleteAll()
+        
+        // RocketChat
+        RocketChatManager.signOut()
     }
     
     var isLoggedIn: Bool {

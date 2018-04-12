@@ -15,7 +15,9 @@ struct SubscriptionManager {
 
         Realm.execute({ (realm) in
             for obj in realm.objects(Subscription.self) {
-                unread += obj.unread
+                if obj.type == SubscriptionType.directMessage {
+                    unread += obj.unread
+                }
             }
         }, completion: {
             UIApplication.shared.applicationIconBadgeNumber = unread

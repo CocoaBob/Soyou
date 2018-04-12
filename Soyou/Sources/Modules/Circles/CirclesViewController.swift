@@ -485,8 +485,7 @@ extension CirclesViewController {
     
     @IBAction func messageAction(_ sender: UIButton) {
         guard let userID = self.userID else { return }
-        let username = 100000 + userID
-        RocketChatManager.openDirectMessage(username: "\(username)") {
+        RocketChatManager.openDirectMessage(username: "\(userID)") {
             if let chatVC = ChatViewController.shared {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
                 self.navigationController?.pushViewController(chatVC, animated: true)

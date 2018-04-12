@@ -47,7 +47,7 @@ public struct RocketChatManager {
 
 }
 
-// MARK: - Sign In
+// MARK: - Sign In/Out
 public extension RocketChatManager {
     
     public static func signIn(socketServerAddress: String, userId: String, token: String, completion: ((_ success: Bool)->())?) {
@@ -99,6 +99,18 @@ public extension RocketChatManager {
                     }
                 }
             }
+        }
+    }
+    
+    public static func signOut() {
+        API.current()?.client(PushClient.self).deletePushToken()
+    
+        ChatViewController.shared?.messagesToken?.invalidate()
+        ChatViewController.shared?.subscriptionToken?.invalidate()
+        SubscriptionsViewController.shared?.subscriptionsToken?.invalidate()
+    
+        AuthManager.logout {
+            AuthManager.recoverAuthIfNeeded()
         }
     }
 }

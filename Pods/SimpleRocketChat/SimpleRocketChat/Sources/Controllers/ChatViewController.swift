@@ -169,7 +169,7 @@ public final class ChatViewController: SLKTextViewController {
         setupTextViewSettings()
         setupScrollToBottomButton()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.reconnect), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.reconnect), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         SocketManager.addConnectionHandler(token: socketHandlerToken, handler: self)
 

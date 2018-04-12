@@ -21,8 +21,6 @@ enum UserStatus: String {
 class User: BaseModel {
     @objc dynamic var username: String?
     @objc dynamic var name: String?
-    @objc dynamic var avatarUrl: String?
-    @objc dynamic var userId = 0
     var emails = List<Email>()
     var roles = List<String>()
 
@@ -58,12 +56,19 @@ extension User {
 
         return username ?? ""
     }
-
-    func avatarURL() -> URL? {
-        guard let avatarURLString = self.avatarUrl else {
-            return nil
+    
+    func avatarURL(_ auth: Auth? = nil) -> URL? {
+        guard
+            !isInvalidated,
+            let username = username,
+            let auth = auth ?? AuthManager.isAuthenticated(),
+            let baseURL = auth.baseURL(),
+            let encodedUsername = username.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+            else {
+                return nil
         }
-        return URL(string: avatarURLString)
+        
+        return URL(string: "\(baseURL)/avatar/\(encodedUsername)")
     }
 
     func canViewAdminPanel(realm: Realm? = Realm.shared) -> Bool {
