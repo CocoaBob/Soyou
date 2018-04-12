@@ -39,7 +39,7 @@ class ChatDirectMessageHeaderCell: UICollectionViewCell {
 
     weak var avatarView: AvatarView! {
         didSet {
-            avatarView.layer.cornerRadius = 4
+            avatarView.layer.cornerRadius = 48
             avatarView.layer.masksToBounds = true
         }
     }

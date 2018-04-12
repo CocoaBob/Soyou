@@ -101,6 +101,10 @@ final class AvatarView: UIView {
     }
 
     private func setAvatarWithInitials() {
+        labelInitials?.text = ""
+        backgroundColor = UIColor(white: 0.85, alpha: 1)
+        return
+        
         guard let user = user, !user.isInvalidated else {
             labelInitials?.text = "?"
             backgroundColor = .black
