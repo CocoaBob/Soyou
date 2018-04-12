@@ -118,15 +118,14 @@ public extension RocketChatManager {
 // MARK: - Open Rooms
 public extension RocketChatManager {
     
-    public static func openDirectMessage(username: String, completion: (() -> Void)? = nil) {
+    public static func openDirectMessage(username: String, completion: ((Bool) -> Void)? = nil) {
         
         func openDirectMessage() -> Bool {
-            guard let directMessageRoom = Subscription.find(name: username, subscriptionType: [.directMessage]) else { return false }
-
+            guard let directMessageRoom = Subscription.find(name: username, subscriptionType: [.directMessage]) else {
+                return false
+            }
             ChatViewController.shared?.subscription = directMessageRoom
-
-            completion?()
-
+            completion?(true)
             return true
         }
 
@@ -137,9 +136,15 @@ public extension RocketChatManager {
 
         // If not, create a new direct message
         SubscriptionManager.createDirectMessage(username, completion: { response in
-            guard !response.isError() else { return }
+            guard !response.isError() else {
+                completion?(false)
+                return
+            }
 
-            guard let auth = AuthManager.isAuthenticated() else { return }
+            guard let auth = AuthManager.isAuthenticated() else {
+                completion?(false)
+                return
+            }
 
             SubscriptionManager.updateSubscriptions(auth) { _ in
                 _ = openDirectMessage()

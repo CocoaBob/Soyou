@@ -26,7 +26,7 @@ final class SubscriptionCell: UITableViewCell {
         }
     }
 
-    @IBOutlet weak var imageViewIcon: UIImageView!
+    @IBOutlet weak var imageViewAvatar: UIImageView!
     @IBOutlet weak var labelName: UILabel!
     @IBOutlet weak var labelUnread: UILabel! {
         didSet {
@@ -37,7 +37,10 @@ final class SubscriptionCell: UITableViewCell {
     func updateSubscriptionInformatin() {
         guard let subscription = self.subscription else { return }
 
-        updateIconImage()
+        imageViewAvatar.sd_setImage(with: subscription.directMessageUser?.avatarURL(),
+                                    placeholderImage: nil,
+                                    options: [.allowInvalidSSLCertificates],
+                                    completed: nil)
 
         labelName.text = subscription.displayName()
 
@@ -52,40 +55,6 @@ final class SubscriptionCell: UITableViewCell {
         labelUnread.alpha = subscription.unread > 0 ? 1 : 0
         labelUnread.text = "\(subscription.unread)"
     }
-
-    func updateIconImage() {
-        guard let subscription = self.subscription else { return }
-
-        switch subscription.type {
-        case .channel:
-            imageViewIcon.image = UIImage(namedInBundle: "Hashtag")?.withRenderingMode(.alwaysTemplate)
-            imageViewIcon.tintColor = .RCInvisible()
-        case .directMessage:
-            var color: UIColor = .RCInvisible()
-
-            if let user = subscription.directMessageUser {
-                color = { _ -> UIColor in
-                    switch user.status {
-                    case .online:
-                        return .RCOnline()
-                    case .offline:
-                        return .RCInvisible()
-                    case .away:
-                        return .RCAway()
-                    case .busy:
-                        return .RCBusy()
-                    }
-                }(())
-            }
-
-            imageViewIcon.image = UIImage(namedInBundle: "Mention")?.withRenderingMode(.alwaysTemplate)
-            imageViewIcon.tintColor = color
-        case .group:
-            imageViewIcon.image = UIImage(namedInBundle: "Lock")?.withRenderingMode(.alwaysTemplate)
-            imageViewIcon.tintColor = .RCInvisible()
-        }
-    }
-
 }
 
 extension SubscriptionCell {

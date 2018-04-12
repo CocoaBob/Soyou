@@ -14,9 +14,7 @@ import SimpleImageViewer
 public final class ChatViewController: SLKTextViewController {
     
     // Class methods
-    public static var shared: ChatViewController? {
-         return UIStoryboard(name: "Chat", bundle: Bundle(for: self)).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
-    }
+    public static let shared = UIStoryboard(name: "Chat", bundle: Bundle(for: ChatViewController.self)).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
 
     var activityIndicator: LoaderView!
     @IBOutlet weak var activityIndicatorContainer: UIView! {

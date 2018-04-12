@@ -259,7 +259,9 @@ extension SubscriptionManager {
         ] as [String: Any]
 
         SocketManager.send(request) { response in
-            guard !response.isError() else { return Log.debug(response.result.string) }
+            if response.isError() {
+                return Log.debug(response.result.string)
+            }
             completion(response)
         }
     }
