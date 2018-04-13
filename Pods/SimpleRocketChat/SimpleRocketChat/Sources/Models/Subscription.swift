@@ -75,8 +75,7 @@ extension Subscription {
             return settings.allowSpecialCharsOnRoomNames && fname != "" ? fname : name
         }
 
-        return fname
-//        return settings.useUserRealName ? fname : name
+        return settings.useUserRealName ? fname : name
     }
 
     func isValid() -> Bool {

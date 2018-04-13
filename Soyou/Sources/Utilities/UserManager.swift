@@ -167,12 +167,9 @@ extension UserManager {
         self.region = nil
         self.gender = nil
         self.currentUser = nil
-        if self.avatar != nil {
-            self.avatar = nil
-        }
-        if self.token != nil {
-            self.token = nil
-        }
+        self.avatar = nil
+        self.token = nil
+        
         // Delete Favorites
         FavoriteNews.deleteAll()
         FavoriteDiscount.deleteAll()
@@ -181,6 +178,8 @@ extension UserManager {
         
         // RocketChat
         RocketChatManager.signOut()
+        self.imUserId = nil
+        self.imAuthToken = nil
     }
     
     var isLoggedIn: Bool {

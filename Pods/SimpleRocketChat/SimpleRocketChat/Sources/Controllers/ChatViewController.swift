@@ -188,6 +188,9 @@ public final class ChatViewController: SLKTextViewController {
         }
 
         setupReplyView()
+        
+        self.textInputbar.textView.keyboardType = .default
+        self.textInputbar.textView.enablesReturnKeyAutomatically = false
     }
 
     override public func viewWillAppear(_ animated: Bool) {
@@ -235,7 +238,7 @@ public final class ChatViewController: SLKTextViewController {
         textView.registerMarkdownFormattingSymbol("```", withTitle: "Preformatted")
         textView.registerMarkdownFormattingSymbol(">", withTitle: "Quote")
 
-        registerPrefixes(forAutoCompletion: ["@", "#", "/", ":"])
+//        registerPrefixes(forAutoCompletion: ["@", "#", "/", ":"])
     }
 
     fileprivate func setupScrollToBottomButton() {

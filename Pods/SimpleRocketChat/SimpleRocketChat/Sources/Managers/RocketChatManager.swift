@@ -68,7 +68,7 @@ public extension RocketChatManager {
                 // support multiple-server per database
                 realm.delete(realm.objects(Auth.self))
                 
-                //            PushManager.updatePushToken()
+                PushManager.updatePushToken()
                 realm.add(auth)
             })
         }

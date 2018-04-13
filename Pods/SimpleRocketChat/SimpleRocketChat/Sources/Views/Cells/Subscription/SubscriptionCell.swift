@@ -33,6 +33,7 @@ final class SubscriptionCell: UITableViewCell {
             labelUnread.layer.cornerRadius = 2
         }
     }
+    @IBOutlet weak var labelUnreadWidth: NSLayoutConstraint!
 
     func updateSubscriptionInformatin() {
         guard let subscription = self.subscription else { return }
@@ -53,6 +54,7 @@ final class SubscriptionCell: UITableViewCell {
         }
 
         labelUnread.alpha = subscription.unread > 0 ? 1 : 0
+        labelUnreadWidth.constant = subscription.unread > 0 ? 28 : 0
         labelUnread.text = "\(subscription.unread)"
     }
 }

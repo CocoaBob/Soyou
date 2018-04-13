@@ -49,7 +49,7 @@ extension User {
 
     func displayName() -> String {
         if let name = name,
-//            AuthSettingsManager.settings?.useUserRealName == true,
+            AuthSettingsManager.settings?.useUserRealName == true,
             !name.isEmpty {
             return name
         }
