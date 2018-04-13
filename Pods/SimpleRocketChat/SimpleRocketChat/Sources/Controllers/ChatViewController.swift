@@ -167,7 +167,7 @@ public final class ChatViewController: SLKTextViewController {
         setupTextViewSettings()
         setupScrollToBottomButton()
 
-//        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.reconnect), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.reconnect), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         SocketManager.addConnectionHandler(token: socketHandlerToken, handler: self)
 
@@ -195,13 +195,13 @@ public final class ChatViewController: SLKTextViewController {
         keyboardFrame?.updateFrame()
     }
 
-    @objc internal func reconnect(_ completion: (()->())? = nil) {
+    @objc internal func reconnect() {
         chatHeaderViewStatus?.labelTitle.text = localized("connection.connecting.banner.message")
         chatHeaderViewStatus?.activityIndicator.startAnimating()
         chatHeaderViewStatus?.buttonRefresh.isHidden = true
 
         if !SocketManager.isConnected() {
-            SocketManager.reconnect(completion)
+            SocketManager.reconnect()
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
