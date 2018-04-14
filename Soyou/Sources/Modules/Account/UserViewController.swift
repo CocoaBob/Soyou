@@ -101,20 +101,20 @@ class UserViewController: SimpleTableViewController {
 extension UserViewController {
     
     func startObservingUserManager() {
-        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextUserViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "isLoggedIn", options: .new, context: &KVOContextUserViewController)
         UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextUserViewController)
         UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextUserViewController)
     }
     
     func stopObservingUserManager() {
-        UserManager.shared.removeObserver(self, forKeyPath: "token")
+        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn")
         UserManager.shared.removeObserver(self, forKeyPath: "avatar")
         UserManager.shared.removeObserver(self, forKeyPath: "username")
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &KVOContextUserViewController {
-            if keyPath == "token" {
+            if keyPath == "isLoggedIn" {
                 self.rebuildTable()
                 self.tableView?.reloadData()
             } else if keyPath == "avatar" {

@@ -206,11 +206,11 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     
     func startObservingUserManager() {
-        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextLoginViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "isLoggedIn", options: .new, context: &KVOContextLoginViewController)
     }
     
     func stopObservingUserManager() {
-        UserManager.shared.removeObserver(self, forKeyPath: "token")
+        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn")
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

@@ -213,23 +213,24 @@ extension CirclesViewController {
     
     // Observe UserManager.shared.token & avatar
     fileprivate func startObservingUserManager() {
-        UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextCirclesViewController)
+        UserManager.shared.addObserver(self, forKeyPath: "isLoggedIn", options: .new, context: &KVOContextCirclesViewController)
         UserManager.shared.addObserver(self, forKeyPath: "avatar", options: .new, context: &KVOContextCirclesViewController)
         UserManager.shared.addObserver(self, forKeyPath: "username", options: .new, context: &KVOContextCirclesViewController)
     }
     
     fileprivate func stopObservingUserManager() {
-        UserManager.shared.removeObserver(self, forKeyPath: "token")
+        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn")
         UserManager.shared.removeObserver(self, forKeyPath: "avatar")
         UserManager.shared.removeObserver(self, forKeyPath: "username")
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &KVOContextCirclesViewController {
+            guard self.isViewLoaded else { return }
             // Update user info
             self.updateUserInfo(true)
             // Show/Hide all user related controls
-            if keyPath == "token" {
+            if keyPath == "isLoggedIn" {
                 if UserManager.shared.isLoggedIn {
                     self.loadData(nil, completion: nil)
                 } else {
@@ -486,9 +487,9 @@ extension CirclesViewController {
     @IBAction func messageAction(_ sender: UIButton) {
         guard let userID = self.userID else { return }
         MBProgressHUD.show(self.view)
-        RocketChatManager.openDirectMessage(username: "\(userID)") { success in
+        RocketChatManager.openDirectMessage(username: "\(userID)") {
             MBProgressHUD.hide(self.view)
-            if success, let chatVC = ChatViewController.shared {
+            if let chatVC = ChatViewController.shared {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
                 self.navigationController?.pushViewController(chatVC, animated: true)
             }
