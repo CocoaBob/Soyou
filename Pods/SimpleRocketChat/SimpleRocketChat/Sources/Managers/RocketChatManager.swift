@@ -118,14 +118,14 @@ public extension RocketChatManager {
 // MARK: - Open Rooms
 public extension RocketChatManager {
     
-    public static func openDirectMessage(username: String, completion: ((Bool) -> Void)? = nil) {
+    public static func openDirectMessage(username: String, completion: (() -> ())? = nil) {
         
         func openDirectMessage() -> Bool {
             guard let directMessageRoom = Subscription.find(name: username, subscriptionType: [.directMessage]) else {
                 return false
             }
             ChatViewController.shared?.subscription = directMessageRoom
-            completion?(true)
+            completion?()
             return true
         }
 
@@ -137,12 +137,12 @@ public extension RocketChatManager {
         // If not, create a new direct message
         SubscriptionManager.createDirectMessage(username, completion: { response in
             guard !response.isError() else {
-                completion?(false)
+                completion?()
                 return
             }
 
             guard let auth = AuthManager.isAuthenticated() else {
-                completion?(false)
+                completion?()
                 return
             }
 
@@ -218,5 +218,29 @@ public extension RocketChatManager {
     
     public static func appDidFailToRegisterForRemoteNotificationsWithError(_ error: Error) {
         Log.debug("Fail to register for notification: \(error)")
+    }
+}
+
+// MARK: Deep Link
+
+public extension RocketChatManager {
+    
+    public static func handleDeepLink(_ url: URL, completion: (()->())?) -> Bool {
+        guard let deepLink = DeepLink(url: url) else { return false }
+        RocketChatManager.handleDeepLink(deepLink, completion: completion)
+        return true
+    }
+    
+    internal static func handleDeepLink(_ deepLink: DeepLink, completion: (()->())?) {
+        switch deepLink {
+        case let .auth(_, _):
+            return
+        case let .room(_, _):
+            return
+        case let .mention(name):
+            openDirectMessage(username: name, completion: completion)
+        case let .channel(name):
+            openChannel(name: name)
+        }
     }
 }

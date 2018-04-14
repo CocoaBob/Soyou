@@ -144,6 +144,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // iOS >= 9
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        if RocketChatManager.handleDeepLink(url, completion: {
+            if let tabBarController = self.window?.rootViewController as? UITabBarController,
+                let navController = tabBarController.viewControllers?[1] as? UINavigationController,
+                let chatVC = ChatViewController.shared {
+                tabBarController.selectedIndex = 0
+                navController.popToRootViewController(animated: false)
+                navController.pushViewController(chatVC, animated: false)
+            }
+        }) {
+            return true
+        }
         var newOptions = [String: Any]()
         options.forEach { newOptions[$0.rawValue] = $1 }
         return DDSocialShareHandler.sharedInstance().application(app, open: url, options: newOptions )
