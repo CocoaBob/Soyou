@@ -160,8 +160,8 @@
 "circles_visibility_vc_forbidden_followers_desc"="选中的粉丝不可见";
 
 /* Chats View Controller */
-"chats_vc_title"="私信";
-"chats_vc_tab_title"="私信";
+"chats_vc_title"="聊天";
+"chats_vc_tab_title"="聊天";
 
 /* Members View Controller */
 "members_vc_title_followers"="粉丝";
