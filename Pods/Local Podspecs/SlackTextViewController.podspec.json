@@ -21,5 +21,10 @@
   },
   "requires_arc": true,
   "header_mappings_dir": "Source",
-  "source_files": "Source/**/*.{h,m}"
+  "source_files": "Source/**/*.{h,m}",
+  "resource_bundles": {
+    "SlackTextViewController": [
+      "Resources/*.lproj/*.strings"
+    ]
+  }
 }

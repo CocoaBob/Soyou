@@ -8,6 +8,7 @@
 
 #import "SLKTextView.h"
 #import "SLKTextView+SLKAdditions.h"
+#import "NSString+SLKAdditions.h"
 
 #import "SLKUIConstants.h"
 
@@ -738,13 +739,13 @@ SLKPastableMediaType SLKPastableMediaTypeFromNSString(NSString *string)
 
 - (void)slk_addCustomMenuControllerItems
 {
-    UIMenuItem *undo = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Undo", nil) action:@selector(slk_undo:)];
-    UIMenuItem *redo = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Redo", nil) action:@selector(slk_redo:)];
+    UIMenuItem *undo = [[UIMenuItem alloc] initWithTitle:[@"Undo" SLKLocalized] action:@selector(slk_undo:)];
+    UIMenuItem *redo = [[UIMenuItem alloc] initWithTitle:[@"Redo" SLKLocalized] action:@selector(slk_redo:)];
     
     NSMutableArray *items = [NSMutableArray arrayWithObjects:undo, redo, nil];
     
     if (self.registeredFormattingTitles.count > 0) {
-        UIMenuItem *format = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Format", nil) action:@selector(slk_presentFormattingMenu:)];
+        UIMenuItem *format = [[UIMenuItem alloc] initWithTitle:[@"Format" SLKLocalized] action:@selector(slk_presentFormattingMenu:)];
         [items addObject:format];
     }
     

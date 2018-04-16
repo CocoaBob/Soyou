@@ -10,6 +10,7 @@
 #import "SLKInputAccessoryView.h"
 
 #import "UIResponder+SLKAdditions.h"
+#import "NSString+SLKAdditions.h"
 #import "SLKUIConstants.h"
 
 /** Feature flagged while waiting to implement a more reliable technique. */
@@ -875,9 +876,9 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
 - (void)willRequestUndo
 {
-    NSString *title = NSLocalizedString(@"Undo Typing", nil);
-    NSString *acceptTitle = NSLocalizedString(@"Undo", nil);
-    NSString *cancelTitle = NSLocalizedString(@"Cancel", nil);
+    NSString *title = [@"Undo Typing" SLKLocalized];
+    NSString *acceptTitle = [@"Undo" SLKLocalized];
+    NSString *cancelTitle = [@"Cancel" SLKLocalized];
     
 #ifdef __IPHONE_8_0
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -2306,12 +2307,12 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     __weak typeof(self) weakSelf = self;
 
     // Enter Key
-    [self.textView observeKeyInput:@"\r" modifiers:0 title:NSLocalizedString(@"Send/Accept", nil) completion:^(UIKeyCommand *keyCommand) {
+    [self.textView observeKeyInput:@"\r" modifiers:0 title:[@"Send/Accept" SLKLocalized] completion:^(UIKeyCommand *keyCommand) {
         [weakSelf didPressReturnKey:keyCommand];
     }];
     
     // Esc Key
-    [self.textView observeKeyInput:UIKeyInputEscape modifiers:0 title:NSLocalizedString(@"Dismiss", nil) completion:^(UIKeyCommand *keyCommand) {
+    [self.textView observeKeyInput:UIKeyInputEscape modifiers:0 title:[@"Dismiss" SLKLocalized] completion:^(UIKeyCommand *keyCommand) {
         [weakSelf didPressEscapeKey:keyCommand];
     }];
     

@@ -30,8 +30,8 @@ struct Alert {
     }
 
     init(key: String) {
-        self.init(title: NSLocalizedString("\(key).title", comment: ""),
-                  message: NSLocalizedString("\(key).message", comment: ""))
+        self.init(title: localized("\(key).title"),
+                  message: localized("\(key).message"))
     }
 
     func present(handler: ((UIAlertAction) -> Void)? = nil) {

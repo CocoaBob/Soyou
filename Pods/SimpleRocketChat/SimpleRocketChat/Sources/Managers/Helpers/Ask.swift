@@ -36,8 +36,8 @@ struct Ask {
     }
 
     init(key: String, buttons: [(title: String, handler: ((UIAlertAction) -> Void)?)], deleteOption: Int8 = -1) {
-        self.title = NSLocalizedString("\(key).title", comment: "")
-        self.message = NSLocalizedString("\(key).message", comment: "")
+        self.title = localized("\(key).title")
+        self.message = localized("\(key).message")
         self.buttons = buttons
         self.deleteOption = deleteOption
     }
@@ -45,13 +45,13 @@ struct Ask {
     init(title: String, message: String, buttonA: String? = nil, handlerA: ((UIAlertAction) -> Void)? = nil, buttonB: String? = nil, handlerB: ((UIAlertAction) -> Void)? = nil) {
         self.init(title: title,
                   message: message,
-                  buttons: [(title: buttonA ?? NSLocalizedString("global.ok", comment: ""), handler: handlerA),
-                            (title: buttonB ?? NSLocalizedString("global.cancel", comment: ""), handler: handlerB)])
+                  buttons: [(title: buttonA ?? localized("global.ok"), handler: handlerA),
+                            (title: buttonB ?? localized("global.cancel"), handler: handlerB)])
     }
 
     init(key: String, buttonA: String? = nil, handlerA: ((UIAlertAction) -> Void)? = nil, buttonB: String? = nil, handlerB: ((UIAlertAction) -> Void)? = nil) {
-        self.init(title: NSLocalizedString("\(key).title", comment: ""),
-                  message: NSLocalizedString("\(key).message", comment: ""),
+        self.init(title: localized("\(key).title"),
+                  message: localized("\(key).message"),
                   buttonA: buttonA,
                   handlerA: handlerA,
                   buttonB: buttonB,

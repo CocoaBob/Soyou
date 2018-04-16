@@ -1,0 +1,13 @@
+"Send" = "发送";
+"Editing Message" = "编辑消息";
+"Cancel" = "取消";
+"Save" = "保存";
+"Undo" = "撤销";
+"Redo" = "重做";
+"Format" = "格式";
+"Undo Typing" = "撤销输入";
+"Send/Accept" = "发送/接受";
+"Dismiss" = "关闭";
+"%@ is typing" = "%@ 正在输入";
+"%@ & %@ are typing" = "%@ 和 %@ 正在输入";
+"Several people are typing" = "多人正在输入";

@@ -12,6 +12,7 @@
 
 #import "SLKTextView+SLKAdditions.h"
 #import "UIView+SLKAdditions.h"
+#import "NSString+SLKAdditions.h"
 
 #import "SLKUIConstants.h"
 
@@ -199,7 +200,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         _rightButton.titleLabel.font = [UIFont boldSystemFontOfSize:15.0];
         _rightButton.enabled = NO;
 
-        NSString *title = NSLocalizedString(@"Send", nil);
+        NSString *title = [@"Send" SLKLocalized];
 
         [_rightButton setTitle:title forState:UIControlStateNormal];
     }
@@ -245,7 +246,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         _editorTitle.backgroundColor = [UIColor clearColor];
         _editorTitle.font = [UIFont boldSystemFontOfSize:15.0];
         
-        NSString *title = NSLocalizedString(@"Editing Message", nil);
+        NSString *title = [@"Editing Message" SLKLocalized];
         
         _editorTitle.text = title;
     }
@@ -260,7 +261,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         _editorLeftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _editorLeftButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
         
-        NSString *title = NSLocalizedString(@"Cancel", nil);
+        NSString *title = [@"Cancel" SLKLocalized];
         
         [_editorLeftButton setTitle:title forState:UIControlStateNormal];
     }
@@ -276,7 +277,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         _editorRightButton.titleLabel.font = [UIFont boldSystemFontOfSize:15.0];
         _editorRightButton.enabled = NO;
         
-        NSString *title = NSLocalizedString(@"Save", nil);
+        NSString *title = [@"Save" SLKLocalized];
         
         [_editorRightButton setTitle:title forState:UIControlStateNormal];
     }

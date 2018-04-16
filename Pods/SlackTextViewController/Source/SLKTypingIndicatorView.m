@@ -8,6 +8,7 @@
 
 #import "SLKTypingIndicatorView.h"
 #import "UIView+SLKAdditions.h"
+#import "NSString+SLKAdditions.h"
 #import "SLKUIConstants.h"
 
 #define SLKTypingIndicatorViewIdentifier    [NSString stringWithFormat:@"%@.%@", SLKTextViewControllerDomain, NSStringFromClass([self class])]
@@ -123,13 +124,13 @@
     NSString *lastObject = [self.usernames lastObject];
     
     if (self.usernames.count == 1) {
-        text = [NSString stringWithFormat:NSLocalizedString(@"%@ is typing", nil), firstObject];
+        text = [NSString stringWithFormat:[@"%@ is typing" SLKLocalized], firstObject];
     }
     else if (self.usernames.count == 2) {
-        text = [NSString stringWithFormat:NSLocalizedString(@"%@ & %@ are typing", nil), firstObject, lastObject];
+        text = [NSString stringWithFormat:[@"%@ & %@ are typing" SLKLocalized], firstObject, lastObject];
     }
     else if (self.usernames.count > 2) {
-        text = NSLocalizedString(@"Several people are typing", nil);
+        text = [@"Several people are typing" SLKLocalized];
     }
     
     NSMutableParagraphStyle *style  = [[NSMutableParagraphStyle alloc] init];

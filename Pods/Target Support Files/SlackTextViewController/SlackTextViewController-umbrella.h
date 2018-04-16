@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "NSString+SLKAdditions.h"
 #import "SLKInputAccessoryView.h"
 #import "SLKTextInput.h"
 #import "SLKTextInputbar.h"
