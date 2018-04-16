@@ -90,8 +90,6 @@ public final class ChatViewController: SLKTextViewController {
                 return
             }
 
-            resetUnreadSeparator()
-
             if !SocketManager.isConnected() {
                 socketDidDisconnect(socket: SocketManager.sharedInstance)
                 reconnect()
@@ -119,6 +117,8 @@ public final class ChatViewController: SLKTextViewController {
             } else {
                 emptySubscriptionState()
             }
+            
+            resetUnreadSeparator()
 
             updateSubscriptionInfo()
             markAsRead()

@@ -177,9 +177,9 @@ extension UserManager {
         Circle.deleteAll()
         
         // RocketChat
-        RocketChatManager.signOut()
         self.imUserId = nil
         self.imAuthToken = nil
+        RocketChatManager.signOut()
     }
     
     var isLoggedIn: Bool {
@@ -196,9 +196,7 @@ extension UserManager {
             return
         }
         let server = "wss://test-im.soyou.io/websocket"
-        RocketChatManager.signIn(socketServerAddress: server, userId: imUserId, token: imAuthToken) { success in
-            completion?()
-        }
+        RocketChatManager.signIn(socketServerAddress: server, userId: imUserId, token: imAuthToken, completion: completion)
     }
 }
 

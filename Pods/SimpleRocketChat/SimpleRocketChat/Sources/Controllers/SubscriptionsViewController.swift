@@ -16,7 +16,6 @@ public final class SubscriptionsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var assigned = false
     var subscriptions = [Subscription]()
     var subscriptionResults: Results<Subscription>?
     var subscriptionsToken: NotificationToken?
@@ -40,9 +39,10 @@ public final class SubscriptionsViewController: UIViewController {
 extension SubscriptionsViewController {
 
     func subscribeModelChanges() {
-        guard !assigned else { return }
+        if let token = subscriptionsToken {
+            token.invalidate()
+        }
         guard let auth = AuthManager.isAuthenticated() else { return }
-        assigned = true
         subscriptionResults = auth.subscriptions.sortedByLastSeen()
         subscriptionsToken = subscriptionResults?.observe(handleSubscriptionUpdates)
         reloadData()

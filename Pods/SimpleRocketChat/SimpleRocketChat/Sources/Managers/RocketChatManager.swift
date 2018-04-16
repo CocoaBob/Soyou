@@ -50,7 +50,7 @@ public struct RocketChatManager {
 // MARK: - Sign In/Out
 public extension RocketChatManager {
     
-    public static func signIn(socketServerAddress: String, userId: String, token: String, completion: ((_ success: Bool)->())?) {
+    public static func signIn(socketServerAddress: String, userId: String, token: String, completion: (()->())?) {
         // Authentication
         var auth = Auth()
         
@@ -76,38 +76,15 @@ public extension RocketChatManager {
         AuthManager.persistAuthInformation(auth)
         DatabaseManager.changeDatabaseInstance()
         
-        func updateSettings(_ auth: Auth, _ completion: (()->())?) {
-            AuthSettingsManager.updatePublicSettings(auth, completion: { _ in
-                SocketManager.disconnect({ (_, _) in
-                    completion?()
-                })
-            })
-        }
-        if let socketURL = URL(string: socketServerAddress) {
-            if SocketManager.isConnected() {
-                updateSettings(auth) {
-                    completion?(true)
-                }
-            } else {
-                SocketManager.connect(socketURL) { (_, connected) in
-                    if connected {
-                        updateSettings(auth) {
-                            completion?(true)
-                        }
-                    } else {
-                        completion?(false)
-                    }
-                }
-            }
+        SocketManager.reconnect() {
+            SubscriptionsViewController.shared?.subscribeModelChanges()
+            ChatViewController.shared?.subscription = nil
+            completion?()
         }
     }
     
     public static func signOut() {
         API.current()?.client(PushClient.self).deletePushToken()
-    
-        ChatViewController.shared?.messagesToken?.invalidate()
-        ChatViewController.shared?.subscriptionToken?.invalidate()
-        SubscriptionsViewController.shared?.subscriptionsToken?.invalidate()
     
         AuthManager.logout {
             AuthManager.recoverAuthIfNeeded()

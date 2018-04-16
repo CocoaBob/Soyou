@@ -163,7 +163,9 @@ class DataManager {
                 profileURL = data["profileUrl"] as? String
             }
             UserManager.shared.signInRocketChat() {
-                completion?(responseObject, nil, profileURL)
+                DispatchQueue.main.async {
+                    completion?(responseObject, nil, profileURL)
+                }
             }
         }, { error in
             self.handleError(error)
