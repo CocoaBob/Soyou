@@ -20,9 +20,9 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                 self.openCamera()
             }))
 
-            alert.addAction(UIAlertAction(title: localized("chat.upload.shoot_video"), style: .default, handler: { (_) in
-                self.openCamera(video: true)
-            }))
+//            alert.addAction(UIAlertAction(title: localized("chat.upload.shoot_video"), style: .default, handler: { (_) in
+//                self.openCamera(video: true)
+//            }))
         }
 
         alert.addAction(UIAlertAction(title: localized("chat.upload.choose_from_library"), style: .default, handler: { (_) in
@@ -63,10 +63,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         picker.delegate = self
         picker.allowsEditing = false
         picker.sourceType = .savedPhotosAlbum
-
-        if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .savedPhotosAlbum) {
-            picker.mediaTypes = mediaTypes
-        }
+        picker.mediaTypes = [kUTTypeImage as String]
 
         present(picker, animated: true, completion: nil)
     }
