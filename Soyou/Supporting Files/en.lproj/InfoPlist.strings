@@ -20,3 +20,4 @@
 "NSPhotoLibraryUsageDescription"="You will be able to share photos.";
 "NSCameraUsageDescription"="You will be able to take a photo.";
 "NSPhotoLibraryAddUsageDescription"="You will be able to save an image.";
+"NSMicrophoneUsageDescription"="You will be able to record sound.";

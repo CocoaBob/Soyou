@@ -29,9 +29,9 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
             self.openPhotosLibrary()
         }))
 
-        alert.addAction(UIAlertAction(title: localized("chat.upload.import_file"), style: .default, handler: { (_) in
-            self.openDocumentPicker()
-        }))
+//        alert.addAction(UIAlertAction(title: localized("chat.upload.import_file"), style: .default, handler: { (_) in
+//            self.openDocumentPicker()
+//        }))
 
         alert.addAction(UIAlertAction(title: localized("global.cancel"), style: .cancel, handler: nil))
 

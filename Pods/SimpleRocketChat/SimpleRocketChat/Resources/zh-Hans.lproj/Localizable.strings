@@ -86,7 +86,7 @@
 "subscriptions.unreads" = "未读";
 "subscriptions.favorites" = "收藏";
 "subscriptions.channels" = "频道";
-"subscriptions.direct_messages" = "私信";
+"subscriptions.direct_messages" = "聊天";
 
 // Servers
 "servers.add_new_team" = "添加新团队";
