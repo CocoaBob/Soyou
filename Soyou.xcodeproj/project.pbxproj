@@ -129,6 +129,7 @@
 		45ADAB471C6517120040E570 /* TableViewCellIconTitleContent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45ADAB461C6517120040E570 /* TableViewCellIconTitleContent.xib */; };
 		45AE9B491C47C4150081ECBA /* ProductPricesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE9B481C47C4150081ECBA /* ProductPricesViewController.swift */; };
 		45AE9B4B1C47C4310081ECBA /* ProductDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AE9B4A1C47C4310081ECBA /* ProductDescriptionsViewController.swift */; };
+		45B48D252087E480004B861B /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B48D242087E480004B861B /* UIImage+Additions.swift */; };
 		45B66C77201D620E00D5E958 /* WeChatActivityGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D0F1C29954D00026027 /* WeChatActivityGeneral.swift */; };
 		45B66C78201D621000D5E958 /* WeChatActivityMoments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45034D101C29954D00026027 /* WeChatActivityMoments.swift */; };
 		45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B77BE51C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift */; };
@@ -337,6 +338,7 @@
 		45ADAB461C6517120040E570 /* TableViewCellIconTitleContent.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellIconTitleContent.xib; sourceTree = "<group>"; };
 		45AE9B481C47C4150081ECBA /* ProductPricesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPricesViewController.swift; sourceTree = "<group>"; };
 		45AE9B4A1C47C4310081ECBA /* ProductDescriptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDescriptionsViewController.swift; sourceTree = "<group>"; };
+		45B48D242087E480004B861B /* UIImage+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		45B77BE51C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreMapSearchResultsViewController.swift; sourceTree = "<group>"; };
 		45B77BE71C792B54002FBAFE /* MKPlacemark+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKPlacemark+Additions.swift"; sourceTree = "<group>"; };
 		45B77F091C05A77B002E3385 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -446,21 +448,22 @@
 			isa = PBXGroup;
 			children = (
 				459B33F91C2899CF00C36181 /* AFNetworking+Additions.swift */,
+				4528DF692038C823001084FF /* AlertController+Additions.swift */,
 				452799AA1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift */,
 				454C2F691C26B88900C00C52 /* MBProgressHUD+Additions.swift */,
 				45B77BE71C792B54002FBAFE /* MKPlacemark+Additions.swift */,
 				453CBCE61CD656040073FE43 /* NSManagedObjectContext+Additions.swift */,
 				45A41B4E1C9F372A00D48185 /* NSUserDefaults+Additions.swift */,
+				4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */,
+				458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */,
 				4534D54C1C230EC600F4DDA5 /* String+Additions.swift */,
 				455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */,
+				45B48D242087E480004B861B /* UIImage+Additions.swift */,
 				45CD72CA1C189894004583FC /* UITabBar+Additions.swift */,
 				458AA5EE203B36C100D3BA93 /* UITextView+Additions.swift */,
 				45CD72CC1C189AC6004583FC /* UIToolbar+Additions.swift */,
 				4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */,
 				45243C681C17A514005D476D /* UIViewController+Additions.swift */,
-				458CEDB12001D06400B8A6BC /* SDWebImageManager+Additions.swift */,
-				4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */,
-				4528DF692038C823001084FF /* AlertController+Additions.swift */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1356,6 +1359,7 @@
 				0D783C781C3B1DAF001CC36D /* Analytic.swift in Sources */,
 				458CEDB42001D62E00B8A6BC /* CircleComposeViewController.swift in Sources */,
 				457D1EBA1BFBE00F00D451D0 /* HTTPRequestOperationManager.swift in Sources */,
+				45B48D252087E480004B861B /* UIImage+Additions.swift in Sources */,
 				45D9B36B1C39AE2200D7E899 /* ProductsViewController.swift in Sources */,
 				455D06B41C03950300D81ABF /* UserViewController.swift in Sources */,
 				4568E2A61BF90797009A6164 /* Soyou.xcdatamodeld in Sources */,

@@ -254,7 +254,7 @@ extension ProfileViewController: TLPhotosPickerViewControllerDelegate {
             return
         }
         MBProgressHUD.show(self.view)
-        DataManager.shared.modifyProfileImage(image) {  responseObject, error in
+        DataManager.shared.modifyProfileImage(image.rotated()) {  responseObject, error in
             MBProgressHUD.hide(self.view)
             if let data = DataManager.getResponseData(responseObject) as? [String: String] {
                 UserManager.shared.avatar = data["profileUrl"]
