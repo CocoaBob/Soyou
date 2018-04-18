@@ -94,7 +94,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>993</string>
+	<string>1018</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -232,6 +232,8 @@
 	<key>NSLocationUsageDescription</key>
 	<string>Translated in InfoPlist.strings</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Translated in InfoPlist.strings</string>
+	<key>NSMicrophoneUsageDescription</key>
 	<string>Translated in InfoPlist.strings</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Translated in InfoPlist.strings</string>
