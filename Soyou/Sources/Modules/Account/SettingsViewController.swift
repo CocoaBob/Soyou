@@ -521,6 +521,9 @@ extension SettingsViewController {
 extension SettingsViewController {
     
     func updateCacheSize(_ cacheSize: Double?) {
+        if self.sections.count < 4 {
+            return
+        }
         DispatchQueue.main.async {
             // Size in string
             let strSize = cacheSize != nil ? FmtString("%.2f MB", cacheSize! / 1048576.0) : "..."
