@@ -15,7 +15,7 @@ protocol ChatMessageCellProtocol: ChatMessageURLViewProtocol, ChatMessageVideoVi
 }
 
 final class ChatMessageCell: UICollectionViewCell {
-
+    
     static let minimumHeight = CGFloat(55)
     static let identifier = "ChatMessageCell"
 
@@ -83,8 +83,10 @@ final class ChatMessageCell: UICollectionViewCell {
     static func cellMediaHeightFor(message: Message, width: CGFloat, sequential: Bool = true) -> CGFloat {
         let fullWidth = width
         let attributedString = MessageTextCacheManager.shared.message(for: message)
-
-        var total = (CGFloat)(sequential ? 8 : 29) + (message.reactions.count > 0 ? 40 : 0)
+        let isMyMessage = message.user?.identifier == AuthManager.currentUser()?.identifier
+        var total = (CGFloat)(sequential ? 0 : 31) // Date
+        total += sequential ? 0 : (isMyMessage ? 8 : 21) // Name
+        total += message.reactions.count > 0 ? 40 : 0
         if attributedString?.string ?? "" != "" {
             total += (attributedString?.heightForView(withWidth: fullWidth - 55) ?? 0)
         }
@@ -119,20 +121,49 @@ final class ChatMessageCell: UICollectionViewCell {
                 }
             }
         }
+        
+        // Make sure total height >= avatar size
+        let minHeight = (CGFloat)(sequential ? 36 : 67)
+        if !sequential && total < minHeight { // Avatar size
+            total = minHeight
+        }
 
         return total
     }
 
     // MARK: Sequential
-    @IBOutlet weak var labelUsernameHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var labelDateMarginTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var labelDateHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var labelDateMarginBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var labelUsernameHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var avatarContainerHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet var avatarLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var avatarTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var mediaLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var mediaTrailingConstraint: NSLayoutConstraint!
 
     var sequential: Bool = false {
         didSet {
-            avatarContainerHeightConstraint.constant = sequential ? 0 : 35
-            labelUsernameHeightConstraint.constant = sequential ? 0 : 21
+            labelDateMarginTopConstraint.constant = sequential ? 0 : 5
             labelDateHeightConstraint.constant = sequential ? 0 : 21
+            labelDateMarginBottomConstraint.constant = sequential ? 0 : 5
+            labelUsernameHeightConstraint.constant = sequential ? 0 : (isMyMessage ? 8 : 21)
+            avatarContainerHeightConstraint.constant = sequential ? 0 : 36
+        }
+    }
+    
+    var isMyMessage: Bool = false {
+        didSet {
+            labelUsernameHeightConstraint.constant = sequential ? 0 : (isMyMessage ? 8 : 21)
+            avatarLeadingConstraint.isActive = !isMyMessage
+            avatarTrailingConstraint.isActive = isMyMessage
+            mediaLeadingConstraint.constant = isMyMessage ? 8 : 48
+            mediaTrailingConstraint.constant = isMyMessage ? 48 : 8
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+            avatarView.setNeedsLayout()
+            avatarView.layoutIfNeeded()
         }
     }
 
@@ -142,6 +173,7 @@ final class ChatMessageCell: UICollectionViewCell {
         labelDate.text = ""
         sequential = false
         message = nil
+        isMyMessage = false
 
         avatarView.prepareForReuse()
 
@@ -286,6 +318,14 @@ final class ChatMessageCell: UICollectionViewCell {
                 text.setFontColor(MessageTextFontAttributes.failedFontColor)
             }
 
+            if text.length > 0 {
+                let range = NSMakeRange(0, text.length)
+                var attributes = text.attributes(at: 0, effectiveRange: nil)
+                let style = NSMutableParagraphStyle()
+                style.alignment = isMyMessage ? .right : .left
+                attributes[.paragraphStyle] = style
+                text.setAttributes(attributes, range: range)
+            }
             labelText.message = text
         }
     }
@@ -314,6 +354,8 @@ final class ChatMessageCell: UICollectionViewCell {
         if !sequential {
             updateMessageHeader()
         }
+        
+        isMyMessage = message.user?.identifier == AuthManager.currentUser()?.identifier
 
         updateMessageContent()
         insertGesturesIfNeeded()

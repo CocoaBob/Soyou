@@ -32,7 +32,6 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
         }
     }
 
-    @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var detailText: UILabel!
     @IBOutlet weak var detailTextIndicator: UILabel!
     @IBOutlet weak var detailTextHeightConstraint: NSLayoutConstraint!
@@ -57,12 +56,10 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
         if imageURL.absoluteString.starts(with: "http://") {
             isLoadable = false
             detailText.text = ""
-            labelTitle.text = attachment.title + " (" + localized("alert.insecure_image.title") + ")"
             imageView.contentMode = UIViewContentMode.center
             imageView.sd_setImage(with: nil, placeholderImage: UIImage(namedInBundle: "Resource Unavailable"))
             return nil
         }
-        labelTitle.text = attachment.title
         detailText.text = attachment.descriptionText
         detailTextIndicator.isHidden = attachment.descriptionText?.isEmpty ?? true
         let fullHeight = ChatMessageImageView.heightFor(withText: attachment.descriptionText)
