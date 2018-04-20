@@ -36,8 +36,10 @@ class ChatMessageAudioView: ChatMessageAttachmentView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeSlider: UISlider! {
         didSet {
-            timeSlider.setThumbImage(#imageLiteral(resourceName: "Player Progress").resizeWith(width: 15)?.imageWithTint(.RCGray()), for: .normal)
-            timeSlider.setThumbImage(#imageLiteral(resourceName: "Player Progress").resizeWith(width: 15)?.imageWithTint(.RCDarkGray()), for: .highlighted)
+            if let progressImage = UIImage(namedInBundle:"Player Progress") {
+                timeSlider.setThumbImage(progressImage.resizeWith(width: 15)?.imageWithTint(.RCGray()), for: .normal)
+                timeSlider.setThumbImage(progressImage.resizeWith(width: 15)?.imageWithTint(.RCDarkGray()), for: .highlighted)
+            }
         }
     }
     @IBOutlet weak var playButton: UIButton! {
@@ -61,8 +63,10 @@ class ChatMessageAudioView: ChatMessageAttachmentView {
             } else {
                 player?.pause()
             }
-            let pause = #imageLiteral(resourceName: "Player Pause").withRenderingMode(.alwaysTemplate)
-            let play = #imageLiteral(resourceName: "Player Play").withRenderingMode(.alwaysTemplate)
+            guard let pause = UIImage(namedInBundle:"Player Pause")?.withRenderingMode(.alwaysTemplate),
+                let play = UIImage(namedInBundle:"Player Play")?.withRenderingMode(.alwaysTemplate) else {
+                    return
+            }
             playButton.setImage(playing ? pause : play, for: .normal)
             playButton.imageView?.tintColor = .RCDarkGray()
         }
