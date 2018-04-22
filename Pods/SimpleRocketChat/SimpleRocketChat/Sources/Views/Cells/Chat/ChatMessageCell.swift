@@ -64,6 +64,7 @@ final class ChatMessageCell: UICollectionViewCell {
     @IBOutlet weak var labelText: RCTextView!
 
     @IBOutlet weak var statusView: UIImageView!
+    @IBOutlet weak var messageBackgroundView: UIImageView!
 
     @IBOutlet weak var mediaViews: UIStackView!
     @IBOutlet weak var mediaViewsHeightConstraint: NSLayoutConstraint!
@@ -83,13 +84,13 @@ final class ChatMessageCell: UICollectionViewCell {
     static func cellMediaHeightFor(message: Message, width: CGFloat, sequential: Bool = true) -> CGFloat {
         let fullWidth = width
         let attributedString = MessageTextCacheManager.shared.message(for: message)
-        let isMyMessage = message.user?.identifier == AuthManager.currentUser()?.identifier
         var total = (CGFloat)(sequential ? 0 : 31) // Date
-        total += sequential ? 0 : (isMyMessage ? 8 : 21) // Name
+        total += 0 // Name
         total += message.reactions.count > 0 ? 40 : 0
         if attributedString?.string ?? "" != "" {
-            total += (attributedString?.heightForView(withWidth: fullWidth - 55) ?? 0)
+            total += (attributedString?.heightForView(withWidth: fullWidth - 88) ?? 0)
         }
+        total = ceil(total)
 
         for url in message.urls {
             guard url.isValid() else { continue }
@@ -121,10 +122,13 @@ final class ChatMessageCell: UICollectionViewCell {
                 }
             }
         }
+        total = ceil(total)
+        
+        total += 14 // Bottom margin to the next cell
         
         // Make sure total height >= avatar size
-        let minHeight = (CGFloat)(sequential ? 36 : 67)
-        if !sequential && total < minHeight { // Avatar size
+        let minHeight = (CGFloat)(sequential ? 50 : 81) // AvatarSize : AvatarSize+Date
+        if total < minHeight { // Avatar size
             total = minHeight
         }
 
@@ -138,6 +142,8 @@ final class ChatMessageCell: UICollectionViewCell {
     @IBOutlet weak var labelUsernameHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var avatarContainerHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var messageTopMarginConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageBottomMarginConstraint: NSLayoutConstraint!
     @IBOutlet var avatarLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var avatarTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var mediaLeadingConstraint: NSLayoutConstraint!
@@ -148,14 +154,14 @@ final class ChatMessageCell: UICollectionViewCell {
             labelDateMarginTopConstraint.constant = sequential ? 0 : 5
             labelDateHeightConstraint.constant = sequential ? 0 : 21
             labelDateMarginBottomConstraint.constant = sequential ? 0 : 5
-            labelUsernameHeightConstraint.constant = sequential ? 0 : (isMyMessage ? 8 : 21)
-            avatarContainerHeightConstraint.constant = sequential ? 0 : 36
+            labelUsernameHeightConstraint.constant = 0
+            avatarContainerHeightConstraint.constant = 36
         }
     }
     
     var isMyMessage: Bool = false {
         didSet {
-            labelUsernameHeightConstraint.constant = sequential ? 0 : (isMyMessage ? 8 : 21)
+            labelUsernameHeightConstraint.constant = 0
             avatarLeadingConstraint.isActive = !isMyMessage
             avatarTrailingConstraint.isActive = isMyMessage
             mediaLeadingConstraint.constant = isMyMessage ? 8 : 48
@@ -319,12 +325,11 @@ final class ChatMessageCell: UICollectionViewCell {
             }
 
             if text.length > 0 {
-                let range = NSMakeRange(0, text.length)
-                var attributes = text.attributes(at: 0, effectiveRange: nil)
-                let style = NSMutableParagraphStyle()
-                style.alignment = isMyMessage ? .right : .left
-                attributes[.paragraphStyle] = style
-                text.setAttributes(attributes, range: range)
+                messageTopMarginConstraint.constant = 9
+                messageBottomMarginConstraint.constant = 9
+            } else {
+                messageTopMarginConstraint.constant = 0
+                messageBottomMarginConstraint.constant = 0
             }
             labelText.message = text
         }
@@ -356,6 +361,7 @@ final class ChatMessageCell: UICollectionViewCell {
         }
         
         isMyMessage = message.user?.identifier == AuthManager.currentUser()?.identifier
+        messageBackgroundView.image = UIImage(namedInBundle: isMyMessage ? "ChatBackgroundMe" : "ChatBackgroundOther")
 
         updateMessageContent()
         insertGesturesIfNeeded()

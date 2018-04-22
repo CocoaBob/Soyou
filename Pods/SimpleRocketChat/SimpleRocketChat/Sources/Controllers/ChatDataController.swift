@@ -161,11 +161,11 @@ final class ChatDataController {
         }
 
         if loadedAllMessages {
-            if data.filter({ $0.type == .header }).count == 0 {
-                let obj = ChatData(type: .header, timestamp: Date(timeIntervalSince1970: 0))
-                newItems.append(obj)
-                identifiers.append(obj.identifier)
-            }
+//            if data.filter({ $0.type == .header }).count == 0 {
+//                let obj = ChatData(type: .header, timestamp: Date(timeIntervalSince1970: 0))
+//                newItems.append(obj)
+//                identifiers.append(obj.identifier)
+//            }
 
             let messages = data.filter({ $0.type == .message })
             let firstMessage = messages.sorted(by: { $0.timestamp < $1.timestamp }).first
