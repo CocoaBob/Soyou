@@ -1066,7 +1066,7 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
                 guard !message.markedForDeletion else { return .zero }
 
                 let sequential = dataController.hasSequentialMessageAt(indexPath)
-                let height = ChatMessageCell.cellMediaHeightFor(message: message, width: fullWidth, sequential: sequential)
+                let height = ChatMessageCell.cellHeightFor(message: message, width: fullWidth, sequential: sequential)
                 return CGSize(width: fullWidth, height: height)
             }
         }

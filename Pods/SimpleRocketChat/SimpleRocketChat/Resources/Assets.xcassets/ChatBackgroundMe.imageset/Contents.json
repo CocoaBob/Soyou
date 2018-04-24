@@ -4,13 +4,13 @@
       "resizing" : {
         "mode" : "9-part",
         "center" : {
-          "mode" : "stretch",
+          "mode" : "tile",
           "width" : 1,
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 27,
-          "top" : 4,
+          "bottom" : 4,
+          "top" : 24,
           "right" : 9,
           "left" : 4
         }
@@ -23,13 +23,13 @@
       "resizing" : {
         "mode" : "9-part",
         "center" : {
-          "mode" : "stretch",
+          "mode" : "tile",
           "width" : 1,
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 54,
-          "top" : 8,
+          "bottom" : 8,
+          "top" : 48,
           "right" : 18,
           "left" : 8
         }
@@ -42,19 +42,25 @@
       "resizing" : {
         "mode" : "9-part",
         "center" : {
-          "mode" : "stretch",
+          "mode" : "tile",
           "width" : 1,
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 81,
-          "top" : 12,
+          "bottom" : 12,
+          "top" : 72,
           "right" : 27,
           "left" : 12
         }
       },
       "idiom" : "universal",
       "filename" : "ChatBackgroundMe@3x.png",
+      "alignment-insets" : {
+        "top" : 27,
+        "left" : 12,
+        "bottom" : 72,
+        "right" : 12
+      },
       "scale" : "3x"
     }
   ],

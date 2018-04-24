@@ -81,16 +81,19 @@ final class ChatMessageCell: UICollectionViewCell {
         return true
     }
 
-    static func cellMediaHeightFor(message: Message, width: CGFloat, sequential: Bool = true) -> CGFloat {
+    static func cellHeightFor(message: Message, width: CGFloat, sequential: Bool = true) -> CGFloat {
         let fullWidth = width
         let attributedString = MessageTextCacheManager.shared.message(for: message)
         var total = (CGFloat)(sequential ? 0 : 31) // Date
         total += 0 // Name
         total += message.reactions.count > 0 ? 40 : 0
         if attributedString?.string ?? "" != "" {
-            total += (attributedString?.heightForView(withWidth: fullWidth - 88) ?? 0)
+            let textView = UITextView()
+            textView.attributedText = attributedString
+            let maxWidth = fullWidth - 73 - 12 - 14
+            let textViewHeight = textView.sizeThatFits(CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude)).height
+            total += ceil(textViewHeight)
         }
-        total = ceil(total)
 
         for url in message.urls {
             guard url.isValid() else { continue }
@@ -122,12 +125,11 @@ final class ChatMessageCell: UICollectionViewCell {
                 }
             }
         }
-        total = ceil(total)
         
         total += 14 // Bottom margin to the next cell
         
         // Make sure total height >= avatar size
-        let minHeight = (CGFloat)(sequential ? 50 : 81) // AvatarSize : AvatarSize+Date
+        let minHeight = (CGFloat)(sequential ? 50 : 81) // AvatarSize (36+14) : AvatarSize+Date (36+14+31)
         if total < minHeight { // Avatar size
             total = minHeight
         }
@@ -144,6 +146,12 @@ final class ChatMessageCell: UICollectionViewCell {
     
     @IBOutlet weak var messageTopMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageBottomMarginConstraint: NSLayoutConstraint!
+    @IBOutlet var messageLeftMarginConstraint: NSLayoutConstraint!
+    @IBOutlet var messageRightMarginConstraint: NSLayoutConstraint!
+    @IBOutlet var messageLeftFixConstraint: NSLayoutConstraint!
+    @IBOutlet var messageRightFixConstraint: NSLayoutConstraint!
+    @IBOutlet var messageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var messageHeightConstraint: NSLayoutConstraint!
     @IBOutlet var avatarLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var avatarTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var mediaLeadingConstraint: NSLayoutConstraint!
@@ -166,10 +174,10 @@ final class ChatMessageCell: UICollectionViewCell {
             avatarTrailingConstraint.isActive = isMyMessage
             mediaLeadingConstraint.constant = isMyMessage ? 8 : 48
             mediaTrailingConstraint.constant = isMyMessage ? 48 : 8
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-            avatarView.setNeedsLayout()
-            avatarView.layoutIfNeeded()
+            messageLeftMarginConstraint.constant = isMyMessage ? 12 : 14
+            messageRightMarginConstraint.constant = isMyMessage ? 14 : 12
+            messageLeftFixConstraint.isActive = !isMyMessage
+            messageRightFixConstraint.isActive = isMyMessage
         }
     }
 
@@ -182,11 +190,16 @@ final class ChatMessageCell: UICollectionViewCell {
         isMyMessage = false
 
         avatarView.prepareForReuse()
-
+        
         for view in mediaViews.arrangedSubviews {
             mediaViews.removeArrangedSubview(view)
             view.removeFromSuperview()
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateMessageConstraints()
     }
 
     func insertGesturesIfNeeded() {
@@ -332,7 +345,16 @@ final class ChatMessageCell: UICollectionViewCell {
                 messageBottomMarginConstraint.constant = 0
             }
             labelText.message = text
+            updateMessageConstraints()
         }
+    }
+    
+    fileprivate func updateMessageConstraints() {
+        // Calculate text size
+        let maxWidth = self.frame.width - 73 - 12 - 14
+        let textSize = labelText.sizeToFitWidth(maxWidth)
+        messageWidthConstraint.constant = textSize.width
+        messageHeightConstraint.constant = textSize.height
     }
 
     fileprivate func updateMessage() {
