@@ -149,6 +149,8 @@ public final class ChatViewController: SLKTextViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        self.collectionView?.backgroundColor = .clear
+        
         self.hidesBottomBarWhenPushed = true
 
         collectionView?.isPrefetchingEnabled = true
@@ -910,9 +912,9 @@ extension ChatViewController {
             return cellForMessage(obj, at: indexPath)
         }
 
-        if obj.type == .daySeparator {
-            return cellForDaySeparator(obj, at: indexPath)
-        }
+//        if obj.type == .daySeparator {
+//            return cellForDaySeparator(obj, at: indexPath)
+//        }
 
         if obj.type == .unreadSeparator {
             return cellForUnreadSeparator(obj, at: indexPath)
@@ -950,7 +952,8 @@ extension ChatViewController {
         }
 
         cell.sequential = dataController.hasSequentialMessageAt(indexPath)
-
+        cell.needsToShowDate = dataController.needsToShowDateAt(indexPath)
+        
         return cell
     }
 
@@ -1050,9 +1053,9 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
                 return CGSize(width: fullWidth, height: ChatLoaderCell.minimumHeight)
             }
 
-            if obj.type == .daySeparator {
-                return CGSize(width: fullWidth, height: ChatMessageDaySeparator.minimumHeight)
-            }
+//            if obj.type == .daySeparator {
+//                return CGSize(width: fullWidth, height: ChatMessageDaySeparator.minimumHeight)
+//            }
 
             if obj.type == .unreadSeparator {
                 if dataController.dismissUnreadSeparator {

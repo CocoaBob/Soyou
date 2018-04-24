@@ -81,7 +81,7 @@ class SocketManager {
         }
 
         if let raw = json.rawString() {
-            Log.debug("[WebSocket] \(sharedInstance.socket?.currentURL.description ?? "nil")\n -  will send message: \(raw)")
+            // Log.debug("[WebSocket] \(sharedInstance.socket?.currentURL.description ?? "nil")\n -  will send message: \(raw)")
 
             sharedInstance.socket?.write(string: raw)
 
@@ -185,7 +185,7 @@ extension SocketManager {
 extension SocketManager: WebSocketAdvancedDelegate {
 
     func websocketDidConnect(socket: WebSocket) {
-        Log.debug("[WebSocket] \(socket.currentURL)\n -  did connect")
+        // Log.debug("[WebSocket] \(socket.currentURL)\n -  did connect")
 
         let object = [
             "msg": "connect",
@@ -197,7 +197,7 @@ extension SocketManager: WebSocketAdvancedDelegate {
     }
 
     func websocketDidDisconnect(socket: WebSocket, error: Error?) {
-        Log.debug("[WebSocket] \(socket.currentURL)\n - did disconnect with error (\(String(describing: error)))")
+        // Log.debug("[WebSocket] \(socket.currentURL)\n - did disconnect with error (\(String(describing: error)))")
 
         isUserAuthenticated = false
         events = [:]
@@ -214,7 +214,7 @@ extension SocketManager: WebSocketAdvancedDelegate {
     }
 
     func websocketDidReceiveData(socket: WebSocket, data: Data, response: WebSocket.WSResponse) {
-        Log.debug("[WebSocket] did receive data (\(data))")
+        // Log.debug("[WebSocket] did receive data (\(data))")
     }
 
     static let jsonParseQueue = DispatchQueue(label: "chat.rocket.json.parse", qos: .background)
@@ -225,12 +225,12 @@ extension SocketManager: WebSocketAdvancedDelegate {
 
             // JSON is invalid
             guard json.exists() else {
-                Log.debug("[WebSocket] \(socket.currentURL)\n - did receive invalid JSON object:\n\(text)")
+                // Log.debug("[WebSocket] \(socket.currentURL)\n - did receive invalid JSON object:\n\(text)")
                 return
             }
 
             if let raw = json.rawString() {
-                Log.debug("[WebSocket] \(socket.currentURL)\n - did receive JSON message:\n\(raw)")
+                // Log.debug("[WebSocket] \(socket.currentURL)\n - did receive JSON message:\n\(raw)")
             }
 
             DispatchQueue.main.async {
@@ -240,11 +240,11 @@ extension SocketManager: WebSocketAdvancedDelegate {
     }
 
     func websocketHttpUpgrade(socket: WebSocket, request: String) {
-        Log.debug("[WebSocket] http upgrade request (\(request))")
+        // Log.debug("[WebSocket] http upgrade request (\(request))")
     }
 
     func websocketHttpUpgrade(socket: WebSocket, response: String) {
-        Log.debug("[WebSocket] http upgrade response (\(response))")
+        // Log.debug("[WebSocket] http upgrade response (\(response))")
     }
 }
 
@@ -253,7 +253,7 @@ extension SocketManager: WebSocketAdvancedDelegate {
 extension SocketManager: WebSocketPongDelegate {
 
     func websocketDidReceivePong(socket: WebSocketClient, data: Data?) {
-        Log.debug("[WebSocket] did receive pong")
+        // Log.debug("[WebSocket] did receive pong")
     }
 
 }

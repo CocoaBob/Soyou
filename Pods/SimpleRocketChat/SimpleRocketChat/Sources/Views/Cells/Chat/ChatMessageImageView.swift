@@ -16,7 +16,7 @@ protocol ChatMessageImageViewProtocol: class {
 
 final class ChatMessageImageView: ChatMessageAttachmentView {
     override static var defaultHeight: CGFloat {
-        return 250
+        return 155
     }
     var isLoadable = true
 

@@ -55,12 +55,6 @@
       },
       "idiom" : "universal",
       "filename" : "ChatBackgroundMe@3x.png",
-      "alignment-insets" : {
-        "top" : 27,
-        "left" : 12,
-        "bottom" : 72,
-        "right" : 12
-      },
       "scale" : "3x"
     }
   ],

@@ -110,6 +110,15 @@ final class ChatDataController {
 
         return sameUser && recent
     }
+    
+    func needsToShowDateAt(_ indexPath: IndexPath) -> Bool {
+        let prevIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+        guard let message = itemAt(indexPath)?.message else { return false }
+        guard let prevMessage = itemAt(prevIndexPath)?.message else { return true }
+        guard let prevDate = prevMessage.createdAt, let currDate = message.createdAt else { return false }
+        print("\(prevDate) - \(currDate)")
+        return !prevDate.sameDayAs(currDate)
+    }
 
     func indexPathOf(_ identifier: String) -> IndexPath? {
         return data.filter { item in
@@ -137,15 +146,15 @@ final class ChatDataController {
         var lastObj = data.last
         var identifiers: [String] = items.map { $0.identifier }
 
-        func insertDaySeparator(from obj: ChatData) {
-            guard let calendar = NSCalendar(calendarIdentifier: .gregorian) else { return }
-            let date = obj.timestamp
-            let components = calendar.components([.day, .month, .year], from: date)
-            guard let newDate = calendar.date(from: components) else { return }
-            let separator = ChatData(type: .daySeparator, timestamp: newDate)
-            identifiers.append(separator.identifier)
-            newItems.append(separator)
-        }
+//        func insertDaySeparator(from obj: ChatData) {
+//            guard let calendar = NSCalendar(calendarIdentifier: .gregorian) else { return }
+//            let date = obj.timestamp
+//            let components = calendar.components([.day, .month, .year], from: date)
+//            guard let newDate = calendar.date(from: components) else { return }
+//            let separator = ChatData(type: .daySeparator, timestamp: newDate)
+//            identifiers.append(separator.identifier)
+//            newItems.append(separator)
+//        }
 
         func insertUnreadSeparator() {
             let separator = ChatData(type: .unreadSeparator, timestamp: lastSeen)
@@ -160,28 +169,28 @@ final class ChatDataController {
             }
         }
 
-        if loadedAllMessages {
+//        if loadedAllMessages {
 //            if data.filter({ $0.type == .header }).count == 0 {
 //                let obj = ChatData(type: .header, timestamp: Date(timeIntervalSince1970: 0))
 //                newItems.append(obj)
 //                identifiers.append(obj.identifier)
 //            }
 
-            let messages = data.filter({ $0.type == .message })
-            let firstMessage = messages.sorted(by: { $0.timestamp < $1.timestamp }).first
-            if let firstMessage = firstMessage {
+//            let messages = data.filter({ $0.type == .message })
+//            let firstMessage = messages.sorted(by: { $0.timestamp < $1.timestamp }).first
+//            if let firstMessage = firstMessage {
                 // Check if already contains some separator with this data
-                var insert = true
-                for obj in data.filter({ $0.type == .daySeparator })
-                    where firstMessage.timestamp.sameDayAs(obj.timestamp) {
-                            insert = false
-                }
+//                var insert = true
+//                for obj in data.filter({ $0.type == .daySeparator })
+//                    where firstMessage.timestamp.sameDayAs(obj.timestamp) {
+//                            insert = false
+//                }
 
-                if insert {
-                    insertDaySeparator(from: firstMessage)
-                }
-            }
-        }
+//                if insert {
+//                    insertDaySeparator(from: firstMessage)
+//                }
+//            }
+//        }
 
         // Has loader?
 //        let loaders = data.filter({ $0.type == .loader })
@@ -207,24 +216,24 @@ final class ChatDataController {
             return false
         }
 
-        func needsDateSeparator(_ obj: ChatData) -> Bool {
-            if obj.type != .message { return false }
-
-            return data.filter({
-                $0.type == .daySeparator && $0.timestamp.sameDayAs(obj.timestamp)
-            }).count == 0 && newItems.filter({
-                $0.type == .daySeparator && $0.timestamp.sameDayAs(obj.timestamp)
-            }).count == 0
-        }
+//        func needsDateSeparator(_ obj: ChatData) -> Bool {
+//            if obj.type != .message { return false }
+//
+//            return data.filter({
+//                $0.type == .daySeparator && $0.timestamp.sameDayAs(obj.timestamp)
+//            }).count == 0 && newItems.filter({
+//                $0.type == .daySeparator && $0.timestamp.sameDayAs(obj.timestamp)
+//            }).count == 0
+//        }
 
         for newObj in items {
-            if let lastObj = lastObj {
-                if needsDateSeparator(lastObj) {
-                    insertDaySeparator(from: lastObj)
-                } else if needsDateSeparator(newObj) {
-                    insertDaySeparator(from: newObj)
-                }
-            }
+//            if let lastObj = lastObj {
+//                if needsDateSeparator(lastObj) {
+//                    insertDaySeparator(from: lastObj)
+//                } else if needsDateSeparator(newObj) {
+//                    insertDaySeparator(from: newObj)
+//                }
+//            }
 
             if needsUnreadSeparator(newObj) {
                 insertUnreadSeparator()

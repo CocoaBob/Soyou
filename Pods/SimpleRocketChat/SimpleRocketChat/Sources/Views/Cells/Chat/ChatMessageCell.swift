@@ -157,6 +157,13 @@ final class ChatMessageCell: UICollectionViewCell {
     @IBOutlet weak var mediaLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var mediaTrailingConstraint: NSLayoutConstraint!
 
+    var needsToShowDate: Bool = false {
+        didSet {
+            if let createdAt = message.createdAt {
+                labelDate.text = needsToShowDate ? RCDateFormatter.datetime(createdAt, dateStyle: .short) : RCDateFormatter.time(createdAt)
+            }
+        }
+    }
     var sequential: Bool = false {
         didSet {
             labelDateMarginTopConstraint.constant = sequential ? 0 : 5
@@ -178,6 +185,7 @@ final class ChatMessageCell: UICollectionViewCell {
             messageRightMarginConstraint.constant = isMyMessage ? 14 : 12
             messageLeftFixConstraint.isActive = !isMyMessage
             messageRightFixConstraint.isActive = isMyMessage
+            mediaViews.alignment = isMyMessage ? .trailing : .leading
         }
     }
 
@@ -311,7 +319,7 @@ final class ChatMessageCell: UICollectionViewCell {
 
     fileprivate func updateMessageHeader() {
         if let createdAt = message.createdAt {
-            labelDate.text = RCDateFormatter.time(createdAt)
+            labelDate.text = needsToShowDate ? RCDateFormatter.datetime(createdAt) : RCDateFormatter.time(createdAt)
         }
 
         avatarView.user = message.user
