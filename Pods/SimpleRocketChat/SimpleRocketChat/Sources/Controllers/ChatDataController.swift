@@ -116,7 +116,6 @@ final class ChatDataController {
         guard let message = itemAt(indexPath)?.message else { return false }
         guard let prevMessage = itemAt(prevIndexPath)?.message else { return true }
         guard let prevDate = prevMessage.createdAt, let currDate = message.createdAt else { return false }
-        print("\(prevDate) - \(currDate)")
         return !prevDate.sameDayAs(currDate)
     }
 

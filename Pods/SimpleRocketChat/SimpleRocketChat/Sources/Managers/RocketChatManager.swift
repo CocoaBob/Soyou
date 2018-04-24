@@ -198,6 +198,15 @@ public extension RocketChatManager {
     }
 }
 
+// MARK: - Unread Number
+
+public extension RocketChatManager {
+    
+    public static func getUnreadNumber(_ completion: ((Int)->())?) {
+        SubscriptionManager.getUnreadNumber(completion)
+    }
+}
+
 // MARK: Deep Link
 
 public extension RocketChatManager {

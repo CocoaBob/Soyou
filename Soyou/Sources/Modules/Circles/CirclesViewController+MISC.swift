@@ -180,8 +180,8 @@ extension CirclesViewController {
         let redDotRadius: CGFloat = 5
         let redDotDiameter = redDotRadius * 2
         let topMargin:CGFloat = 4
-        let count = CGFloat(self.tabBarController!.tabBar.items!.count)
-        let tabHalfWidth = view.bounds.width / (count * 2)
+        let count = CGFloat(tabbar.items!.count)
+        let tabHalfWidth = tabbar.bounds.width / (count * 2)
         let xOffset = tabHalfWidth * CGFloat(tabIndex * 2 + 1)
         let imageHalfWidth: CGFloat = (tabbar.items?[tabIndex].selectedImage?.size.width ?? 0) / CGFloat(2)
         let redDot = UIView(frame: CGRect(x: xOffset + imageHalfWidth - redDotRadius, y: topMargin, width: redDotDiameter, height: redDotDiameter))

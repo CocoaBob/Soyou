@@ -69,6 +69,7 @@ public final class ChatViewController: SLKTextViewController {
 
     var isRequestingHistory = false
     var isAppendingMessages = false
+    var isVisible = false
 
     var subscriptionToken: NotificationToken?
 
@@ -121,7 +122,6 @@ public final class ChatViewController: SLKTextViewController {
             resetUnreadSeparator()
 
             updateSubscriptionInfo()
-            markAsRead()
             typingIndicatorView?.dismissIndicator()
 
             if let oldValue = oldValue, oldValue.identifier != subscription.identifier {
@@ -150,6 +150,7 @@ public final class ChatViewController: SLKTextViewController {
         super.viewDidLoad()
         
         self.collectionView?.backgroundColor = .clear
+        self.buttonScrollToBottom.setImage(UIImage(namedInBundle: "Arrow Down"), for: .normal)
         
         self.hidesBottomBarWhenPushed = true
 
@@ -198,6 +199,17 @@ public final class ChatViewController: SLKTextViewController {
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         keyboardFrame?.updateFrame()
+    }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isVisible = true
+        markAsRead()
+    }
+    
+    override public func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isVisible = false
     }
 
     @objc internal func reconnect() {
@@ -512,9 +524,10 @@ public final class ChatViewController: SLKTextViewController {
 
     fileprivate func markAsRead() {
         guard let subscription = subscription else { return }
-
-        SubscriptionManager.markAsRead(subscription) { _ in
-            // Nothing, for now
+        if isVisible {
+            SubscriptionManager.markAsRead(subscription) { _ in
+                // Nothing, for now
+            }
         }
     }
 

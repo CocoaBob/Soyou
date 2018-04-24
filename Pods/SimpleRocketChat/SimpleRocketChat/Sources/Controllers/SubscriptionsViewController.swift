@@ -8,6 +8,11 @@
 
 import RealmSwift
 
+public protocol SubscriptionsViewControllerDelegate {
+    
+    func rocketChatDidUpdateSubscriptions()
+}
+
 // swiftlint:disable file_length
 public final class SubscriptionsViewController: UIViewController {
     
@@ -15,6 +20,8 @@ public final class SubscriptionsViewController: UIViewController {
     public static let shared = UIStoryboard(name: "Subscriptions", bundle: Bundle(for: SubscriptionsViewController.self)).instantiateViewController(withIdentifier: "SubscriptionsViewController") as? SubscriptionsViewController
 
     @IBOutlet weak var tableView: UITableView!
+    
+    public var delegate: SubscriptionsViewControllerDelegate?
 
     var subscriptions = [Subscription]()
     var subscriptionResults: Results<Subscription>?
@@ -61,6 +68,7 @@ extension SubscriptionsViewController {
     
     func handleSubscriptionUpdates<T>(changes: RealmCollectionChange<RealmSwift.Results<T>>?) {
         reloadData()
+        delegate?.rocketChatDidUpdateSubscriptions()
     }
 
     func subscription(for indexPath: IndexPath) -> Subscription? {

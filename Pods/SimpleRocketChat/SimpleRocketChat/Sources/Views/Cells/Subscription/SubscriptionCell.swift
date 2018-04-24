@@ -28,12 +28,9 @@ final class SubscriptionCell: UITableViewCell {
 
     @IBOutlet weak var imageViewAvatar: UIImageView!
     @IBOutlet weak var labelName: UILabel!
-    @IBOutlet weak var labelUnread: UILabel! {
-        didSet {
-            labelUnread.layer.cornerRadius = 2
-        }
-    }
+    @IBOutlet weak var labelUnread: UILabel!
     @IBOutlet weak var labelUnreadWidth: NSLayoutConstraint!
+    @IBOutlet weak var statusView: UIView!
 
     func updateSubscriptionInformatin() {
         guard let subscription = self.subscription else { return }
@@ -54,8 +51,27 @@ final class SubscriptionCell: UITableViewCell {
         }
 
         labelUnread.alpha = subscription.unread > 0 ? 1 : 0
-        labelUnreadWidth.constant = subscription.unread > 0 ? 28 : 0
+        labelUnreadWidth.constant = subscription.unread > 99 ? 30 : (subscription.unread > 9 ? 23 : (subscription.unread > 0 ? 16 : 0))
         labelUnread.text = "\(subscription.unread)"
+        
+        updateStatus()
+    }
+    
+    func updateStatus() {
+        if let user = self.subscription?.directMessageUser {
+            switch user.status {
+            case .online:
+                statusView.backgroundColor = UIColor(rgb: 0x2DE0A5, alphaVal: 1)
+            case .offline:
+                statusView.backgroundColor = UIColor(rgb: 0xCBCED1, alphaVal: 1)
+            case .away:
+                statusView.backgroundColor = UIColor(rgb: 0xFFD21F, alphaVal: 1)
+            case .busy:
+                statusView.backgroundColor = UIColor(rgb: 0xF5455C, alphaVal: 1)
+            }
+        } else {
+            statusView.backgroundColor = UIColor(rgb: 0xCBCED1, alphaVal: 1)
+        }
     }
 }
 

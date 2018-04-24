@@ -255,6 +255,7 @@ extension AppDelegate {
         }
         
         if UserManager.shared.isLoggedIn && viewControllers.count == 4 {
+            SubscriptionsViewController.shared?.delegate = self
             guard let rocketChatVC = SubscriptionsViewController.shared else { return }
             rocketChatVC.title = NSLocalizedString("chats_vc_title")
             rocketChatVC.tabBarItem = UITabBarItem(title: NSLocalizedString("chats_vc_tab_title"),
@@ -262,6 +263,9 @@ extension AppDelegate {
                                                    selectedImage: UIImage(named: "img_tab_chat_selected"))
             let navV = UINavigationController(rootViewController: rocketChatVC)
             viewControllers.insert(navV, at: 1)
+            
+            guard let chatVC = ChatViewController.shared else { return }
+            chatVC.view.backgroundColor = Cons.UI.colorBG
         } else if !UserManager.shared.isLoggedIn && viewControllers.count == 5 {
             viewControllers.remove(at: 1)
         }
@@ -489,5 +493,63 @@ extension AppDelegate {
             return true
         }
         return false
+    }
+}
+
+// MARK: - Rocket Chat Update
+extension AppDelegate: SubscriptionsViewControllerDelegate {
+    
+    func rocketChatDidUpdateSubscriptions() {
+        RocketChatManager.getUnreadNumber { unreadNumber in
+            self.updateRocketChatUnreadNumber(unreadNumber)
+        }
+    }
+    
+    func updateRocketChatUnreadNumber(_ unreadNumber: Int) {
+        if unreadNumber == 0 {
+            hideRocketChatUnreadNumber()
+            return
+        }
+        
+        let tabBarController = self.window?.rootViewController as? UITabBarController
+        guard let tabbar = tabBarController?.tabBar else { return }
+        
+        if !isRocketChatUnreadNumberVisible() {
+            let tabIndex = 1
+            let radius: CGFloat = 8
+            let topMargin: CGFloat = 4
+            let width: CGFloat = unreadNumber > 99 ? 30 : (unreadNumber > 9 ? 23 : (unreadNumber > 0 ? 16 : 0))
+            let count = CGFloat(tabbar.items!.count)
+            let tabHalfWidth: CGFloat = tabbar.bounds.width / (count * 2)
+            let xOffset  = tabHalfWidth * CGFloat(tabIndex * 2 + 1)
+            let imageHalfWidth: CGFloat = (tabbar.items?[tabIndex].selectedImage?.size.width ?? 0) / 2.0
+            let bgView = UIView(frame: CGRect(x: xOffset + imageHalfWidth - radius, y: topMargin, width: width, height: radius * 2))
+            bgView.tag = 2345
+            bgView.backgroundColor = UIColor(hex8:0xE1483CFF)
+            bgView.layer.cornerRadius = radius
+            bgView.addSubview(UILabel())
+            tabbar.addSubview(bgView)
+        }
+        
+        if let bgView = tabbar.subviews.filter({ $0.tag == 2345 }).last,
+            let lbl = bgView.subviews.last as? UILabel {
+            lbl.text = "\(unreadNumber)"
+            lbl.font = UIFont.systemFont(ofSize: 11)
+            lbl.textColor = .white
+            lbl.sizeToFit()
+            lbl.center = CGPoint(x: bgView.bounds.width / 2.0, y: bgView.bounds.height / 2.0)
+        }
+    }
+    
+    func hideRocketChatUnreadNumber() {
+        let tabBarController = self.window?.rootViewController as? UITabBarController
+        guard let tabbar = tabBarController?.tabBar else { return }
+        tabbar.subviews.filter({ $0.tag == 2345 }).last?.removeFromSuperview()
+    }
+    
+    func isRocketChatUnreadNumberVisible() -> Bool {
+        let tabBarController = self.window?.rootViewController as? UITabBarController
+        guard let tabbar = tabBarController?.tabBar else { return false }
+        return !tabbar.subviews.filter({ $0.tag == 2345 }).isEmpty
     }
 }

@@ -10,9 +10,10 @@ import Foundation
 import RealmSwift
 
 struct SubscriptionManager {
-    static func updateUnreadApplicationBadge() {
+    
+    static func getUnreadNumber(_ completion: ((Int)->())?) {
         var unread = 0
-
+        
         Realm.execute({ (realm) in
             for obj in realm.objects(Subscription.self) {
                 if obj.type == SubscriptionType.directMessage {
@@ -20,8 +21,14 @@ struct SubscriptionManager {
                 }
             }
         }, completion: {
-            UIApplication.shared.applicationIconBadgeNumber = unread
+            completion?(unread)
         })
+    }
+    
+    static func updateUnreadApplicationBadge() {
+        SubscriptionManager.getUnreadNumber { unreadNumber in
+            UIApplication.shared.applicationIconBadgeNumber = unreadNumber
+        }
     }
 
     // swiftlint:disable function_body_length

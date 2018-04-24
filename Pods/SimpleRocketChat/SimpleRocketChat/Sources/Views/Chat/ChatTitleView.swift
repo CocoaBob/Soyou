@@ -19,7 +19,7 @@ final class ChatTitleView: UIView {
 
     @IBOutlet weak var imageArrowDown: UIImageView! {
         didSet {
-            imageArrowDown.image = imageArrowDown.image?.withRenderingMode(.alwaysTemplate)
+            imageArrowDown.image = UIImage(namedInBundle: "Arrow Down")?.withRenderingMode(.alwaysTemplate)
             imageArrowDown.tintColor = .RCGray()
         }
     }

@@ -54,7 +54,7 @@ target "Soyou" do
     pod "Google/SignIn"
     
     # Simple Rocket Chat
-    pod "SimpleRocketChat", :git => 'git://github.com/CocoaBob/SimpleRocketChat', :commit => 'b5138aa4a34f3d1d7b60f9bf557694b2913888ae'
+    pod "SimpleRocketChat", :git => 'git://github.com/CocoaBob/SimpleRocketChat', :commit => 'e93b71c2c29f7a6e0fb06f431a0dff68a1ed54a5'
     # Override the dependencies of Rocket Chat
     pod "SlackTextViewController", :git => 'https://github.com/CocoaBob/SlackTextViewController.git', :commit => '4542e7e2f545b92724954e4276fde9a672f63d92'
     pod "MobilePlayer"

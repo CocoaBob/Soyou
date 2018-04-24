@@ -252,32 +252,6 @@ extension ChatViewController {
     }
 
     func uploadDialog(_ file: FileUpload) {
-        let alert = UIAlertController(title: localized("alert.upload_dialog.title"), message: "", preferredStyle: .alert)
-        var fileName: UITextField?
-        var fileDescription: UITextField?
-
-        alert.addTextField { (_ field) -> Void in
-            fileName = field
-            fileName?.placeholder = localized("alert.upload_dialog.placeholder.title")
-            fileName?.text = file.name
-        }
-        alert.addTextField { (_ field) -> Void in
-            fileDescription = field
-            fileDescription?.autocorrectionType = .yes
-            fileDescription?.autocapitalizationType = .sentences
-            fileDescription?.placeholder = localized("alert.upload_dialog.placeholder.description")
-        }
-        alert.addAction(UIAlertAction(title: localized("alert.upload_dialog.action.upload"), style: .default, handler: { _ in
-            var name = file.name
-            if fileName?.text?.isEmpty == false {
-                name = fileName?.text ?? file.name
-            }
-            let description = fileDescription?.text
-            self.upload(file, fileName: name, description: description)
-        }))
-        alert.addAction(UIAlertAction(title: localized("global.cancel"), style: .cancel))
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-        }
+        self.upload(file, fileName: file.name, description: nil)
     }
 }

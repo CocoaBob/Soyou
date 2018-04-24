@@ -160,7 +160,7 @@ final class ChatMessageCell: UICollectionViewCell {
     var needsToShowDate: Bool = false {
         didSet {
             if let createdAt = message.createdAt {
-                labelDate.text = needsToShowDate ? RCDateFormatter.datetime(createdAt, dateStyle: .short) : RCDateFormatter.time(createdAt)
+                labelDate.text = needsToShowDate ? RCDateFormatter.datetime(createdAt) : RCDateFormatter.time(createdAt)
             }
         }
     }
