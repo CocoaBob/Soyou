@@ -77,7 +77,7 @@
                             <constraint firstAttribute="trailing" secondItem="2ls-IU-AJ8" secondAttribute="trailing" id="Roy-VL-3cP"/>
                             <constraint firstAttribute="trailing" secondItem="2eJ-5r-Kgq" secondAttribute="trailing" constant="14" id="WwM-jv-9di"/>
                             <constraint firstItem="2ls-IU-AJ8" firstAttribute="top" secondItem="BWT-ll-lbQ" secondAttribute="top" id="fDw-lj-cSG"/>
-                            <constraint firstAttribute="bottom" secondItem="2eJ-5r-Kgq" secondAttribute="bottom" constant="9" id="fbr-Je-0qm"/>
+                            <constraint firstAttribute="bottom" secondItem="2eJ-5r-Kgq" secondAttribute="bottom" priority="750" constant="9" id="fbr-Je-0qm"/>
                             <constraint firstItem="2eJ-5r-Kgq" firstAttribute="leading" secondItem="BWT-ll-lbQ" secondAttribute="leading" constant="14" id="mL9-0d-EUU"/>
                             <constraint firstItem="2eJ-5r-Kgq" firstAttribute="top" secondItem="BWT-ll-lbQ" secondAttribute="top" constant="9" id="mQe-C6-GLQ"/>
                         </constraints>
@@ -148,7 +148,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="ChatBackgroundOther" width="13" height="31"/>
+        <image name="ChatBackgroundOther" width="13" height="28"/>
         <image name="Exclamation" width="20" height="20"/>
     </resources>
 </document>

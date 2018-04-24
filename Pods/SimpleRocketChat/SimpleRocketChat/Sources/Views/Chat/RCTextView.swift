@@ -133,7 +133,6 @@ extension RCTextView {
     
     func sizeToFitWidth(_ width: CGFloat) -> CGSize {
         var size = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
-        size.width = ceil(size.width)
         size.height = ceil(size.height)
         return size
     }
