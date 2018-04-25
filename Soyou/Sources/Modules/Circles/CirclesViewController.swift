@@ -600,8 +600,15 @@ extension CirclesViewController {
                     var isFollower = false
                     // Update Follow/Unfollow button
                     if !isMyself, let friendStatus = data["friendStatus"] as? Int {
-                        self.btnMessage.isHidden = false
-                        self.lblMessageStatus.isHidden = false
+                        if let chatVC = ChatViewController.shared,
+                            let navVCs = self.navigationController?.viewControllers,
+                            navVCs.contains(chatVC) {
+                            self.btnMessage.isHidden = true
+                            self.lblMessageStatus.isHidden = true
+                        } else {
+                            self.btnMessage.isHidden = false
+                            self.lblMessageStatus.isHidden = false
+                        }
                         self.btnFollow.isHidden = false
                         self.lblFollowStatus.isHidden = false
                         // 0: no friend status specified

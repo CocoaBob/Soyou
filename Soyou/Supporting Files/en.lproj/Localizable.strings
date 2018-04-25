@@ -114,7 +114,7 @@
 "circles_vc_user_follower"="%d FOLLOWERS";
 "circles_vc_user_follows_you"="FOLLOWS YOU";
 "circles_vc_user_not_follow_you"="NOT FOLLOW YOU";
-"circles_vc_user_btn_message"="Send Message";
+"circles_vc_user_btn_message"="Message";
 "circles_vc_user_follow_to_message"="Follow to Chat";
 "circles_vc_user_tap_to_message"="Tap to Chat";
 "circles_vc_user_badge_separator"=", ";

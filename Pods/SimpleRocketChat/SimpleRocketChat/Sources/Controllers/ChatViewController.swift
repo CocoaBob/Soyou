@@ -131,6 +131,10 @@ public final class ChatViewController: SLKTextViewController {
             textView.text = DraftMessageManager.draftMessage(for: subscription)
         }
     }
+    
+    public var username: String? {
+        return self.subscription?.name
+    }
 
     // MARK: View Life Cycle
 
@@ -197,6 +201,7 @@ public final class ChatViewController: SLKTextViewController {
     }
 
     override public func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         keyboardFrame?.updateFrame()
     }

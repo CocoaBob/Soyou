@@ -116,7 +116,7 @@
 "circles_vc_user_follower"="粉丝 %d";
 "circles_vc_user_follows_you"="TA是您的粉丝";
 "circles_vc_user_not_follow_you"="TA没有关注您";
-"circles_vc_user_btn_message"="发消息";
+"circles_vc_user_btn_message"="聊天";
 "circles_vc_user_follow_to_message"="关注后才可以聊天";
 "circles_vc_user_tap_to_message"="点击开始聊天";
 "circles_vc_user_badge_separator"="、";
