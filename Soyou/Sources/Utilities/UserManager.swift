@@ -195,7 +195,7 @@ extension UserManager {
             completion?()
             return
         }
-        let server = "wss://test-im.soyou.io/websocket"
+        let server = Utils.isSTGMode() ? Cons.Svr.rocketChatServerSTG : Cons.Svr.rocketChatServerPROD
         RocketChatManager.signIn(socketServerAddress: server, userId: imUserId, token: imAuthToken, completion: completion)
     }
 }

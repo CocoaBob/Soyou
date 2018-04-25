@@ -8,15 +8,17 @@
 
 public struct Cons {
     struct Svr {
-        static let serverVersion                            = "0.0.9"
+        static let serverVersion                            = "1.0.0"
         static let apiVersion                               = "v1"
         
         static let hostnameSTG                              = "test-api.soyou.io"
         static let shareBaseURLSTG                          = "http://test-www.soyou.io/share/#"
         static let reqAPIKeySTG                             = "17843599-f079-4c57-bb39-d9ca8344abd"
+        static let rocketChatServerSTG                      = "wss://test-im.soyou.io/websocket"
         static let hostnamePROD                             = "api.soyou.io"
         static let shareBaseURLPROD                         = "http://www.soyou.io/share/#"
         static let reqAPIKeyPROD                            = "ca2784f1-f079-4c57-qq39-d9caou24abd7"
+        static let rocketChatServerPROD                     = "wss://im.soyou.io/websocket"
         
         // Number of News/Discounts for each request
         static let infoRequestSize                          = 10
