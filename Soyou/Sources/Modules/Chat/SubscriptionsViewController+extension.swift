@@ -23,6 +23,7 @@ extension SubscriptionsViewController {
     @objc func createChat() {
         let membersVC = MembersViewController.instantiate()
         membersVC.userID = UserManager.shared.userID
+        membersVC.isShowingFollowers = false
         membersVC.isSelectionMode = true
         membersVC.singleSelectionHandler = { member in
             membersVC.dismiss(animated: false, completion: nil)

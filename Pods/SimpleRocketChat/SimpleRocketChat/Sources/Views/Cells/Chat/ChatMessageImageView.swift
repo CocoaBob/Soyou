@@ -44,6 +44,8 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
             imageView.layer.borderWidth = 1
         }
     }
+    @IBOutlet var imageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet var imageViewHeightConstraint: NSLayoutConstraint!
 
     private lazy var tapGesture: UITapGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(ChatMessageImageView.didTapView))
@@ -81,8 +83,21 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
         activityIndicatorImageView.startAnimating()
 
         let options: SDWebImageOptions = [.retryFailed, .scaleDownLargeImages]
-        imageView.sd_setImage(with: imageURL, placeholderImage: nil, options: options, completed: { [weak self] _, _, _, _ in
+        imageView.sd_setImage(with: imageURL, placeholderImage: nil, options: options, completed: { [weak self] image, _, _, _ in
             self?.activityIndicatorImageView.stopAnimating()
+            guard let image = image else { return }
+            guard image.size.width > 0, image.size.height > 0 else { return }
+            guard let selfWidth = self?.bounds.width else { return }
+            let ratio = image.size.width / image.size.height
+            let height = ChatMessageImageView.defaultHeight
+            var width = height * ratio
+            if width > selfWidth - 32 { // 32 is margin
+                width = selfWidth - 32
+            }
+            self?.imageViewWidthConstraint.constant = width
+            self?.imageViewHeightConstraint.constant = height
+            self?.imageViewWidthConstraint.isActive = true
+            self?.imageViewHeightConstraint.isActive = true
         })
     }
 

@@ -99,6 +99,7 @@ public extension RocketChatManager {
         
         func openDirectMessage() -> Bool {
             guard let directMessageRoom = Subscription.find(name: username, subscriptionType: [.directMessage]) else {
+                completion?()
                 return false
             }
             ChatViewController.shared?.subscription = directMessageRoom

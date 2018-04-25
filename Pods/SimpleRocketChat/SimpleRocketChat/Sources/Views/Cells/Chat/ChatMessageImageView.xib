@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,14 +15,21 @@
             <rect key="frame" x="0.0" y="0.0" width="200" height="217"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Tap-bA-2Og">
+                <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Tap-bA-2Og" userLabel="Image Container">
                     <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wQ2-4D-y5T" customClass="FLAnimatedImageView">
-                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                            <rect key="frame" x="5" y="0.0" width="190" height="200"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="wQ2-4D-y5T" secondAttribute="height" multiplier="1:1" id="gkR-07-HCk"/>
+                                <constraint firstAttribute="width" constant="200" id="Ed2-vS-QGB"/>
+                                <constraint firstAttribute="height" constant="200" id="vXB-qH-ugr"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="Ed2-vS-QGB"/>
+                                    <exclude reference="vXB-qH-ugr"/>
+                                </mask>
+                            </variation>
                         </imageView>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yoy-xe-Xj2">
                             <rect key="frame" x="90" y="90" width="20" height="20"/>
@@ -33,17 +39,16 @@
                             </constraints>
                         </activityIndicatorView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="wQ2-4D-y5T" secondAttribute="trailing" id="3PX-N6-u5J"/>
-                        <constraint firstItem="wQ2-4D-y5T" firstAttribute="leading" secondItem="Tap-bA-2Og" secondAttribute="leading" id="4JH-F9-IXv"/>
+                        <constraint firstAttribute="trailing" secondItem="wQ2-4D-y5T" secondAttribute="trailing" constant="5" id="3PX-N6-u5J"/>
+                        <constraint firstItem="wQ2-4D-y5T" firstAttribute="leading" secondItem="Tap-bA-2Og" secondAttribute="leading" constant="5" id="4JH-F9-IXv"/>
                         <constraint firstAttribute="bottom" secondItem="wQ2-4D-y5T" secondAttribute="bottom" id="Dtb-7r-G1v"/>
                         <constraint firstItem="yoy-xe-Xj2" firstAttribute="centerY" secondItem="Tap-bA-2Og" secondAttribute="centerY" id="Yu4-s5-UWm"/>
                         <constraint firstItem="wQ2-4D-y5T" firstAttribute="top" secondItem="Tap-bA-2Og" secondAttribute="top" id="bK5-j0-UdD"/>
                         <constraint firstItem="yoy-xe-Xj2" firstAttribute="centerX" secondItem="Tap-bA-2Og" secondAttribute="centerX" id="tej-VM-lbJ"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tel-Pv-Ok2">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tel-Pv-Ok2" userLabel="Title Container">
                     <rect key="frame" x="0.0" y="200" width="200" height="17"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUL-A6-lfN">
@@ -63,7 +68,6 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Cd8-E0-gTo" firstAttribute="top" secondItem="Tel-Pv-Ok2" secondAttribute="top" id="5a6-Af-GDn"/>
                         <constraint firstItem="qUL-A6-lfN" firstAttribute="leading" secondItem="Tel-Pv-Ok2" secondAttribute="leading" id="GZU-1e-6lu"/>
@@ -75,7 +79,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Tap-bA-2Og" firstAttribute="top" secondItem="93k-m0-hcx" secondAttribute="top" id="3Yl-TS-FQl"/>
                 <constraint firstItem="Tap-bA-2Og" firstAttribute="leading" secondItem="93k-m0-hcx" secondAttribute="leading" id="DFD-zK-JIK"/>
@@ -95,6 +98,8 @@
                 <outlet property="detailTextIndicator" destination="Cd8-E0-gTo" id="png-2c-Ysm"/>
                 <outlet property="fullHeightConstraint" destination="qUL-A6-lom" id="GZy-2w-aqI"/>
                 <outlet property="imageView" destination="wQ2-4D-y5T" id="3w3-O4-0xj"/>
+                <outlet property="imageViewHeightConstraint" destination="vXB-qH-ugr" id="yXi-fP-6po"/>
+                <outlet property="imageViewWidthConstraint" destination="Ed2-vS-QGB" id="gQJ-2U-9Mj"/>
             </connections>
             <point key="canvasLocation" x="670" y="822.5"/>
         </view>
