@@ -255,17 +255,16 @@ extension AppDelegate {
         }
         
         if UserManager.shared.isLoggedIn && viewControllers.count == 4 {
+            // Get subscriptions update
             SubscriptionsViewController.shared?.delegate = self
-            guard let rocketChatVC = SubscriptionsViewController.shared else { return }
-            rocketChatVC.title = NSLocalizedString("chats_vc_title")
-            rocketChatVC.tabBarItem = UITabBarItem(title: NSLocalizedString("chats_vc_tab_title"),
-                                                   image: UIImage(named: "img_tab_chat"),
-                                                   selectedImage: UIImage(named: "img_tab_chat_selected"))
-            let navV = UINavigationController(rootViewController: rocketChatVC)
-            viewControllers.insert(navV, at: 1)
-            
-            guard let chatVC = ChatViewController.shared else { return }
-            chatVC.view.backgroundColor = Cons.UI.colorBG
+            // Setup SubscriptionsViewController
+            SubscriptionsViewController.setup()
+            if let rocketChatVC = SubscriptionsViewController.shared {
+                let navV = UINavigationController(rootViewController: rocketChatVC)
+                viewControllers.insert(navV, at: 1)
+            }
+            // Setup ChatViewController
+            ChatViewController.setup()
         } else if !UserManager.shared.isLoggedIn && viewControllers.count == 5 {
             viewControllers.remove(at: 1)
         }

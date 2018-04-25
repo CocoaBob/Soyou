@@ -109,6 +109,8 @@
 		4597B2401D30FACE00287873 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4597B20D1D30FACD00287873 /* TencentOpenAPI.framework */; };
 		4597B2421D30FACE00287873 /* DDTwitterHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2111D30FACD00287873 /* DDTwitterHandler.m */; };
 		4597B2431D30FACE00287873 /* DDWeChatHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B2141D30FACD00287873 /* DDWeChatHandler.m */; };
+		4599E2622090BF7300D0EE92 /* SubscriptionsViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4599E2612090BF7300D0EE92 /* SubscriptionsViewController+extension.swift */; };
+		4599E2642090BF8800D0EE92 /* ChatViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4599E2632090BF8800D0EE92 /* ChatViewController+extension.swift */; };
 		459A7D6E2054FACB00871E85 /* ScanViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 459A7D6C2054FACA00871E85 /* ScanViewController.storyboard */; };
 		459A7D6F2054FACB00871E85 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459A7D6D2054FACA00871E85 /* ScanViewController.swift */; };
 		459A7D71205503FA00871E85 /* UniversalLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459A7D70205503FA00871E85 /* UniversalLinkHandler.swift */; };
@@ -318,6 +320,8 @@
 		4597B2111D30FACD00287873 /* DDTwitterHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTwitterHandler.m; sourceTree = "<group>"; };
 		4597B2131D30FACD00287873 /* DDWeChatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDWeChatHandler.h; sourceTree = "<group>"; };
 		4597B2141D30FACD00287873 /* DDWeChatHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDWeChatHandler.m; sourceTree = "<group>"; };
+		4599E2612090BF7300D0EE92 /* SubscriptionsViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubscriptionsViewController+extension.swift"; sourceTree = "<group>"; };
+		4599E2632090BF8800D0EE92 /* ChatViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewController+extension.swift"; sourceTree = "<group>"; };
 		459A7D6C2054FACA00871E85 /* ScanViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ScanViewController.storyboard; sourceTree = "<group>"; };
 		459A7D6D2054FACA00871E85 /* ScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		459A7D70205503FA00871E85 /* UniversalLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkHandler.swift; sourceTree = "<group>"; };
@@ -528,6 +532,7 @@
 			isa = PBXGroup;
 			children = (
 				4568E2F41BF92171009A6164 /* Common */,
+				4599E2602090BF5400D0EE92 /* Chat */,
 				450D475C1FF9C6C600A2F3D1 /* Circles */,
 				45A904C82027E7CC00E6EC73 /* Members */,
 				45F5C2971D01DFA70024B5DF /* Info */,
@@ -769,6 +774,15 @@
 				4597B2141D30FACD00287873 /* DDWeChatHandler.m */,
 			);
 			path = Wechat;
+			sourceTree = "<group>";
+		};
+		4599E2602090BF5400D0EE92 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				4599E2612090BF7300D0EE92 /* SubscriptionsViewController+extension.swift */,
+				4599E2632090BF8800D0EE92 /* ChatViewController+extension.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		459A7D6B2054FAAA00871E85 /* Scan */ = {
@@ -1316,6 +1330,7 @@
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
 				45973CFB2031E868003205A9 /* InvitationSuccessViewController.swift in Sources */,
+				4599E2622090BF7300D0EE92 /* SubscriptionsViewController+extension.swift in Sources */,
 				45F5C2A21D01DFA70024B5DF /* InfoDetailBaseViewController.swift in Sources */,
 				453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */,
 				45EE80CA1CF659A8004AE158 /* Discount.swift in Sources */,
@@ -1340,6 +1355,7 @@
 				456BCABC1C5D0ADD00590295 /* StoreMapViewController.swift in Sources */,
 				4544F03D202B64D400015622 /* InteractivePopNavigationController.swift in Sources */,
 				455D06B01C0394E200D81ABF /* SettingsViewController.swift in Sources */,
+				4599E2642090BF8800D0EE92 /* ChatViewController+extension.swift in Sources */,
 				45A904CE2027F67700E6EC73 /* Comment.swift in Sources */,
 				4506ED711C221797003B5018 /* LoginViewController.swift in Sources */,
 				455F89371FFEAC27009DC915 /* CustomLabels.swift in Sources */,

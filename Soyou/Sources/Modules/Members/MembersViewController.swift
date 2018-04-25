@@ -40,7 +40,8 @@ class MembersViewController: UIViewController {
     var followings: [Member]?
     var searchedUsers: [Member]?
     
-    // Selection
+    // Selection Mode
+    var singleSelectionHandler: ((Member) -> ())?
     var completionHandler: (([Member]) -> ())?
     var selectedUsers = [Member]()
     var excludedUsers: [Member]?
@@ -184,7 +185,7 @@ extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
                     // Was already selected or not
                     cell.isMemberExcluded = self.excludedUsers?.contains(member) ?? false
                 }
-                cell.isSelectionMode = self.isSelectionMode
+                cell.showCheckbox = self.isSelectionMode && self.singleSelectionHandler == nil
             }
             return cell
         }
@@ -208,18 +209,22 @@ extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
         }
         if let member = member {
             if self.isSelectionMode {
-                var isSelected = false
-                if self.excludedUsers?.contains(member) ?? false {
-                    return
-                }
-                if let index = self.selectedUsers.index(of: member) {
-                    self.selectedUsers.remove(at: index)
+                if let singleSelectionHandler = self.singleSelectionHandler {
+                    singleSelectionHandler(member)
                 } else {
-                    self.selectedUsers.append(member)
-                    isSelected = true
-                }
-                if let cell = tableView.cellForRow(at: indexPath) as? MembersTableViewCell {
-                    cell.isMemberSelected = isSelected
+                    var isSelected = false
+                    if self.excludedUsers?.contains(member) ?? false {
+                        return
+                    }
+                    if let index = self.selectedUsers.index(of: member) {
+                        self.selectedUsers.remove(at: index)
+                    } else {
+                        self.selectedUsers.append(member)
+                        isSelected = true
+                    }
+                    if let cell = tableView.cellForRow(at: indexPath) as? MembersTableViewCell {
+                        cell.isMemberSelected = isSelected
+                    }
                 }
             } else {
                 let circlesVC = CirclesViewController.instantiate(member.id, member.profileUrl, member.username)

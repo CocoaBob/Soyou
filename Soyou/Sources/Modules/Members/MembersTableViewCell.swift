@@ -17,27 +17,27 @@ class MembersTableViewCell: UITableViewCell {
     @IBOutlet var imgUser: UIImageView!
     @IBOutlet var imgUserBadge: UIImageView?
     @IBOutlet var lblName: UILabel!
-    @IBOutlet var imgSelection: UIImageView!
-    @IBOutlet var imgSelectionWidth: NSLayoutConstraint!
-    @IBOutlet var imgSelectionTrailing: NSLayoutConstraint!
+    @IBOutlet var imgCheckbox: UIImageView!
+    @IBOutlet var imgCheckboxWidth: NSLayoutConstraint!
+    @IBOutlet var imgCheckboxTrailing: NSLayoutConstraint!
     
-    var isSelectionMode = false {
+    var showCheckbox = false {
         didSet {
-            self.imgSelectionWidth.constant = isSelectionMode ? 22 : 0
-            self.imgSelectionTrailing.constant = isSelectionMode ? 20 : 0
-            self.accessoryType = isSelectionMode ? .none : .disclosureIndicator
+            self.imgCheckboxWidth.constant = showCheckbox ? 22 : 0
+            self.imgCheckboxTrailing.constant = showCheckbox ? 20 : 0
+            self.accessoryType = showCheckbox ? .none : .disclosureIndicator
         }
     }
     
     var isMemberSelected = false {
         didSet {
-            self.imgSelection.image = UIImage(named: isMemberSelected ? "img_cell_checked_blue" : "img_cell_unchecked")
+            self.imgCheckbox.image = UIImage(named: isMemberSelected ? "img_cell_checked_blue" : "img_cell_unchecked")
         }
     }
     var isMemberExcluded = false {
         didSet {
             if isMemberExcluded {
-                self.imgSelection.image = UIImage(named: "img_cell_checked_gray")
+                self.imgCheckbox.image = UIImage(named: "img_cell_checked_gray")
                 self.selectionStyle = .none
             } else {
                 let isSelected = self.isMemberSelected
