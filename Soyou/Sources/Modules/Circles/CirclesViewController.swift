@@ -333,6 +333,11 @@ extension CirclesViewController {
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView(), 0, false, false, false, !self.isSingleUserMode)
         
+        // Yield for the edge swipe gesture
+        if let popGestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
+            self.tableView().panGestureRecognizer.require(toFail: popGestureRecognizer)
+        }
+        
         // Avoid adjustedContentInset
         if #available(iOS 11.0, *) {
             self.recommendationsCollectionView.contentInsetAdjustmentBehavior = .never
