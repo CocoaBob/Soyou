@@ -99,6 +99,9 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
         self.toolbarItems = [ space, back, space, fav, space, like, space, comment, space, shareURL, space, sharePic, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
+        // Setup the animation to show/hide the toolbar
+        self.navigationController?.toolbar.needsPushAnimation = true
+        
         // Fix scroll view insets
         if UIDevice.isX() {
             self.updateScrollViewInset(self.webView!.scrollView, 0, true, false, false, true)

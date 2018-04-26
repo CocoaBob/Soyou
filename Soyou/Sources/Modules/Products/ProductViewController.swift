@@ -100,6 +100,9 @@ class ProductViewController: UIViewController {
         self.toolbarItems = [ space, back, space, fav, /*space, like,*/ space, comment, space, share, space]
         let _ = self.toolbarItems?.map() { $0.width = 64 }
         
+        // Setup the animation to show/hide the toolbar
+        self.navigationController?.toolbar.needsPushAnimation = true
+        
         // Fix scroll view insets
         self.updateScrollViewInset(self.scrollView, 0, true, false, false, false)
         
