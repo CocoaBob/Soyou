@@ -486,14 +486,7 @@ extension CirclesViewController {
     
     @IBAction func messageAction(_ sender: UIButton) {
         guard let userID = self.userID else { return }
-        MBProgressHUD.show(self.view)
-        RocketChatManager.openDirectMessage(username: "\(userID)") {
-            MBProgressHUD.hide(self.view)
-            if let chatVC = ChatViewController.shared {
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-                self.navigationController?.pushViewController(chatVC, animated: true)
-            }
-        }
+        RocketChatManager.openDirectMessage(from: self, userID: userID)
     }
     
     @IBAction func followAction(_ sender: UIButton) {

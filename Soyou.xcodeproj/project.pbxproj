@@ -95,6 +95,7 @@
 		4590F8CC1C52A34F00329ECA /* TableViewCellSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */; };
 		4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */; };
 		4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */; };
+		4591F2FD209214B300A72613 /* RocketChatManager+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4591F2FC209214B300A72613 /* RocketChatManager+extension.swift */; };
 		4595FDAF2030AF7D002692AC /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */; };
 		45973CFB2031E868003205A9 /* InvitationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45973CFA2031E868003205A9 /* InvitationSuccessViewController.swift */; };
 		4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1EB1D30FACD00287873 /* DDAuthItem.m */; };
@@ -291,6 +292,7 @@
 		4590F8CB1C52A34F00329ECA /* TableViewCellSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellSectionHeader.xib; sourceTree = "<group>"; };
 		4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellCenterTitle.xib; sourceTree = "<group>"; };
 		4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellIconTitle.xib; sourceTree = "<group>"; };
+		4591F2FC209214B300A72613 /* RocketChatManager+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RocketChatManager+extension.swift"; sourceTree = "<group>"; };
 		4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		45973CFA2031E868003205A9 /* InvitationSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationSuccessViewController.swift; sourceTree = "<group>"; };
 		4597B1EA1D30FACD00287873 /* DDAuthItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAuthItem.h; sourceTree = "<group>"; };
@@ -779,6 +781,7 @@
 		4599E2602090BF5400D0EE92 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				4591F2FC209214B300A72613 /* RocketChatManager+extension.swift */,
 				4599E2612090BF7300D0EE92 /* SubscriptionsViewController+extension.swift */,
 				4599E2632090BF8800D0EE92 /* ChatViewController+extension.swift */,
 			);
@@ -1288,6 +1291,7 @@
 				4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */,
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
 				45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */,
+				4591F2FD209214B300A72613 /* RocketChatManager+extension.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
 				4597B2371D30FACE00287873 /* UIImage+Zoom.m in Sources */,
 				45F5C2A01D01DFA70024B5DF /* DiscountDetailViewController.swift in Sources */,
