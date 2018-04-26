@@ -97,18 +97,17 @@ public extension RocketChatManager {
     
     public static func openDirectMessage(username: String, completion: (() -> ())? = nil) {
         
-        func openDirectMessage() -> Bool {
+        @discardableResult func openDirectMessage() -> Bool {
             guard let directMessageRoom = Subscription.find(name: username, subscriptionType: [.directMessage]) else {
-                completion?()
                 return false
             }
             ChatViewController.shared?.subscription = directMessageRoom
-            completion?()
             return true
         }
 
         // Check if already have a direct message room with this user
         if openDirectMessage() == true {
+            completion?()
             return
         }
 
@@ -125,7 +124,9 @@ public extension RocketChatManager {
             }
 
             SubscriptionManager.updateSubscriptions(auth) { _ in
-                _ = openDirectMessage()
+                openDirectMessage()
+                completion?()
+                return
             }
         })
     }

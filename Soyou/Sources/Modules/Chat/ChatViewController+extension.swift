@@ -24,9 +24,10 @@ extension ChatViewController {
             DataManager.shared.getUserInfo(userID) { response, error in
                 MBProgressHUD.hide(self.view)
                 if let response = response as? Dictionary<String, AnyObject>,
-                    let data = response["data"] as? [String: AnyObject],
-                    let avatar = data["profileUrl"] as? String,
-                    let username = data["username"] as? String {
+                    let data = response["data"] as? [String: AnyObject] {
+                    let avatar = data["profileUrl"] as? String
+                    var username = data["username"] as? String
+                    username = username?.removingPercentEncoding ?? username
                     let circlesVC = CirclesViewController.instantiate(userID, avatar, username)
                     self.navigationController?.pushViewController(circlesVC, animated: true)
                 }

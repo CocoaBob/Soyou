@@ -29,16 +29,24 @@ extension SubscriptionsViewController {
             membersVC.dismiss(animated: false, completion: nil)
             let userID = member.id
             MBProgressHUD.show(self.view)
-            RocketChatManager.openDirectMessage(username: "\(userID)") {
-                MBProgressHUD.hide(self.view)
-                if let chatVC = ChatViewController.shared {
-                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    self.navigationController?.pushViewController(chatVC, animated: true)
+            DataManager.shared.getUserInfo(userID) { response, error in
+                if let _ = error {
+                    MBProgressHUD.hide(self.view)
+                } else {
+                    RocketChatManager.openDirectMessage(username: "\(userID)") {
+                        MBProgressHUD.hide(self.view)
+                        if let chatVC = ChatViewController.shared {
+                            self.navigationController?.setNavigationBarHidden(false, animated: true)
+                            self.navigationController?.pushViewController(chatVC, animated: true)
+                        }
+                    }
                 }
             }
         }
         let _ = membersVC.view
-        membersVC.navigationItem.rightBarButtonItem = nil
+        membersVC.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                                      target: membersVC,
+                                                                      action: #selector(MembersViewController.dismissSelf))
         let navC = UINavigationController(rootViewController: membersVC)
         self.present(navC, animated: true, completion: nil)
     }
