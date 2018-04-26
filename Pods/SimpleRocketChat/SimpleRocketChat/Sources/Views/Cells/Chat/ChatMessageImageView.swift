@@ -87,12 +87,12 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
             self?.activityIndicatorImageView.stopAnimating()
             guard let image = image else { return }
             guard image.size.width > 0, image.size.height > 0 else { return }
-            guard let selfWidth = self?.bounds.width else { return }
+            let screenWidth = UIScreen.main.bounds.width
             let ratio = image.size.width / image.size.height
             let height = ChatMessageImageView.defaultHeight
             var width = height * ratio
-            if width > selfWidth - 32 { // 32 is margin
-                width = selfWidth - 32
+            if width > screenWidth - 32 { // 32 is margin
+                width = screenWidth - 32
             }
             self?.imageViewWidthConstraint.constant = width
             self?.imageViewHeightConstraint.constant = height

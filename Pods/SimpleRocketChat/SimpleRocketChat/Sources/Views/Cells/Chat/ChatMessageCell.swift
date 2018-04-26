@@ -171,6 +171,10 @@ final class ChatMessageCell: UICollectionViewCell {
             labelDateMarginBottomConstraint.constant = sequential ? 0 : 5
             labelUsernameHeightConstraint.constant = 0
             avatarContainerHeightConstraint.constant = 36
+            self.setNeedsUpdateConstraints()
+            self.updateConstraintsIfNeeded()
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
         }
     }
     
