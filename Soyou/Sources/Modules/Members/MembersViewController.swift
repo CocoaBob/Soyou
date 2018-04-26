@@ -186,6 +186,7 @@ extension MembersViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.isMemberExcluded = self.excludedUsers?.contains(member) ?? false
                 }
                 cell.showCheckbox = self.isSelectionMode && self.singleSelectionHandler == nil
+                cell.showDisclosureIndicator = !self.isSelectionMode
             }
             return cell
         }

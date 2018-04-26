@@ -25,7 +25,12 @@ class MembersTableViewCell: UITableViewCell {
         didSet {
             self.imgCheckboxWidth.constant = showCheckbox ? 22 : 0
             self.imgCheckboxTrailing.constant = showCheckbox ? 20 : 0
-            self.accessoryType = showCheckbox ? .none : .disclosureIndicator
+        }
+    }
+    
+    var showDisclosureIndicator = false {
+        didSet {
+            self.accessoryType = showDisclosureIndicator ? .disclosureIndicator : .none
         }
     }
     
