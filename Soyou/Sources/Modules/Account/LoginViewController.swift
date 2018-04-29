@@ -60,7 +60,7 @@ class LoginViewController: UIViewController {
     var lastLoginThirdId: String?
     var lastLoginThirdToken: String?
     
-    // Notification Context
+    // KVO Context
     fileprivate var KVOContextLoginViewController = 0
     
     // ZFModalTransitionAnimator
@@ -210,7 +210,7 @@ extension LoginViewController {
     }
     
     func stopObservingUserManager() {
-        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn")
+        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn", context: &KVOContextLoginViewController)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

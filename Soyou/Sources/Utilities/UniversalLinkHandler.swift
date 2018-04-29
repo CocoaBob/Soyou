@@ -10,6 +10,9 @@ class UniversalLinkerHandler: NSObject {
     
     static let shared = UniversalLinkerHandler()
     
+    // KVO Context
+    fileprivate var KVOContextUniversalLinkerHandler = 0
+    
     var needsToAcceptInvitationMatricule: String?
 }
 
@@ -71,7 +74,7 @@ extension UniversalLinkerHandler {
             })
         } else {
             self.needsToAcceptInvitationMatricule = matricule
-            UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: nil)
+            UserManager.shared.addObserver(self, forKeyPath: "token", options: .new, context: &KVOContextUniversalLinkerHandler)
             let vc = LoginViewController.instantiate(.login)
             let navC = UINavigationController(rootViewController: vc)
             rootVC.present(navC, animated: true) {
@@ -180,7 +183,7 @@ extension UniversalLinkerHandler {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let matricule = self.needsToAcceptInvitationMatricule, UserManager.shared.isLoggedIn {
             self.needsToAcceptInvitationMatricule = nil
-            UserManager.shared.removeObserver(self, forKeyPath: "token")
+            UserManager.shared.removeObserver(self, forKeyPath: "token", context: &KVOContextUniversalLinkerHandler)
             self.handleInvitation(matricule: matricule)
         }
     }

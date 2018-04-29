@@ -10,6 +10,8 @@ class UserViewController: SimpleTableViewController {
     
     fileprivate let indexPathUserProfile = IndexPath(row: 0, section: 0)
     fileprivate var userProfileTableViewCell: UserProfileTableViewCell?
+    
+    // KVO Context
     fileprivate var KVOContextUserViewController = 0
     
     // Life cycle
@@ -107,9 +109,9 @@ extension UserViewController {
     }
     
     func stopObservingUserManager() {
-        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn")
-        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
-        UserManager.shared.removeObserver(self, forKeyPath: "username")
+        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn", context: &KVOContextUserViewController)
+        UserManager.shared.removeObserver(self, forKeyPath: "avatar", context: &KVOContextUserViewController)
+        UserManager.shared.removeObserver(self, forKeyPath: "username", context: &KVOContextUserViewController)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

@@ -70,7 +70,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         }
     }
     
-    // KVO
+    // KVO Context
     fileprivate var KVOContextCirclesViewController = 0
     
     // Pull and reload
@@ -219,9 +219,9 @@ extension CirclesViewController {
     }
     
     fileprivate func stopObservingUserManager() {
-        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn")
-        UserManager.shared.removeObserver(self, forKeyPath: "avatar")
-        UserManager.shared.removeObserver(self, forKeyPath: "username")
+        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn", context: &KVOContextCirclesViewController)
+        UserManager.shared.removeObserver(self, forKeyPath: "avatar", context: &KVOContextCirclesViewController)
+        UserManager.shared.removeObserver(self, forKeyPath: "username", context: &KVOContextCirclesViewController)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

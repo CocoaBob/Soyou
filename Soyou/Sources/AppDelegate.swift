@@ -22,9 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var tabBarTapCounter : Int = 0
     var tabBarTappedVC = UIViewController()
     
+    // KVO Context
+    fileprivate var KVOContextAppDelegate = 0
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
-        UserManager.shared.removeObserver(self, forKeyPath: "deviceToken")
+        UserManager.shared.removeObserver(self, forKeyPath: "isLoggedIn", context: &KVOContextAppDelegate)
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -61,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.setupViewControllers()
         
         // Observe
-        UserManager.shared.addObserver(self, forKeyPath: "isLoggedIn", options: .new, context: nil)
+        UserManager.shared.addObserver(self, forKeyPath: "isLoggedIn", options: .new, context: &KVOContextAppDelegate)
         
         // Setup the overlay window
         self.setupOverlayWindow()
