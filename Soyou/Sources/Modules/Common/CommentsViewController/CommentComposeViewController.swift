@@ -35,6 +35,9 @@ class CommentComposeViewController: UIViewController {
                                                                  action: #selector(CommentComposeViewController.post))
         
         self.tvContent.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        
+        // Fix scroll view insets
+        self.updateScrollViewInset(self.tvContent, 0, true, true, false, false)
     }
     
     override func viewWillAppear(_ animated: Bool) {

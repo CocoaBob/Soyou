@@ -70,7 +70,8 @@ struct Comment {
     
     mutating func importDataFromJSON(_ json: JSON) {
         self.id = json["id"].intValue
-        self.username = json["username"].stringValue
+        let username = json["username"].stringValue
+        self.username = username.removingPercentEncoding ?? username
         self.matricule = json["matricule"].intValue
         let comment = json["comment"].stringValue
         self.comment = comment.removingPercentEncoding ?? comment
