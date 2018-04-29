@@ -82,6 +82,8 @@ extension NewsViewController {
                                                 }
                 })
             }
+            cell.fgCover.isHidden = (news.expireDate?.timeIntervalSinceNow ?? 0) >= 0
+            cell.lblExpired.text = NSLocalizedString("discouts_vc_expired")
             returnValue = cell
         }
         

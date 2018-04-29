@@ -59,6 +59,9 @@ class News: NSManagedObject {
                     news.isOnline = data["isOnline"] as? NSNumber
                     news.url = data["url"] as? String
                 }
+                if let value = data["expireDate"] as? String {
+                    news.expireDate = Cons.utcDateFormatter.date(from: value)
+                }
             }
         }
         

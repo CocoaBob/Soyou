@@ -32,7 +32,7 @@ class InfoListBaseViewController: SyncedFetchedResultsViewController {
         super.viewDidLoad()
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.collectionView(), 0, false, false, false, true)
+        self.updateScrollViewInset(self.collectionView(), 0, false, true, false, true)
         
         // Setups
         self.setupCollectionView()

@@ -10,13 +10,7 @@ import Foundation
 
 class InfoViewController: UIViewController {
     
-    // PageMenu
-    var pageMenu: CAPSPageMenu?
-    var pageMenuViewControllers: [UIViewController] = [UIViewController]()
-    var pageMenuCurrentPageIndex = 0
-    
     var newsViewController: NewsViewController = NewsViewController.instantiate()
-    var discountsViewController: DiscountsViewController = DiscountsViewController.instantiate()
     
     // Zoom Transition
     var transition: ZoomInteractiveTransition?
@@ -26,6 +20,8 @@ class InfoViewController: UIViewController {
     // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        self.title = NSLocalizedString("info_vc_title")
         
         self.edgesForExtendedLayout = UIRectEdge.all
         self.extendedLayoutIncludesOpaqueBars = true
@@ -59,7 +55,7 @@ class InfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         self.hideToolbar(false)
     }
@@ -69,61 +65,16 @@ class InfoViewController: UIViewController {
 extension InfoViewController {
     
     func setupSubViewControllers() {
-        // Add page menu to the scroll view's subViewsContainer
-        if self.pageMenu == nil {
-            // News VC
-            self.pageMenuViewControllers.append(self.discountsViewController)
-            self.pageMenuViewControllers.append(self.newsViewController)
-            
-            // Setup view controllers
-            let _ = self.pageMenuViewControllers.map {
-                ($0 as? InfoListBaseViewController)?.infoViewController = self
-                let _ = $0.view
-            }
-            
-            // Customize menu (Optional)
-            let parameters: [CAPSPageMenuOption] = [
-                .menuItemSeparatorWidth(0),
-                .scrollMenuBackgroundColor(UIColor.white),
-                .viewBackgroundColor(Cons.UI.colorBG),
-                .selectionIndicatorColor(UIColor.darkGray),
-                .selectedMenuItemLabelColor(UIColor.darkGray),
-                .unselectedMenuItemLabelColor(UIColor.lightGray),
-                .useMenuLikeSegmentedControl(true),
-                .centerMenuItems(true),
-                .menuItemFont(UIFont.boldSystemFont(ofSize: 15)),
-                .menuMargin(10.0),
-                .menuHeight(Cons.UI.heightPageMenuInfo),
-                .addBottomMenuHairline(true),
-                .bottomMenuHairlineColor(UIColor.white)
-            ]
-            
-            // Create CAPSPageMenu
-            let topInset = Cons.UI.statusBarHeight
-            self.pageMenu = CAPSPageMenu(
-                viewControllers: self.pageMenuViewControllers,
-                frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.height - topInset),
-                pageMenuOptions: parameters)
-            self.pageMenu?.delegate = self
-            
-            // Add CAPSPageMenu
-            if let pageMenu = self.pageMenu {
-                pageMenu.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-                self.subViewsContainer.addSubview(pageMenu.view)
-                pageMenu.view.frame = CGRect(x: 0,
-                                             y: topInset,
-                                             width: self.subViewsContainer.frame.width,
-                                             height: self.subViewsContainer.frame.height - topInset)
-            }
-        }
-    }
-}
-
-// MARK: CAPSPageMenuDelegate
-extension InfoViewController: CAPSPageMenuDelegate {
-    
-    func didMoveToPage(_ controller: UIViewController, index: Int) {
-        self.pageMenuCurrentPageIndex = index
+        self.newsViewController.infoViewController = self
+        
+        self.newsViewController.view.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.subViewsContainer.addSubview(self.newsViewController.view)
+        
+        let topInset = Cons.UI.statusBarHeight
+        self.newsViewController.view.frame = CGRect(x: 0,
+                                                    y: topInset,
+                                                    width: self.subViewsContainer.frame.width,
+                                                    height: self.subViewsContainer.frame.height - topInset)
     }
 }
 
@@ -131,17 +82,14 @@ extension InfoViewController: CAPSPageMenuDelegate {
 extension InfoViewController: ZoomTransitionProtocol {
     
     func view(forZoomTransition isSource: Bool) -> UIView? {
-        guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return nil }
-        return viewController.view(forZoomTransition: isSource)
+        return self.newsViewController.view(forZoomTransition: isSource)
     }
     
     func initialZoomViewSnapshot(fromProposedSnapshot snapshot: UIImageView!) -> UIImageView? {
-        guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return nil }
-        return viewController.initialZoomViewSnapshot(fromProposedSnapshot: snapshot)
+        return self.newsViewController.initialZoomViewSnapshot(fromProposedSnapshot: snapshot)
     }
     
     func shouldAllowZoomTransition(for operation: UINavigationControllerOperation, from fromVC: UIViewController!, to toVC: UIViewController!) -> Bool {
-        guard let viewController = self.pageMenuViewControllers[self.pageMenuCurrentPageIndex] as? InfoListBaseViewController else { return false }
-        return viewController.shouldAllowZoomTransition(for: operation, from: fromVC, to: toVC)
+        return self.newsViewController.shouldAllowZoomTransition(for: operation, from: fromVC, to: toVC)
     }
 }

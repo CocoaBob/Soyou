@@ -21,10 +21,12 @@ extension News {
     @NSManaged var content: String?
     @NSManaged var dateModification: Date?
     @NSManaged var datePublication: Date?
+    @NSManaged var expireDate: Date?
     @NSManaged var id: NSNumber?
     @NSManaged var image: String?
     @NSManaged var isOnline: NSNumber?
     @NSManaged var title: String?
+    @NSManaged var subtitle: String?
     @NSManaged var url: String?
 
 }
