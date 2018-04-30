@@ -22,7 +22,7 @@ final class AvatarView: UIView {
         didSet {
             if let imageURL = imageURL {
                 let options: SDWebImageOptions = [.retryFailed, .scaleDownLargeImages, .highPriority]
-                imageView?.sd_setImage(with: imageURL, placeholderImage: nil, options: options) { [weak self] (_, error, _, _) in
+                imageView?.sd_setImage(with: imageURL, placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"), options: options) { [weak self] (_, error, _, _) in
                     guard error == nil else { return }
 
                     self?.labelInitials.text = ""
