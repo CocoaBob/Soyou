@@ -83,7 +83,7 @@ extension NewsViewController {
                 })
             }
             if let expireDate = news.expireDate {
-                if expireDate.timeIntervalSinceNow < 0 {
+                if expireDate.timeIntervalSinceNow > 0 {
                     cell.deadlineOverlay.isHidden = false
                     let dateString = DateFormatter.localizedString(from: expireDate, dateStyle: .short, timeStyle: .short)
                     cell.lblDeadline.text = FmtString(NSLocalizedString("news_vc_deadline"), dateString)
