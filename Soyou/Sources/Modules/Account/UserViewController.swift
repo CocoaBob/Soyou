@@ -68,7 +68,7 @@ class UserViewController: SimpleTableViewController {
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle.lightContent
+        return UIStatusBarStyle.default
     }
     
     // MARK: - UITableViewDataSource, UITableViewDelegate

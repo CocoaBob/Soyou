@@ -272,7 +272,7 @@ extension AppDelegate {
             viewControllers.remove(at: 1)
         }
         
-        tabBarController.setViewControllers(viewControllers, animated: true)
+        tabBarController.setViewControllers(viewControllers, animated: false)
     }
     
     func setupSocialServices() {

@@ -9,6 +9,9 @@
 class CirclesViewController: SyncedFetchedResultsViewController {
     
     // Properties
+    var isEdgeSwiping: Bool = false // Use edge swiping instead of custom animator if interactivePopGestureRecognizer is trigered
+    
+    // Properties
     @IBOutlet var _tableView: UITableView!
     // Nav Buttons
     @IBOutlet var btnScan: UIButton!
@@ -142,15 +145,15 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     override func viewWillAppear(_ animated: Bool) {
         // Nav bar
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        
         super.viewWillAppear(animated)
-        
+        // Reset isEdgeSwiping to false, if interactive transition is cancelled
+        self.isEdgeSwiping = false
+        // Make sure interactive gesture's delegate is self in case if interactive transition is cancelled
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Hide tool bar
         self.hideToolbar(false)
-        
         // Update User Info
         self.updateUserInfo(false)
-        
         // Don't show again after dismissing login view
         if self.presentedViewController == nil {
             // If not logged in, show login view
@@ -160,15 +163,12 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         // Workaround to make sure navigation bar is updated even the slide-back gesture is cancelled.
         DispatchQueue.main.async {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
-        
         // Update Status Bar Cover
         self.updateStatusBarCover(self.tableView().contentOffset.y)
-        
         // Check if there's newer data
         self.checkNewCircles()
     }
@@ -177,6 +177,14 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         super.viewWillDisappear(animated)
         // Update Status Bar Cover
         self.removeStatusBarCover()
+        // Make sure interactive gesture's delegate is nil before disappearing
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Reset isEdgeSwiping to false, if interactive transition is cancelled
+        self.isEdgeSwiping = false
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -451,6 +459,17 @@ extension CirclesViewController: UITableViewDataSource, UITableViewDelegate {
         self.updateStatusBarCover(scrollView.contentOffset.y)
         // Update Pull Down Refresh Indicator
         self.updateRefreshIndicator(scrollView.contentOffset.y)
+    }
+}
+
+// MARK: UIGestureRecognizerDelegate
+extension CirclesViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == self.navigationController?.interactivePopGestureRecognizer {
+            self.isEdgeSwiping = true
+        }
+        return true
     }
 }
 
