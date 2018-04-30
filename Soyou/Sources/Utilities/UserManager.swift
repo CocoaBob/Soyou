@@ -76,16 +76,16 @@ extension UserManager {
     
     var uuid: String {
         get {
-            if let value = UICKeyChainStore.string(forKey: Cons.Usr.uuid) {
+            if let value = UserDefaults.stringForKey(Cons.Usr.uuid) {
                 return value
             } else {
                 let value = FCUUID.uuid()
-                UICKeyChainStore.setString(value, forKey: Cons.Usr.uuid)
+                UserDefaults.setObject(value, forKey: Cons.Usr.uuid)
                 return value!
             }
         }
         set {
-            UICKeyChainStore.setString(newValue, forKey: Cons.Usr.uuid)
+            UserDefaults.setObject(newValue, forKey: Cons.Usr.uuid)
             RequestManager.shared.requestOperationManager.uuid = newValue
         }
     }
@@ -93,15 +93,11 @@ extension UserManager {
     // User authenticated token
     var token: String? {
         get {
-            return UICKeyChainStore.string(forKey: Cons.Usr.token)
+            return UserDefaults.stringForKey(Cons.Usr.token)
         }
         set {
             self.willChangeValue(for: \.isLoggedIn)
-            if newValue != nil {
-                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.token)
-            } else {
-                UICKeyChainStore.removeItem(forKey: Cons.Usr.token)
-            }
+            UserDefaults.setObject(newValue, forKey: Cons.Usr.token)
             self.didChangeValue(for: \.isLoggedIn)
         }
     }
@@ -109,15 +105,11 @@ extension UserManager {
     // Rocket Chat User Id
     var imUserId: String? {
         get {
-            return UICKeyChainStore.string(forKey: Cons.Usr.imUserId)
+            return UserDefaults.stringForKey(Cons.Usr.imUserId)
         }
         set {
             self.willChangeValue(for: \.isLoggedIn)
-            if newValue != nil {
-                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.imUserId)
-            } else {
-                UICKeyChainStore.removeItem(forKey: Cons.Usr.imUserId)
-            }
+            UserDefaults.setObject(newValue, forKey: Cons.Usr.imUserId)
             self.didChangeValue(for: \.isLoggedIn)
         }
     }
@@ -125,15 +117,11 @@ extension UserManager {
     // Rocket Chat token
     var imAuthToken: String? {
         get {
-            return UICKeyChainStore.string(forKey: Cons.Usr.imAuthToken)
+            return UserDefaults.stringForKey(Cons.Usr.imAuthToken)
         }
         set {
             self.willChangeValue(for: \.isLoggedIn)
-            if newValue != nil {
-                UICKeyChainStore.setString(newValue, forKey: Cons.Usr.imAuthToken)
-            } else {
-                UICKeyChainStore.removeItem(forKey: Cons.Usr.imAuthToken)
-            }
+            UserDefaults.setObject(newValue, forKey: Cons.Usr.imAuthToken)
             self.didChangeValue(for: \.isLoggedIn)
         }
     }
@@ -177,9 +165,11 @@ extension UserManager {
         Circle.deleteAll()
         
         // RocketChat
-        self.imUserId = nil
-        self.imAuthToken = nil
-        RocketChatManager.signOut()
+        if self.imUserId != nil || self.imAuthToken != nil {
+            self.imUserId = nil
+            self.imAuthToken = nil
+            RocketChatManager.signOut()
+        }
     }
     
     var isLoggedIn: Bool {

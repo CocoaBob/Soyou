@@ -29,11 +29,11 @@ public struct Cons {
     }
     
     struct Usr {
-        static let uuid                                     = "uuid"
-        static let token                                    = "token"
-        static let deviceToken                              = "deviceToken"
-        static let imUserId                                 = "imUserId"
-        static let imAuthToken                              = "imAuthToken"
+        static let uuid                                     = "uuid"                                // Stored in NSUserDefaults
+        static let token                                    = "token"                               // Stored in NSUserDefaults
+        static let deviceToken                              = "deviceToken"                         // Stored in keychain
+        static let imUserId                                 = "imUserId"                            // Stored in NSUserDefaults
+        static let imAuthToken                              = "imAuthToken"                         // Stored in NSUserDefaults
         static let roleCode                                 = "roleCode"
         static let DidRegisterForRemoteNotifications        = "DidRegisterForRemoteNotifications"
         static let genderSecret                             = 1

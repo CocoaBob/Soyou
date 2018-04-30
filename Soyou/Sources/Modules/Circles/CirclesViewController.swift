@@ -278,6 +278,9 @@ extension CirclesViewController {
             self.recommendations = nil
             self.updateUserInfo(false)
         } else {
+            guard UserManager.shared.isLoggedIn else {
+                return
+            }
             DataManager.shared.getRecommendation { (response, error) in
                 if let response = response,
                     let data = DataManager.getResponseData(response) as? [NSDictionary] {
