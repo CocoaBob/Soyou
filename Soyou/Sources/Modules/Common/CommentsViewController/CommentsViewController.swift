@@ -342,7 +342,9 @@ class CommentsTableViewCell: UITableViewCell {
         self.lblComment.attributedText = attrStr1
         // Parent Comment
         let attrStr2 = NSMutableAttributedString()
-        if let parentUsername = self.comment.parentUsername, let parentComment = self.comment.parentComment {
+        if var parentUsername = self.comment.parentUsername,
+            let parentComment = self.comment.parentComment {
+            parentUsername = parentUsername.removingPercentEncoding ?? parentUsername
             attrStr2.append(NSAttributedString(string: "\(parentUsername): ",
                 attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15.0),
                              NSAttributedStringKey.foregroundColor: UIColor.gray]))

@@ -8,7 +8,7 @@
 
 public struct Cons {
     struct Svr {
-        static let serverVersion                            = "1.0.0"
+        static let serverVersion                            = "1.0.1"
         static let apiVersion                               = "v1"
         
         static let hostnameSTG                              = "test-api.soyou.io"
