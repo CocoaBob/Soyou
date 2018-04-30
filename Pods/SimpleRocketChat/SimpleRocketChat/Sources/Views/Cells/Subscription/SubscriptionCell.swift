@@ -35,7 +35,7 @@ final class SubscriptionCell: UITableViewCell {
     func updateSubscriptionInformatin() {
         guard let subscription = self.subscription else { return }
 
-        imageViewAvatar.sd_setImage(with: subscription.directMessageUser?.avatarURL(),
+        imageViewAvatar.sd_setImage(with: User.avatarURL(subscription.name),
                                     placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"),
                                     options: [.allowInvalidSSLCertificates],
                                     completed: nil)

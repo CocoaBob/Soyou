@@ -57,6 +57,13 @@ extension User {
         return username ?? ""
     }
     
+    static func avatarURL(_ name: String?) -> URL? {
+        guard let name = name, let baseURL = AuthManager.isAuthenticated()?.baseURL() else {
+            return nil
+        }
+        return URL(string: "\(baseURL)/avatar/\(name)")
+    }
+    
     func avatarURL(_ auth: Auth? = nil) -> URL? {
         guard
             !isInvalidated,
