@@ -189,13 +189,6 @@ extension UserViewController {
                             }),
                             Row(type: .IconTitle,
                                 cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                                image: UIImage(named: "img_price_tag"),
-                                title: Text(text: NSLocalizedString("user_vc_cell_favs_discounts")),
-                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                                    self.showFavoritesViewController(.discounts)
-                            }),
-                            Row(type: .IconTitle,
-                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
                                 image: UIImage(named: "img_product"),
                                 title: Text(text: NSLocalizedString("user_vc_cell_favs_products")),
                                 didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
