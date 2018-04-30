@@ -55,6 +55,7 @@
 
 /* News View Controller */
 "news_vc_title"="资讯";
+"news_vc_deadline"="%@ 结束";
 
 /* Discounts View Controller */
 "discouts_vc_title"="折扣";

@@ -96,7 +96,7 @@ extension DiscountsViewController {
                                             }
             })
         }
-        cell.fgCover.isHidden = (discount.expireDate?.timeIntervalSinceNow ?? 0) >= 0
+        cell.expireOverlay.isHidden = (discount.expireDate?.timeIntervalSinceNow ?? 0) >= 0
         cell.lblExpired.text = NSLocalizedString("discouts_vc_expired")
         return cell
     }

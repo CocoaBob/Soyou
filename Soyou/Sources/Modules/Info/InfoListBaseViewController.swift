@@ -248,9 +248,11 @@ extension InfoListBaseViewController {
 
 class InfoCollectionViewCell: UICollectionViewCell {
     @IBOutlet var bgImageView: UIImageView!
-    @IBOutlet var fgCover: UIView!
+    @IBOutlet var expireOverlay: UIView!
+    @IBOutlet var deadlineOverlay: UIView!
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var lblExpired: UILabel!
+    @IBOutlet var lblDeadline: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -258,15 +260,21 @@ class InfoCollectionViewCell: UICollectionViewCell {
         
         self.lblTitle.clipsToBounds = true
         self.lblTitle.layer.shadowRadius = 1
-        self.lblTitle.layer.shadowColor = UIColor.black.cgColor
         self.lblTitle.layer.shadowOpacity = 1
         self.lblTitle.layer.shadowOffset = CGSize.zero
+        self.lblTitle.layer.shadowColor = UIColor.black.cgColor
+        
+        self.lblDeadline.layer.shadowRadius = 0
+        self.lblDeadline.layer.shadowOpacity = 1
+        self.lblDeadline.layer.shadowOffset = CGSize(width: -1, height: -1)
+        self.lblDeadline.layer.shadowColor = UIColor(white: 0, alpha: 0.3).cgColor
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         bgImageView.image = UIImage(named: "img_placeholder_3_2_l")
         lblTitle.text = nil
-        fgCover.isHidden = true
+        expireOverlay.isHidden = true
+        deadlineOverlay.isHidden = true
     }
 }

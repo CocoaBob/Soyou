@@ -53,6 +53,7 @@
 
 /* News View Controller */
 "news_vc_title"="News";
+"news_vc_deadline"="Ends at %@";
 
 /* Discounts View Controller */
 "discouts_vc_title"="Discounts";

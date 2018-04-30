@@ -52,10 +52,10 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZoH-el-IZ4">
                                                     <rect key="frame" x="0.0" y="0.0" width="295" height="246"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f6z-y8-fu6" userLabel="view 1">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f6z-y8-fu6" userLabel="Rotation View">
                                                             <rect key="frame" x="139" y="0.0" width="156" height="156"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-4w-2yA" userLabel="view 2">
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-4w-2yA" userLabel="Frame View">
                                                                     <rect key="frame" x="20" y="58" width="116" height="41"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EXPIRED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ON1-0J-i1l">
@@ -117,6 +117,40 @@
                                                         <constraint firstAttribute="trailing" secondItem="f6z-y8-fu6" secondAttribute="trailing" id="g9h-Wq-kJw"/>
                                                     </constraints>
                                                 </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4tf-S3-Bwh" userLabel="Deadline Overlay">
+                                                    <rect key="frame" x="0.0" y="0.0" width="295" height="246"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMy-cI-l3U" userLabel="Container">
+                                                            <rect key="frame" x="-2" y="23" width="107" height="24"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_ribbon" translatesAutoresizingMaskIntoConstraints="NO" id="w9p-ha-EYY" userLabel="Background">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="107" height="24"/>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018-04-30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJD-gd-rXD">
+                                                                    <rect key="frame" x="10" y="0.0" width="75" height="24"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="w9p-ha-EYY" firstAttribute="leading" secondItem="lMy-cI-l3U" secondAttribute="leading" id="1e6-ZV-Xhw"/>
+                                                                <constraint firstAttribute="trailing" secondItem="kJD-gd-rXD" secondAttribute="trailing" constant="22" id="Azf-Cc-5Ns"/>
+                                                                <constraint firstItem="kJD-gd-rXD" firstAttribute="leading" secondItem="lMy-cI-l3U" secondAttribute="leading" constant="10" id="CQ2-LJ-o56"/>
+                                                                <constraint firstAttribute="trailing" secondItem="w9p-ha-EYY" secondAttribute="trailing" id="Fbw-Kq-8xb"/>
+                                                                <constraint firstAttribute="height" constant="24" id="J3A-55-nX1"/>
+                                                                <constraint firstItem="kJD-gd-rXD" firstAttribute="top" secondItem="lMy-cI-l3U" secondAttribute="top" id="oja-oX-b7C"/>
+                                                                <constraint firstItem="w9p-ha-EYY" firstAttribute="top" secondItem="lMy-cI-l3U" secondAttribute="top" id="oke-ZV-csu"/>
+                                                                <constraint firstAttribute="bottom" secondItem="w9p-ha-EYY" secondAttribute="bottom" id="suZ-hV-PEw"/>
+                                                                <constraint firstAttribute="bottom" secondItem="kJD-gd-rXD" secondAttribute="bottom" id="yPB-lD-mX3"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="lMy-cI-l3U" firstAttribute="leading" secondItem="4tf-S3-Bwh" secondAttribute="leading" constant="-2" id="Egp-km-IHu"/>
+                                                        <constraint firstItem="lMy-cI-l3U" firstAttribute="top" secondItem="4tf-S3-Bwh" secondAttribute="top" constant="23" id="kS8-jy-dDR"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -126,18 +160,24 @@
                                             <constraint firstAttribute="trailing" secondItem="ZoH-el-IZ4" secondAttribute="trailing" id="5k3-Lc-Feb"/>
                                             <constraint firstItem="Jsm-0J-WRm" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="5ll-rl-s5S"/>
                                             <constraint firstAttribute="bottom" secondItem="ZoH-el-IZ4" secondAttribute="bottom" id="BQx-1f-aZn"/>
+                                            <constraint firstAttribute="bottom" secondItem="4tf-S3-Bwh" secondAttribute="bottom" id="C6Y-ON-Xm8"/>
                                             <constraint firstItem="X4T-zP-Cyz" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leadingMargin" id="I8o-bz-IUQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="4tf-S3-Bwh" secondAttribute="trailing" id="ObW-u1-jWn"/>
+                                            <constraint firstItem="4tf-S3-Bwh" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="Pjr-eH-YfF"/>
                                             <constraint firstAttribute="trailing" secondItem="Jsm-0J-WRm" secondAttribute="trailing" id="VD9-6a-gvK"/>
                                             <constraint firstItem="X4T-zP-Cyz" firstAttribute="trailing" secondItem="KCi-WD-60i" secondAttribute="trailingMargin" id="W09-iE-ows"/>
                                             <constraint firstItem="X4T-zP-Cyz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="KCi-WD-60i" secondAttribute="topMargin" id="ZHA-tV-egA"/>
                                             <constraint firstItem="ZoH-el-IZ4" firstAttribute="top" secondItem="KCi-WD-60i" secondAttribute="top" id="iZs-z6-Vi1"/>
                                             <constraint firstItem="ZoH-el-IZ4" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="pRa-Sg-SGA"/>
                                             <constraint firstAttribute="bottom" secondItem="Jsm-0J-WRm" secondAttribute="bottom" id="uOa-f4-bHg"/>
+                                            <constraint firstItem="4tf-S3-Bwh" firstAttribute="leading" secondItem="KCi-WD-60i" secondAttribute="leading" id="zxy-eC-MnW"/>
                                         </constraints>
                                         <size key="customSize" width="295" height="246"/>
                                         <connections>
                                             <outlet property="bgImageView" destination="Jsm-0J-WRm" id="7eQ-HG-EX3"/>
-                                            <outlet property="fgCover" destination="ZoH-el-IZ4" id="5Ns-P4-WZK"/>
+                                            <outlet property="deadlineOverlay" destination="4tf-S3-Bwh" id="Ujk-PB-MID"/>
+                                            <outlet property="expireOverlay" destination="ZoH-el-IZ4" id="5Ns-P4-WZK"/>
+                                            <outlet property="lblDeadline" destination="kJD-gd-rXD" id="8mS-uI-Nnd"/>
                                             <outlet property="lblExpired" destination="ON1-0J-i1l" id="qSJ-gp-Jxb"/>
                                             <outlet property="lblTitle" destination="X4T-zP-Cyz" id="FyK-dr-w9w"/>
                                         </connections>
@@ -418,5 +458,6 @@
     </scenes>
     <resources>
         <image name="img_comments_menu" width="11" height="3"/>
+        <image name="img_ribbon" width="15" height="24"/>
     </resources>
 </document>
