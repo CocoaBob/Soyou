@@ -1,6 +1,6 @@
 // Global
 "global.ok" = "确认";
-"global.no" = "拒绝";
+"global.no" = "取消";
 "global.cancel" = "取消";
 
 // Errors

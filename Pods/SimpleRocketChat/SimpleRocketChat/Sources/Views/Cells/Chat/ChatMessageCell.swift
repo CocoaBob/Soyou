@@ -166,15 +166,14 @@ final class ChatMessageCell: UICollectionViewCell {
     }
     var sequential: Bool = false {
         didSet {
-            labelDateMarginTopConstraint.constant = sequential ? 0 : 5
-            labelDateHeightConstraint.constant = sequential ? 0 : 21
-            labelDateMarginBottomConstraint.constant = sequential ? 0 : 5
-            labelUsernameHeightConstraint.constant = 0
-            avatarContainerHeightConstraint.constant = 36
-            self.setNeedsUpdateConstraints()
-            self.updateConstraintsIfNeeded()
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
+            DispatchQueue.main.async {
+                self.labelDateMarginTopConstraint.constant = self.sequential ? 0 : 5
+                self.labelDateHeightConstraint.constant = self.sequential ? 0 : 21
+                self.labelDateMarginBottomConstraint.constant = self.sequential ? 0 : 5
+                self.labelUsernameHeightConstraint.constant = 0
+                self.avatarContainerHeightConstraint.constant = 36
+                self.layoutIfNeeded()
+            }
         }
     }
     

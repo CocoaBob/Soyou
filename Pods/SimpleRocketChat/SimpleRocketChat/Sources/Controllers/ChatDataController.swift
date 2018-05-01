@@ -80,15 +80,15 @@ final class ChatDataController {
             return false
         }
 
-        // don't group temporary messages
+        // don't group deleted messages
         if (message.markedForDeletion, prevMessage.markedForDeletion) != (false, false) {
             return false
         }
 
-        // don't group temporary messages
-        if (message.temporary, prevMessage.temporary) != (false, false) {
-            return false
-        }
+//        // don't group temporary messages
+//        if (message.temporary, prevMessage.temporary) != (false, false) {
+//            return false
+//        }
 
         // don't group failed messages
         if (message.failed, prevMessage.failed) != (false, false) {
