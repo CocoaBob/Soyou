@@ -16,12 +16,14 @@ extension User {
 
         let users = (word.count > 0 ? realm.objects(User.self).filter("username CONTAINS[c] %@", word)
             : realm.objects(User.self)).sorted(by: { user, _ in
-                guard let username = user.username else { return false }
+                let username = user.displayName()
+                guard username.count > 0 else { return false }
                 return preference.contains(username)
             })
 
         (0..<min(limit, users.count)).forEach {
-            guard let username = users[$0].username else { return }
+            let username = users[$0].displayName()
+            guard username.count > 0 else { return }
             result.append((username, users[$0]))
         }
 

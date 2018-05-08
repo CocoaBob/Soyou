@@ -624,18 +624,22 @@ public final class ChatViewController: SLKTextViewController {
     func registerTypingEvent(_ subscription: Subscription) {
         typingIndicatorView?.interval = 0
         guard let user = AuthManager.currentUser() else { return Log.debug("Could not register TypingEvent") }
-
+        
         SubscriptionManager.subscribeTypingEvent(subscription) { [weak self] username, flag in
+            // Make sure username (aka, uuid) isn't the same
             guard let username = username, username != user.username else { return }
-
+            // Get display name
+            let typingUser = Realm.shared?.objects(User.self).filter("username = %@", username).first
+            let displayMame = typingUser?.displayName()
+            
             let isAtBottom = self?.chatLogIsAtBottom()
-
+            
             if flag {
-                self?.typingIndicatorView?.insertUsername(username)
+                self?.typingIndicatorView?.insertUsername(displayMame)
             } else {
-                self?.typingIndicatorView?.removeUsername(username)
+                self?.typingIndicatorView?.removeUsername(displayMame)
             }
-
+            
             if let isAtBottom = isAtBottom,
                 isAtBottom == true {
                 self?.scrollToBottom(true)
@@ -1138,12 +1142,12 @@ extension ChatViewController {
     fileprivate func updateMessageSendingPermission() {
         guard
             let subscription = subscription,
-            let currentUser = AuthManager.currentUser(),
-            let username = currentUser.username
+            let currentUser = AuthManager.currentUser()
         else {
             allowMessageSending()
             return
         }
+        let username = currentUser.displayName()
 
         if subscription.roomReadOnly && subscription.roomOwner != currentUser && !currentUser.hasPermission(.postReadOnly) {
             blockMessageSending(reason: localized("chat.read_only"))

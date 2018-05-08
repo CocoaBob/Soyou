@@ -229,7 +229,7 @@ extension SubscriptionManager {
                     subscription.identifier = user.identifier ?? ""
                     subscription.otherUserId = user.identifier
                     subscription.type = .directMessage
-                    subscription.name = user.username ?? ""
+                    subscription.name = user.displayName()
                     subscription.fname = user.name ?? ""
                     subscriptions.append(subscription)
 
