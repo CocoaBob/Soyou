@@ -514,4 +514,12 @@ class RequestManager {
         let params = ["target": target, "action": action, "data": data, "operatedAt": operatedAt, "uuid": UserManager.shared.uuid, "device": "iOS"] as [String : Any]
         postAsync("/api/\(Cons.Svr.apiVersion)/analytics", "Analytics", params, onSuccess, onFailure)
     }
+    
+    //////////////////////////////////////
+    // MARK: - MISC
+    //////////////////////////////////////
+    
+    func checkServerVersion() {
+        RequestManager.shared.requestOperationManager.checkServerVersion()
+    }
 }

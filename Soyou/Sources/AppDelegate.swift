@@ -87,9 +87,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Get Username from database
         Crashlytics.sharedInstance().setUserName(UserManager.shared.username)
         
-        // Check updates
-        self.updateDataAfterLaunching()
-        
         // If app is launched by 3D Touch shortcut menu
         self.showShortcutView()
         
@@ -110,11 +107,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        // Check server version to see if supported
+        RequestManager.shared.checkServerVersion()
+        // Update data
         self.updateDataAfterLaunching()
-        
-        // Clear badge
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        
         // RocketChat
         RocketChatManager.appDidBecomeActive()
     }
@@ -227,9 +223,6 @@ extension AppDelegate {
     }
     
     func setupDatabase() {
-        // Check upgrades, may change database
-        self.checkIfUpgraded()
-        
         // Setup Database
         MagicalRecord.setLoggingLevel(.error)
         MagicalRecord.setShouldDeleteStoreOnModelMismatch(true)
@@ -322,40 +315,7 @@ extension AppDelegate {
         DataManager.shared.analyticsAppBecomeActive()
     }
     
-    func checkIfUpgraded() {
-        let lastInstalledBuild = UserDefaults.stringForKey(Cons.App.lastInstalledBuild)
-        let currentAppBuild = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String
-        if let lastInstalledBuild = lastInstalledBuild, let currentAppVersion = currentAppBuild {
-            if lastInstalledBuild == currentAppVersion {
-                return
-            }
-        }
-        
-        UserDefaults.setObject(currentAppBuild as AnyObject?, forKey: Cons.App.lastInstalledBuild)
-        
-        // TODO
-        // Database schema changed in commit 417, delete old database
-//        if lastInstalledBuild == nil || Int(lastInstalledBuild ?? "0") < 417 {
-//            guard let dbPath = FileManager.dbURL.path else {
-//                return
-//            }
-//            if Foundation.FileManager.default.fileExists(atPath: dbPath) {
-//                do {
-//                    try Foundation.FileManager.default.removeItem(at: FileManager.dbURL as URL)
-//                } catch {
-//                    DLog(error)
-//                }
-//            }
-//        }
-    }
-    
     func needsToShowIntroView() -> Bool {
-        // If not first time to launch version 1.x
-        // TODO: Remove in v1.5
-//        if let _ = UserDefaults.stringForKey(Cons.App.lastInstalledBuild) {
-//            return false
-//        }
-        
         let lastIntroVersion = UserDefaults.stringForKey(Cons.App.lastIntroVersion)
         let currentAppVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString" as String) as? String
         

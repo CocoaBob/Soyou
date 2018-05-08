@@ -51,7 +51,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         // Handlers of success and failure
         let success: (AFHTTPRequestOperation, Any?) -> () = { (operation, responseObject) -> () in
             modeUI ? MBProgressHUD.hide() : ()
-            self.handleSuccessWithoutServerVersionCheck(operation, responseObject, path, onSuccess, onFailure)
+            self.handleSuccess(operation, responseObject, path, onSuccess, onFailure)
         }
         
         let failure: (AFHTTPRequestOperation, Error) -> () = { (operation, error) -> () in
@@ -94,7 +94,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
                 }
             }
         } else {
-            operation.setCompletionBlockWithSuccess(success, failure: failure as? (AFHTTPRequestOperation, Error) -> Void)
+            operation.setCompletionBlockWithSuccess(success, failure: failure)
             self.operationQueue.addOperation(operation)
         }
     }
@@ -205,33 +205,7 @@ class HTTPRequestOperationManager: AFHTTPRequestOperationManager {
         }
     }
     
-    fileprivate func handleSuccessWithoutServerVersionCheck(_ operation: AFHTTPRequestOperation, _ responseObject: Any?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        if let onSuccess = onSuccess { onSuccess(responseObject) }
-    }
-    
     fileprivate func handleSuccess(_ operation: AFHTTPRequestOperation, _ responseObject: Any?, _ path: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        var isSoyouServer = false
-        var isCurVerAccepted = false
-        var verServer: String? = nil
-        let verLocalMin = "|"+Cons.Svr.serverVersion+"|"
-        if let headers: Dictionary = operation.response?.allHeaderFields {
-            if let serverVersion = headers["Server-Version"] as? String {
-                isSoyouServer = true
-                verServer = serverVersion
-                if serverVersion.range(of: verLocalMin) != nil {
-                    isCurVerAccepted = true
-                }
-            }
-        }
-        if isSoyouServer && !isCurVerAccepted {
-            let error = FmtError(0, "Local version: %@ Server supported version: %@", verLocalMin, verServer ?? "")
-            
-            // Show alert to open App Store
-            Utils.shared.showNewVersionAvailable()
-            
-            if let onFailure = onFailure { onFailure(error) }
-            return
-        }
         if let onSuccess = onSuccess { onSuccess(responseObject) }
     }
     
@@ -267,5 +241,59 @@ extension HTTPRequestOperationManager {
         // Device UUID
         userAgent  += ";\(self.uuid)"
         self.requestSerializer.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+    }
+}
+
+extension HTTPRequestOperationManager {
+    
+    func checkServerVersion() {
+        // Handlers of success and failure
+        let success: (AFHTTPRequestOperation, Any?) -> () = { (operation, responseObject) -> () in
+            var isSoyouServer = false
+            var isCurVerAccepted = false
+            var verServer: String? = nil
+            let verLocalMin = "|"+Cons.Svr.serverVersion+"|"
+            if let headers: Dictionary = operation.response?.allHeaderFields {
+                if let serverVersion = headers["Server-Version"] as? String {
+                    isSoyouServer = true
+                    verServer = serverVersion
+                    if serverVersion.range(of: verLocalMin) != nil {
+                        isCurVerAccepted = true
+                    }
+                }
+            }
+            if isSoyouServer && !isCurVerAccepted {
+                DLog("Local version: %@ Server supported version: %@", verLocalMin, verServer ?? "")
+                // Show alert to open App Store
+                Utils.shared.showNewVersionAvailable()
+                return
+            }
+        }
+        
+        let failure: (AFHTTPRequestOperation, Error) -> () = { (operation, error) -> () in
+            DLog("\(error.localizedDescription)")
+        }
+        
+        // Build the URL
+        let path = "/api/\(Cons.Svr.apiVersion)/secure/auth/check"
+        guard let urlString = URL(string: path, relativeTo: self.baseURL)?.absoluteString else {
+            return
+        }
+        
+        // Setup request
+        let request: NSMutableURLRequest = self.requestSerializer.request(withMethod: "GET", urlString: urlString, parameters: nil, error: nil)
+        let timestamp = self.timestamp()
+        request.addValue(self.apiKey(timestamp), forHTTPHeaderField: "apiKey")
+        request.addValue(timestamp, forHTTPHeaderField: "request-time")
+        request.addValue(self.uuid, forHTTPHeaderField: "uuid")
+        let headers = ["api": "AuthCheck", "authorization": UserManager.shared.token ?? ""]
+        for (key, value) in headers {
+            request.addValue(value, forHTTPHeaderField: key)
+        }
+        
+        // Setup operation
+        let operation: AFHTTPRequestOperation = self.httpRequestOperation(with: request as URLRequest, success: nil, failure: nil)
+        operation.setCompletionBlockWithSuccess(success, failure: failure)
+        self.operationQueue.addOperation(operation)
     }
 }
