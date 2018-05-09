@@ -116,8 +116,9 @@ extension CirclesTableViewCell {
     }
     
     func configureLabels(_ circle: Circle) {
-        self.btnName.setTitle(circle.username ?? "", for: .normal)
-        self.lblContent.text = circle.text
+        let strName = circle.username ?? ""
+        self.btnName.setTitle(strName.censored(), for: .normal)
+        self.lblContent.text = circle.text?.censored()
         self.updateMoreLessControl()
         if let date = circle.createdDate {
             self.lblDate.text = DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .short)
@@ -185,6 +186,7 @@ extension CirclesTableViewCell {
                     attrString.append(NSAttributedString(string: ", ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13.0)]))
                 }
                 // Add name
+                username = username.censored()
                 attrString.append(NSAttributedString(string: username, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 13.0),
                                                                                     NSAttributedStringKey.link: userURL]))
             }

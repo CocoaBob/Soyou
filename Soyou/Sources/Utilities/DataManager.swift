@@ -1088,4 +1088,16 @@ class DataManager {
             self.completeWithError(error, completion: nil)
         })
     }
+    
+    //////////////////////////////////////
+    // MARK: MISC
+    //////////////////////////////////////
+    
+    func getBannedKeywords(_ completion: CompletionClosure?) {
+        RequestManager.shared.getBannedKeywords({ responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: nil)
+        })
+    }
 }

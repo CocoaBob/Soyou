@@ -22,6 +22,7 @@
 		0D783C7A1C3B1F04001CC36D /* Analytic+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C791C3B1F04001CC36D /* Analytic+CoreDataProperties.swift */; };
 		0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D783C7B1C3B2098001CC36D /* Utils.swift */; };
 		45016E581C14EC25004034BC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45016E561C14EC25004034BC /* Product.swift */; };
+		450468A920A34BEE000B2579 /* BannedKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450468A820A34BEE000B2579 /* BannedKeywords.swift */; };
 		4506ED711C221797003B5018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4506ED701C221797003B5018 /* LoginViewController.swift */; };
 		450D475F1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */; };
 		450D47601FFC176700A2F3D1 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450D475E1FFC176700A2F3D1 /* Circle.swift */; };
@@ -214,6 +215,7 @@
 		45034D0F1C29954D00026027 /* WeChatActivityGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatActivityGeneral.swift; sourceTree = "<group>"; };
 		45034D101C29954D00026027 /* WeChatActivityMoments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatActivityMoments.swift; sourceTree = "<group>"; };
 		45034D111C29954D00026027 /* WeChatActivitySession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeChatActivitySession.swift; sourceTree = "<group>"; };
+		450468A820A34BEE000B2579 /* BannedKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannedKeywords.swift; sourceTree = "<group>"; };
 		4506ED701C221797003B5018 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		450D475D1FFC176700A2F3D1 /* Circle+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Circle+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		450D475E1FFC176700A2F3D1 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
@@ -575,6 +577,7 @@
 				457777921BFCE97D00805D79 /* CustomUI */,
 				45034D0C1C29954D00026027 /* Sharing */,
 				457D1EBB1BFBE0BB00D451D0 /* Constants.swift */,
+				450468A820A34BEE000B2579 /* BannedKeywords.swift */,
 				0D28BD711C51749E008CCF80 /* CurrencyManager.swift */,
 				45BED0901C8A3DDF002E375B /* DataManager.swift */,
 				4568E2FB1BF938C9009A6164 /* FileManager.swift */,
@@ -1369,6 +1372,7 @@
 				45A904D0202810E400E6EC73 /* MembersViewController.swift in Sources */,
 				452799AB1C5F743400EF6E23 /* IDMPhotoBrowser+Additions.swift in Sources */,
 				45D9B36D1C39B3F600D7E899 /* ProductViewController.swift in Sources */,
+				450468A920A34BEE000B2579 /* BannedKeywords.swift in Sources */,
 				455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */,
 				45CFA59B1C2B1585007D38F3 /* BrandsViewController.swift in Sources */,
 				45B66C78201D621000D5E958 /* WeChatActivityMoments.swift in Sources */,

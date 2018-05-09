@@ -97,6 +97,6 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
         } else {
             self.imgUserBadge.isHidden = true
         }
-        self.lblUsername.text = user.username
+        self.lblUsername.text = user.username?.censored()
     }
 }

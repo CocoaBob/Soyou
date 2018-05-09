@@ -306,6 +306,9 @@ extension AppDelegate {
         // Currency Manager
         CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, nil)
         
+        // Banned Keywords
+        BannedKeywords.shared.updateFromServer()
+        
         // Check if the user token is valid
         if UserManager.shared.isLoggedIn {
             DataManager.shared.checkToken()

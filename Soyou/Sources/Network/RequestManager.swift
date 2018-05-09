@@ -522,4 +522,8 @@ class RequestManager {
     func checkServerVersion() {
         RequestManager.shared.requestOperationManager.checkServerVersion()
     }
+    
+    func getBannedKeywords(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/misc/banned-keywords", "Misc", onSuccess, onFailure)
+    }
 }

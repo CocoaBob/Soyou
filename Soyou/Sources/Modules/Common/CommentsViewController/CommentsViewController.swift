@@ -332,18 +332,18 @@ class CommentsTableViewCell: UITableViewCell {
     func setup(_ comment: Comment) {
         self.comment = comment
         // Username
-        self.lblUsername.text = self.comment.username
+        self.lblUsername.text = self.comment.username.censored()
         // More
         self.imgMore.isHidden = self.comment.canDelete == 0
         // Comment
         let attr1 = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15.0),
                      NSAttributedStringKey.foregroundColor: UIColor.darkGray]
-        let attrStr1 = NSAttributedString(string: comment.comment, attributes: attr1)
+        let attrStr1 = NSAttributedString(string: comment.comment.censored(), attributes: attr1)
         self.lblComment.attributedText = attrStr1
         // Parent Comment
         let attrStr2 = NSMutableAttributedString()
-        if var parentUsername = self.comment.parentUsername,
-            let parentComment = self.comment.parentComment {
+        if var parentUsername = self.comment.parentUsername?.censored(),
+            let parentComment = self.comment.parentComment?.censored() {
             parentUsername = parentUsername.removingPercentEncoding ?? parentUsername
             attrStr2.append(NSAttributedString(string: "\(parentUsername): ",
                 attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15.0),

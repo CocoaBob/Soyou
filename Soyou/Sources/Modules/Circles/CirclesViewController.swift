@@ -605,7 +605,7 @@ extension CirclesViewController {
         
         // User name
         let currUsername = self.isSingleUserMode ? self.username : (UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown"))
-        self.lblUsername.text = currUsername
+        self.lblUsername.text = currUsername?.censored()
         
         // Buttons
         self.btnCompose.isEnabled = isLoggedIn

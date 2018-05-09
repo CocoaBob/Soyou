@@ -354,6 +354,7 @@
 "needs_wechat_account"="转发微信朋友圈功能\n需要登录微信帐户";
 "needs_wechat_account_action"="登录";
 "qr_code_content"="二维码内容";
+"forbidden_content"="[违规内容]";
 
 /* Product descriptions */
 "product_surname"="别名";
