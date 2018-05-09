@@ -355,7 +355,7 @@
 "needs_wechat_account"="Need to login with WeChat";
 "needs_wechat_account_action"="Login";
 "qr_code_content"="QR Code Content";
-"forbidden_content"="[Forbidden Content]";
+"forbidden_content"="***";
 
 /* Product descriptions */
 "product_surname"="Surname";
