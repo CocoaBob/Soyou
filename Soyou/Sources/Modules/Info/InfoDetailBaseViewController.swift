@@ -123,8 +123,6 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         // Show tool bar if it's invisible again
         self.showToolbar(animated)
-        // Update favorite/like/comments
-        self.updateExtraInfo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
