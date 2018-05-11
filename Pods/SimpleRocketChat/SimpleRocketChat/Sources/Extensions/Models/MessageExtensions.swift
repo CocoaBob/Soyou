@@ -22,7 +22,7 @@ extension Message {
 
     // swiftlint:disable function_body_length cyclomatic_complexity
     func textNormalized() -> String {
-        let text = self.text
+        let text = self.text.censored()
 
         switch type {
         case .roomNameChanged:

@@ -339,7 +339,7 @@ final class ChatMessageCell: UICollectionViewCell {
     }
 
     fileprivate func updateMessageContent() {
-        if let text = MessageTextCacheManager.shared.message(for: message) {
+        if var text = MessageTextCacheManager.shared.message(for: message) {
             if message.temporary {
                 text.setFontColor(MessageTextFontAttributes.systemFontColor)
             }

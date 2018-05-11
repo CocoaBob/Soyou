@@ -235,3 +235,8 @@
 "myaccount.settings.language.title" = "修改语言";
 "myaccount.settings.language.reset" = "恢复默认";
 "myaccount.settings.language.message" = "您已修改语言设置，您需要重启 Rocket.Chat+ 来应用新的语言。";
+
+// Soyou
+"forbidden_content"="***";
+"forbidden_content_alert"="请移除违规内容";
+"alert_button_ok"="确认";

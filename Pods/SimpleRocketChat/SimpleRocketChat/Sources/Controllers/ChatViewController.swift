@@ -409,24 +409,26 @@ public final class ChatViewController: SLKTextViewController {
     override public func didPressRightButton(_ sender: Any?) {
         guard let messageText = textView.text else { return }
 
-        resetMessageSending()
-        scrollToBottom()
-
-        let replyString = self.replyString
-        stopReplying()
-
-        dataController.dismissUnreadSeparator = true
-        dataController.lastSeen = subscription?.lastSeen ?? Date()
-        syncCollectionView()
-
-        let text = "\(messageText)\(replyString)"
-
-        if let (command, params) = text.commandAndParams() {
-            sendCommand(command: command, params: params)
-            return
+        BannedKeywords.censorThenDo(messageText) {
+            self.resetMessageSending()
+            self.scrollToBottom()
+            
+            let replyString = self.replyString
+            self.stopReplying()
+            
+            self.dataController.dismissUnreadSeparator = true
+            self.dataController.lastSeen = self.subscription?.lastSeen ?? Date()
+            self.syncCollectionView()
+            
+            let text = "\(messageText)\(replyString)"
+            
+            if let (command, params) = text.commandAndParams() {
+                self.sendCommand(command: command, params: params)
+                return
+            }
+            
+            self.sendTextMessage(text: text)
         }
-
-        sendTextMessage(text: text)
     }
 
     override public func didCommitTextEditing(_ sender: Any) {
@@ -595,7 +597,7 @@ public final class ChatViewController: SLKTextViewController {
 
         messagesToken?.invalidate()
 
-        title = subscription.displayName()
+        title = subscription.displayName().censored()
 
         if subscription.isValid() {
             updateSubscriptionMessages()
