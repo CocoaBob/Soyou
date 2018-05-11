@@ -385,37 +385,39 @@ extension CircleComposeViewController {
     
     @IBAction func post() {
         if self.submitToSoyou.isOn {
-            MBProgressHUD.show(self.view)
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-            UserManager.shared.loginOrDo {
-                let text = self.tvContent.text
-                let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
-                let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
-                var allowedUserIds = Set<Int>()
-                if let allowedTags = self.allowedTags {
-                    for tag in allowedTags {
-                        for tagUser in tag.members ?? [] {
-                            allowedUserIds.insert(tagUser.userId)
+            let text = self.tvContent.text
+            BannedKeywords.censorThenDo(text) {
+                MBProgressHUD.show(self.view)
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+                UserManager.shared.loginOrDo {
+                    let images = self.selectedAssets?.flatMap() { $0.fullResolutionImage?.resizedImage(byMagick: "1080x1080^") }
+                    let imageDatas = images?.flatMap() { UIImageJPEGRepresentation($0, 0.6) }
+                    var allowedUserIds = Set<Int>()
+                    if let allowedTags = self.allowedTags {
+                        for tag in allowedTags {
+                            for tagUser in tag.members ?? [] {
+                                allowedUserIds.insert(tagUser.userId)
+                            }
                         }
                     }
-                }
-                var forbiddenUserIds = Set<Int>()
-                if let forbiddenTags = self.forbiddenTags {
-                    for tag in forbiddenTags {
-                        for tagUser in tag.members ?? [] {
-                            forbiddenUserIds.insert(tagUser.userId)
+                    var forbiddenUserIds = Set<Int>()
+                    if let forbiddenTags = self.forbiddenTags {
+                        for tag in forbiddenTags {
+                            for tagUser in tag.members ?? [] {
+                                forbiddenUserIds.insert(tagUser.userId)
+                            }
                         }
                     }
-                }
-                DataManager.shared.createCircle(text, imageDatas, self.visibility,
-                                                allowedUserIds.isEmpty ? nil : Array(allowedUserIds), forbiddenUserIds.isEmpty ? nil : Array(forbiddenUserIds),
-                                                self.originalId) { (responseObject, error) in
-                    MBProgressHUD.hide(self.view)
-                    self.navigationItem.rightBarButtonItem?.isEnabled = true
-                    self.delegate?.didPostNewCircle()
-                    self.dismiss(animated: true, completion: {
-                        self.delegate?.didDismiss(text: text, images: images, needsToShare: self.shareToWeChat.isOn)
-                    })
+                    DataManager.shared.createCircle(text, imageDatas, self.visibility,
+                                                    allowedUserIds.isEmpty ? nil : Array(allowedUserIds), forbiddenUserIds.isEmpty ? nil : Array(forbiddenUserIds),
+                                                    self.originalId) { (responseObject, error) in
+                                                        MBProgressHUD.hide(self.view)
+                                                        self.navigationItem.rightBarButtonItem?.isEnabled = true
+                                                        self.delegate?.didPostNewCircle()
+                                                        self.dismiss(animated: true, completion: {
+                                                            self.delegate?.didDismiss(text: text, images: images, needsToShare: self.shareToWeChat.isOn)
+                                                        })
+                    }
                 }
             }
         } else {

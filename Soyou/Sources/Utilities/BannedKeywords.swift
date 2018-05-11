@@ -65,19 +65,30 @@ extension BannedKeywords {
         }
         return false
     }
+    
+    static func censorThenDo(_ content: String?, _ completion: (()->())?) {
+        if content?.containsBannedKeywords() ?? false {
+            UIAlertController.presentAlert(message: NSLocalizedString("forbidden_content_alert"),
+                                           UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                                         style: UIAlertActionStyle.default,
+                                                         handler: nil))
+        } else {
+            completion?()
+        }
+    }
 }
 
 // MARK: - Helper
 extension String {
     
-    private func containsBannedKeywords() -> Bool {
+    fileprivate func containsBannedKeywords() -> Bool {
+        if self.isEmpty {
+            return false
+        }
         return BannedKeywords.shared.test(self)
     }
     
     func censored() -> String {
-        if self.isEmpty {
-            return self
-        }
         if self.containsBannedKeywords() {
             return NSLocalizedString("forbidden_content")
         }

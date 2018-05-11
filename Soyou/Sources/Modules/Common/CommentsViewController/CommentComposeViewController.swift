@@ -85,17 +85,19 @@ extension CommentComposeViewController {
 extension CommentComposeViewController {
     
     @IBAction func post() {
-        UserManager.shared.loginOrDo {
-            var comment = self.tvContent.text ?? ""
-            if comment.count == 0 {
-                return
-            }
-            comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
-            self.commentCreator?(self.infoID, self.replyToComment?.id, comment) { (responseObject, error) in
-                if error == nil {
-                    self.navigationController?.popViewController(animated: true)
-                    if let delegate = self.delegate {
-                        delegate.didPostNewComment()
+        var comment = self.tvContent.text ?? ""
+        if comment.count == 0 {
+            return
+        }
+        BannedKeywords.censorThenDo(comment) {
+            UserManager.shared.loginOrDo {
+                comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
+                self.commentCreator?(self.infoID, self.replyToComment?.id, comment) { (responseObject, error) in
+                    if error == nil {
+                        self.navigationController?.popViewController(animated: true)
+                        if let delegate = self.delegate {
+                            delegate.didPostNewComment()
+                        }
                     }
                 }
             }

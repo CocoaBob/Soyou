@@ -356,6 +356,7 @@
 "needs_wechat_account_action"="Login";
 "qr_code_content"="QR Code Content";
 "forbidden_content"="***";
+"forbidden_content_alert"="Please remove unaccepted content";
 
 /* Product descriptions */
 "product_surname"="Surname";

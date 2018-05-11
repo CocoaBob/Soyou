@@ -151,16 +151,18 @@ extension ProfileViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             if let editedText = simpleViewController.editedText {
-                let username = editedText.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? editedText
-                MBProgressHUD.show()
-                DataManager.shared.modifyUserInfo("username", username) { responseObject, error in
-                    DispatchQueue.main.async {
-                        MBProgressHUD.hide()
-                        if let error = error {
-                            DataManager.showRequestFailedAlert(error)
-                        } else {
-                            UserManager.shared.username = username.removingPercentEncoding ?? username
-                            simpleViewController.navigationController?.popViewController(animated: true)
+                BannedKeywords.censorThenDo(editedText) {
+                    let username = editedText.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? editedText
+                    MBProgressHUD.show()
+                    DataManager.shared.modifyUserInfo("username", username) { responseObject, error in
+                        DispatchQueue.main.async {
+                            MBProgressHUD.hide()
+                            if let error = error {
+                                DataManager.showRequestFailedAlert(error)
+                            } else {
+                                UserManager.shared.username = username.removingPercentEncoding ?? username
+                                simpleViewController.navigationController?.popViewController(animated: true)
+                            }
                         }
                     }
                 }
