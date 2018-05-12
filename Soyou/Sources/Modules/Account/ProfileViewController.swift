@@ -252,14 +252,24 @@ extension ProfileViewController {
 extension ProfileViewController: TLPhotosPickerViewControllerDelegate {
     
     func willDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
-        guard let asset = tlphAssets.first, let image = asset.fullResolutionImage else {
+        guard let asset = tlphAssets.first, var image = asset.fullResolutionImage else {
             return
         }
-        MBProgressHUD.show(self.view)
-        DataManager.shared.modifyProfileImage(image.rotated()) {  responseObject, error in
-            MBProgressHUD.hide(self.view)
-            if let data = DataManager.getResponseData(responseObject) as? [String: String] {
-                UserManager.shared.avatar = data["profileUrl"]
+        // Fix orientation
+        image = image.rotated()
+        // Check if it's QR code and soyou.io link
+        if image.containsNonSoyouLink() {
+            UIAlertController.presentAlert(message: NSLocalizedString("forbidden_qr_code_alert"),
+                                           UIAlertAction(title: NSLocalizedString("alert_button_ok"),
+                                                         style: UIAlertActionStyle.default,
+                                                         handler: nil))
+        } else {
+            MBProgressHUD.show(self.view)
+            DataManager.shared.modifyProfileImage(image.rotated()) {  responseObject, error in
+                MBProgressHUD.hide(self.view)
+                if let data = DataManager.getResponseData(responseObject) as? [String: String] {
+                    UserManager.shared.avatar = data["profileUrl"]
+                }
             }
         }
     }

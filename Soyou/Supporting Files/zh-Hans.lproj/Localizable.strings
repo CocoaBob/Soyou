@@ -356,6 +356,7 @@
 "qr_code_content"="二维码内容";
 "forbidden_content"="***";
 "forbidden_content_alert"="请移除违规内容";
+"forbidden_qr_code_alert"="违规二维码";
 
 /* Product descriptions */
 "product_surname"="别名";

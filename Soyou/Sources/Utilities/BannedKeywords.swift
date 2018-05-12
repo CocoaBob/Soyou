@@ -30,7 +30,7 @@ class BannedKeywords {
     }()
     
     static let shared = BannedKeywords()
-    static let replacedImage = UIImage(named: "img_placeholder_1_1_m")
+    static let replacedImage = UIImage(named: "img_placeholder_1_1_m")!
 }
 
 // MARK: - Methods
@@ -97,6 +97,25 @@ extension String {
     }
 }
 
+extension UIImage {
+    
+    func containsNonSoyouLink() -> Bool {
+        if let content = self.detectQRCode(), // If it's QR code
+            content.range(of: "soyou.io") == nil { // But its content isn't soyou.io
+            return true
+        }
+        return false
+    }
+    
+    func censored() -> UIImage {
+        if self.containsNonSoyouLink() {
+            return BannedKeywords.replacedImage
+        } else {
+            return self
+        }
+    }
+}
+
 extension UIImageView {
     
     func setImageWithCensorship(with url: URL?,
@@ -112,8 +131,7 @@ extension UIImageView {
                          progress: progressBlock) { (image, error, cacheType, url) in
                             var finalImage = image
                             DispatchQueue.global(qos: .default).async {
-                                if let content = image?.detectQRCode(), // If it's QR code
-                                    content.range(of: "soyou.io") == nil { // But its content isn't soyou.io
+                                if image?.containsNonSoyouLink() == true {
                                     finalImage = BannedKeywords.replacedImage
                                     SDImageCache.shared().store(finalImage,
                                                                 forKey: SDWebImageManager.shared().cacheKey(for: url),

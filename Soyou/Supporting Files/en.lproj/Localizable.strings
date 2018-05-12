@@ -357,6 +357,7 @@
 "qr_code_content"="QR Code Content";
 "forbidden_content"="***";
 "forbidden_content_alert"="Please remove unaccepted content";
+"forbidden_qr_code_alert"="Unaccepted QR Code";
 
 /* Product descriptions */
 "product_surname"="Surname";

@@ -226,7 +226,12 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                     return cell
                 }
                 if let image = tlphAsset.fullResolutionImage {
-                    cell.imageView.image = image
+                    if image.containsNonSoyouLink() {
+                        cell.imageView.image = BannedKeywords.replacedImage
+                        tlphAsset.fullResolutionImage = BannedKeywords.replacedImage
+                    } else {
+                        cell.imageView.image = image
+                    }
                 } else {
                     cell.imageView.image = UIImage(named: "img_placeholder_1_1_s")
                     tlphAsset.cloudImageDownload(progressBlock: { (progress) in
@@ -241,8 +246,13 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                         }
                     }, completionBlock: { (image) in
                         if let image = image {
-                            tlphAsset.fullResolutionImage = image
-                            cell.imageView.image = image
+                            if image.containsNonSoyouLink() {
+                                cell.imageView.image = BannedKeywords.replacedImage
+                                tlphAsset.fullResolutionImage = BannedKeywords.replacedImage
+                            } else {
+                                tlphAsset.fullResolutionImage = image
+                                cell.imageView.image = image
+                            }
                         }
                     })
                 }

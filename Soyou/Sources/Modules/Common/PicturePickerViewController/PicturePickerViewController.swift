@@ -28,7 +28,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.singleSelectedMode = false
         configure.maxSelectedAssets = 9
         configure.fetchOption = nil
-        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
+        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_s")
         configure.nibSet = (nibName: "PicturePickerCell", bundle: Bundle.main)
         
         let collection = TLAssetsCollection(assets: customAssets, title: NSLocalizedString("photo_picker_default_title"))
@@ -59,7 +59,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.singleSelectedMode = true
         configure.maxSelectedAssets = 1
         configure.fetchOption = nil
-        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
+        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_s")
         configure.nibSet = (nibName: "PicturePickerCell2", bundle: Bundle.main)
         
         let vc = PicturePickerViewController()
@@ -92,7 +92,7 @@ class PicturePickerViewController: TLPhotosPickerViewController {
         configure.singleSelectedMode = maxSelection == 1
         configure.maxSelectedAssets = maxSelection
         configure.fetchOption = nil
-        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_m")
+        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_s")
         configure.nibSet = (nibName: "PicturePickerCell", bundle: Bundle.main)
         
         var collection: TLAssetsCollection?
