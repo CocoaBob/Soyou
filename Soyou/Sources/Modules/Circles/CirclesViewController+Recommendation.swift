@@ -85,9 +85,9 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
     
     func configureCell(_ user: Member) {
         if let profileUrlStr = user.profileUrl, let url = URL(string: profileUrlStr) {
-            self.imgUser.sd_setImage(with: url,
-                                     placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
+            self.imgUser.setImageWithCensorship(with: url,
+                                                placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                                options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
             self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
         }

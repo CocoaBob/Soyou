@@ -132,18 +132,27 @@ extension CirclesTableViewCell {
             if let originalStr = dict["original"], let originalURL = URL(string: originalStr),
                 let thumbnailStr = dict["thumbnail"], let thumbnailURL = URL(string: thumbnailStr) {
                 var photo: IDMPhoto?
-                if let cachedOriginalImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: originalURL)) {
-                    photo = IDMPhoto(image: cachedOriginalImage)
-                    if i == index {
-                        scaleImage = cachedOriginalImage
-                    }
-                } else {
-                    photo = IDMPhoto(url: originalURL)
-                }
+                var isForbiddenImage = false
                 if let cachedThumbnailImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: thumbnailURL)) {
-                    photo?.placeholderImage = cachedThumbnailImage
-                    if i == index, scaleImage == nil {
-                        scaleImage = cachedThumbnailImage
+                    isForbiddenImage = cachedThumbnailImage == BannedKeywords.replacedImage
+                }
+                if isForbiddenImage {
+                    photo = IDMPhoto(image: BannedKeywords.replacedImage)
+                    scaleImage = BannedKeywords.replacedImage
+                } else {
+                    if let cachedOriginalImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: originalURL)) {
+                        photo = IDMPhoto(image: cachedOriginalImage)
+                        if i == index {
+                            scaleImage = cachedOriginalImage
+                        }
+                    } else {
+                        photo = IDMPhoto(url: originalURL)
+                    }
+                    if let cachedThumbnailImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: thumbnailURL)) {
+                        photo?.placeholderImage = cachedThumbnailImage
+                        if i == index, scaleImage == nil {
+                            scaleImage = cachedThumbnailImage
+                        }
                     }
                 }
                 if let photo = photo {

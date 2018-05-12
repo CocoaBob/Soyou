@@ -15,4 +15,18 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage ?? self
     }
+    
+    func detectQRCode() -> String? {
+        guard let ciImage = CIImage(image: self) else { return nil }
+        let context = CIContext()
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: context, options: nil)
+        if let features = detector?.features(in: ciImage) as? [CIQRCodeFeature] {
+            for feature in features  {
+                if let decodedString = feature.messageString {
+                    return decodedString
+                }
+            }
+        }
+        return nil
+    }
 }

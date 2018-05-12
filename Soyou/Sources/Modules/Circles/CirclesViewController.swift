@@ -587,17 +587,16 @@ extension CirclesViewController {
         self.removeAvatarBorder()
         let avatarURLString = (self.isSingleUserMode ? self.avatar : UserManager.shared.avatar) ?? ""
         if isLoggedIn, let url = URL(string: avatarURLString) {
-            var options: SDWebImageOptions = [.continueInBackground, .allowInvalidSSLCertificates, .highPriority]
             if reloadAvatar {
-                options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates, .highPriority]
+                SDImageCache.shared().removeImage(forKey: SDWebImageManager.shared().cacheKey(for: url), withCompletion: nil)
             }
-            self.imgUserAvatar.sd_setImage(with: url,
-                                           placeholderImage: UserManager.shared.defaultAvatarImage(),
-                                           options: options,
-                                           completed: { (image, error, type, url) -> Void in
-                                            if error == nil {
-                                                self.addAvatarBorder()
-                                            }
+            self.imgUserAvatar.setImageWithCensorship(with: url,
+                                                      placeholderImage: UserManager.shared.defaultAvatarImage(),
+                                                      options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                                      completed: { (image, error, type, url) -> Void in
+                                                        if error == nil {
+                                                            self.addAvatarBorder()
+                                                        }
             })
         } else {
             self.imgUserAvatar.image = UserManager.shared.defaultAvatarImage()

@@ -30,6 +30,7 @@ class BannedKeywords {
     }()
     
     static let shared = BannedKeywords()
+    static let replacedImage = UIImage(named: "img_placeholder_1_1_m")
 }
 
 // MARK: - Methods
@@ -93,5 +94,36 @@ extension String {
             return NSLocalizedString("forbidden_content")
         }
         return self
+    }
+}
+
+extension UIImageView {
+    
+    func setImageWithCensorship(with url: URL?,
+                                placeholderImage placeholder: UIImage? = nil,
+                                options: SDWebImageOptions = [],
+                                progress progressBlock: SDWebImage.SDWebImageDownloaderProgressBlock? = nil,
+                                completed completedBlock: SDWebImage.SDExternalCompletionBlock? = nil) {
+        var newOptions = options
+        newOptions.insert(.avoidAutoSetImage)
+        self.sd_setImage(with: url,
+                         placeholderImage: placeholder,
+                         options: newOptions,
+                         progress: progressBlock) { (image, error, cacheType, url) in
+                            var finalImage = image
+                            DispatchQueue.global(qos: .default).async {
+                                if let content = image?.detectQRCode(), // If it's QR code
+                                    content.range(of: "soyou.io") == nil { // But its content isn't soyou.io
+                                    finalImage = BannedKeywords.replacedImage
+                                    SDImageCache.shared().store(finalImage,
+                                                                forKey: SDWebImageManager.shared().cacheKey(for: url),
+                                                                completion: nil)
+                                }
+                                DispatchQueue.main.async {
+                                    self.image = finalImage
+                                    completedBlock?(finalImage, error, cacheType, url)
+                                }
+                            }
+        }
     }
 }

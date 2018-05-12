@@ -68,10 +68,10 @@ extension InvitationSuccessViewController {
     
     fileprivate func setupViews() {
         // Avatar
-        self.imgAvatar.sd_setImage(with: self.profileUrl,
-                                   placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
-                                   options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                   completed: nil)
+        self.imgAvatar.setImageWithCensorship(with: self.profileUrl,
+                                              placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                              options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                              completed: nil)
         
         // Name
         self.lblName.text = self.name
