@@ -100,14 +100,27 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
 
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let resizedImage = image.resizeWith(width: 1024) ?? image
-            guard let imageData = UIImageJPEGRepresentation(resizedImage, 0.9) else { return }
-
-            file = UploadHelper.file(
-                for: imageData,
-                name: "\(filename.components(separatedBy: ".").first ?? "image").jpeg",
-                mimeType: "image/jpeg"
-            )
+            if image.containsNonSoyouLink() {
+                let alertController = UIAlertController(title: nil, message: localized("forbidden_qr_code_alert"), preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: localized("alert_button_ok"),
+                                                        style: UIAlertActionStyle.default,
+                                                        handler: nil))
+                var presentingVC = UIApplication.shared.keyWindow?.rootViewController
+                if let presentedVC = presentingVC?.presentedViewController {
+                    presentingVC = presentedVC
+                }
+                presentingVC?.present(alertController, animated: true, completion: nil)
+                return
+            } else {
+                let resizedImage = image.resizeWith(width: 1024) ?? image
+                guard let imageData = UIImageJPEGRepresentation(resizedImage, 0.9) else { return }
+                
+                file = UploadHelper.file(
+                    for: imageData,
+                    name: "\(filename.components(separatedBy: ".").first ?? "image").jpeg",
+                    mimeType: "image/jpeg"
+                )
+            }
         }
 
         if let videoURL = info[UIImagePickerControllerMediaURL] as? URL {

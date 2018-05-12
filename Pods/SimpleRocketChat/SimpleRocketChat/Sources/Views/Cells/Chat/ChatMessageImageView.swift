@@ -59,7 +59,7 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
             isLoadable = false
             detailText.text = ""
             imageView.contentMode = UIViewContentMode.center
-            imageView.sd_setImage(with: nil, placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"))
+            imageView.setImageWithCensorship(with: nil, placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"))
             return nil
         }
         detailText.text = attachment.descriptionText
@@ -83,7 +83,7 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
         activityIndicatorImageView.startAnimating()
 
         let options: SDWebImageOptions = [.retryFailed, .scaleDownLargeImages]
-        imageView.sd_setImage(with: imageURL, placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"), options: options, completed: { [weak self] image, _, _, _ in
+        imageView.setImageWithCensorship(with: imageURL, placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"), options: options, completed: { [weak self] image, _, _, _ in
             self?.activityIndicatorImageView.stopAnimating()
             guard let image = image else { return }
             guard image.size.width > 0, image.size.height > 0 else { return }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class BannedKeywords {
     
@@ -33,6 +34,7 @@ class BannedKeywords {
     }()
     
     static let shared = BannedKeywords()
+    static let replacedImage = UIImage(namedInBundle: "SoyouImagePlaceholder2")!
 }
 
 // MARK: - Methods
@@ -84,3 +86,67 @@ extension String {
         return self
     }
 }
+
+extension UIImage {
+    
+    func detectQRCode() -> String? {
+        guard let ciImage = CIImage(image: self) else { return nil }
+        let context = CIContext()
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: context, options: nil)
+        if let features = detector?.features(in: ciImage) as? [CIQRCodeFeature] {
+            for feature in features  {
+                if let decodedString = feature.messageString {
+                    return decodedString
+                }
+            }
+        }
+        return nil
+    }
+    
+    func containsNonSoyouLink() -> Bool {
+        if let content = self.detectQRCode(), // If it's QR code
+            content.range(of: "soyou.io") == nil { // But its content isn't soyou.io
+            return true
+        }
+        return false
+    }
+    
+    func censored() -> UIImage {
+        if self.containsNonSoyouLink() {
+            return BannedKeywords.replacedImage
+        } else {
+            return self
+        }
+    }
+}
+
+extension UIImageView {
+    
+    func setImageWithCensorship(with url: URL?,
+                                placeholderImage placeholder: UIImage? = nil,
+                                options: SDWebImageOptions = [],
+                                progress progressBlock: SDWebImage.SDWebImageDownloaderProgressBlock? = nil,
+                                completed completedBlock: SDWebImage.SDExternalCompletionBlock? = nil) {
+        var newOptions = options
+        newOptions.insert(.avoidAutoSetImage)
+        self.sd_setImage(with: url,
+                         placeholderImage: placeholder,
+                         options: newOptions,
+                         progress: progressBlock) { (image, error, cacheType, url) in
+                            var finalImage = image
+                            DispatchQueue.global(qos: .default).async {
+                                if image?.containsNonSoyouLink() == true {
+                                    finalImage = BannedKeywords.replacedImage
+                                    SDImageCache.shared().store(finalImage,
+                                                                forKey: SDWebImageManager.shared().cacheKey(for: url),
+                                                                completion: nil)
+                                }
+                                DispatchQueue.main.async {
+                                    self.image = finalImage
+                                    completedBlock?(finalImage, error, cacheType, url)
+                                }
+                            }
+        }
+    }
+}
+
