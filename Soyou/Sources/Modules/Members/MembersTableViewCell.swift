@@ -87,6 +87,6 @@ extension MembersTableViewCell {
         } else {
             self.imgUserBadge?.isHidden = true
         }
-        self.lblName.text = member.username
+        self.lblName.text = member.username?.censored()
     }
 }
