@@ -258,7 +258,7 @@ extension ProfileViewController: TLPhotosPickerViewControllerDelegate {
         // Fix orientation
         image = image.rotated()
         // Check if it's QR code and soyou.io link
-        if image.containsNonSoyouLink() {
+        if image.isCensoredQRCode() {
             UIAlertController.presentAlert(message: NSLocalizedString("forbidden_qr_code_alert"),
                                            UIAlertAction(title: NSLocalizedString("alert_button_ok"),
                                                          style: UIAlertActionStyle.default,

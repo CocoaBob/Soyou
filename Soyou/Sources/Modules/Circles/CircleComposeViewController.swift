@@ -226,7 +226,7 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                     return cell
                 }
                 if let image = tlphAsset.fullResolutionImage {
-                    if image.containsNonSoyouLink() {
+                    if image.isCensoredQRCode() {
                         cell.imageView.image = BannedKeywords.censoredImage
                         tlphAsset.fullResolutionImage = BannedKeywords.censoredImage
                     } else {
@@ -246,7 +246,7 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                         }
                     }, completionBlock: { (image) in
                         if let image = image {
-                            if image.containsNonSoyouLink() {
+                            if image.isCensoredQRCode() {
                                 cell.imageView.image = BannedKeywords.censoredImage
                                 tlphAsset.fullResolutionImage = BannedKeywords.censoredImage
                             } else {

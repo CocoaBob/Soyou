@@ -320,11 +320,15 @@ extension Utils: ScanViewControllerDelegate {
     }
     
     func scanViewControllerDidScanCode(scanVC: ScanViewController, code: String?) {
-        self.handleScannedQRCode(code)
+        if let code = code {
+            self.handleScannedQRCode([code])
+        } else {
+            self.handleScannedQRCode(nil)
+        }
     }
     
-    func handleScannedQRCode(_ code: String?) {
-        guard let code = code else { return }
+    func handleScannedQRCode(_ codes: [String]?) {
+        guard let code = codes?.first else { return }
         if let url = URL(string: code) {
             UniversalLinkerHandler.shared.handleURL(url)
         } else {

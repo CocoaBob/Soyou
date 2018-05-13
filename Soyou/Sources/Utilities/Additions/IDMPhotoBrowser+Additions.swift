@@ -38,7 +38,7 @@ extension IDMPhotoBrowser {
         guard gesture.state == .began else { return }
         guard let currentIndex = self.value(forKey: "_currentPageIndex") as? UInt else { return }
         guard let photo = self.photo(at: currentIndex) else { return }
-        let code = photo.underlyingImage().detectQRCode()
+        let codes = photo.underlyingImage().detectQRCodes()
         var actions = [UIAlertAction]()
         actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_save_image"),
                                      style: UIAlertActionStyle.default,
@@ -54,11 +54,11 @@ extension IDMPhotoBrowser {
                                             UIImageWriteToSavedPhotosAlbum(image, self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
                                         }
         }))
-        if code != nil {
+        if codes != nil {
             actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_detect_qr_code"),
                                          style: UIAlertActionStyle.default,
                                          handler: { (action: UIAlertAction) -> Void in
-                                            Utils.shared.handleScannedQRCode(code)
+                                            Utils.shared.handleScannedQRCode(codes)
             }))
         }
         actions.append(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),

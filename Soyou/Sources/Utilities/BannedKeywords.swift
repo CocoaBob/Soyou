@@ -99,16 +99,23 @@ extension String {
 
 extension UIImage {
     
-    func containsNonSoyouLink() -> Bool {
-        if let content = self.detectQRCode(), // If it's QR code
-            content.range(of: "soyou.io") == nil { // But its content isn't soyou.io
-            return true
+    func isCensoredQRCode() -> Bool {
+        let whitelist = ["soyou.io"]
+        if let codes = self.detectQRCodes() {
+            for code in codes {
+                for link in whitelist {
+                    if code.range(of: link) != nil {
+                        return false
+                    }
+                }
+            }
+            return true // All QR Code are banned
         }
         return false
     }
     
     func censored() -> UIImage {
-        if self.containsNonSoyouLink() {
+        if self.isCensoredQRCode() {
             return BannedKeywords.censoredImage
         } else {
             return self
@@ -131,7 +138,7 @@ extension UIImageView {
                          progress: progressBlock) { (image, error, cacheType, url) in
                             var finalImage = image
                             DispatchQueue.global(qos: .default).async {
-                                if image?.containsNonSoyouLink() == true {
+                                if image?.isCensoredQRCode() == true {
                                     finalImage = BannedKeywords.censoredImage
                                     SDImageCache.shared().store(finalImage,
                                                                 forKey: SDWebImageManager.shared().cacheKey(for: url),
