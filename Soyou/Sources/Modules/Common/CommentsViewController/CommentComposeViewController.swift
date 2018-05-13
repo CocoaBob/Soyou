@@ -48,7 +48,7 @@ class CommentComposeViewController: UIViewController {
         if let replyToComment = self.replyToComment {
             self.title = FmtString(NSLocalizedString("new_comment_vc_title_reply"), replyToComment.username)
         } else {
-            self.title = NSLocalizedString(NSLocalizedString("new_comment_vc_title_new"))
+            self.title = NSLocalizedString("new_comment_vc_title_new")
         }
     }
     

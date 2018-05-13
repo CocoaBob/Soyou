@@ -360,6 +360,7 @@
 "forbidden_content_alert"="请移除违规内容";
 "forbidden_qr_code_alert"="违规二维码";
 "gdpr_question"="鉴于《欧盟数据保护条例》（于2018年5月25日生效），我们需要问您一个问题。\n您是否允许我们分享诊断数据给 fabric.io ？";
+"censored_image_name"="img_censored_content_zh";
 
 /* Product descriptions */
 "product_surname"="别名";

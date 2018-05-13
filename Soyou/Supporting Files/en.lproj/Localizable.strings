@@ -361,6 +361,7 @@
 "forbidden_content_alert"="Please remove unaccepted content";
 "forbidden_qr_code_alert"="Unaccepted QR Code";
 "gdpr_question"="Due to the European law GDPR (effective May 25 2018), we'd like to ask you a question.\nDo you allow us to share diagnostic data with fabric.io?";
+"censored_image_name"="img_censored_content_en";
 
 /* Product descriptions */
 "product_surname"="Surname";

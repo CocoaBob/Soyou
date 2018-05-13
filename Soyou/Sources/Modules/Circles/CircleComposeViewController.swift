@@ -227,8 +227,8 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                 }
                 if let image = tlphAsset.fullResolutionImage {
                     if image.containsNonSoyouLink() {
-                        cell.imageView.image = BannedKeywords.replacedImage
-                        tlphAsset.fullResolutionImage = BannedKeywords.replacedImage
+                        cell.imageView.image = BannedKeywords.censoredImage
+                        tlphAsset.fullResolutionImage = BannedKeywords.censoredImage
                     } else {
                         cell.imageView.image = image
                     }
@@ -247,8 +247,8 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                     }, completionBlock: { (image) in
                         if let image = image {
                             if image.containsNonSoyouLink() {
-                                cell.imageView.image = BannedKeywords.replacedImage
-                                tlphAsset.fullResolutionImage = BannedKeywords.replacedImage
+                                cell.imageView.image = BannedKeywords.censoredImage
+                                tlphAsset.fullResolutionImage = BannedKeywords.censoredImage
                             } else {
                                 tlphAsset.fullResolutionImage = image
                                 cell.imageView.image = image

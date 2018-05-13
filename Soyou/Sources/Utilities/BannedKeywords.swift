@@ -30,7 +30,7 @@ class BannedKeywords {
     }()
     
     static let shared = BannedKeywords()
-    static let replacedImage = UIImage(named: "img_placeholder_1_1_m")!
+    static let censoredImage =  UIImage(named: NSLocalizedString("censored_image_name"))!
 }
 
 // MARK: - Methods
@@ -109,7 +109,7 @@ extension UIImage {
     
     func censored() -> UIImage {
         if self.containsNonSoyouLink() {
-            return BannedKeywords.replacedImage
+            return BannedKeywords.censoredImage
         } else {
             return self
         }
@@ -132,7 +132,7 @@ extension UIImageView {
                             var finalImage = image
                             DispatchQueue.global(qos: .default).async {
                                 if image?.containsNonSoyouLink() == true {
-                                    finalImage = BannedKeywords.replacedImage
+                                    finalImage = BannedKeywords.censoredImage
                                     SDImageCache.shared().store(finalImage,
                                                                 forKey: SDWebImageManager.shared().cacheKey(for: url),
                                                                 completion: nil)
