@@ -505,6 +505,11 @@ class RequestManager {
         postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/block/\(userId)/\(blockStatus)", "User", ["userId": userId, "blockStatus": blockStatus], onSuccess, onFailure)
     }
     
+    func setGDPR(_ value: Bool, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let params = ["value": value]
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/user/gdpr", "User", params, onSuccess, onFailure)
+    }
+    
     //////////////////////////////////////
     // MARK: - Analytics
     //////////////////////////////////////

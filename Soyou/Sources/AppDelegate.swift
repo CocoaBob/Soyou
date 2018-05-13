@@ -34,10 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Disable constaint error log
 //        UserDefaults.setBool(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
         
-        // Crashlytics
-        Fabric.with([Crashlytics.self])
-        Crashlytics.sharedInstance().setUserIdentifier(UIDevice.current.identifierForVendor?.uuidString)
-        
         // AFNetworkActivityIndicatorManager
         AFNetworkActivityIndicatorManager.shared().isEnabled = true
 
@@ -98,6 +94,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // RocketChat
         RocketChatManager.appDidFinishLaunchingWithOptions(launchOptions)
+        
+        // Crashlytics
+        if UserManager.shared.isGDPRAccepted {
+            Fabric.with([Crashlytics.self])
+            Crashlytics.sharedInstance().setUserIdentifier(UIDevice.current.identifierForVendor?.uuidString)
+        } else {
+            UserManager.shared.checkGDPR()
+        }
         
         return true
     }

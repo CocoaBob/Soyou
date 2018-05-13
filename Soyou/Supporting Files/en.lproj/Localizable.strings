@@ -349,6 +349,8 @@
 "alert_button_delete"="Delete";
 "alert_button_save"="Save";
 "alert_button_copy"="Copy";
+"alert_button_yes"="YES";
+"alert_button_no"="NO";
 
 /* MISC */
 "currency_unknown"="Unknown Currency";
@@ -358,6 +360,7 @@
 "forbidden_content"="***";
 "forbidden_content_alert"="Please remove unaccepted content";
 "forbidden_qr_code_alert"="Unaccepted QR Code";
+"gdpr_question"="Due to the European law GDPR (effective May 25 2018), we'd like to ask you a question.\nDo you allow us to share diagnostic data with fabric.io?";
 
 /* Product descriptions */
 "product_surname"="Surname";

@@ -34,6 +34,7 @@ public struct Cons {
         static let deviceToken                              = "deviceToken"                         // Stored in keychain
         static let imUserId                                 = "imUserId"                            // Stored in NSUserDefaults
         static let imAuthToken                              = "imAuthToken"                         // Stored in NSUserDefaults
+        static let isGDPRAccepted                           = "isGDPRAccepted"                      // Stored in NSUserDefaults
         static let roleCode                                 = "roleCode"
         static let DidRegisterForRemoteNotifications        = "DidRegisterForRemoteNotifications"
         static let genderSecret                             = 1

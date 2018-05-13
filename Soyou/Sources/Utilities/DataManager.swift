@@ -288,6 +288,14 @@ class DataManager {
         })
     }
     
+    func setGDPR(_ value: Bool, _ completion: CompletionClosure?) {
+        RequestManager.shared.setGDPR(value, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
     //////////////////////////////////////
     // MARK: Products
     //////////////////////////////////////

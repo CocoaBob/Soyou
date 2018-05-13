@@ -332,3 +332,54 @@ extension UserManager {
         }
     }
 }
+
+// GDPR
+extension UserManager {
+    
+    // User authenticated token
+    var isGDPRAccepted: Bool {
+        get {
+            return UserDefaults.boolForKey(Cons.Usr.isGDPRAccepted)
+        }
+        set {
+            UserDefaults.setObject(newValue, forKey: Cons.Usr.isGDPRAccepted)
+        }
+    }
+    
+    func checkGDPR() {
+        if let userID = self.userID {
+            DataManager.shared.getUserInfo(userID) { response, error in
+                if let response = response as? Dictionary<String, AnyObject>,
+                    let data = response["data"] as? [String: AnyObject] {
+                    // If it's the current user, check if GDPR is accepted
+                    if data["isGDPRAccepted"] is NSNull {
+                        UserManager.shared.askGDPRQuestion() { isAccepted in
+                            if isAccepted {
+                                Fabric.with([Crashlytics.self])
+                                Crashlytics.sharedInstance().setUserIdentifier(UIDevice.current.identifierForVendor?.uuidString)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func askGDPRQuestion(_ completion: ((Bool)->())?) {
+        UIAlertController.presentAlert(message: NSLocalizedString("gdpr_question"),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_no"),
+                                                     style: UIAlertActionStyle.default,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        DataManager.shared.setGDPR(false, nil)
+                                                        UserManager.shared.isGDPRAccepted = false
+                                                        completion?(false)
+                                       }),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_yes"),
+                                                     style: UIAlertActionStyle.default,
+                                                     handler: { (action: UIAlertAction) -> Void in
+                                                        DataManager.shared.setGDPR(true, nil)
+                                                        UserManager.shared.isGDPRAccepted = true
+                                                        completion?(true)
+                                       }))
+    }
+}
