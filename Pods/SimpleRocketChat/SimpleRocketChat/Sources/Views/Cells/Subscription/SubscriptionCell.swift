@@ -36,9 +36,12 @@ final class SubscriptionCell: UITableViewCell {
         guard let subscription = self.subscription else { return }
 
         imageViewAvatar.setImageWithCensorship(with: User.avatarURL(subscription.name),
-                                               placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"),
-                                               options: [.allowInvalidSSLCertificates],
-                                               completed: nil)
+                                               placeholderImage: UIImage(namedInBundle: "SoyouAvatarPlaceholder"),
+                                               options: [.allowInvalidSSLCertificates]) { (_, error, _, _) in
+                                                if error != nil {
+                                                    self.imageViewAvatar.image = UIImage(namedInBundle: "SoyouAvatarPlaceholder")
+                                                }
+        }
 
         labelName.text = subscription.displayName()
 

@@ -22,11 +22,12 @@ final class AvatarView: UIView {
         didSet {
             if let imageURL = imageURL {
                 let options: SDWebImageOptions = [.retryFailed, .scaleDownLargeImages, .highPriority]
-                imageView?.setImageWithCensorship(with: imageURL, placeholderImage: UIImage(namedInBundle: "SoyouImagePlaceholder"), options: options) { [weak self] (_, error, _, _) in
-                    guard error == nil else { return }
-
-                    self?.labelInitials.text = ""
-                    self?.backgroundColor = UIColor.clear
+                imageView?.setImageWithCensorship(with: imageURL,
+                                                  placeholderImage: UIImage(namedInBundle: "SoyouAvatarPlaceholder"),
+                                                  options: options) { (_, error, _, _) in
+                                                    if error != nil {
+                                                        self.imageView?.image = UIImage(namedInBundle: "SoyouAvatarPlaceholder")
+                                                    }
                 }
             }
         }

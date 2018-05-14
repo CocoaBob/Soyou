@@ -1,12 +1,12 @@
 //
-//  BannedKeywords.swift
+//  CensorshipManager.swift
 //  Soyou
 //
 //  Created by CocoaBob on 2018-05-09.
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
-class BannedKeywords {
+class CensorshipManager {
     
     private let kBannedKeywords = "kBannedKeywords"
     private let kAllowedDomains = "kAllowedDomains"
@@ -39,12 +39,12 @@ class BannedKeywords {
         }
     }()
     
-    static let shared = BannedKeywords()
+    static let shared = CensorshipManager()
     static let censoredImage =  UIImage(named: NSLocalizedString("censored_image_name"))!
 }
 
 // MARK: - Methods
-extension BannedKeywords {
+extension CensorshipManager {
     
     func updateFromServer() {
         // Update time inteval should be larger than 1 day
@@ -75,7 +75,7 @@ extension BannedKeywords {
         UserDefaults.setObject(Array(self.allowedDomains), forKey: kAllowedDomains)
     }
     
-    fileprivate func test(_ string: String?) -> Bool {
+    fileprivate func testBannedWord(_ string: String?) -> Bool {
         guard !self.bannedKeywords.isEmpty else { return false }
         guard var string = string else { return false }
         string = String(String.UnicodeScalarView(string.unicodeScalars.filter({ CharacterSet.letters.contains($0) })))
@@ -106,7 +106,7 @@ extension String {
         if self.isEmpty {
             return false
         }
-        return BannedKeywords.shared.test(self)
+        return CensorshipManager.shared.testBannedWord(self)
     }
     
     func censored() -> String {
@@ -119,8 +119,23 @@ extension String {
 
 extension UIImage {
     
+    static let qrDetector = CIDetector(ofType: CIDetectorTypeQRCode, context: CIContext(), options: [CIDetectorAccuracy: CIDetectorAccuracyLow])
+    
+    func detectQRCodes() -> [String]? {
+        guard let ciImage = CIImage(image: self) else { return nil }
+        var codes = [String]()
+        if let features = UIImage.qrDetector?.features(in: ciImage) as? [CIQRCodeFeature] {
+            for feature in features  {
+                if let code = feature.messageString {
+                    codes.append(code)
+                }
+            }
+        }
+        return codes.isEmpty ? nil : codes
+    }
+    
     func isCensoredQRCode() -> Bool {
-        let whitelist = BannedKeywords.shared.allowedDomains
+        let whitelist = CensorshipManager.shared.allowedDomains
         if let codes = self.detectQRCodes() {
             for code in codes {
                 for link in whitelist {
@@ -136,7 +151,7 @@ extension UIImage {
     
     func censored() -> UIImage {
         if self.isCensoredQRCode() {
-            return BannedKeywords.censoredImage
+            return CensorshipManager.censoredImage
         } else {
             return self
         }
@@ -159,7 +174,7 @@ extension UIImageView {
                             var finalImage = image
 //                            DispatchQueue.global(qos: .default).async {
                                 if image?.isCensoredQRCode() == true {
-                                    finalImage = BannedKeywords.censoredImage
+                                    finalImage = CensorshipManager.censoredImage
                                     SDImageCache.shared().store(finalImage,
                                                                 forKey: SDWebImageManager.shared().cacheKey(for: url),
                                                                 completion: nil)

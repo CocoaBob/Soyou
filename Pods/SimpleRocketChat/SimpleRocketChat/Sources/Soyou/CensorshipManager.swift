@@ -1,5 +1,5 @@
 //
-//  BannedKeywords.swift
+//  CensorshipManager.swift
 //  Soyou
 //
 //  Created by CocoaBob on 2018-05-09.
@@ -10,15 +10,25 @@ import Foundation
 import UIKit
 import SDWebImage
 
-class BannedKeywords {
+class CensorshipManager {
     
     private let kBannedKeywords = "kBannedKeywords"
+    private let kAllowedDomains = "kAllowedDomains"
     private let kLastUpdateDate = "kLastUpdateDate"
     
     private lazy var keywords: Set<String> = {
         let storedKeywords = UserDefaults.standard.object(forKey: kBannedKeywords) as? [String]
         if let storedKeywords = storedKeywords {
             return Set(storedKeywords)
+        } else {
+            return Set<String>()
+        }
+    }()
+    
+    fileprivate lazy var allowedDomains: Set<String> = {
+        let storedData = UserDefaults.standard.object(forKey: kAllowedDomains) as? [String]
+        if let storedData = storedData {
+            return Set(storedData)
         } else {
             return Set<String>()
         }
@@ -33,14 +43,14 @@ class BannedKeywords {
         }
     }()
     
-    static let shared = BannedKeywords()
-    static let replacedImage = UIImage(namedInBundle: "SoyouImagePlaceholder2")!
+    static let shared = CensorshipManager()
+    static let censoredImage = UIImage(namedInBundle: localized("censored_image_name"))!
 }
 
 // MARK: - Methods
-extension BannedKeywords {
+extension CensorshipManager {
     
-    fileprivate func test(_ string: String?) -> Bool {
+    fileprivate func testBannedWord(_ string: String?) -> Bool {
         guard !self.keywords.isEmpty else { return false }
         guard var string = string else { return false }
         string = String(String.UnicodeScalarView(string.unicodeScalars.filter({ CharacterSet.letters.contains($0) })))
@@ -76,7 +86,7 @@ extension String {
         if self.isEmpty {
             return false
         }
-        return BannedKeywords.shared.test(self)
+        return CensorshipManager.shared.testBannedWord(self)
     }
     
     func censored() -> String {
@@ -89,31 +99,39 @@ extension String {
 
 extension UIImage {
     
-    func detectQRCode() -> String? {
+    static let qrDetector = CIDetector(ofType: CIDetectorTypeQRCode, context: CIContext(), options: [CIDetectorAccuracy: CIDetectorAccuracyLow])
+    
+    func detectQRCodes() -> [String]? {
         guard let ciImage = CIImage(image: self) else { return nil }
-        let context = CIContext()
-        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: context, options: nil)
-        if let features = detector?.features(in: ciImage) as? [CIQRCodeFeature] {
+        var codes = [String]()
+        if let features = UIImage.qrDetector?.features(in: ciImage) as? [CIQRCodeFeature] {
             for feature in features  {
-                if let decodedString = feature.messageString {
-                    return decodedString
+                if let code = feature.messageString {
+                    codes.append(code)
                 }
             }
         }
-        return nil
+        return codes.isEmpty ? nil : codes
     }
     
-    func containsNonSoyouLink() -> Bool {
-        if let content = self.detectQRCode(), // If it's QR code
-            content.range(of: "soyou.io") == nil { // But its content isn't soyou.io
-            return true
+    func isCensoredQRCode() -> Bool {
+        let whitelist = CensorshipManager.shared.allowedDomains
+        if let codes = self.detectQRCodes() {
+            for code in codes {
+                for link in whitelist {
+                    if code.range(of: link) != nil {
+                        return false
+                    }
+                }
+            }
+            return true // All QR Code are banned
         }
         return false
     }
     
     func censored() -> UIImage {
-        if self.containsNonSoyouLink() {
-            return BannedKeywords.replacedImage
+        if self.isCensoredQRCode() {
+            return CensorshipManager.censoredImage
         } else {
             return self
         }
@@ -134,18 +152,18 @@ extension UIImageView {
                          options: newOptions,
                          progress: progressBlock) { (image, error, cacheType, url) in
                             var finalImage = image
-                            DispatchQueue.global(qos: .default).async {
-                                if image?.containsNonSoyouLink() == true {
-                                    finalImage = BannedKeywords.replacedImage
+//                            DispatchQueue.global(qos: .default).async {
+                                if image?.isCensoredQRCode() == true {
+                                    finalImage = CensorshipManager.censoredImage
                                     SDImageCache.shared().store(finalImage,
                                                                 forKey: SDWebImageManager.shared().cacheKey(for: url),
                                                                 completion: nil)
                                 }
-                                DispatchQueue.main.async {
+//                                DispatchQueue.main.async {
                                     self.image = finalImage
                                     completedBlock?(finalImage, error, cacheType, url)
-                                }
-                            }
+//                                }
+//                            }
         }
     }
 }

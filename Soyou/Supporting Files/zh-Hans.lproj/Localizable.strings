@@ -359,7 +359,7 @@
 "forbidden_content"="***";
 "forbidden_content_alert"="请移除违规内容";
 "forbidden_qr_code_alert"="违规二维码";
-"gdpr_question"="我们一直致力于保护所有『奢有』用户的隐私，为了给您提供更好的服务, 我们会将您使用『奢有』时的诊断数据匿名地发送给 fabric.io，这将会为我们修复各种可能的 bug 提供极大的帮助。\n您是否同意？";
+"gdpr_question"="我们一直致力于保护所有『奢有』用户的隐私，为了给您提供更好的服务, 我们将会把『奢有』的诊断数据匿名地发送给 fabric.io，为将来修复各种可能的 bug 提供极大的帮助。您是否同意？如果您选择『否』的话，我们将不发送诊断数据。";
 "censored_image_name"="img_censored_content_zh";
 
 /* Product descriptions */

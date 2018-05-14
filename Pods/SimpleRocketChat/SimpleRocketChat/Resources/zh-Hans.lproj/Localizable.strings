@@ -241,3 +241,4 @@
 "forbidden_content_alert"="请移除违规内容";
 "forbidden_qr_code_alert"="违规二维码";
 "alert_button_ok"="确认";
+"censored_image_name"="SoyouAvatarCensoredContent_zh";

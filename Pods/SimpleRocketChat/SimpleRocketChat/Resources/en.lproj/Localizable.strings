@@ -241,3 +241,4 @@
 "forbidden_content_alert"="Please remove unaccepted content";
 "forbidden_qr_code_alert"="Unaccepted QR Code";
 "alert_button_ok"="OK";
+"censored_image_name"="SoyouAvatarCensoredContent_en";

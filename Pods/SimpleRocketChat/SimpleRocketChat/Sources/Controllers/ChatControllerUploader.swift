@@ -100,7 +100,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
 
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            if image.containsNonSoyouLink() {
+            if image.isCensoredQRCode() {
                 let alertController = UIAlertController(title: nil, message: localized("forbidden_qr_code_alert"), preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: localized("alert_button_ok"),
                                                         style: UIAlertActionStyle.default,

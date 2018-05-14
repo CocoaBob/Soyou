@@ -311,7 +311,7 @@ extension AppDelegate {
         CurrencyManager.shared.updateCurrencyRates(CurrencyManager.shared.userCurrency, nil)
         
         // Banned Keywords
-        BannedKeywords.shared.updateFromServer()
+        CensorshipManager.shared.updateFromServer()
         
         // Check if the user token is valid
         if UserManager.shared.isLoggedIn {

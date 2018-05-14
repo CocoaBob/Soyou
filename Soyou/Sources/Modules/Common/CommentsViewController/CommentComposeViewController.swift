@@ -89,7 +89,7 @@ extension CommentComposeViewController {
         if comment.count == 0 {
             return
         }
-        BannedKeywords.censorThenDo(comment) {
+        CensorshipManager.censorThenDo(comment) {
             UserManager.shared.loginOrDo {
                 comment = self.tvContent.text.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? comment
                 self.commentCreator?(self.infoID, self.replyToComment?.id, comment) { (responseObject, error) in

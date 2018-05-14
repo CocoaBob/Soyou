@@ -409,7 +409,7 @@ public final class ChatViewController: SLKTextViewController {
     override public func didPressRightButton(_ sender: Any?) {
         guard let messageText = textView.text else { return }
 
-        BannedKeywords.censorThenDo(messageText) {
+        CensorshipManager.censorThenDo(messageText) {
             self.resetMessageSending()
             self.scrollToBottom()
             

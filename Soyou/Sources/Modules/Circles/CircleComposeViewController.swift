@@ -227,8 +227,8 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                 }
                 if let image = tlphAsset.fullResolutionImage {
                     if image.isCensoredQRCode() {
-                        cell.imageView.image = BannedKeywords.censoredImage
-                        tlphAsset.fullResolutionImage = BannedKeywords.censoredImage
+                        cell.imageView.image = CensorshipManager.censoredImage
+                        tlphAsset.fullResolutionImage = CensorshipManager.censoredImage
                     } else {
                         cell.imageView.image = image
                     }
@@ -247,8 +247,8 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                     }, completionBlock: { (image) in
                         if let image = image {
                             if image.isCensoredQRCode() {
-                                cell.imageView.image = BannedKeywords.censoredImage
-                                tlphAsset.fullResolutionImage = BannedKeywords.censoredImage
+                                cell.imageView.image = CensorshipManager.censoredImage
+                                tlphAsset.fullResolutionImage = CensorshipManager.censoredImage
                             } else {
                                 tlphAsset.fullResolutionImage = image
                                 cell.imageView.image = image
@@ -396,7 +396,7 @@ extension CircleComposeViewController {
     @IBAction func post() {
         if self.submitToSoyou.isOn {
             let text = self.tvContent.text
-            BannedKeywords.censorThenDo(text) {
+            CensorshipManager.censorThenDo(text) {
                 MBProgressHUD.show(self.view)
                 self.navigationItem.rightBarButtonItem?.isEnabled = false
                 UserManager.shared.loginOrDo {

@@ -134,11 +134,11 @@ extension CirclesTableViewCell {
                 var photo: IDMPhoto?
                 var isForbiddenImage = false
                 if let cachedThumbnailImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: thumbnailURL)) {
-                    isForbiddenImage = cachedThumbnailImage == BannedKeywords.censoredImage
+                    isForbiddenImage = cachedThumbnailImage == CensorshipManager.censoredImage
                 }
                 if isForbiddenImage {
-                    photo = IDMPhoto(image: BannedKeywords.censoredImage)
-                    scaleImage = BannedKeywords.censoredImage
+                    photo = IDMPhoto(image: CensorshipManager.censoredImage)
+                    scaleImage = CensorshipManager.censoredImage
                 } else {
                     if let cachedOriginalImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: originalURL)) {
                         photo = IDMPhoto(image: cachedOriginalImage)

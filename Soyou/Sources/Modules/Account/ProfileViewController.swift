@@ -151,7 +151,7 @@ extension ProfileViewController {
         // Handler
         simpleViewController.completion = { () -> () in
             if let editedText = simpleViewController.editedText {
-                BannedKeywords.censorThenDo(editedText) {
+                CensorshipManager.censorThenDo(editedText) {
                     let username = editedText.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics) ?? editedText
                     MBProgressHUD.show()
                     DataManager.shared.modifyUserInfo("username", username) { responseObject, error in
