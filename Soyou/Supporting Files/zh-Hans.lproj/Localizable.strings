@@ -359,7 +359,7 @@
 "forbidden_content"="***";
 "forbidden_content_alert"="请移除违规内容";
 "forbidden_qr_code_alert"="违规二维码";
-"gdpr_question"="鉴于《欧盟数据保护条例》（于2018年5月25日生效），我们需要问您一个问题。\n您是否允许我们分享诊断数据给 fabric.io ？";
+"gdpr_question"="我们一直致力于保护所有『奢有』用户的隐私，为了给您提供更好的服务, 我们会将您使用『奢有』时的诊断数据匿名地发送给 fabric.io，这将会为我们修复各种可能的 bug 提供极大的帮助。\n您是否同意？";
 "censored_image_name"="img_censored_content_zh";
 
 /* Product descriptions */

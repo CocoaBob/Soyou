@@ -360,7 +360,7 @@
 "forbidden_content"="***";
 "forbidden_content_alert"="Please remove unaccepted content";
 "forbidden_qr_code_alert"="Unaccepted QR Code";
-"gdpr_question"="Due to the European law GDPR (effective May 25 2018), we'd like to ask you a question.\nDo you allow us to share diagnostic data with fabric.io?";
+"gdpr_question"="As a Soyou user, your privacy is very important to us. To offer a better user experience, we would like to anonymously share your diagnostic data to fabric.io, which will help us a lot to fix potential bugs.\nDo you agree with that?";
 "censored_image_name"="img_censored_content_en";
 
 /* Product descriptions */
