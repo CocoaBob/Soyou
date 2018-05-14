@@ -172,7 +172,7 @@ DEPENDENCIES:
   - MobilePlayer
   - MXParallaxHeader (from `git://github.com/maxep/MXParallaxHeader`, branch `master`)
   - NYSegmentedControl
-  - OOPhotoBrowser (from `git://github.com/CocoaBob/OOPhotoBrowser`, branch `master`)
+  - OOPhotoBrowser (from `git://github.com/CocoaBob/OOPhotoBrowser`, commit `afef9d302ef35952d58c6099492f650890531c58`)
   - PageMenu (from `git://github.com/JoeFerrucci/PageMenu`, branch `master`)
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, branch `master`)
   - QRCode
@@ -205,7 +205,7 @@ EXTERNAL SOURCES:
     :branch: master
     :git: git://github.com/maxep/MXParallaxHeader
   OOPhotoBrowser:
-    :branch: master
+    :commit: afef9d302ef35952d58c6099492f650890531c58
     :git: git://github.com/CocoaBob/OOPhotoBrowser
   PageMenu:
     :branch: master
@@ -241,7 +241,7 @@ CHECKOUT OPTIONS:
     :commit: b7ce136ed737eb5b45faebb26556918e82ec91ea
     :git: git://github.com/maxep/MXParallaxHeader
   OOPhotoBrowser:
-    :commit: 620b9132173059f2efafbedea4556c889dc383bd
+    :commit: afef9d302ef35952d58c6099492f650890531c58
     :git: git://github.com/CocoaBob/OOPhotoBrowser
   PageMenu:
     :commit: 06519bbb372a7ad52fb693992f1ef5e1643c68dd
@@ -335,6 +335,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: a574049822f53918d8773fc2523acf83fa8fac8d
+PODFILE CHECKSUM: c2124e8792c4320e24bf626e7b00cc794b8f49c1
 
 COCOAPODS: 1.4.0

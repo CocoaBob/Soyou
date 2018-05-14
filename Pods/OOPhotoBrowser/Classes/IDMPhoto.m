@@ -23,7 +23,7 @@
 }
 
 // Properties
-@property (nonatomic, strong) UIImage *underlyingImage;
+@property (nonatomic, strong, nullable) UIImage *underlyingImage;
 
 // Methods
 - (void)imageLoadingComplete;
@@ -120,7 +120,7 @@ caption = _caption;
 
 #pragma mark IDMPhoto Protocol Methods
 
-- (UIImage *)underlyingImage {
+- (nullable UIImage *)underlyingImage {
     return _underlyingImage;
 }
 

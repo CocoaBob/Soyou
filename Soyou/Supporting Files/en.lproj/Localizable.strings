@@ -360,7 +360,7 @@
 "forbidden_content"="***";
 "forbidden_content_alert"="Please remove unaccepted content";
 "forbidden_qr_code_alert"="Unaccepted QR Code";
-"gdpr_question"="User's privacy is very important for us. To offer a better user experience, we would like to anonymously share your diagnostic data to fabric.io, which will help us a lot to fix any potential bugs. Do you agree with that? If you choose NO, we won't send the diagnostic data";
+"gdpr_question"="User's privacy is very important for us. To offer a better user experience, we would like to anonymously share your diagnostic data to fabric.io, which will help us to fix any potential bugs in the future. Do you agree with that? If you choose NO, we won't send the diagnostic data.";
 "censored_image_name"="img_censored_content_en";
 
 /* Product descriptions */
