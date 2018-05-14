@@ -61,7 +61,7 @@ class MembersTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imgUser.sd_cancelCurrentImageLoad()
-        self.imgUser.image = nil
+        self.imgUser.image = UIImage(named: "img_avatar_placeholder")
         self.imgUserBadge?.isHidden = true
         self.lblName.text = nil
     }
@@ -76,10 +76,10 @@ extension MembersTableViewCell {
         }
         if let profileUrlStr = member.profileUrl, let url = URL(string: profileUrlStr) {
             self.imgUser.setImageWithCensorship(with: url,
-                                                placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                                placeholderImage: UIImage(named: "img_avatar_placeholder"),
                                                 options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
-            self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
+            self.imgUser.image = UIImage(named: "img_avatar_placeholder")
         }
         if let badge = member.badges?.first as? NSDictionary {
             self.imgUserBadge?.isHidden = false

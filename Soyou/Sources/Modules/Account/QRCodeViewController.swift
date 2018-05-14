@@ -69,7 +69,7 @@ extension QRCodeViewController {
         self.containerView.clipsToBounds = false
         // Avatar
         self.imgAvatar.layer.cornerRadius = self.imgAvatar.frame.width / 2.0
-        self.imgAvatar.image = self.avatar ?? UIImage(named: "img_placeholder_1_1_s")
+        self.imgAvatar.image = self.avatar ?? UIImage(named: "img_avatar_placeholder")
         
         // Name
         self.lblName.text = self.name

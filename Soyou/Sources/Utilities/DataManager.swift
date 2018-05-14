@@ -1101,8 +1101,8 @@ class DataManager {
     // MARK: MISC
     //////////////////////////////////////
     
-    func getBannedKeywords(_ completion: CompletionClosure?) {
-        RequestManager.shared.getBannedKeywords({ responseObject in
+    func getCheckList(_ completion: CompletionClosure?) {
+        RequestManager.shared.getCheckList({ responseObject in
             self.completeWithData(responseObject, completion: completion)
         }, { error in
             self.completeWithError(error, completion: nil)

@@ -69,7 +69,7 @@ extension InvitationSuccessViewController {
     fileprivate func setupViews() {
         // Avatar
         self.imgAvatar.setImageWithCensorship(with: self.profileUrl,
-                                              placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                              placeholderImage: UIImage(named: "img_avatar_placeholder"),
                                               options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                               completed: nil)
         

@@ -78,7 +78,7 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imgUser.sd_cancelCurrentImageLoad()
-        self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
+        self.imgUser.image = UIImage(named: "img_avatar_placeholder")
         self.imgUserBadge.isHidden = true
         self.lblUsername.text = nil
     }
@@ -86,10 +86,10 @@ class RecommendationsCollectionViewCell: UICollectionViewCell {
     func configureCell(_ user: Member) {
         if let profileUrlStr = user.profileUrl, let url = URL(string: profileUrlStr) {
             self.imgUser.setImageWithCensorship(with: url,
-                                                placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                                placeholderImage: UIImage(named: "img_avatar_placeholder"),
                                                 options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
-            self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
+            self.imgUser.image = UIImage(named: "img_avatar_placeholder")
         }
         if let badge = user.badges?.first as? NSDictionary {
             self.imgUserBadge.isHidden = false

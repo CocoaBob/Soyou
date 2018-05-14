@@ -37,9 +37,9 @@ extension CirclesTableViewCell {
         guard let circleId = self.circle?.id else {
             return
         }
-        DataManager.shared.likeCircle(circleId, wasLiked: self.isLiked) { (response, error) in
-            if let response = response,
-                let data = DataManager.getResponseData(response) as? NSArray {
+        DataManager.shared.likeCircle(circleId, wasLiked: self.isLiked) { (responseObject, error) in
+            if let responseObject = responseObject,
+                let data = DataManager.getResponseData(responseObject) as? NSArray {
                 self.circle?.likes = data
                 self.configureLikes(data)
                 UIView.setAnimationsEnabled(false)

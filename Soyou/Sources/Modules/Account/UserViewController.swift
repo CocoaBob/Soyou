@@ -290,7 +290,7 @@ class UserProfileTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.imgAvatar.image = UIImage(named: "img_placeholder_1_1_s")
+        self.imgAvatar.image = UIImage(named: "img_avatar_placeholder")
         self.lblName.text = nil
         self.lblSoyouID.text = nil
     }
@@ -302,7 +302,7 @@ class UserProfileTableViewCell: UITableViewCell {
                 options = [.refreshCached, .continueInBackground, .allowInvalidSSLCertificates]
             }
             self.imgAvatar.sd_setImage(with: url,
-                                       placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                       placeholderImage: UIImage(named: "img_avatar_placeholder"),
                                        options: options,
                                        completed: nil)
         } else {

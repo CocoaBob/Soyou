@@ -65,7 +65,7 @@ class CirclesTableViewCell: UITableViewCell {
         super.prepareForReuse()
         self.imgURLs = nil
         self.imgUser.sd_cancelCurrentImageLoad()
-        self.imgUser.image = nil
+        self.imgUser.image = UIImage(named: "img_avatar_placeholder")
         self.imgUserBadge.isHidden = true
         self.btnName.setTitle(nil, for: .normal)
         self.lblContent.text = nil
@@ -98,10 +98,10 @@ extension CirclesTableViewCell {
     func configureProfileImage(_ circle: Circle) {
         if let str = circle.userProfileUrl, let url = URL(string: str) {
             self.imgUser.setImageWithCensorship(with: url,
-                                                placeholderImage: UIImage(named: "img_placeholder_1_1_s"),
+                                                placeholderImage: UIImage(named: "img_avatar_placeholder"),
                                                 options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
-            self.imgUser.image = UIImage(named: "img_placeholder_1_1_s")
+            self.imgUser.image = UIImage(named: "img_avatar_placeholder")
         }
         if let badge = (circle.userBadges as? [NSDictionary])?.first {
             self.imgUserBadge.isHidden = false

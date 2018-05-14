@@ -9,12 +9,22 @@
 class BannedKeywords {
     
     private let kBannedKeywords = "kBannedKeywords"
+    private let kAllowedDomains = "kAllowedDomains"
     private let kLastUpdateDate = "kLastUpdateDate"
     
-    private lazy var keywords: Set<String> = {
-        let storedKeywords = UserDefaults.objectForKey(kBannedKeywords) as? [String]
-        if let storedKeywords = storedKeywords {
-            return Set(storedKeywords)
+    private lazy var bannedKeywords: Set<String> = {
+        let storedData = UserDefaults.objectForKey(kBannedKeywords) as? [String]
+        if let storedData = storedData {
+            return Set(storedData)
+        } else {
+            return Set<String>()
+        }
+    }()
+    
+    fileprivate lazy var allowedDomains: Set<String> = {
+        let storedData = UserDefaults.objectForKey(kAllowedDomains) as? [String]
+        if let storedData = storedData {
+            return Set(storedData)
         } else {
             return Set<String>()
         }
@@ -41,25 +51,35 @@ extension BannedKeywords {
         if self.updateDate.timeIntervalSinceNow > -86400 {
             return
         }
-        DataManager.shared.getBannedKeywords { (response, error) in
-            if let response = response,
-                let data = DataManager.getResponseData(response) as? [String] {
-                self.update(data)
+        DataManager.shared.getCheckList { (responseObject, error) in
+            if let responseObject = responseObject,
+                let data = DataManager.getResponseData(responseObject) as? [String: Any] {
+                if let values = data["bannedKeywords"] as? [String] {
+                    self.updateBannedKeywords(values)
+                }
+                if let values = data["allowedDomains"] as? [String] {
+                    self.updateAllowedDomains(values)
+                }
+                UserDefaults.setObject(Date(), forKey: self.kLastUpdateDate)
             }
         }
     }
     
-    private func update(_ keywords: [String]) {
-        self.keywords = self.keywords.union(keywords)
-        UserDefaults.setObject(Array(self.keywords), forKey: kBannedKeywords)
-        UserDefaults.setObject(Date(), forKey: kLastUpdateDate)
+    private func updateBannedKeywords(_ values: [String]) {
+        self.bannedKeywords = self.bannedKeywords.union(values)
+        UserDefaults.setObject(Array(self.bannedKeywords), forKey: kBannedKeywords)
+    }
+    
+    private func updateAllowedDomains(_ values: [String]) {
+        self.allowedDomains = self.allowedDomains.union(values)
+        UserDefaults.setObject(Array(self.allowedDomains), forKey: kAllowedDomains)
     }
     
     fileprivate func test(_ string: String?) -> Bool {
-        guard !self.keywords.isEmpty else { return false }
+        guard !self.bannedKeywords.isEmpty else { return false }
         guard var string = string else { return false }
         string = String(String.UnicodeScalarView(string.unicodeScalars.filter({ CharacterSet.letters.contains($0) })))
-        for keyword in self.keywords {
+        for keyword in self.bannedKeywords {
             if string.contains(keyword) {
                 return true
             }
@@ -100,7 +120,7 @@ extension String {
 extension UIImage {
     
     func isCensoredQRCode() -> Bool {
-        let whitelist = ["soyou.io"]
+        let whitelist = BannedKeywords.shared.allowedDomains
         if let codes = self.detectQRCodes() {
             for code in codes {
                 for link in whitelist {
@@ -137,18 +157,18 @@ extension UIImageView {
                          options: newOptions,
                          progress: progressBlock) { (image, error, cacheType, url) in
                             var finalImage = image
-                            DispatchQueue.global(qos: .default).async {
+//                            DispatchQueue.global(qos: .default).async {
                                 if image?.isCensoredQRCode() == true {
                                     finalImage = BannedKeywords.censoredImage
                                     SDImageCache.shared().store(finalImage,
                                                                 forKey: SDWebImageManager.shared().cacheKey(for: url),
                                                                 completion: nil)
                                 }
-                                DispatchQueue.main.async {
+//                                DispatchQueue.main.async {
                                     self.image = finalImage
                                     completedBlock?(finalImage, error, cacheType, url)
-                                }
-                            }
+//                                }
+//                            }
         }
     }
 }
