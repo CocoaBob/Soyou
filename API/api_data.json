@@ -53,150 +53,6 @@
             "type": "String",
             "optional": false,
             "field": "device",
-            "description": "<p>Possible values: iOS, Android.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "action",
-            "description": "<p>Possible values: 1(view), 2(like), 3(favorite), 4(share), 5(search), 6(launch).</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "data",
-            "description": "<p>Possible values: id(view, like, share, favorite), scope|keywords(search), null(launch).</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "operatedAt",
-            "description": "<p>User manipulation UTC time.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "uuid",
-            "description": "<p>Device uuid.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>empty object.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {}\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v2/analytics.js",
-    "groupTitle": "Analytics",
-    "name": "PostApiAnalytics"
-  },
-  {
-    "type": "post",
-    "url": "/api/analytics",
-    "title": "Send user manipulation data",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Analytics\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Analytics",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "target",
-            "description": "<p>Possible values: 1(News), 2(Products), 3(app: log usage of the app), 4(Discounts).</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "device",
             "description": "<p>Possible values: iOS, Android, Web</p>"
           },
           {
@@ -284,6 +140,150 @@
     },
     "version": "0.0.0",
     "filename": "routes/v1/analytics.js",
+    "groupTitle": "Analytics",
+    "name": "PostApiAnalytics"
+  },
+  {
+    "type": "post",
+    "url": "/api/analytics",
+    "title": "Send user manipulation data",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Analytics\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Analytics",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "target",
+            "description": "<p>Possible values: 1(News), 2(Products), 3(app: log usage of the app), 4(Discounts).</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "device",
+            "description": "<p>Possible values: iOS, Android.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "action",
+            "description": "<p>Possible values: 1(view), 2(like), 3(favorite), 4(share), 5(search), 6(launch).</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Possible values: id(view, like, share, favorite), scope|keywords(search), null(launch).</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "operatedAt",
+            "description": "<p>User manipulation UTC time.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "uuid",
+            "description": "<p>Device uuid.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>empty object.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {}\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/analytics.js",
     "groupTitle": "Analytics",
     "name": "PostApiAnalytics"
   },
@@ -379,7 +379,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "GetApiAuthActivateAccountActivationcode"
   },
@@ -475,7 +475,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "GetApiAuthActivateAccountActivationcode"
   },
@@ -870,7 +870,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"id\": user.userId,\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"profileUrl\": \"url\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"membershipExpireDate\": user.membershipExpireDate,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\",\n             \"badges\": [{\n                 \"id\": 1,\n                 \"type\": \"Sales\",\n                 \"content\": \"老佛爷1楼\"\n             }],\n             \"totalImgCount\": user.totalImgCount,\n             \"totalArticleCount\": user.totalArticleCount,\n             \"totalInvitationCount\": user.totalInvitationCount,\n             \"points\": 0,\n             \"isGDPRAccepted\": true,\n             \"thirds\": [\n                 {\n                     \"type\": \"google\",\n                     \"username\": \"Jiyun YANG\",\n                     \"profileUrl\": \"profileUrl\"\n                 },\n                 {\n                     \"type\": \"qq\",\n                     \"username\": \"Jiyun\",\n                     \"profileUrl\": \"profileUrl\"\n                 }\n             ]\n          }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\"\n          }\n}",
           "type": "json"
         }
       ]
@@ -901,7 +901,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthLogin"
   },
@@ -993,7 +993,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\"\n          }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"Login succeeded\",\n   \"data\":{\n             \"id\": user.userId,\n             \"token\":\"asdfa\",\n             \"username\": \"sfwef\",\n             \"profileUrl\": \"url\",\n             \"gender\": \"1\",\n             \"matricule\": 666666,\n             \"membershipExpireDate\": user.membershipExpireDate,\n             \"roleCode\":\"dffe\",\n             \"region\":\"中国\",\n             \"badges\": [{\n                 \"id\": 1,\n                 \"type\": \"Sales\",\n                 \"content\": \"老佛爷1楼\"\n             }],\n             \"language\": [{\n                 \"order\": 1,\n                 \"code\": \"zh\"\n             }],\n             \"totalImgCount\": user.totalImgCount,\n             \"totalArticleCount\": user.totalArticleCount,\n             \"totalInvitationCount\": user.totalInvitationCount,\n             \"points\": 0,\n             \"isGDPRAccepted\": true,\n             \"isAvailableInSearchResult\": true,\n             \"thirds\": [\n                 {\n                     \"type\": \"google\",\n                     \"username\": \"Jiyun YANG\",\n                     \"profileUrl\": \"profileUrl\"\n                 },\n                 {\n                     \"type\": \"qq\",\n                     \"username\": \"Jiyun\",\n                     \"profileUrl\": \"profileUrl\"\n                 }\n             ]\n          }\n}",
           "type": "json"
         }
       ]
@@ -1024,7 +1024,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthLogin"
   },
@@ -1204,7 +1204,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthLogout"
   },
@@ -1294,7 +1294,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthLogout"
   },
@@ -1763,157 +1763,6 @@
     "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthRegister"
-  },
-  {
-    "type": "post",
-    "url": "/api/auth/third",
-    "title": "login by third party",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Auth\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Authentication",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "type",
-            "description": "<p>the name of the third party (possible values: sinaweibo, ...).</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "accessToken",
-            "description": "<p>the access token</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "thirdId",
-            "description": "<p>the thirdId</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "uuid",
-            "description": "<p>the device uuid</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "username",
-            "description": "<p>the access token</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Enum",
-            "optional": false,
-            "field": "gender",
-            "description": "<p>, possible values &quot;1&quot;: neutral, &quot;2&quot;: male, &quot;3&quot;: female</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "profileUrl",
-            "description": "<p>the profileUrl</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The granted user info..</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n          \"id\": user.userId,\n          \"token\": \"162f97cd1a0176eade5f54aa\",\n          \"username\": \"hh\",\n          \"profileUrl\": \"url\",\n          \"gender\": \"0\",\n          \"matricule\": 100074,\n          \"membershipExpireDate\": user.membershipExpireDate,\n          \"roleCode\": \"Basic\",\n          \"region\": null,\n          \"badges\": [{\n              \"id\": 1,\n              \"type\": \"Sales\",\n              \"content\": \"老佛爷1楼\"\n           }],\n          \"totalImgCount\": user.totalImgCount,\n          \"totalArticleCount\": user.totalArticleCount,\n          \"totalInvitationCount\": user.totalInvitationCount,\n          \"points\": 0,\n          \"isGDPRAccepted\": true,\n          \"thirds\": [\n              {\n                  \"type\": \"google\",\n                  \"username\": \"Jiyun YANG\",\n                  \"profileUrl\": \"profileUrl\"\n              },\n              {\n                     \"type\": \"qq\",\n                     \"username\": \"Jiyun\",\n                     \"profileUrl\": \"profileUrl\"\n              }\n          ]\n   }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}\n\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"incorrect_third_token\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
-    "groupTitle": "Authentication",
-    "name": "PostApiAuthThird"
   },
   {
     "type": "post",
@@ -2061,6 +1910,157 @@
   },
   {
     "type": "post",
+    "url": "/api/auth/third",
+    "title": "login by third party",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Auth\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Authentication",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>the name of the third party (possible values: sinaweibo, ...).</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "accessToken",
+            "description": "<p>the access token</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "thirdId",
+            "description": "<p>the thirdId</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "uuid",
+            "description": "<p>the device uuid</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>the access token</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Enum",
+            "optional": false,
+            "field": "gender",
+            "description": "<p>, possible values &quot;1&quot;: neutral, &quot;2&quot;: male, &quot;3&quot;: female</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "profileUrl",
+            "description": "<p>the profileUrl</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The granted user info..</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n          \"id\": user.userId,\n          \"token\": \"162f97cd1a0176eade5f54aa\",\n          \"username\": \"hh\",\n          \"profileUrl\": \"url\",\n          \"gender\": \"0\",\n          \"matricule\": 100074,\n          \"membershipExpireDate\": user.membershipExpireDate,\n          \"roleCode\": \"Basic\",\n          \"region\": null,\n          \"badges\": [{\n              \"id\": 1,\n              \"type\": \"Sales\",\n              \"content\": \"老佛爷1楼\"\n           }],\n          \"language\": [{\n              \"order\": 1,\n              \"code\": \"zh\"\n           }],\n          \"totalImgCount\": user.totalImgCount,\n          \"totalArticleCount\": user.totalArticleCount,\n          \"totalInvitationCount\": user.totalInvitationCount,\n          \"points\": 0,\n          \"isGDPRAccepted\": true,\n          \"isAvailableInSearchResult\": true,\n          \"thirds\": [\n              {\n                  \"type\": \"google\",\n                  \"username\": \"Jiyun YANG\",\n                  \"profileUrl\": \"profileUrl\"\n              },\n              {\n                     \"type\": \"qq\",\n                     \"username\": \"Jiyun\",\n                     \"profileUrl\": \"profileUrl\"\n              }\n          ]\n   }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}\n\nHTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\": [\n         \"incorrect_third_token\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/authentication.js",
+    "groupTitle": "Authentication",
+    "name": "PostApiAuthThird"
+  },
+  {
+    "type": "post",
     "url": "/api/auth/verify-code",
     "title": "Request verify code",
     "header": {
@@ -2164,7 +2164,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/authentication.js",
+    "filename": "routes/v2/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthVerifyCode"
   },
@@ -2273,7 +2273,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/authentication.js",
+    "filename": "routes/v1/authentication.js",
     "groupTitle": "Authentication",
     "name": "PostApiAuthVerifyCode"
   },
@@ -3467,7 +3467,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/currencies.js",
+    "filename": "routes/v1/currencies.js",
     "groupTitle": "Currency",
     "name": "GetApiCurrencyratesQuery"
   },
@@ -3576,7 +3576,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/currencies.js",
+    "filename": "routes/v2/currencies.js",
     "groupTitle": "Currency",
     "name": "GetApiCurrencyratesQuery"
   },
@@ -3691,7 +3691,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "DeleteApiDiscountsCommentsCommentids"
   },
@@ -3806,7 +3806,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "DeleteApiDiscountsCommentsCommentids"
   },
@@ -3915,7 +3915,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsId"
   },
@@ -4024,7 +4024,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsId"
   },
@@ -4147,7 +4147,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdCommentsNumberCommentid"
   },
@@ -4270,7 +4270,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdCommentsNumberCommentid"
   },
@@ -4379,7 +4379,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdExtra"
   },
@@ -4488,7 +4488,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsIdExtra"
   },
@@ -4591,7 +4591,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsLatestNumber"
   },
@@ -4694,7 +4694,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsLatestNumber"
   },
@@ -4810,7 +4810,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsNextNumberId"
   },
@@ -4926,7 +4926,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsNextNumberId"
   },
@@ -5042,7 +5042,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsPreviousNumberId"
   },
@@ -5158,7 +5158,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "GetApiDiscountsPreviousNumberId"
   },
@@ -5744,7 +5744,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/discounts.js",
+    "filename": "routes/v2/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiSecureDiscountsIdLike"
   },
@@ -5866,7 +5866,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/discounts.js",
+    "filename": "routes/v1/discounts.js",
     "groupTitle": "Discounts",
     "name": "PostApiSecureDiscountsIdLike"
   },
@@ -6480,7 +6480,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/favorites.js",
+    "filename": "routes/v1/favorites.js",
     "groupTitle": "Favorite_News",
     "name": "PostApiSecureFavoriteNewsId"
   },
@@ -6590,7 +6590,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/favorites.js",
+    "filename": "routes/v2/favorites.js",
     "groupTitle": "Favorite_News",
     "name": "PostApiSecureFavoriteNewsId"
   },
@@ -7574,6 +7574,96 @@
   },
   {
     "type": "get",
+    "url": "/api/languages",
+    "title": "Request all languages",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Languages\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Languages",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "data",
+            "description": "<p>the language list.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     {\n         id: 1,\n         code: \"zh\",\n         label: \"中文\"\n     }\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/languages.js",
+    "groupTitle": "Languages",
+    "name": "GetApiLanguages"
+  },
+  {
+    "type": "get",
     "url": "/secure/misc/banned-keywords",
     "title": "Gets banned keywords list",
     "header": {
@@ -7643,6 +7733,78 @@
     "filename": "routes/v1/misc.js",
     "groupTitle": "Misc",
     "name": "GetSecureMiscBannedKeywords"
+  },
+  {
+    "type": "get",
+    "url": "/secure/misc/check-list",
+    "title": "Gets banned keywords list and allowed domain list",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Misc\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Misc",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"bannedKeywords\": [\"微信\",\n         \"Vletter\",\n         \"微Letter\"\n     ],\n     \"allowedDomains\":[\n         \"soyou.io\"\n     ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/misc.js",
+    "groupTitle": "Misc",
+    "name": "GetSecureMiscCheckList"
   },
   {
     "type": "delete",
@@ -7755,7 +7917,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "DeleteApiNewsCommentsCommentids"
   },
@@ -7870,7 +8032,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "DeleteApiNewsCommentsCommentids"
   },
@@ -8843,7 +9005,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\":1,\n             \"author\":\"一页\",\n             \"title\":\"包包大科普 - Chanel 经典款Classic Flap 尺寸价格汇总\",\n             \"subtitle\":\"包包大科普 - Chanel 经典款Classic Flap 尺寸价格汇总\",\n             \"image\":\"http://www.geocities.ws/baodating/app/news/imgs/chanel_cf_all_size/cf_four_size.png\",\n             \"datePublication\":\"2015-09-06T00:00:00.000Z\",\n             \"dateModification\":\"2015-09-06T00:00:00.000Z\",\n             \"expireDate\":\"2015-09-06T00:00:00.000Z\"\n          }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\":1,\n             \"author\":\"一页\",\n             \"title\":\"包包大科普 - Chanel 经典款Classic Flap 尺寸价格汇总\",\n             \"image\":\"http://www.geocities.ws/baodating/app/news/imgs/chanel_cf_all_size/cf_four_size.png\",\n             \"datePublication\":\"2015-09-06T00:00:00.000Z\",\n             \"dateModification\":\"2015-09-06T00:00:00.000Z\"\n          }\n    ]\n}",
           "type": "json"
         }
       ]
@@ -8874,7 +9036,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/news.js",
+    "filename": "routes/v2/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsNextNumberId"
   },
@@ -8959,7 +9121,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\":1,\n             \"author\":\"一页\",\n             \"title\":\"包包大科普 - Chanel 经典款Classic Flap 尺寸价格汇总\",\n             \"image\":\"http://www.geocities.ws/baodating/app/news/imgs/chanel_cf_all_size/cf_four_size.png\",\n             \"datePublication\":\"2015-09-06T00:00:00.000Z\",\n             \"dateModification\":\"2015-09-06T00:00:00.000Z\"\n          }\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"\",\n   \"data\":[\n         {\n             \"id\":1,\n             \"author\":\"一页\",\n             \"title\":\"包包大科普 - Chanel 经典款Classic Flap 尺寸价格汇总\",\n             \"subtitle\":\"包包大科普 - Chanel 经典款Classic Flap 尺寸价格汇总\",\n             \"image\":\"http://www.geocities.ws/baodating/app/news/imgs/chanel_cf_all_size/cf_four_size.png\",\n             \"datePublication\":\"2015-09-06T00:00:00.000Z\",\n             \"dateModification\":\"2015-09-06T00:00:00.000Z\",\n             \"expireDate\":\"2015-09-06T00:00:00.000Z\"\n          }\n    ]\n}",
           "type": "json"
         }
       ]
@@ -8990,7 +9152,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/news.js",
+    "filename": "routes/v1/news.js",
     "groupTitle": "News",
     "name": "GetApiNewsNextNumberId"
   },
@@ -10168,7 +10330,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/notification.js",
+    "filename": "routes/v1/notification.js",
     "groupTitle": "Notifications",
     "name": "PostApiNotificationsRegister"
   },
@@ -10284,112 +10446,9 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/notification.js",
+    "filename": "routes/v2/notification.js",
     "groupTitle": "Notifications",
     "name": "PostApiNotificationsRegister"
-  },
-  {
-    "type": "post",
-    "url": "/api/notifications/register-monitor",
-    "title": "Register a device for monitoring the server status",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Notification\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Notifications",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "deviceToken",
-            "description": "<p>The deviceToken.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The product.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": []\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/notification.js",
-    "groupTitle": "Notifications",
-    "name": "PostApiNotificationsRegisterMonitor"
   },
   {
     "type": "post",
@@ -10495,9 +10554,9 @@
     "name": "PostApiNotificationsRegisterMonitor"
   },
   {
-    "type": "delete",
-    "url": "/api/products/comments/:commentIds",
-    "title": "deletes comments",
+    "type": "post",
+    "url": "/api/notifications/register-monitor",
+    "title": "Register a device for monitoring the server status",
     "header": {
       "fields": {
         "Header": [
@@ -10527,21 +10586,21 @@
       "examples": [
         {
           "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Notification\"\n\"authorization\": \"The token\"",
           "type": "String"
         }
       ]
     },
-    "group": "Products",
+    "group": "Notifications",
     "parameter": {
       "fields": {
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Number",
+            "type": "String",
             "optional": false,
-            "field": "commentIds",
-            "description": "<p>The comment ids, for ex: '1, 2'</p>"
+            "field": "deviceToken",
+            "description": "<p>The deviceToken.</p>"
           }
         ]
       }
@@ -10568,7 +10627,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": []\n}",
           "type": "json"
         }
       ]
@@ -10579,35 +10638,23 @@
           {
             "group": "Error 4xx",
             "optional": false,
-            "field": "404",
-            "description": "<p>The resource does not exist.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
             "field": "400",
-            "description": "<p>Bad Request.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
+            "description": "<p>Bad request.</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[]\n}\n\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
-    "groupTitle": "Products",
-    "name": "DeleteApiProductsCommentsCommentids"
+    "filename": "routes/v1/notification.js",
+    "groupTitle": "Notifications",
+    "name": "PostApiNotificationsRegisterMonitor"
   },
   {
     "type": "delete",
@@ -10725,6 +10772,230 @@
     "name": "DeleteApiProductsCommentsCommentids"
   },
   {
+    "type": "delete",
+    "url": "/api/products/comments/:commentIds",
+    "title": "deletes comments",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "commentIds",
+            "description": "<p>The comment ids, for ex: '1, 2'</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The product.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404",
+            "description": "<p>The resource does not exist.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad Request.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[]\n}\n\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/products.js",
+    "groupTitle": "Products",
+    "name": "DeleteApiProductsCommentsCommentids"
+  },
+  {
+    "type": "get",
+    "url": "/api/product/:id",
+    "title": "Request a product by id which must be active",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The product id.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The product.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": 870,\n     \"sku\": \"sdfwef\",\n     \"title\": \"SAC � BANDOULI�RE LILY TWIST EN VISON ET AYERS \",\n     \"brandId\": 5,\n     \"surname\": null,\n     \"keywords\": null,\n     \"brandLabel\": \"DOLCE & GABBANA\",\n     \"reference\": \"BB5948A8710\",\n     \"dimension\": \"20 X 30 X 50\",\n     \"descriptions\":\"<ul><li>Sac avec bandouli�re r�glable et amovible</li></ul>\",\n     \"likeNumber\": 0,\n     \"categories\": \"|1|2|\",\n     \"prices\": [\n         {\n             \"country\": \"??\",\n             \"currency\": \"CNY\",\n             \"officialUrl\": \"http://awefaweff\",\n             \"price\": 1450\n         }\n     ],\n     \"images\": [\n             \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n             \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n             \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n             \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n     ]\n   }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404",
+            "description": "<p>The resource does not exist.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}\nHTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/products.js",
+    "groupTitle": "Products",
+    "name": "GetApiProductId"
+  },
+  {
     "type": "get",
     "url": "/api/product/:id",
     "title": "Request a product by id which must be active",
@@ -10835,8 +11106,8 @@
   },
   {
     "type": "get",
-    "url": "/api/product/:id",
-    "title": "Request a product by id which must be active",
+    "url": "/api/products",
+    "title": "Request all product ids, only active products of active brands will be returned",
     "header": {
       "fields": {
         "Header": [
@@ -10872,19 +11143,6 @@
       ]
     },
     "group": "Products",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>The product id.</p>"
-          }
-        ]
-      }
-    },
     "success": {
       "fields": {
         "Success 200": [
@@ -10900,39 +11158,14 @@
             "type": "Object",
             "optional": false,
             "field": "data",
-            "description": "<p>The product.</p>"
+            "description": "<p>The product list, ordered.</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": 870,\n     \"sku\": \"sdfwef\",\n     \"title\": \"SAC � BANDOULI�RE LILY TWIST EN VISON ET AYERS \",\n     \"brandId\": 5,\n     \"surname\": null,\n     \"keywords\": null,\n     \"brandLabel\": \"DOLCE & GABBANA\",\n     \"reference\": \"BB5948A8710\",\n     \"dimension\": \"20 X 30 X 50\",\n     \"descriptions\":\"<ul><li>Sac avec bandouli�re r�glable et amovible</li></ul>\",\n     \"likeNumber\": 0,\n     \"categories\": \"|1|2|\",\n     \"prices\": [\n         {\n             \"country\": \"??\",\n             \"currency\": \"CNY\",\n             \"officialUrl\": \"http://awefaweff\",\n             \"price\": 1450\n         }\n     ],\n     \"images\": [\n             \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n             \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n             \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n             \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n     ]\n   }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "404",
-            "description": "<p>The resource does not exist.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}\nHTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     1,\n     2\n   ]\n}",
           "type": "json"
         }
       ]
@@ -10940,7 +11173,78 @@
     "version": "0.0.0",
     "filename": "routes/v1/products.js",
     "groupTitle": "Products",
-    "name": "GetApiProductId"
+    "name": "GetApiProducts"
+  },
+  {
+    "type": "get",
+    "url": "/api/products",
+    "title": "Request all product ids, only active products of active brands will be returned",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The product list, ordered.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     1,\n     2\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/products.js",
+    "groupTitle": "Products",
+    "name": "GetApiProducts"
   },
   {
     "type": "get",
@@ -11010,148 +11314,6 @@
     },
     "version": "0.0.0",
     "filename": "routes/v1/products-standby.js",
-    "groupTitle": "Products",
-    "name": "GetApiProducts"
-  },
-  {
-    "type": "get",
-    "url": "/api/products",
-    "title": "Request all product ids, only active products of active brands will be returned",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The product list, ordered.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     1,\n     2\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v2/products.js",
-    "groupTitle": "Products",
-    "name": "GetApiProducts"
-  },
-  {
-    "type": "get",
-    "url": "/api/products",
-    "title": "Request all product ids, only active products of active brands will be returned",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The product list, ordered.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     1,\n     2\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "GetApiProducts"
   },
@@ -11434,7 +11596,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsDeletedTimestamp"
   },
@@ -11537,7 +11699,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsDeletedTimestamp"
   },
@@ -12079,7 +12241,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"likeNumber\": 10,\n     \"isFavorite\": true\n   }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"likeNumber\": 10,\n     \"isFavorite\": 1,\n     \"isLiked\": 1,\n     \"commentNumber\": 5\n   }\n}",
           "type": "json"
         }
       ]
@@ -12110,7 +12272,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products-standby.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsIdExtra"
   },
@@ -12188,7 +12350,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"likeNumber\": 10,\n     \"isFavorite\": 1,\n     \"isLiked\": 1,\n     \"commentNumber\": 5\n   }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"likeNumber\": 10,\n     \"isFavorite\": true\n   }\n}",
           "type": "json"
         }
       ]
@@ -12219,9 +12381,118 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v1/products-standby.js",
     "groupTitle": "Products",
     "name": "GetApiProductsIdExtra"
+  },
+  {
+    "type": "get",
+    "url": "/api/products/:id/translation",
+    "title": "Fetch the translation of a specified product",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The product id.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The result.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"descriptions\": \"????\"\n   }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404",
+            "description": "<p>The resource does not exist.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/products.js",
+    "groupTitle": "Products",
+    "name": "GetApiProductsIdTranslation"
   },
   {
     "type": "get",
@@ -12437,221 +12708,9 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
-    "groupTitle": "Products",
-    "name": "GetApiProductsIdTranslation"
-  },
-  {
-    "type": "get",
-    "url": "/api/products/:id/translation",
-    "title": "Fetch the translation of a specified product",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>The product id.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The result.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": {\n     \"descriptions\": \"????\"\n   }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "404",
-            "description": "<p>The resource does not exist.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
     "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "GetApiProductsIdTranslation"
-  },
-  {
-    "type": "get",
-    "url": "/api/products/:timestamp",
-    "title": "Request all active product ids which have been modified or created after the timestamp",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "timestamp",
-            "description": "<p>The last timestamp, the format is 2015-10-11T21:04:48.000Z.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The results.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"timestamp\": \"2015-10-11T21:04:48.000Z\",\n     \"products\": [\n         1,\n         2\n     ]\n   }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/products.js",
-    "groupTitle": "Products",
-    "name": "GetApiProductsTimestamp"
   },
   {
     "type": "get",
@@ -12860,6 +12919,212 @@
     "name": "GetApiProductsTimestamp"
   },
   {
+    "type": "get",
+    "url": "/api/products/:timestamp",
+    "title": "Request all active product ids which have been modified or created after the timestamp",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "timestamp",
+            "description": "<p>The last timestamp, the format is 2015-10-11T21:04:48.000Z.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The results.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"timestamp\": \"2015-10-11T21:04:48.000Z\",\n     \"products\": [\n         1,\n         2\n     ]\n   }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/products.js",
+    "groupTitle": "Products",
+    "name": "GetApiProductsTimestamp"
+  },
+  {
+    "type": "post",
+    "url": "/api/products",
+    "title": "Request a collection of products which must be active",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "ids",
+            "description": "<p>The product id list.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The product.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     {\n         \"id\": 870,\n         \"sku\": \"sdfawf\",\n         \"title\": \"SAC � BANDOULI�RE LILY TWIST EN VISON ET AYERS \",\n         \"brandId\": 5,\n         \"surname\": null,\n         \"keywords\": null,\n         \"brandLabel\": \"DOLCE & GABBANA\",\n         \"isTranslated\":true,\n         \"reference\": \"BB5948A8710\",\n         \"dimension\": \"20 X 30 X 50\",\n         \"descriptions\":\"<ul><li>Sac avec bandouli�re r�glable et amovible</li></ul>\",\n         \"likeNumber\": 0,\n         \"categories\": \"|1|2|\",\n         \"order\": 0,\n         \"prices\": [\n             {\n                 \"country\": \"??\",\n                 \"currency\": \"CNY\",\n                 \"officialUrl\": \"http://sdfa\",\n                 \"price\": 1450\n             }\n         ],\n         \"images\": [\n                 \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n         ]\n     }\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/products.js",
+    "groupTitle": "Products",
+    "name": "PostApiProducts"
+  },
+  {
     "type": "post",
     "url": "/api/products",
     "title": "Request a collection of products which must be active",
@@ -12961,225 +13226,6 @@
     "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "PostApiProducts"
-  },
-  {
-    "type": "post",
-    "url": "/api/products",
-    "title": "Request a collection of products which must be active",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Array",
-            "optional": false,
-            "field": "ids",
-            "description": "<p>The product id list.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The product.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     {\n         \"id\": 870,\n         \"sku\": \"sdfawf\",\n         \"title\": \"SAC � BANDOULI�RE LILY TWIST EN VISON ET AYERS \",\n         \"brandId\": 5,\n         \"surname\": null,\n         \"keywords\": null,\n         \"brandLabel\": \"DOLCE & GABBANA\",\n         \"isTranslated\":true,\n         \"reference\": \"BB5948A8710\",\n         \"dimension\": \"20 X 30 X 50\",\n         \"descriptions\":\"<ul><li>Sac avec bandouli�re r�glable et amovible</li></ul>\",\n         \"likeNumber\": 0,\n         \"categories\": \"|1|2|\",\n         \"order\": 0,\n         \"prices\": [\n             {\n                 \"country\": \"??\",\n                 \"currency\": \"CNY\",\n                 \"officialUrl\": \"http://sdfa\",\n                 \"price\": 1450\n             }\n         ],\n         \"images\": [\n                 \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n         ]\n     }\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "400",
-            "description": "<p>Bad request.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad request\",\n   \"data\":[\n         \"bad_request\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/products.js",
-    "groupTitle": "Products",
-    "name": "PostApiProducts"
-  },
-  {
-    "type": "post",
-    "url": "/api/products/:id/like",
-    "title": "Like a product deprecated",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Products",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>The product id.</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "operation",
-            "description": "<p>Possible values: +, -.</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "data",
-            "description": "<p>The product.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": 10\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "404",
-            "description": "<p>The resource does not exist.</p>"
-          },
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v1/products.js",
-    "groupTitle": "Products",
-    "name": "PostApiProductsIdLike"
   },
   {
     "type": "post",
@@ -13415,6 +13461,122 @@
   },
   {
     "type": "post",
+    "url": "/api/products/:id/like",
+    "title": "Like a product deprecated",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Products\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Products",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>The product id.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "operation",
+            "description": "<p>Possible values: +, -.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The product.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": 10\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "404",
+            "description": "<p>The resource does not exist.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 404 Not Found\n{\n   \"message\": \"Not Found\",\n   \"data\":[\n         \"not_found\"\n   ]\n}\nHTTP/1.1 400 Bad Request\n{\n   \"message\": \"Bad Request\",\n   \"data\":[\n         \"invalid_operation\"\n   ]\n}\nHTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v1/products.js",
+    "groupTitle": "Products",
+    "name": "PostApiProductsIdLike"
+  },
+  {
+    "type": "post",
     "url": "/api/secure/products/:id/comments/:commentId",
     "title": "Create a comment against a product",
     "header": {
@@ -13783,7 +13945,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/products.js",
+    "filename": "routes/v1/products.js",
     "groupTitle": "Products",
     "name": "PostApiSecureProductsIdLike"
   },
@@ -13899,99 +14061,9 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/products.js",
+    "filename": "routes/v2/products.js",
     "groupTitle": "Products",
     "name": "PostApiSecureProductsIdLike"
-  },
-  {
-    "type": "get",
-    "url": "/api/regions",
-    "title": "Request all regions",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "apiKey",
-            "description": "<p>The app access key</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "api",
-            "description": "<p>The name of api</p>"
-          },
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Regions\"\n\"authorization\": \"The token\"",
-          "type": "String"
-        }
-      ]
-    },
-    "group": "Regions",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Server message.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Array",
-            "optional": false,
-            "field": "data",
-            "description": "<p>the region list.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     {\n         code: \"CN\",\n         currency: \"CNY\"\n     }\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "optional": false,
-            "field": "500",
-            "description": "<p>Server error.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "routes/v2/regions.js",
-    "groupTitle": "Regions",
-    "name": "GetApiRegions"
   },
   {
     "type": "get",
@@ -14084,9 +14156,9 @@
     "name": "GetApiRegions"
   },
   {
-    "type": "post",
-    "url": "/api/search",
-    "title": "Search against a query",
+    "type": "get",
+    "url": "/api/regions",
+    "title": "Request all regions",
     "header": {
       "fields": {
         "Header": [
@@ -14116,53 +14188,12 @@
       "examples": [
         {
           "title": "Header-Example:",
-          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Search\"\n\"authorization\": \"The token\"",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Regions\"\n\"authorization\": \"The token\"",
           "type": "String"
         }
       ]
     },
-    "group": "Search",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "query",
-            "description": "<p>The query</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "brandId",
-            "description": "<p>The brand id ex: 1</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "category",
-            "description": "<p>The category id ex: |12|</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "page",
-            "description": "<p>The page number, from 0</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "size",
-            "description": "<p>The page size</p>"
-          }
-        ]
-      }
-    },
+    "group": "Regions",
     "success": {
       "fields": {
         "Success 200": [
@@ -14175,17 +14206,17 @@
           },
           {
             "group": "Success 200",
-            "type": "Object",
+            "type": "Array",
             "optional": false,
             "field": "data",
-            "description": "<p>The results.</p>"
+            "description": "<p>the region list.</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": [\n     {\n         \"id\": 870,\n         \"sku\": \"sdfawf\",\n         \"title\": \"SAC � BANDOULI�RE LILY TWIST EN VISON ET AYERS \",\n         \"brandId\": 5,\n         \"surname\": null,\n         \"keywords\": null,\n         \"brandLabel\": \"DOLCE & GABBANA\",\n         \"isTranslated\":true,\n         \"reference\": \"BB5948A8710\",\n         \"dimension\": \"20 X 30 X 50\",\n         \"descriptions\":\"<ul><li>Sac avec bandouli�re r�glable et amovible</li></ul>\",\n         \"likeNumber\": 0,\n         \"categories\": \"|1|2|\",\n         \"order\": 0,\n         \"prices\": [\n             {\n                 \"country\": \"??\",\n                 \"currency\": \"CNY\",\n                 \"officialUrl\": \"http://sdfa\",\n                 \"price\": 1450\n             }\n         ],\n         \"images\": [\n                 \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n         ]\n     }\n   ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":[\n     {\n         code: \"CN\",\n         currency: \"CNY\"\n     }\n   ]\n}",
           "type": "json"
         }
       ]
@@ -14204,15 +14235,15 @@
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "content": "HTTP/1.1 500 Server error\n{\n   \"message\": \"Server error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
           "type": "json"
         }
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/search.js",
-    "groupTitle": "Search",
-    "name": "PostApiSearch"
+    "filename": "routes/v2/regions.js",
+    "groupTitle": "Regions",
+    "name": "GetApiRegions"
   },
   {
     "type": "post",
@@ -14346,6 +14377,137 @@
     "name": "PostApiSearch"
   },
   {
+    "type": "post",
+    "url": "/api/search",
+    "title": "Search against a query",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "apiKey",
+            "description": "<p>The app access key</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "api",
+            "description": "<p>The name of api</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>The user token, null or &quot;&quot; if not exist</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "\"apiKey\": \"17843599-f079-4c57-bb39-d9ca8344abd\"\n\"api\": \"Search\"\n\"authorization\": \"The token\"",
+          "type": "String"
+        }
+      ]
+    },
+    "group": "Search",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "query",
+            "description": "<p>The query</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "brandId",
+            "description": "<p>The brand id ex: 1</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>The category id ex: |12|</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>The page number, from 0</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "size",
+            "description": "<p>The page size</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Server message.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>The results.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\": [\n     {\n         \"id\": 870,\n         \"sku\": \"sdfawf\",\n         \"title\": \"SAC � BANDOULI�RE LILY TWIST EN VISON ET AYERS \",\n         \"brandId\": 5,\n         \"surname\": null,\n         \"keywords\": null,\n         \"brandLabel\": \"DOLCE & GABBANA\",\n         \"isTranslated\":true,\n         \"reference\": \"BB5948A8710\",\n         \"dimension\": \"20 X 30 X 50\",\n         \"descriptions\":\"<ul><li>Sac avec bandouli�re r�glable et amovible</li></ul>\",\n         \"likeNumber\": 0,\n         \"categories\": \"|1|2|\",\n         \"order\": 0,\n         \"prices\": [\n             {\n                 \"country\": \"??\",\n                 \"currency\": \"CNY\",\n                 \"officialUrl\": \"http://sdfa\",\n                 \"price\": 1450\n             }\n         ],\n         \"images\": [\n                 \"http://cdn.yoox.biz/55/55011908QN_13_F.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_R.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_E.jpg\",\n                 \"http://cdn.yoox.biz/55/55011908QN_13_D.jpg\"\n         ]\n     }\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Server error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server Error\n{\n   \"message\": \"Server Error\",\n   \"data\":[\n         \"server_error\"\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "routes/v2/search.js",
+    "groupTitle": "Search",
+    "name": "PostApiSearch"
+  },
+  {
     "type": "get",
     "url": "/api/stores",
     "title": "Request all stores",
@@ -14617,7 +14779,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/stores.js",
+    "filename": "routes/v1/stores.js",
     "groupTitle": "Stores",
     "name": "GetApiStoresTimestamp"
   },
@@ -14713,7 +14875,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/stores.js",
+    "filename": "routes/v2/stores.js",
     "groupTitle": "Stores",
     "name": "GetApiStoresTimestamp"
   },
@@ -16083,7 +16245,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"badges\": [{\n          \"id\": 1,\n          \"type\": \"Sales\",\n          \"content\": \"老佛爷1楼\"\n      }],\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"isGDPRAccepted\": true,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\",\n             \"profileUrl\": \"profileUrl\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\",\n             \"profileUrl\": \"profileUrl\"\n        }\n     ]\n     },\n    \"blockStatus\": \"possible values are: 1: current user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \",\n    \"friendStatus\": \"possible values are: 1: current user is following target user, 2: target user is following current user, 3: both 1 and 2, 0: no friendship is specified \",\n    \"followingCount\": 1,\n    \"followerCount\": 2\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   \"message\":\"OK\",\n   \"data\":{\n     \"id\": userId,\n     \"token\": null,\n     \"username\": user.username,\n     \"profileUrl\": user.profileUrl,\n     \"gender\": user.gender,\n     \"matricule\":user.matricule,\n     \"membershipExpireDate\": user.membershipExpireDate,\n     \"roleCode\": code,\n     \"region\": null,\n     \"badges\": [{\n          \"id\": 1,\n          \"type\": \"Sales\",\n          \"content\": \"老佛爷1楼\"\n      }],\n     \"languages\": [{\n         \"id\": 1,\n         \"code\": CN\n     }]\n     \"totalImgCount\": 0,\n     \"totalArticleCount\": 0,\n     \"totalInvitationCount\": 0,\n     \"points\": 0,\n     \"isGDPRAccepted\": true,\n     \"isAvailableInSearchResult\": true,\n     \"thirds\": [\n         {\n             \"type\": \"google\",\n             \"username\": \"Jiyun YANG\",\n             \"profileUrl\": \"profileUrl\"\n         },\n        {\n             \"type\": \"qq\",\n             \"username\": \"Jiyun\",\n             \"profileUrl\": \"profileUrl\"\n        }\n     ]\n     },\n    \"blockStatus\": \"possible values are: 1: current user do not wanna see target user's circle, 2: current user do not want target user to see its circle, 3: both 1 and 2, 0: no blockStatus is specified \",\n    \"friendStatus\": \"possible values are: 1: current user is following target user, 2: target user is following current user, 3: both 1 and 2, 0: no friendship is specified \",\n    \"followingCount\": 1,\n    \"followerCount\": 2\n}",
           "type": "json"
         }
       ]
@@ -16756,7 +16918,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v1/users.js",
+    "filename": "routes/v2/users.js",
     "groupTitle": "User",
     "name": "PostApiSecureUserInfo"
   },
@@ -16807,7 +16969,7 @@
             "type": "String",
             "optional": false,
             "field": "field",
-            "description": "<p>The field to change, possible values: &quot;gender&quot;, &quot;username&quot;, &quot;region&quot;.</p>"
+            "description": "<p>The field to change, possible values: &quot;gender&quot;, &quot;username&quot;, &quot;region&quot;, &quot;isAvailableInSearchResult&quot;, &quot;languages&quot;</p>"
           },
           {
             "group": "Parameter",
@@ -16872,7 +17034,7 @@
       ]
     },
     "version": "0.0.0",
-    "filename": "routes/v2/users.js",
+    "filename": "routes/v1/users.js",
     "groupTitle": "User",
     "name": "PostApiSecureUserInfo"
   },
