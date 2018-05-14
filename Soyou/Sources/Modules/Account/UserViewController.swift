@@ -306,7 +306,7 @@ class UserProfileTableViewCell: UITableViewCell {
                                        options: options,
                                        completed: nil)
         } else {
-            self.imgAvatar.image = UIImage(named: "img_placeholder_1_1_s")
+            self.imgAvatar.image = UIImage(named: "img_avatar_placeholder")
         }
         self.lblName.text = UserManager.shared.username ?? NSLocalizedString("user_vc_username_unknown")
         if let matricule = UserManager.shared.matricule {

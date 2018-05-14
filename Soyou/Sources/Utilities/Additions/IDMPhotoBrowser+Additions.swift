@@ -38,7 +38,7 @@ extension IDMPhotoBrowser {
         guard gesture.state == .began else { return }
         guard let currentIndex = self.value(forKey: "_currentPageIndex") as? UInt else { return }
         guard let photo = self.photo(at: currentIndex) else { return }
-        let codes = photo.underlyingImage()?.detectQRCodes()
+        let codes = photo.underlyingImage()?.detectQRCodes(true)
         var actions = [UIAlertAction]()
         actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_save_image"),
                                      style: UIAlertActionStyle.default,

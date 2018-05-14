@@ -109,6 +109,16 @@ extension String {
         return CensorshipManager.shared.testBannedWord(self)
     }
     
+    func isInWhiteList() -> Bool {
+        let whitelist = CensorshipManager.shared.allowedDomains
+        for link in whitelist {
+            if self.range(of: link) != nil {
+                return true
+            }
+        }
+        return false
+    }
+    
     func censored() -> String {
         if self.containsBannedKeywords() {
             return NSLocalizedString("forbidden_content")
@@ -121,16 +131,31 @@ extension UIImage {
     
     static let qrDetector = CIDetector(ofType: CIDetectorTypeQRCode, context: CIContext(), options: [CIDetectorAccuracy: CIDetectorAccuracyLow])
     
-    func detectQRCodes() -> [String]? {
+    func detectQRCodes(_ onlyWhiteListItems: Bool = false) -> [String]? {
         guard let ciImage = CIImage(image: self) else { return nil }
+        let whitelist = CensorshipManager.shared.allowedDomains
         var codes = [String]()
         if let features = UIImage.qrDetector?.features(in: ciImage) as? [CIQRCodeFeature] {
             for feature in features  {
                 if let code = feature.messageString {
-                    codes.append(code)
+                    if onlyWhiteListItems {
+                        var isAllowed = false
+                        for link in whitelist {
+                            if code.range(of: link) != nil {
+                                isAllowed = true
+                                break
+                            }
+                        }
+                        if isAllowed {
+                            codes.append(code)
+                        }
+                    } else {
+                        codes.append(code)
+                    }
                 }
             }
         }
+        
         return codes.isEmpty ? nil : codes
     }
     

@@ -134,10 +134,12 @@ extension ScanViewController {
     func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         for item in metadataObjects {
             if let metadataObject = item as? AVMetadataMachineReadableCodeObject {
-                self.stopScanning()
-                self.dismiss(animated: true, completion: {
-                    self.delegate?.scanViewControllerDidScanCode(scanVC: self, code: metadataObject.stringValue)
-                })
+                if let content = metadataObject.stringValue, content.isInWhiteList() {
+                    self.stopScanning()
+                    self.dismiss(animated: true, completion: {
+                        self.delegate?.scanViewControllerDidScanCode(scanVC: self, code: metadataObject.stringValue)
+                    })
+                }
             }
         }
     }
@@ -201,13 +203,13 @@ extension ScanViewController: TLPhotosPickerViewControllerDelegate {
     func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
         guard let asset = tlphAssets.first else { return }
         if let image = asset.fullResolutionImage {
-            Utils.shared.handleScannedQRCode(image.detectQRCodes())
+            Utils.shared.handleScannedQRCode(image.detectQRCodes(true))
         } else {
             MBProgressHUD.show(self.view)
             asset.cloudImageDownload(progressBlock: { (progress) in
             }, completionBlock: { (image) in
                 MBProgressHUD.hide(self.view)
-                Utils.shared.handleScannedQRCode(image?.detectQRCodes())
+                Utils.shared.handleScannedQRCode(image?.detectQRCodes(true))
             })
         }
     }
