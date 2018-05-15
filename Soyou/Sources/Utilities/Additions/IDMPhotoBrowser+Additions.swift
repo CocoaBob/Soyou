@@ -31,6 +31,16 @@ extension IDMPhotoBrowser {
         let gesture = UILongPressGestureRecognizer.init(target: photoBrowser, action: #selector(IDMPhotoBrowser.handleLongPressGesture(_:)))
         photoBrowser.view.addGestureRecognizer(gesture)
         
+        for photo in photos {
+            photo.didDownloadBlock = { image -> UIImage? in
+                if image?.isCensoredQRCode() == true {
+                    return CensorshipManager.censoredImage
+                } else {
+                    return image
+                }
+            }
+        }
+        
         viewVC.present(photoBrowser, animated: true, completion: nil)
     }
     

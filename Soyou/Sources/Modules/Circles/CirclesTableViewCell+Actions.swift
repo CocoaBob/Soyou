@@ -132,15 +132,20 @@ extension CirclesTableViewCell {
             if let originalStr = dict["original"], let originalURL = URL(string: originalStr),
                 let thumbnailStr = dict["thumbnail"], let thumbnailURL = URL(string: thumbnailStr) {
                 var photo: IDMPhoto?
-                var isForbiddenImage = false
+                var isForbiddenThumbnailImage = false
                 if let cachedThumbnailImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: thumbnailURL)) {
-                    isForbiddenImage = cachedThumbnailImage == CensorshipManager.censoredImage
+                    isForbiddenThumbnailImage = cachedThumbnailImage == CensorshipManager.censoredImage
                 }
-                if isForbiddenImage {
+                if isForbiddenThumbnailImage {
                     photo = IDMPhoto(image: CensorshipManager.censoredImage)
                     scaleImage = CensorshipManager.censoredImage
                 } else {
-                    if let cachedOriginalImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: originalURL)) {
+                    var isForbiddenOriginalImage = false
+                    if var cachedOriginalImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: originalURL)) {
+                        if cachedOriginalImage.isCensoredQRCode() {
+                            cachedOriginalImage = CensorshipManager.censoredImage
+                            isForbiddenOriginalImage = true
+                        }
                         photo = IDMPhoto(image: cachedOriginalImage)
                         if i == index {
                             scaleImage = cachedOriginalImage
@@ -148,7 +153,10 @@ extension CirclesTableViewCell {
                     } else {
                         photo = IDMPhoto(url: originalURL)
                     }
-                    if let cachedThumbnailImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: thumbnailURL)) {
+                    if var cachedThumbnailImage = SDImageCache.shared().imageFromCache(forKey: SDWebImageManager.shared().cacheKey(for: thumbnailURL)) {
+                        if isForbiddenOriginalImage {
+                            cachedThumbnailImage = CensorshipManager.censoredImage
+                        }
                         photo?.placeholderImage = cachedThumbnailImage
                         if i == index, scaleImage == nil {
                             scaleImage = cachedThumbnailImage

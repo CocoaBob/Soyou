@@ -128,6 +128,7 @@ caption = _caption;
     NSAssert([[NSThread currentThread] isMainThread], @"This method must be called on the main thread.");
     _loadingInProgress = YES;
     if (self.underlyingImage) {
+        self.underlyingImage = self.didDownloadBlock(self.underlyingImage);
         // Image already loaded
         [self imageLoadingComplete];
     } else {
@@ -144,7 +145,8 @@ caption = _caption;
                 }
             } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
                 if (image) {
-                    self.underlyingImage = image;
+                    UIImage *newImage = self.didDownloadBlock(image);
+                    self.underlyingImage = newImage ?: image;
                 }
                 [self performSelectorOnMainThread:@selector(imageLoadingComplete) withObject:nil waitUntilDone:NO];
             }];
