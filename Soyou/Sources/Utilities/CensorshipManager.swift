@@ -10,7 +10,6 @@ class CensorshipManager {
     
     private let kBannedKeywords = "kBannedKeywords"
     private let kAllowedDomains = "kAllowedDomains"
-    private let kLastUpdateDate = "kLastUpdateDate"
     
     private lazy var bannedKeywords: Set<String> = {
         let storedData = UserDefaults.objectForKey(kBannedKeywords) as? [String]
@@ -30,15 +29,6 @@ class CensorshipManager {
         }
     }()
     
-    private lazy var updateDate: Date = {
-        let date = UserDefaults.objectForKey(kLastUpdateDate) as? Date
-        if let date = date {
-            return date
-        } else {
-            return Date.distantPast
-        }
-    }()
-    
     static let shared = CensorshipManager()
     static let censoredImage =  UIImage(named: NSLocalizedString("censored_image_name"))!
 }
@@ -47,10 +37,6 @@ class CensorshipManager {
 extension CensorshipManager {
     
     func updateFromServer() {
-        // Update time inteval should be larger than 1 day
-        if self.updateDate.timeIntervalSinceNow > -86400 {
-            return
-        }
         DataManager.shared.getCheckList { (responseObject, error) in
             if let responseObject = responseObject,
                 let data = DataManager.getResponseData(responseObject) as? [String: Any] {
@@ -60,7 +46,6 @@ extension CensorshipManager {
                 if let values = data["allowedDomains"] as? [String] {
                     self.updateAllowedDomains(values)
                 }
-                UserDefaults.setObject(Date(), forKey: self.kLastUpdateDate)
             }
         }
     }
