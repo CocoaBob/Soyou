@@ -529,6 +529,6 @@ class RequestManager {
     }
     
     func getCheckList(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
-        getAsync("/api/\(Cons.Svr.apiVersion)/secure/misc/check-list", "Misc", onSuccess, onFailure)
+        getAsync("/api/\(Cons.Svr.apiVersion)/misc/check-list", "Misc", onSuccess, onFailure)
     }
 }
