@@ -66,7 +66,7 @@ extension CirclesViewController {
         self.showRefreshIndicator(offsetY)
         
         if !self.isLoadingData && !self.tableView().isDragging && offsetY <= Constant.triggerY {
-            self.loadData(nil, completion: nil)
+            self.loadData()
         }
     }
     

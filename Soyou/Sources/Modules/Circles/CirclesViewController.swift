@@ -130,7 +130,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
         self.setupViews()
         
         // Load data from server
-        self.loadData(nil, completion: nil)
+        self.loadData()
         
         // Create FetchedResultsController and load data
         self.reloadDataWithoutCompletion()
@@ -240,7 +240,7 @@ extension CirclesViewController {
             // Show/Hide all user related controls
             if keyPath == "isLoggedIn" {
                 if UserManager.shared.isLoggedIn {
-                    self.loadData(nil, completion: nil)
+                    self.loadData()
                 } else {
                     self.hideUserInfoRelatedControls()
                     self.recommendations = nil
@@ -256,7 +256,7 @@ extension CirclesViewController {
 extension CirclesViewController {
     
     // MARK: Data
-    func loadData(_ timestamp: String?, completion: (() -> Void)?) {
+    func loadData(_ timestamp: String? = nil, _ willSaveData:(()->())? = nil, _ completion: (()->())? = nil) {
         guard UserManager.shared.isLoggedIn else {
             return
         }
@@ -264,7 +264,11 @@ extension CirclesViewController {
         let isRefresh = timestamp == nil
         let timestamp = timestamp ?? Cons.utcDateFormatter.string(from: Date())
         self.beginRefreshing()
-        DataManager.shared.requestPreviousCicles(timestamp, isRefresh, self.userID, self.isSingleUserMode ? self.singleUserMemCtx() : nil) { responseObject, error in
+        DataManager.shared.requestPreviousCicles(timestamp,
+                                                 isRefresh,
+                                                 self.userID,
+                                                 self.isSingleUserMode ? self.singleUserMemCtx() : nil,
+                                                 willSaveData) { responseObject, error in
             if let responseObject = responseObject as? Dictionary<String, AnyObject>,
                 let data = responseObject["data"] as? [NSDictionary] {
                 if isRefresh {
@@ -303,12 +307,13 @@ extension CirclesViewController {
             let date = lastCircle.createdDate {
             // We need to avoid scrolling during the loading of new data
             // to make is smooth, otherwise the scroll view may jump the contentOffset position
-            // 1. Stop scrolling
-            self.tableView().setContentOffset(self.tableView().contentOffset, animated: false)
-            // 2. Stop pan gesture
-            self.tableView().panGestureRecognizer.isEnabled = false
-            // 3. Load data
-            self.loadData(Cons.utcDateFormatter.string(from: date)) {
+            // 1. Load data
+            self.loadData(Cons.utcDateFormatter.string(from: date), {
+                // 2. Stop scrolling
+                self.tableView().setContentOffset(self.tableView().contentOffset, animated: false)
+                // 3. Stop pan gesture
+                self.tableView().panGestureRecognizer.isEnabled = false
+            }) {
                 // 4. Enable pan gesture
                 self.tableView().panGestureRecognizer.isEnabled = true
             }
@@ -545,7 +550,7 @@ extension CirclesViewController {
             if isInvisibleToMe { // Hide all circles
                 self.clearAllCirclesOfCurrentUser()
             } else if self.isInvisibleToMe { // All circles were invisible, now load them to show
-                self.loadData(nil, completion: nil)
+                self.loadData()
             }
             self.isInvisibleToHim = isInvisibleToHim
             self.isInvisibleToMe = isInvisibleToMe
