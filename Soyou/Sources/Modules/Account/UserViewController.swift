@@ -178,6 +178,16 @@ extension UserViewController {
                                     self.showTags()
                             })
                     ]),
+//                Section(headerTitle: NSLocalizedString("user_vc_cell_tools"),
+//                        rows: [
+//                            Row(type: .IconTitle,
+//                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+//                                image: UIImage(named: "img_news"),
+//                                title: Text(text: NSLocalizedString("user_vc_cell_tools_grab_images")),
+//                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+//                                    self.showSafariViewController()
+//                            })
+//                    ]),
                 Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
                         rows: [
                             Row(type: .IconTitle,
@@ -196,18 +206,6 @@ extension UserViewController {
                             })
                     ])
                 ])
-        }
-    }
-}
-
-// MARK: Cell actions
-extension UserViewController {
-    
-    func showFavoritesViewController(_ type: FavoriteType) {
-        UserManager.shared.loginOrDo() { () -> () in
-            let favoritesViewController = FavoritesViewController.instantiate()
-            favoritesViewController.type = type
-            self.navigationController?.pushViewController(favoritesViewController, animated: true)
         }
     }
 }
@@ -242,6 +240,20 @@ extension UserViewController {
     func showTags() {
         let vc = TagsViewController.instantiate()
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showSafariViewController() {
+        guard let url = URL(string: "http://soyou.io") else { return }
+        let webViewController = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+        self.navigationController?.pushViewController(webViewController, animated: true)
+    }
+    
+    func showFavoritesViewController(_ type: FavoriteType) {
+        UserManager.shared.loginOrDo() { () -> () in
+            let favoritesViewController = FavoritesViewController.instantiate()
+            favoritesViewController.type = type
+            self.navigationController?.pushViewController(favoritesViewController, animated: true)
+        }
     }
     
     @objc func showSettingsViewController(_ sender: UIBarButtonItem?) {

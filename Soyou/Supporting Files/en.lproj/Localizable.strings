@@ -180,9 +180,11 @@
 "user_vc_soyou_id"="Soyou ID: %@";
 "user_vc_tab_title"="Me";
 "user_vc_cell_my_qr_code"="My QR code";
-"user_vc_cell_my_followings"="My followings";
-"user_vc_cell_my_followers"="My followers";
-"user_vc_cell_my_tags"="My tags";
+"user_vc_cell_my_followings"="My Followings";
+"user_vc_cell_my_followers"="My Followers";
+"user_vc_cell_my_tags"="My Tags";
+"user_vc_cell_tools"="Tools";
+"user_vc_cell_tools_grab_images"="Grab Images";
 "user_vc_cell_favs"="Favorites";
 "user_vc_cell_favs_news"="News";
 "user_vc_cell_favs_discounts"="Discounts";
