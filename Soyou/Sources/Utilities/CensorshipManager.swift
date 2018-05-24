@@ -41,10 +41,10 @@ extension CensorshipManager {
             if let responseObject = responseObject,
                 let data = DataManager.getResponseData(responseObject) as? [String: Any] {
                 if let values = data["bannedKeywords"] as? [String] {
-                    self.updateBannedKeywords(values)
+                    self.updateBannedKeywords(values.map { $0.lowercased() })
                 }
                 if let values = data["allowedDomains"] as? [String] {
-                    self.updateAllowedDomains(values)
+                    self.updateAllowedDomains(values.map { $0.lowercased() })
                 }
             }
         }
@@ -64,6 +64,7 @@ extension CensorshipManager {
         guard !self.bannedKeywords.isEmpty else { return false }
         guard var string = string else { return false }
         string = String(String.UnicodeScalarView(string.unicodeScalars.filter({ CharacterSet.letters.contains($0) })))
+        string = string.lowercased()
         for keyword in self.bannedKeywords {
             if string.contains(keyword) {
                 return true
@@ -97,7 +98,7 @@ extension String {
     func isInWhiteList() -> Bool {
         let whitelist = CensorshipManager.shared.allowedDomains
         for link in whitelist {
-            if self.range(of: link) != nil {
+            if self.contains(link.lowercased()) {
                 return true
             }
         }
@@ -126,7 +127,7 @@ extension UIImage {
                     if onlyWhiteListItems {
                         var isAllowed = false
                         for link in whitelist {
-                            if code.range(of: link) != nil {
+                            if code.contains(link.lowercased()) {
                                 isAllowed = true
                                 break
                             }
@@ -149,7 +150,7 @@ extension UIImage {
         if let codes = self.detectQRCodes() {
             for code in codes {
                 for link in whitelist {
-                    if code.range(of: link) != nil {
+                    if code.contains(link.lowercased()) {
                         return false
                     }
                 }
