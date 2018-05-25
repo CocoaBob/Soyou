@@ -393,7 +393,9 @@ extension InfoDetailBaseViewController {
                 htmlContent = htmlContent.replacingOccurrences(of: "__TITLE__", with: title)
                 htmlContent = htmlContent.replacingOccurrences(of: "__CONTENT__", with: content)
                 htmlContent = htmlContent.replacingOccurrences(of: "__CSS__", with: cssContent)
-                webView.loadHTMLString(htmlContent, baseURL: nil)
+                DispatchQueue.main.async {
+                    webView.loadHTMLString(htmlContent, baseURL: nil)
+                }
             }
         }
     }

@@ -178,16 +178,16 @@ extension UserViewController {
                                     self.showTags()
                             })
                     ]),
-//                Section(headerTitle: NSLocalizedString("user_vc_cell_tools"),
-//                        rows: [
-//                            Row(type: .IconTitle,
-//                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-//                                image: UIImage(named: "img_news"),
-//                                title: Text(text: NSLocalizedString("user_vc_cell_tools_grab_images")),
-//                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-//                                    self.showSafariViewController()
-//                            })
-//                    ]),
+                Section(headerTitle: NSLocalizedString("user_vc_cell_tools"),
+                        rows: [
+                            Row(type: .IconTitle,
+                                cell: Cell(height: 44, accessoryType: .disclosureIndicator),
+                                image: UIImage(named: "img_news"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_tools_grab_images")),
+                                didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
+                                    self.showWebViewController()
+                            })
+                    ]),
                 Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
                         rows: [
                             Row(type: .IconTitle,
@@ -242,10 +242,10 @@ extension UserViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showSafariViewController() {
+    func showWebViewController() {
         guard let url = URL(string: "http://soyou.io") else { return }
         let webViewController = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        self.navigationController?.pushViewController(webViewController, animated: true)
+        self.present(webViewController, animated: true, completion: nil)
     }
     
     func showFavoritesViewController(_ type: FavoriteType) {
