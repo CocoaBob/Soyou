@@ -57,22 +57,21 @@ extension CirclesTableViewCell {
                                        UIAlertAction(title: NSLocalizedString("alert_button_save"),
                                                      style: UIAlertActionStyle.default,
                                                      handler: { (action: UIAlertAction) -> Void in
-                                                        if PicturePickerViewController.isNeedsToShowAuthorizationAlert() {
-                                                            return
-                                                        }
-                                                        var urls = [URL]()
-                                                        for dict in imgURLs {
-                                                            if let str = dict["original"], let url = URL(string: str) {
-                                                                urls.append(url)
+                                                        PicturePickerViewController.askForPermissionOrDo() {
+                                                            var urls = [URL]()
+                                                            for dict in imgURLs {
+                                                                if let str = dict["original"], let url = URL(string: str) {
+                                                                    urls.append(url)
+                                                                }
                                                             }
-                                                        }
-                                                        self.getAllImages(urls: urls) { images in
-                                                            if images?.count ?? 0 > 0 {
-                                                                MBProgressHUD.show(self.parentViewController?.view)
+                                                            self.getAllImages(urls: urls) { images in
+                                                                if images?.count ?? 0 > 0 {
+                                                                    MBProgressHUD.show(self.parentViewController?.view)
+                                                                }
+                                                                self.imagesToSave = images
+                                                                self.imagesCountToSave = images?.count ?? 0
+                                                                self.saveNextImage()
                                                             }
-                                                            self.imagesToSave = images
-                                                            self.imagesCountToSave = images?.count ?? 0
-                                                            self.saveNextImage()
                                                         }
                                        }),
                                        UIAlertAction(title: NSLocalizedString("alert_button_cancel"),

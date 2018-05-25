@@ -53,15 +53,14 @@ extension IDMPhotoBrowser {
         actions.append(UIAlertAction(title: NSLocalizedString("photo_browser_action_save_image"),
                                      style: UIAlertActionStyle.default,
                                      handler: { (action: UIAlertAction) -> Void in
-                                        if PicturePickerViewController.isNeedsToShowAuthorizationAlert() {
-                                            return
-                                        }
-                                        MBProgressHUD.show(self.view)
-                                        if var image = photo.underlyingImage() {
-                                            if image.size.width > 1080 && image.size.height > 1080 {
-                                                image = image.resizedImage(byMagick: "1080x1080^")
+                                        PicturePickerViewController.askForPermissionOrDo() {
+                                            MBProgressHUD.show(self.view)
+                                            if var image = photo.underlyingImage() {
+                                                if image.size.width > 1080 && image.size.height > 1080 {
+                                                    image = image.resizedImage(byMagick: "1080x1080^")
+                                                }
+                                                UIImageWriteToSavedPhotosAlbum(image, self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
                                             }
-                                            UIImageWriteToSavedPhotosAlbum(image, self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
                                         }
         }))
         if codes != nil {
