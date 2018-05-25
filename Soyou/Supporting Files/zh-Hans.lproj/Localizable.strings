@@ -158,7 +158,7 @@
 "circles_visibility_vc_allowed_followers"="只给谁看";
 "circles_visibility_vc_allowed_followers_desc"="只有选中的粉丝可见";
 "circles_visibility_vc_forbidden_followers"="不给谁看";
-"circles_visibility_vc_forbidden_followers_desc"="选中的粉丝不可见";
+"circles_visibility_vc_forbidden_followers_desc"="粉丝中这些人不可见";
 
 /* Chats View Controller */
 "chats_vc_title"="聊天";
