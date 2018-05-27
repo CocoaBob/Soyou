@@ -16,7 +16,7 @@ class CensorshipManager {
     private let kAllowedDomains = "kAllowedDomains"
     private let kLastUpdateDate = "kLastUpdateDate"
     
-    private lazy var keywords: Set<String> = {
+    private lazy var bannedKeywords: Set<String> = {
         let storedKeywords = UserDefaults.standard.object(forKey: kBannedKeywords) as? [String]
         if let storedKeywords = storedKeywords {
             return Set(storedKeywords)
@@ -51,10 +51,11 @@ class CensorshipManager {
 extension CensorshipManager {
     
     fileprivate func testBannedWord(_ string: String?) -> Bool {
-        guard !self.keywords.isEmpty else { return false }
+        guard !self.bannedKeywords.isEmpty else { return false }
         guard var string = string else { return false }
         string = String(String.UnicodeScalarView(string.unicodeScalars.filter({ CharacterSet.letters.contains($0) })))
-        for keyword in self.keywords {
+        string = string.lowercased()
+        for keyword in self.bannedKeywords {
             if string.contains(keyword) {
                 return true
             }
@@ -89,6 +90,16 @@ extension String {
         return CensorshipManager.shared.testBannedWord(self)
     }
     
+    func isInWhiteList() -> Bool {
+        let whitelist = CensorshipManager.shared.allowedDomains
+        for link in whitelist {
+            if self.contains(link.lowercased()) {
+                return true
+            }
+        }
+        return false
+    }
+    
     func censored() -> String {
         if self.containsBannedKeywords() {
             return localized("forbidden_content")
@@ -101,16 +112,31 @@ extension UIImage {
     
     static let qrDetector = CIDetector(ofType: CIDetectorTypeQRCode, context: CIContext(), options: [CIDetectorAccuracy: CIDetectorAccuracyLow])
     
-    func detectQRCodes() -> [String]? {
+    func detectQRCodes(_ onlyWhiteListItems: Bool = false) -> [String]? {
         guard let ciImage = CIImage(image: self) else { return nil }
+        let whitelist = CensorshipManager.shared.allowedDomains
         var codes = [String]()
         if let features = UIImage.qrDetector?.features(in: ciImage) as? [CIQRCodeFeature] {
             for feature in features  {
                 if let code = feature.messageString {
-                    codes.append(code)
+                    if onlyWhiteListItems {
+                        var isAllowed = false
+                        for link in whitelist {
+                            if code.contains(link.lowercased()) {
+                                isAllowed = true
+                                break
+                            }
+                        }
+                        if isAllowed {
+                            codes.append(code)
+                        }
+                    } else {
+                        codes.append(code)
+                    }
                 }
             }
         }
+        
         return codes.isEmpty ? nil : codes
     }
     
@@ -119,7 +145,7 @@ extension UIImage {
         if let codes = self.detectQRCodes() {
             for code in codes {
                 for link in whitelist {
-                    if code.range(of: link) != nil {
+                    if code.contains(link.lowercased()) {
                         return false
                     }
                 }
