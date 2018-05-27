@@ -1,0 +1,17 @@
+/* 
+  InfoPlist.strings
+  Soyou
+
+  Created by CocoaBob on 23/11/15.
+  Copyright © 2015 Soyou. All rights reserved.
+*/
+
+"CFBundleDisplayName"="网页抓图";
+"CFBundleName"="网页抓图";
+"NSLocationWhenInUseUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
+"NSLocationAlwaysUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
+"NSLocationUsageDescription"="我们将使用您的位置帮您定位品牌商店。";
+"NSPhotoLibraryUsageDescription"="您将可以分享照片。";
+"NSCameraUsageDescription"="您将可以拍摄照片。";
+"NSPhotoLibraryAddUsageDescription"="您将可以保存图片。";
+"NSMicrophoneUsageDescription"="您将可以记录声音。";

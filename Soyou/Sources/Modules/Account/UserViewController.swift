@@ -243,7 +243,7 @@ extension UserViewController {
     }
     
     func showWebViewController() {
-        guard let url = URL(string: "http://soyou.io") else { return }
+        guard let url = URL(string: "https://soyou.io") else { return }
         let webViewController = SFSafariViewController(url: url, entersReaderIfAvailable: false)
         self.present(webViewController, animated: true, completion: nil)
     }

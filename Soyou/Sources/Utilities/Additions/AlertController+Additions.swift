@@ -6,6 +6,8 @@
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
+import UIKit
+
 extension UIAlertController {
     
     class func presentAlert(from vc: UIViewController? = nil,
@@ -16,7 +18,9 @@ extension UIAlertController {
         let _  = actions.map { alertController.addAction($0) }
         var presentingVC = vc
         if presentingVC == nil {
+            #if !NS_EXTENSION_UNAVAILABLE
             presentingVC = UIApplication.shared.keyWindow?.rootViewController
+            #endif
         }
         if let presentedVC = presentingVC?.presentedViewController {
             presentingVC = presentedVC
@@ -32,7 +36,9 @@ extension UIAlertController {
         let _  = actions.map { alertController.addAction($0) }
         var presentingVC = vc
         if presentingVC == nil {
+            #if !NS_EXTENSION_UNAVAILABLE
             presentingVC = UIApplication.shared.keyWindow?.rootViewController
+            #endif
         }
         if let presentedVC = presentingVC?.presentedViewController {
             presentingVC = presentedVC

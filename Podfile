@@ -4,7 +4,13 @@ platform :ios, '10.0'
 use_frameworks!
 inhibit_all_warnings!
 
+def common_pods
+    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '196d57568138ab1c73b567767a7861b33a05b290'
+end
+
 target "Soyou" do
+    common_pods
+    
 	pod "1PasswordExtension"
 	pod "ActionSheetPicker-3.0"
 	pod "AFNetworking", '~> 2'
@@ -62,6 +68,10 @@ target "Soyou" do
     pod "RCMarkdownParser", :git => 'https://github.com/RocketChat/RCMarkdownParser.git'
     
 #    pod "Alamofire"
+end
+
+target "ImagesGrabber" do
+    common_pods
 end
 
 Swift4Targets = ['TLPhotoPicker', 'SnapKit', 'SimpleRocketChat']
