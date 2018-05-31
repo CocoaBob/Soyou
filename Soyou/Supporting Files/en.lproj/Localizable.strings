@@ -24,6 +24,7 @@
 "photo_picker_tap_to_change"="Tap to change";
 "photo_picker_cancel"="Cancel";
 "photo_picker_share"="Share";
+"photo_picker_save"="Save";
 "photo_picker_confirm"="Confirm";
 "photo_picker_photo_library_unavailable_title"="Access restricted";
 "photo_picker_photo_library_unavailable_content"="No access to photo library, please change the settings.";

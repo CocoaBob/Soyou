@@ -45,7 +45,6 @@
 		452B1E4320BA0C560008167C /* PicturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 458B2E481FECA28600BD6843 /* PicturePickerCell.xib */; };
 		452B1E4420BA0C560008167C /* PicturePickerCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BAAF47200655C300CEE6A3 /* PicturePickerCell2.swift */; };
 		452B1E4520BA0C560008167C /* PicturePickerCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45BAAF48200655C300CEE6A3 /* PicturePickerCell2.xib */; };
-		452B1E4620BA0C560008167C /* PicturePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458B2E421FEAFE7800BD6843 /* PicturePickerViewController.swift */; };
 		452B1E4720BA0C790008167C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4577778A1BFCE15700805D79 /* Localizable.strings */; };
 		452B1E4C20BA0CF50008167C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452B1E4B20BA0CF50008167C /* Utilities.swift */; };
 		452B1E5120BA0E480008167C /* AlertController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4528DF692038C823001084FF /* AlertController+Additions.swift */; };
@@ -929,8 +928,8 @@
 			isa = PBXGroup;
 			children = (
 				452B1E1C20B9040F0008167C /* Action.js */,
-				45E6CCE520B8980C00CE749A /* ActionViewController.swift */,
 				452B1E4B20BA0CF50008167C /* Utilities.swift */,
+				45E6CCE520B8980C00CE749A /* ActionViewController.swift */,
 				452B1E5220BA6E080008167C /* MainInterface.storyboard */,
 				452B1E2620B9F31E0008167C /* InfoPlist.strings */,
 				45E6CCEA20B8980C00CE749A /* Info.plist */,
@@ -1456,7 +1455,6 @@
 				45E6CCE620B8980C00CE749A /* ActionViewController.swift in Sources */,
 				452B1E5120BA0E480008167C /* AlertController+Additions.swift in Sources */,
 				452B1E4420BA0C560008167C /* PicturePickerCell2.swift in Sources */,
-				452B1E4620BA0C560008167C /* PicturePickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

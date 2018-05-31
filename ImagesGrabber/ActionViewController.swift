@@ -7,25 +7,23 @@
 //
 
 import UIKit
+import Photos
 import MobileCoreServices
 
-class ActionViewController: UIViewController {
+import TLPhotoPicker
 
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var tableView: UITableView!
-    var imgUrls: [String]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+class ActionViewController: TLPhotosPickerViewController {
     
     override func viewDidLoad() {
+        setupConfigure()
+        
         super.viewDidLoad()
         
-        tableView.tableFooterView = UIView()
-    
         // Get data from JavaScript
-        guard let inputItems = self.extensionContext?.inputItems as? [NSExtensionItem] else { return }
+        guard let inputItems = self.extensionContext?.inputItems as? [NSExtensionItem] else {
+            done()
+            return
+        }
         for inputItem in inputItems {
             guard let attachments = inputItem.attachments else { return }
             for attachment in attachments {
@@ -35,44 +33,80 @@ class ActionViewController: UIViewController {
                         if let dictionary = item as? Dictionary<String, Any>,
                             let jsData = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
                             let imgUrls = jsData["imgs"] as? [String] {
-                            self.imgUrls = imgUrls
+                            self.setupImages(imgUrls)
                         }
                     }
                 }
             }
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @IBAction func done() {
-        // Return any edited content to the host app.
-        // This template doesn't do anything, so we just echo the passed in items.
-        self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
-    }
-
 }
 
-//// MARK: - UITableViewDataSource, UITableViewDelegate
-extension ActionViewController: UITableViewDataSource, UITableViewDelegate {
+extension ActionViewController: TLPhotosPickerViewControllerDelegate {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return imgUrls?.count ?? 0
+    func setupConfigure() {
+        var configure = TLPhotosPickerConfigure()
+        configure.defaultCameraRollTitle = NSLocalizedString("photo_picker_default_title")
+        configure.tapHereToChange = NSLocalizedString("photo_picker_tap_to_change")
+        configure.cancelTitle = NSLocalizedString("photo_picker_cancel")
+        configure.doneTitle = NSLocalizedString("photo_picker_save")
+        configure.usedCameraButton = false
+        configure.usedPrefetch = false
+        configure.allowedLivePhotos = false
+        configure.allowedVideo = false
+        configure.allowedVideoRecording = false
+        configure.numberOfColumn = 4
+        configure.singleSelectedMode = false
+//        configure.maxSelectedAssets = 9
+        configure.fetchOption = nil
+        configure.placeholderIcon = UIImage(named: "img_placeholder_1_1_s")
+        configure.nibSet = (nibName: "PicturePickerCell", bundle: Bundle.main)
+        self.configure = configure
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ActionTableViewCell", for: indexPath)
+    func setupImages(_ urls: [String]) {
+        var assets = [TLPHAsset]()
+        for url in urls {
+            if let imageURL = URL(string: url) {
+                if let imageResponse = URLCache.shared.cachedResponse(for: URLRequest(url: imageURL)),
+                    let image = UIImage(data: imageResponse.data) {
+                    assets.append(TLPHAsset(image: image))
+                } else {
+                    assets.append(TLPHAsset(url: imageURL))
+                }
+            }
+        }
         
-        cell.textLabel?.text = imgUrls?[indexPath.row]
+        if assets.isEmpty {
+            done()
+            return
+        }
         
-        return cell
+        self.customCollection = TLAssetsCollection(assets: assets, title: NSLocalizedString("photo_picker_default_title"))
+        self.customNavigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.done))
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
+    func didDismissPhotoPicker(with tlphAssets: [TLPHAsset]) {
+        print(tlphAssets)
+    }
+}
+
+extension ActionViewController {
+    
+    @IBAction func done(_ isSuccessful: Bool = false) {
+        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    }
+}
+
+extension ActionViewController {
+    
+    @IBAction override func cancelButtonTap() {
+        super.cancelButtonTap()
+        done()
+    }
+    
+    @IBAction override func doneButtonTap() {
+        super.doneButtonTap()
+        done(true)
     }
 }

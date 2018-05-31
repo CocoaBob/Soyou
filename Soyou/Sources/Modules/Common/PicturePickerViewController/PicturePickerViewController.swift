@@ -6,10 +6,6 @@
 //  Copyright © 2017 Soyou. All rights reserved.
 //
 
-import UIKit
-import Photos
-import TLPhotoPicker
-
 class PicturePickerViewController: TLPhotosPickerViewController {
     
     static func share9Photos(from fromVC: UIViewController,
@@ -113,7 +109,6 @@ class PicturePickerViewController: TLPhotosPickerViewController {
     
     static func askForPermissionOrDo(_ completion: (()->())?) {
         func showNoPersmissionAlert() {
-            #if !NS_EXTENSION_UNAVAILABLE
             UIAlertController.presentAlert(from: nil,
                                            title: NSLocalizedString("photo_picker_photo_library_unavailable_title"),
                                            message: NSLocalizedString("photo_picker_photo_library_unavailable_content"),
@@ -127,7 +122,6 @@ class PicturePickerViewController: TLPhotosPickerViewController {
                                            UIAlertAction(title: NSLocalizedString("alert_button_close"),
                                                          style: UIAlertActionStyle.cancel,
                                                          handler: nil))
-            #endif
         }
         let status = PHPhotoLibrary.authorizationStatus()
         if status == .restricted || status == .denied {

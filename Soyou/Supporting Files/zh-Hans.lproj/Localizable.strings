@@ -26,6 +26,7 @@
 "photo_picker_tap_to_change"="点击切换相册";
 "photo_picker_cancel"="取消";
 "photo_picker_share"="分享";
+"photo_picker_save"="保存";
 "photo_picker_confirm"="确认";
 "photo_picker_photo_library_unavailable_title"="访问受限";
 "photo_picker_photo_library_unavailable_content"="无法访问相册，请修改设置。";

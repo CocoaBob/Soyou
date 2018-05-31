@@ -54,6 +54,8 @@ public class TLPHAsset {
         }
     }
     
+    public var remoteURL: URL?
+    
     public func extType() -> ImageExtType {
         var ext = ImageExtType.png
         if let fileName = self.originalFileName, let extention = URL(string: fileName)?.pathExtension.lowercased() {
@@ -209,6 +211,11 @@ public class TLPHAsset {
         self.init(asset: nil)
         self.fullResolutionImage = image
     }
+    
+    public convenience init(url: URL) {
+        self.init(asset: nil)
+        self.remoteURL = url
+    }
 }
 
 extension TLPHAsset: Equatable {
@@ -265,7 +272,7 @@ public struct TLAssetsCollection {
     func getTLAsset(at index: Int) -> TLPHAsset? {
         if self.useCameraButton && index == 0 { return nil }
         let index = index - (self.useCameraButton ? 1 : 0)
-        if let assets = self.customAssets {
+        if let assets = self.customAssets, index < assets.count {
             return assets[index]
         } else {
             guard let result = self.fetchResult, index < result.count else { return nil }

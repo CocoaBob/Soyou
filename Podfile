@@ -5,7 +5,7 @@ use_frameworks!
 inhibit_all_warnings!
 
 def common_pods
-    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '196d57568138ab1c73b567767a7861b33a05b290'
+    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '1c4bc55309ad3d6cba04e5bed3022ca45c9d7629'
 end
 
 target "Soyou" do
@@ -36,7 +36,6 @@ target "Soyou" do
     pod "SnapKit", '~> 4.0.0'
 	pod "SSZipArchive"
     pod "SwiftyJSON"
-    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '196d57568138ab1c73b567767a7861b33a05b290'
 	pod "UICKeyChainStore"
 	pod "UIColor_Hex_Swift"
 	pod "UIImage-ResizeMagick"
