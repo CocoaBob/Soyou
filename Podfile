@@ -4,13 +4,7 @@ platform :ios, '10.0'
 use_frameworks!
 inhibit_all_warnings!
 
-def common_pods
-    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '1c4bc55309ad3d6cba04e5bed3022ca45c9d7629'
-end
-
 target "Soyou" do
-    common_pods
-    
 	pod "1PasswordExtension"
 	pod "ActionSheetPicker-3.0"
 	pod "AFNetworking", '~> 2'
@@ -36,6 +30,7 @@ target "Soyou" do
     pod "SnapKit", '~> 4.0.0'
 	pod "SSZipArchive"
     pod "SwiftyJSON"
+    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '1c4bc55309ad3d6cba04e5bed3022ca45c9d7629'
 	pod "UICKeyChainStore"
 	pod "UIColor_Hex_Swift"
 	pod "UIImage-ResizeMagick"
@@ -70,7 +65,7 @@ target "Soyou" do
 end
 
 target "ImagesGrabber" do
-    common_pods
+    pod "SDWebImage"
 end
 
 Swift4Targets = ['TLPhotoPicker', 'SnapKit', 'SimpleRocketChat']
