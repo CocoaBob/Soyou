@@ -24,15 +24,15 @@ extension ImagesViewController {
                 }
             }
         }
-        imageItems = items
+        self.items = items
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
     }
     
-    fileprivate func item(at index: Int) -> ImageItem? {
-        if index < imageItems?.count ?? 0 {
-            return imageItems?[index]
+    func item(at index: Int) -> ImageItem? {
+        if index < items?.count ?? 0 {
+            return items?[index]
         }
         return nil
     }
@@ -43,7 +43,14 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     // UICollectionViewDelegate
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        if let item = item(at: indexPath.item) {
+            if self.selectedItems.contains(item) {
+                self.deselectItem(item)
+            } else {
+                self.selectItem(item)
+            }
+        }
+        updateVisibleCells()
     }
     
     // UICollectionViewDataSource
@@ -51,7 +58,7 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath)
         
         if let cell = cell as? ImageCell {
-            cell.imageItem = item(at: indexPath.item)
+            cell.item = item(at: indexPath.item)
         }
         return cell
     }
@@ -61,6 +68,6 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imageItems?.count ?? 0
+        return self.items?.count ?? 0
     }
 }

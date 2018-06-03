@@ -14,10 +14,18 @@ class ImagesViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     
-    var imageItems: [ImageItem]?
+    var items: [ImageItem]?
+    var selectedItems = [ImageItem]()
+    
+    var swipeSelectionIsAddingSelections = false
+    var swipeSelectionFirstIndex = 0
+    var swipeSelectionLastIndex = 0
+    var selectedItemsBeforeSwipeSelection = [ImageItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupSwipeSelection()
         
         // Get data from JavaScript
         guard let inputItems = self.extensionContext?.inputItems as? [NSExtensionItem] else {
@@ -59,6 +67,14 @@ extension ImagesViewController {
         let width = (self.view.frame.size.width - (minSpacing * (numberOfColumn - 1))) / numberOfColumn
         layout.itemSize = CGSize(width: width, height: width)
         self.collectionView.collectionViewLayout = layout
+    }
+    
+    func updateVisibleCells() {
+        for visibleIndexPath in collectionView.indexPathsForVisibleItems {
+            if let cell = collectionView.cellForItem(at: visibleIndexPath) as? ImageCell {
+                cell.updateSelection()
+            }
+        }
     }
 }
 

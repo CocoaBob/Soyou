@@ -13,6 +13,9 @@ class ImageItem {
     
     var url: URL?
     var image: UIImage?
+    var uuid = UUID().uuidString
+    var isSelected = false
+    var order = 0
     
     init() {
         
@@ -26,5 +29,12 @@ class ImageItem {
     convenience init(image: UIImage) {
         self.init()
         self.image = image
+    }
+}
+
+extension ImageItem: Equatable {
+    
+    static func ==(lhs: ImageItem, rhs: ImageItem) -> Bool {
+        return lhs.uuid == rhs.uuid
     }
 }

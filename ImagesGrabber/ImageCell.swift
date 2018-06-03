@@ -18,23 +18,31 @@ class ImageCell: UICollectionViewCell {
     
     static var placeholderImage = UIImage(named: "img_placeholder_1_1_s")
     
-    var imageItem: ImageItem? {
+    var item: ImageItem? {
         didSet {
             updateImageItem()
         }
     }
     
-    @objc open var isSelectedItem: Bool = false {
-        willSet(newValue) {
-            self.selectedView?.isHidden = !newValue
-            if !newValue {
-                self.orderLabel?.text = ""
-            }
-        }
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.selectedView?.isHidden = true
+        self.selectedView?.layer.borderWidth = 0
+        self.selectedView?.layer.cornerRadius = 0
+        self.selectedView?.backgroundColor = UIColor(white: 1, alpha: 0.33)
+        self.orderBgView?.layer.borderWidth = 1
+        self.orderBgView?.layer.borderColor = UIColor.white.cgColor
+        self.orderBgView?.layer.cornerRadius = 12
+        self.orderBgView?.layer.shadowRadius = 1
+        self.orderBgView?.layer.shadowOpacity = 1
+        self.orderBgView?.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.orderBgView?.layer.shadowColor = UIColor(white: 0, alpha: 0.75).cgColor
+        
+        let selectedColor = UIColor(red: 88/255, green: 144/255, blue: 255/255, alpha: 1.0)
+        self.selectedView?.layer.borderColor = selectedColor.cgColor
+        self.orderBgView?.backgroundColor = selectedColor
+        
         prepareForReuse()
     }
     
@@ -44,13 +52,22 @@ class ImageCell: UICollectionViewCell {
     }
     
     func updateImageItem() {
-        if let image = imageItem?.image {
+        if let image = item?.image {
             imageView?.image = image
-        } else if let url = imageItem?.url {
+        } else if let url = item?.url {
             imageView?.sd_setImage(with: url,
                                    placeholderImage: ImageCell.placeholderImage,
                                    options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
                                    completed: nil)
+        }
+    }
+    
+    func updateSelection() {
+        if let item = item {
+            selectedView?.isHidden = !item.isSelected
+            orderLabel?.text = "\(item.order)"
+        } else {
+            selectedView?.isHidden = true
         }
     }
 }
