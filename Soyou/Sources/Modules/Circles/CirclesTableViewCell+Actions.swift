@@ -80,10 +80,7 @@ extension CirclesTableViewCell {
     }
     
     func saveNextImage() {
-        if var image = self.imagesToSave?.first {
-            if image.size.width > 1080 && image.size.height > 1080 {
-                image = image.resizedImage(byMagick: "1080x1080^")
-            }
+        if let image = self.imagesToSave?.first {
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(CirclesTableViewCell.image(_:didFinishSavingWithError:contextInfo:)), nil)
         } else {
             MBProgressHUD.hide(self.parentViewController?.view)

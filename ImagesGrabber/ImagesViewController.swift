@@ -13,6 +13,8 @@ import MobileCoreServices
 class ImagesViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var btnCancel: UIBarButtonItem!
+    @IBOutlet var btnSave: UIBarButtonItem!
     
     var items: [ImageItem]?
     var selectedItems = [ImageItem]()
@@ -22,14 +24,18 @@ class ImagesViewController: UIViewController {
     var swipeSelectionLastIndex = 0
     var selectedItemsBeforeSwipeSelection = [ImageItem]()
     
+    var saveCompletion: (()->())?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = NSLocalizedString("images_vc_title")
+        self.navigationItem.prompt = NSLocalizedString("images_vc_desc")
         
         setupSwipeSelection()
         
         // Get data from JavaScript
         guard let inputItems = self.extensionContext?.inputItems as? [NSExtensionItem] else {
-            done()
             return
         }
         for inputItem in inputItems {
@@ -69,7 +75,7 @@ extension ImagesViewController {
         self.collectionView.collectionViewLayout = layout
     }
     
-    func updateVisibleCells() {
+    func updateSelectionStatusForVisibleCells() {
         for visibleIndexPath in collectionView.indexPathsForVisibleItems {
             if let cell = collectionView.cellForItem(at: visibleIndexPath) as? ImageCell {
                 cell.updateSelection()
@@ -81,15 +87,29 @@ extension ImagesViewController {
 // MARK: - Actions
 extension ImagesViewController {
     
-    func done(_ isSuccessful: Bool = false) {
-        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    func dismiss() {
+        if let extensionContext = self.extensionContext {
+            extensionContext.completeRequest(returningItems: nil, completionHandler: nil)
+        } else {
+            if let navC = self.navigationController, navC.viewControllers.count > 1, navC.viewControllers.last == self {
+                navC.popViewController(animated: true)
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @IBAction func cancel() {
-        done()
+        dismiss()
     }
     
     @IBAction func save() {
-        done(true)
+        btnCancel.isEnabled = false
+        btnSave.isEnabled = false
+        saveSelectedImages() {
+            self.btnCancel.isEnabled = true
+            self.btnSave.isEnabled = true
+            self.dismiss()
+        }
     }
 }

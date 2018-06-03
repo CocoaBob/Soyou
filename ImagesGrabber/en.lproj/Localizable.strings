@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  Soyou
+
+  Created by CocoaBob on 03/06/18.
+  Copyright © 2018 Soyou. All rights reserved.
+*/
+
+"images_vc_title"="Soyou Images Grabber";
+"images_vc_desc"="Select images and tap on Save";

@@ -6,8 +6,8 @@
   Copyright © 2015 Soyou. All rights reserved.
 */
 
-"CFBundleDisplayName"="Save Images";
-"CFBundleName"="Save Images";
+"CFBundleDisplayName"="Images Grabber";
+"CFBundleName"="Images Grabber";
 "NSLocationWhenInUseUsageDescription"="We will use your location to help you locate brand stores.";
 "NSLocationAlwaysUsageDescription"="We will use your location to help you locate brand stores.";
 "NSLocationUsageDescription"="We will use your location to help you locate brand stores.";

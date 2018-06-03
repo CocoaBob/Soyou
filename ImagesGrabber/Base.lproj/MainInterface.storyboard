@@ -137,6 +137,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnCancel" destination="eDZ-Fg-hBv" id="BkN-Df-CAq"/>
+                        <outlet property="btnSave" destination="n7U-aY-ics" id="9K5-Dl-quA"/>
                         <outlet property="collectionView" destination="iPu-zm-6F2" id="73P-Se-WRf"/>
                     </connections>
                 </viewController>

@@ -50,7 +50,11 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 self.selectItem(item)
             }
         }
-        updateVisibleCells()
+        updateSelectionStatusForVisibleCells()
+        
+        if let cell = self.collectionView.cellForItem(at: indexPath) as? ImageCell {
+            cell.popScaleAnim()
+        }
     }
     
     // UICollectionViewDataSource

@@ -57,8 +57,13 @@ class ImageCell: UICollectionViewCell {
         } else if let url = item?.url {
             imageView?.sd_setImage(with: url,
                                    placeholderImage: ImageCell.placeholderImage,
-                                   options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                   completed: nil)
+                                   options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
+            { (image, error, type, url) -> Void in
+                if let error = error {
+                    print(error)
+                }
+                self.item?.image = image
+            }
         }
     }
     
@@ -68,6 +73,16 @@ class ImageCell: UICollectionViewCell {
             orderLabel?.text = "\(item.order)"
         } else {
             selectedView?.isHidden = true
+        }
+    }
+    
+    func popScaleAnim() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+        }) { _ in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.transform = CGAffineTransform(scaleX: 1, y: 1)
+            })
         }
     }
 }
