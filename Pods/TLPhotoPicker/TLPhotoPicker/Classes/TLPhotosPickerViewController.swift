@@ -810,19 +810,8 @@ extension TLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
         } else {
             cell.indicator?.stopAnimating()
         }
-        if let customCollection = customCollection, collection == customCollection {
-            if let image = asset.fullResolutionImage {
-                cell.imageView?.image = image
-            } else if let url = asset.remoteURL {
-                cell.imageView?.image = self.placeholderThumbnail
-                DispatchQueue.global().async {
-                    if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            cell.imageView?.image = image
-                        }
-                    }
-                }
-            }
+        if let customCollection = customCollection, collection == customCollection, let image = asset.fullResolutionImage {
+            cell.imageView?.image = image
         } else if let phAsset = asset.phAsset {
             if self.usedPrefetch {
                 let options = PHImageRequestOptions()

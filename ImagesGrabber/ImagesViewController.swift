@@ -106,9 +106,13 @@ extension ImagesViewController {
     @IBAction func save() {
         btnCancel.isEnabled = false
         btnSave.isEnabled = false
+        self.navigationItem.prompt = NSLocalizedString("images_vc_saving")
+        collectionView.isUserInteractionEnabled = false
         saveSelectedImages() {
-            self.btnCancel.isEnabled = true
-            self.btnSave.isEnabled = true
+//            self.btnCancel.isEnabled = true
+//            self.btnSave.isEnabled = true
+//            self.navigationItem.prompt = NSLocalizedString("images_vc_saved")
+//            self.collectionView.isUserInteractionEnabled = true
             self.dismiss()
         }
     }

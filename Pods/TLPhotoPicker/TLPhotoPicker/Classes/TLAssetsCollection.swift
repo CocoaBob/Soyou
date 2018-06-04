@@ -54,8 +54,6 @@ public class TLPHAsset {
         }
     }
     
-    public var remoteURL: URL?
-    
     public func extType() -> ImageExtType {
         var ext = ImageExtType.png
         if let fileName = self.originalFileName, let extention = URL(string: fileName)?.pathExtension.lowercased() {
@@ -210,11 +208,6 @@ public class TLPHAsset {
     public convenience init(image: UIImage) {
         self.init(asset: nil)
         self.fullResolutionImage = image
-    }
-    
-    public convenience init(url: URL) {
-        self.init(asset: nil)
-        self.remoteURL = url
     }
 }
 

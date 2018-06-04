@@ -49,9 +49,6 @@ open class TLPhotoCollectionViewCell: UICollectionViewCell {
             self.selectedView?.layer.borderColor = self.configure.selectedColor.cgColor
             self.orderBgView?.backgroundColor = self.configure.selectedColor
             self.videoIconImageView?.image = self.configure.videoIcon
-            if self.imageView?.image == nil {
-                self.imageView?.image = self.configure.placeholderIcon
-            }
         }
     }
     
@@ -165,6 +162,5 @@ open class TLPhotoCollectionViewCell: UICollectionViewCell {
         self.durationView?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         self.selectedHeight?.constant = 10
         self.selectedAsset = false
-        self.imageView?.image = self.configure.placeholderIcon
     }
 }

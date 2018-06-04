@@ -8,3 +8,5 @@
 
 "images_vc_title"="奢有网页抓图";
 "images_vc_desc"="选择图片后点击保存";
+"images_vc_saving"="正在保存...";
+"images_vc_saved"="保存成功！";

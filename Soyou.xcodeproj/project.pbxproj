@@ -42,9 +42,7 @@
 		452B1E1D20B9040F0008167C /* Action.js in Resources */ = {isa = PBXBuildFile; fileRef = 452B1E1C20B9040F0008167C /* Action.js */; };
 		452B1E2820B9F31E0008167C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 452B1E2620B9F31E0008167C /* InfoPlist.strings */; };
 		452B1E2B20B9F45A0008167C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 452B1E2A20B9F45A0008167C /* Assets.xcassets */; };
-		452B1E4720BA0C790008167C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4577778A1BFCE15700805D79 /* Localizable.strings */; };
 		452B1E4C20BA0CF50008167C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452B1E4B20BA0CF50008167C /* Utilities.swift */; };
-		452B1E5120BA0E480008167C /* AlertController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4528DF692038C823001084FF /* AlertController+Additions.swift */; };
 		452B1E5420BA6E080008167C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 452B1E5220BA6E080008167C /* MainInterface.storyboard */; };
 		4534D5491C22FA7A00F4DDA5 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D5481C22FA7A00F4DDA5 /* UIView+Additions.swift */; };
 		4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54A1C230A8E00F4DDA5 /* TextFields.swift */; };
@@ -1167,7 +1165,6 @@
 			files = (
 				452B1E5420BA6E080008167C /* MainInterface.storyboard in Resources */,
 				45AE007D20C488B000C51BCD /* Localizable.strings in Resources */,
-				452B1E4720BA0C790008167C /* Localizable.strings in Resources */,
 				452B1E1D20B9040F0008167C /* Action.js in Resources */,
 				452B1E2820B9F31E0008167C /* InfoPlist.strings in Resources */,
 				452B1E2B20B9F45A0008167C /* Assets.xcassets in Resources */,
@@ -1471,7 +1468,6 @@
 				45E6CCE620B8980C00CE749A /* ImagesViewController.swift in Sources */,
 				45E1EF4720C1E35E00DCF0E8 /* ImagesViewController+CollectionView.swift in Sources */,
 				45180EB420C3AF0800E87FCB /* ImagesViewController+Selections.swift in Sources */,
-				452B1E5120BA0E480008167C /* AlertController+Additions.swift in Sources */,
 				45E1EF4920C1E3A100DCF0E8 /* ImageItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

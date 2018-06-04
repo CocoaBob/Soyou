@@ -7,4 +7,6 @@
 */
 
 "images_vc_title"="Soyou Images Grabber";
-"images_vc_desc"="Select images and tap on Save";
+"images_vc_desc"="Select images and tap Save";
+"images_vc_saving"="Saving...";
+"images_vc_saved"="Saved successfully!";
