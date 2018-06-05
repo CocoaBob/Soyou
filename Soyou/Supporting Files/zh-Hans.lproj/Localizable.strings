@@ -319,6 +319,15 @@
 "crawls_vc_loading_data"="加载中...";
 "crawls_vc_no_result"="点击 + 添加网站...";
 
+/* Add Crawl View Controller */
+"add_crawl_vc_title"="添加网站";
+"add_crawl_vc_placeholder_title"="标签";
+"add_crawl_vc_placeholder_url"="地址";
+"add_crawl_vc_loading_data"="加载中...";
+"add_crawl_vc_no_result"="暂无推荐";
+"add_crawl_vc_section_title_custom"="自定义网站";
+"add_crawl_vc_section_title_recommendations"="推荐网站";
+
 /* Data Manager */
 "data_manager_updating_data"="正在更新数据...";
 "data_manager_data_update_succeeded"="数据更新成功！";

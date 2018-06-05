@@ -6,27 +6,6 @@
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
-struct Crawl {
-    var id: Int?
-    var label: String?
-    var url: String?
-    var isSelected: Bool?
-}
-
-extension Crawl: Hashable {
-    
-    var hashValue: Int {
-        return self.id ?? -1
-    }
-}
-
-extension Crawl: Equatable {
-    
-    static func ==(lhs: Crawl, rhs: Crawl) -> Bool {
-        return (lhs.id ?? -1) == (rhs.id ?? -1)
-    }
-}
-
 class CrawlsViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
@@ -94,8 +73,8 @@ extension CrawlsViewController: UITableViewDataSource, UITableViewDelegate {
             }
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CrawlsTableViewCell", for: indexPath)
-            if let cell = cell as? CrawlsTableViewCell, let crawl = self.crawls?[indexPath.row] {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CrawlTableViewCell", for: indexPath)
+            if let cell = cell as? CrawlTableViewCell, let crawl = self.crawls?[indexPath.row] {
                 cell.crawl = crawl
             }
             return cell
@@ -103,7 +82,7 @@ extension CrawlsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return 64
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -123,7 +102,9 @@ extension CrawlsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if let crawl = self.crawls?[indexPath.row], let crawlId = crawl.id {
+            MBProgressHUD.show(self.view)
             DataManager.shared.deleteCrawl(crawlId, { (responseObject, error) in
+                MBProgressHUD.hide(self.view)
                 if error == nil {
                     self.tableView.beginUpdates()
                     self.crawls?.remove(at: indexPath.row)
@@ -189,41 +170,10 @@ extension CrawlsViewController {
 // MARK: - Actions
 extension CrawlsViewController {
     
-    @objc func addNewCrawl() {
-        self.navigationController?.pushViewController(AddCrawlViewController(), animated: true)
-    }
-}
-
-// MARK: - CrawlsTableViewCell
-class CrawlsTableViewCell: UITableViewCell {
-    
-    var crawl: Crawl? {
-        didSet {
-            self.configureCell()
+    @IBAction func addNewCrawl() {
+        let vc = AddCrawlViewController.instantiate() {
+            self.loadData()
         }
-    }
-    
-    @IBOutlet var lblLabel: UILabel!
-    @IBOutlet var lblUrl: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.prepareForReuse()
-//        self.separatorInset = UIEdgeInsets.zero
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.lblLabel.text = nil
-        self.lblUrl.text = nil
-    }
-    
-    func configureCell() {
-        if let crawl = self.crawl {
-            self.lblLabel.text = crawl.label
-            self.lblUrl.text = crawl.url
-        } else {
-            self.prepareForReuse()
-        }
+        self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
 }

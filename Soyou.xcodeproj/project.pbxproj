@@ -50,6 +50,8 @@
 		4537F0701C945EC2002AF33E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537F06F1C945EC2002AF33E /* AddressBook.framework */; };
 		453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453CBCE61CD656040073FE43 /* NSManagedObjectContext+Additions.swift */; };
 		45439E6E20C6F9F0000E3B82 /* CrawlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45439E6D20C6F9F0000E3B82 /* CrawlViewController.swift */; };
+		45439E7020C72065000E3B82 /* CrawlTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45439E6F20C72065000E3B82 /* CrawlTableViewCells.swift */; };
+		45439E7220C7207A000E3B82 /* Crawl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45439E7120C7207A000E3B82 /* Crawl.swift */; };
 		454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */; };
 		454499271C6601350075DE82 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499251C6601350075DE82 /* AppData.swift */; };
 		4544F03D202B64D400015622 /* InteractivePopNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4544F03C202B64D400015622 /* InteractivePopNavigationController.swift */; };
@@ -285,6 +287,8 @@
 		4537F06F1C945EC2002AF33E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		453CBCE61CD656040073FE43 /* NSManagedObjectContext+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Additions.swift"; sourceTree = "<group>"; };
 		45439E6D20C6F9F0000E3B82 /* CrawlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlViewController.swift; sourceTree = "<group>"; };
+		45439E6F20C72065000E3B82 /* CrawlTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlTableViewCells.swift; sourceTree = "<group>"; };
+		45439E7120C7207A000E3B82 /* Crawl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crawl.swift; sourceTree = "<group>"; };
 		454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454499251C6601350075DE82 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		4544F03C202B64D400015622 /* InteractivePopNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractivePopNavigationController.swift; sourceTree = "<group>"; };
@@ -726,9 +730,11 @@
 		4593D37F20C4EF6100FD94B0 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				45439E7120C7207A000E3B82 /* Crawl.swift */,
+				45439E6F20C72065000E3B82 /* CrawlTableViewCells.swift */,
 				4593D37D20C4EE0900FD94B0 /* CrawlsViewController.swift */,
-				45439E6D20C6F9F0000E3B82 /* CrawlViewController.swift */,
 				4593D38020C4F0FF00FD94B0 /* AddCrawlViewController.swift */,
+				45439E6D20C6F9F0000E3B82 /* CrawlViewController.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -1580,6 +1586,7 @@
 				4599E2642090BF8800D0EE92 /* ChatViewController+extension.swift in Sources */,
 				45A904CE2027F67700E6EC73 /* Comment.swift in Sources */,
 				4506ED711C221797003B5018 /* LoginViewController.swift in Sources */,
+				45439E7220C7207A000E3B82 /* Crawl.swift in Sources */,
 				455F89371FFEAC27009DC915 /* CustomLabels.swift in Sources */,
 				454ECE9C1C567AE5003A0E94 /* User.swift in Sources */,
 				459B33FA1C2899CF00C36181 /* AFNetworking+Additions.swift in Sources */,
@@ -1589,6 +1596,7 @@
 				45D9B36D1C39B3F600D7E899 /* ProductViewController.swift in Sources */,
 				450468A920A34BEE000B2579 /* CensorshipManager.swift in Sources */,
 				455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */,
+				45439E7020C72065000E3B82 /* CrawlTableViewCells.swift in Sources */,
 				45CFA59B1C2B1585007D38F3 /* BrandsViewController.swift in Sources */,
 				45B66C78201D621000D5E958 /* WeChatActivityMoments.swift in Sources */,
 				4524C0AD1C67C5D00027046F /* FavoriteProduct+CoreDataProperties.swift in Sources */,

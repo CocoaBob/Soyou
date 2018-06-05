@@ -320,6 +320,15 @@
 "crawls_vc_loading_data"="Loading...";
 "crawls_vc_no_result"="Tap + to add a website...";
 
+/* Add Crawl View Controller */
+"add_crawl_vc_title"="Add a website";
+"add_crawl_vc_placeholder_title"="Label";
+"add_crawl_vc_placeholder_url"="URL";
+"add_crawl_vc_loading_data"="Loading...";
+"add_crawl_vc_no_result"="No recommendations";
+"add_crawl_vc_section_title_custom"="Custom website";
+"add_crawl_vc_section_title_recommendations"="Recommendations";
+
 /* Data Manager */
 "data_manager_updating_data"="Updating data...";
 "data_manager_data_update_succeeded"="Succeeded to update data!";

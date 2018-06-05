@@ -1039,9 +1039,24 @@ class DataManager {
     // MARK: - Crawl
     //////////////////////////////////////
     
+    fileprivate func createCrawls(_ datas: [NSDictionary]) -> [Crawl] {
+        return datas.map {
+            let id = $0["id"] as? Int ?? -1
+            var label = $0["label"] as? String ?? ""
+            label = label.removingPercentEncoding ?? label
+            let url = $0["url"] as? String ?? ""
+            let isSelected = $0["isSelected"] as? Bool ?? false
+            return Crawl(id: id, label: label, url: url, isSelected: isSelected)
+        }
+    }
+    
     func getCrawlSuggestions(_ completion: CompletionClosure?) {
         RequestManager.shared.getCrawlSuggestions({ responseObject in
-            self.completeWithData(responseObject, completion: completion)
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                self.completeWithData(self.createCrawls(data), completion: completion)
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
         }, { error in
             self.completeWithError(error, completion: completion)
         })
@@ -1050,17 +1065,7 @@ class DataManager {
     func getCrawls(_ completion: CompletionClosure?) {
         RequestManager.shared.getCrawls({ responseObject in
             if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
-                var crawls = [Crawl]()
-                for dict in data {
-                    let id = dict["id"] as? Int ?? -1
-                    var label = dict["label"] as? String ?? ""
-                    label = label.removingPercentEncoding ?? label
-                    var url = dict["url"] as? String ?? ""
-                    let isSelected = dict["isSelected"] as? Bool ?? false
-                    let tag = Crawl(id: id, label: label, url: url, isSelected: isSelected)
-                    crawls.append(tag)
-                }
-                self.completeWithData(crawls, completion: completion)
+                self.completeWithData(self.createCrawls(data), completion: completion)
             } else {
                 self.completeWithError(FmtError(0, nil), completion: completion)
             }
