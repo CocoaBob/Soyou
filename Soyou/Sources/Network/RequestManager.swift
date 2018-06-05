@@ -511,6 +511,27 @@ class RequestManager {
     }
     
     //////////////////////////////////////
+    // MARK: - Crawl
+    //////////////////////////////////////
+    
+    func getCrawlSuggestions(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/crawls/suggestions", "Crawls", onSuccess, onFailure)
+    }
+    
+    func getCrawls(_ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        getAsync("/api/\(Cons.Svr.apiVersion)/secure/crawls", "Crawls", onSuccess, onFailure)
+    }
+    
+    func addCrawl(_ label: String, _ url: String, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        let params = ["label": label, "url": url]
+        postAsync("/api/\(Cons.Svr.apiVersion)/secure/crawls", "Crawls", params, onSuccess, onFailure)
+    }
+    
+    func deleteCrawl(_ id: Int, _ onSuccess: DataClosure?, _ onFailure: ErrorClosure?) {
+        deleteAsync("/api/\(Cons.Svr.apiVersion)/secure/crawls/\(id)", "Crawls", onSuccess, onFailure)
+    }
+    
+    //////////////////////////////////////
     // MARK: - Analytics
     //////////////////////////////////////
     

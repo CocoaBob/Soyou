@@ -1,73 +1,48 @@
 //
-//  TagsViewController.swift
+//  CrawlsViewController.swift
 //  Soyou
 //
-//  Created by CocoaBob on 2018-02-25.
+//  Created by CocoaBob on 2018-06-03.
 //  Copyright © 2018 Soyou. All rights reserved.
 //
 
-struct TagUser {
-    var userId: Int = -1
-    var username: String?
-    var userProfileUrl: String?
-}
-
-struct Tag {
+struct Crawl {
     var id: Int?
     var label: String?
-    var members: [TagUser]?
-    
-    mutating func addMember(member: TagUser) {
-        if members == nil {
-            self.members = [TagUser]()
-        }
-        if let members = self.members,
-            members.map({ $0.userId }).contains(member.userId) {
-            return
-        }
-        self.members?.append(member)
-    }
-    
-    func memberNames() -> String {
-        if let members = self.members {
-            let nameString = members.flatMap({ $0.username }).joined(separator: ", ")
-            return nameString.count > 0 ? nameString : NSLocalizedString("tags_vc_no_member")
-        } else {
-            return NSLocalizedString("tags_vc_loading_members")
-        }
-    }
+    var url: String?
+    var isSelected: Bool?
 }
 
-extension Tag: Hashable {
+extension Crawl: Hashable {
     
     var hashValue: Int {
         return self.id ?? -1
     }
 }
 
-extension Tag: Equatable {
+extension Crawl: Equatable {
     
-    static func ==(lhs: Tag, rhs: Tag) -> Bool {
+    static func ==(lhs: Crawl, rhs: Crawl) -> Bool {
         return (lhs.id ?? -1) == (rhs.id ?? -1)
     }
 }
 
-class TagsViewController: UIViewController {
+class CrawlsViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
-    
-    var tags: [Tag]? {
+
+    var crawls: [Crawl]? {
         didSet {
             self.tableView.reloadData()
         }
     }
     
     // Class methods
-    class func instantiate() -> TagsViewController {
-        return  UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "TagsViewController") as! TagsViewController
+    class func instantiate() -> CrawlsViewController {
+        return UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "CrawlsViewController") as! CrawlsViewController
     }
     
-    // Life Cycle
+    // Life cycle
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         // Bars
@@ -78,7 +53,7 @@ class TagsViewController: UIViewController {
         super.viewDidLoad()
         
         // Title
-        self.title = NSLocalizedString("tags_vc_title")
+        self.title = NSLocalizedString("crawls_vc_title")
         
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
@@ -93,31 +68,16 @@ class TagsViewController: UIViewController {
         self.loadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        // Nav bar
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Workaround to make sure navigation bar is updated even the slide-back gesture is cancelled.
-        DispatchQueue.main.async {
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-        }
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.default
     }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
-extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
+extension CrawlsViewController: UITableViewDataSource, UITableViewDelegate {
     
     fileprivate func numberOfRows() -> Int {
-        return self.tags?.count ?? 0
+        return self.crawls?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -130,35 +90,31 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
         if count == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StatusMessageTableViewCell", for: indexPath)
             if let cell = cell as? StatusMessageTableViewCell {
-                cell.lblTitle.text = NSLocalizedString(self.tags == nil ? "tags_vc_loading_data" : "tags_vc_no_result")
+                cell.lblTitle.text = NSLocalizedString(self.crawls == nil ? "crawls_vc_loading_data" : "crawls_vc_no_result")
             }
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TagsTableViewCell", for: indexPath)
-            if let cell = cell as? TagsTableViewCell, let tag = self.tags?[indexPath.row] {
-                cell.aTag = tag
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CrawlsTableViewCell", for: indexPath)
+            if let cell = cell as? CrawlsTableViewCell, let crawl = self.crawls?[indexPath.row] {
+                cell.crawl = crawl
             }
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64
+        return 44
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard indexPath.row < self.tags?.count ?? 0 else {
+        guard indexPath.row < self.crawls?.count ?? 0 else {
             return
         }
-        if let tag = self.tags?[indexPath.row] {
-            let vc = TagEditViewController.instantiate(tag: tag)
-            vc.completion = {
-                self.loadData()
-            }
-            let navC = InteractivePopNavigationController(rootViewController: vc)
-            self.present(navC, animated: true, completion: nil)
+        guard let crawl = self.crawls?[indexPath.row] else {
+            return
         }
+        
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -166,12 +122,12 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if let tag = self.tags?[indexPath.row], let tagId = tag.id {
-            DataManager.shared.removeTag(tagId, { (responseObject, error) in
+        if let crawl = self.crawls?[indexPath.row], let crawlId = crawl.id {
+            DataManager.shared.deleteCrawl(crawlId, { (responseObject, error) in
                 if error == nil {
                     self.tableView.beginUpdates()
-                    self.tags?.remove(at: indexPath.row)
-                    if self.tags?.count ?? 0 == 0 {
+                    self.crawls?.remove(at: indexPath.row)
+                    if self.crawls?.count ?? 0 == 0 {
                         self.tableView.reloadData()
                     } else {
                         self.tableView.deleteRows(at: [indexPath], with: .left)
@@ -188,7 +144,7 @@ extension TagsViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: - Refreshing
-extension TagsViewController {
+extension CrawlsViewController {
     
     func setupRefreshControls() {
         guard let header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
@@ -218,12 +174,12 @@ extension TagsViewController {
 }
 
 // MARK: - Load data
-extension TagsViewController {
+extension CrawlsViewController {
     
     func loadData() {
-        DataManager.shared.allTags() { responseObject, error in
-            if let responseObject = responseObject as? [Tag] {
-                self.tags = responseObject
+        DataManager.shared.getCrawls() { responseObject, error in
+            if let responseObject = responseObject as? [Crawl] {
+                self.crawls = responseObject
             }
             self.endRefreshing()
         }
@@ -231,46 +187,41 @@ extension TagsViewController {
 }
 
 // MARK: - Actions
-extension TagsViewController {
+extension CrawlsViewController {
     
-    @IBAction func addNewTag() {
-        let vc = TagEditViewController.instantiate(tag: nil)
-        vc.completion = {
-            self.loadData()
-        }
-        let navC = InteractivePopNavigationController(rootViewController: vc)
-        self.present(navC, animated: true, completion: nil)
+    @objc func addNewCrawl() {
+        self.navigationController?.pushViewController(AddCrawlViewController(), animated: true)
     }
 }
 
-// MARK: - TagsTableViewCell
-class TagsTableViewCell: UITableViewCell {
+// MARK: - CrawlsTableViewCell
+class CrawlsTableViewCell: UITableViewCell {
     
-    var aTag: Tag? {
+    var crawl: Crawl? {
         didSet {
             self.configureCell()
         }
     }
     
-    @IBOutlet var lblName: UILabel!
-    @IBOutlet var lblMembers: UILabel!
+    @IBOutlet var lblLabel: UILabel!
+    @IBOutlet var lblUrl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.prepareForReuse()
-        self.separatorInset = UIEdgeInsets.zero
+//        self.separatorInset = UIEdgeInsets.zero
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.lblName.text = nil
-        self.lblMembers.text = nil
+        self.lblLabel.text = nil
+        self.lblUrl.text = nil
     }
     
     func configureCell() {
-        if let tag = self.aTag {
-            self.lblName.text = "\(tag.label ?? "") (\(tag.members?.count ?? 0))"
-            self.lblMembers.text = tag.memberNames()
+        if let crawl = self.crawl {
+            self.lblLabel.text = crawl.label
+            self.lblUrl.text = crawl.url
         } else {
             self.prepareForReuse()
         }

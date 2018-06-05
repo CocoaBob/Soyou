@@ -185,7 +185,7 @@ extension UserViewController {
                                 image: UIImage(named: "img_news"),
                                 title: Text(text: NSLocalizedString("user_vc_cell_tools_grab_images")),
                                 didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                                    self.showWebViewController()
+                                    self.showCrawlViewController()
                             })
                     ]),
                 Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
@@ -242,10 +242,8 @@ extension UserViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showWebViewController() {
-        guard let url = URL(string: "https://soyou.io") else { return }
-        let webViewController = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        self.present(webViewController, animated: true, completion: nil)
+    func showCrawlViewController() {
+        self.navigationController?.pushViewController(CrawlsViewController.instantiate(), animated: true)
     }
     
     func showFavoritesViewController(_ type: FavoriteType) {

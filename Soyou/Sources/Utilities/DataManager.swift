@@ -1036,6 +1036,56 @@ class DataManager {
     }
     
     //////////////////////////////////////
+    // MARK: - Crawl
+    //////////////////////////////////////
+    
+    func getCrawlSuggestions(_ completion: CompletionClosure?) {
+        RequestManager.shared.getCrawlSuggestions({ responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func getCrawls(_ completion: CompletionClosure?) {
+        RequestManager.shared.getCrawls({ responseObject in
+            if let data = DataManager.getResponseData(responseObject) as? [NSDictionary] {
+                var crawls = [Crawl]()
+                for dict in data {
+                    let id = dict["id"] as? Int ?? -1
+                    var label = dict["label"] as? String ?? ""
+                    label = label.removingPercentEncoding ?? label
+                    var url = dict["url"] as? String ?? ""
+                    let isSelected = dict["isSelected"] as? Bool ?? false
+                    let tag = Crawl(id: id, label: label, url: url, isSelected: isSelected)
+                    crawls.append(tag)
+                }
+                self.completeWithData(crawls, completion: completion)
+            } else {
+                self.completeWithError(FmtError(0, nil), completion: completion)
+            }
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func addCrawl(_ label: String, _ url: String, _ completion: CompletionClosure?) {
+        RequestManager.shared.addCrawl(label, url, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    func deleteCrawl(_ id: Int, _ completion: CompletionClosure?) {
+        RequestManager.shared.deleteCrawl(id, { responseObject in
+            self.completeWithData(responseObject, completion: completion)
+        }, { error in
+            self.completeWithError(error, completion: completion)
+        })
+    }
+    
+    //////////////////////////////////////
     // MARK: Analytics
     //////////////////////////////////////
     

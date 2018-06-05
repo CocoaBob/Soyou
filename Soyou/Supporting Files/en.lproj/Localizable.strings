@@ -315,6 +315,11 @@
 "settings_vc_cell_localization_enabled"="Enabled";
 "settings_vc_cell_localization_not_enabled"="Not enabled";
 
+/* Crawls View Controller */
+"crawls_vc_title"="Websites";
+"crawls_vc_loading_data"="Loading...";
+"crawls_vc_no_result"="Tap + to add a website...";
+
 /* Data Manager */
 "data_manager_updating_data"="Updating data...";
 "data_manager_data_update_succeeded"="Succeeded to update data!";

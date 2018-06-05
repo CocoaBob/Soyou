@@ -49,6 +49,7 @@
 		4534D54D1C230EC600F4DDA5 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4534D54C1C230EC600F4DDA5 /* String+Additions.swift */; };
 		4537F0701C945EC2002AF33E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4537F06F1C945EC2002AF33E /* AddressBook.framework */; };
 		453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453CBCE61CD656040073FE43 /* NSManagedObjectContext+Additions.swift */; };
+		45439E6E20C6F9F0000E3B82 /* CrawlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45439E6D20C6F9F0000E3B82 /* CrawlViewController.swift */; };
 		454499261C6601350075DE82 /* AppData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */; };
 		454499271C6601350075DE82 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454499251C6601350075DE82 /* AppData.swift */; };
 		4544F03D202B64D400015622 /* InteractivePopNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4544F03C202B64D400015622 /* InteractivePopNavigationController.swift */; };
@@ -104,6 +105,8 @@
 		4590F8CE1C52A60300329ECA /* TableViewCellCenterTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */; };
 		4590F8D01C52A60E00329ECA /* TableViewCellIconTitle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */; };
 		4591F2FD209214B300A72613 /* RocketChatManager+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4591F2FC209214B300A72613 /* RocketChatManager+extension.swift */; };
+		4593D37E20C4EE0900FD94B0 /* CrawlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4593D37D20C4EE0900FD94B0 /* CrawlsViewController.swift */; };
+		4593D38120C4F0FF00FD94B0 /* AddCrawlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4593D38020C4F0FF00FD94B0 /* AddCrawlViewController.swift */; };
 		4595FDAF2030AF7D002692AC /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */; };
 		45973CFB2031E868003205A9 /* InvitationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45973CFA2031E868003205A9 /* InvitationSuccessViewController.swift */; };
 		4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597B1EB1D30FACD00287873 /* DDAuthItem.m */; };
@@ -281,6 +284,7 @@
 		4534D54C1C230EC600F4DDA5 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		4537F06F1C945EC2002AF33E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		453CBCE61CD656040073FE43 /* NSManagedObjectContext+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Additions.swift"; sourceTree = "<group>"; };
+		45439E6D20C6F9F0000E3B82 /* CrawlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlViewController.swift; sourceTree = "<group>"; };
 		454499241C6601350075DE82 /* AppData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		454499251C6601350075DE82 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		4544F03C202B64D400015622 /* InteractivePopNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractivePopNavigationController.swift; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 		4590F8CD1C52A60300329ECA /* TableViewCellCenterTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellCenterTitle.xib; sourceTree = "<group>"; };
 		4590F8CF1C52A60E00329ECA /* TableViewCellIconTitle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCellIconTitle.xib; sourceTree = "<group>"; };
 		4591F2FC209214B300A72613 /* RocketChatManager+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RocketChatManager+extension.swift"; sourceTree = "<group>"; };
+		4593D37D20C4EE0900FD94B0 /* CrawlsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlsViewController.swift; sourceTree = "<group>"; };
+		4593D38020C4F0FF00FD94B0 /* AddCrawlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCrawlViewController.swift; sourceTree = "<group>"; };
 		4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		45973CFA2031E868003205A9 /* InvitationSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationSuccessViewController.swift; sourceTree = "<group>"; };
 		4597B1EA1D30FACD00287873 /* DDAuthItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAuthItem.h; sourceTree = "<group>"; };
@@ -544,6 +550,7 @@
 		455D06AD1C0394E200D81ABF /* User */ = {
 			isa = PBXGroup;
 			children = (
+				4593D37F20C4EF6100FD94B0 /* Tools */,
 				4549F3E11C25BF0900EAA1DB /* UserViewController.storyboard */,
 				455D06B31C03950300D81ABF /* UserViewController.swift */,
 				4549F3E51C25DF4000EAA1DB /* FavoritesViewController.swift */,
@@ -553,8 +560,8 @@
 				45640AF31C51A934009984EC /* ProfileViewController.swift */,
 				4595FDAE2030AF7D002692AC /* QRCodeViewController.swift */,
 				455D06AE1C0394E200D81ABF /* SettingsViewController.swift */,
-				454C6A6820436F6F0071E7BE /* TagsViewController.swift */,
 				45854260204B2B2000B35355 /* TagEditViewController.swift */,
+				454C6A6820436F6F0071E7BE /* TagsViewController.swift */,
 			);
 			name = User;
 			path = Soyou/Sources/Modules/Account;
@@ -714,6 +721,16 @@
 				4544F03C202B64D400015622 /* InteractivePopNavigationController.swift */,
 			);
 			path = CustomUI;
+			sourceTree = "<group>";
+		};
+		4593D37F20C4EF6100FD94B0 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				4593D37D20C4EE0900FD94B0 /* CrawlsViewController.swift */,
+				45439E6D20C6F9F0000E3B82 /* CrawlViewController.swift */,
+				4593D38020C4F0FF00FD94B0 /* AddCrawlViewController.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		4597B1E51D30FACD00287873 /* Vendor */ = {
@@ -1488,6 +1505,7 @@
 				4568E2F61BF92182009A6164 /* AsyncedFetchedResultsViewController.swift in Sources */,
 				4534D54B1C230A8E00F4DDA5 /* TextFields.swift in Sources */,
 				45CD72CB1C189894004583FC /* UITabBar+Additions.swift in Sources */,
+				45439E6E20C6F9F0000E3B82 /* CrawlViewController.swift in Sources */,
 				45E67EE01C58EB0500806929 /* FavoriteNews+CoreDataProperties.swift in Sources */,
 				4591F2FD209214B300A72613 /* RocketChatManager+extension.swift in Sources */,
 				457777821BFCB60100805D79 /* News+CoreDataProperties.swift in Sources */,
@@ -1506,8 +1524,10 @@
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4585425F204B110500B35355 /* CirclesTableViewCell+Actions.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
+				4593D37E20C4EE0900FD94B0 /* CrawlsViewController.swift in Sources */,
 				458B2E431FEAFE7800BD6843 /* PicturePickerViewController.swift in Sources */,
 				450D47641FFC288E00A2F3D1 /* CirclesViewController.swift in Sources */,
+				4593D38120C4F0FF00FD94B0 /* AddCrawlViewController.swift in Sources */,
 				4597B2381D30FACE00287873 /* DDFacebookHandler.m in Sources */,
 				0D783C7C1C3B2098001CC36D /* Utils.swift in Sources */,
 				4597B2391D30FACE00287873 /* DDGoogleHandler.m in Sources */,

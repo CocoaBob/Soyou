@@ -38,6 +38,12 @@ class QRCodeViewController: UIViewController {
     }
     
     // Life cycle
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        // Bars
+        self.hidesBottomBarWhenPushed = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

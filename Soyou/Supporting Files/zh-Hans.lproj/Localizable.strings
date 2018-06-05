@@ -314,6 +314,11 @@
 "settings_vc_cell_localization_enabled"="已启用";
 "settings_vc_cell_localization_not_enabled"="未启用";
 
+/* Crawls View Controller */
+"crawls_vc_title"="网页抓图";
+"crawls_vc_loading_data"="加载中...";
+"crawls_vc_no_result"="点击 + 添加网站...";
+
 /* Data Manager */
 "data_manager_updating_data"="正在更新数据...";
 "data_manager_data_update_succeeded"="数据更新成功！";
