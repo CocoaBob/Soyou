@@ -93,7 +93,8 @@ extension CrawlsViewController: UITableViewDataSource, UITableViewDelegate {
         guard let crawl = self.crawls?[indexPath.row] else {
             return
         }
-        
+        let vc = CrawlViewController.instantiate(crawl.label, crawl.url)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

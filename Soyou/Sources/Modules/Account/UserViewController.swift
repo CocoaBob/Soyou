@@ -182,10 +182,10 @@ extension UserViewController {
                         rows: [
                             Row(type: .IconTitle,
                                 cell: Cell(height: 44, accessoryType: .disclosureIndicator),
-                                image: UIImage(named: "img_news"),
-                                title: Text(text: NSLocalizedString("user_vc_cell_tools_grab_images")),
+                                image: UIImage(named: "img_websites"),
+                                title: Text(text: NSLocalizedString("user_vc_cell_tools_website_crawler")),
                                 didSelect: {(tableView: UITableView, indexPath: IndexPath) -> Void in
-                                    self.showCrawlViewController()
+                                    self.showCrawlsViewController()
                             })
                     ]),
                 Section(headerTitle: NSLocalizedString("user_vc_cell_favs"),
@@ -242,7 +242,7 @@ extension UserViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showCrawlViewController() {
+    func showCrawlsViewController() {
         self.navigationController?.pushViewController(CrawlsViewController.instantiate(), animated: true)
     }
     
