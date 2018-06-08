@@ -32,19 +32,24 @@ class CrawlsViewController: UIViewController {
         super.viewDidLoad()
         
         // Title
-        self.title = NSLocalizedString("crawls_vc_title")
+        title = NSLocalizedString("crawls_vc_title")
         
         // Fix scroll view insets
-        self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
+        updateScrollViewInset(self.tableView, 0, true, true, false, false)
         
         // Setup refresh controls
-        self.setupRefreshControls()
+        setupRefreshControls()
         
         // Setup Table
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         // Load data
-        self.loadData()
+        loadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadData()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -172,9 +177,7 @@ extension CrawlsViewController {
 extension CrawlsViewController {
     
     @IBAction func addNewCrawl() {
-        let vc = AddCrawlViewController.instantiate() {
-            self.loadData()
-        }
+        let vc = AddCrawlViewController.instantiate()
         self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
 }

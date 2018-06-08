@@ -10,8 +10,8 @@ class AddCrawlViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    fileprivate var didAddNewCrawlHandler: (()->())?
-    
+    var showRecommendations = true
+    var crawl = Crawl()
     var crawls: [Crawl]? {
         didSet {
             self.tableView.reloadSections(IndexSet(integer: 1), with: .none)
@@ -19,9 +19,11 @@ class AddCrawlViewController: UIViewController {
     }
     
     // Class methods
-    class func instantiate(_ didAddNewCrawlHandler: (()->())?) -> AddCrawlViewController {
+    class func instantiate(_ label: String? = nil, _ url: String? = nil, _ showRecommendations: Bool = true) -> AddCrawlViewController {
         let vc = UIStoryboard(name: "UserViewController", bundle: nil).instantiateViewController(withIdentifier: "AddCrawlViewController") as! AddCrawlViewController
-        vc.didAddNewCrawlHandler = didAddNewCrawlHandler
+        vc.crawl.label = label
+        vc.crawl.url = url
+        vc.showRecommendations = showRecommendations
         return vc
     }
     
@@ -41,14 +43,15 @@ class AddCrawlViewController: UIViewController {
         // Fix scroll view insets
         self.updateScrollViewInset(self.tableView, 0, true, true, false, false)
         
-        // Setup refresh controls
-        self.setupRefreshControls()
-        
         // Setup Table
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
-        // Load data
-        self.loadData()
+        if showRecommendations {
+            // Setup refresh controls
+            self.setupRefreshControls()
+            // Load data
+            self.loadData()
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -64,7 +67,7 @@ extension AddCrawlViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return showRecommendations ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,6 +83,7 @@ extension AddCrawlViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditCrawlTableViewCell", for: indexPath)
             if let cell = cell as? EditCrawlTableViewCell {
+                cell.textfield.text = indexPath.row == 0 ? crawl.label : crawl.url
                 cell.textfield.placeholder = NSLocalizedString(indexPath.row == 0 ? "add_crawl_vc_placeholder_title" : "add_crawl_vc_placeholder_url")
             }
             return cell
@@ -203,7 +207,6 @@ extension AddCrawlViewController {
         DataManager.shared.addCrawl(title, url) { responseObject, error in
             if error == nil {
                 DispatchQueue.main.async {
-                    self.didAddNewCrawlHandler?()
                     MBProgressHUD.hide(self.view)
                     self.dismissSelf()
                 }
@@ -213,5 +216,16 @@ extension AddCrawlViewController {
     
     @IBAction func saveNewCrawl() {
         submitCrawl()
+    }
+    
+    @IBAction func textfieldDidUpdate(_ textfield: UITextField) {
+        let position = textfield.convert(CGPoint.zero, to: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: position) else { return }
+        guard indexPath.section == 0 else { return }
+        if indexPath.row == 0 {
+            crawl.label = textfield.text
+        } else if indexPath.row == 1 {
+            crawl.url = textfield.text
+        }
     }
 }
