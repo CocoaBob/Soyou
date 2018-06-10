@@ -1747,7 +1747,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <action selector="textfieldDidUpdate:" destination="NGK-oU-Zxs" eventType="valueChanged" id="Zco-yB-6Mz"/>
+                                                        <outlet property="delegate" destination="NGK-oU-Zxs" id="bj2-ls-XSp"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -1842,7 +1842,7 @@
                                 <action selector="dismissSelf" destination="NGK-oU-Zxs" id="m0T-vJ-tbM"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="0Xe-Wp-B2w">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="0Xe-Wp-B2w">
                             <connections>
                                 <action selector="saveNewCrawl" destination="NGK-oU-Zxs" id="9ss-9F-omu"/>
                             </connections>
@@ -1850,6 +1850,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="saveButton" destination="0Xe-Wp-B2w" id="9Cu-1U-rGp"/>
                         <outlet property="tableView" destination="jdC-ew-eAt" id="8KG-pq-wbX"/>
                     </connections>
                 </viewController>

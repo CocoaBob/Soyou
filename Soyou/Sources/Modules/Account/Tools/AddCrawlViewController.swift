@@ -9,6 +9,7 @@
 class AddCrawlViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var saveButton: UIBarButtonItem!
     
     var showRecommendations = true
     var crawl = Crawl()
@@ -85,6 +86,8 @@ extension AddCrawlViewController: UITableViewDataSource, UITableViewDelegate {
             if let cell = cell as? EditCrawlTableViewCell {
                 cell.textfield.text = indexPath.row == 0 ? crawl.label : crawl.url
                 cell.textfield.placeholder = NSLocalizedString(indexPath.row == 0 ? "add_crawl_vc_placeholder_title" : "add_crawl_vc_placeholder_url")
+                cell.textfield.removeTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+                cell.textfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             }
             return cell
         } else {
@@ -218,14 +221,20 @@ extension AddCrawlViewController {
         submitCrawl()
     }
     
-    @IBAction func textfieldDidUpdate(_ textfield: UITextField) {
-        let position = textfield.convert(CGPoint.zero, to: tableView)
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        let position = textField.convert(CGPoint.zero, to: tableView)
         guard let indexPath = tableView.indexPathForRow(at: position) else { return }
         guard indexPath.section == 0 else { return }
         if indexPath.row == 0 {
-            crawl.label = textfield.text
+            crawl.label = textField.text
         } else if indexPath.row == 1 {
-            crawl.url = textfield.text
+            crawl.url = textField.text
+        }
+        if crawl.label?.isEmpty == false,
+            crawl.url?.isEmpty == false {
+            saveButton.isEnabled = true
+        } else {
+            saveButton.isEnabled = false
         }
     }
 }
