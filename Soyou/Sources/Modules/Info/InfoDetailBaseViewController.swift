@@ -405,7 +405,7 @@ extension InfoDetailBaseViewController {
 extension InfoDetailBaseViewController {
     
     func collectAllImageURLsFromWebView(_ webView: UIWebView) {
-        if let imageURLs = webView.stringByEvaluatingJavaScript(from: "var imgs = []; for (var i = 0; i < document.images.length; i++) { imgs.push(document.images[i].src) }; imgs.toString();")?.components(separatedBy: ",") {
+        if let imageURLs = webView.allImgURLs() {
             // All URLs
             self.webViewImageURLs = imageURLs
             

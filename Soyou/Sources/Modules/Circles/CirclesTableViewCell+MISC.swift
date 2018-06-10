@@ -125,7 +125,6 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         }
         // Create CircleComposeViewController
         let vc = CircleComposeViewController.instantiate()
-        let navC = UINavigationController(rootViewController: vc)
         // Setup
         vc.delegate = self
         vc.customAssets = assets
@@ -136,7 +135,7 @@ extension CirclesTableViewCell: CircleComposeViewControllerDelegate {
         vc.originalId = self.circle?.id
         vc.isPublicDisabled = !UserManager.shared.hasCurrentUserBadges
         // Present
-        self.parentViewController?.present(navC, animated: true, completion: nil)
+        self.parentViewController?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
     func didPostNewCircle() {

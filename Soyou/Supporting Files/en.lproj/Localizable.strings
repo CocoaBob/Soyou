@@ -329,6 +329,12 @@
 "add_crawl_vc_section_title_custom"="Custom website";
 "add_crawl_vc_section_title_recommendations"="Recommendations";
 
+/* Images View Controller */
+"images_vc_title"="Soyou Images Grabber";
+"images_vc_desc"="Select images and tap Save";
+"images_vc_saving"="Saving...";
+"images_vc_saved"="Saved successfully!";
+
 /* Data Manager */
 "data_manager_updating_data"="Updating data...";
 "data_manager_data_update_succeeded"="Succeeded to update data!";

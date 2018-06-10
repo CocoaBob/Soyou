@@ -26,7 +26,7 @@ extension ImagesViewController {
         }
         self.items = items
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.collectionView?.reloadData()
         }
     }
     
@@ -52,7 +52,7 @@ extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         updateSelectionStatusForVisibleCells()
         
-        if let cell = self.collectionView.cellForItem(at: indexPath) as? ImageCell {
+        if let cell = self.collectionView?.cellForItem(at: indexPath) as? ImageCell {
             cell.popScaleAnim()
         }
     }

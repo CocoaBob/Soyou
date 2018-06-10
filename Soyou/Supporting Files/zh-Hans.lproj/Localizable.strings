@@ -328,6 +328,12 @@
 "add_crawl_vc_section_title_custom"="自定义网站";
 "add_crawl_vc_section_title_recommendations"="推荐网站";
 
+/* Images View Controller */
+"images_vc_title"="奢有网页抓图";
+"images_vc_desc"="选择图片后点击保存";
+"images_vc_saving"="正在保存...";
+"images_vc_saved"="保存成功！";
+
 /* Data Manager */
 "data_manager_updating_data"="正在更新数据...";
 "data_manager_data_update_succeeded"="数据更新成功！";
@@ -388,7 +394,6 @@
 "product_translation"="翻译";
 "product_back"="恢复";
 "product_dimension"="尺寸";
-
 
 /* User Info */
 "user_info_username_unknown"="尚未设置";

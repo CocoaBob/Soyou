@@ -12,9 +12,9 @@ import MobileCoreServices
 
 class ImagesViewController: UIViewController {
     
-    @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var btnCancel: UIBarButtonItem!
-    @IBOutlet var btnSave: UIBarButtonItem!
+    @IBOutlet var collectionView: UICollectionView?
+    @IBOutlet var btnCancel: UIBarButtonItem?
+    @IBOutlet var btnSave: UIBarButtonItem?
     
     var items: [ImageItem]?
     var selectedItems = [ImageItem]()
@@ -24,8 +24,17 @@ class ImagesViewController: UIViewController {
     var swipeSelectionLastIndex = 0
     var selectedItemsBeforeSwipeSelection = [ImageItem]()
     
-    var saveCompletion: (()->())?
+    var defaultSaveActionCompletion: (()->())?
+    var saveActionHandler: ((UIViewController, [ImageItem])->())?
     
+    // Class methods
+    class func instantiate(_ saveActionHandler: ((UIViewController, [ImageItem])->())?) -> ImagesViewController {
+        let vc = UIStoryboard(name: "ImagesViewController", bundle: nil).instantiateViewController(withIdentifier: "ImagesViewController") as! ImagesViewController
+        vc.saveActionHandler = saveActionHandler
+        return vc
+    }
+    
+    // Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,7 +43,7 @@ class ImagesViewController: UIViewController {
         
         setupSwipeSelection()
         
-        // Get data from JavaScript
+        // If it's loaded in Action Extension, get data from JavaScript
         guard let inputItems = self.extensionContext?.inputItems as? [NSExtensionItem] else {
             return
         }
@@ -65,19 +74,20 @@ class ImagesViewController: UIViewController {
 extension ImagesViewController {
     
     fileprivate func updateCellSize() {
-        guard let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        guard let layout = self.collectionView?.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         let minSpacing = CGFloat(1)
         layout.minimumLineSpacing = minSpacing
         layout.minimumInteritemSpacing = minSpacing
         let numberOfColumn = CGFloat(4)
         let width = (self.view.frame.size.width - (minSpacing * (numberOfColumn - 1))) / numberOfColumn
         layout.itemSize = CGSize(width: width, height: width)
-        self.collectionView.collectionViewLayout = layout
+        self.collectionView?.collectionViewLayout = layout
     }
     
     func updateSelectionStatusForVisibleCells() {
-        for visibleIndexPath in collectionView.indexPathsForVisibleItems {
-            if let cell = collectionView.cellForItem(at: visibleIndexPath) as? ImageCell {
+        guard let visibleItems = collectionView?.indexPathsForVisibleItems else { return }
+        for visibleIndexPath in visibleItems {
+            if let cell = collectionView?.cellForItem(at: visibleIndexPath) as? ImageCell {
                 cell.updateSelection()
             }
         }
@@ -104,16 +114,16 @@ extension ImagesViewController {
     }
     
     @IBAction func save() {
-        btnCancel.isEnabled = false
-        btnSave.isEnabled = false
-        self.navigationItem.prompt = NSLocalizedString("images_vc_saving")
-        collectionView.isUserInteractionEnabled = false
-        saveSelectedImages() {
-//            self.btnCancel.isEnabled = true
-//            self.btnSave.isEnabled = true
-//            self.navigationItem.prompt = NSLocalizedString("images_vc_saved")
-//            self.collectionView.isUserInteractionEnabled = true
-            self.dismiss()
+        if let saveActionHandler = saveActionHandler {
+            saveActionHandler(self, self.selectedItems)
+        } else {
+            btnCancel?.isEnabled = false
+            btnSave?.isEnabled = false
+            self.navigationItem.prompt = NSLocalizedString("images_vc_saving")
+            collectionView?.isUserInteractionEnabled = false
+            saveSelectedImages() {
+                self.dismiss()
+            }
         }
     }
 }

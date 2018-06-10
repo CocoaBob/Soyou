@@ -30,7 +30,7 @@
         <!--Images View Controller-->
         <scene sceneID="WQK-vD-0op">
             <objects>
-                <viewController id="uYZ-Ep-TB8" customClass="ImagesViewController" customModule="ImagesGrabber" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImagesViewController" id="uYZ-Ep-TB8" customClass="ImagesViewController" customModule="ImagesGrabber" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="enp-Bt-A8d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

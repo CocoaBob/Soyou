@@ -37,7 +37,7 @@ extension ImagesViewController: UIGestureRecognizerDelegate {
     func setupSwipeSelection() {
         let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
         swipeGesture.delegate = self
-        self.collectionView.addGestureRecognizer(swipeGesture)
+        self.collectionView?.addGestureRecognizer(swipeGesture)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -50,7 +50,7 @@ extension ImagesViewController: UIGestureRecognizerDelegate {
         }
         let currLocation = gesture.location(in: collectionView)
         // If no cell is selected
-        guard let currIndexPath = collectionView.indexPathForItem(at: currLocation) else {
+        guard let currIndexPath = collectionView?.indexPathForItem(at: currLocation) else {
             return
         }
         let currIndex = currIndexPath.row
@@ -65,7 +65,7 @@ extension ImagesViewController: UIGestureRecognizerDelegate {
                 gesture.state = .cancelled
                 return
             } else {
-                collectionView.panGestureRecognizer.state = .cancelled
+                collectionView?.panGestureRecognizer.state = .cancelled
             }
             selectedItemsBeforeSwipeSelection = self.selectedItems
             swipeSelectionFirstIndex = currIndex

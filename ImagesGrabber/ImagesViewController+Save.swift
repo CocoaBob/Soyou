@@ -12,14 +12,14 @@ import UIKit
 extension ImagesViewController {
     
     func saveSelectedImages(_ completion: (()->())?) {
-        saveCompletion = completion
+        defaultSaveActionCompletion = completion
         saveNextImage()
     }
     
     fileprivate func saveNextImage() {
         if self.selectedItems.isEmpty {
-            saveCompletion?()
-            saveCompletion = nil
+            defaultSaveActionCompletion?()
+            defaultSaveActionCompletion = nil
         } else {
             let item = self.selectedItems.first
             if let image = item?.image {
