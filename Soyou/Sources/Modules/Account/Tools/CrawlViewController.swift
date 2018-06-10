@@ -114,33 +114,32 @@ extension CrawlViewController: UIScrollViewDelegate {
 extension CrawlViewController {
     
     func showImagesViewController() {
-        if let imageURLs = webview.allImgURLs() {
-            // Show ImagesViewController
-            let vc = ImagesViewController.instantiate() { (fromVC, imageItems) in
-                self.showCircleComposeViewController(fromVC, imageItems)
+        if let imgURLs = webview.allImgURLs() {
+            // Prepare images
+            var images = [UIImage]()
+            for url in imgURLs {
+                if let imageURL = URL(string: url) {
+                    if let imageResponse = URLCache.shared.cachedResponse(for: URLRequest(url: imageURL)),
+                        let image = UIImage(data: imageResponse.data) {
+                        images.append(image)
+                    }
+                }
             }
-            vc.setupImages(imageURLs)
+            // Prepare TLPHAsset
+            var assets = [TLPHAsset]()
+            for (i, image) in images.enumerated() {
+                assets.append(TLPHAsset(image: image))
+                assets.last?.selectedOrder = i + 1
+            }
+            // Create CircleComposeViewController
+            let vc = CircleComposeViewController.instantiate()
+            // Setup
+            vc.customAssets = assets
+            vc.isSharing = true
+            vc.visibility = CircleVisibility.friends
+            vc.isPublicDisabled = !UserManager.shared.hasCurrentUserBadges
             self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
         }
-    }
-    
-    func showCircleComposeViewController(_ fromVC: UIViewController, _ imageItems: [ImageItem]) {
-        let images = imageItems.compactMap { $0.image }
-        // Prepare TLPHAsset
-        var assets = [TLPHAsset]()
-        for (i, image) in images.enumerated() {
-            assets.append(TLPHAsset(image: image))
-            assets.last?.selectedOrder = i + 1
-        }
-        // Create CircleComposeViewController
-        let vc = CircleComposeViewController.instantiate()
-        // Setup
-        vc.customAssets = assets
-        vc.selectedAssets = assets
-        vc.isSharing = true
-        vc.visibility = CircleVisibility.friends
-        vc.isPublicDisabled = !UserManager.shared.hasCurrentUserBadges
-        fromVC.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

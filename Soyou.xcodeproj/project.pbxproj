@@ -70,13 +70,6 @@
 		455EF0581FC3810C009C4978 /* UIDevice+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455EF0571FC3810C009C4978 /* UIDevice+Additions.swift */; };
 		455F89371FFEAC27009DC915 /* CustomLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455F89361FFEAC27009DC915 /* CustomLabels.swift */; };
 		45609F3A20CCE70D00DC15F2 /* UIWebView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45609F3920CCE70D00DC15F2 /* UIWebView+Additions.swift */; };
-		45609F3B20CCE85B00DC15F2 /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E6CCE520B8980C00CE749A /* ImagesViewController.swift */; };
-		45609F3C20CCE85E00DC15F2 /* ImagesViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E1EF4620C1E35E00DCF0E8 /* ImagesViewController+CollectionView.swift */; };
-		45609F3D20CCE86000DC15F2 /* ImagesViewController+Selections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45180EB320C3AF0800E87FCB /* ImagesViewController+Selections.swift */; };
-		45609F3E20CCE86300DC15F2 /* ImagesViewController+Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45180EB520C4727400E87FCB /* ImagesViewController+Save.swift */; };
-		45609F3F20CCE86600DC15F2 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E1EF4A20C1E42100DCF0E8 /* ImageCell.swift */; };
-		45609F4020CCE86800DC15F2 /* ImageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E1EF4820C1E3A100DCF0E8 /* ImageItem.swift */; };
-		45609F4120CCE8C300DC15F2 /* ImagesViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 452B1E5220BA6E080008167C /* ImagesViewController.storyboard */; };
 		45640AF41C51A934009984EC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45640AF31C51A934009984EC /* ProfileViewController.swift */; };
 		456478F81C6E095C00798EB2 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456478F71C6E095C00798EB2 /* 1Password.xcassets */; };
 		4564A931200960D800EE4F3D /* ObjCRuntime+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4564A930200960D800EE4F3D /* ObjCRuntime+Additions.swift */; };
@@ -1227,7 +1220,6 @@
 				45CFA59D1C2B1585007D38F3 /* ProductsViewController.storyboard in Resources */,
 				450D47621FFC288300A2F3D1 /* CirclesViewController.storyboard in Resources */,
 				45BAAF4A200655C400CEE6A3 /* PicturePickerCell2.xib in Resources */,
-				45609F4120CCE8C300DC15F2 /* ImagesViewController.storyboard in Resources */,
 				45B8233C1C56B8DD0034DA98 /* TableViewCellLeftTitle.xib in Resources */,
 				45A4D8331C08CD200000309C /* news.html in Resources */,
 				4549F3E21C25BF0900EAA1DB /* UserViewController.storyboard in Resources */,
@@ -1539,7 +1531,6 @@
 				45CFA59C1C2B1585007D38F3 /* BrandViewController.swift in Sources */,
 				459A7D6F2054FACB00871E85 /* ScanViewController.swift in Sources */,
 				45B77BE61C78CBCC002FBAFE /* StoreMapSearchResultsViewController.swift in Sources */,
-				45609F3F20CCE86600DC15F2 /* ImageCell.swift in Sources */,
 				4525C0F81C5B8B4200C26992 /* Store.swift in Sources */,
 				4585425F204B110500B35355 /* CirclesTableViewCell+Actions.swift in Sources */,
 				4549F3E61C25DF4000EAA1DB /* FavoritesViewController.swift in Sources */,
@@ -1561,20 +1552,16 @@
 				45BED0911C8A3DDF002E375B /* DataManager.swift in Sources */,
 				457D1EB81BFBDE9700D451D0 /* RequestManager.swift in Sources */,
 				45F5C2A11D01DFA70024B5DF /* DiscountsViewController.swift in Sources */,
-				45609F3B20CCE85B00DC15F2 /* ImagesViewController.swift in Sources */,
 				4524C0AE1C67C5D00027046F /* FavoriteProduct.swift in Sources */,
 				458B2E4B1FECA28700BD6843 /* PicturePickerCell.swift in Sources */,
-				45609F3D20CCE86000DC15F2 /* ImagesViewController+Selections.swift in Sources */,
 				45F5C2A61D01DFA70024B5DF /* NewsDetailViewController.swift in Sources */,
 				4564A931200960D800EE4F3D /* ObjCRuntime+Additions.swift in Sources */,
 				459E16F9202A129200E8206D /* StatusMessageTableViewCell.swift in Sources */,
 				45C1D3F6203D115400580A31 /* CirclesViewController+Recommendation.swift in Sources */,
-				45609F4020CCE86800DC15F2 /* ImageItem.swift in Sources */,
 				4590F8C81C5280C800329ECA /* SimpleTableViewController.swift in Sources */,
 				0D05D65D1C4EECD200D8A7C2 /* CurrencyRate+CoreDataProperties.swift in Sources */,
 				45243C691C17A514005D476D /* UIViewController+Additions.swift in Sources */,
 				45973CFB2031E868003205A9 /* InvitationSuccessViewController.swift in Sources */,
-				45609F3E20CCE86300DC15F2 /* ImagesViewController+Save.swift in Sources */,
 				4599E2622090BF7300D0EE92 /* SubscriptionsViewController+extension.swift in Sources */,
 				45F5C2A21D01DFA70024B5DF /* InfoDetailBaseViewController.swift in Sources */,
 				453CBCE71CD656040073FE43 /* NSManagedObjectContext+Additions.swift in Sources */,
@@ -1591,7 +1578,6 @@
 				4590F8CA1C52A1AA00329ECA /* TableViewCells.swift in Sources */,
 				458CEDB22001D06400B8A6BC /* SDWebImageManager+Additions.swift in Sources */,
 				458AA5EF203B36C100D3BA93 /* UITextView+Additions.swift in Sources */,
-				45609F3C20CCE85E00DC15F2 /* ImagesViewController+CollectionView.swift in Sources */,
 				0D28BD791C5198C1008CCF80 /* Product+CoreDataProperties.swift in Sources */,
 				4597B2351D30FACE00287873 /* DDAuthItem.m in Sources */,
 				45BAAF462005CC9800CEE6A3 /* UICollectionViewLeftAlignedLayout.swift in Sources */,
