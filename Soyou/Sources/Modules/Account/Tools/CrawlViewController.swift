@@ -39,6 +39,10 @@ class CrawlViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.edgesForExtendedLayout = UIRectEdge.all
+        self.extendedLayoutIncludesOpaqueBars = true
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         // Title
         self.title = titleString
         if let urlString = urlString, let url = URL(string: urlString) {
@@ -48,8 +52,18 @@ class CrawlViewController: UIViewController {
         // Setup webview
         webview.scrollView.delegate = self
         webview.delegate = self
-        
-        self.navigationController?.setToolbarHidden(false, animated: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Toolbar
+        self.navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Toolbar
+        self.navigationController?.setToolbarHidden(true, animated: true)
     }
     
     override var prefersStatusBarHidden: Bool {
