@@ -319,6 +319,10 @@
 "crawls_vc_loading_data"="加载中...";
 "crawls_vc_no_result"="点击 + 添加网站...";
 
+/* Crawl View Controller */
+"crawl_vc_favorite_button"="收藏本页";
+"crawl_vc_crawl_button"="网页抓图";
+
 /* Add Crawl View Controller */
 "add_crawl_vc_title"="添加网站";
 "add_crawl_vc_placeholder_title"="标签";

@@ -320,6 +320,10 @@
 "crawls_vc_loading_data"="Loading...";
 "crawls_vc_no_result"="Tap + to add a website...";
 
+/* Crawl View Controller */
+"crawl_vc_favorite_button"="Add to Fav";
+"crawl_vc_crawl_button"="Grab Images";
+
 /* Add Crawl View Controller */
 "add_crawl_vc_title"="Add a website";
 "add_crawl_vc_placeholder_title"="Label";

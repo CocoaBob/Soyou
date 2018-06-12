@@ -1721,7 +1721,6 @@
 				DEVELOPMENT_TEAM = 2H429X3TEM;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ImagesGrabber/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs.ImagesGrabber";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1730,7 +1729,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG NS_EXTENSION_UNAVAILABLE";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1754,7 +1752,6 @@
 				DEVELOPMENT_TEAM = 2H429X3TEM;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ImagesGrabber/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.woniu.baodating-cjs.ImagesGrabber";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1763,7 +1760,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = NS_EXTENSION_UNAVAILABLE;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1896,7 +1892,6 @@
 				PROVISIONING_PROFILE = "a133a225-2eef-4bc8-85ea-560a08a715db";
 				PROVISIONING_PROFILE_SPECIFIER = "Soyou Developement";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1925,7 +1920,6 @@
 				PROVISIONING_PROFILE = "acf031ed-9a34-4779-bc87-a1198c9e27cb";
 				PROVISIONING_PROFILE_SPECIFIER = "Soyou App Store Distribution";
 				SWIFT_OBJC_BRIDGING_HEADER = "Soyou/Supporting Files/Soyou-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

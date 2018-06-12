@@ -83,6 +83,7 @@ public struct Cons {
         static let colorStore                               = UIColor(hex8: 0xE84917FF)
         static let colorStoreMapCopy                        = UIColor(hex8: 0x59C843FF)
         static let colorStoreMapOpen                        = UIColor(hex8: 0x0095FFFF)
+        static let colorWeChat                              = UIColor(hex8: 0x3EB900FF) // WeChat green
         static let heightPageMenuProduct                    = CGFloat(30.0)
         static let heightPageMenuInfo                       = CGFloat(44.0)
         static let screenTopMargin                          = CGFloat(UIDevice.isX() ? 22.0 : 0.0)

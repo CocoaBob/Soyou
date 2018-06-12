@@ -118,30 +118,30 @@ extension UIImage {
     static let qrDetector = CIDetector(ofType: CIDetectorTypeQRCode, context: CIContext(), options: [CIDetectorAccuracy: CIDetectorAccuracyLow])
     
     func detectQRCodes(_ onlyWhiteListItems: Bool = false) -> [String]? {
-        guard let ciImage = CIImage(image: self) else { return nil }
-        let whitelist = CensorshipManager.shared.allowedDomains
         var codes = [String]()
-        if let features = UIImage.qrDetector?.features(in: ciImage) as? [CIQRCodeFeature] {
-            for feature in features  {
-                if let code = feature.messageString {
-                    if onlyWhiteListItems {
-                        var isAllowed = false
-                        for link in whitelist {
-                            if code.contains(link.lowercased()) {
-                                isAllowed = true
-                                break
+        if let ciImage = CIImage(image: self) {
+            let whitelist = CensorshipManager.shared.allowedDomains
+            if let features = UIImage.qrDetector?.features(in: ciImage) as? [CIQRCodeFeature] {
+                for feature in features  {
+                    if let code = feature.messageString {
+                        if onlyWhiteListItems {
+                            var isAllowed = false
+                            for link in whitelist {
+                                if code.contains(link.lowercased()) {
+                                    isAllowed = true
+                                    break
+                                }
                             }
-                        }
-                        if isAllowed {
+                            if isAllowed {
+                                codes.append(code)
+                            }
+                        } else {
                             codes.append(code)
                         }
-                    } else {
-                        codes.append(code)
                     }
                 }
             }
         }
-        
         return codes.isEmpty ? nil : codes
     }
     

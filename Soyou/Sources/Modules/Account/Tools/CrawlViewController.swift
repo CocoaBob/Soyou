@@ -16,9 +16,15 @@ class CrawlViewController: UIViewController {
     @IBOutlet var goForwardBarButtonItem: UIBarButtonItem!
     @IBOutlet var refreshBarButtonItem: UIBarButtonItem!
     
+    @IBOutlet var toolbar: UIView!
+    @IBOutlet var toolbarSeparatorHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var toolbarBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var favoriteButton: UIButton!
+    @IBOutlet var crawlButton: UIButton!
+    
     var titleString: String?
     var urlString: String?
-    var isBarsHidden = false
+    var isStatusBarHidden = false
     
     // KVO Context
     fileprivate var KVOContextCrawlViewController = 0
@@ -52,22 +58,17 @@ class CrawlViewController: UIViewController {
         // Setup webview
         webview.scrollView.delegate = self
         webview.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Toolbar
-        self.navigationController?.setToolbarHidden(false, animated: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // Toolbar
-        self.navigationController?.setToolbarHidden(true, animated: true)
+        
+        // Steup toolbar
+        toolbarSeparatorHeightConstraint.constant = 1 / UIScreen.main.scale
+        favoriteButton.addTarget(self, action: #selector(bookmarkThisPage), for: .touchUpInside)
+        favoriteButton.setTitle(NSLocalizedString("crawl_vc_favorite_button"), for: .normal)
+        crawlButton.addTarget(self, action: #selector(grabImages), for: .touchUpInside)
+        crawlButton.setTitle(NSLocalizedString("crawl_vc_crawl_button"), for: .normal)
     }
     
     override var prefersStatusBarHidden: Bool {
-        return isBarsHidden
+        return isStatusBarHidden
     }
     
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
@@ -112,15 +113,19 @@ extension CrawlViewController: UIScrollViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if (fabs(velocity.y) > 0) {
-            hideBars(velocity.y > 0)
+            setFullScreen(velocity.y > 0)
         }
     }
     
-    func hideBars(_ isHidden: Bool) {
-        self.navigationController?.setNavigationBarHidden(isHidden, animated: true)
-        self.navigationController?.setToolbarHidden(isHidden, animated: true)
-        isBarsHidden = isHidden
+    func setFullScreen(_ isFullScreen: Bool) {
+        isStatusBarHidden = isFullScreen
         self.setNeedsStatusBarAppearanceUpdate()
+        self.navigationController?.setNavigationBarHidden(isFullScreen, animated: true)
+        self.toolbarBottomConstraint.constant = isFullScreen ? -44 : 0
+        self.view.setNeedsLayout()
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
