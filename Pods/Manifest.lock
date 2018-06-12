@@ -135,7 +135,8 @@ PODS:
   - SSZipArchive (2.1.2)
   - Starscream (3.0.5)
   - SwiftyJSON (4.1.0)
-  - TLPhotoPicker (1.4.7)
+  - TLPhotoPicker (1.4.7):
+    - SDWebImage
   - TwitterCore (2.8.0):
     - Fabric
   - TwitterKit (2.8.1):
@@ -185,7 +186,7 @@ DEPENDENCIES:
   - SnapKit (~> 4.0.0)
   - SSZipArchive
   - SwiftyJSON
-  - TLPhotoPicker (from `git://github.com/CocoaBob/TLPhotoPicker`, commit `75ab30ec8211f5fc3447f6ea286e523b9769fbaa`)
+  - TLPhotoPicker (from `git://github.com/CocoaBob/TLPhotoPicker`, commit `caab7c897b468b5a7cf4330f132b915e6bdd3ea2`)
   - TwitterCore (~> 2)
   - TwitterKit (~> 2)
   - UICKeyChainStore
@@ -227,7 +228,7 @@ EXTERNAL SOURCES:
     :branch: master
     :git: git://github.com/CocoaBob/calloutview
   TLPhotoPicker:
-    :commit: 75ab30ec8211f5fc3447f6ea286e523b9769fbaa
+    :commit: caab7c897b468b5a7cf4330f132b915e6bdd3ea2
     :git: git://github.com/CocoaBob/TLPhotoPicker
   ZFDragableModalTransition:
     :branch: master
@@ -265,7 +266,7 @@ CHECKOUT OPTIONS:
     :commit: bad0864b06019d764519dab9a53409de889c87fc
     :git: git://github.com/CocoaBob/calloutview
   TLPhotoPicker:
-    :commit: 75ab30ec8211f5fc3447f6ea286e523b9769fbaa
+    :commit: caab7c897b468b5a7cf4330f132b915e6bdd3ea2
     :git: git://github.com/CocoaBob/TLPhotoPicker
   ZFDragableModalTransition:
     :commit: f51dde80fa2b7c79358c5186c7a3b998a8be9b51
@@ -323,7 +324,7 @@ SPEC CHECKSUMS:
   SSZipArchive: d4009d2ce5520a421f231fd97028cc0e2667eed8
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
-  TLPhotoPicker: 2efb3ed870c407527a609cff7ea3c89e2a1b6257
+  TLPhotoPicker: e296934b052c66c27681b8c711aede4267201824
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
   UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
@@ -335,6 +336,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: f998cbaadec02f3df2e4f25ca0639df54666adbf
+PODFILE CHECKSUM: 23b9d79545fd828b0f78ea3325720d0b14dd939a
 
 COCOAPODS: 1.4.0

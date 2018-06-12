@@ -27,5 +27,10 @@
       "TLPhotoPicker/Classes/*.xib"
     ]
   },
-  "resources": "TLPhotoPicker/TLPhotoPickerController.bundle"
+  "resources": "TLPhotoPicker/TLPhotoPickerController.bundle",
+  "dependencies": {
+    "SDWebImage": [
+
+    ]
+  }
 }
