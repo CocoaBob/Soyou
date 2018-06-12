@@ -134,21 +134,17 @@ extension CrawlViewController {
     
     func showImagesViewController() {
         if let imgURLs = webview.allImgURLs() {
-            // Prepare images
-            var images = [UIImage]()
+            // Prepare TLPHAsset
+            var assets = [TLPHAsset]()
             for url in imgURLs {
                 if let imageURL = URL(string: url) {
                     if let imageResponse = URLCache.shared.cachedResponse(for: URLRequest(url: imageURL)),
                         let image = UIImage(data: imageResponse.data) {
-                        images.append(image)
+                        assets.append(TLPHAsset(image: image))
+                    } else {
+                        assets.append(TLPHAsset(url: imageURL))
                     }
                 }
-            }
-            // Prepare TLPHAsset
-            var assets = [TLPHAsset]()
-            for (i, image) in images.enumerated() {
-                assets.append(TLPHAsset(image: image))
-                assets.last?.selectedOrder = i + 1
             }
             // Create CircleComposeViewController
             let vc = CircleComposeViewController.instantiate()
