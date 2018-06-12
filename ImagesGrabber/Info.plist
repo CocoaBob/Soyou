@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.7.3</string>
 	<key>CFBundleVersion</key>
-	<string>1098</string>
+	<string>1110</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -114,7 +114,7 @@
 			<string>Action</string>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
-		<string>MainInterface</string>
+		<string>ImagesViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.ui-services</string>
 	</dict>

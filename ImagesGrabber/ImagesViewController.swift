@@ -38,6 +38,10 @@ class ImagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.edgesForExtendedLayout = UIRectEdge.all
+        self.extendedLayoutIncludesOpaqueBars = true
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         self.title = NSLocalizedString("images_vc_title")
         self.navigationItem.prompt = NSLocalizedString("images_vc_desc")
         

@@ -6,7 +6,7 @@
   Copyright © 2018 Soyou. All rights reserved.
 */
 
-"images_vc_title"="Soyou Images Grabber";
+"images_vc_title"="Soyou Web Crawler";
 "images_vc_desc"="Select images and tap Save";
 "images_vc_saving"="Saving...";
 "images_vc_saved"="Saved successfully!";
