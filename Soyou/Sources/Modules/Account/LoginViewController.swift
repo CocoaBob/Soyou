@@ -97,7 +97,9 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         // Setup 3rd party login buttons
-        self.stack3rdPartyLogins?.addArrangedSubview(self.btnWeChat)
+        if DDWeChatHandler.isInstalled() {
+            self.stack3rdPartyLogins?.addArrangedSubview(self.btnWeChat)
+        }
         self.stack3rdPartyLogins?.addArrangedSubview(self.btnWeibo)
         if DDTencentHandler.isInstalled() {
             self.stack3rdPartyLogins?.addArrangedSubview(self.btnQQ)
