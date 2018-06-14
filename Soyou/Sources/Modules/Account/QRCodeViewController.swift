@@ -134,6 +134,9 @@ extension QRCodeViewController {
         super.viewDidLayoutSubviews()
         // Update corner radius
         self.imgAvatar.layer.cornerRadius = self.imgAvatar.frame.width / 2.0
+        self.imgSoyouLogo.layer.cornerRadius = self.imgSoyouLogo.frame.width * 0.15
+        self.imgSoyouLogo.layer.borderWidth = self.imgSoyouLogo.frame.width * 0.04
+        self.imgSoyouLogo.layer.shadowRadius = self.imgSoyouLogo.frame.width * 0.02
     }
 }
 
