@@ -188,7 +188,7 @@ class CirclesViewController: SyncedFetchedResultsViewController {
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        if UIDevice.isX() {
+        if UIDevice.isX {
             return UIStatusBarStyle.default
         } else {
             return isStatusBarCoverVisible ? UIStatusBarStyle.default : UIStatusBarStyle.lightContent

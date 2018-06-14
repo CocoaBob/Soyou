@@ -423,38 +423,6 @@ extension BrandsViewController {
 // MARK: - SearchControler
 extension BrandsViewController: UISearchControllerDelegate {
     
-    func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(BrandViewController.showSearchController))
-    }
-    
-    @objc func showSearchController() {
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        self.leftBarButtonItem = self.navigationItem.leftBarButtonItem
-        self.navigationItem.setLeftBarButton(nil, animated: false)
-        self.rightBarButtonItem = self.navigationItem.rightBarButtonItem
-        self.navigationItem.setRightBarButton(nil, animated: false)
-        if isListMode {
-            let searchBar = self.searchController!.searchBar
-            if #available(iOS 11.0, *) {
-                let searchBarContainer = SearchBarContainerView(searchBar: searchBar)
-                searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
-                self.navigationItem.titleView = searchBarContainer
-            } else {
-                self.navigationItem.titleView = searchBar
-            }
-        }
-        self.searchController!.searchBar.becomeFirstResponder()
-    }
-    
-    func hideSearchController() {
-        self.navigationItem.setHidesBackButton(false, animated: false)
-        self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
-        self.navigationItem.setRightBarButton(self.rightBarButtonItem, animated: false)
-        if isListMode {
-            self.navigationItem.titleView = nil
-        }
-    }
-    
     func setupSearchController() {
         let searchResultsController = ProductsViewController.instantiate()
         searchResultsController.isSearchResultsViewController = true
@@ -468,7 +436,7 @@ extension BrandsViewController: UISearchControllerDelegate {
         self.searchController!.hidesNavigationBarDuringPresentation = false
         
         if isListMode {
-            self.setupRightBarButtonItem()
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchController))
         } else {
             let searchBar = self.searchController!.searchBar
             if #available(iOS 11.0, *) {
@@ -481,8 +449,52 @@ extension BrandsViewController: UISearchControllerDelegate {
         }
     }
     
+    @objc func showSearchController() {
+        if isListMode {
+            let searchBar = self.searchController!.searchBar
+            if #available(iOS 11.0, *) {
+                let searchBarContainer = SearchBarContainerView(searchBar: searchBar)
+                searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+                self.navigationItem.titleView = searchBarContainer
+            } else {
+                self.navigationItem.titleView = searchBar
+            }
+        }
+        self.searchController?.isActive = true
+    }
+    
+    @objc func hideSearchController() {
+        self.searchController?.isActive = false
+    }
+    
+    func searchControllerWillShow() {
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.leftBarButtonItem = self.navigationItem.leftBarButtonItem
+        self.navigationItem.setLeftBarButton(nil, animated: false)
+        self.rightBarButtonItem = self.navigationItem.rightBarButtonItem
+        if UIDevice.isPad {
+            self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:#selector(hideSearchController)), animated: true)
+        } else {
+            self.navigationItem.setRightBarButton(nil, animated: false)
+        }
+        self.searchController!.searchBar.becomeFirstResponder()
+    }
+    
+    func searchControllerWillHide() {
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(self.rightBarButtonItem, animated: false)
+        if isListMode {
+            self.navigationItem.titleView = nil
+        }
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        self.searchControllerWillShow()
+    }
+    
     func willDismissSearchController(_ searchController: UISearchController) {
-        self.hideSearchController()
+        self.searchControllerWillHide()
     }
 }
 
@@ -601,7 +613,6 @@ class MoreCollectionReusableView: UICollectionReusableView {
         lblTitle.layer.shadowOffset = CGSize.zero
     }
 }
-
 
 class BrandsTableViewCell: UITableViewCell {
     

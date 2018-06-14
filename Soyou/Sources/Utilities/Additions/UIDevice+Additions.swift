@@ -8,11 +8,15 @@
 
 extension UIDevice {
     
-    static func isX() -> Bool {
+    static var isX: Bool {
         if #available(iOS 11.0, *) {
             return UIScreen.main.bounds.height == 812
         } else {
             return false
         }
+    }
+    
+    static var isPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
     }
 }

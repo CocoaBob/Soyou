@@ -334,34 +334,6 @@ extension MembersViewController {
 // MARK: - SearchControler
 extension MembersViewController: UISearchControllerDelegate {
     
-    func setupRightBarButtonItem() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(MembersViewController.showSearchController))
-    }
-    
-    @objc func showSearchController() {
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        self.leftBarButtonItem = self.navigationItem.leftBarButtonItem
-        self.navigationItem.setLeftBarButton(nil, animated: false)
-        self.rightBarButtonItem = self.navigationItem.rightBarButtonItem
-        self.navigationItem.setRightBarButton(nil, animated: false)
-        let searchBar = self.searchController!.searchBar
-        if #available(iOS 11.0, *) {
-            let searchBarContainer = SearchBarContainerView(searchBar: searchBar)
-            searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
-            self.navigationItem.titleView = searchBarContainer
-        } else {
-            self.navigationItem.titleView = searchBar
-        }
-        self.searchController!.searchBar.becomeFirstResponder()
-    }
-    
-    func hideSearchController() {
-        self.navigationItem.setHidesBackButton(false, animated: false)
-        self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
-        self.navigationItem.setRightBarButton(self.isSearchBarHidden ? nil : self.rightBarButtonItem, animated: false)
-        self.navigationItem.titleView = self.segmentedControl
-    }
-    
     func setupSearchController() {
         let vc = MembersViewController.instantiate()
         vc.isSearchResultsViewController = true
@@ -378,16 +350,56 @@ extension MembersViewController: UISearchControllerDelegate {
         }
         
         if self.isSearchBarHidden {
-            if let action = self.navigationItem.rightBarButtonItem?.action, action == #selector(MembersViewController.showSearchController) {
+            if let action = self.navigationItem.rightBarButtonItem?.action, action == #selector(showSearchController) {
                 self.navigationItem.setRightBarButton(nil, animated: false)
             }
         } else {
-            self.setupRightBarButtonItem()
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchController))
         }
     }
     
+    @objc func showSearchController() {
+        let searchBar = self.searchController!.searchBar
+        if #available(iOS 11.0, *) {
+            let searchBarContainer = SearchBarContainerView(searchBar: searchBar)
+            searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+            self.navigationItem.titleView = searchBarContainer
+        } else {
+            self.navigationItem.titleView = searchBar
+        }
+        self.searchController?.isActive = true
+    }
+    
+    @objc func hideSearchController() {
+        self.searchController?.isActive = false
+    }
+    
+    func searchControllerWillShow() {
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.leftBarButtonItem = self.navigationItem.leftBarButtonItem
+        self.navigationItem.setLeftBarButton(nil, animated: false)
+        self.rightBarButtonItem = self.navigationItem.rightBarButtonItem
+        if UIDevice.isPad {
+            self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:#selector(hideSearchController)), animated: true)
+        } else {
+            self.navigationItem.setRightBarButton(nil, animated: false)
+        }
+        self.searchController!.searchBar.becomeFirstResponder()
+    }
+    
+    func searchControllerWillHide() {
+        self.navigationItem.setHidesBackButton(false, animated: false)
+        self.navigationItem.setLeftBarButton(self.leftBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(self.isSearchBarHidden ? nil : self.rightBarButtonItem, animated: false)
+        self.navigationItem.titleView = self.segmentedControl
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        self.searchControllerWillShow()
+    }
+    
     func willDismissSearchController(_ searchController: UISearchController) {
-        self.hideSearchController()
+        self.searchControllerWillHide()
     }
 }
 

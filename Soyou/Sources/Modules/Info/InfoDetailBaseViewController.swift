@@ -103,7 +103,7 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
         self.navigationController?.toolbar.needsPushAnimation = true
         
         // Fix scroll view insets
-        if UIDevice.isX() {
+        if UIDevice.isX {
             self.updateScrollViewInset(self.webView!.scrollView, 0, true, false, false, true)
         } else {
             self.updateScrollViewInset(self.webView!.scrollView, 0, false, false, false, false)
@@ -153,7 +153,7 @@ class InfoDetailBaseViewController: UIViewController, TLPhotosPickerViewControll
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        if UIDevice.isX() {
+        if UIDevice.isX {
             return UIStatusBarStyle.default
         } else {
             return isStatusBarCoverVisible ? UIStatusBarStyle.default : UIStatusBarStyle.lightContent
