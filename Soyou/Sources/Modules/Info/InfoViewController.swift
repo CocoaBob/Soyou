@@ -58,6 +58,7 @@ class InfoViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillAppear(animated)
         self.hideToolbar(false)
+        self.newsViewController.viewWillAppear(animated)
     }
 }
 
