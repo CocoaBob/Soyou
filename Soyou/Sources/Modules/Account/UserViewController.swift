@@ -261,9 +261,11 @@ extension UserViewController {
         navC.modalPresentationStyle = .custom
         navC.modalPresentationCapturesStatusBarAppearance = true
         // Setup Transition Animator
-        vc.loadViewIfNeeded()
-        vc.setupTransitionAnimator(modalVC: vc)
-        navC.transitioningDelegate = vc.transitionAnimator
+        if #available(iOS 11.0, *) {
+            vc.loadViewIfNeeded()
+            vc.setupTransitionAnimator(modalVC: vc)
+            navC.transitioningDelegate = vc.transitionAnimator
+        }
         // Present
         self.present(navC, animated: true, completion: nil)
     }
