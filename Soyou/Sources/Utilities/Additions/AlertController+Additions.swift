@@ -29,6 +29,7 @@ extension UIAlertController {
     }
     
     class func presentActionSheet(from vc: UIViewController? = nil,
+                                  popoverPosition: CGPoint? = nil,
                                   title: String? = nil,
                                   message: String? = nil,
                                   actions: [UIAlertAction]) {
@@ -42,6 +43,10 @@ extension UIAlertController {
         }
         if let presentedVC = presentingVC?.presentedViewController {
             presentingVC = presentedVC
+        }
+        if UIDevice.isPad, let view = vc?.view, let center = popoverPosition {
+            alertController.popoverPresentationController?.sourceView = view
+            alertController.popoverPresentationController?.sourceRect = CGRect(x: center.x, y: center.y, width: 0, height: 0)
         }
         presentingVC?.present(alertController, animated: true, completion: nil)
     }

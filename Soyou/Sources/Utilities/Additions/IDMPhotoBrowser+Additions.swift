@@ -73,7 +73,7 @@ extension IDMPhotoBrowser {
         actions.append(UIAlertAction(title: NSLocalizedString("alert_button_cancel"),
                                      style: UIAlertActionStyle.cancel,
                                      handler: nil))
-        UIAlertController.presentActionSheet(from: self, actions: actions)
+        UIAlertController.presentActionSheet(from: self, popoverPosition: gesture.location(in: gesture.view), actions: actions)
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
