@@ -186,7 +186,7 @@ DEPENDENCIES:
   - SnapKit (~> 4.0.0)
   - SSZipArchive
   - SwiftyJSON
-  - TLPhotoPicker (from `git://github.com/CocoaBob/TLPhotoPicker`, commit `49a9324c6317fbd68d34738d768584cbd9705946`)
+  - TLPhotoPicker (from `git://github.com/CocoaBob/TLPhotoPicker`, commit `16e757e0a1e8ec5bd3cbf6c2b8372038e1854312`)
   - TwitterCore (~> 2)
   - TwitterKit (~> 2)
   - UICKeyChainStore
@@ -228,7 +228,7 @@ EXTERNAL SOURCES:
     :branch: master
     :git: git://github.com/CocoaBob/calloutview
   TLPhotoPicker:
-    :commit: 49a9324c6317fbd68d34738d768584cbd9705946
+    :commit: 16e757e0a1e8ec5bd3cbf6c2b8372038e1854312
     :git: git://github.com/CocoaBob/TLPhotoPicker
   ZFDragableModalTransition:
     :branch: master
@@ -266,7 +266,7 @@ CHECKOUT OPTIONS:
     :commit: bad0864b06019d764519dab9a53409de889c87fc
     :git: git://github.com/CocoaBob/calloutview
   TLPhotoPicker:
-    :commit: 49a9324c6317fbd68d34738d768584cbd9705946
+    :commit: 16e757e0a1e8ec5bd3cbf6c2b8372038e1854312
     :git: git://github.com/CocoaBob/TLPhotoPicker
   ZFDragableModalTransition:
     :commit: f51dde80fa2b7c79358c5186c7a3b998a8be9b51
@@ -336,6 +336,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: bc07a0c1308b803721ffb6cc8052d86fb671341c
+PODFILE CHECKSUM: f153b15918dbbacbbd79206dfabf2855e33d60ea
 
 COCOAPODS: 1.4.0

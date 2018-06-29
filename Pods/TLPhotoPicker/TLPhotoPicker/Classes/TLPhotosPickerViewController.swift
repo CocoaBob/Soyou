@@ -830,6 +830,7 @@ extension TLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
                 let requestId = self.photoLibrary.imageAsset(asset: phAsset, size: self.thumbnailSize, options: options) { [weak cell] (image,complete) in
                     DispatchQueue.main.async {
                         if self.requestIds[indexPath] != nil {
+                            let cell = collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell
                             cell?.imageView?.image = image
                             if complete {
                                 self.requestIds.removeValue(forKey: indexPath)
@@ -846,6 +847,7 @@ extension TLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
                     let requestId = self.photoLibrary.imageAsset(asset: phAsset, size: self.thumbnailSize, completionBlock: { (image,complete) in
                         DispatchQueue.main.async {
                             if self.requestIds[indexPath] != nil {
+                                let cell = collectionView.cellForItem(at: indexPath) as? TLPhotoCollectionViewCell
                                 cell?.imageView?.image = image
                                 if self.allowedVideo {
                                     cell?.durationView?.isHidden = asset.type != .video
@@ -945,6 +947,7 @@ extension TLPhotosPickerViewController: UITableViewDelegate,UITableViewDataSourc
             let size = CGSize(width: 80*scale, height: 80*scale)
             self.photoLibrary.imageAsset(asset: phAsset, size: size, completionBlock: { [weak cell] (image,complete) in
                 DispatchQueue.main.async {
+                    let cell = tableView.cellForRow(at: indexPath) as? TLCollectionTableViewCell
                     cell?.thumbImageView.image = image
                 }
             })
