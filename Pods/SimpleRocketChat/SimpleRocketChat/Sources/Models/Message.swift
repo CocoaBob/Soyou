@@ -97,6 +97,7 @@ class Message: BaseModel {
 
     // Internal
     @objc dynamic var markedForDeletion: Bool = false
+    @objc dynamic var isSequential: Bool = false
 }
 
 extension Message {

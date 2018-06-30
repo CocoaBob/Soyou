@@ -687,9 +687,13 @@ public final class ChatViewController: SLKTextViewController {
                 }
 
                 if indexPathModifications.count > 0 {
+                    guard let collectionView = self.collectionView else {
+                        return
+                    }
                     UIView.performWithoutAnimation {
-                        self.collectionView?.performBatchUpdates({
-                            self.collectionView?.reloadItems(at: indexPathModifications.map { IndexPath(row: $0, section: 0) })
+                        collectionView.performBatchUpdates({
+                            collectionView.reloadItems(at: indexPathModifications.map { IndexPath(row: $0, section: 0) })
+                            collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
                         }, completion: { _ in
                             if isAtBottom {
                                 self.scrollToBottom()
@@ -975,7 +979,7 @@ extension ChatViewController {
             cell.message = message
         }
 
-        cell.sequential = dataController.hasSequentialMessageAt(indexPath)
+        cell.sequential = obj.message?.isSequential ?? false
         cell.needsToShowDate = dataController.needsToShowDateAt(indexPath)
         
         return cell
@@ -1092,8 +1096,8 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
             if let message = obj.message {
                 guard !message.markedForDeletion else { return .zero }
 
-                let sequential = dataController.hasSequentialMessageAt(indexPath)
-                let height = ChatMessageCell.cellHeightFor(message: message, width: fullWidth, sequential: sequential)
+                message.isSequential = dataController.hasSequentialMessageAt(indexPath)
+                let height = ChatMessageCell.cellHeightFor(message: message, width: fullWidth, sequential: message.isSequential)
                 return CGSize(width: fullWidth, height: height)
             }
         }
