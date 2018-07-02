@@ -30,7 +30,7 @@ target "Soyou" do
     pod "SnapKit", '~> 4.0.0'
 	pod "SSZipArchive"
     pod "SwiftyJSON"
-    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '16e757e0a1e8ec5bd3cbf6c2b8372038e1854312'
+    pod "TLPhotoPicker", :git => 'git://github.com/CocoaBob/TLPhotoPicker', :commit => '803e6864ff3724262ceb441b7b5979646e903c1b'
 	pod "UICKeyChainStore"
 	pod "UIColor_Hex_Swift"
 	pod "UIImage-ResizeMagick"
