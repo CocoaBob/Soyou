@@ -367,14 +367,7 @@ extension UserManager {
     
     func askGDPRQuestion(_ completion: ((Bool)->())?) {
         UIAlertController.presentAlert(message: NSLocalizedString("gdpr_question"),
-                                       UIAlertAction(title: NSLocalizedString("alert_button_no"),
-                                                     style: UIAlertActionStyle.default,
-                                                     handler: { (action: UIAlertAction) -> Void in
-                                                        DataManager.shared.setGDPR(false, nil)
-                                                        UserManager.shared.isGDPRAccepted = false
-                                                        completion?(false)
-                                       }),
-                                       UIAlertAction(title: NSLocalizedString("alert_button_yes"),
+                                       UIAlertAction(title: NSLocalizedString("alert_button_ok"),
                                                      style: UIAlertActionStyle.default,
                                                      handler: { (action: UIAlertAction) -> Void in
                                                         DataManager.shared.setGDPR(true, nil)
