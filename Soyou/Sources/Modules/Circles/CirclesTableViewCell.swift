@@ -97,9 +97,9 @@ extension CirclesTableViewCell {
     
     func configureProfileImage(_ circle: Circle) {
         if let str = circle.userProfileUrl, let url = URL(string: str) {
-            self.imgUser.setImageWithCensorship(with: url,
-                                                placeholderImage: UIImage(named: "img_avatar_placeholder"),
-                                                options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
+            self.imgUser.sd_setImage(with: url,
+                                     placeholderImage: UIImage(named: "img_avatar_placeholder"),
+                                     options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority])
         } else {
             self.imgUser.image = UIImage(named: "img_avatar_placeholder")
         }

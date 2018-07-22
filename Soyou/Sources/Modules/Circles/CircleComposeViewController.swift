@@ -226,12 +226,7 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                     return cell
                 }
                 if let image = tlphAsset.fullResolutionImage {
-                    if image.isCensoredQRCode() {
-                        cell.imageView.image = CensorshipManager.censoredImage
-                        tlphAsset.fullResolutionImage = CensorshipManager.censoredImage
-                    } else {
-                        cell.imageView.image = image
-                    }
+                    cell.imageView.image = image
                 } else {
                     cell.imageView.image = UIImage(named: "img_placeholder_1_1_s")
                     tlphAsset.cloudImageDownload(progressBlock: { (progress) in
@@ -246,13 +241,8 @@ extension CircleComposeViewController: UICollectionViewDelegate, UICollectionVie
                         }
                     }, completionBlock: { (image) in
                         if let image = image {
-                            if image.isCensoredQRCode() {
-                                cell.imageView.image = CensorshipManager.censoredImage
-                                tlphAsset.fullResolutionImage = CensorshipManager.censoredImage
-                            } else {
-                                tlphAsset.fullResolutionImage = image
-                                cell.imageView.image = image
-                            }
+                            tlphAsset.fullResolutionImage = image
+                            cell.imageView.image = image
                         }
                     })
                 }

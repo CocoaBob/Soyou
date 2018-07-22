@@ -595,13 +595,13 @@ extension CirclesViewController {
             if reloadAvatar {
                 SDImageCache.shared().removeImage(forKey: SDWebImageManager.shared().cacheKey(for: url), withCompletion: nil)
             }
-            self.imgUserAvatar.setImageWithCensorship(with: url,
-                                                      placeholderImage: UserManager.shared.defaultAvatarImage(),
-                                                      options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
-                                                      completed: { (image, error, type, url) -> Void in
-                                                        if error == nil {
-                                                            self.addAvatarBorder()
-                                                        }
+            self.imgUserAvatar.sd_setImage(with: url,
+                                           placeholderImage: UserManager.shared.defaultAvatarImage(),
+                                           options: [.continueInBackground, .allowInvalidSSLCertificates, .highPriority],
+                                           completed: { (image, error, type, url) -> Void in
+                                            if error == nil {
+                                                self.addAvatarBorder()
+                                            }
             })
         } else {
             self.imgUserAvatar.image = UserManager.shared.defaultAvatarImage()
