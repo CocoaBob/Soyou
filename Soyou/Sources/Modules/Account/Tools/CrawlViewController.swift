@@ -146,14 +146,28 @@ extension CrawlViewController {
                     }
                 }
             }
-            // Create CircleComposeViewController
-            let vc = CircleComposeViewController.instantiate()
-            // Setup
-            vc.customAssets = assets
-            vc.isSharing = true
-            vc.visibility = CircleVisibility.friends
-            vc.isPublicDisabled = !UserManager.shared.hasCurrentUserBadges
-            self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+            self.createCircle(assets)
+        }
+    }
+}
+
+// MARK: - Create a circle
+extension CrawlViewController: CircleComposeViewControllerDelegate {
+    
+    func createCircle(_ assets: [TLPHAsset]) {
+        let vc = CircleComposeViewController.instantiate()
+        vc.customAssets = assets
+        vc.isSharing = true
+        vc.visibility = CircleVisibility.friends
+        vc.isPublicDisabled = !UserManager.shared.hasCurrentUserBadges
+        vc.delegate = self
+        let navC = UINavigationController(rootViewController: vc)
+        self.present(navC, animated: true, completion: nil)
+    }
+    
+    func didDismiss(text: String?, images: [UIImage]?, needsToShare: Bool) {
+        if needsToShare {
+            Utils.copyTextAndShareImages(from: self, text: text, images: images)
         }
     }
 }
