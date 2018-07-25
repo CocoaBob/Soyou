@@ -6,6 +6,7 @@ public final class ImageViewerController: UIViewController {
     @IBOutlet fileprivate var scrollView: UIScrollView!
     @IBOutlet fileprivate var imageView: FLAnimatedImageView!
     @IBOutlet fileprivate var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate var closeButton: UIButton!
     
     fileprivate var transitionHandler: ImageViewerTransitioningHandler?
     fileprivate let configuration: ImageViewerConfiguration?
@@ -31,7 +32,10 @@ public final class ImageViewerController: UIViewController {
         super.viewDidLoad()
         imageView.image = configuration?.imageView?.image ?? configuration?.image
         imageView.animatedImage = configuration?.imageView?.animatedImage ?? configuration?.animatedImage
-        
+        closeButton.layer.shadowRadius = 3
+        closeButton.layer.shadowOpacity = 1
+        closeButton.layer.shadowOffset = CGSize(width: 1, height: 0)
+        closeButton.layer.shadowColor = UIColor(white: 0, alpha: 1).cgColor
         setupScrollView()
         setupGestureRecognizers()
         setupTransitions()
