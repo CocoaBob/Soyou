@@ -352,9 +352,8 @@ extension ProductViewController {
                 pageMenu.view.frame = CGRect(x: 0, y: 0, width: self.subViewsContainer.frame.width, height: self.subViewsContainer.frame.height)
                 
                 // Yield for the edge swipe gesture
-                if let scrollView = pageMenu.value(forKey: "controllerScrollView") as? UIScrollView,
-                    let popGestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
-                    scrollView.panGestureRecognizer.require(toFail: popGestureRecognizer)
+                if let popGestureRecognizer = self.navigationController?.interactivePopGestureRecognizer {
+                    pageMenu.controllerScrollView.panGestureRecognizer.require(toFail: popGestureRecognizer)
                 }
             }
         }

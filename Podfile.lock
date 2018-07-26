@@ -33,19 +33,19 @@ PODS:
   - CHTCollectionViewWaterfallLayout (0.9.7):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.7)
-  - Crashlytics (3.10.1):
-    - Fabric (~> 1.7.5)
+  - Crashlytics (3.10.5):
+    - Fabric (~> 1.7.9)
   - DACircularProgress (2.3.1)
   - EAIntroView (2.12.0):
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
-  - Fabric (1.7.6)
-  - FBSDKCoreKit (4.32.0):
+  - Fabric (1.7.9)
+  - FBSDKCoreKit (4.34.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.32.0):
+  - FBSDKLoginKit (4.34.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.32.0):
-    - FBSDKCoreKit (~> 4.32.0)
+  - FBSDKShareKit (4.34.0):
+    - FBSDKCoreKit (~> 4.34.0)
   - FCUUID (1.3.1):
     - UICKeyChainStore (~> 2.1.0)
   - Fingertips (0.5.0)
@@ -81,11 +81,11 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.4)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.15):
-    - GTMSessionFetcher/Full (= 1.1.15)
-  - GTMSessionFetcher/Core (1.1.15)
-  - GTMSessionFetcher/Full (1.1.15):
-    - GTMSessionFetcher/Core (= 1.1.15)
+  - GTMSessionFetcher (1.2.0):
+    - GTMSessionFetcher/Full (= 1.2.0)
+  - GTMSessionFetcher/Core (1.2.0)
+  - GTMSessionFetcher/Full (1.2.0):
+    - GTMSessionFetcher/Core (= 1.2.0)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -104,15 +104,15 @@ PODS:
   - QRCode (2.0)
   - RCMarkdownParser (4.0.0)
   - ReachabilitySwift (4.1.0)
-  - Realm (3.7.4):
-    - Realm/Headers (= 3.7.4)
-  - Realm/Headers (3.7.4)
-  - RealmSwift (3.7.4):
-    - Realm (= 3.7.4)
-  - SDWebImage (4.3.3):
-    - SDWebImage/Core (= 4.3.3)
-  - SDWebImage/Core (4.3.3)
-  - SDWebImage/GIF (4.3.3):
+  - Realm (3.7.5):
+    - Realm/Headers (= 3.7.5)
+  - Realm/Headers (3.7.5)
+  - RealmSwift (3.7.5):
+    - Realm (= 3.7.5)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
+  - SDWebImage/GIF (4.4.2):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
   - SimpleImageViewer (1.2.0):
@@ -131,7 +131,7 @@ PODS:
   - SlackTextViewController (1.9.6)
   - SMCalloutView (2.1.5)
   - SnapKit (4.0.0)
-  - SSZipArchive (2.1.2)
+  - SSZipArchive (2.1.3)
   - Starscream (3.0.5)
   - SwiftyJSON (4.1.0)
   - TLPhotoPicker (1.4.7):
@@ -141,7 +141,7 @@ PODS:
   - TwitterKit (2.8.1):
     - TwitterCore (>= 2.8)
   - UICKeyChainStore (2.1.1)
-  - UIColor_Hex_Swift (4.0.1)
+  - UIColor_Hex_Swift (4.0.2)
   - UIImage-ResizeMagick (0.0.1)
   - UIView+Shake (1.4.0)
   - WechatOpenSDK (1.8.2)
@@ -173,13 +173,13 @@ DEPENDENCIES:
   - MXParallaxHeader (from `git://github.com/maxep/MXParallaxHeader`, branch `master`)
   - NYSegmentedControl
   - OOPhotoBrowser (from `git://github.com/CocoaBob/OOPhotoBrowser`, commit `0ddbeac155568ce5bf2ec5309f41e15ddc1e6a6b`)
-  - PageMenu (from `git://github.com/JaceTan/PageMenu`, branch `master`)
+  - PageMenu (from `git://github.com/CocoaBob/PageMenu`, commit `ec1742eaee23b6f8762154f8cb3b507407b383af`)
   - PFCarouselView (from `git://github.com/CocoaBob/PFCarouselView`, branch `master`)
   - QRCode
-  - RCMarkdownParser (from `https://github.com/artrmz/RCMarkdownParser.git`, branch `chore/swift-4`)
+  - RCMarkdownParser (from `https://github.com/CocoaBob/RCMarkdownParser.git`, commit `de5fb68a498259d53ceab6dc729a5a30770fef14`, branch `chore/swift-4`)
   - SDWebImage
   - SimpleImageViewer (from `https://github.com/CocoaBob/SimpleImageViewer.git`, commit `b204125b9bb39949c380fd3bcc756312d2680d36`)
-  - SimpleRocketChat (from `git://github.com/CocoaBob/SimpleRocketChat`, commit `9ade425c0028f9be29f22a7a7589dee5a5410c68`)
+  - SimpleRocketChat (from `git://github.com/CocoaBob/SimpleRocketChat`, commit `cc98627d3a537d4f8a84b2cab908d6d877e21426`)
   - SlackTextViewController (from `https://github.com/CocoaBob/SlackTextViewController.git`, commit `4542e7e2f545b92724954e4276fde9a672f63d92`)
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, branch `master`)
   - SnapKit (~> 4.0.0)
@@ -211,19 +211,20 @@ EXTERNAL SOURCES:
     :commit: 0ddbeac155568ce5bf2ec5309f41e15ddc1e6a6b
     :git: git://github.com/CocoaBob/OOPhotoBrowser
   PageMenu:
-    :branch: master
-    :git: git://github.com/JaceTan/PageMenu
+    :commit: ec1742eaee23b6f8762154f8cb3b507407b383af
+    :git: git://github.com/CocoaBob/PageMenu
   PFCarouselView:
     :branch: master
     :git: git://github.com/CocoaBob/PFCarouselView
   RCMarkdownParser:
     :branch: chore/swift-4
-    :git: https://github.com/artrmz/RCMarkdownParser.git
+    :commit: de5fb68a498259d53ceab6dc729a5a30770fef14
+    :git: https://github.com/CocoaBob/RCMarkdownParser.git
   SimpleImageViewer:
     :commit: b204125b9bb39949c380fd3bcc756312d2680d36
     :git: https://github.com/CocoaBob/SimpleImageViewer.git
   SimpleRocketChat:
-    :commit: 9ade425c0028f9be29f22a7a7589dee5a5410c68
+    :commit: cc98627d3a537d4f8a84b2cab908d6d877e21426
     :git: git://github.com/CocoaBob/SimpleRocketChat
   SlackTextViewController:
     :commit: 4542e7e2f545b92724954e4276fde9a672f63d92
@@ -246,25 +247,25 @@ CHECKOUT OPTIONS:
     :commit: 3f2d70ee1f6aeb1d1948ff360a150f2bfef6f013
     :git: https://github.com/CocoaBob/mobileplayer-ios.git
   MXParallaxHeader:
-    :commit: b7ce136ed737eb5b45faebb26556918e82ec91ea
+    :commit: c387725ad7200a1bff2929fddf16cc084208726d
     :git: git://github.com/maxep/MXParallaxHeader
   OOPhotoBrowser:
     :commit: 0ddbeac155568ce5bf2ec5309f41e15ddc1e6a6b
     :git: git://github.com/CocoaBob/OOPhotoBrowser
   PageMenu:
-    :commit: 7d67a4958b05218f2a0cd32fabab8600489437dc
-    :git: git://github.com/JaceTan/PageMenu
+    :commit: ec1742eaee23b6f8762154f8cb3b507407b383af
+    :git: git://github.com/CocoaBob/PageMenu
   PFCarouselView:
     :commit: 880826c7f361c3065ca23a4696a4d19d7e1da6d3
     :git: git://github.com/CocoaBob/PFCarouselView
   RCMarkdownParser:
     :commit: de5fb68a498259d53ceab6dc729a5a30770fef14
-    :git: https://github.com/artrmz/RCMarkdownParser.git
+    :git: https://github.com/CocoaBob/RCMarkdownParser.git
   SimpleImageViewer:
     :commit: b204125b9bb39949c380fd3bcc756312d2680d36
     :git: https://github.com/CocoaBob/SimpleImageViewer.git
   SimpleRocketChat:
-    :commit: 9ade425c0028f9be29f22a7a7589dee5a5410c68
+    :commit: cc98627d3a537d4f8a84b2cab908d6d877e21426
     :git: git://github.com/CocoaBob/SimpleRocketChat
   SlackTextViewController:
     :commit: 4542e7e2f545b92724954e4276fde9a672f63d92
@@ -287,14 +288,14 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   CCHMapClusterController: 3de2f03cb659a98ef8518d22de3fcb129d888049
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
-  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
+  Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   EAIntroView: 249559079ddfdbe80e5bcb755c04c3b964b2ac27
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
-  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
-  FBSDKCoreKit: 55d7f2ac45d9c4b9b6119f4e43900fe84b9b7b1b
-  FBSDKLoginKit: 32ac05c2a59952c363c2e85aafa8f73ba93bcbad
-  FBSDKShareKit: 658780d0d108b8ad590a54afb5ac1427bdc8de28
+  Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
+  FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
+  FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
+  FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
   FCUUID: bb054fc90cd7cd99320f9f6ff8e130fe607fba05
   Fingertips: 8e557eed25253fcb4bfa25ac4418f8e8add1ad9a
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
@@ -306,7 +307,7 @@ SPEC CHECKSUMS:
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
@@ -320,22 +321,22 @@ SPEC CHECKSUMS:
   QRCode: f98a1886c8f37523704a7512a4c0cd45b34c18a4
   RCMarkdownParser: 34268965f1b2634d62ee202aff070e87f939901e
   ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
-  Realm: a469bb59e33f9926102ccaea4349822c53b9117e
-  RealmSwift: a45861b21c180f5cf0f122144b9759fa8dde3e9e
-  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
+  Realm: c286caf4dbf346ce24aad49ca76c7ce622d4a082
+  RealmSwift: 2a9281e37d6de55f66f76254d49d28aeb1b729e4
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SimpleImageViewer: 6ed0d2acf7c166a5b4e795bccc7b9ea1b225ff9b
   SimpleRocketChat: 2a0de21138e093ca985294bd54702639888e6005
   SlackTextViewController: 60b22ce801e9531e50185d649839a0719fa5d2b7
   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  SSZipArchive: d4009d2ce5520a421f231fd97028cc0e2667eed8
+  SSZipArchive: 51a800ebb77f95a8329b6ced1faaff394b47f509
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   TLPhotoPicker: e296934b052c66c27681b8c711aede4267201824
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
   TwitterKit: 3b6044a7320340326a4098f3e37aa1dbaeb94942
   UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
-  UIColor_Hex_Swift: c5ff88470499383b8fd85302d59344bb24ba9436
+  UIColor_Hex_Swift: 2fb123c7d864994a5137ef57c4dc55e17a657d29
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
   UIView+Shake: 055ad67721de1f74d29c0a1d464697e505dfc62f
   WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
@@ -343,6 +344,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: b73976e2dbef5a6ea56e0c2ee2c527d04af546f4
+PODFILE CHECKSUM: ac1603f9165baab39769b420b6233de5e149c645
 
 COCOAPODS: 1.4.0

@@ -22,7 +22,7 @@ target "Soyou" do
 	pod "MJRefresh"
 	pod "MXParallaxHeader", :git => 'git://github.com/maxep/MXParallaxHeader', :branch => 'master'
 	pod "NYSegmentedControl"
-	pod "PageMenu", :git => 'git://github.com/JaceTan/PageMenu', :branch => 'master'
+	pod "PageMenu", :git => 'git://github.com/CocoaBob/PageMenu', :commit => 'ec1742eaee23b6f8762154f8cb3b507407b383af'
 	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :branch => 'master'
     pod "QRCode"
 	pod "SDWebImage"
@@ -54,14 +54,11 @@ target "Soyou" do
     pod "Google/SignIn"
     
     # Simple Rocket Chat
-    pod "SimpleRocketChat", :git => 'git://github.com/CocoaBob/SimpleRocketChat', :commit => '9ade425c0028f9be29f22a7a7589dee5a5410c68'
-    # Override the dependencies of Rocket Chat
+    pod "SimpleRocketChat", :git => 'git://github.com/CocoaBob/SimpleRocketChat', :commit => 'cc98627d3a537d4f8a84b2cab908d6d877e21426'
     pod "SlackTextViewController", :git => 'https://github.com/CocoaBob/SlackTextViewController.git', :commit => '4542e7e2f545b92724954e4276fde9a672f63d92'
     pod "MobilePlayer", :git => 'https://github.com/CocoaBob/mobileplayer-ios.git', :commit => '3f2d70ee1f6aeb1d1948ff360a150f2bfef6f013'
     pod "SimpleImageViewer", :git => 'https://github.com/CocoaBob/SimpleImageViewer.git', :commit => 'b204125b9bb39949c380fd3bcc756312d2680d36'
-    pod "RCMarkdownParser", :git => 'https://github.com/artrmz/RCMarkdownParser.git', :branch => 'chore/swift-4'
-    
-#    pod "Alamofire"
+    pod "RCMarkdownParser", :git => 'https://github.com/CocoaBob/RCMarkdownParser.git', :branch => 'chore/swift-4', :commit => 'de5fb68a498259d53ceab6dc729a5a30770fef14'
 end
 
 target "ImagesGrabber" do
