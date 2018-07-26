@@ -22,26 +22,26 @@ class MarkdownManager {
     init() {
         let defaultFontSize = MessageTextFontAttributes.defaultFontSize
 
-        parser.defaultAttributes = [NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: defaultFontSize)]
+        parser.defaultAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: defaultFontSize)]
         parser.quoteAttributes = [
-            NSAttributedStringKey.font.rawValue: UIFont.italicSystemFont(ofSize: defaultFontSize),
-            NSAttributedStringKey.backgroundColor.rawValue: UIColor.codeBackground
+            NSAttributedStringKey.font: UIFont.italicSystemFont(ofSize: defaultFontSize),
+            NSAttributedStringKey.backgroundColor: UIColor.codeBackground
         ]
         parser.quoteBlockAttributes = parser.quoteAttributes
 
-        var codeAttributes: [String: Any] = [NSAttributedStringKey.backgroundColor.rawValue: UIColor.codeBackground]
-        codeAttributes[NSAttributedStringKey.foregroundColor.rawValue] = UIColor.code
+        var codeAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.backgroundColor: UIColor.codeBackground]
+        codeAttributes[NSAttributedStringKey.foregroundColor] = UIColor.code
         if let codeFont = UIFont(name: "Courier New", size: defaultFontSize)?.bold() {
-            codeAttributes[NSAttributedStringKey.font.rawValue] = codeFont
+            codeAttributes[NSAttributedStringKey.font] = codeFont
         }
 
         parser.inlineCodeAttributes = codeAttributes
         parser.codeAttributes = codeAttributes
 
-        parser.strongAttributes = [NSAttributedStringKey.font.rawValue: UIFont.boldSystemFont(ofSize: defaultFontSize)]
-        parser.italicAttributes = [NSAttributedStringKey.font.rawValue: UIFont.italicSystemFont(ofSize: defaultFontSize)]
-        parser.strikeAttributes = [NSAttributedStringKey.strikethroughStyle.rawValue: NSNumber(value: NSUnderlineStyle.styleSingle.rawValue)]
-        parser.linkAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.darkGray]
+        parser.strongAttributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: defaultFontSize)]
+        parser.italicAttributes = [NSAttributedStringKey.font: UIFont.italicSystemFont(ofSize: defaultFontSize)]
+        parser.strikeAttributes = [NSAttributedStringKey.strikethroughStyle: NSNumber(value: NSUnderlineStyle.styleSingle.rawValue)]
+        parser.linkAttributes = [NSAttributedStringKey.foregroundColor: UIColor.darkGray]
 
         parser.downloadImage = { urlString, completion in
             guard let url = URL(string: urlString) else { return }
@@ -68,10 +68,10 @@ class MarkdownManager {
         }
 
         parser.headerAttributes = [
-            1: [NSAttributedStringKey.font.rawValue: UIFont.boldSystemFont(ofSize: 26)],
-            2: [NSAttributedStringKey.font.rawValue: UIFont.boldSystemFont(ofSize: 24)],
-            3: [NSAttributedStringKey.font.rawValue: UIFont.boldSystemFont(ofSize: 18)],
-            4: [NSAttributedStringKey.font.rawValue: UIFont.boldSystemFont(ofSize: 16)]
+            1: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 26)],
+            2: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 24)],
+            3: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18)],
+            4: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)]
         ]
     }
 }

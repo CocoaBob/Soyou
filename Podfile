@@ -22,7 +22,7 @@ target "Soyou" do
 	pod "MJRefresh"
 	pod "MXParallaxHeader", :git => 'git://github.com/maxep/MXParallaxHeader', :branch => 'master'
 	pod "NYSegmentedControl"
-	pod "PageMenu", :git => 'git://github.com/JoeFerrucci/PageMenu', :branch => 'master'
+	pod "PageMenu", :git => 'git://github.com/JaceTan/PageMenu', :branch => 'master'
 	pod "PFCarouselView", :git => 'git://github.com/CocoaBob/PFCarouselView', :branch => 'master'
     pod "QRCode"
 	pod "SDWebImage"
@@ -54,29 +54,16 @@ target "Soyou" do
     pod "Google/SignIn"
     
     # Simple Rocket Chat
-    pod "SimpleRocketChat", :git => 'git://github.com/CocoaBob/SimpleRocketChat', :commit => '445d9852a9d2802d47980333a1e044bfad9c73bd'
+    pod "SimpleRocketChat", :git => 'git://github.com/CocoaBob/SimpleRocketChat', :commit => '9ade425c0028f9be29f22a7a7589dee5a5410c68'
     # Override the dependencies of Rocket Chat
     pod "SlackTextViewController", :git => 'https://github.com/CocoaBob/SlackTextViewController.git', :commit => '4542e7e2f545b92724954e4276fde9a672f63d92'
-    pod "MobilePlayer"
+    pod "MobilePlayer", :git => 'https://github.com/CocoaBob/mobileplayer-ios.git', :commit => '3f2d70ee1f6aeb1d1948ff360a150f2bfef6f013'
     pod "SimpleImageViewer", :git => 'https://github.com/CocoaBob/SimpleImageViewer.git', :commit => 'b204125b9bb39949c380fd3bcc756312d2680d36'
-    pod "RCMarkdownParser", :git => 'https://github.com/RocketChat/RCMarkdownParser.git'
+    pod "RCMarkdownParser", :git => 'https://github.com/artrmz/RCMarkdownParser.git', :branch => 'chore/swift-4'
     
 #    pod "Alamofire"
 end
 
 target "ImagesGrabber" do
     pod "SDWebImage"
-end
-
-Swift4Targets = ['TLPhotoPicker', 'SnapKit', 'SimpleRocketChat']
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            if Swift4Targets.include? target.name
-                config.build_settings['SWIFT_VERSION'] = '4'
-                else
-                config.build_settings['SWIFT_VERSION'] = '3.2'
-            end
-        end
-    end
 end

@@ -48,6 +48,8 @@ extension CAPSPageMenu {
                 configuration.menuItemWidth = value
             case let .enableHorizontalBounce(value):
                 configuration.enableHorizontalBounce = value
+            case let .enableHorizontalSwipe(value):
+                configuration.enableHorizontalSwipe = value
             case let .addBottomMenuHairline(value):
                 configuration.addBottomMenuHairline = value
             case let .menuItemWidthBasedOnTitleTextWidth(value):
@@ -157,6 +159,7 @@ extension CAPSPageMenu {
         }
         
         // Configure controller scroll view content size
+        controllerScrollView.isScrollEnabled = configuration.enableHorizontalSwipe
         controllerScrollView.contentSize = CGSize(width: self.view.frame.width * CGFloat(controllerArray.count), height: 0.0)
         
         var index : CGFloat = 0.0
@@ -186,7 +189,7 @@ extension CAPSPageMenu {
                 let controllerTitle : String? = controller.title
                 
                 let titleText : String = controllerTitle != nil ? controllerTitle! : "Menu \(Int(index) + 1)"
-                let itemWidthRect : CGRect = (titleText as NSString).boundingRect(with: CGSize(width: 1000, height: 1000), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:configuration.menuItemFont], context: nil)
+                let itemWidthRect : CGRect = (titleText as NSString).boundingRect(with: CGSize(width: 1000, height: 1000), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font:configuration.menuItemFont], context: nil)
                 configuration.menuItemWidth = itemWidthRect.width
                 
                 menuItemFrame = CGRect(x: totalMenuItemWidthIfDifferentWidths + configuration.menuMargin + (configuration.menuMargin * index), y: 0.0, width: configuration.menuItemWidth, height: configuration.menuHeight)
