@@ -209,7 +209,9 @@ public final class ChatViewController: SLKTextViewController {
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isVisible = true
-        markAsRead()
+        if subscription?.unread ?? 0 > 0 {
+            markAsRead()
+        }
     }
     
     override public func viewDidDisappear(_ animated: Bool) {

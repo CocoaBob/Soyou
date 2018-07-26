@@ -186,6 +186,7 @@ extension UserManager {
             return
         }
         let server = Utils.isSTGMode() ? Cons.Svr.rocketChatServerSTG : Cons.Svr.rocketChatServerPROD
+        DLog("Rocket Chat Sign In\nUserID: \(imUserId)\nAuthToken: \(imAuthToken)")
         RocketChatManager.signIn(socketServerAddress: server, userId: imUserId, token: imAuthToken, completion: completion)
     }
 }

@@ -11,7 +11,7 @@ import RealmSwift
 
 extension LinkingObjects where Element == Subscription {
     func sortedByLastSeen() -> Results<Subscription> {
-        return self.sorted(byKeyPath: "lastSeen", ascending: false)
+        return self.sorted(by: [SortDescriptor(keyPath: "alert", ascending: false), SortDescriptor(keyPath: "lastSeen", ascending: false)] )
     }
 
     func filterBy(name: String) -> Results<Subscription> {
