@@ -179,7 +179,7 @@ DEPENDENCIES:
   - RCMarkdownParser (from `https://github.com/CocoaBob/RCMarkdownParser.git`, commit `de5fb68a498259d53ceab6dc729a5a30770fef14`, branch `chore/swift-4`)
   - SDWebImage
   - SimpleImageViewer (from `https://github.com/CocoaBob/SimpleImageViewer.git`, commit `b204125b9bb39949c380fd3bcc756312d2680d36`)
-  - SimpleRocketChat (from `git://github.com/CocoaBob/SimpleRocketChat`, commit `cc98627d3a537d4f8a84b2cab908d6d877e21426`)
+  - SimpleRocketChat (from `git://github.com/CocoaBob/SimpleRocketChat`, commit `32a289bb1e05f728126ed8f1743c25781b2316dc`)
   - SlackTextViewController (from `https://github.com/CocoaBob/SlackTextViewController.git`, commit `4542e7e2f545b92724954e4276fde9a672f63d92`)
   - SMCalloutView (from `git://github.com/CocoaBob/calloutview`, branch `master`)
   - SnapKit (~> 4.0.0)
@@ -224,7 +224,7 @@ EXTERNAL SOURCES:
     :commit: b204125b9bb39949c380fd3bcc756312d2680d36
     :git: https://github.com/CocoaBob/SimpleImageViewer.git
   SimpleRocketChat:
-    :commit: cc98627d3a537d4f8a84b2cab908d6d877e21426
+    :commit: 32a289bb1e05f728126ed8f1743c25781b2316dc
     :git: git://github.com/CocoaBob/SimpleRocketChat
   SlackTextViewController:
     :commit: 4542e7e2f545b92724954e4276fde9a672f63d92
@@ -265,7 +265,7 @@ CHECKOUT OPTIONS:
     :commit: b204125b9bb39949c380fd3bcc756312d2680d36
     :git: https://github.com/CocoaBob/SimpleImageViewer.git
   SimpleRocketChat:
-    :commit: cc98627d3a537d4f8a84b2cab908d6d877e21426
+    :commit: 32a289bb1e05f728126ed8f1743c25781b2316dc
     :git: git://github.com/CocoaBob/SimpleRocketChat
   SlackTextViewController:
     :commit: 4542e7e2f545b92724954e4276fde9a672f63d92
@@ -344,6 +344,6 @@ SPEC CHECKSUMS:
   ZFDragableModalTransition: ae3c20cdd606f4affcf150d977c00d2c786e49eb
   ZoomInteractiveTransition: faa0fa864d7409d325b6fac4eab1570febcd351f
 
-PODFILE CHECKSUM: ac1603f9165baab39769b420b6233de5e149c645
+PODFILE CHECKSUM: cc9e5657903feb5adce309e51af7e9270faa41c7
 
 COCOAPODS: 1.4.0

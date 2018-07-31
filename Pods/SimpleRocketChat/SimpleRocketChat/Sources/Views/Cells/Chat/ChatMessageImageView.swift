@@ -96,8 +96,6 @@ final class ChatMessageImageView: ChatMessageAttachmentView {
             }
             self?.imageViewWidthConstraint.constant = width
             self?.imageViewHeightConstraint.constant = height
-            self?.imageViewWidthConstraint.isActive = true
-            self?.imageViewHeightConstraint.isActive = true
         })
     }
 
